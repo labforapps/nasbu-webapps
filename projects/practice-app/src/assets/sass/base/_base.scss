@@ -1,0 +1,65 @@
+@mixin respond($breakpoint) {
+    @if $breakpoint==350 {
+        @media screen and (max-width: 21.87em) {
+            @content
+        }
+        ;
+    }
+    @if $breakpoint==450 {
+        @media screen and (max-width: 28em) {
+            @content
+        }
+        ;
+    }
+    @if $breakpoint==600 {
+        @media screen and (max-width: 37.5em) {
+            @content
+        }
+        ;
+    }
+    @if $breakpoint==768 {
+        @media screen and (max-width: 48em) {
+            @content
+        }
+        ; //768px
+    }
+    @if $breakpoint==900 {
+        //900px
+        @media screen and (max-width: 56.25em) {
+            @content
+        }
+        ;
+    }
+    @if $breakpoint==1150 {
+        //1150px
+        @media screen and (max-width: 71.87em) {
+            @content
+        }
+        ;
+    }
+    @if $breakpoint==1366 {
+        //1350px
+        @media screen and (max-width: 85.375em) {
+            @content
+        }
+        ;
+    }
+}
+
+@mixin for-laptop-only {
+    @media screen and (max-width: 1366px) and (min-width: 1300px), screen and (max-height: 768px) and (min-height: 700px) {
+        @content
+    }
+    ;
+}
+
+html {
+    font-size: 62.5%; // What 1rem is | 1rem = 10px;  10px/16px = 62.5%
+    @include respond(1350) {
+        font-size: 56%; // 1rem = 9px, 9/16 = 56%
+    }
+    @include respond(900) {
+        // width < 900
+        font-size: 50%; // 1rem = 8px, 8/16 = 50%
+    }
+}

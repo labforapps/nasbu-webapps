@@ -1,0 +1,93 @@
+<div class="c-menu">
+    <div class="c-menu__title">Dashboard </div>
+
+    <button mat-button class="c-menu__item" [routerLink]="'dashboard'" routerLinkActive="is-active">
+        Resumen de actividades
+        <span class="icon-dashboard c-menu__icon"></span>
+    </button>
+    <div class="c-menu__title mt-5">Menú</div>
+
+    <button mat-button class="c-menu__item" [routerLink]="'/customers'" routerLinkActive="is-active">
+        Clientes
+        <span class="icon-user c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item"  [routerLink]="'collaborator'" routerLinkActive="is-active">
+        Colaboradores
+        <span class="icon-businessman c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'expedient'" routerLinkActive="is-active">
+        Expedientes
+        <span class="icon-expedient c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'task'" routerLinkActive="is-active">
+        Mis tareas
+        <span class="icon-task c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'templates'" routerLinkActive="is-active">
+        Documentos y plantillas
+        <span class="icon-document-color c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'invoicing'" routerLinkActive="is-active">
+        Facturación
+        <span class="icon-invoice c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item">
+        Reportes
+        <span class="icon-report c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'configuration'" routerLinkActive="is-active">
+        Configuraciones
+        <span class="icon-gear c-menu__icon"></span>
+    </button>
+
+
+
+    <button mat-button [matMenuTriggerFor]="menu" class="c-notification c-notification--menu">
+        <div>
+            <div class="c-notification__title">Notificaciones</div>
+            <div class="c-notification__subtitle">Aún sin leer</div>
+        </div>
+        <div class="c-notification__icon">
+            <span matBadge="4" matBadgeOverlap="false"><span class="icon-bell"></span></span>
+        </div>
+    </button>
+    <mat-menu #menu="matMenu" class="c-notification-menu ">
+        <div class="c-notification-menu__header">
+            <div class="c-notification-menu__title">Notificaciones</div>
+            <div class="c-notification-menu__subtitle">Tienes <b class="u-primaryColor">2</b> nuevas actualizaciones</div>
+        </div>
+        <div class="c-nofitication-menu__body">
+            <div class="c-notification-menu__item">
+                <span class="icon-bell c-notification-menu__icon"></span>
+                <div class="flex-1">
+                    <div class="c-notification-menu__text">Se ha añadido una nueva tarea</div>
+                    <div class="c-notification-menu__subtext">Llamada Raúl comprés''</div>
+                </div>
+                <div class="c-notification-menu__date">Hace 5 min</div>
+            </div>
+            <div class="c-notification-menu__item">
+                <span class="icon-bell c-notification-menu__icon"></span>
+                <div class="flex-1">
+                    <div class="c-notification-menu__text">Se ha añadido una nueva tarea</div>
+                    <div class="c-notification-menu__subtext">Llamada Raúl comprés''</div>
+                    <div class="c-notification-menu__subtext u-textColor"><b>Expediente:</b> Contrato de Arrendamiento permisivo</div>
+                </div>
+                <div class="c-notification-menu__date">Hace 5 min</div>
+            </div>
+        </div>
+        <div class="c-notification-menu__footer">
+            <button mat-button>
+                Cerrar ventana
+            </button>
+        </div>
+    </mat-menu>
+    <div class="c-timer-count c-timer-count--small c-timer-count--menu">
+        <div>
+            <div class="c-timer-count__number">00:00:00</div>
+            <div class="c-timer-count__title">Timer</div>
+        </div>
+        <button mat-button class="c-timer-count__button">
+           <span class="icon-play"></span>
+       </button>
+    </div>
+</div>

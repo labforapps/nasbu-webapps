@@ -1,0 +1,12 @@
+.l-configuration {
+    padding: 3rem;
+    &__title {
+        font-family: 'helveticabold';
+        color: var(--text-color);
+        font-size: 20px;
+        margin-bottom: 1rem;
+    }
+    @include respond(450) {
+        padding: 2rem;
+    }
+}

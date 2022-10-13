@@ -1,0 +1,55 @@
+<div class="c-dialog-recovery" *ngIf="showRecoveryPassword">
+    <mat-dialog-content class="d-flex flex-column justify-center">
+        <h4 class="mb-5 u-textBold u-textColor">Recuperar contraseña</h4>
+        <img class="mb-5" src="../../../../assets/images/password-lock.svg" alt="">
+        <p class="u-textColor text-center mb-5">
+            Coloca tu correo electrónico y recibirás un e-mail de recuperación.
+        </p>
+        <form class="w-100">
+            <mat-form-field appearance="fill" class="c-form-group">
+                <mat-label>Email</mat-label>
+                <input class="c-form-group__input" matInput type="mail" placeholder="Ej: m@nasbu.com">
+            </mat-form-field>
+
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions class="mt-auto">
+        <button mat-button (click)="toggleRecovery()" class="c-btn c-btn--primary w-100 u-smallSize">Enviar correo</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+    </mat-dialog-actions>
+</div>
+
+<div class="c-dialog-recovery" *ngIf="showSendEmail">
+    <mat-dialog-content class="d-flex flex-column justify-center">
+        <h4 class="mb-3 u-textBold u-textColor">Revisa tu bandeja de entrada ó Spam</h4>
+        <p class="u-textColor text-center mb-5">
+            El e-mail ha sido enviado nuevamente a
+            <b>emireles@labforapps.com</b>
+        </p>
+        <img class="mb-5" src="../../../../assets/images/emailer.svg" alt="">
+        <p class="u-textColor text-center mb-5">
+            Si aún no lo recibes puedes volverlo a enviar
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions class="mt-auto">
+        <button mat-button (click)="toggleEmail()" class="c-btn c-btn--primary w-100 u-smallSize">Probar con otro correo</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+    </mat-dialog-actions>
+</div>
+
+<div class="c-dialog-recovery" *ngIf="showDoneMessage">
+    <mat-dialog-content class="d-flex flex-column justify-center">
+        <h4 class="mb-3 u-textBold u-textColor">¡Muy bien!</h4>
+        <p class="u-textColor text-center mb-5">
+            Tu cambio de contraseña ha sido realizado con éxito
+        </p>
+        <img class="mb-5" src="../../../../assets/images/check.svg" alt="">
+        <p class="u-textColor text-center mb-5">
+            ¿Qué te parece si volvemos al trabajo?
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions class="mt-auto">
+        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">Iniciar sesión</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+    </mat-dialog-actions>
+</div>

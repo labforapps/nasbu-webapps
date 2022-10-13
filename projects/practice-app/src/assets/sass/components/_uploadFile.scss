@@ -1,0 +1,34 @@
+.c-uploadFile{
+    height: initial !important;
+
+    & .file-drop-wrapper{
+        background-color: white !important;
+        padding-top: 5px !important;
+    }
+    & file-drop{
+        padding: 0;
+    }
+    & .content-top-text{
+        font-size: 14px !important;
+        font-weight: initial !important;
+        color: #0D6AFF !important;
+        font-family: 'helveticaregular' !important;
+    }
+    & .svg-icon{
+        fill:  #0D6AFF !important;
+    }
+    & file-preview-container{
+        background-color: white !important;
+    }
+    & file-preview-item {
+        margin-top: 1rem;
+        background: #f3f3f34f;
+        border: 1px solid #d9e7eb !important;
+        border-radius: 5px;
+    }
+    & .file-preview-title {
+        font-size: 15px;
+        font-weight: initial !important;
+        color: #435B6C !important;
+    }
+}

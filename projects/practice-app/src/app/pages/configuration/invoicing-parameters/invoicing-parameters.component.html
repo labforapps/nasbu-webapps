@@ -1,0 +1,132 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-invoice"></span>
+            </div>
+            <div class="l-page__title">Parámetros de facturación</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
+
+        </div>
+
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs">
+            <mat-tab label="Listado de parámetros">
+
+                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                    <div class="l-configuration__title">
+                        <span class="icon-lock mr-2 u-icon-yellow"></span> Métodos de facturación permitidos
+                    </div>
+                    <p class="u-smallSize">
+                        Tiene configurado <b class="u-primaryColor">4</b> permisos
+                    </p>
+                </div>
+                <hr class="u-divider">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            Añadir Honorarios por hora
+                        </mat-checkbox>
+                        <p class="u-smallSize u-textColor pl-4 mb-1">
+                            En este modelo defines tu precio por hora y cada hora que inviertas en una tarea en el expediente se multiplicará por el valor de la misma.
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <label class="u-title-label">Precio x Hr. </label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Precio</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr class="u-divider">
+                <div class="row">
+                    <div class="col-md-5 col-sm-12">
+                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            Retención de pago
+                        </mat-checkbox>
+                        <p class="u-smallSize u-textColor pl-4 mb-1">
+                            En este modelo retienes un monto acordado con tu cliente del cual se irán cubriendo las horas que vayas ejecutando mientras realizas el trabajo
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-6">
+                        <label class="u-title-label">Precio x Hr. </label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Cantidad</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <label class="u-title-label">Valor del monto a retener  </label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Cantidad</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr class="u-divider">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12">
+                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            Por incremento de tiempo
+                        </mat-checkbox>
+                        <p class="u-smallSize u-textColor pl-4 mb-1">
+                            En este modelo defines por Hr. / Minuto/ que insertes de como se manejará con Las tareas que ejecutes en este expediente
+                        </p>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-3 u-disable-list">
+                        <label class="u-title-label">¿Cuál será tu parametro 
+                            de incremento?</label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Cantidad</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 u-disable-list">
+                        <label class="u-title-label">Factor de incremento</label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Cantidad</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-2 col-sm-12 u-disable-list">
+                        <label class="u-title-label">Precio por incremento</label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Cantidad</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <hr class="u-divider">
+                <div class="row">
+                    <div class="col-md-5 col-sm-6">
+                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            Flat feed
+                        </mat-checkbox>
+                        <p class="u-smallSize u-textColor pl-4 mb-1">
+                            Este es el valor fijo que represente facturación Total de la ejecución de este expediente
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-sm-4">
+                        <label class="u-title-label">Valor del servicio</label>
+                        <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Valor</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </mat-tab>
+
+
+        </mat-tab-group>
+    </div>
+</div>

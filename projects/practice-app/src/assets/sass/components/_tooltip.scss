@@ -1,0 +1,21 @@
+.c-tooltip-info {
+    background-color: #F2F7FF;
+    width: 30rem;
+    box-shadow: 0 7px 15px -5px #0006;
+    margin: -5px -9px;
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: left;
+    &__title {
+        color: #0D6AFF;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    & p {
+        font-size: 15px;
+        color: #222F38;
+        & b {
+            color: #0D6AFF;
+        }
+    }
+}

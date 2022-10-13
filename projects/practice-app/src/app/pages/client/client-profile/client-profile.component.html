@@ -1,0 +1,55 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex flex-wrap u-gap-1">
+            <button mat-button [routerLink]="'/client'"><span class="icon-arrow-back mr-2" ></span> Volver atras</button>
+            <div class="d-flex">
+                <div class="l-page__icon">
+                    <span class="icon-user"></span>
+                </div>
+                <div class="l-page__title">Manuel Cabral M. </div>
+            </div>
+
+        </div>
+
+        <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button>Facturación rápida<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
+            <button class="c-btn c-btn--primary c-btn--small" mat-button>Editar cliente <span class="icon-pen ml-2 "></span></button>
+
+        </div>
+
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs c-tabs--hasSub no-padder-body" animationDuration="0ms">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Datos generales
+                    <span class="icon-id-card"></span>
+                </ng-template>
+                <app-general-info></app-general-info>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Expedientes
+                    <span class="icon-expedient"></span>
+                </ng-template>
+                <app-client-expedient></app-client-expedient>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Asuntos pendiente
+                    <span class="icon-task"></span>
+                </ng-template>
+                <app-client-pending></app-client-pending>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Facturación
+                    <span class="icon-invoice"></span>
+                </ng-template>
+                <app-client-invoicing></app-client-invoicing>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+</div>

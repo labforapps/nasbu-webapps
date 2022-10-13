@@ -1,0 +1,60 @@
+.c-onboarding{
+    position: fixed !important;
+    bottom: 2rem;
+    z-index: 10;
+    right: 2rem;
+    background: var(--primary-color);
+    border-radius: 50% !important;
+    height: 6rem;
+    width: 6rem;
+    min-width: initial !important;
+    padding: 0 !important;
+    box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+
+    & .icon-gear{
+        font-size: 24px;
+    }
+    &__header{
+        font-family: 'helveticabold';
+        margin-bottom: 2rem;
+    }
+    &__body{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    &__menu{
+        background: #222F38;
+        color: white;
+        padding: 2rem 2rem 3rem 2rem;
+        border-radius: 10px !important;
+        max-width: 30rem !important;
+        margin-bottom: 1rem;
+    }
+    &__item{
+        padding: 1rem !important;
+        height: initial !important;
+        border: 1px solid #707070 !important;
+        border-radius: 5px !important;
+        transition: all .2s;
+        h3{
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        p{
+            color: white;
+            font-weight: initial;
+            font-size: 13px;
+            line-height: 16px;
+        }
+        .mat-checkbox-label{
+            margin-left: 1rem;
+        }
+        &:hover{
+            background-color: #8594A0 !important;
+        }
+        
+    }
+}

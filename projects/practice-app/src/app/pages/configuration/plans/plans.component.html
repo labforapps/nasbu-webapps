@@ -1,0 +1,310 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-pricing"></span>
+            </div>
+            <div class="l-page__title">Planes</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
+
+        </div>
+
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs">
+            <mat-tab label="Resumen">
+
+                <div class="d-flex justify-content-center mb-4">
+                    <div class="c-plans-badge is-disable mr-3">
+                        Descuento 10%
+                    </div>
+
+                    <section class="c-switch--labels">
+                        <mat-label class="is-active">Mensual </mat-label>
+                        <mat-slide-toggle class="c-switch">
+                            <mat-label>Anual</mat-label>
+                        </mat-slide-toggle>
+                    </section>
+                </div>
+
+                <div class="c-plans-layout">
+                    <div class="c-plans">
+                        <div class="c-plans__header">
+                            <div class="c-plans__title">Profesional</div>
+                            <div class="c-plans__subtitle">Recomendado</div>
+                            <div class="c-plans__amount">
+                                $30
+                                <span>/Por mes</span>
+                            </div>
+                            <button mat-button class="c-plans__button is-selected">Este es tu plan actualmente </button>
+                        </div>
+                        <div class="c-plans__body">
+                            <div class="u-fontBold">
+                                Funcionalidades
+                            </div>
+                            <u class="c-plans__list">
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Gestión de firma electrónica
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Seguimiento de tareas
+                                </li>
+                                <li>
+                                    <span class="icon-times"></span>
+                                    Módulo de facturación
+                                </li>
+                                <li>
+                                    <span class="icon-times"></span>
+                                    Procesamiento de pago
+                                </li>
+                                <li>
+                                    <span class="icon-times"></span>
+                                    Control de finanzas
+                                </li>
+                            </u>
+                            <hr class="mb-3 mt-2 mt-5 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(HtmlContent)" contentType="template"></span>
+                                <p>Almacenamiento</p>
+                                <ng-template #HtmlContent>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Almacenamiento</div>
+                                        <p class="mb-3">
+                                            Este almacenamiento te permitirá que puedas alojar tus documentos con mayor seguridad y siempre a la mano
+                                        </p>
+                                        <p>Precio por <b>GB</b> adicional <b>5 USD</b> </p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="1GB" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <hr class="mb-3 mt-2 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(UserAccountInfo)" contentType="template"></span>
+                                <p>Usuarios permitidos por cuenta</p>
+                                <ng-template #UserAccountInfo>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Usuario permitidos</div>
+                                        <p class="mb-3">
+                                            Esto permitirá que puedas añadir la cantidad que necesites en tu suscripción.
+                                        </p>
+                                        <p>Precio por <b>Usuario</b> adicional <b>10 USD</b></p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="2" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c-plans">
+                        <div class="c-plans__header">
+                            <div class="c-plans__title">Ultimate</div>
+                            <div class="c-plans__subtitle">Más popular</div>
+                            <div class="c-plans__amount">
+                                $49
+                                <span>/Por mes</span>
+                            </div>
+                            <button mat-button class="c-plans__button is-active">SELECCIONAR PLAN</button>
+                        </div>
+                        <div class="c-plans__body">
+                            <div class="u-fontBold">
+                                Funcionalidades
+                            </div>
+                            <u class="c-plans__list">
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Gestión de firma electrónica
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Seguimiento de tareas
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Módulo de facturación
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Procesamiento de pago
+                                </li>
+                                <li>
+                                    <span class="icon-times"></span>
+                                    Control de finanzas
+                                </li>
+                            </u>
+                            <hr class="mb-3 mt-2 mt-5 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(HtmlContent)" contentType="template"></span>
+                                <p>Almacenamiento</p>
+                                <ng-template #HtmlContent>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Almacenamiento</div>
+                                        <p class="mb-3">
+                                            Este almacenamiento te permitirá que puedas alojar tus documentos con mayor seguridad y siempre a la mano
+                                        </p>
+                                        <p>Precio por <b>GB</b> adicional <b>5 USD</b> </p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="1GB" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <hr class="mb-3 mt-2 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(UserAccountInfo)" contentType="template"></span>
+                                <p>Usuarios permitidos por cuenta</p>
+                                <ng-template #UserAccountInfo>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Usuario permitidos</div>
+                                        <p class="mb-3">
+                                            Esto permitirá que puedas añadir la cantidad que necesites en tu suscripción.
+                                        </p>
+                                        <p>Precio por <b>Usuario</b> adicional <b>10 USD</b></p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="2" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="c-plans">
+                        <div class="c-plans__header">
+                            <div class="c-plans__title">Customize</div>
+                            <div class="c-plans__subtitle">Para firmas más grandes</div>
+                            <div class="c-plans__amount">
+                                $$$
+                                <span>/Por usuario</span>
+                            </div>
+                            <button mat-button class="c-plans__button">Coordinar una llamada</button>
+                        </div>
+                        <div class="c-plans__body">
+                            <div class="u-fontBold">
+                                Funcionalidades
+                            </div>
+                            <u class="c-plans__list">
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Gestión de firma electrónica
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Seguimiento de tareas
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Módulo de facturación
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Procesamiento de pago
+                                </li>
+                                <li>
+                                    <span class="icon-check"></span>
+                                    Control de finanzas
+                                </li>
+                            </u>
+                            <hr class="mb-3 mt-2 mt-5 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(HtmlContent)" contentType="template"></span>
+                                <p>Almacenamiento</p>
+                                <ng-template #HtmlContent>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Almacenamiento</div>
+                                        <p class="mb-3">
+                                            Este almacenamiento te permitirá que puedas alojar tus documentos con mayor seguridad y siempre a la mano
+                                        </p>
+                                        <p>Precio por <b>GB</b> adicional <b>5 USD</b> </p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="1GB" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <hr class="mb-3 mt-2 u-divider">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="icon-info mr-2" [tooltip]="$any(UserAccountInfo)" contentType="template"></span>
+                                <p>Usuarios permitidos por cuenta</p>
+                                <ng-template #UserAccountInfo>
+                                    <div class="c-tooltip-info">
+                                        <div class="c-tooltip-info__title">Usuario permitidos</div>
+                                        <p class="mb-3">
+                                            Esto permitirá que puedas añadir la cantidad que necesites en tu suscripción.
+                                        </p>
+                                        <p>Precio por <b>Usuario</b> adicional <b>10 USD</b></p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="c-counter">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-minus"></span>
+                                    </button>
+                                    <input type="text" value="2" class="c-counter__input">
+                                    <button mat-button class="c-counter__button">
+                                        <span class="icon-plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </mat-tab>
+
+
+        </mat-tab-group>
+    </div>
+</div>

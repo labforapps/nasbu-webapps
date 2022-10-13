@@ -1,0 +1,626 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-expedient"></span>
+            </div>
+            <div class="l-page__title">Expedientes</div>
+        </div>
+        <div class="l-page__controls">
+            <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">Nuevo expediente<span class="icon-plus ml-3 "></span></button>
+        </div>
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs">
+            <mat-tab label="Todas">
+                <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
+                    <p><b>Tienes 20 Expediente</b> en total con Manuel Cabral</p>
+                    <div class="col-md-5">
+                        <div class="d-flex u-gap-1 mt-2">
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="pickers">
+                                <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                <mat-datepicker #pickers></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="c-form-group--search bordered ml-auto">
+                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <span class="icon-search"></span>
+                    </div>
+                    <div class="c-btn-filter">
+                        Filtrar por
+                        <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+                        <mat-menu #filterMenu="matMenu">
+                            <div class="c-filter" (click)="$event.stopPropagation()">
+                                <div class="c-filter__header">
+                                    <span class="icon-filter"></span>
+                                    <div class="c-filter__title">
+                                        Criterios de filtrado
+                                    </div>
+                                </div>
+                                <div class="c-filter__body">
+                                    <label class="u-title-label">Prioridad</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nivel de prioridad</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Estatus</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Estado</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Responsable de la tarea </label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Tipo asunto</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="c-filter__footer">
+                                    <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
+                                    <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
+                                </div>
+
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="u-table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="c-table">
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                                <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>Descripción asunto</th>
+                            <td mat-cell *matCellDef="let element" class="w-20">
+                                <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="case">
+                            <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.case}}</div>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="client">
+                            <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.client}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="update">
+                            <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.update}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="share">
+                            <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-textLightColor">
+                                    {{element.share}}
+                                </div>
+                                
+                            </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+
+                                <mat-button-toggle-group class="c-btn-table">
+                                    <mat-button-toggle>Ver</mat-button-toggle>
+                                    <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                        <span class="icon-arrow-down"></span>
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+
+                                <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
+                                    <button mat-menu-item class="matMenu-yellow">Editar <span class="icon-pen"></span></button>
+                                    <button mat-menu-item class="matMenu-red">Eliminar <span class="icon-trash"></span></button>
+                                    <button mat-menu-item class="matMenu-green">Generar factura <span class="icon-invoice"></span></button>
+                                    <button mat-menu-item class="matMenu-green">Agregar nota <span class="icon-note-pen"></span></button>
+                                    <button mat-menu-item class="matMenu-blue">Compartir <span class="icon-people"></span></button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+
+            </mat-tab>
+            <mat-tab label="Abiertos">
+                <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
+                    <p><b>Tienes 20 Expediente</b> en total con Manuel Cabral</p>
+                    <div class="col-md-5">
+                        <div class="d-flex u-gap-1 mt-2">
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="pickerz">
+                                <mat-datepicker-toggle matSuffix [for]="pickerz"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerz></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="pickersz">
+                                <mat-datepicker-toggle matSuffix [for]="pickersz"></mat-datepicker-toggle>
+                                <mat-datepicker #pickersz></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="c-form-group--search bordered ml-auto">
+                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <span class="icon-search"></span>
+                    </div>
+                    <div class="c-btn-filter">
+                        Filtrar por
+                        <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+                        <mat-menu #filterMenu="matMenu">
+                            <div class="c-filter" (click)="$event.stopPropagation()">
+                                <div class="c-filter__header">
+                                    <span class="icon-filter"></span>
+                                    <div class="c-filter__title">
+                                        Criterios de filtrado
+                                    </div>
+                                </div>
+                                <div class="c-filter__body">
+                                    <label class="u-title-label">Prioridad</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nivel de prioridad</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Estatus</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Estado</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Responsable de la tarea </label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Tipo asunto</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="c-filter__footer">
+                                    <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
+                                    <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
+                                </div>
+
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="u-table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="c-table">
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                                <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>Descripción asunto</th>
+                            <td mat-cell *matCellDef="let element" class="w-20">
+                                <div class="u-link">{{element.description}} </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="case">
+                            <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.case}}</div>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="client">
+                            <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.client}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="update">
+                            <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.update}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="share">
+                            <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-textLightColor">
+                                    {{element.share}}
+                                </div>
+                                
+                            </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+
+                                <mat-button-toggle-group class="c-btn-table">
+                                    <mat-button-toggle>Ver</mat-button-toggle>
+                                    <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                        <span class="icon-arrow-down"></span>
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+
+                                <mat-menu #dropdownMenuOne="matMenu">
+                                    <button mat-menu-item>One</button>
+                                    <button mat-menu-item>Two</button>
+                                    <button mat-menu-item>Three</button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+
+            </mat-tab>
+            <mat-tab label="Cerrados">
+                <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
+                    <p><b>Tienes 20 Expediente</b> en total con Manuel Cabral</p>
+                    <div class="col-md-5">
+                        <div class="d-flex u-gap-1 mt-2">
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="pickerx">
+                                <mat-datepicker-toggle matSuffix [for]="pickerx"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerx></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
+                                <mat-label>Date range</mat-label>
+                                <input matInput [matDatepicker]="pickersx">
+                                <mat-datepicker-toggle matSuffix [for]="pickersx"></mat-datepicker-toggle>
+                                <mat-datepicker #pickersx></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="c-form-group--search bordered ml-auto">
+                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <span class="icon-search"></span>
+                    </div>
+                    <div class="c-btn-filter">
+                        Filtrar por
+                        <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+                        <mat-menu #filterMenu="matMenu">
+                            <div class="c-filter" (click)="$event.stopPropagation()">
+                                <div class="c-filter__header">
+                                    <span class="icon-filter"></span>
+                                    <div class="c-filter__title">
+                                        Criterios de filtrado
+                                    </div>
+                                </div>
+                                <div class="c-filter__body">
+                                    <label class="u-title-label">Prioridad</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nivel de prioridad</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Estatus</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Estado</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Responsable de la tarea </label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <label class="u-title-label">Tipo asunto</label>
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                                        <mat-label>Nombre</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="c-filter__footer">
+                                    <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
+                                    <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
+                                </div>
+
+                            </div>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="u-table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="c-table">
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                                <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="type">
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box-disable.svg" alt=""> </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>Descripción asunto</th>
+                            <td mat-cell *matCellDef="let element" class="w-20">
+                                <div class="u-link">{{element.description}} </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="case">
+                            <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.case}}</div>
+                            </td>
+                        </ng-container>
+
+                        
+                        <ng-container matColumnDef="client">
+                            <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-link">{{element.client}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="update">
+                            <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.update}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="share">
+                            <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="u-textLightColor">
+                                    {{element.share}}
+                                </div>
+                                
+                            </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+
+                                <mat-button-toggle-group class="c-btn-table">
+                                    <mat-button-toggle>Ver</mat-button-toggle>
+                                    <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                        <span class="icon-arrow-down"></span>
+                                    </mat-button-toggle>
+                                </mat-button-toggle-group>
+
+                                <mat-menu #dropdownMenuOne="matMenu">
+                                    <button mat-menu-item>One</button>
+                                    <button mat-menu-item>Two</button>
+                                    <button mat-menu-item>Three</button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+
+
+
+            </mat-tab>
+           
+            
+        </mat-tab-group>
+    </div>
+</div>

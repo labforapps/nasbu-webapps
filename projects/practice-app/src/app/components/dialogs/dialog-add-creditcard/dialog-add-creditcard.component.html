@@ -1,0 +1,64 @@
+<div class=" c-dialog-header">
+    <div class="c-dialog-header__header">
+        Agregar nueva tarjeta
+    </div>
+    <mat-dialog-content class="pr-5 pl-5 pb-5 pt-0">
+        <div class="row mt-2 mb-2">
+            <div class="col-sm-12">
+                <div class="d-flex justify-content-between">
+                    <label class="u-title-label">Número de tarjeta</label>
+                    <div class="u-link">Términos y condiciones</div>
+                </div>
+
+                <mat-form-field appearance="fill" class="c-form-group ">
+                    <mat-label>Número</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="u-title-label">Expiry date</label>
+                <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                    <mat-label>Expiración</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-6">
+                <label class="u-title-label">CVC / CVV</label>
+
+                <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                    <mat-label>Code</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="MM / YY">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <label class="u-title-label">Nombre del titular de la tarjeta</label>
+                <mat-form-field appearance="fill" class="c-form-group ">
+                    <mat-label>Nombre</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Ej: Kenneth Leonord">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between">
+                    <img src="../../../../assets/images/creditcard-brand.png" alt="">
+                    <mat-checkbox class="c-checkbox u-textColor">
+                        Utilizar por default
+                    </mat-checkbox>
+                </div>
+            </div>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="mt-auto">
+        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">Guardar tarjeta</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+    </mat-dialog-actions>
+</div>

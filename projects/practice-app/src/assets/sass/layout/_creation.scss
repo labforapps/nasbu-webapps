@@ -1,0 +1,16 @@
+.l-create {
+    &__header {
+        position: relative;
+    }
+    &__btnBack {
+        background: #F3F3F3;
+        height: 65px;
+        align-items: center;
+        display: flex;
+        padding: 0 8rem;
+        @include respond(450){
+            height: 40px;
+            padding: 0 1rem;
+        }
+    }
+}

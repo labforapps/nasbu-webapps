@@ -1,0 +1,162 @@
+<div class="c-dialog-newTask c-dialog-header">
+    <div class="c-dialog-header__header">
+        Nueva tarea
+    </div>
+    <mat-dialog-content>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label class="u-title-label">Tipo de tarea</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Coordinar cita</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            Option 1
+                        </mat-option>
+                        <mat-option>
+                            Option 2
+                        </mat-option>
+                        <mat-option>
+                            Option 3
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <label class="u-title-label">Normal</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Núm. Teléfono celular</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            Option 1
+                        </mat-option>
+                        <mat-option>
+                            Option 2
+                        </mat-option>
+                        <mat-option>
+                            Option 3
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Nombre de la persona</label>
+                <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                    <mat-label>Nombre de la tarea</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Descripción o detalle</label>
+                <div class="c-form-group">
+                    <textarea matInput class="c-form-group__textarea" placeholder="Ej: Este contrato es para poder vender unas
+                    máquinas de vapor etc…"></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Asignar a </label>
+                <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                    <mat-label>Colaborador</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Expediente o caso al cual pertenece </label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Nombre</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            Option 1
+                        </mat-option>
+                        <mat-option>
+                            Option 2
+                        </mat-option>
+                        <mat-option>
+                            Option 3
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label d-block mt-3">¿Cúando debe estar lista? </label>
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button class="c-radioButton mr-3" value="1">Sin fecha </mat-radio-button>
+                    <mat-radio-button class="c-radioButton" value="2">Definir una fecha</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <mat-form-field class="c-form-group c-form-group__datepicker">
+                    <mat-label>Inicio de la tarea</mat-label>
+                    <input matInput type="datetime-local" placeholder="start date">
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="c-form-group c-form-group__datepicker">
+                    <mat-label>Final de la tarea</mat-label>
+                    <input matInput type="datetime-local" placeholder="start date">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <hr class="u-divider">
+            </div>
+            <div class="col-md-6 u-disable-list">
+                <div class="row">
+                    <div class="col-md-12 p-0">
+                        <label class="u-title-label">Precio x Hr. </label>
+                        <mat-form-field appearance="fill" class="c-form-group ">
+                            <mat-label>Colaborador</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12 p-0">
+                        <label class="u-title-label">Horas cotizadas</label>
+                        <mat-form-field appearance="fill" class="c-form-group ">
+                            <mat-label>Colaborador</mat-label>
+                            <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-column">
+                    <mat-checkbox class="c-checkbox mb-2">
+                        Añadir Honorarios por hora
+                    </mat-checkbox>
+                    <mat-checkbox class="c-checkbox mb-2">
+                        Precio único
+                    </mat-checkbox>
+                    <mat-checkbox class="c-checkbox mb-2">
+                        Por Incremento de tiempo
+                    </mat-checkbox>
+                    <mat-checkbox class="c-checkbox mb-2">
+                        Monto fijo ( Flat fee)
+                    </mat-checkbox>
+                    <mat-checkbox class="c-checkbox mb-2">
+                        No facturable
+                    </mat-checkbox>
+
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="c-dialog-header__footer">
+        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">Crea nueva tarea</button>
+    </mat-dialog-actions>
+</div>

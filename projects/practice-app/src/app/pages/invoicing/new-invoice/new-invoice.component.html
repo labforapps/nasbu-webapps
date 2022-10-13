@@ -1,0 +1,367 @@
+<div class="l-invoicing">
+    <div class="l-invoicing__header">
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <label class="u-title-label">Cliente</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Nombre de cliente</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            Option 1
+                        </mat-option>
+                        <mat-option>
+                            Option 2
+                        </mat-option>
+                        <mat-option>
+                            Option 3
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <label class="u-title-label">Expediente al cual aplicará el cargo</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Nombre expediente</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            Option 1
+                        </mat-option>
+                        <mat-option>
+                            Option 2
+                        </mat-option>
+                        <mat-option>
+                            Option 3
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="align-items-center col-md-2 col-sm-3 d-flex">
+                <mat-checkbox class="c-checkbox u-textColor">
+                    Sin expediente
+                </mat-checkbox>
+            </div>
+            <div class="align-items-center col-md-2 col-sm-3 d-flex">
+                <mat-button-toggle-group class="c-btn-table">
+                    <mat-button-toggle>Enviar</mat-button-toggle>
+                    <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                        <span class="icon-arrow-down"></span>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+                <mat-menu #dropdownMenuOne="matMenu">
+                    <button mat-menu-item>One</button>
+                    <button mat-menu-item>Two</button>
+                    <button mat-menu-item>Three</button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+    <div class="l-invoicing__body">
+        <div class="c-invoice">
+            <div class="c-invoice__header">
+                <div>
+                    <div class="c-invoice__title mb-5">Factura #1</div>
+                    <div class="c-invoice__subtitle">Keneth Law firma</div>
+                    <ul class="c-invoice__data">
+                        <li>United State of America</li>
+                        <li>Miami, Florida </li>
+                        <li>33126</li>
+                        <li>1466 NW 78 AVE</li>
+                    </ul>
+                </div>
+                <div class="text-right">
+                    <div class="c-invoice__subtitle">Cristobal Cabral</div>
+                    <ul class="c-invoice__data ">
+                        <li>United State of America</li>
+                        <li>Miami, Florida </li>
+                        <li>33126</li>
+                        <li>1466 NW 78 AVE</li>
+                    </ul>
+                    <div class="d-flex flex-column u-gap-1 mt-4">
+                        <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
+                            <mat-label>Fecha de factura</mat-label>
+                            <input matInput type="datetime-local" placeholder="start date">
+                        </mat-form-field>
+                        <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
+                            <mat-label>Fecha de vencimiento</mat-label>
+                            <input matInput type="datetime-local" placeholder="start date">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+            <div class="c-invoice__body">
+                <div class="c-invoice__title">Detalles de la factura (2)</div>
+                <hr class="u-divider mb-0">
+                <div class="u-table-responsive">
+                    <table class="c-table-invoice">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Tipo Facturación</th>
+                                <th scope="col">Duración en Hr. </th>
+                                <th scope="col">Precio x Hr. </th>
+                                <th scope="col">Precio fijo</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Item">
+                                    <div class="d-flex align-items-center u-fontBold">
+                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
+                                        <span>1</span>
+                                    </div>
+
+                                </td>
+                                <td data-label="Descripción">
+                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
+                                </td>
+                                <td data-label="Tipo Facturación">
+
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                        <mat-label>Precio</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Duración en Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio x Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio fijo">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Total">
+                                    USD 45
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row" data-label="Item">
+                                    <div class="d-flex align-items-center u-fontBold">
+                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
+                                        <span>1</span>
+                                    </div>
+
+                                </td>
+                                <td data-label="Descripción">
+                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
+                                </td>
+                                <td data-label="Tipo Facturación">
+
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                        <mat-label>Precio</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Duración en Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio x Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio fijo">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Total">
+                                    USD 45
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="100%"><button mat-button class="c-btn c-btn-add">+ Añadir nueva entrada</button></td>
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+
+                <div class="c-invoice__title mt-5">Gastos legales</div>
+                <hr class="u-divider mb-0">
+                <div class="u-table-responsive">
+                    <table class="c-table-invoice">
+                        <thead>
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Tipo Facturación</th>
+                                <th scope="col">Duración en Hr. </th>
+                                <th scope="col">Precio x Hr. </th>
+                                <th scope="col">Precio fijo</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Item">
+                                    <div class="d-flex align-items-center u-fontBold">
+                                        <span class="icon-times mr-2"></span>
+                                        <span>1</span>
+                                    </div>
+
+                                </td>
+                                <td data-label="Descripción">
+                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
+                                </td>
+                                <td data-label="Tipo Facturación">
+
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                        <mat-label>Precio</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Duración en Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio x Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio fijo">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Total">
+                                    USD 45
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row" data-label="Item">
+                                    <div class="d-flex align-items-center u-fontBold">
+                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
+                                        <span>1</span>
+                                    </div>
+
+                                </td>
+                                <td data-label="Descripción">
+                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
+                                </td>
+                                <td data-label="Tipo Facturación">
+
+                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                        <mat-label>Precio</mat-label>
+                                        <mat-select>
+                                            <mat-option>
+                                                Option 1
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 2
+                                            </mat-option>
+                                            <mat-option>
+                                                Option 3
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Duración en Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio x Hr.">
+                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Precio fijo">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>Número</mat-label>
+                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
+                                    </mat-form-field>
+                                </td>
+                                <td data-label="Total">
+                                    USD 45
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="100%"><button mat-button class="c-btn c-btn-add">+ Añadir nueva entrada</button></td>
+                            </tr>
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="c-invoice__footer">
+                <div class="align-items-end d-flex flex-column flex-wrap mb-2 u-gap-1 u-smallSize u-text-color">
+                    <p><b class="mr-2">Subtotal</b>USD 30</p>
+                    <p><b class="mr-2">Impuesto ( 13%)</b>USD 30</p>
+
+                </div>
+                <div class="d-flex justify-content-between u-gap-1 flex-wrap">
+                    <div class="c-invoice__title">Total</div>
+                    <div class="c-invoice__totalprice">USD 45</div>
+                </div>
+                <hr class="u-divider">
+                <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
+                    <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2">
+                        No facturable
+                    </mat-checkbox>
+                    <button mat-button class="c-btn-function">Guardar factura</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

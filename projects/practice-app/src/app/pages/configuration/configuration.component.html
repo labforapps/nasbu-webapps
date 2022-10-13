@@ -1,0 +1,72 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-gear"></span>
+            </div>
+            <div class="l-page__title">Configuraciones</div>
+        </div>
+    </div>
+    <div class="l-page__body">
+        <div class="l-configuration">
+            <div class="c-configuration-menu">
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'permission'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-key"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Permisos y usuarios</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Aquí podrás configurar los permisos de tus colaboradores
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'invoicing-parameters'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-invoice"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Parámetros de facturación</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Configura tus tarifas y esquemas de cobro.
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'profile-sign'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-company"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Perfil de tu firma</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Configura los detalles de tu firma en esta sección
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'notification'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-bell"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Notificaciones</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Configura y controla tus notificaciones
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'plans'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-pricing"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Planes de NASBU</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Cambia de plan cuando quieras
+                        </p>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

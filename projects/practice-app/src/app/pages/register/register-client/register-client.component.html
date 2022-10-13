@@ -1,0 +1,146 @@
+<main class="l-blank">
+    <header class="l-blank__header">
+        <img src="../../../assets/images/white-logo.svg" alt="">
+    </header>
+    <div class="l-blank__content">
+        <div class="l-blank__heading">
+            <img src="../../../assets/images/add-user.svg" alt="" class="l-blank__icon">
+            <div class="text-center">
+                <div class="l-blank__title">Registro de cliente</div>
+                <div class="l-blank__subtitle">Formulario de registro nuevo cliente</div>
+            </div>
+        </div>
+        <div class="c-register c-register--client">
+            <div class="c-register__header">
+                <div class="c-register__profileImage">
+                    <img src="../../../../assets/images/user.jpg" alt="" >
+                    <span class="icon-check"></span>
+                </div>
+                <p>
+                    ¡Hola!, <b>Moya & asociados</b>
+                    te solicita estas informaciones para poder
+                    comenzar a trabajar contigo.
+                </p>
+            </div>
+            <div class="c-register__body">
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Nombre </mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Apellido</mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Dirección</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Código Postal</mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Num. Teléfono celular</mat-label>
+                    <input class="c-form-group__input" matInput >
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Teléfono residencial ó casa</mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="c-form-group">
+                    <mat-label>Correo electrónico</mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+                <label class="u-title-label">¿Qué necesitas de nosotros? </label>
+                <textarea matInput class="c-form-group__textarea" style="min-height:11rem;" placeholder="Ej: Ej: Necesito crear un
+                contrato de servicio"></textarea>
+                <button mat-button class="c-btn c-btn--primary w-100 mt-5">Enviar formulario</button>
+
+            </div>
+
+           <!--  <div class="c-register__left">
+                <div class="c-register__title">Información General </div>
+                <form class="w-100">
+                    <label class="u-title-label">Nombre de la persona</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Nombre </mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Nombre">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group--mb-4">
+                        <mat-label>Apellido</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Apellido">
+                    </mat-form-field>
+
+                    <label class="u-title-label">Contacto</label>
+                    <mat-form-field appearance="fill" class="c-form-group mb-3">
+                        <mat-label>Telefono celular</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Num. Teléfono celular">
+                    </mat-form-field>
+                    <label class="u-title-label">Email</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Correo electrónico</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Correo electrónico">
+                    </mat-form-field>
+
+
+                </form>
+            </div>
+            <div class="c-register__right">
+
+                <mat-slide-toggle class="c-switch mb-3">
+                    <span>Mensual</span>
+                    <span>/</span>
+                    <span class="is-active">Anual</span>
+                </mat-slide-toggle>
+                <label class="u-title-label w-100">Membresía que le interesa</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                    <mat-label>Seleccionar Plan</mat-label>
+                    <mat-select>
+                        <mat-option>
+                            <div class="d-flex justify-content-between">
+                                <span>Plan basically</span>
+                                <span>15 USD</span>
+                            </div>
+                        </mat-option>
+                        <mat-option>
+                            <div class="d-flex justify-content-between">
+                                <span>Plan Intermedio</span>
+                                <span>30 USD</span>
+                            </div>
+                        </mat-option>
+                        <mat-option>
+                            <div class="d-flex justify-content-between">
+                                <span>Plan deluxe </span>
+                                <span>50 USD</span>
+                            </div>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <p class="u-textColor u-smallSize mb-4">Pide una demostración para recibir un prueba <b class="u-primaryColor">gratis por 7 días</b></p>
+
+                <div class="d-flex align-items-end mb-4">
+                    <span style="font-size: 37px;margin-bottom: -6px;" class="mr-2">230</span> USD/ Anual
+                    <div class="u-badge ml-2">Descuento 10% </div>
+                </div>
+                <div class="mb-5 u-disable-list">
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Manejo de de diligencias</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Módulo de cobro y facturación</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Módulo de manejo de clientes</div>
+                    <div><span class="icon-check u-primaryColor mr-2"></span>Módulo miembros de tu equipo</div>
+                </div>
+
+                <div class="d-flex u-gap-1" style="max-width: 280px; ">
+                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1 c-btn--disable">Pedir demostración </button>
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1 c-btn--disable">Comprar ahora </button>
+                </div>
+
+
+            </div>
+            <div class="c-register__footer">
+                <label class="u-link">Volver atrás</label>
+            </div> -->
+        </div>
+
+    </div>
+
+</main>

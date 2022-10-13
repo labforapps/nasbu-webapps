@@ -1,0 +1,72 @@
+.c-configuration-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    @include respond(350) {
+        gap: 1rem
+    }
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 38rem;
+        padding: 1rem !important;
+        border-radius: 2rem !important;
+        &>span {
+            display: flex;
+            align-items: center;
+            line-height: initial;
+            text-align: left;
+            white-space: initial;
+            @include respond(350) {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+        }
+        &:hover {
+            & .c-configuration-menu__icon {
+                background-color: #D9FFE6;
+                span::before {
+                    color: var(--primary-color);
+                }
+            }
+        }
+        @include respond(450) {
+            width: 100%;
+            max-width: initial;
+        }
+        @include respond(350) {
+            width: 100%;
+            max-width: initial;
+        }
+    }
+    &__icon {
+        width: 11rem;
+        height: 10rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 45px;
+        background: #EFEFEF;
+        border-radius: 2.5rem;
+        margin-right: 3rem;
+        & span::before {
+            color: #8594A0;
+        }
+        @include respond(350) {
+            margin: 0;
+            width: 100%;
+        }
+    }
+    &__title {
+        font-family: 'helveticabold';
+        color: var(--text-color);
+        margin-bottom: 1rem;
+    }
+    &__paragraph {
+        font-size: var(--small-size);
+        color: var(--text-color);
+        font-family: 'helveticaregular';
+    }
+}

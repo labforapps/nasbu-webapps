@@ -1,0 +1,39 @@
+.c-create {
+    max-width: 74rem;
+    margin: 0 auto;
+    padding: 4rem 3rem;
+    @include respond(450){
+        padding: 2rem;
+    }
+    &__header {
+        display: flex;
+        margin-bottom: 4rem;
+    }
+    &__body {
+        margin-bottom: 9rem;
+        @include respond(450){
+            margin-bottom: 19rem;
+        }
+    }
+    &__title {
+        font-size: 28px;
+        font-family: 'helveticabold';
+        @include respond(450){
+            font-size: 20px;
+        }
+    }
+    &__subtitle {
+        font-size: 21px;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        @include respond(450){
+            font-size: 14px;
+            margin-bottom: 2rem;
+        }
+    }
+    &__text {
+        color: #B6B9BC;
+        font-size: 13px;
+        margin-bottom: 1rem;
+    }
+}

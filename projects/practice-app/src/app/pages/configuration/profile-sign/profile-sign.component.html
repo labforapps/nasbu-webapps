@@ -1,0 +1,49 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-company"></span>
+            </div>
+            <div class="l-page__title">Perfil de tu firma</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
+            <button class="c-btn-function" mat-button [routerLink]="'create-profile'">Editar perfil<span class="icon-pen ml-2 "></span></button>
+        </div>
+
+
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs c-tabs--scroll">
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    Datos generales
+                    <span class="icon-contacts"></span>
+                </ng-template>
+                <app-profile-general-info></app-profile-general-info>
+
+            </mat-tab>
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    Métodos de pago
+                    <span class="icon-credit-card"></span>
+                </ng-template>
+
+                <app-payment-method></app-payment-method>
+
+            </mat-tab>
+            <mat-tab>
+
+                <ng-template mat-tab-label>
+                    Suscripción y facturación
+                    <span class="icon-invoice"></span>
+                </ng-template>
+
+                <app-subscription></app-subscription>
+
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

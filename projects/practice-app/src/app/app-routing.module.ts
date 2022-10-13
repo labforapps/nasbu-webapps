@@ -1,0 +1,144 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './pages/login/login.component';
+import { RecoveryComponent } from './pages/recovery/recovery.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { LayoutComponent } from './components/layout/layout.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ClientComponent } from './pages/client/client.component';
+import { CreateClientComponent } from './pages/client/create-client/create-client.component';
+import { ClientProfileComponent } from './pages/client/client-profile/client-profile.component';
+import { InvoicingComponent } from './pages/invoicing/invoicing.component';
+import { ConfigurationComponent } from './pages/configuration/configuration.component';
+import { InvoicingParametersComponent } from './pages/configuration/invoicing-parameters/invoicing-parameters.component';
+import { PermissionComponent } from './pages/configuration/permission/permission.component';
+import { ProfileSignComponent } from './pages/configuration/profile-sign/profile-sign.component';
+import { NotificationComponent } from './pages/configuration/notification/notification.component';
+import { PlansComponent } from './pages/configuration/plans/plans.component';
+import { TemplatesComponent } from './pages/templates/templates.component';
+import { TaskpageComponent } from './pages/taskpage/taskpage.component';
+import { NewInvoiceComponent } from './pages/invoicing/new-invoice/new-invoice.component';
+import { ExpedientComponent } from './pages/expedient/expedient.component';
+import { ExpedientInfoComponent } from './pages/expedient/expedient-info/expedient-info.component';
+import { CollaboratorComponent } from './pages/collaborator/collaborator.component';
+import { CreateCollaboratorComponent } from './pages/collaborator/create-collaborator/create-collaborator.component';
+import { CreateProfileComponent } from './pages/configuration/profile-sign/create-profile/create-profile.component';
+import { RegisterClientComponent } from './pages/register/register-client/register-client.component';
+import { AuthGuard } from 'core-services';
+
+const routes: Routes = [
+  {
+    path: 'signin',
+    component: LoginComponent
+  },
+  {
+    path: 'recovery',
+    component: RecoveryComponent
+  },
+  {
+    path: 'signup',
+    component: RegisterComponent
+  },
+  {
+    path: 'register-client',
+    component: RegisterClientComponent
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: '/dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'customers',
+        component: ClientComponent,
+      },
+      {
+        path: 'collaborator',
+        component: CollaboratorComponent,
+      },
+
+      {
+        path: 'client-profile',
+        component: ClientProfileComponent,
+      },
+      {
+        path: 'invoicing',
+        component: InvoicingComponent,
+      },
+      {
+        path: 'invoicing/new-invoice',
+        component: NewInvoiceComponent,
+      },
+      {
+        path: 'task',
+        component: TaskpageComponent,
+      },
+      {
+        path: 'expedient',
+        component: ExpedientComponent,
+      },
+      {
+        path: 'expedient-info',
+        component: ExpedientInfoComponent,
+      },
+      {
+        path: 'templates',
+        component: TemplatesComponent,
+      },
+      {
+        path: 'configuration',
+        component: ConfigurationComponent,
+      },
+      {
+        path: 'configuration/invoicing-parameters',
+        component: InvoicingParametersComponent,
+      },
+      {
+        path: 'configuration/permission',
+        component: PermissionComponent,
+      },
+      {
+        path: 'configuration/profile-sign',
+        component: ProfileSignComponent,
+      },
+      {
+        path: 'configuration/notification',
+        component: NotificationComponent,
+      },
+      {
+        path: 'configuration/plans',
+        component: PlansComponent,
+      },
+
+    ]
+  },
+  {
+    path: 'client/create-client',
+    component: CreateClientComponent,
+  },
+  {
+    path: 'configuration/profile-sign/create-profile',
+    component: CreateProfileComponent,
+  },
+  {
+    path: 'collaborator/create-collaborator',
+    component: CreateCollaboratorComponent,
+  },
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

@@ -1,0 +1,19 @@
+
+    .c-payment-history{
+        display: flex;
+        flex-direction: column;
+        &__item{
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 2rem;
+            padding-top: 2rem;
+            border-bottom: 1px solid #E7E6E6;
+            flex-wrap: w;
+
+            &:first-child{
+                padding-top: 0;
+            }
+        }
+    }
+
+

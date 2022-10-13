@@ -1,0 +1,57 @@
+.c-subscription {
+    max-width: 82rem;
+    border: 1px solid #B6B9BC;
+    border-radius: 1rem;
+    padding: 3rem;
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #DBDCDE;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+    &__info {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 5rem 1fr;
+    }
+    &__title {
+        font-size: 25px;
+        color: var(--text-color);
+        font-weight: bold;
+    }
+    &__subtitle {
+        grid-column: 2/3;
+        color: var(--text-color-light);
+        line-height: 15px;
+    }
+    &__icon {
+        grid-row: 1/3;
+        display: flex;
+        font-size: 40px;
+        margin-top: 1rem;
+    }
+    &__footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        margin-top: 2rem;
+        &>div {
+            max-width: 48rem;
+            color: var(--text-color-light);
+            & b {
+                color: var(--text-color);
+            }
+        }
+    }
+    & .c-btn {
+        max-width: 21rem;
+        width: 100%;
+        @include respond(450) {
+            max-width: initial;
+        }
+    }
+}

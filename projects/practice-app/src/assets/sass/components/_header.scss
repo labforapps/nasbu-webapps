@@ -1,0 +1,41 @@
+.c-header {
+    height: 8rem;
+    background: white;
+    border: 1px solid #f3f3f3;
+    box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+    display: flex;
+    align-items: center;
+    padding: 0 5rem;
+    justify-content: space-between;
+    @include respond(1366) {
+        height: 6rem;
+    }
+    &__content {
+        display: flex;
+        gap: 2rem;
+        @include respond(768) {
+            display: none;
+        }
+    }
+    &__logo {
+        margin-left: 4rem;
+        width: 100px;
+    }
+    &__user {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+    &__name {
+        font-weight: bold;
+    }
+    &__role {
+        color: var(--text-color-light);
+        font-size: var(--small-size);
+    }
+    &__image {
+        width: 39px;
+        height: 35px;
+        border-radius: 3px;
+    }
+}

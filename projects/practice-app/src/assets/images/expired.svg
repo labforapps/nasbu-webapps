@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="47.92" height="47.92" viewBox="0 0 47.92 47.92">
+  <g id="Group_2159" data-name="Group 2159" transform="translate(-999.611 -610.962)">
+    <circle id="Ellipse_419" data-name="Ellipse 419" cx="20.177" cy="20.177" r="20.177" transform="translate(1003.395 614.745)" fill="#ffb3af"/>
+    <g id="Ellipse_418" data-name="Ellipse 418" transform="translate(999.611 610.962)" fill="none" stroke="#ffb3af" stroke-width="1">
+      <circle cx="23.96" cy="23.96" r="23.96" stroke="none"/>
+      <circle cx="23.96" cy="23.96" r="23.46" fill="none"/>
+    </g>
+    <g id="clock-time" transform="translate(1012.203 623.214)">
+      <path id="Path_2518" data-name="Path 2518" d="M16.278,14.852V10.638a.514.514,0,1,0-1.028,0v4.214a.514.514,0,0,0,1.028,0Z" transform="translate(-4.395 -2.781)" fill="#c90b00" fill-rule="evenodd"/>
+      <path id="Path_2519" data-name="Path 2519" d="M14.216,16.344l-2.81,1.622a.514.514,0,0,0,.514.89l2.81-1.622a.514.514,0,1,0-.514-.89Z" transform="translate(-3.104 -4.718)" fill="#c90b00" fill-rule="evenodd"/>
+      <path id="Path_2520" data-name="Path 2520" d="M18.271,15.019,14.132,23.3a1.541,1.541,0,0,0,1.379,2.231h8.279A1.542,1.542,0,0,0,25.168,23.3l-4.14-8.279a1.541,1.541,0,0,0-2.758,0Zm1.334,7.561a.514.514,0,1,1-.514.514A.514.514,0,0,1,19.605,22.58Zm-.514-4.453v3.431a.514.514,0,0,0,1.028,0V18.126a.514.514,0,1,0-1.028,0Z" transform="translate(-3.992 -4.054)" fill="#c90b00" fill-rule="evenodd"/>
+      <path id="Path_2521" data-name="Path 2521" d="M9.3,21.234a2.57,2.57,0,0,1-.083-2.45l.428-.855a6.781,6.781,0,1,1,8.482-7.075l2.379,4.76A10.078,10.078,0,1,0,9.3,21.234Z" fill="#c90b00" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

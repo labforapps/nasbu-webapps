@@ -1,0 +1,328 @@
+<div class="c-tabs-actions">
+    <mat-tab-group class="c-tabs c-tabs--green c-tabs--sub">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                Todos
+            </ng-template>
+            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+                <p> <b>Tienes 5 Expediente </b> en total con Manuel Cabral </p>
+                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
+                    <input matInput type="mail" placeholder="Buscar por nombre">
+                    <span class="icon-search"></span>
+                </div>
+                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">Crear nuevo<span class="icon-plus ml-2 "></span></button>
+            </div>
+            <div class="u-table-responsive">
+                <table mat-table [dataSource]="dataSource" class="c-table">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <td mat-cell *matCellDef="let element" class="w-20">
+                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="case">
+                        <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.case}}</div>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="client">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.client}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="update">
+                        <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.update}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="share">
+                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-textLightColor">
+                                {{element.share}}
+                            </div>
+                            
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+
+                            <mat-button-toggle-group class="c-btn-table">
+                                <mat-button-toggle>Ver</mat-button-toggle>
+                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                    <span class="icon-arrow-down"></span>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+
+                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
+                                <button mat-menu-item class="matMenu-yellow">Editar <span class="icon-pen"></span></button>
+                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
+                                <button mat-menu-item class="matMenu-green"> Compartir <span class="icon-people"></span></button>
+                                <button mat-menu-item class="matMenu-blue">Enviar expdiente a cliente <span class="icon-send"></span></button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                Abiertos
+            </ng-template>
+            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+                <p> <b>Tienes 5 Expediente </b> en total con Manuel Cabral </p>
+                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
+                    <input matInput type="mail" placeholder="Buscar por nombre">
+                    <span class="icon-search"></span>
+                </div>
+                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">Crear nuevo<span class="icon-plus ml-2 "></span></button>
+            </div>
+            <div class="u-table-responsive">
+                <table mat-table [dataSource]="dataSource" class="c-table">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <td mat-cell *matCellDef="let element" class="w-20">
+                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="case">
+                        <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.case}}</div>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="client">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.client}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="update">
+                        <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.update}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="share">
+                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-textLightColor">
+                                {{element.share}}
+                            </div>
+                            
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+
+                            <mat-button-toggle-group class="c-btn-table">
+                                <mat-button-toggle>Ver</mat-button-toggle>
+                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                    <span class="icon-arrow-down"></span>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+
+                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
+                                <button mat-menu-item class="matMenu-yellow">Editar <span class="icon-pen"></span></button>
+                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
+                                <button mat-menu-item class="matMenu-green">Compartir <span class="icon-people"></span></button>
+                                <button mat-menu-item class="matMenu-blue">Enviar expdiente a cliente <span class="icon-send"></span></button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab>
+            <ng-template mat-tab-label>
+                Cerrados
+
+            </ng-template>
+            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+                <p> <b>Tienes 5 Expediente </b> en total con Manuel Cabral </p>
+                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
+                    <input matInput type="mail" placeholder="Buscar por nombre">
+                    <span class="icon-search"></span>
+                </div>
+                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">Crear nuevo<span class="icon-plus ml-2 "></span></button>
+            </div>
+            <div class="u-table-responsive">
+                <table mat-table [dataSource]="dataSource" class="c-table">
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box-disable.svg" alt=""> </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <td mat-cell *matCellDef="let element" class="w-20">
+                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="case">
+                        <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.case}}</div>
+                        </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="client">
+                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-link">{{element.client}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="update">
+                        <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.update}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="share">
+                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="u-textLightColor">
+                                {{element.share}}
+                            </div>
+                            
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+
+                            <mat-button-toggle-group class="c-btn-table">
+                                <mat-button-toggle>Ver</mat-button-toggle>
+                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                                    <span class="icon-arrow-down"></span>
+                                </mat-button-toggle>
+                            </mat-button-toggle-group>
+
+                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
+                                <button mat-menu-item>Editar <span class="icon-pen"></span></button>
+                                <button mat-menu-item (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
+                                <button mat-menu-item>Compartir <span class="icon-people"></span></button>
+                                <button mat-menu-item>Enviar expdiente a cliente <span class="icon-send"></span></button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+                    </tr>
+                </table>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    <!-- <div class="c-tabs-actions__controls">
+
+
+
+        <div class="c-form-group--search">
+            <input matInput type="mail" placeholder="Buscar por nombre">
+            <span class="icon-search"></span>
+        </div>
+
+        <button class="c-btn-function" mat-button>Crear nuevo<span class="icon-plus ml-2 "></span></button>
+    </div> -->
+</div>

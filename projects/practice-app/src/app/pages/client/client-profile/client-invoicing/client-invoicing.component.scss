@@ -1,0 +1,16 @@
+@media screen and (max-width: 1150px) {
+    .u-smallSize.mb-3.d-flex.align-items-center.flex-wrap.u-gap-1{
+        p{
+            width: 100%;
+        }
+        .col-md-4{
+            padding: 0;
+        }
+        .c-form-group--search{
+            flex: 1;
+        }
+        .col-md-4 mat-form-field{
+            flex: 1;
+        }
+    }
+}

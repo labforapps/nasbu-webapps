@@ -1,0 +1,249 @@
+    .c-table {
+        width: 100%;
+        border-top: 1px solid #e0e0e0;
+        & .mat-header-cell {
+            color: var(--text-color);
+            font-weight: bold;
+            &:not(:first-child){
+                padding: 0 1rem !important;
+            }
+            &:not(:first-child) {
+                min-width: 7rem;
+            }
+        }
+        & .mat-header-row {
+            height: 35px;
+        }
+        & td {
+            font-size: var(--small-size);
+
+            &:not(:first-child){
+                padding: 0 1rem !important;
+            }
+            
+        }
+        & .mat-row {
+            height: 60px;
+
+            &.is-active{
+                background-color: #F0F6F2;
+            }
+        }
+        &__icon {
+            margin-top: 0.5rem;
+        }
+        &__checkbox {
+            width: 5rem;
+        }
+        &__icontype {
+            width: 9rem;
+            text-align: center !important;
+        }
+        &__truncate {
+            max-width: 20rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 2rem !important;
+        }
+        &__matMenu{
+            border-radius: 2rem !important;
+            width: 14rem;
+            & button.mat-menu-item {
+                width: 100%;
+                font-size: 11px;
+                height: 35px;
+                font-weight: bold;
+                line-height: 35px;
+                text-align: right;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                & span{
+                    width: 2.5rem;
+                    font-size: 14px;
+                    transition: all .2s;
+                    &::before{
+                        color: #B6B9BC;
+                    }
+                }
+                
+                &.matMenu-yellow{
+                    &:hover{
+                        color: #FBB03B;
+                        & span::before{
+                            color:#FBB03B;
+                        }
+                    }
+                }
+                &.matMenu-green{
+                    &:hover{
+                        color: #389856;
+                        & span::before{
+                            color:#389856;
+                        }
+                    }
+                }
+                &.matMenu-red{
+                    &:hover{
+                        color: #C90B00;
+                        & span::before{
+                            color:#C90B00;
+                        }
+                    }
+                }
+                &.matMenu-blue{
+                    &:hover{
+                        color: #0D6AFF;
+                        & span::before{
+                            color:#0D6AFF;
+                        }
+                    }
+                }
+            }
+            
+            &--bigger{
+                width: 18rem;
+            }
+        }
+        .w-20 {
+            width: 20rem;
+            padding-right: 3rem;
+        }
+
+
+    }
+    
+    .c-table-roles {
+        width: 100%;
+        th {
+            text-align: left;
+            font-size: var(--small-size);
+            color: var(--text-color);
+            height: 6rem;
+            &:first-child {
+                min-width: 30rem;
+            }
+        }
+        td:not(:first-child),
+        th:not(:first-child) {
+            text-align: center;
+            min-width: 9rem;
+        }
+    }
+    
+    .c-table-invoice {
+        border-collapse: collapse;
+        width: 100%;
+        @include respond(600) {
+            margin-top: 2rem;
+        }
+        thead {
+            @include respond(600) {
+                border: none;
+                clip: rect(0 0 0 0);
+                height: 1px;
+                margin: -1px;
+                overflow: hidden;
+                padding: 0;
+                position: absolute;
+                width: 1px;
+            }
+            tr {
+                font-size: 13px;
+                font-weight: bold;
+                color: var(--text-color);
+                text-align: left;
+                height: 4rem;
+                border-bottom: 1px solid #eeeeee;
+                th {
+                    padding: 0 1rem;
+                    &:last-child {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        tbody tr {
+            @include respond(600) {
+                background: #f3f3f361;
+                border: 1px solid #dddddd;
+                display: block;
+                margin-bottom: 2rem;
+            }
+            td {
+                padding: 0 1rem;
+                font-size: 13px;
+                padding: 1rem;
+                &:last-child {
+                    text-align: center;
+                    @include respond(600) {
+                        border-bottom: 0;
+                        text-align: right;
+                        font-weight: bold;
+                    }
+                }
+                & .d-flex {
+                    @include respond(600) {
+                        justify-content: flex-end;
+                    }
+                }
+                &::before {
+                    @include respond(600) {
+                        content: attr(data-label);
+                        float: left;
+                        font-weight: bold;
+                    }
+                }
+                @include respond(600) {
+                    border-bottom: 1px solid #ddd;
+                    display: block;
+                    text-align: right;
+                }
+            }
+        }
+        .c-form-group__textarea {
+            width: 24rem;
+            min-height: 41px;
+            text-align: left;
+            @include respond(600) {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+        .c-form-group {
+            width: 10rem;
+            margin-bottom: 0;
+            @include respond(600) {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            & .mat-form-field-flex {
+                height: 4rem;
+                font-size: 12px;
+                padding-top: 5px!important;
+            }
+        }
+        .text-area {
+            &--outlined {
+                border: 1px dashed #0D6AFF !important;
+            }
+            &--filled {
+                border: 1px solid #0D6AFF !important;
+            }
+        }
+        .input {
+            &--outlined {
+                .mat-form-field-flex {
+                    border: 1px dashed #0D6AFF !important;
+                }
+            }
+            &--filled {
+                .mat-form-field-flex {
+                    border: 1px solid #0D6AFF !important;
+                }
+            }
+        }
+    }

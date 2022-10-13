@@ -1,0 +1,105 @@
+/* //////////////////* /
+/*     RESET         */
+
+
+/* ///////////////// */
+
+mat-dialog-container {
+    border-radius: 25px !important;
+    box-shadow: 0px 3px 56px rgb(0 0 0 / 16%) !important;
+}
+
+
+/* ///////////////// */
+
+.c-dialog-recovery {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 3rem 2rem 3rem;
+    width: 36rem;
+    height: 44rem;
+    & .mat-dialog-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        width: 100%;
+    }
+}
+
+
+/* ///////////////// */
+
+.c-dialog-header {
+    &__header {
+        position: relative;
+        top: -24px;
+        left: -24px;
+        width: calc(100% + 48px);
+        background: #389856;
+        color: white;
+        font-size: 17px;
+        font-family: 'helveticabold';
+        padding: 2rem 3rem;
+    }
+    &__footer {
+        margin-top: auto;
+        padding: 2rem !important;
+        display: flex !important;
+        justify-content: flex-end;
+        gap: 1rem;
+        @include respond(450) {
+            flex-direction: column;
+            padding: 0 !important;
+            padding-bottom: 2rem !important;
+            margin-top: 2rem;
+        }
+        & button {
+            @include respond(450) {
+                margin: 0 !important;
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+
+/* ///////////////// */
+
+.c-dialog-newTask {
+    max-width: 53rem;
+}
+
+.c-dialog-newDocument {
+    max-width: 70rem;
+}
+
+.c-dialog-paymentRegister{
+    max-width: 45rem;
+}
+.c-dialog-history{
+    min-width: 45rem;
+    @include respond(900) {
+        min-width: initial;
+    }
+}
+.c-dialog-chargedHours {
+    width: 57rem;
+    @include respond(900) {
+        width: initial;
+    }
+}
+
+.c-dialog-addHours {
+    width: 50rem;
+    @include respond(600) {
+        width: initial;
+    }
+}
+
+.cdk-overlay-pane {
+    @include respond(450) {
+        max-width: 95vw !important;
+    }
+}

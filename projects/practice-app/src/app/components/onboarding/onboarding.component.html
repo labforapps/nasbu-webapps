@@ -1,0 +1,34 @@
+
+<button mat-button [matMenuTriggerFor]="menu" class="c-onboarding"><span class="icon-gear u-icon-white"></span></button>
+<mat-menu #menu="matMenu"class="c-onboarding__menu">
+    
+        <div class="c-onboarding__header">
+            Sigue estos pasos 0/4
+        </div>
+        <div class="c-onboarding__body">
+            <button mat-menu-item class="c-onboarding__item">
+                <mat-checkbox class="c-checkbox">
+                    <div>
+                        <h3>1-Configurar el perfil de tu firma</h3>
+                        <p>Ahí colocaras, Horarios, Logo ó fotos, suscripción, etc.</p>
+                    </div>
+                </mat-checkbox>
+            </button>
+            <button mat-menu-item class="c-onboarding__item">
+                <mat-checkbox class="c-checkbox">
+                    <div>
+                        <h3>2-Configurar mi equipo</h3>
+                        <p>Añade a las personas que trabajan contigo.</p>
+                    </div>
+                </mat-checkbox>
+            </button>
+            <button mat-menu-item class="c-onboarding__item">
+                <mat-checkbox class="c-checkbox">
+                    <div>
+                        <h3>4-Crear expediente</h3>
+                        <p>Crea tu primer expediente y con esto ya completas el ciclo</p>
+                    </div>
+                </mat-checkbox>
+            </button>
+        </div>
+</mat-menu>

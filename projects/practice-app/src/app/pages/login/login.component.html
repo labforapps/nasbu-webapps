@@ -1,0 +1,48 @@
+<div class="c-login">
+    <div class="c-login__left">
+        <div class="c-login__form">
+            <div class="c-login__header">
+                <img src="../../../assets/images/brand-logo.svg" alt="" class="c-login__logo">
+                <div class="c-login__title" i18n="@@loginTitle">Iniciar sesión</div>
+                <div class="c-login__subtitle" i18n="@@loginSubTitle">Bienvenido a Nasbu</div>
+            </div>
+            <div class="c-login__body">
+                <form [formGroup]="signinForm" (ngSubmit)="signIn()">
+                    <div class="c-login__input is-active">
+                        <span class="icon-mail c-login__input__icon"></span>
+                        <mat-form-field appearance="fill">
+                            <mat-label i18n="@@loginEmail">Email</mat-label>
+                            <input matInput i18n-placeholder="@@loginEmail" placeholder="Email" formControlName="username">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="c-login__input">
+                        <span class="icon-key c-login__input__icon"></span>
+                        <mat-form-field appearance="fill">
+                            <mat-label i18n="@@loginPassword">Password</mat-label>
+                            <input matInput type="password" i18n-placeholder="@@loginPassword" placeholder="Contraseña" formControlName="password">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="u-link text-center mb-5 u-smallSize" (click)="openDialogRecovery()" i18n="@@loginRecoverPassword">Recuperar contraseña</div>
+
+                    <button mat-button class="c-login__button c-btn c-btn--primary w-100 mb-4" [ngClass]="{'c-btn--disable': !signinForm.valid}" i18n="@@loginSignin" >Ingresar</button>
+                </form>
+            </div>
+            <div class="c-login__footer">
+                <p i18n="@@loginSignupQuestion" (click)="gotoSignup()">¿Aún no tienes una cuenta? <b> Regístrate aquí</b></p>
+                <button mat-button routerLink="/signup" class="c-login__button c-btn c-btn--primary  w-100" i18n="@@loginSignup">Registrarme<span class="icon-plus c-btn--icon-right"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="c-login__right">
+        <div class="c-login__info">
+
+            <div class="c-login__info__subtitle" i18n="@@loginBannerTitle">El software en la nube</div>
+            <div class="c-login__info__title" i18n="@@loginBannerSubTitle">Que optimiza y automatiza tú gestión en poco tiempo.</div>
+        </div>
+    </div>
+
+
+</div>

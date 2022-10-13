@@ -1,0 +1,26 @@
+:root {
+    --primary-color: #389856;
+    --primary-color-darker: #2C7B45;
+    --secondary-color: #2D8DC5;
+    --tertiary-color: #EA551D;
+    --text-color: #435B6C;
+    --text-color-light: #8594A0;
+    --border-color: #E2E8F0;
+    --normal-size: 14px;
+    --small-size: 11px;
+    --small-size-2: 10px;
+    --big-size: 16px;
+    --big-size-2: 18px;
+    --big-size-3: 26px;
+}
+
+@media screen and (min-width: 1920px) {
+    :root {
+        --normal-size: 16px;
+        --small-size: 13px;
+        --small-size-2: 12px;
+        --big-size: 18px;
+        --big-size-2: 20px;
+        --big-size-3: 28px;
+    }
+}

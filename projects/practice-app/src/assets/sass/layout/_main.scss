@@ -1,0 +1,32 @@
+.l-main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    &__body {
+        flex: 1;
+        background-color: white;
+        & mat-drawer {
+            border: 0;
+            @include respond(450) {
+                position: fixed;
+                top: 6rem;
+            }
+        }
+    }
+    &__header {
+        position: relative;
+        z-index: 2;
+        /* @include respond(450) {
+            position: fixed;
+            width: 100%;
+        } */
+    }
+    &__button {
+        position: absolute !important;
+        top: 2.2rem;
+        left: 2rem;
+        @include respond(1366) {
+            top: 1.2rem;
+        }
+    }
+}

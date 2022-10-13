@@ -1,0 +1,101 @@
+.l-invoicing {
+    padding: 2rem;
+    @include respond(450) {
+        padding: 0rem;
+    }
+    &__header {
+        .c-checkbox {
+            @include respond(768) {
+                margin-bottom: 1rem;
+            }
+        }
+        @include respond(450) {
+            padding: 2rem;
+        }
+    }
+    &__body {
+        padding: 3rem;
+        @include respond(768) {
+            padding: 0;
+            padding-top: 2rem;
+        }
+    }
+}
+
+.c-invoice {
+    box-shadow: 0px 3px 10px rgb(0 0 0 / 16%);
+    padding: 3rem;
+    border-radius: 2rem;
+    color: var(--text-color);
+    @include respond(450) {
+        border-top: 1px solid #eeeeee;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 2rem;
+    }
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+        padding: 3rem;
+        .c-form-group__datepicker {
+            max-width: 15rem;
+        }
+        .text-right {
+            @include respond(768) {
+                text-align: left
+            }
+        }
+        @include respond(600) {
+            padding: 0;
+        }
+    }
+    &__body {
+        padding: 1rem;
+        @include respond(450) {
+            padding: 0rem;
+            padding-top: 2rem;
+        }
+    }
+    &__title {
+        font-size: 30px;
+        font-family: 'helveticabold';
+        color: var(--text-color);
+        @include respond(450) {
+            font-size: 24px;
+        }
+    }
+    &__data {
+        list-style-type: none;
+        font-size: 12px;
+        margin-top: 1rem;
+        & li {
+            margin-bottom: 6px;
+        }
+    }
+    &__totalprice {
+        font-size: 25px;
+        color: var(--text-color);
+        font-weight: bold;
+    }
+    &__footer {
+        padding: 3rem 2rem;
+        @include respond(450) {
+            padding: 3rem 0rem;
+            padding-bottom: 0;
+        }
+        & .c-btn-function {
+            @include respond(450) {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+        & .justify-content-end {
+            @include respond(450) {
+                justify-content: center;
+            }
+           
+        }
+    }
+}

@@ -1,0 +1,56 @@
+.l-blank {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    &__header {
+        background-color: var(--primary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 8.5rem;
+        box-shadow: 0px 3px 6px rgb(0 0 0 / 16%);
+    }
+    &__heading {
+        display: flex;
+        margin-bottom: 2.5rem;
+        margin-top: 3.5rem;
+
+        @include respond(450){
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+    }
+    &__icon {
+        margin-right: 2rem;
+        @include respond(450){
+            margin-right: 0rem;
+        }
+    }
+    &__title {
+        font-size: 25px;
+        font-weight: bold;
+        color: var(--primary-color);   
+        @include respond(450){
+            font-size: 20px;
+            text-align: center;
+        } 
+    }
+    &__subtitle {
+        font-size: var(--small-size);
+        color: var(--primary-color);
+        @include respond(450){
+            text-align: center;
+        }
+    }
+    &__content {
+        background-image: url("../../images/wall-clock.svg");
+        flex: 1;
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}

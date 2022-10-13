@@ -1,0 +1,28 @@
+.c-tabs .mat-tab-labels {
+    background: #435B6C !important;
+    padding-left: 4rem !important;
+}
+
+app-expedient-invoicing{
+    color: red;
+}
+
+::ng-deep{
+    .c-tabs-sub{
+        .mat-tab-labels{
+            color: #000;
+            background: #435B6C !important;
+        }
+        .mat-tab-body{
+            padding-top: 1rem !important;
+        }
+        &--padding{
+            .mat-tab-body{
+                padding-top: 4rem !important;
+            }
+           
+        }
+    }
+    
+}
+

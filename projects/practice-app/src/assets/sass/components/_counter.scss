@@ -1,0 +1,14 @@
+.c-counter {
+    display: flex;
+    &__input {
+        width: 5rem;
+        text-align: center;
+        border: 0;
+        font-size: 16px;
+    }
+    &__button {
+        & .icon-plus::before {
+            color: var(--primary-color);
+        }
+    }
+}

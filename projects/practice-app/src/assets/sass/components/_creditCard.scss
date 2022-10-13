@@ -1,0 +1,44 @@
+.c-creditCard {
+    background: #435b6c;
+    color: white;
+    border-radius: 13px;
+    height: 144px;
+    width: 268px;
+    padding: 1rem;
+    border: 1px solid #389856;
+    margin: 2rem;
+    &__header {
+        display: flex;
+        align-items: center;
+        padding-top: 5px;
+        padding-bottom: 2rem;
+    }
+    & span::before {
+        color: white;
+    }
+    &__type {
+        margin-left: 2rem;
+        font-weight: bold;
+    }
+    &__ccv {
+        margin-left: auto;
+        font-size: 9px;
+    }
+    &__number {
+        font-size: 15px;
+        font-weight: bold;
+        & b {
+            color: #FBB03B;
+        }
+    }
+    &__body {
+        margin-top: 1rem;
+    }
+    &__strip {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        width: calc(100% + 2rem);
+        height: 23px;
+        background: #389856;
+    }
+}

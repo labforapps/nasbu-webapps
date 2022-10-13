@@ -1,0 +1,68 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-invoice"></span>
+            </div>
+            <div class="l-page__title">Facturación</div>
+        </div>
+        <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button [routerLink]="'create-client'">Registrar pago<span class="icon-plus ml-2 "></span></button>
+            <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">Nueva Factura<span class="icon-plus ml-3 "></span></button>
+
+        </div>
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Todas
+                    <div class="c-tabs__badge">0</div>
+                </ng-template>
+                <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center u-h-50-vh">
+                    <img class="mb-5" src="../../../assets/images/invoice-blank.svg" alt="">
+                    <p class="u-textLightColor">Aún no tienes facturas Generadas o listas para se cobradas</p>
+                    <button mat-button class="u-link mt-1">+ Generar nueva factura</button>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Pendiente aprobación
+                    <div class="c-tabs__badge">6</div>
+                </ng-template>
+                <app-invoicing-pending></app-invoicing-pending>
+
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    En espera de pago
+                    <div class="c-tabs__badge">8</div>
+                </ng-template>
+                <app-invoicing-waiting></app-invoicing-waiting>
+
+
+
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Pagadas
+                    <div class="c-tabs__badge">4</div>
+                </ng-template>
+                <app-invoicing-paid></app-invoicing-paid>
+
+
+
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Vencidas
+                    <div class="c-tabs__badge">5</div>
+                </ng-template>
+               <app-invoicing-expired></app-invoicing-expired>
+
+
+
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div>
+            <div class="l-page__title m-0">NB0001-Acta de divorcio</div>
+            <div class="l-page__info flex-wrap u-gap-1">
+                <div>
+                    <div>Cliente</div>
+                    <div class="u-link u-link--underline">Manuel Cabral</div>
+                </div>
+                <div>
+                    <div>Designado a:</div>
+                    <div class="u-link u-link--underline">Carlos Pérez</div>
+                </div>
+                <div>
+                    <div>Fecha de creación</div>
+                    <div>22 Sept. 2021</div>
+                </div>
+            </div>
+
+        </div>
+        
+            
+        <div class="l-page__controls">
+            <button mat-button [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> Volver atras</button>
+        </div>
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs c-tabs--green c-tabs--darkText c-tabs--expedient">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Documentos
+                    <span class="icon-document-color"></span>
+                </ng-template>
+               <app-document></app-document>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Notas
+                    <span class=" icon-note-pen"></span>
+                </ng-template>
+                <app-notes></app-notes>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Tareas
+                    <span class="icon-task"></span>
+                </ng-template>
+
+               <app-expedient-tasks></app-expedient-tasks>
+
+            
+            </mat-tab>
+            <mat-tab class="test">
+                <ng-template mat-tab-label>
+                    Facturación
+                    <span class="icon-invoice"></span>
+                </ng-template>
+
+                <app-expedient-invoicing></app-expedient-invoicing>
+
+            
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Wallet
+                    <span class="icon-wallet"></span>
+                </ng-template>
+
+               <app-expedient-wallet></app-expedient-wallet>
+
+            
+            </mat-tab>
+           
+            
+        </mat-tab-group>
+    </div>
+</div>

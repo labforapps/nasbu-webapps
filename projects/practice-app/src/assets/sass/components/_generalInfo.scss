@@ -1,0 +1,58 @@
+.c-generalInfo {
+    padding: 2rem 4rem;
+    @include respond(450) {
+        padding: 0;
+    }
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 65rem;
+        padding: 1rem 4rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+        @include respond(450) {
+            padding: 0;
+            padding-top: 1rem;
+        }
+    }
+    &__body {
+        max-width: 75rem;
+    }
+    &__name {
+        font-size: 17px;
+        font-family: 'helveticabold';
+        color: var(--primary-color);
+    }
+    &__profilePicture {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+        margin-right: 2rem;
+    }
+    &__subname {
+        font-size: var(--small-size);
+        color: var(--text-color-light);
+    }
+    &__title {
+        font-size: 20px;
+        font-family: 'helveticabold';
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        &>span {
+            font-size: 15px;
+            margin-right: 1rem;
+            &::before {
+                color: var(--primary-color);
+            }
+        }
+    }
+    &__company {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & img {
+            margin-right: 1rem;
+        }
+    }
+}
