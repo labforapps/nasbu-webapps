@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://127.0.0.1:8001/api',
+  serverUrl: 'http://127.0.0.1:8000/api',
   awsConfig: {
     Auth: {
         // REQUIRED - Amazon Cognito Region

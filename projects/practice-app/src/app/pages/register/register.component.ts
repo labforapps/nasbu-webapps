@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
 
   onSelectPlan(change: MatSelectChange) {
       console.log('Plan: ', change);
-      const findedPlan = this.plans.find((p) => p.id === +change.value);
+      const findedPlan = this.plans.find((p) => +p.id === +change.value);
       if (findedPlan) {
           this.selectedPlan = findedPlan;
       }
