@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private coreAuth: CoreAuthService) { }
 
-  signin(username: string, password: string): Observable<CognitoUser> {
+  signIn(username: string, password: string): Observable<any> {
       return this.coreAuth.signin(username, password);
   }
 
@@ -20,4 +20,9 @@ export class AuthService {
       return this.coreAuth
                 .signup(userSignupPayload);
   }
+
+  forgotPassword(username: string): Observable<any> {
+    return this.coreAuth.recoverPassword(username);
+  }
+
 }

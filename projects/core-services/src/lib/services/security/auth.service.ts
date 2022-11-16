@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { ICredentials } from '@aws-amplify/core';
-import { from, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription } from 'core-models';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { HttpClient } from '@angular/common/http';
@@ -65,7 +65,13 @@ export class AuthService {
           password: payload.password,
           attributes: {
               profile: '',
-              name: `${payload.firstName} ${payload.lastName}`,
+              picture: '',
+              gender: '',
+              birthdate: '',
+              address: '',
+              name: payload.firstName,
+              middle_name: payload.lastName,
+              given_name: `${payload.firstName} ${payload.lastName}`,
               locale: 'DO',
               updated_at: new Date().getTime().toString(),
               email: payload.email,          // optional
@@ -90,14 +96,22 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
       const session$ = Auth.currentAuthenticatedUser();
       return from(session$).pipe(
-          map((currentUser: any) =>  currentUser != null)
+          catchError((error) => of(null)),
+          map((currentUser: any) =>  currentUser != null),
+
       );
   }
 
   getAccessToken(): Observable<string> {
       const currentUser$ = Auth.currentSession();
       return from(currentUser$).pipe(
-          map((currentUser: CognitoUserSession) => {
+          catchError((error: any) => {
+              return of(null);
+          }),
+          map((currentUser: CognitoUserSession | null) => {
+              if (! currentUser) {
+                  return '';
+              }
               return currentUser.getIdToken().getJwtToken();
           })
       );

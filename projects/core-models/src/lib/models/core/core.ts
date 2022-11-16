@@ -1,5 +1,5 @@
 export interface Feature {
-  id: number;
+  uuid: string;
   code: string;
   name: string;
   description: string;
@@ -7,14 +7,14 @@ export interface Feature {
 }
 
 export interface PlanFeature {
-  id: number;
+  uuid: string;
   feature: Feature;
   quantity: number;
   price: string;
 }
 
 export interface Plan {
-  id: number;
+  uuid: string;
   type: string;
   name: string;
   price: string;

@@ -74,6 +74,8 @@ import { RegisterClientComponent } from './pages/register/register-client/regist
 import { CoreServicesModule } from 'core-services';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
+import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
 
 
 
@@ -144,6 +146,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     OnboardingComponent,
     CreateProfileComponent,
     RegisterClientComponent,
+    SuccessSubscriptionPaymentComponent,
+    CancelSubscriptionPaymentComponent,
   ],
   imports: [
     BrowserModule,

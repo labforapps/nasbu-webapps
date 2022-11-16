@@ -25,6 +25,8 @@ import { CreateCollaboratorComponent } from './pages/collaborator/create-collabo
 import { CreateProfileComponent } from './pages/configuration/profile-sign/create-profile/create-profile.component';
 import { RegisterClientComponent } from './pages/register/register-client/register-client.component';
 import { AuthGuard } from 'core-services';
+import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
+import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,14 @@ const routes: Routes = [
   {
     path: 'register-client',
     component: RegisterClientComponent
+  },
+  {
+    path: 'register/success',
+    component: SuccessSubscriptionPaymentComponent
+  },
+  {
+    path: 'register/cancel',
+    component: CancelSubscriptionPaymentComponent
   },
   {
     path: '',
@@ -138,7 +148,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

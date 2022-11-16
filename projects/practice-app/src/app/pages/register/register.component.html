@@ -61,7 +61,7 @@
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label i18n>Seleccionar Plan</mat-label>
                     <mat-select (selectionChange)="onSelectPlan($event)">
-                        <mat-option *ngFor="let plan of plans$ | async" [value]="plan.id">
+                        <mat-option *ngFor="let plan of plans$ | async" [value]="plan.uuid">
                             <div class="d-flex justify-content-between">
                                 <span>{{plan.name}}</span>
                                 <span>{{plan.price}} USD</span>
@@ -89,8 +89,8 @@
 
 
                 <div class="d-flex u-gap-1" style="max-width: 280px; ">
-                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription()" i18n>Pedir demostración </button>
-                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n>Comprar ahora </button>
+                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)" i18n>Pedir demostración </button>
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n (click)="signupAndCreateSubscription(false)">Comprar ahora </button>
                 </div>
 
 

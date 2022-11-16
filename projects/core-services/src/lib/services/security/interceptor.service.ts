@@ -98,6 +98,7 @@ export class AuthInterceptor implements HttpInterceptor {
         && req.url.toString().indexOf('/api/catalog/stores/') < 0
         && req.url.toString().indexOf('/api/catalog/delivery_zones/') < 0
         && req.url.toString().indexOf('/api/core/plans/') < 0
+        && req.url.toString().indexOf('/api/subscription/onboarding/') < 0
         && ! this.isCreateCustomerOrAddressRequest(req)
         && ! this.isCreatedOrderRequest(req)) {
           return this.authService

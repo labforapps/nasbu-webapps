@@ -1,3 +1,5 @@
+import { SubscriptionOnboarding } from "../subscription";
+
 export interface UserSignupPayload {
     firstName: string;
     lastName: string;
@@ -5,6 +7,7 @@ export interface UserSignupPayload {
     email: string;
     username: string;
     password: string;
+    subscriptionInfo: SubscriptionOnboarding;
 }
 
 export interface UserSubscription {

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://127.0.0.1:8000/api',
+  serverUrl: 'https://apidev.nasbulegal.com/api',
   awsConfig: {
     Auth: {
         // REQUIRED - Amazon Cognito Region
@@ -27,7 +27,7 @@ export const environment = {
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
         cookieStorage: {
         // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-            domain: 'localhost',
+            domain: 'dev2.nasbulegal.com',
         // OPTIONAL - Cookie path
             path: '/',
         // OPTIONAL - Cookie expiration in days

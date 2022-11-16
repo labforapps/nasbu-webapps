@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { Plan, UserSignupPayload } from 'core-models';
+import { Router } from '@angular/router';
+import { Plan, Subscription, UserSignupPayload } from 'core-models';
 import { Observable, tap } from 'rxjs';
 import { SignupService } from '../../services/auth/signup.service';
+import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
 @Component({
   selector: 'app-register',
@@ -21,10 +23,11 @@ export class RegisterComponent implements OnInit {
 
   anualSubscription!: boolean;
 
-  constructor(private signupService: SignupService) { }
+  constructor(private onboardingService: OnboardingService,
+              private router: Router) { }
 
   ngOnInit(): void {
-      this.plans$ = this.signupService
+      this.plans$ = this.onboardingService
           .getPlans()
           .pipe(
               tap((plans: Plan[]) => {
@@ -36,30 +39,35 @@ export class RegisterComponent implements OnInit {
 
   initSignupForm() {
       this.signupForm = new FormGroup({
-            'firstName': new FormControl(null, Validators.required),
-            'lastName': new FormControl(null, Validators.required),
-            'phoneNumber': new FormControl(null, Validators.required),
-            'email': new FormControl(null, Validators.required),
-            'password': new FormControl(null, Validators.required),
-            'confirmPassword': new FormControl(null, Validators.required)
+            firstName: new FormControl(null, Validators.required),
+            lastName: new FormControl(null, Validators.required),
+            phoneNumber: new FormControl(null, Validators.required),
+            email: new FormControl(null, Validators.required),
+            password: new FormControl(null, Validators.required),
+            confirmPassword: new FormControl(null, Validators.required)
       });
   }
 
   onSelectSubscriptionPeriod(change: MatSlideToggleChange) {
+      console.log('onSelectSubscriptionPeriod: ', change);
       this.anualSubscription = change.checked;
   }
 
   onSelectPlan(change: MatSelectChange) {
       console.log('Plan: ', change);
-      const findedPlan = this.plans.find((p) => +p.id === +change.value);
+      const findedPlan = this.plans.find((p) => p.uuid === change.value);
       if (findedPlan) {
           this.selectedPlan = findedPlan;
       }
   }
 
+  onSelectPlan2() {
+    console.log('Plan: ');
+}
+
   get selectedPlanValue(): string {
       if (this.selectedPlan) {
-          return this.selectedPlan.id.toString();
+          return this.selectedPlan.uuid.toString();
       }
 
       return '-1';
@@ -92,22 +100,31 @@ export class RegisterComponent implements OnInit {
   }
 
   get isValidForm(): boolean {
-      return this.signupForm.valid && this.selectedPlan != null;
+      return this.signupForm.valid;
   }
 
-  signupAndCreateSubscription() {
+  signupAndCreateSubscription(isFreeTrial: boolean) {
       const userSignupPayload: UserSignupPayload = {
           username: this.signupForm.value.email,
           password: this.signupForm.value.password,
           firstName: this.signupForm.value.firstName,
           lastName: this.signupForm.value.lastName,
           phoneNumber: this.signupForm.value.phoneNumber,
-          email: this.signupForm.value.email
+          email: this.signupForm.value.email,
+          subscriptionInfo: {
+              plan: this.selectedPlan.uuid,
+              period: this.anualSubscription ? 'Y' : 'M',
+              free_trial: isFreeTrial
+          }
       };
-      this.signupService
+      this.onboardingService
           .createUserAndAccount(userSignupPayload)
-          .subscribe((payload) => {
-                console.log('Payload: ', payload);
+          .subscribe((subscription: Subscription) => {
+                if (isFreeTrial) {
+                    this.router.navigate(['/signin']);
+                } else {
+                    window.location.href = subscription.first_checkout_url;
+                }
           });
   }
 
