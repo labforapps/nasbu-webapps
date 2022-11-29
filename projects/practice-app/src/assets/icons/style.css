@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?428o28');
-  src:  url('fonts/icomoon.eot?428o28#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?428o28') format('truetype'),
-    url('fonts/icomoon.woff?428o28') format('woff'),
-    url('fonts/icomoon.svg?428o28#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?9khrku');
+  src:  url('fonts/icomoon.eot?9khrku#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?9khrku') format('truetype'),
+    url('fonts/icomoon.woff?9khrku') format('woff'),
+    url('fonts/icomoon.svg?9khrku#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,42 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-send-form .path1:before {
+  content: "\e949";
+  color: rgb(133, 148, 160);
+}
+.icon-send-form .path2:before {
+  content: "\e94a";
+  margin-left: -1.0224609375em;
+  color: rgb(133, 148, 160);
+}
+.icon-send-form .path3:before {
+  content: "\e94b";
+  margin-left: -1.0224609375em;
+  color: rgb(133, 148, 160);
+}
+.icon-send-form .path4:before {
+  content: "\e94c";
+  margin-left: -1.0224609375em;
+  color: rgb(255, 255, 255);
+}
+.icon-send-form .path5:before {
+  content: "\e94d";
+  margin-left: -1.0224609375em;
+  color: rgb(255, 255, 255);
+}
+.icon-marriage:before {
+  content: "\e94e";
+  color: #389856;
+}
+.icon-suitcase:before {
+  content: "\e94f";
+  color: #389856;
+}
+.icon-birthday:before {
+  content: "\e950";
+  color: #389856;
+}
 .icon-clock-outline:before {
   content: "\e948";
   color: #0d6aff;

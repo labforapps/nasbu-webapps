@@ -98,6 +98,97 @@ mat-dialog-container {
     }
 }
 
+.c-dialog-options {
+    max-width: 43rem;
+
+    &__item{
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        color: var(--text-color);
+        padding: 1rem;
+        border-radius: 1rem;
+        transition: all .2s;
+        cursor: pointer;
+
+        &:hover{
+            background: #f7f7f7;
+        }
+    }
+    &__icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        width: 10rem;
+        height: 10rem;
+        background: #efefef;
+        border-radius: 2rem;
+        font-size: 3rem;
+
+        & span::before{
+            color: #8594A0;
+        }
+    }
+    &__title{
+        font-size: var(--normal-size);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    &__text{
+        font-size: var(--small-size);
+    }
+}
+
+.c-dialog-list{
+    min-height: 55vh;
+    min-width: 40rem;
+    display: flex;
+    flex-direction: column;
+    @include respond(600) {
+        min-width: 33rem;
+    }
+    @include respond(450) {
+        min-width: initial;
+    }
+    &__content{
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0 0;
+        width: 100%;
+        flex: 1;
+        padding-right: 1rem;
+        max-height: 50rem;
+        overflow: auto;
+
+        & button{
+            height: 35px !important;
+        }
+    }
+    &__blank{
+        height: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        &__icon{
+            font-size: 6rem;
+            & span::before{
+                color: #EFEFEF;
+            }
+        }
+        &__text{
+            font-size: var(--small-size);
+        margin-top: 1rem;
+        color: var(--text-color-light);
+        }
+    }
+    
+    & .mat-dialog-content{
+        overflow: hidden;
+    display: flex;
+    }
+}
 .cdk-overlay-pane {
     @include respond(450) {
         max-width: 95vw !important;

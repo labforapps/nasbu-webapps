@@ -27,42 +27,43 @@ import { RegisterClientComponent } from './pages/register/register-client/regist
 import { AuthGuard } from 'core-services';
 import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
 import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
+import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 
 const routes: Routes = [
   {
     path: 'signin',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'recovery',
-    component: RecoveryComponent
+    component: RecoveryComponent,
   },
   {
     path: 'signup',
-    component: RegisterComponent
+    component: RegisterComponent,
   },
   {
     path: 'register-client',
-    component: RegisterClientComponent
+    component: RegisterClientComponent,
   },
   {
     path: 'register/success',
-    component: SuccessSubscriptionPaymentComponent
+    component: SuccessSubscriptionPaymentComponent,
   },
   {
     path: 'register/cancel',
-    component: CancelSubscriptionPaymentComponent
+    component: CancelSubscriptionPaymentComponent,
   },
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    /*  canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard], */
     children: [
       {
         path: '',
         redirectTo: '/dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'dashboard',
@@ -129,11 +130,10 @@ const routes: Routes = [
         path: 'configuration/plans',
         component: PlansComponent,
       },
-
-    ]
+    ],
   },
   {
-    path: 'client/create-client',
+    path: 'customers/create-client',
     component: CreateClientComponent,
   },
   {
@@ -144,7 +144,10 @@ const routes: Routes = [
     path: 'collaborator/create-collaborator',
     component: CreateCollaboratorComponent,
   },
-
+  {
+    path: 'client-intake',
+    component: ClientIntakeComponent,
+  },
 ];
 
 @NgModule({

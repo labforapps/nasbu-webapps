@@ -113,15 +113,23 @@
 .u-divider {
     border-top: 1px solid #e7e6e6;
     margin: 2rem 0;
-}
 
-.u-divider--marginBig {
-    margin: 3rem 0;
-    border-top: 1px solid #e7e6e6;
-    @include respond(450){
-        margin: 2rem 0;
+    &--small{
+        margin: 1rem 0;
+    }
+
+    &--marginBig {
+        margin: 3rem 0;
+        border-top: 1px solid #e7e6e6;
+        @include respond(450){
+            margin: 2rem 0;
+        }
+    }
+    &--light{
+        border-top: 1px solid #e2e8f00d; 
     }
 }
+
 
 .u-table-responsive {
     display: block;
@@ -169,6 +177,9 @@
 
 .u-br-r {
     border-right: 1px solid #B6B9BC;
+}
+.u-br-b {
+    border-bottom: 1px solid #B6B9BC;
 }
 
 .u-normalSize {

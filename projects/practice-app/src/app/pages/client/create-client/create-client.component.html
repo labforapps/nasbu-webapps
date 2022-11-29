@@ -163,9 +163,26 @@
                             </mat-form-field>
                         </div>
                     </div>
-
                     <div class="col-sm-12 mt-1">
                         <button mat-button class="c-btn-add">+ Añadir nuevo domicilio</button>
+                    </div>
+                </div>
+                <hr class="u-divider--marginBig">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4>Asociar contacto a empresa <span class="u-dangerColor">*</span></h4>
+                        <p class="mt-1 u-smallSize">Aquí podrás ver a la empresa  que está asociado este usuario</p>
+                        <div class="mt-5">
+                            <div class="align-items-center c-form-item d-flex flex-wrap justify-content-center u-gap-1">
+                                <img src="../../../../assets/images/company.svg" alt="">
+                                <div class="u-normalSize mr-auto">
+                                    <b class="mr-1">Compañía</b> Moya & Asociados
+                                </div>
+                                <button mat-button class="u-link u-link--underline mr-2 u-normalSize">Eliminar</button>
+                                <button mat-button class="c-btn-add w-25">Cambiar</button>
+                            </div>
+                        </div>
+                        <button mat-button class="c-btn-add" (click)="openDialogList()">+ Enlazar con empresa</button>
                     </div>
                 </div>
             </div>

@@ -35,6 +35,7 @@
 .c-radioButton {
     font-size: var(--small-size);
     font-family: 'helveticaregular';
+    
     &.mat-radio-checked .mat-radio-outer-circle {
         border-color: var(--primary-color) !important;
     }

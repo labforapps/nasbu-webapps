@@ -1,0 +1,28 @@
+.l-intake{
+    display: flex;
+    flex-direction: column;
+
+    &__header{
+        height: 6rem;
+        background: var(--primary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & img{
+            width: 10rem;
+        }
+    }
+    &__body{
+        flex: 1;
+        padding-top: 3rem;
+        position: relative;
+        overflow: hidden;
+    }
+    &__bg{
+        position: absolute;
+        bottom: -18rem;
+        z-index: 0;
+        right: -7rem;
+    }
+}

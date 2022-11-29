@@ -1,0 +1,46 @@
+<div class=" c-dialog-header c-dialog-history">
+    <div class="c-dialog-header__header">
+        <div class="align-items-center d-flex u-gap-1">
+            <span class="icon-send u-icon-white mr-3"></span>
+            <div>
+                <div>Envío de formulario de registro</div>
+                <div class="u-smallSize u-fontRegular mt-1">Selecciona una opción </div>
+            </div>
+            
+        </div>
+    </div>
+    <mat-dialog-content class="pr-5 pl-5 pt-0">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <label class="u-title-label d-block mt-3">¿Cuál método de envio utilizaras?</label>
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button class="c-radioButton mr-3" value="1">Correo electrónico</mat-radio-button>
+                    <mat-radio-button class="c-radioButton" value="2">SMS</mat-radio-button>
+                </mat-radio-group>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Email del cliente</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+                    <mat-label>Email</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="u-title-label">Teléfono celular del cliente</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+                    <mat-label>Num. de Teléfono </mat-label>
+                    <input class="c-form-group__input" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions class="c-dialog-header__footer">
+        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small pr-5 pl-5" (click)="openDialogRecovery()">Enviar</button>
+    </mat-dialog-actions>
+</div>

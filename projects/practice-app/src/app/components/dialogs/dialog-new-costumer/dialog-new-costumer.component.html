@@ -1,0 +1,42 @@
+<div class=" c-dialog-header c-dialog-options">
+    <div class="c-dialog-header__header">
+        <div class="align-items-center d-flex u-gap-1">
+            <span class="icon-plus u-icon-white mr-3"></span>
+            <div>
+                <div>Crear nuevo/a cliente</div>
+                <div class="u-smallSize u-fontRegular mt-1">Selecciona una opción</div>
+            </div>
+            
+        </div>
+    </div>
+    <mat-dialog-content class="pr-5 pl-5 pt-0">
+        <div class="c-dialog-options__item" mat-dialog-close (click)="openDialogSendRegister()">
+            <div class="c-dialog-options__icon">
+                <span class="icon-send"></span>
+            </div>
+            <div class="flex-1">
+                <div class="c-dialog-options__title">Enviar formulario al cliente</div>
+            <p class="c-dialog-options__text">
+                Con esta función el cliente completa el mismo 
+                sus datos y evitas tener que registrarlo
+            </p>
+            </div>
+        </div>
+        <div class="c-dialog-options__item" mat-dialog-close routerLink="customers/create-client">
+            <div class="c-dialog-options__icon">
+                <span class="icon-add-user"></span>
+            </div>
+            <div class="flex-1">
+                <div class="c-dialog-options__title">Crear manualmente</div>
+            <p class="c-dialog-options__text">
+                Con esta opción completas tu mismo los datos
+                del cliente. 
+            </p>
+            </div>
+        </div>
+
+    </mat-dialog-content>
+    <mat-dialog-actions class="c-dialog-header__footer justify-content-center">
+        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+    </mat-dialog-actions>
+</div>

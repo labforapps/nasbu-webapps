@@ -76,9 +76,10 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
 import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
-
-
-
+import { DialogSendRegisterComponent } from './components/dialogs/dialog-send-register/dialog-send-register.component';
+import { DialogNewCostumerComponent } from './components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
+import { DialogListComponent } from './components/dialogs/dialog-list/dialog-list.component';
+import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,10 @@ import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-
     RegisterClientComponent,
     SuccessSubscriptionPaymentComponent,
     CancelSubscriptionPaymentComponent,
+    DialogSendRegisterComponent,
+    DialogNewCostumerComponent,
+    DialogListComponent,
+    ClientIntakeComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,9 +164,9 @@ import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-
     AvatarModule,
     FormsModule,
     ReactiveFormsModule,
-    CoreServicesModule.forRoot(environment)
+    CoreServicesModule.forRoot(environment),
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en' }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

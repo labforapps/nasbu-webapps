@@ -31,9 +31,7 @@
               "projects/lawyers-app/src/favicon.ico",
               "projects/lawyers-app/src/assets"
             ],
-            "styles": [
-              "projects/lawyers-app/src/styles.scss"
-            ],
+            "styles": ["projects/lawyers-app/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -99,9 +97,7 @@
               "projects/lawyers-app/src/favicon.ico",
               "projects/lawyers-app/src/assets"
             ],
-            "styles": [
-              "projects/lawyers-app/src/styles.scss"
-            ],
+            "styles": ["projects/lawyers-app/src/styles.scss"],
             "scripts": []
           }
         }
@@ -313,5 +309,5 @@
       }
     }
   },
-  "defaultProject": "lawyers-app"
+  "defaultProject": "practice-app"
 }
