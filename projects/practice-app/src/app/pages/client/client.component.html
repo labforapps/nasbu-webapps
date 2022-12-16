@@ -18,7 +18,7 @@
             <mat-tab label="Todos">
 
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize flex-wrap mt-1">
-                    <p><b>Tienes 30</b> clientes en total </p>
+                    <p><b>Tienes {{customers.length}}</b> clientes en total </p>
 
                     <div class="c-form-group--search bordered ml-auto">
                         <input matInput type="text" placeholder="Buscar por nombre">
@@ -128,7 +128,7 @@
             <mat-tab label="Personas ">
 
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize  flex-wrap mt-1">
-                    <p><b>Tienes 15</b> tipo persona </p>
+                    <p><b>Tienes {{customers_type_person.length}}</b> tipo persona </p>
 
                     <div class="c-form-group--search bordered ml-auto">
                         <input matInput type="text" placeholder="Buscar por nombre">
@@ -147,7 +147,7 @@
                 </div>
 
                 <div class="u-table-responsive">
-                    <table mat-table [dataSource]="dataSource" class="c-table">
+                    <table mat-table [dataSource]="customers_type_person" class="c-table">
                         <!-- Checkbox Column -->
                         <ng-container matColumnDef="select">
                             <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
@@ -169,40 +169,40 @@
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
                             <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/user.svg" alt=""> </td>
+                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" [src]="getCustomerIconUrl(element)" alt=""> </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef> Nombre </th>
                             <td mat-cell *matCellDef="let element">
-                                <div class="u-link" routerLink="/client-profile">{{element.name}} </div>
+                                <div class="u-link" routerLink="/client-profile">{{getCustomerName(element)}} </div>
                             </td>
                         </ng-container>
 
                         <!-- Estatus Column -->
                         <ng-container matColumnDef="number">
                             <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Teléfono Celular </th>
-                            <td mat-cell *matCellDef="let element" class="u-link"> {{element.number}} </td>
+                            <td mat-cell *matCellDef="let element" class="u-link"> {{getFirstContact(element)}} </td>
                         </ng-container>
 
                         <!-- Expedient Column -->
                         <ng-container matColumnDef="email">
                             <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
                             <td mat-cell *matCellDef="let element">
-                                <div class="u-link">{{element.email}}</div>
+                                <div class="u-link">{{getFirstEmail(element)}}</div>
                             </td>
                         </ng-container>
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="date">
                             <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
-                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="update">
                             <th mat-header-cell *matHeaderCellDef> Últ. Actualización </th>
-                            <td mat-cell *matCellDef="let element"> {{element.update}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
                         </ng-container>
 
                         <!-- Date Column -->
@@ -236,7 +236,7 @@
             </mat-tab>
             <mat-tab label="Empresas">
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize flex-wrap mt-1">
-                    <p><b>Tienes 15</b> tipo empresa </p>
+                    <p><b>Tienes {{customers_type_bussiness.length}}</b> tipo empresa </p>
 
                     <div class="c-form-group--search bordered ml-auto">
                         <input matInput type="text" placeholder="Buscar por nombre">
@@ -254,7 +254,7 @@
                 </div>
 
                 <div class="u-table-responsive">
-                    <table mat-table [dataSource]="dataSource" class="c-table">
+                    <table mat-table [dataSource]="customers_type_bussiness" class="c-table">
                         <!-- Checkbox Column -->
                         <ng-container matColumnDef="select">
                             <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
@@ -276,40 +276,40 @@
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
                             <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
-                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/company.svg" alt=""> </td>
+                            <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" [src]="getCustomerIconUrl(element)" alt=""> </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="name">
                             <th mat-header-cell *matHeaderCellDef> Nombre </th>
                             <td mat-cell *matCellDef="let element">
-                                <div class="u-link" routerLink="/client-profile">{{element.name}} </div>
+                                <div class="u-link" routerLink="/client-profile">{{getCustomerName(element)}} </div>
                             </td>
                         </ng-container>
 
                         <!-- Estatus Column -->
                         <ng-container matColumnDef="number">
                             <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Teléfono Celular </th>
-                            <td mat-cell *matCellDef="let element" class="u-link"> {{element.number}} </td>
+                            <td mat-cell *matCellDef="let element" class="u-link"> {{getFirstContact(element)}} </td>
                         </ng-container>
 
                         <!-- Expedient Column -->
                         <ng-container matColumnDef="email">
                             <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
                             <td mat-cell *matCellDef="let element">
-                                <div class="u-link">{{element.email}}</div>
+                                <div class="u-link">{{getFirstEmail(element)}}</div>
                             </td>
                         </ng-container>
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="date">
                             <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
-                            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="update">
                             <th mat-header-cell *matHeaderCellDef> Últ. Actualización </th>
-                            <td mat-cell *matCellDef="let element"> {{element.update}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
                         </ng-container>
 
                         <!-- Date Column -->

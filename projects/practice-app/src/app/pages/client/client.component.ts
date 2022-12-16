@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService, CustomersService } from 'core-services';
 import { Customer, SelectedSubscription } from 'core-models';
 import { Observable } from 'rxjs';
@@ -144,6 +144,7 @@ export class ClientComponent implements OnInit {
       this.customersService
         .getCustomers(this.selectedSubscription?.ssid)
         .subscribe((customers: Customer[]) => {
+          //console.log(customers);
           this.memCustomers = customers;
         });
     }
@@ -186,10 +187,28 @@ export class ClientComponent implements OnInit {
   }
 
   get customers(): Customer[] {
-    console.log('Customers: ', this.memCustomers);
+    //console.log('Customers: ', this.memCustomers);
     if (this.memCustomers) {
       return this.memCustomers;
     }
+    return [];
+  }
+
+  get customers_type_person(): Customer[] {
+    //console.log('Customers Person: ', this.memCustomers);
+    if (this.memCustomers) {
+      return this.memCustomers.filter((x) => x.type === 'P');
+    }
+
+    return [];
+  }
+
+  get customers_type_bussiness(): Customer[] {
+    //console.log('Customers Bussiness: ', this.memCustomers);
+    if (this.memCustomers) {
+      return this.memCustomers.filter((x) => x.type === 'B');
+    }
+
     return [];
   }
 
