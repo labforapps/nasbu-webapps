@@ -1,0 +1,14 @@
+{
+ "loginTitle": "Login",
+ "loginSubTitle": "Welcome to Nasbu",
+ "loginEmail":{
+    "label":"Email",
+    "placeHolder":"Email"
+ }, 
+ "loginPassword":{
+   "label":"Password",
+   "placeHolder":"Password"
+}, 
+"loginRecoverPassword": "Recover password",
+"loginSignin": "Login"
+}

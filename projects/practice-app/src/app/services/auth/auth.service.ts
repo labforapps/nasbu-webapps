@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
 import { Observable } from 'rxjs';
-import { ISignUpResult, CognitoUser } from 'amazon-cognito-identity-js';
+import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { UserSignupPayload } from 'core-models';
 
 

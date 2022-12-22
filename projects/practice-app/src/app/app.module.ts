@@ -46,7 +46,7 @@ import { DialogNewExpedientComponent } from './components/dialogs/dialog-new-exp
 import { ExpedientInfoComponent } from './pages/expedient/expedient-info/expedient-info.component';
 import { DocumentComponent } from './pages/expedient/expedient-info/document/document.component';
 import { DialogUploadComponent } from './components/dialogs/dialog-upload/dialog-upload.component';
-import { FilePickerModule } from  'ngx-awesome-uploader';
+import { FilePickerModule } from 'ngx-awesome-uploader';
 import { NotesComponent } from './pages/expedient/expedient-info/notes/notes.component';
 import { DialogNewNoteComponent } from './components/dialogs/dialog-new-note/dialog-new-note.component';
 import { ExpedientTasksComponent } from './pages/expedient/expedient-info/expedient-tasks/expedient-tasks.component';
@@ -54,7 +54,7 @@ import { DialogNewExpedientTaskComponent } from './components/dialogs/dialog-new
 import { ExpedientInvoicingComponent } from './pages/expedient/expedient-info/expedient-invoicing/expedient-invoicing.component';
 import { ExpedientWalletComponent } from './pages/expedient/expedient-info/expedient-wallet/expedient-wallet.component';
 import { DialogPaymentRegisterComponent } from './components/dialogs/dialog-payment-register/dialog-payment-register.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AvatarModule } from 'ngx-avatar';
 import { DialogAddBalanceComponent } from './components/dialogs/dialog-add-balance/dialog-add-balance.component';
 import { ClientPendingComponent } from './pages/client/client-profile/client-pending/client-pending.component';
@@ -80,7 +80,12 @@ import { DialogSendRegisterComponent } from './components/dialogs/dialog-send-re
 import { DialogNewCostumerComponent } from './components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
 import { DialogListComponent } from './components/dialogs/dialog-list/dialog-list.component';
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+export const createTranslateLoader = (http: HttpClient)=>{
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -165,8 +170,15 @@ import { ClientIntakeComponent } from './pages/client-intake/client-intake.compo
     FormsModule,
     ReactiveFormsModule,
     CoreServicesModule.forRoot(environment),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en' }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

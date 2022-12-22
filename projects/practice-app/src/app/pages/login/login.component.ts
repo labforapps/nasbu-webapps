@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
 
@@ -10,17 +11,37 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  signinForm!: FormGroup;
-  errorMessage!: string;
-  currentFocus: string = 'username';
+  public formSubscription!: Subscription;
+  public signinForm!: FormGroup;
+  public errorMessage!: string;
+  public currentFocus: string = 'username';
 
   constructor(public dialog: MatDialog,
-              private authService: AuthService,
-              private router: Router) { }
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
-  openDialogRecovery(){
+
+  ngOnInit(): void {
+    this.buildForm();
+    this.formChange();
+  }
+
+  buildForm(): void {
+   this.signinForm = this.fb.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required]
+    });
+  }
+
+  formChange(): void {
+   this.formSubscription = this.signinForm.valueChanges.subscribe(() => this.errorMessage = '');
+  }
+  
+  openDialogRecovery(): void {
     const dialogRef = this.dialog.open(DialogRecoveryComponent);
     dialogRef.afterClosed()
                .subscribe((username: string) => {
@@ -30,36 +51,27 @@ export class LoginComponent implements OnInit {
                });
   }
 
-  ngOnInit(): void {
-      this.signinForm = new FormGroup({
-          username: new FormControl(null, Validators.required),
-          password: new FormControl(null, Validators.required)
-      });
-  }
-
-  signIn() {
-      const username: string = this.signinForm.value.username;
-      const password: string = this.signinForm.value.password;
+  signIn(): void {
+      const {username, password} = this.signinForm.value;
       this.authService
           .signIn(username, password)
           .subscribe((response) => {
-                console.log('Signin response: ', response);
-                this.router.navigate(['/dashboard']);
+               this.router.navigate(['/dashboard']);
           }, (error) => {
                 console.log('Error: ', error);
-                this.errorMessage = 'Invalid username or password';
+                this.errorMessage = 'Creedenciales invalidas.';
           })
   }
 
-  changeFocus(focusField: string) {
-      this.currentFocus = focusField;
+  changeFocus(focusField: string): void {
+   this.currentFocus = focusField;
   }
 
-  gotoSignup() {
+  gotoSignup(): void {
       this.router.navigate(['/signup']);
   }
 
-  forgotPassword(username: string) {
+  forgotPassword(username: string): void {
       this.authService
           .forgotPassword(username)
           .subscribe(() => {
@@ -67,6 +79,10 @@ export class LoginComponent implements OnInit {
           }, (error) => {
               console.log('Error: ', error);
           });
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscription?.unsubscribe();
   }
 
 }
