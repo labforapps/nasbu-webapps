@@ -22,7 +22,7 @@ export class LangService {
         this.translateService.addLangs(this.allowedLangs);
         const currentLang = this.getLangItem();
         this.translateService.setDefaultLang(currentLang);
-        this.translateService.use(currentLang);
+        this.changeLang(currentLang as AllowedLangs);
     }
 
     changeLang(lang: AllowedLangs): void {
@@ -30,13 +30,25 @@ export class LangService {
         this.translateService.use(lang);
     }
 
+    /**
+     * return langItem if value is allowed,
+     * else if langItem isn't allowed get navigator lang, 
+     * finally if navigator lang isn't allowed return default lang  
+     * @private
+     * @return {*}  {string}
+     * @memberof LangService
+     */
     private getLangItem(): string {
-        const lang = localStorage.getItem(this.langItemName);
-        const validLang = this.allowedLangs.find(l => l === lang);
-        return validLang ?? this.defaultLang;
+        const langItem = localStorage.getItem(this.langItemName);
+        const validLangItem = this.allowedLangs.find(l => l === langItem);
+        if (validLangItem) return validLangItem;
+
+        const browserLang: string = navigator.language.split('-')[0];
+        const validBrowserLang = this.allowedLangs.find(l => l === browserLang);
+        return validBrowserLang ?? this.defaultLang;
     }
 
-    private setLangItem(lang: AllowedLangs): void {
-       localStorage.setItem(this.langItemName, lang);
+    private setLangItem(lang: string): void {
+        localStorage.setItem(this.langItemName, lang);
     }
 }

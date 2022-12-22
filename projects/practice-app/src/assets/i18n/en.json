@@ -10,5 +10,8 @@
    "placeHolder":"Password"
 }, 
 "loginRecoverPassword": "Recover password",
-"loginSignin": "Login"
+"loginSignin": "Login",
+"errorMessages": {
+   "invalidCredentials": "Inavalid credentials"
+}
 }

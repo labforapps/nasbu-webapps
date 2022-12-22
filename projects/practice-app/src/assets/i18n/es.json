@@ -10,5 +10,8 @@
       "placeHolder": "Contraseña"
    },
    "loginRecoverPassword": "Recuperar contraseña",
-   "loginSignin": "Ingresar"
+   "loginSignin": "Ingresar",
+   "errorMessages": {
+      "invalidCredentials": "Credenciales invalidas"
+   }
 }
