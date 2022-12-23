@@ -1,17 +1,23 @@
 {
-   "loginTitle": "Iniciar sesión",
-   "loginSubTitle": "Bienvenido a Nasbu",
-   "loginEmail": {
-      "label": "Correo",
-      "placeHolder": "Correo"
+   "login": {
+      "title": "Iniciar sesión",
+      "subTitle": "Bienvenido a Nasbu",
+      "email": {
+         "label": "Correo",
+         "placeHolder": "Correo"
+      },
+      "password": {
+         "label": "Contraseña",
+         "placeHolder": "Contraseña"
+      },
+      "recoverPassword": "Recuperar contraseña",
+      "signin": "Ingresar",
+      "signup": "Registrate",
+      "signupQuestion": "¿Aún no tienes una cuenta? <b> Regístrate aquí</b>",
+      "bannerTitle": "El software en la nube",
+      "bannerSubTitle": "Que optimiza y automatiza tú gestión en poco tiempo."
    },
-   "loginPassword": {
-      "label": "Contraseña",
-      "placeHolder": "Contraseña"
-   },
-   "loginRecoverPassword": "Recuperar contraseña",
-   "loginSignin": "Ingresar",
-   "errorMessages": {
-      "invalidCredentials": "Credenciales invalidas"
+  "errorMessages": {
+      "NotAuthorizedException": "Credenciales invalidas"
    }
 }

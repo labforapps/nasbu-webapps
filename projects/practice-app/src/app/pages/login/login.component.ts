@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(public dialog: MatDialog,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) { }
 
 
@@ -60,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }, (error) => {
                 console.log('Error: ', error);
                 this.errorMessage = 'Creedenciales invalidas.';
-          })
+          });
   }
 
   changeFocus(focusField: string): void {

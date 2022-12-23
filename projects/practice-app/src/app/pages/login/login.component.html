@@ -3,17 +3,17 @@
         <div class="c-login__form">
             <div class="c-login__header">
                 <img src="../../../assets/images/brand-logo.svg" alt="" class="c-login__logo">
-                <div class="c-login__title" >{{'loginTitle' | translate}}</div>
-                <div class="c-login__subtitle">{{'loginSubTitle' | translate}}</div>
+                <div class="c-login__title" >{{'login.title' | translate}}</div>
+                <div class="c-login__subtitle">{{'login.subTitle' | translate}}</div>
             </div>
             <div class="c-login__body">
                 <form [formGroup]="signinForm" (ngSubmit)="signIn()">
                     <div class="c-login__input" [ngClass]="{'is-active': currentFocus === 'username'}">
                         <span class="icon-mail c-login__input__icon"></span>
                         <mat-form-field appearance="fill">
-                            <mat-label >{{'loginEmail.label' | translate}}</mat-label>
+                            <mat-label >{{'login.email.label' | translate}}</mat-label>
                             <input matInput
-                                   placeholder="{{'loginEmail.placeHolder' | translate}}"
+                                   placeholder="{{'login.email.placeHolder' | translate}}"
                                    formControlName="username"
                                    (focus)="changeFocus('username')">
                         </mat-form-field>
@@ -22,10 +22,10 @@
                     <div class="c-login__input" [ngClass]="{'is-active': currentFocus === 'password'}">
                         <span class="icon-key c-login__input__icon"></span>
                         <mat-form-field appearance="fill">
-                            <mat-label>{{'loginPassword.label' | translate}}</mat-label>
+                            <mat-label>{{'login.password.label' | translate}}</mat-label>
                             <input matInput
                                    type="password"
-                                   placeholder="{{'loginPassword.label' | translate}}"
+                                   placeholder="{{'login.password.label' | translate}}"
                                    formControlName="password"
                                    (focus)="changeFocus('password')">
                         </mat-form-field>
@@ -33,14 +33,14 @@
 
                     <p *ngIf="errorMessage" style="margin-bottom: 12px; font-size:14px; color: red;">{{errorMessage}}</p>
 
-                    <div class="u-link text-center mb-5 u-smallSize" (click)="openDialogRecovery()">{{'loginRecoverPassword' | translate}}</div>
+                    <div class="u-link text-center mb-5 u-smallSize" (click)="openDialogRecovery()">{{'login.recoverPassword' | translate}}</div>
 
-                    <button mat-button class="c-login__button c-btn c-btn--primary w-100 mb-4" [ngClass]="{'c-btn--disable': !signinForm.valid}" i18n="@@loginSignin" >Ingresar</button>
+                    <button mat-button class="c-login__button c-btn c-btn--primary w-100 mb-4" [ngClass]="{'c-btn--disable': !signinForm.valid}" >{{'login.signin' | translate}}</button>
                 </form>
             </div>
             <div class="c-login__footer">
-                <p i18n="@@loginSignupQuestion" (click)="gotoSignup()">¿Aún no tienes una cuenta? <b> Regístrate aquí</b></p>
-                <button mat-button routerLink="/signup" class="c-login__button c-btn c-btn--primary  w-100" i18n="@@loginSignup">{{'loginSignin' | translate}}<span class="icon-plus c-btn--icon-right"></span></button>
+                <p  (click)="gotoSignup()" [innerHTML]="'login.signupQuestion' | translate"></p>
+                <button mat-button routerLink="/signup" class="c-login__button c-btn c-btn--primary  w-100">{{'login.signup' | translate}}<span class="icon-plus c-btn--icon-right"></span></button>
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@
     <div class="c-login__right">
         <div class="c-login__info">
 
-            <div class="c-login__info__subtitle" i18n="@@loginBannerTitle">El software en la nube</div>
-            <div class="c-login__info__title" i18n="@@loginBannerSubTitle">Que optimiza y automatiza tú gestión en poco tiempo.</div>
+            <div class="c-login__info__subtitle">{{'login.bannerTitle' | translate}}</div>
+            <div class="c-login__info__title">{{'login.bannerSubTitle'| translate}}</div>
         </div>
     </div>
 
