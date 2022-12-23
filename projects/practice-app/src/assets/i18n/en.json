@@ -1,0 +1,23 @@
+{
+   "login": {
+      "title": "Login",
+      "subTitle": "Welcome to Nasbu",
+      "email": {
+         "label": "Email",
+         "placeHolder": "Email"
+      },
+      "password": {
+         "label": "Password",
+         "placeHolder": "Password"
+      },
+      "recoverPassword": "Recover password",
+      "signin": "Login",
+      "signup": "Sign up",
+      "signupQuestion": "don't have an account yet? <b> Sign up here</b>",
+      "bannerTitle": "The cloud software",
+      "bannerSubTitle": "That optimizes and automates your management in a short time."
+   },
+   "errorMessages": {
+      "NotAuthorizedException": "Inavalid credentials"
+   }
+}

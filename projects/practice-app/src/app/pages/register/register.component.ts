@@ -1,11 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { Plan, Subscription, UserSignupPayload } from 'core-models';
 import { Observable, tap } from 'rxjs';
-import { SignupService } from '../../services/auth/signup.service';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
 @Component({
@@ -15,45 +15,48 @@ import { OnboardingService } from '../../services/onboarding/onboarding.service'
 })
 export class RegisterComponent implements OnInit {
 
-  signupForm!: FormGroup;
+  public signupForm!: FormGroup;
+  public plans$!: Observable<Plan[]>;
+  public plans!: Plan[];
+  public selectedPlan!: Plan;
+  public anualSubscription!: boolean;
+  public errorMessage!: string;
 
-  plans$!: Observable<Plan[]>;
-  plans!: Plan[];
-  selectedPlan!: Plan;
-
-  anualSubscription!: boolean;
-
-  constructor(private onboardingService: OnboardingService,
-              private router: Router) { }
+  constructor(
+    private onboardingService: OnboardingService,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-      this.plans$ = this.onboardingService
-          .getPlans()
-          .pipe(
-              tap((plans: Plan[]) => {
-                  this.plans = plans;
-              })
-          );
-      this.initSignupForm();
+    this.plans$ = this.onboardingService
+       .getPlans()
+       .pipe(
+           tap((plans: Plan[]) => {
+               this.plans = plans;
+           })
+       );
+    this.buildForm();
   }
 
-  initSignupForm() {
-      this.signupForm = new FormGroup({
-            firstName: new FormControl(null, Validators.required),
-            lastName: new FormControl(null, Validators.required),
-            phoneNumber: new FormControl(null, Validators.required),
-            email: new FormControl(null, Validators.required),
-            password: new FormControl(null, Validators.required),
-            confirmPassword: new FormControl(null, Validators.required)
-      });
+
+  buildForm(): void {
+    this.signupForm = this.fb.group({
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+      email: [null, Validators.required],
+      password: [null, Validators.required],
+      confirmPassword: [null, Validators.required]
+    });
   }
 
-  onSelectSubscriptionPeriod(change: MatSlideToggleChange) {
+  onSelectSubscriptionPeriod(change: MatSlideToggleChange): void {
       console.log('onSelectSubscriptionPeriod: ', change);
       this.anualSubscription = change.checked;
   }
 
-  onSelectPlan(change: MatSelectChange) {
+  onSelectPlan(change: MatSelectChange): void {
       console.log('Plan: ', change);
       const findedPlan = this.plans.find((p) => p.uuid === change.value);
       if (findedPlan) {
@@ -61,9 +64,9 @@ export class RegisterComponent implements OnInit {
       }
   }
 
-  onSelectPlan2() {
+  onSelectPlan2(): void {
     console.log('Plan: ');
-}
+  }
 
   get selectedPlanValue(): string {
       if (this.selectedPlan) {
@@ -92,18 +95,14 @@ export class RegisterComponent implements OnInit {
   }
 
   get subscriptionPeriodDesc(): string {
-      if (this.anualSubscription) {
-          return 'Anual';
-      }
-
-      return 'Mensual';
+    return this.anualSubscription ? 'Anual' : 'Mensual';
   }
 
   get isValidForm(): boolean {
       return this.signupForm.valid;
   }
 
-  signupAndCreateSubscription(isFreeTrial: boolean) {
+  signupAndCreateSubscription(isFreeTrial: boolean): void {
       const userSignupPayload: UserSignupPayload = {
           username: this.signupForm.value.email,
           password: this.signupForm.value.password,
@@ -125,6 +124,8 @@ export class RegisterComponent implements OnInit {
                 } else {
                     window.location.href = subscription.first_checkout_url;
                 }
+          }, (error: HttpErrorResponse)=>{
+            this.errorMessage = error.message;
           });
   }
 

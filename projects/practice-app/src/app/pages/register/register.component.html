@@ -26,7 +26,7 @@
 
                     <label class="u-title-label" i18n>Contacto</label>
                     <mat-form-field appearance="fill" class="c-form-group mb-3">
-                        <mat-label i18n>Telefono celular</mat-label>
+                        <mat-label i18n>Teléfono celular</mat-label>
                         <input class="c-form-group__input" i18n-placeholder matInput placeholder="Num. Teléfono celular" formControlName="phoneNumber">
                     </mat-form-field>
                     <label class="u-title-label" i18n>Email</label>
@@ -92,7 +92,7 @@
                     <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)" i18n>Pedir demostración </button>
                     <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n (click)="signupAndCreateSubscription(false)">Comprar ahora </button>
                 </div>
-
+                <p *ngIf="errorMessage" style="margin-top: 12px; font-size:14px; color: red;">{{errorMessage}}</p>
 
             </div>
             <div class="c-register__footer">
