@@ -31,7 +31,7 @@
                         </mat-form-field>
                     </div>
 
-                    <p *ngIf="errorMessage" style="margin-bottom: 12px; font-size:14px; color: red;">{{errorMessage}}</p>
+                    <p *ngIf="errorMessage" style="margin-bottom: 12px; font-size:14px; color: red;">{{errorMessage | errorMessageTranslate}}</p>
 
                     <div class="u-link text-center mb-5 u-smallSize" (click)="openDialogRecovery()">{{'login.recoverPassword' | translate}}</div>
 

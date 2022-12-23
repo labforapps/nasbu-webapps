@@ -82,6 +82,8 @@ import { DialogListComponent } from './components/dialogs/dialog-list/dialog-lis
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SharedModule } from './shared/shared.module';
+
 
 export const createTranslateLoader = (http: HttpClient)=>{
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -176,7 +178,8 @@ export const createTranslateLoader = (http: HttpClient)=>{
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    SharedModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en' }],
   bootstrap: [AppComponent],

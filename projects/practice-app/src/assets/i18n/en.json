@@ -18,6 +18,8 @@
       "bannerSubTitle": "That optimizes and automates your management in a short time."
    },
    "errorMessages": {
-      "NotAuthorizedException": "Inavalid credentials"
+      "unexpectedError": "Opps unexpected error...",
+      "Incorrect username or password.": "Inavalid credentials",
+      "Password attempts exceeded": "Password attempts exceeded"
    }
 }

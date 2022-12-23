@@ -57,11 +57,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       const {username, password} = this.signinForm.value;
       this.authService
           .signIn(username, password)
-          .subscribe((response) => {
+          .subscribe(() => {
                this.router.navigate(['/dashboard']);
           }, (error) => {
                 console.log('Error: ', error);
-                this.errorMessage = 'Creedenciales invalidas.';
+                this.errorMessage = error.message;
           });
   }
 
