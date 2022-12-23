@@ -17,7 +17,9 @@
       "bannerTitle": "El software en la nube",
       "bannerSubTitle": "Que optimiza y automatiza tú gestión en poco tiempo."
    },
-  "errorMessages": {
-      "NotAuthorizedException": "Credenciales invalidas"
+   "errorMessages": {
+      "unexpectedError": "Opps error inesperado...",
+      "Incorrect username or password.": "Credenciales invalidas",
+      "Password attempts exceeded": "Intentos de contraseña excedidos"
    }
 }
