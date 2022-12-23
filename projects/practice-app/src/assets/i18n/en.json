@@ -17,6 +17,21 @@
       "bannerTitle": "The cloud software",
       "bannerSubTitle": "That optimizes and automates your management in a short time."
    },
+   "recoverPassword": {
+     "title": "Recover password",
+     "subTitle":"Enter your email and you'll receive a recovery email.",
+     "email": "email",
+     "sendButton":"Send email",
+     "closeButton":"close",
+     "passwordInstructionsTitle": "Check your inbox or Spam",
+     "passwordInstructionsMessage":"The mail has been sent again to",
+     "passwordInstructionsResendMessage":"If you still don't receive it, you can resend",
+     "passwordInstructionsTestWithAnother": "Try another email",
+     "closeWindowsButton": "Close windows",
+     "successTitle":"Very good!",
+     "successSubTitle":"Your password change has been successful",
+     "successMessage":"How about we go back to work?"
+   },
    "errorMessages": {
       "unexpectedError": "Opps unexpected error...",
       "Incorrect username or password.": "Inavalid credentials",

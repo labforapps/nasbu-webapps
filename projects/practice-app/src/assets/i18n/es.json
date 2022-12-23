@@ -17,6 +17,21 @@
       "bannerTitle": "El software en la nube",
       "bannerSubTitle": "Que optimiza y automatiza tú gestión en poco tiempo."
    },
+   "recoverPassword": {
+      "title": "Recuperar contraseña",
+      "subTitle":"Coloca tu correo electrónico y recibirás un correo de recuperación.",
+      "email": "correo",
+      "sendButton":"Enviar correo",
+      "closeButton":"cerrar",
+      "passwordInstructionsTitle": "Revisa tu bandeja de entrada ó Spam",
+      "passwordInstructionsMessage":"El correo ha sido enviado nuevamente a",
+      "passwordInstructionsResendMessage":"Si aún no lo recibes puedes volver a enviar",
+      "passwordInstructionsTestWithAnother": "Probar con otro correo",
+      "closeWindowsButton": "Cerrar ventana",
+      "successTitle":"¡Muy bien!",
+      "successSubTitle":"Tu cambio de contraseña ha sido realizado con éxito",
+      "successMessage":"¿Qué te parece si volvemos al trabajo?"
+    },
    "errorMessages": {
       "unexpectedError": "Opps error inesperado...",
       "Incorrect username or password.": "Credenciales invalidas",

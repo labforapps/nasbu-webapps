@@ -1,13 +1,13 @@
 <div class="c-dialog-recovery" *ngIf="showRecoveryPassword">
     <mat-dialog-content class="d-flex flex-column justify-center">
-        <h4 class="mb-5 u-textBold u-textColor" i18n="@@recoverPasswordTitle">Recuperar contraseña</h4>
+        <h4 class="mb-5 u-textBold u-textColor" >{{'recoverPassword.title' | translate}}</h4>
         <img class="mb-5" src="../../../../assets/images/password-lock.svg" alt="">
-        <p class="u-textColor text-center mb-5" i18n="@@recoverPasswordSubTitle">
-            Coloca tu correo electrónico y recibirás un e-mail de recuperación.
+        <p class="u-textColor text-center mb-5">
+            {{'recoverPassword.subTitle' | translate}}
         </p>
         <form class="w-100" [formGroup]="recoverPasswordForm">
             <mat-form-field appearance="fill" class="c-form-group">
-                <mat-label i18n="@@recoverPasswordEmail">Email</mat-label>
+                <mat-label>{{'recoverPassword.email' | translate}}</mat-label>
                 <input class="c-form-group__input"
                        matInput
                        type="mail"
@@ -21,44 +21,47 @@
         <button mat-button
                 (click)="onSendForgotPassword()"
                 class="c-btn c-btn--primary w-100 u-smallSize"
-                i18n="@@recoverPasswordSendButton"
-                [ngClass]="{'c-btn--disable': !recoverPasswordForm.valid}" >Enviar correo</button>
-        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0" i18n="@@recoverPasswordCloseButton">Cerrar ventana</button>
+                [ngClass]="{'c-btn--disable': !recoverPasswordForm.valid}" >{{'recoverPassword.sendButton' | translate}}</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0" >{{'recoverPassword.closeButton' | translate}}</button>
     </mat-dialog-actions>
 </div>
 
 <div class="c-dialog-recovery" *ngIf="showSendEmail">
     <mat-dialog-content class="d-flex flex-column justify-center">
-        <h4 class="mb-3 u-textBold u-textColor" i18n="@@recoverPasswordInstructionsTitle">Revisa tu bandeja de entrada ó Spam</h4>
-        <p class="u-textColor text-center mb-5" i18n="@@recoverPasswordInstructionsMessage">
-            El e-mail ha sido enviado nuevamente a
+        <h4 class="mb-3 u-textBold u-textColor">{{'recoverPassword.PasswordInstructionsTitle' | translate}}</h4>
+        <p class="u-textColor text-center mb-5">
+           {{'recoverPassword.passwordInstructionsMessage' | translate}}
             <b>{{recoverPasswordForm.value.username}}</b>
         </p>
         <img class="mb-5" src="../../../../assets/images/emailer.svg" alt="">
-        <p class="u-textColor text-center mb-5" i18n="@@recoverPasswordInstructionsResendMessage">
-            Si aún no lo recibes puedes volverlo a enviar
+        <p class="u-textColor text-center mb-5">
+            {{'recoverPassword.passwordInstructionsResendMessage' | translate}}
         </p>
     </mat-dialog-content>
     <mat-dialog-actions class="mt-auto">
-        <button mat-button (click)="toggleEmail()" class="c-btn c-btn--primary w-100 u-smallSize" i18n="@@recoverPasswordInstructionsTestWithAnother">Probar con otro correo</button>
-        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0" i18n="@@recoverPasswordInstructionsCloseButton">Cerrar ventana</button>
+        <button mat-button (click)="toggleEmail()" class="c-btn c-btn--primary w-100 u-smallSize"> 
+            {{'recoverPassword.passwordInstructionsTestWithAnother' | translate}}
+        </button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">
+            {{'recoverPassword.closeWindowsButton' | translate}}
+        </button>
     </mat-dialog-actions>
 </div>
 
 <div class="c-dialog-recovery" *ngIf="showDoneMessage">
     <mat-dialog-content class="d-flex flex-column justify-center">
-        <h4 class="mb-3 u-textBold u-textColor" i18n="@@recoverPasswordSuccessTitle">¡Muy bien!</h4>
-        <p class="u-textColor text-center mb-5" i18n="@@recoverPasswordSuccessSubTitle">
-            Tu cambio de contraseña ha sido realizado con éxito
+        <h4 class="mb-3 u-textBold u-textColor">  {{'recoverPassword.successTitle' | translate}}</h4>
+        <p class="u-textColor text-center mb-5">
+            {{'recoverPassword.successSubTitle' | translate}}
         </p>
         <img class="mb-5" src="../../../../assets/images/check.svg" alt="">
-        <p class="u-textColor text-center mb-5" i18n="@@recoverPasswordSuccessMessage">
-            ¿Qué te parece si volvemos al trabajo?
+        <p class="u-textColor text-center mb-5">
+            {{'recoverPassword.successMessage' | translate}}
         </p>
     </mat-dialog-content>
     <mat-dialog-actions class="mt-auto">
-        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize" i18n="@@recoverPasswordSuccessGotoLoginButton">Iniciar sesión</button>
-        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0" i18n="@@recoverPasswordSuccessCloseButton">Cerrar ventana</button>
+        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">{{'login.title' | translate}}</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0"> {{'recoverPassword.closeWindowsButton' | translate}}</button>
     </mat-dialog-actions>
 </div>
 
@@ -76,6 +79,6 @@
     </mat-dialog-content>
     <mat-dialog-actions class="mt-auto">
         <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">Probar con otro teléfono</button>
-        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0" i18n="@@recoverPasswordSuccessCloseButton">Cerrar ventana</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">{{'recoverPassword.closeWindowsButton' | translate}}</button>
     </mat-dialog-actions>
 </div>
