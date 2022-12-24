@@ -6,97 +6,93 @@
         <div class="l-blank__heading">
             <img src="../../../assets/images/add-user.svg" alt="" class="l-blank__icon">
             <div>
-                <div class="l-blank__title" i18n>Registrarme como usuario</div>
-                <div class="l-blank__subtitle" i18n>Llena esta información para iniciar en Nasbu</div>
+                <div class="l-blank__title">{{'register.title' | translate}}</div>
+                <div class="l-blank__subtitle">{{'register.subTitle' | translate}}</div>
             </div>
         </div>
         <div class="c-register">
             <div class="c-register__left">
-                <div class="c-register__title" i18n>Información General </div>
+                <div class="c-register__title">{{'register.formTitle' | translate}}</div>
                 <form class="w-100" [formGroup]="signupForm">
-                    <label class="u-title-label" i18n>Nombre de la persona</label>
+                    <label class="u-title-label">{{'register.nameTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label i18n>Nombre </mat-label>
-                        <input class="c-form-group__input" i18n-placeholder matInput placeholder="Nombre" formControlName="firstName">
+                        <mat-label >{{'register.name' | translate}} </mat-label>
+                        <input class="c-form-group__input" matInput [placeholder]="'register.name' | translate" formControlName="firstName">
                     </mat-form-field>
                     <mat-form-field appearance="fill" class="c-form-group c-form-group--mb-4">
-                        <mat-label i18n>Apellido</mat-label>
-                        <input class="c-form-group__input" i18n-placeholder matInput placeholder="Apellido" formControlName="lastName">
+                        <mat-label>{{'register.lastName' | translate}}</mat-label>
+                        <input class="c-form-group__input" matInput [placeholder]="'register.lastName' | translate" formControlName="lastName">
                     </mat-form-field>
 
-                    <label class="u-title-label" i18n>Contacto</label>
+                    <label class="u-title-label">{{'register.contactTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group mb-3">
-                        <mat-label i18n>Teléfono celular</mat-label>
-                        <input class="c-form-group__input" i18n-placeholder matInput placeholder="Num. Teléfono celular" formControlName="phoneNumber">
+                        <mat-label>{{'register.phoneNumber' | translate}}</mat-label>
+                        <input class="c-form-group__input" matInput [placeholder]="'register.phoneNumber' | translate" formControlName="phoneNumber">
                     </mat-form-field>
-                    <label class="u-title-label" i18n>Email</label>
+                    <label class="u-title-label">{{'register.emailTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label i18n>Correo electrónico</mat-label>
-                        <input class="c-form-group__input" matInput i18n-placeholder placeholder="Correo electrónico" formControlName="email">
+                        <mat-label>{{'register.email' | translate}}</mat-label>
+                        <input class="c-form-group__input" matInput [placeholder]="'register.email' | translate" formControlName="email">
                     </mat-form-field>
 
-                    <label class="u-title-label" i18n>Contraseña</label>
+                    <label class="u-title-label">{{'register.password' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label i18n>Contraseña</mat-label>
-                        <input class="c-form-group__input" i18n-placeholder matInput type="password" placeholder="Contraseña" formControlName="password">
+                        <mat-label>{{'register.password' | translate}}</mat-label>
+                        <input class="c-form-group__input" matInput type="password" [placeholder]="'register.password' | translate" formControlName="password">
                     </mat-form-field>
 
-                    <label class="u-title-label" i18n>Confirmar Contraseña</label>
+                    <label class="u-title-label">{{'register.confirmPassword' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label i18n>Confirmar Contraseña</mat-label>
-                        <input class="c-form-group__input" i18n-placeholder matInput type="password" placeholder="Confirmar Contraseña" formControlName="confirmPassword">
+                        <mat-label>{{'register.confirmPassword' | translate}} </mat-label>
+                        <input class="c-form-group__input" matInput type="password" [placeholder]="'register.confirmPassword' | translate" formControlName="confirmPassword">
                     </mat-form-field>
-
-
                 </form>
             </div>
             <div class="c-register__right">
 
                 <mat-slide-toggle class="c-switch mb-3" (change)="onSelectSubscriptionPeriod($event)">
-                    <span i18n [ngClass]="{'is-active': !anualSubscription}">Mensual</span>
+                    <span i18n [ngClass]="{'is-active': !anualSubscription}">{{'register.monthly' | translate}}</span>
                     <span>/</span>
-                    <span [ngClass]="{'is-active': anualSubscription}" i18n>Anual</span>
+                    <span [ngClass]="{'is-active': anualSubscription}">{{'register.annual' | translate}}</span>
                 </mat-slide-toggle>
-                <label class="u-title-label w-100" i18n>Membresía que le interesa</label>
+                <label class="u-title-label w-100">{{'register.membership' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label i18n>Seleccionar Plan</mat-label>
+                    <mat-label>{{'register.choosePlan' | translate}}</mat-label>
                     <mat-select (selectionChange)="onSelectPlan($event)">
                         <mat-option *ngFor="let plan of plans$ | async" [value]="plan.uuid">
                             <div class="d-flex justify-content-between">
-                                <span>{{plan.name}}</span>
-                                <span>{{plan.price}} USD</span>
+                                <span>{{plan.name}}</span> - <span>{{plan.price}} USD</span>
                             </div>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <ng-container *ngIf="selectedPlan">
-                  <p class="u-textColor u-smallSize mb-4" i18n>Pide una demostración para recibir un prueba <b class="u-primaryColor">gratis por {{freeTrialDays}} días</b></p>
+                  <p class="u-textColor u-smallSize mb-4" [innerHTML]="'register.getFreeTrial' | translate:{ freeTrialDays}" ></p>
 
                   <div class="d-flex align-items-end mb-4">
-                      <span style="font-size: 37px;margin-bottom: -6px;" class="mr-2">{{planTotalPrice}}</span> USD/ {{subscriptionPeriodDesc}}
-                      <div class="u-badge ml-2" *ngIf="anualSubscription" i18n>Descuento {{selectedPlan.anual_discount_pct}}% </div>
+                      <span style="font-size: 37px;margin-bottom: -6px;" class="mr-2">{{planTotalPrice}}</span> USD/ {{subscriptionPeriodDesc| translate}}
+                      <div class="u-badge ml-2" *ngIf="anualSubscription"  >{{'register.discount' | translate}} {{selectedPlan.anual_discount_pct}}% </div>
                   </div>
 
                   <div class="mb-5 u-disable-list">
                     <div class="mb-2" *ngFor="let f of selectedPlan.features"><span class="icon-check u-primaryColor mr-2"></span>{{f.quantity}} {{f.feature.description}}</div>
-                    <!-- <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Módulo de cobro y facturación</div>
-                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Módulo de manejo de clientes</div>
-                    <div><span class="icon-check u-primaryColor mr-2"></span>Módulo miembros de tu equipo</div> -->
                   </div>
                 </ng-container>
 
-
-
                 <div class="d-flex u-gap-1" style="max-width: 280px; ">
-                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)" i18n>Pedir demostración </button>
-                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n (click)="signupAndCreateSubscription(false)">Comprar ahora </button>
+                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)">
+                       {{'register.getFreeTrialButton'| translate}} 
+                    </button>
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n (click)="signupAndCreateSubscription(false)">
+                        {{'register.buyNowButton'| translate}} 
+                    </button>
                 </div>
-                <p *ngIf="errorMessage" style="margin-top: 12px; font-size:14px; color: red;">{{errorMessage}}</p>
+                <p *ngIf="errorMessage" style="margin-top: 12px; font-size:14px; color: red;">{{errorMessage | errorMessageTranslate}}</p>
 
             </div>
             <div class="c-register__footer">
-                <label class="u-link" i18n routerLink="/signin">Volver atrás</label>
+                <label class="u-link"  routerLink="/signin">{{'register.goBack' | translate}}</label>
             </div>
         </div>
 

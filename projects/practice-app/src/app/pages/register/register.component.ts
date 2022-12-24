@@ -30,12 +30,12 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.plans$ = this.onboardingService
-       .getPlans()
-       .pipe(
-           tap((plans: Plan[]) => {
-               this.plans = plans;
-           })
-       );
+      .getPlans()
+      .pipe(
+        tap((plans: Plan[]) => {
+          this.plans = plans;
+        })
+      );
     this.buildForm();
   }
 
@@ -52,81 +52,83 @@ export class RegisterComponent implements OnInit {
   }
 
   onSelectSubscriptionPeriod(change: MatSlideToggleChange): void {
-      console.log('onSelectSubscriptionPeriod: ', change);
-      this.anualSubscription = change.checked;
+    console.log('onSelectSubscriptionPeriod: ', change);
+    this.anualSubscription = change.checked;
   }
 
   onSelectPlan(change: MatSelectChange): void {
-      console.log('Plan: ', change);
-      const findedPlan = this.plans.find((p) => p.uuid === change.value);
-      if (findedPlan) {
-          this.selectedPlan = findedPlan;
-      }
+    console.log('Plan: ', change);
+    const findedPlan = this.plans.find((p) => p.uuid === change.value);
+    if (findedPlan) {
+      this.selectedPlan = findedPlan;
+    }
   }
 
-  onSelectPlan2(): void {
-    console.log('Plan: ');
-  }
 
   get selectedPlanValue(): string {
-      if (this.selectedPlan) {
-          return this.selectedPlan.uuid.toString();
-      }
+    if (this.selectedPlan) {
+      return this.selectedPlan.uuid.toString();
+    }
 
-      return '-1';
+    return '-1';
   }
 
   get freeTrialDays(): string {
-      if (this.selectedPlan) {
-          return this.selectedPlan.trial_total_days.toFixed(0);
-      }
+    if (this.selectedPlan) {
+      return this.selectedPlan.trial_total_days.toFixed(0);
+    }
 
-      return '';
+    return '';
   }
 
   get planTotalPrice(): string {
-      if (this.selectedPlan) {
-          const totalPrice = +this.anualSubscription ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100))) :
-                  +this.selectedPlan.price;
-          return totalPrice.toFixed(2);
-      }
+    if (this.selectedPlan) {
+      const totalPrice = +this.anualSubscription ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100))) :
+        +this.selectedPlan.price;
+      return totalPrice.toFixed(2);
+    }
 
-      return '';
+    return '';
   }
 
   get subscriptionPeriodDesc(): string {
-    return this.anualSubscription ? 'Anual' : 'Mensual';
+    return this.anualSubscription ? 'register.annual' : 'register.monthly';
   }
 
-  get isValidForm(): boolean {
-      return this.signupForm.valid;
+  get isValidForm(): boolean { 
+    return this.signupForm.valid && !(!this.selectedPlan?.uuid);
   }
 
   signupAndCreateSubscription(isFreeTrial: boolean): void {
-      const userSignupPayload: UserSignupPayload = {
-          username: this.signupForm.value.email,
-          password: this.signupForm.value.password,
-          firstName: this.signupForm.value.firstName,
-          lastName: this.signupForm.value.lastName,
-          phoneNumber: this.signupForm.value.phoneNumber,
-          email: this.signupForm.value.email,
-          subscriptionInfo: {
-              plan: this.selectedPlan.uuid,
-              period: this.anualSubscription ? 'Y' : 'M',
-              free_trial: isFreeTrial
-          }
-      };
-      this.onboardingService
-          .createUserAndAccount(userSignupPayload)
-          .subscribe((subscription: Subscription) => {
-                if (isFreeTrial) {
-                    this.router.navigate(['/signin']);
-                } else {
-                    window.location.href = subscription.first_checkout_url;
-                }
-          }, (error: HttpErrorResponse)=>{
-            this.errorMessage = error.message;
-          });
+    const {password, confirmPassword} = this.signupForm.value;
+    if(password !== confirmPassword){
+      this.errorMessage = 'passwordsDoNotMatch';
+      return;
+    }
+    const userSignupPayload: UserSignupPayload = {
+      username: this.signupForm.value.email,
+      password: this.signupForm.value.password,
+      firstName: this.signupForm.value.firstName,
+      lastName: this.signupForm.value.lastName,
+      phoneNumber: this.signupForm.value.phoneNumber,
+      email: this.signupForm.value.email,
+      subscriptionInfo: {
+        plan: this.selectedPlan.uuid,
+        period: this.anualSubscription ? 'Y' : 'M',
+        free_trial: isFreeTrial
+      }
+    };
+    this.onboardingService
+      .createUserAndAccount(userSignupPayload)
+      .subscribe((subscription: Subscription) => {
+        if (isFreeTrial) {
+          this.router.navigate(['/signin']);
+        } else {
+          window.location.href = subscription.first_checkout_url;
+        }
+      }, (error: any) => {
+        this.errorMessage = (error.name == 'InvalidParameterException') ? error.message : error.name;
+      });
   }
 
 }
