@@ -46,6 +46,7 @@
                         <mat-label>{{'register.confirmPassword' | translate}} </mat-label>
                         <input class="c-form-group__input" matInput type="password" [placeholder]="'register.confirmPassword' | translate" formControlName="confirmPassword">
                     </mat-form-field>
+                    <label [ngClass]="passwordMatch ? 'u-primaryColor' : 'u-dangerColor'" class="u-smallSize d-block">{{matchMessage}}</label>
                 </form>
             </div>
             <div class="c-register__right">
@@ -87,7 +88,7 @@
                         {{'register.buyNowButton'| translate}} 
                     </button>
                 </div>
-                <p *ngIf="errorMessage" style="margin-top: 12px; font-size:14px; color: red;">{{errorMessage | errorMessageTranslate}}</p>
+                <p *ngIf="errorMessage" class="u-dangerColor mb-3">{{errorMessage | errorMessageTranslate}}</p>
 
             </div>
             <div class="c-register__footer">

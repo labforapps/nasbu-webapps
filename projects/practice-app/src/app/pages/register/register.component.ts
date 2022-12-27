@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Plan, Subscription, UserSignupPayload } from 'core-models';
-import { Observable, tap } from 'rxjs';
+import { Observable, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
 @Component({
@@ -14,56 +15,30 @@ import { OnboardingService } from '../../services/onboarding/onboarding.service'
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
+  public formSubscription!: SubscriptionRxjs;
   public signupForm!: FormGroup;
   public plans$!: Observable<Plan[]>;
   public plans!: Plan[];
   public selectedPlan!: Plan;
   public anualSubscription!: boolean;
   public errorMessage!: string;
+  public matchMessage: string = '';
+  public passwordMatchMsg: string = '';
+  public passwordDontMatchMsg: string = '';
 
   constructor(
     private onboardingService: OnboardingService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
-    this.plans$ = this.onboardingService
-      .getPlans()
-      .pipe(
-        tap((plans: Plan[]) => {
-          this.plans = plans;
-        })
-      );
     this.buildForm();
+    this.loadPlans();
+    this.formChange();
+    this.loadTranslatedWords();
   }
-
-
-  buildForm(): void {
-    this.signupForm = this.fb.group({
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      phoneNumber: [null, Validators.required],
-      email: [null, Validators.required],
-      password: [null, Validators.required],
-      confirmPassword: [null, Validators.required]
-    });
-  }
-
-  onSelectSubscriptionPeriod(change: MatSlideToggleChange): void {
-    console.log('onSelectSubscriptionPeriod: ', change);
-    this.anualSubscription = change.checked;
-  }
-
-  onSelectPlan(change: MatSelectChange): void {
-    console.log('Plan: ', change);
-    const findedPlan = this.plans.find((p) => p.uuid === change.value);
-    if (findedPlan) {
-      this.selectedPlan = findedPlan;
-    }
-  }
-
 
   get selectedPlanValue(): string {
     if (this.selectedPlan) {
@@ -95,13 +70,41 @@ export class RegisterComponent implements OnInit {
     return this.anualSubscription ? 'register.annual' : 'register.monthly';
   }
 
-  get isValidForm(): boolean { 
+  get isValidForm(): boolean {
     return this.signupForm.valid && !(!this.selectedPlan?.uuid);
   }
 
+  get passwordMatch(): boolean {
+    return this.matchMessage === this.passwordMatchMsg;
+  }
+
+  buildForm(): void {
+    this.signupForm = this.fb.group({
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      phoneNumber: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, Validators.required],
+      confirmPassword: [null, Validators.required]
+    });
+  }
+
+  onSelectSubscriptionPeriod(change: MatSlideToggleChange): void {
+    console.log('onSelectSubscriptionPeriod: ', change);
+    this.anualSubscription = change.checked;
+  }
+
+  onSelectPlan(change: MatSelectChange): void {
+    console.log('Plan: ', change);
+    const findedPlan = this.plans.find((p) => p.uuid === change.value);
+    if (findedPlan) {
+      this.selectedPlan = findedPlan;
+    }
+  }
+
   signupAndCreateSubscription(isFreeTrial: boolean): void {
-    const {password, confirmPassword} = this.signupForm.value;
-    if(password !== confirmPassword){
+    const { password, confirmPassword } = this.signupForm.value;
+    if (password !== confirmPassword) {
       this.errorMessage = 'passwordsDoNotMatch';
       return;
     }
@@ -131,4 +134,41 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  formChange(): void {
+    this.formSubscription = this.signupForm.valueChanges.subscribe(({ password, confirmPassword }) => {
+      this.errorMessage = '';
+      const passwordToched = this.signupForm.get('password')?.touched;
+      const confirmPasswordTouched = this.signupForm.get('confirmPassword')?.touched;
+      
+      if (!passwordToched && !confirmPasswordTouched) return;
+      if (!password && !confirmPassword) {
+        this.matchMessage = this.passwordDontMatchMsg;
+        return;
+      }
+      this.matchMessage = (password === confirmPassword) ? this.passwordMatchMsg : this.passwordDontMatchMsg;
+    });
+  }
+
+  loadPlans(): void {
+    this.plans$ = this.onboardingService
+      .getPlans()
+      .pipe(
+        tap((plans: Plan[]) => {
+          this.plans = plans;
+        })
+      );
+  }
+
+  loadTranslatedWords(): void {
+    this.translate.get(
+      ['recovery.passwordsMatch', 'errorMessages.passwordsDoNotMatch'],)
+      .pipe(take(1)).subscribe((res: any) => {
+        this.passwordMatchMsg = res['recovery.passwordsMatch'];
+        this.passwordDontMatchMsg = res['errorMessages.passwordsDoNotMatch'];
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.formSubscription?.unsubscribe();
+  }
 }
