@@ -20,9 +20,9 @@
    "recoverPassword": {
       "title": "Recover password",
       "subTitle": "Enter your email and you'll receive a recovery email.",
-      "email": "email",
+      "email": "Email",
       "sendButton": "Send email",
-      "closeButton": "close",
+      "closeButton": "Close",
       "passwordInstructionsTitle": "Check your inbox or Spam",
       "passwordInstructionsMessage": "The mail has been sent again to",
       "passwordInstructionsResendMessage": "If you still don't receive it, you can resend",
@@ -32,6 +32,13 @@
       "successSubTitle": "Your password change has been successful",
       "successMessage": "How about we go back to work?",
       "errorTitle": "Something went wrong!"
+   },
+   "recovery":{
+      "title": "Password recovery",
+      "subTitle": "Set a new password and continue enjoying nasbu without any hiccups",
+      "savePassword": "Save password",
+      "goBack": "Return to main page",
+      "passwordsMatch": "Passwords match"
    },
    "register": {
       "title": "User registration",

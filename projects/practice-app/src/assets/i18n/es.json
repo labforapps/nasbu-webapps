@@ -33,6 +33,13 @@
       "successMessage": "¿Qué te parece si volvemos al trabajo?",
       "errorTitle": "!Algo salió mal!"
    },
+   "recovery":{
+      "title": "Recuperación de contraseña",
+      "subTitle": "Coloca una nueva contraseña y continua disfrutando de nasbu sin contratiempos",
+      "savePassword": "Guardar contraseña",
+      "goBack": "Volver a la pagina principal",
+      "passwordsMatch": "Contraseñas coinciden"
+   },
    "register": {
       "title": "Registrarme como usuario",
       "subTitle": "Llena esta información para iniciar en Nasbu",

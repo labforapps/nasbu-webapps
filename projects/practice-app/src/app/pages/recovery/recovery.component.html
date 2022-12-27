@@ -5,25 +5,30 @@
     <div class="l-blank__content">
         <div class="c-recovery">
             <img class="mb-5" src="../../../../assets/images/password-lock.svg" alt="">
-            <h4 class="mb-5 u-textBold u-textColor u-bigSize2">Recuperación de contraseña</h4>
+            <h4 class="mb-5 u-textBold u-textColor u-bigSize2">{{'recovery.title' | translate}}</h4>
             <p class="u-textColor text-center mb-5">
-                Coloca una nueva contraseña y continua disfrutando de nasbu sin contratiempos
+                {{'recovery.subTitle' | translate}}
             </p>
-            <form class="w-75">
+            <form class="w-75" [formGroup]="recoveryForm" (ngSubmit)="onRecovery()" >
                 <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Password</mat-label>
-                    <input class="c-form-group__input" matInput type="password" placeholder="Ej: m@nasbu.com">
+                    <mat-label>{{'register.password' | translate}}</mat-label>
+                    <input class="c-form-group__input" matInput type="password"  placeholder="*******" formControlName="password">
                     <span class="c-form-group__input--checked icon-check"></span>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--has-info">
-                    <mat-label>Password</mat-label>
-                    <input class="c-form-group__input" matInput type="password" placeholder="Ej: m@nasbu.com">
+                    <mat-label>{{'register.confirmPassword' | translate}}</mat-label>
+                    <input 
+                      matInput 
+                      class="c-form-group__input" 
+                      type="password" 
+                      placeholder="*******"
+                      formControlName="confirmPassword"
+                    >
                 </mat-form-field>
-                <label class="u-smallSize u-primaryColor d-block mb-3">Contraseñas coinciden</label>
-                <button mat-button class="c-btn c-btn--disable c-btn--primary w-100 u-smallSize">Guardar contraseña</button>
+                <label [ngClass]="passwordMatch ? 'u-primaryColor' : 'u-dangerColor'" class="u-smallSize d-block mb-3">{{matchMessage}}</label>
+                <button mat-button class="c-btn c-btn--disable c-btn--primary w-100 u-smallSize">{{'recovery.savePassword' | translate}}</button>
             </form>
         </div>
-        <div class="u-link mt-4">Volver a la pagina principal</div>
+        <div [routerLink]="['/signin']" class="u-link mt-4">{{'recovery.goBack' | translate}}</div>
     </div>
-
 </main>
