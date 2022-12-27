@@ -30,7 +30,8 @@
       "closeWindowsButton": "Cerrar ventana",
       "successTitle": "¡Muy bien!",
       "successSubTitle": "Tu cambio de contraseña ha sido realizado con éxito",
-      "successMessage": "¿Qué te parece si volvemos al trabajo?"
+      "successMessage": "¿Qué te parece si volvemos al trabajo?",
+      "errorTitle": "!Algo salió mal!"
    },
    "register": {
       "title": "Registrarme como usuario",
@@ -64,6 +65,7 @@
       "UsernameExistsException": "Ya existe una cuenta con el correo electrónico proporcionado.",
       "InvalidPasswordException": "Contraseña invalida, debe contener May, Min y números (>7 caracteres ).",
       "UserNotConfirmedException": "Usuario no confirmado.",
-      "passwordsDoNotMatch": "Contraseñas no coinciden."
+      "passwordsDoNotMatch": "Contraseñas no coinciden.",
+      "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo."
    }
 }

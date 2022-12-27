@@ -30,7 +30,8 @@
       "closeWindowsButton": "Close windows",
       "successTitle": "Very good!",
       "successSubTitle": "Your password change has been successful",
-      "successMessage": "How about we go back to work?"
+      "successMessage": "How about we go back to work?",
+      "errorTitle": "Something went wrong!"
    },
    "register": {
       "title": "User registration",
@@ -65,6 +66,7 @@
       "InvalidPasswordException": "Invalid password, must contain Uppercase, Lowercase and numbers (>7 characters).",
       "CodeDeliveryFailureException": "",
       "UserNotConfirmedException": " User not confirmed.",
-      "passwordsDoNotMatch": "passwords don't match."
+      "passwordsDoNotMatch": "passwords don't match.",
+      "LimitExceededException": "Attempt limit exceeded, please try after some time."
    }
 }
