@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -10,42 +9,40 @@ import { AuthService } from '../../../services/auth/auth.service';
 })
 export class DialogRecoveryComponent implements OnInit {
 
-  recoverPasswordForm!: FormGroup;
+  public recoverPasswordForm!: FormGroup;
+  public errorMessage: string = '';
+  public pageStep: number = 1; // 1-email 2-loading 3-emailSent 4-error
 
-
-  constructor(private dialogRef: MatDialogRef<DialogRecoveryComponent>,
-              private authService: AuthService) { }
-
-  showRecoveryPassword: boolean = true ;
-  showSendEmail: boolean = false ;
-  showDoneMessage: boolean = false ;
-
-
-  toggleRecovery(){
-    this.showRecoveryPassword = ! this.showRecoveryPassword;
-    this.showSendEmail = ! this.showSendEmail;
-  }
-
-  toggleEmail(){
-    this.showSendEmail = ! this.showSendEmail;
-    this.showDoneMessage = ! this.showDoneMessage;
-  }
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
-      this.recoverPasswordForm = new FormGroup({
-          username: new FormControl(null, [Validators.required, Validators.email])
-      })
+    this.buildForm();
   }
 
-  onSendForgotPassword() {
+  buildForm(): void {
+    this.recoverPasswordForm = this.fb.group({
+      username: [null, [Validators.required, Validators.email]],
+    });
+  }
+
+  onSendForgotPassword(): void {
+    this.pageStep = 2;
     this.authService
-        .forgotPassword(this.recoverPasswordForm.value.username)
-        .subscribe((response) => {
-            console.log('Response: ', response);
-            //this.dialogRef.close(null);
-        }, (error) => {
-            console.log('Error: ', error);
-        })
+      .forgotPassword(this.recoverPasswordForm.value.username)
+      .subscribe(() => {
+        this.pageStep = 3;
+      }, (error) => {
+        this.pageStep = 4;
+        this.errorMessage = error.name;
+      });
+  }
+
+  tryAnotherEmail(): void {
+    this.pageStep = 1;
+    this.recoverPasswordForm.reset();
   }
 
 }

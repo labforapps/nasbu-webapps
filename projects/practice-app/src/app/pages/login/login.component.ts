@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
@@ -22,8 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(public dialog: MatDialog,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router,
-    private translateService: TranslateService
+    private router: Router
   ) { }
 
 
@@ -33,54 +31,38 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   buildForm(): void {
-   this.signinForm = this.fb.group({
+    this.signinForm = this.fb.group({
       username: [null, Validators.required],
       password: [null, Validators.required]
     });
   }
 
   formChange(): void {
-   this.formSubscription = this.signinForm.valueChanges.subscribe(() => this.errorMessage = '');
+    this.formSubscription = this.signinForm.valueChanges.subscribe(() => this.errorMessage = '');
   }
-  
+
   openDialogRecovery(): void {
     const dialogRef = this.dialog.open(DialogRecoveryComponent);
-    dialogRef.afterClosed()
-               .subscribe((username: string) => {
-                      if (username) {
-                          this.forgotPassword(username);
-                      }
-               });
   }
 
   signIn(): void {
-      const {username, password} = this.signinForm.value;
-      this.authService
-          .signIn(username, password)
-          .subscribe(() => {
-               this.router.navigate(['/dashboard']);
-          }, (error) => {
-                console.log('Error: ', error);
-                this.errorMessage = error.message;
-          });
+    const { username, password } = this.signinForm.value;
+    this.authService
+      .signIn(username, password)
+      .subscribe(() => {
+        this.router.navigate(['/dashboard']);
+      }, (error) => {
+        console.log('Error: ', error);
+        this.errorMessage = error.message;
+      });
   }
 
   changeFocus(focusField: string): void {
-   this.currentFocus = focusField;
+    this.currentFocus = focusField;
   }
 
   gotoSignup(): void {
-      this.router.navigate(['/signup']);
-  }
-
-  forgotPassword(username: string): void {
-      this.authService
-          .forgotPassword(username)
-          .subscribe(() => {
-              console.log('Forgot password sent...');
-          }, (error) => {
-              console.log('Error: ', error);
-          });
+    this.router.navigate(['/signup']);
   }
 
   ngOnDestroy(): void {
