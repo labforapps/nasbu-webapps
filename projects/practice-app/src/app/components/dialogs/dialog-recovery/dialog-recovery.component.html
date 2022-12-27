@@ -75,7 +75,7 @@
         <mat-dialog-content class="d-flex flex-column justify-content-between">
             <h4 class="mb-3 u-textBold u-textColor"> {{'recoverPassword.errorTitle' | translate}}</h4>
             <img class="mb-5" src="../../../../assets/images/error.svg" alt="">
-            <p class="text-center mb-5" style="font-size:14px; color: red;" >{{errorMessage | errorMessageTranslate}}</p>
+            <p class="text-center mb-5" class="u-dangerColor mb-3" >{{errorMessage | errorMessageTranslate}}</p>
         </mat-dialog-content>
         <mat-dialog-actions class="mt-auto">
             <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2">

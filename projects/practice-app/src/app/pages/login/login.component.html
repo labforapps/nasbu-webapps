@@ -30,8 +30,7 @@
                                    (focus)="changeFocus('password')">
                         </mat-form-field>
                     </div>
-
-                    <p *ngIf="errorMessage" style="margin-bottom: 12px; font-size:14px; color: red;">{{errorMessage | errorMessageTranslate}}</p>
+                    <p class="u-dangerColor mb-3" *ngIf="errorMessage" >{{errorMessage | errorMessageTranslate}}</p>
 
                     <div class="u-link text-center mb-5 u-smallSize" (click)="openDialogRecovery()">{{'login.recoverPassword' | translate}}</div>
 
@@ -40,18 +39,18 @@
             </div>
             <div class="c-login__footer">
                 <p  (click)="gotoSignup()" [innerHTML]="'login.signupQuestion' | translate"></p>
-                <button mat-button routerLink="/signup" class="c-login__button c-btn c-btn--primary  w-100">{{'login.signup' | translate}}<span class="icon-plus c-btn--icon-right"></span></button>
+                <button mat-button routerLink="/signup" class="c-login__button c-btn c-btn--primary  w-100">
+                    {{'login.signup' | translate}}
+                    <span class="icon-plus c-btn--icon-right"></span>
+                </button>
             </div>
         </div>
     </div>
 
     <div class="c-login__right">
         <div class="c-login__info">
-
             <div class="c-login__info__subtitle">{{'login.bannerTitle' | translate}}</div>
             <div class="c-login__info__title">{{'login.bannerSubTitle'| translate}}</div>
         </div>
     </div>
-
-
 </div>
