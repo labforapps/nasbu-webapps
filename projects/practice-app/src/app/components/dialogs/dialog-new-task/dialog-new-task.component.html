@@ -15,6 +15,9 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('type') | validations }}
+                    </mat-error>
                 </div>
                 <div class="col-md-6">
                     <label class="u-title-label">Periodicidad</label>
@@ -36,6 +39,9 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('periodicity') | validations }}
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
@@ -48,6 +54,9 @@
                                placeholder="Ej: Crear contrato de servicio"
                                formControlName="personName">
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('personName') | validations }}
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
@@ -59,8 +68,10 @@
                                   placeholder="Ej: Este contrato es para poder vender unas máquinas de vapor etc…"
                                   formControlName="description">
                         </textarea>
+                        <mat-error>
+                            {{ taskForm.get('description') | validations }}
+                        </mat-error>
                     </div>
-    
                 </div>
             </div>
             <div class="row">
@@ -74,6 +85,9 @@
                                placeholder="Ej: Crear contrato de servicio"
                                formControlName="collaboratorId">
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('collaboratorId') | validations }}
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
@@ -94,6 +108,9 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('expedientId') | validations }}
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
@@ -114,6 +131,9 @@
                                placeholder="start date"
                                formControlName="startDate">
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('startDate') | validations }}
+                    </mat-error>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="c-form-group c-form-group__datepicker">
@@ -123,6 +143,9 @@
                                placeholder="end date"
                                formControlName="endDate">
                     </mat-form-field>
+                    <mat-error>
+                        {{ taskForm.get('endDate') | validations }}
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
@@ -140,6 +163,9 @@
                                        placeholder="Ej: Crear contrato de servicio"
                                        formControlName="pricePerHour">
                             </mat-form-field>
+                            <mat-error>
+                                {{ taskForm.get('pricePerHour') | validations }}
+                            </mat-error>
                         </div>
                         <div class="col-md-12 p-0">
                             <label class="u-title-label">Horas cotizadas</label>
@@ -150,6 +176,9 @@
                                        placeholder="Ej: Crear contrato de servicio"
                                        formControlName="quotedHours">
                             </mat-form-field>
+                            <mat-error>
+                                {{ taskForm.get('quotedHours') | validations }}
+                            </mat-error>
                         </div>
                     </div>
     
