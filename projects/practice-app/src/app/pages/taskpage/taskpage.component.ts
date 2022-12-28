@@ -13,10 +13,10 @@ import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task
 export class TaskpageComponent implements OnInit {
   currentTab: number = 0;
   tabs = [
-    { title: 'todas', badge: 0, active: true, value: 0 },
-    { title: 'completados', badge: 0, active: true, value: TaskState.Completed },
-    { title: 'pendientes', badge: 0, active: true, value: TaskState.Pending },
-    { title: 'vencidas', badge: 0, active: true, value: TaskState.Overdue },
+    { title: 'tasks.tabs.all', badge: 0, active: true, value: 0 },
+    { title: 'tasks.tabs.completed', badge: 0, active: true, value: TaskState.Completed },
+    { title: 'tasks.tabs.pending', badge: 0, active: true, value: TaskState.Pending },
+    { title: 'tasks.tabs.overdue', badge: 0, active: true, value: TaskState.Overdue },
   ];
 
   tasks:Tasks[] = [
@@ -36,9 +36,9 @@ export class TaskpageComponent implements OnInit {
       endDate: new Date(),
       pricePerHour: 100,
       quotedHours: 10,
-      clientName: "Caso 001",
+      clientName: "Juan Perez",
       collaboratorName: "Juan Perez",
-      expedientName: "Juan Perez",
+      expedientName: "Caso 001",
     }
   ];
 

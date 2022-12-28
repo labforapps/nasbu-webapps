@@ -67,5 +67,44 @@
       "UserNotConfirmedException": "Usuario no confirmado.",
       "passwordsDoNotMatch": "Contraseñas no coinciden.",
       "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo."
+   },
+   "formValidations":{
+      "required": "El campo $0 es requerido",
+      "minlength": "El campo $0 debe tener al menos $1 caracter(es)",
+      "maxlength": "El campo $0 debe tener un maximo de $1 caracteres",
+      "email": "El campo $0 debe ser un email valido",
+      "pattern": "El campo $0 no es valido",
+      "min": "El campo $0 debe ser mayor a $1",
+      "max": "El campo $0 debe ser menor a $1"
+   },
+   "tasks":{
+      "title": "Mis tareas",
+      "newTask": "Nueva tarea",
+      "tabs":{
+         "all": "Todas",
+         "pending": "Pendientes",
+         "completed": "Completadas",
+         "overdue": "Vencidas"
+      },
+      "table":{
+         "title": "Listado de tareas",
+         "filterBy": "Filtrar por",
+         "type": "Tipo",
+         "reason": "Motivo ó razón",
+         "client":"Cliente",
+         "expedient": "Expediente ó caso",
+         "hours": "Hr. invertidas",
+         "dueDate": "Fech. vencimiento",
+         "actions": "Acciones",
+         "noData": "No hay tareas para mostrar",
+         "buttons":{
+            "edit": "Editar",
+            "view": "Ver tarea",
+            "delete": "Eliminar tarea",
+            "complete": "Completar",
+            "uncomplete": "Descompletar",
+            "addHours": "Añadir horas"
+         }
+      }
    }
 }

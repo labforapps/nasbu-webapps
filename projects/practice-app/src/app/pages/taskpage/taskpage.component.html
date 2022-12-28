@@ -4,10 +4,10 @@
             <div class="l-page__icon">
                 <span class="icon-task"></span>
             </div>
-            <div class="l-page__title">Mis tareas</div>
+            <div class="l-page__title">{{ 'tasks.title' | translate | titlecase }}</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn-function" mat-button [matMenuTriggerFor]="menu">Nueva Tarea<span class="icon-plus ml-3 "></span></button>
+            <button class="c-btn-function" mat-button [matMenuTriggerFor]="menu">{{ 'tasks.newTask' | translate | titlecase }}<span class="icon-plus ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
                 <button mat-menu-item (click)="openDialogNewTask()"><span class="icon-phone"></span>Llamada</button>
                 <button mat-menu-item><span class="icon-task-list"></span>Coordinar cita</button>
@@ -28,7 +28,7 @@
         <mat-tab-group class="c-tabs" (selectedIndexChange)="onTabChange($event)">
             <mat-tab *ngFor="let tab of tabs">
                 <ng-template mat-tab-label>
-                    {{ tab.title | titlecase }}
+                    {{ tab.title | translate | titlecase }}
                     <div class="c-tabs__badge">
                         {{ tab.badge }}
                     </div>
