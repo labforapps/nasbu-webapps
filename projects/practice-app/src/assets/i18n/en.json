@@ -38,7 +38,10 @@
       "subTitle": "Set a new password and continue enjoying nasbu without any hiccups",
       "savePassword": "Save password",
       "goBack": "Return to main page",
-      "passwordsMatch": "Passwords match"
+      "passwordsMatch": "Passwords match",
+      "code": "Code",
+      "userName": "Username",
+      "newPassword": "New password"
    },
    "register": {
       "title": "User registration",
@@ -61,7 +64,8 @@
       "goBack": "Go back",
       "getFreeTrial": "Request a demo to receive a <b class=\"u-primaryColor\">{{freeTrialDays}} day free trial</b>",
       "getFreeTrialButton":"Request free trial",
-      "buyNowButton":"Buy now"
+      "buyNowButton":"Buy now",
+      "totalUser": "Users quantity"
    },
    "errorMessages": {
       "unexpectedError": "Opps unexpected error...",
@@ -74,6 +78,7 @@
       "CodeDeliveryFailureException": "",
       "UserNotConfirmedException": " User not confirmed.",
       "passwordsDoNotMatch": "passwords don't match.",
-      "LimitExceededException": "Attempt limit exceeded, please try after some time."
+      "LimitExceededException": "Attempt limit exceeded, please try after some time.",
+      "ExpiredCodeException": "Invalid code provided, please request a code again."
    }
 }

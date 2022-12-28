@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
@@ -9,6 +8,8 @@ import { Plan, Subscription, UserSignupPayload } from 'core-models';
 import { Observable, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
+const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+const phoneRegex = /^\+\d{10,15}$/;
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
   public matchMessage: string = '';
   public passwordMatchMsg: string = '';
   public passwordDontMatchMsg: string = '';
+  public totalUsers: number = 1;
 
   constructor(
     private onboardingService: OnboardingService,
@@ -57,9 +59,13 @@ export class RegisterComponent implements OnInit {
   }
 
   get planTotalPrice(): string {
+
     if (this.selectedPlan) {
-      const totalPrice = +this.anualSubscription ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100))) :
-        +this.selectedPlan.price;
+      let totalPrice = +this.anualSubscription 
+        ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100))) 
+        : +this.selectedPlan.price;
+      this.totalUsers =(+this.totalUsers) < 1 ? (+this.totalUsers) * -1 : +this.totalUsers
+      totalPrice = totalPrice * this.totalUsers;
       return totalPrice.toFixed(2);
     }
 
@@ -71,7 +77,7 @@ export class RegisterComponent implements OnInit {
   }
 
   get isValidForm(): boolean {
-    return this.signupForm.valid && !(!this.selectedPlan?.uuid);
+    return this.signupForm.valid && !(!this.selectedPlan?.uuid) && this.passwordMatch;;
   }
 
   get passwordMatch(): boolean {
@@ -82,10 +88,10 @@ export class RegisterComponent implements OnInit {
     this.signupForm = this.fb.group({
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
-      phoneNumber: [null, Validators.required],
+      phoneNumber: [null, [Validators.required, Validators.pattern(phoneRegex)]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required],
-      confirmPassword: [null, Validators.required]
+      password: [null, [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
+      confirmPassword: [null,[ Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]]
     });
   }
 
@@ -118,7 +124,8 @@ export class RegisterComponent implements OnInit {
       subscriptionInfo: {
         plan: this.selectedPlan.uuid,
         period: this.anualSubscription ? 'Y' : 'M',
-        free_trial: isFreeTrial
+        free_trial: isFreeTrial,
+        total_users: +this.totalUsers,
       }
     };
     this.onboardingService

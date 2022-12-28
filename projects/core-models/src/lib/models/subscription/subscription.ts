@@ -5,6 +5,7 @@ export interface SubscriptionOnboarding {
     plan: string;
     period: SubscriptionPeriod;
     free_trial: boolean;
+    total_users: number;
 }
 
 export interface Subscription {

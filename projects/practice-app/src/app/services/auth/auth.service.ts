@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
 import { Observable } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
-import { UserSignupPayload } from 'core-models';
+import { UserSignupPayload, ForgotPasswordSubmit } from 'core-models';
 
 
 @Injectable({
@@ -23,6 +23,10 @@ export class AuthService {
 
   forgotPassword(username: string): Observable<any> {
     return this.coreAuth.recoverPassword(username);
+  }
+
+  forgotPasswordSubmit(forgotPasswordSubmit: ForgotPasswordSubmit): Observable<any> {
+    return this.coreAuth.recoverPasswordSubmit(forgotPasswordSubmit);
   }
 
 }

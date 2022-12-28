@@ -19,6 +19,10 @@
                         <mat-label >{{'register.name' | translate}} </mat-label>
                         <input class="c-form-group__input" matInput [placeholder]="'register.name' | translate" formControlName="firstName">
                     </mat-form-field>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label >{{'register.name' | translate}} </mat-label>
+                        <input class="c-form-group__input" matInput [placeholder]="'register.name' | translate" formControlName="firstName">
+                    </mat-form-field>
                     <mat-form-field appearance="fill" class="c-form-group c-form-group--mb-4">
                         <mat-label>{{'register.lastName' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput [placeholder]="'register.lastName' | translate" formControlName="lastName">
@@ -27,7 +31,7 @@
                     <label class="u-title-label">{{'register.contactTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group mb-3">
                         <mat-label>{{'register.phoneNumber' | translate}}</mat-label>
-                        <input class="c-form-group__input" matInput [placeholder]="'register.phoneNumber' | translate" formControlName="phoneNumber">
+                        <input class="c-form-group__input" matInput placeholder="+1829*******" formControlName="phoneNumber"    >
                     </mat-form-field>
                     <label class="u-title-label">{{'register.emailTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
@@ -66,6 +70,11 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <label class="u-title-label w-100">{{'register.totalUser' | translate}}</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                    <mat-label>{{'register.totalUser' | translate}}</mat-label>
+                    <input class="c-form-group__input" matInput type="number" min="1" [(ngModel)]="totalUsers" [placeholder]="'register.totalUser' | translate" >
+                </mat-form-field>
 
                 <ng-container *ngIf="selectedPlan">
                   <p class="u-textColor u-smallSize mb-4" [innerHTML]="'register.getFreeTrial' | translate:{ freeTrialDays}" ></p>
@@ -88,7 +97,7 @@
                         {{'register.buyNowButton'| translate}} 
                     </button>
                 </div>
-                <p *ngIf="errorMessage" class="u-dangerColor mb-3">{{errorMessage | errorMessageTranslate}}</p>
+                <p *ngIf="errorMessage" class="u-dangerColor mt-3">{{errorMessage | errorMessageTranslate}}</p>
 
             </div>
             <div class="c-register__footer">

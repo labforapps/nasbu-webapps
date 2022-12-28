@@ -38,7 +38,10 @@
       "subTitle": "Coloca una nueva contraseña y continua disfrutando de nasbu sin contratiempos",
       "savePassword": "Guardar contraseña",
       "goBack": "Volver a la pagina principal",
-      "passwordsMatch": "Contraseñas coinciden"
+      "passwordsMatch": "Contraseñas coinciden",
+      "code": "Code",
+      "userName": "Nombre usuario",
+      "newPassword": "Nueva contraseña"
    },
    "register": {
       "title": "Registrarme como usuario",
@@ -61,7 +64,8 @@
       "goBack": "volver atrás",
       "getFreeTrial": "Pide una demostración para recibir un prueba <b class=\"u-primaryColor\">gratis por {{freeTrialDays}} días </b>",
       "getFreeTrialButton":"Pedir demostración",
-      "buyNowButton":"Comprar ahora"
+      "buyNowButton":"Comprar ahora",
+      "totalUser": "Cantidad de usuarios"
    },
    "errorMessages": {
       "unexpectedError": "Opps error inesperado...",
@@ -73,6 +77,7 @@
       "InvalidPasswordException": "Contraseña invalida, debe contener May, Min y números (>7 caracteres ).",
       "UserNotConfirmedException": "Usuario no confirmado.",
       "passwordsDoNotMatch": "Contraseñas no coinciden.",
-      "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo."
+      "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo.",
+      "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente."
    }
 }

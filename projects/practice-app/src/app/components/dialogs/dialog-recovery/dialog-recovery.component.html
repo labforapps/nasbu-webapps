@@ -24,7 +24,7 @@
             <form class="w-100" [formGroup]="recoverPasswordForm">
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>{{'recoverPassword.email' | translate}}</mat-label>
-                    <input class="c-form-group__input" matInput type="mail" placeholder="Ej: m@nasbu.com"
+                    <input class="c-form-group__input" matInput type="mail" placeholder="Ej: m@nasbu.com" autocomplete="off"
                         formControlName="username">
                 </mat-form-field>
 
