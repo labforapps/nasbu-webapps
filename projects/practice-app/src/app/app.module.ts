@@ -37,7 +37,6 @@ import { TemplatesComponent } from './pages/templates/templates.component';
 import { DialogNewDocumentComponent } from './components/dialogs/dialog-new-document/dialog-new-document.component';
 import { DialogNewTemplateComponent } from './components/dialogs/dialog-new-template/dialog-new-template.component';
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
-import { TaskpageComponent } from './pages/taskpage/taskpage.component';
 import { DialogChargedHoursComponent } from './components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
 import { DialogAddHoursComponent } from './components/dialogs/dialog-add-hours/dialog-add-hours.component';
 import { NewInvoiceComponent } from './pages/invoicing/new-invoice/new-invoice.component';
@@ -83,6 +82,7 @@ import { ClientIntakeComponent } from './pages/client-intake/client-intake.compo
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
+import { TasksModule } from './pages/taskpage/tasks.module';
 
 
 export const createTranslateLoader = (http: HttpClient)=>{
@@ -123,7 +123,6 @@ export const createTranslateLoader = (http: HttpClient)=>{
     DialogNewDocumentComponent,
     DialogNewTemplateComponent,
     DocumentViewerComponent,
-    TaskpageComponent,
     DialogChargedHoursComponent,
     DialogAddHoursComponent,
     NewInvoiceComponent,
@@ -179,7 +178,8 @@ export const createTranslateLoader = (http: HttpClient)=>{
         deps: [HttpClient]
       }
     }),
-    SharedModule
+    SharedModule,
+    TasksModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'en' }],
   bootstrap: [AppComponent],

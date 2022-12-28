@@ -1,0 +1,179 @@
+<div class="u-smallSize mb-3 d-flex align-items-center justify-content-between flex-wrap u-gap-1">
+  <p><b>Listado de tareas</b></p>
+  <div class="c-btn-filter">
+      Filtrar por
+      <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+      <mat-menu #filterMenu="matMenu">
+          <div class="c-filter" (click)="$event.stopPropagation()">
+              <div class="c-filter__header">
+                  <span class="icon-filter"></span>
+                  <div class="c-filter__title">
+                      Criterios de filtrado
+                  </div>
+              </div>
+              <div class="c-filter__body">
+                  <label class="u-title-label">Prioridad</label>
+                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                      <mat-label>Nivel de prioridad</mat-label>
+                      <mat-select>
+                          <mat-option>
+                              Option 1
+                          </mat-option>
+                          <mat-option>
+                              Option 2
+                          </mat-option>
+                          <mat-option>
+                              Option 3
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <label class="u-title-label">Estatus</label>
+                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                      <mat-label>Estado</mat-label>
+                      <mat-select>
+                          <mat-option>
+                              Option 1
+                          </mat-option>
+                          <mat-option>
+                              Option 2
+                          </mat-option>
+                          <mat-option>
+                              Option 3
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <label class="u-title-label">Responsable de la tarea </label>
+                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                      <mat-label>Nombre</mat-label>
+                      <mat-select>
+                          <mat-option>
+                              Option 1
+                          </mat-option>
+                          <mat-option>
+                              Option 2
+                          </mat-option>
+                          <mat-option>
+                              Option 3
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <label class="u-title-label">Tipo asunto</label>
+                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                      <mat-label>Nombre</mat-label>
+                      <mat-select>
+                          <mat-option>
+                              Option 1
+                          </mat-option>
+                          <mat-option>
+                              Option 2
+                          </mat-option>
+                          <mat-option>
+                              Option 3
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+
+              </div>
+              <div class="c-filter__footer">
+                  <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
+                  <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
+              </div>
+
+          </div>
+      </mat-menu>
+  </div>
+
+</div>
+<div class="u-table-responsive">
+  <table mat-table [dataSource]="dataSource" class="c-table">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+              <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+              <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+          </td>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+          <td mat-cell *matCellDef="let element" class="text-center"> 
+            <img class="c-table__icon" src="../../../../assets/images/table-icons/{{ images[+element.type] }}.svg" alt=""> 
+          </td>
+      </ng-container>
+
+      <!-- task Column -->
+      <ng-container matColumnDef="rason">
+          <th mat-header-cell *matHeaderCellDef> Motivo ó razón </th>
+          <td mat-cell *matCellDef="let element" class="w-20">
+              <div class="u-link c-table__truncate">{{ element.description }} </div>
+          </td>
+      </ng-container>
+
+      <!-- Estatus Column -->
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef> Cliente </th>
+        <td mat-cell *matCellDef="let element" class="c-table__truncate">
+            {{ element.clientName }}
+        </td>
+      </ng-container>
+
+      <!-- Expedient Column -->
+      <ng-container matColumnDef="expedient">
+        <th mat-header-cell *matHeaderCellDef> Expediente ó caso </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="u-link c-table__truncate" routerLink="/expedient-info">{{ element.expedientName }}</div>
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="hours">
+          <th mat-header-cell *matHeaderCellDef> Hr. invertidas </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="u-link" (click)="openDialogChargedHours(element)">
+                <span class="icon-clock-outline mr-1"></span> {{ element.hours }}  hours
+            </div>
+          </td>
+      </ng-container>
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fech. Vencimiento </th>
+          <td mat-cell *matCellDef="let element"> {{element.endDate | date: 'dd/MM/yyyy' }} </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+
+              <mat-button-toggle-group class="c-btn-table">
+                  <mat-button-toggle (click)="changeCompleteState(element)">{{ !element.completed ? "Completar" : "Incompletar" }}</mat-button-toggle>
+                  <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                      <span class="icon-arrow-down"></span>
+                  </mat-button-toggle>
+              </mat-button-toggle-group>
+
+              <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger" (click)="selectTask(element)">
+                  <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewTask(element, 'edit')">Editar<span class="icon-pen"></span></button>
+                  <button mat-menu-item class="matMenu-green" (click)="openDialogNewTask(element, 'view')">Ver tarea <span class="icon-eye" style="font-size: 11px;"></span></button>
+                  <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()" >Eliminar tarea <span class="icon-trash"></span></button>
+                  <button mat-menu-item class="matMenu-blue" (click)="openDialogChargedHours()">Añadir hora <span class="icon-timer"></span></button>
+              </mat-menu>
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+  </table>
+</div>

@@ -1,34 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import { DialogChargedHoursComponent } from '../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
+import { Tasks } from 'core-models';
+import { TaskState } from 'projects/core-models/src/public-api';
 import { DialogNewReasonComponent } from '../../components/dialogs/dialog-new-reason/dialog-new-reason.component';
-import Swal from 'sweetalert2';
-
-export interface PeriodicElement {
-  position: number;
-  rason: string;
-  client: string;
-  expedient: string;
-  hours: string;
-  date: string;
-
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 2, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 3, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 4, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 5, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 6, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 7, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 8, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-
-];
+import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
 
 @Component({
   selector: 'app-taskpage',
@@ -36,61 +11,75 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./taskpage.component.scss']
 })
 export class TaskpageComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient', 'hours', 'date', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  currentTab: number = 0;
+  tabs = [
+    { title: 'todas', badge: 0, active: true, value: 0 },
+    { title: 'completados', badge: 0, active: true, value: TaskState.Completed },
+    { title: 'pendientes', badge: 0, active: true, value: TaskState.Pending },
+    { title: 'vencidas', badge: 0, active: true, value: TaskState.Overdue },
+  ];
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
+  tasks:Tasks[] = [
+    {
+      uuid: "1", 
+      expedientId: "1",
+      collaboratorId: "1",
+      clientId: "1",
+      description: "Llamar a cliente",
+      hours: 2,
+      type: 1,
+      state: 1,
+      periodicity: 0,
+      completed: false,
+      personName: "Juan Perez",
+      startDate: new Date(),
+      endDate: new Date(),
+      pricePerHour: 100,
+      quotedHours: 10,
+      clientName: "Caso 001",
+      collaboratorName: "Juan Perez",
+      expedientName: "Juan Perez",
     }
+  ];
 
-    this.selection.select(...this.dataSource.data);
-  }
+  constructor(public dialog: MatDialog) { }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  ngOnInit(): void {
+    this.populateTabs();
   }
 
   openDialogNewTask(){
     this.dialog.open(DialogNewTaskComponent);
   }
+
   openDialogNewReason(){
     this.dialog.open(DialogNewReasonComponent);
   }
-  openDialogChargedHours(){
-    this.dialog.open(DialogChargedHoursComponent);
+
+  onTabChange(event: number) {
+    this.currentTab = event;
   }
-  openAlertDelete(){
-    Swal.fire({
-      title: '¿Deseas eliminar este elemento?',
-      text: 'Esta acción no se podrá revertir',
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: 'Eliminar',
-      showCancelButton: true,
-      cancelButtonText:'Cerrar ventana',
-      customClass:{
-        popup: 'c-alert c-alert--delete'
+
+  populateTabs() {
+    this.tabs.forEach((tab) => {
+      if (tab.value == 0) {
+        tab.badge = this.tasks.length;
+        return;
       }
+
+      tab.badge = this.tasks.filter((task) => {
+        return task.state == tab.value;
+      }).length;
+    });
+  }
+
+  get _tasks(): Tasks[] {
+    let tab = this.tabs[this.currentTab];
+
+    return this.currentTab == 0 
+    ? this.tasks
+    : this.tasks.filter((task) => {
+      return task.state == tab?.value;
     })
   }
-
-  constructor(public dialog: MatDialog) { }
-
-  ngOnInit(): void {
-  }
-
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogAddHoursComponent } from '../dialog-add-hours/dialog-add-hours.component';
 
 @Component({
@@ -8,9 +8,6 @@ import { DialogAddHoursComponent } from '../dialog-add-hours/dialog-add-hours.co
   styleUrls: ['./dialog-charged-hours.component.scss']
 })
 export class DialogChargedHoursComponent implements OnInit {
-
-  
-
   ngOnInit(): void {
   }
 
@@ -18,5 +15,8 @@ export class DialogChargedHoursComponent implements OnInit {
     this.dialog.open(DialogAddHoursComponent);
   }
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data:any) {
+    console.log(data);
+
+  }
 }
