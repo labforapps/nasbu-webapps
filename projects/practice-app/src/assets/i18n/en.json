@@ -68,5 +68,44 @@
       "UserNotConfirmedException": " User not confirmed.",
       "passwordsDoNotMatch": "passwords don't match.",
       "LimitExceededException": "Attempt limit exceeded, please try after some time."
+   },
+   "formValidations":{
+      "required": "The field $0 is required",
+      "minlength": "the field $0 must have at least $1 character(es)",
+      "maxlength": "the field $0 must have a maximum of $1 characteres",
+      "email": "the field $0 must be a valid email",
+      "pattern": "the field $0 is invalid",
+      "min": "the field $0 must be greater $1",
+      "max": "the field $0 must be less than $1"
+   },
+   "tasks":{
+      "title": "my tasks",
+      "newTask": "New task",
+      "tabs":{
+         "all": "All",
+         "pending": "Pending",
+         "completed": "Completed",
+         "overdue": "Overdue"
+      },
+      "table":{
+         "title": "Tasks list",
+         "filterBy": "Filter by",
+         "type": "Type",
+         "reason": "Reason",
+         "client":"Client",
+         "expedient": "expedient or case",
+         "hours": "Inverted hrs",
+         "dueDate": "Due date",
+         "actions": "Actions",
+         "noData": "No tasks to show",
+         "buttons":{
+            "edit": "Edit",
+            "view": "See task",
+            "delete": "Delete task",
+            "complete": "Complete",
+            "uncomplete": "Uncomplete",
+            "addHours": "Add hours"
+         }
+      }
    }
 }
