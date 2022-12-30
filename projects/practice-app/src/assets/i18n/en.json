@@ -157,5 +157,12 @@
          "title":"Notifications",
          "subTitle":"Still unread"
       }
+   },
+   "clients":{
+    "header":{
+      "title":"Clients",
+      "button_invitation":"Invite to Register",
+      "button_create_client":"Create a New Customer"
+    }
    }
 }
