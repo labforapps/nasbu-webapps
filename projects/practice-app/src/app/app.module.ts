@@ -89,6 +89,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { LocalizedDatePipe } from './shared/pipes/Localized-date';
+import { MatIconModule } from '@angular/material/icon';
 
 
 export const createTranslateLoader = (http: HttpClient) => {

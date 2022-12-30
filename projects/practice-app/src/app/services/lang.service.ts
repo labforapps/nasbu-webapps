@@ -14,8 +14,8 @@ export class LangService {
         this.allowedLangs = Object.values(AllowedLangs);
     }
 
-    get currentLang(): string {
-        return this.translateService.currentLang
+    get currentLang(): AllowedLangs {
+        return this.translateService.currentLang as AllowedLangs;
     }
 
     init(): void {

@@ -18,7 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatStepperModule } from '@angular/material/stepper';
-
+import {MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [],
   imports: [
@@ -41,6 +41,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
+    MatIconModule
   ],
   exports: [
     MatInputModule,
@@ -61,6 +62,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
+    MatIconModule
   ],
 })
 export class MaterialModule {}

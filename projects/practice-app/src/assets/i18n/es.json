@@ -141,5 +141,20 @@
             "recentNotes": "Notas recientes"
          }
       }
+   },
+   "languages": {
+      "en":"Inglés",
+      "es":"Español"
+   },
+   "header": {
+      "lang": "Lenguajes",
+      "selectedLang": "Lenguaje seleccionado",
+      "closeWindows": "Cerrar ventana",
+      "timer": "Temporizador",
+      "user": "Usuario",
+      "notifications": {
+         "title":"Notificaciones",
+         "subTitle":"Aún sin leer"
+      }
    }
 }

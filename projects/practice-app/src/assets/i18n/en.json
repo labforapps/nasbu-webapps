@@ -142,5 +142,20 @@
             "recentNotes": "Recent notes"
          }
       }
+   },
+   "languages": {
+      "en":"English",
+      "es":"Spanish"
+   },
+   "header": {
+      "lang": "Languages",
+      "selectedLang": "Selected language",
+      "closeWindows": "Close windows",
+      "timer": "Timer",
+      "user": "User",
+      "notifications": {
+         "title":"Notifications",
+         "subTitle":"Still unread"
+      }
    }
 }

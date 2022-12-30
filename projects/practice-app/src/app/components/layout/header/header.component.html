@@ -6,17 +6,54 @@
         <div class="c-timer-count c-timer-count--small is-active">
             <div>
                 <div class="c-timer-count__number">00:00:00</div>
-                <div class="c-timer-count__title">Timer</div>
+                <div class="c-timer-count__title">{{'header.timer' | translate}}</div>
             </div>
             <button mat-button class="c-timer-count__button">
                <span class="icon-play"></span>
            </button>
         </div>
 
+        <button mat-button [matMenuTriggerFor]="langMenu" class="c-notification">
+            <div>
+                <div class="c-notification__title">{{ 'header.lang' | translate}}</div>
+                <div class="c-notification__subtitle">{{ currentLang | translate}}</div>
+            </div>
+            <div class="c-notification__icon">
+                <span matBadge="4" matBadgeOverlap="false"><span class="icon-bell"></span></span>
+            </div>
+        </button>
+
+        <mat-menu #langMenu="matMenu" class="c-notification-menu">
+            <div class="c-notification-menu__header">
+                <div class="c-notification-menu__title"> {{'header.selectedLang' | translate}}</div>
+                <div class="c-notification-menu__subtitle"> <b class="u-primaryColor">{{ currentLang | translate}}</b></div>
+            </div>
+            <div class="c-nofitication-menu__body">
+                <div class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.Spanish)">
+                    <span class="icon-bell c-notification-menu__icon"></span>
+                    <div class="flex-1">
+                        <div class="c-notification-menu__text"> {{'languages.es' | translate}}</div>
+                    </div>
+                </div>
+                <div class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.English)">
+                    <span class="icon-bell c-notification-menu__icon"></span>
+                    <div class="flex-1">
+                        <div class="c-notification-menu__text"> {{'languages.en' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="c-notification-menu__footer">
+                <button mat-button>
+                    {{'header.closeWindows' | translate}}
+                </button>
+            </div>
+        </mat-menu>
+
+
         <button mat-button [matMenuTriggerFor]="menu" class="c-notification">
             <div>
-                <div class="c-notification__title">Notificaciones</div>
-                <div class="c-notification__subtitle">Aún sin leer</div>
+                <div class="c-notification__title">{{'header.notifications.title' | translate}}</div>
+                <div class="c-notification__subtitle">{{'header.notifications.title' | translate}}</div>
             </div>
             <div class="c-notification__icon">
                 <span matBadge="4" matBadgeOverlap="false"><span class="icon-bell"></span></span>
@@ -24,7 +61,7 @@
         </button>
         <mat-menu #menu="matMenu" class="c-notification-menu">
             <div class="c-notification-menu__header">
-                <div class="c-notification-menu__title">Notificaciones</div>
+                <div class="c-notification-menu__title">{{'header.notifications.title' | translate}}</div>
                 <div class="c-notification-menu__subtitle">Tienes <b class="u-primaryColor">2</b> nuevas actualizaciones</div>
             </div>
             <div class="c-nofitication-menu__body">
@@ -48,17 +85,16 @@
             </div>
             <div class="c-notification-menu__footer">
                 <button mat-button>
-                    Cerrar ventana
+                    {{'header.closeWindows' | translate}}
                 </button>
             </div>
         </mat-menu>
-
-
-
         <div class="c-header__user">
             <div class="text-right">
-                <div class="c-header__name">Manuel Pérez</div>
-                <div class="c-header__role">usuario </div>
+                <div class="c-header__name" *ngIf="user$ | async as userData">
+                    {{ userData.attributes.given_name }}
+                </div>
+                <div class="c-header__role">{{'header.user' | translate}} </div>
             </div>
             <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image">
 
