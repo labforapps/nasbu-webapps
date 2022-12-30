@@ -28,6 +28,7 @@ import { AuthGuard } from 'core-services';
 import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
 import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
+import { UserResolver } from './resolvers/user.resolver';
 
 const routes: Routes = [
   {
@@ -68,6 +69,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+        resolve: { user: UserResolver }
       },
       {
         path: 'customers',

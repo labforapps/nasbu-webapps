@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { ICredentials } from '@aws-amplify/core';
 import { catchError, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
-import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit } from 'core-models';
+import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo } from 'core-models';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { HttpClient } from '@angular/common/http';
 
@@ -57,6 +57,11 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  getCurrentUserInfo(): Observable<CurrentUserInfo>{
+    const userInfo$ = Auth.currentUserInfo();
+    return from(userInfo$);
   }
 
   signup(payload: UserSignupPayload): Observable<ISignUpResult> {

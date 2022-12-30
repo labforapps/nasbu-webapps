@@ -83,11 +83,20 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
 import { TasksModule } from './pages/taskpage/tasks.module';
+import { registerLocaleData } from '@angular/common';
+
+// importar locales
+import localeEs from '@angular/common/locales/es';
+import localeEn from '@angular/common/locales/en';
+import { LocalizedDatePipe } from './shared/pipes/Localized-date';
 
 
-export const createTranslateLoader = (http: HttpClient)=>{
+export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+registerLocaleData(localeEs, 'es');
+registerLocaleData(localeEn, 'en');
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -159,6 +168,7 @@ export const createTranslateLoader = (http: HttpClient)=>{
     DialogNewCostumerComponent,
     DialogListComponent,
     ClientIntakeComponent,
+    LocalizedDatePipe
   ],
   imports: [
     BrowserModule,

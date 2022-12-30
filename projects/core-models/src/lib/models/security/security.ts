@@ -35,3 +35,22 @@ export interface ForgotPasswordSubmit {
     code: string;
     newPassword: string;
 }
+
+export interface CurrentUserInfo { 
+  username: string;
+  attributes: UserAtribetes;
+}
+
+export interface UserAtribetes {
+    email: string;
+    email_verified: boolean;
+    given_name: string;
+    locale: string;
+    middle_name: string;
+    name: string;
+    phone_number: string;
+    phone_number_verified: boolean;
+    fals: string;
+    sub: string;
+    updated_at: string;
+}

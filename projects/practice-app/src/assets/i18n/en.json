@@ -33,7 +33,7 @@
       "successMessage": "How about we go back to work?",
       "errorTitle": "Something went wrong!"
    },
-   "recovery":{
+   "recovery": {
       "title": "Password recovery",
       "subTitle": "Set a new password and continue enjoying nasbu without any hiccups",
       "savePassword": "Save password",
@@ -56,15 +56,15 @@
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm password",
-      "monthly":"Monthly",
+      "monthly": "Monthly",
       "annual": "Annual",
-      "membership":"Membership you are interested in",
+      "membership": "Membership you are interested in",
       "choosePlan": "Choose plan",
       "discount": "Discount",
       "goBack": "Go back",
       "getFreeTrial": "Request a demo to receive a <b class=\"u-primaryColor\">{{freeTrialDays}} day free trial</b>",
-      "getFreeTrialButton":"Request free trial",
-      "buyNowButton":"Buy now",
+      "getFreeTrialButton": "Request free trial",
+      "buyNowButton": "Buy now",
       "totalUser": "Users quantity"
    },
    "errorMessages": {
@@ -81,7 +81,7 @@
       "LimitExceededException": "Attempt limit exceeded, please try after some time.",
       "ExpiredCodeException": "Invalid code provided, please request a code again."
    },
-   "formValidations":{
+   "formValidations": {
       "required": "The field $0 is required",
       "minlength": "the field $0 must have at least $1 character(es)",
       "maxlength": "the field $0 must have a maximum of $1 characteres",
@@ -90,33 +90,56 @@
       "min": "the field $0 must be greater $1",
       "max": "the field $0 must be less than $1"
    },
-   "tasks":{
+   "tasks": {
       "title": "my tasks",
       "newTask": "New task",
-      "tabs":{
+      "tabs": {
          "all": "All",
          "pending": "Pending",
          "completed": "Completed",
          "overdue": "Overdue"
       },
-      "table":{
+      "table": {
          "title": "Tasks list",
          "filterBy": "Filter by",
          "type": "Type",
          "reason": "Reason",
-         "client":"Client",
+         "client": "Client",
          "expedient": "expedient or case",
          "hours": "Inverted hrs",
          "dueDate": "Due date",
          "actions": "Actions",
          "noData": "No tasks to show",
-         "buttons":{
+         "buttons": {
             "edit": "Edit",
             "view": "See task",
             "delete": "Delete task",
             "complete": "Complete",
             "uncomplete": "Uncomplete",
             "addHours": "Add hours"
+         }
+      }
+   },
+   "dashboard": {
+      "menu": {
+         "title": "Hello {{name}}!",
+         "subTitle":"Today's summary",
+         "shortcuts":{
+           "title": "What do you want to do ?",
+           "label": "Shortcuts",
+           "createCustomer": "Create customer",
+           "createTask": "Create task",
+           "addCollaborator": "Add collaborator",
+           "timer":"timer",
+           "generateDocument": "Generate document",
+           "generateInvoice": "Generate invoice",
+           "createNote": "Create note"
+         },
+         "tabs": {
+            "statistics": "Statistics",
+            "importantTasks": "Important tasks",
+            "accountsReceivable": "Accounts receivable",
+            "recentNotes": "Recent notes"
          }
       }
    }

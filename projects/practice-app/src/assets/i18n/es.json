@@ -118,5 +118,28 @@
             "addHours": "Añadir horas"
          }
       }
+   }, 
+   "dashboard": {
+      "menu": {
+         "title": "¡Hola {{name}}!",
+         "subTitle":"Este es tu resumen de hoy",
+         "shortcuts":{
+            "title": "¿Qué deseas hacer?",
+            "label": "Funciones rápidas",
+            "createCustomer": "Crear nuevo cliente",
+            "createTask": "Crear nueva tarea",
+            "addCollaborator": "Añadir nuevo colaborador",
+            "timer":"Temporizador",
+            "generateDocument": "Generar un documento",
+            "generateInvoice": "Generar factura",
+            "createNote": "Crear nueva nota"
+          },
+         "tabs":{
+            "statistics":"Estadísticas",
+            "importantTasks":"Tareas más importantes ",
+            "accountsReceivable": "Cuentas por cobrar",
+            "recentNotes": "Notas recientes"
+         }
+      }
    }
 }
