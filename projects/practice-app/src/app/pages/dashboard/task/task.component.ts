@@ -8,8 +8,6 @@ export interface PeriodicElement {
   status: string;
   expedient: string;
   date: string;
-  
-
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -30,7 +28,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class TaskComponent implements OnInit {
-
+ public totalTasks: number = 10;
   displayedColumns: string[] = ['select', 'type','task', 'status', 'expedient', 'date', 'action'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);

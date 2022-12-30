@@ -90,6 +90,7 @@ import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { LocalizedDatePipe } from './shared/pipes/Localized-date';
 import { MatIconModule } from '@angular/material/icon';
+import { EmptyDashboardComponent } from './pages/dashboard/empty/empty-dashboard.component';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -169,6 +170,7 @@ registerLocaleData(localeEn, 'en');
     DialogNewCostumerComponent,
     DialogListComponent,
     ClientIntakeComponent,
+    EmptyDashboardComponent,
     LocalizedDatePipe
   ],
   imports: [

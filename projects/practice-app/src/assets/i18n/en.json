@@ -123,17 +123,17 @@
    "dashboard": {
       "menu": {
          "title": "Hello {{name}}!",
-         "subTitle":"Today's summary",
-         "shortcuts":{
-           "title": "What do you want to do ?",
-           "label": "Shortcuts",
-           "createCustomer": "Create customer",
-           "createTask": "Create task",
-           "addCollaborator": "Add collaborator",
-           "timer":"timer",
-           "generateDocument": "Generate document",
-           "generateInvoice": "Generate invoice",
-           "createNote": "Create note"
+         "subTitle": "Today's summary",
+         "shortcuts": {
+            "title": "What do you want to do ?",
+            "label": "Shortcuts",
+            "createCustomer": "Create customer",
+            "createTask": "Create task",
+            "addCollaborator": "Add collaborator",
+            "timer": "Timer",
+            "generateDocument": "Generate document",
+            "generateInvoice": "Generate invoice",
+            "createNote": "Create note"
          },
          "tabs": {
             "statistics": "Statistics",
@@ -141,11 +141,79 @@
             "accountsReceivable": "Accounts receivable",
             "recentNotes": "Recent notes"
          }
+      },
+      "statistics": {
+         "dossier": {
+            "title": "Dossier information",
+            "opened": "Dossier oppened",
+            "closed": "Dossier closed"
+         },
+         "billed": {
+            "title": "Billing information",
+            "billed": "Billed amount",
+            "collected": "Amount collected"
+         },
+         "task": {
+            "title": "Task management",
+            "subTitle": "This is your execution rate based on what was executed for total tasks per month",
+            "done": "Done",
+            "pending": "Pending",
+            "overdue": "Overdue"
+         },
+         "empty": {
+            "title": "What isn't measured isn't improved",
+            "subTitle":"Here we will show small statistical indicators"
+         }
+      },
+      "tableHeaders": {
+         "type": "Type",
+         "task": "Task",
+         "status": "Status",
+         "dossier": "Dossier",
+         "deadline": "Exp. date",
+         "actions": "Actions",
+         "title": "Title",
+         "description": "Description",
+         "reactionDate": "Reaction Date",
+         "customer": "Customer",
+         "date": "Date",
+         "payments": "Payments",
+         "invoiceAmount": "Invoice amount",
+         "billNumber": "# Invoice"
+      },
+      "task": {
+         "title": "You have <b class=\"u-primary-color\"> {{count}} </b> tasks distributed between <b>due and close to due</b>",
+         "subTitle": "Sorted list from closest to oldest",
+         "empty": {
+            "title": "You don't have any pending tasks yet",
+            "subTitle":"Soon you'll see everything from here"
+         }
+      },
+      "pendingInvoices": {
+         "title": "<b>You have {{count}} invoices </b> pending collection",
+         "subTitle": "Amount outstanding",
+         "empty": {
+            "title": "It's always important to take care of the economic flow",
+            "subTitle":"of your law firm here you will see brief alerts"
+         }
+      },
+      "notes": {
+         "title": "You have these {{count}} <b>notes</b>",
+         "subTitle": "Sorted by most recent",
+         "empty": {
+            "title": "Keep your latest notes close at hand",
+            "subTitle":"It's always good to see what's last signed up."
+         }
+      },
+      "common": {
+         "untilToday": "Until today",
+         "thisMonth": "This month",
+          "delete": "Delete"
       }
    },
    "languages": {
-      "en":"English",
-      "es":"Spanish"
+      "en": "English",
+      "es": "Spanish"
    },
    "header": {
       "lang": "Languages",
@@ -154,8 +222,8 @@
       "timer": "Timer",
       "user": "User",
       "notifications": {
-         "title":"Notifications",
-         "subTitle":"Still unread"
+         "title": "Notifications",
+         "subTitle": "Still unread"
       }
    },
    "clients":{

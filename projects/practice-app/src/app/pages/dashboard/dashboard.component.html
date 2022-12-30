@@ -29,12 +29,14 @@
         </div>
     </div>
     <div class="c-dashboard-tab">
+       
         <div class="c-dashboard-tab__header">
             <button mat-menu-item (click)="scroll(stats)" class="is-active"><span class="icon-stats-color c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.statistics' | translate }}</button>
             <button mat-menu-item (click)="scroll(task)"><span class="icon-hot c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.importantTasks' | translate }} </button>
             <button mat-menu-item (click)="scroll(invoice)"><span class="icon-money-bag c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.accountsReceivable' | translate }}</button>
             <button mat-menu-item (click)="scroll(notes)"><span class="icon-notes c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.recentNotes' | translate }}</button>
         </div>
+
         <div class="c-dashboard-tab__body">
             <div class="c-dashboard-tab__content" #stats>
                 <app-indicators></app-indicators>

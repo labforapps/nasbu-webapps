@@ -33,7 +33,7 @@
       "successMessage": "¿Qué te parece si volvemos al trabajo?",
       "errorTitle": "!Algo salió mal!"
    },
-   "recovery":{
+   "recovery": {
       "title": "Recuperación de contraseña",
       "subTitle": "Coloca una nueva contraseña y continua disfrutando de nasbu sin contratiempos",
       "savePassword": "Guardar contraseña",
@@ -47,24 +47,24 @@
       "title": "Registrarme como usuario",
       "subTitle": "Llena esta información para iniciar en Nasbu",
       "formTitle": "Información General",
-      "nameTitle":"Nombre persona",
-      "name":"Nombre",
-      "lastName":"Apellido",
-      "contactTitle":"Contacto",
-      "phoneNumber":"Número teleefónico",
-      "emailTitle":"Correo",
-      "email":"Correo electronico",
+      "nameTitle": "Nombre persona",
+      "name": "Nombre",
+      "lastName": "Apellido",
+      "contactTitle": "Contacto",
+      "phoneNumber": "Número teleefónico",
+      "emailTitle": "Correo",
+      "email": "Correo electronico",
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
-      "monthly":"Mensual",
+      "monthly": "Mensual",
       "annual": "Anual",
-      "membership":"Membresía que le interesa",
+      "membership": "Membresía que le interesa",
       "choosePlan": "Seleccione un plan",
       "discount": "Descuento",
       "goBack": "volver atrás",
       "getFreeTrial": "Pide una demostración para recibir un prueba <b class=\"u-primaryColor\">gratis por {{freeTrialDays}} días </b>",
-      "getFreeTrialButton":"Pedir demostración",
-      "buyNowButton":"Comprar ahora",
+      "getFreeTrialButton": "Pedir demostración",
+      "buyNowButton": "Comprar ahora",
       "totalUser": "Cantidad de usuarios"
    },
    "errorMessages": {
@@ -80,7 +80,7 @@
       "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo.",
       "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente."
    },
-   "formValidations":{
+   "formValidations": {
       "required": "El campo $0 es requerido",
       "minlength": "El campo $0 debe tener al menos $1 caracter(es)",
       "maxlength": "El campo $0 debe tener un maximo de $1 caracteres",
@@ -89,27 +89,27 @@
       "min": "El campo $0 debe ser mayor a $1",
       "max": "El campo $0 debe ser menor a $1"
    },
-   "tasks":{
+   "tasks": {
       "title": "Mis tareas",
       "newTask": "Nueva tarea",
-      "tabs":{
+      "tabs": {
          "all": "Todas",
          "pending": "Pendientes",
          "completed": "Completadas",
          "overdue": "Vencidas"
       },
-      "table":{
+      "table": {
          "title": "Listado de tareas",
          "filterBy": "Filtrar por",
          "type": "Tipo",
          "reason": "Motivo ó razón",
-         "client":"Cliente",
+         "client": "Cliente",
          "expedient": "Expediente ó caso",
          "hours": "Hr. invertidas",
          "dueDate": "Fech. vencimiento",
          "actions": "Acciones",
          "noData": "No hay tareas para mostrar",
-         "buttons":{
+         "buttons": {
             "edit": "Editar",
             "view": "Ver tarea",
             "delete": "Eliminar tarea",
@@ -118,33 +118,101 @@
             "addHours": "Añadir horas"
          }
       }
-   }, 
+   },
    "dashboard": {
       "menu": {
          "title": "¡Hola {{name}}!",
-         "subTitle":"Este es tu resumen de hoy",
-         "shortcuts":{
+         "subTitle": "Este es tu resumen de hoy",
+         "shortcuts": {
             "title": "¿Qué deseas hacer?",
             "label": "Funciones rápidas",
             "createCustomer": "Crear nuevo cliente",
             "createTask": "Crear nueva tarea",
             "addCollaborator": "Añadir nuevo colaborador",
-            "timer":"Temporizador",
+            "timer": "Temporizador",
             "generateDocument": "Generar un documento",
             "generateInvoice": "Generar factura",
             "createNote": "Crear nueva nota"
-          },
-         "tabs":{
-            "statistics":"Estadísticas",
-            "importantTasks":"Tareas más importantes ",
+         },
+         "tabs": {
+            "statistics": "Estadísticas",
+            "importantTasks": "Tareas más importantes ",
             "accountsReceivable": "Cuentas por cobrar",
             "recentNotes": "Notas recientes"
          }
+      },
+      "statistics": {
+         "dossier": {
+            "title": "Expedientes info.",
+            "opened": "Expedientes abiertos",
+            "closed": "Expedientes cerrados"
+         },
+         "billed": {
+            "title": "Facturación info.",
+            "billed": "Monto facturado",
+            "collected": "Monto cobrado"
+         },
+         "task": {
+            "title": "Gestión de táreas",
+            "subTitle": "Esta es tu relación de ejecución en función a lo ejecutado por el total de deberes por mes",
+            "done": "Completadas",
+            "pending": "Pendientes",
+            "overdue": "Vencidas"
+         },
+         "empty": {
+            "title": "Lo que no se mejora no mejora",
+            "subTitle":"Aquí mostraremos pequeños indicadores estadísticos"
+         }
+      },
+      "tableHeaders": {
+         "type": "Tipo",
+         "task": "Tarea",
+         "status": "Estado",
+         "dossier": "Expediente",
+         "deadline": "Fech. Vencimiento",
+         "actions": "Acciones",
+         "title": "Titulo",
+         "description": "Descripción",
+         "reactionDate": "Fech. reacción",
+         "customer": "Clente",
+         "date": "Fecha",
+         "Payments": "Pagos",
+         "invoiceAmount": "Monto factura",
+         "billNumber": "#NO. Fact."
+      },
+      "task": {
+         "title": "Tienes <b class=\"u-primary-color\"> {{count}} </b> tareas repartidas entre <b>vencidas y próximas a vencer</b>",
+         "subTitle": "Lista ordenada de más próxima a más antigua",
+         "empty": {
+            "title": "Aún no tienes tareas pendientes",
+            "subTitle": "Pronto veras todo desde aquí"
+         }
+      },
+      "pendingInvoices": {
+         "title": "<b>Tienes {{count}} Facturas</b> pendientes de cobro",
+         "subTitle": "Total pendiente",
+         "empty": {
+            "title": "Siempre es importante cuidar el flujo economico",
+            "subTitle": "de tu firma aquí vera breves alertas"
+         }
+      },
+      "notes": {
+         "title": "Tienes estas {{count}} <b>notas</b>",
+         "subTitle": "Ordenada por más reciente",
+         "empty": {
+            "title": "Ten a la mano tus últimas notas",
+            "subTitle":"Siempre es bueno ver lo último que se anotó"
+         }
+      },
+      "common": {
+         "untilToday": "Hasta hoy",
+         "thisMonth": "Este mes",
+         "delete": "Eliminar"
       }
    },
    "languages": {
-      "en":"Inglés",
-      "es":"Español"
+      "en": "Inglés",
+      "es": "Español"
    },
    "header": {
       "lang": "Lenguajes",
@@ -153,8 +221,8 @@
       "timer": "Temporizador",
       "user": "Usuario",
       "notifications": {
-         "title":"Notificaciones",
-         "subTitle":"Aún sin leer"
+         "title": "Notificaciones",
+         "subTitle": "Aún sin leer"
       }
    }
 }
