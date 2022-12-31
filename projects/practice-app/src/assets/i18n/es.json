@@ -174,7 +174,7 @@
          "title": "Titulo",
          "description": "Descripción",
          "reactionDate": "Fech. reacción",
-         "customer": "Clente",
+         "customer": "Cliente",
          "date": "Fecha",
          "Payments": "Pagos",
          "invoiceAmount": "Monto factura",
@@ -193,7 +193,7 @@
          "subTitle": "Total pendiente",
          "empty": {
             "title": "Siempre es importante cuidar el flujo economico",
-            "subTitle": "de tu firma aquí vera breves alertas"
+            "subTitle": "de tu firma aquí veras breves alertas"
          }
       },
       "notes": {

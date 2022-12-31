@@ -7,17 +7,17 @@ export interface PeriodicElement {
   task: string;
   status: string;
   expedient: string;
-  date: string;
+  date: Date;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 2, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 3, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 4, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 5, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 6, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 7, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
+  {position: 1, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 2, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 3, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 4, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 5, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 6, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
+  {position: 7, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date()},
 
 ];
 

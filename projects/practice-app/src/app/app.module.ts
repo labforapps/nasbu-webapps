@@ -89,8 +89,8 @@ import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
 import { LocalizedDatePipe } from './shared/pipes/Localized-date';
-import { MatIconModule } from '@angular/material/icon';
 import { EmptyDashboardComponent } from './pages/dashboard/empty/empty-dashboard.component';
+import { InvoicesComponent } from './pages/dashboard/invoices/invoices.component';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -171,6 +171,7 @@ registerLocaleData(localeEn, 'en');
     DialogListComponent,
     ClientIntakeComponent,
     EmptyDashboardComponent,
+    InvoicesComponent,
     LocalizedDatePipe
   ],
   imports: [
