@@ -224,5 +224,12 @@
          "title": "Notificaciones",
          "subTitle": "Aún sin leer"
       }
+   },
+   "clients":{
+    "header":{
+      "title":"Clientes",
+      "button_invitation":"Invitacion a Registrarse",
+      "button_create_client":"Crear Nuevo Cliente"
+    }
    }
 }

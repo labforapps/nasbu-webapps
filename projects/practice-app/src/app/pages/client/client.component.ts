@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthService, CustomersService } from 'core-services';
 import { Customer, SelectedSubscription } from 'core-models';
@@ -8,74 +9,6 @@ import { throws } from 'assert';
 import { DialogSendRegisterComponent } from '../../components/dialogs/dialog-send-register/dialog-send-register.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
-
-export interface PeriodicElement {
-  position: number;
-  name: string;
-  number: string;
-  email: string;
-  date: string;
-  update: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 2,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 3,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 4,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 5,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 6,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-  {
-    position: 7,
-    name: 'Manuel Cabral',
-    number: '(789) 378 27483',
-    email: 'emireles@labforapps.com',
-    date: '9 Nov. 2022',
-    update: '9 Nov. 2022',
-  },
-];
 
 @Component({
   selector: 'app-client',
@@ -87,45 +20,13 @@ export class ClientComponent implements OnInit {
   memCustomers!: Customer[];
   selectedSubscription!: SelectedSubscription | null;
 
-  displayedColumns: string[] = [
-    'select',
-    'type',
-    'name',
-    'number',
-    'email',
-    'date',
-    'update',
-    'action',
-  ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = [];
+  dataSourceCustomers!: any;
+  dataSourceCustomersTypePerson: any;
+  dataSourceCustomersTypeBusiness: any;
+  selection = new SelectionModel<any>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
-  }
+  @ViewChild(MatPaginator) paginator: any;
 
   constructor(
     private authService: AuthService,
@@ -138,14 +39,40 @@ export class ClientComponent implements OnInit {
     this.fetchCustomers();
   }
 
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.displayedColumns = [
+      'select',
+      'type',
+      'name',
+      'number',
+      'email',
+      'date',
+      'update',
+      'action',
+    ];
+
+    this.dataSourceCustomers = new MatTableDataSource<Customer>(
+      this.memCustomers
+    );
+    this.dataSourceCustomersTypePerson = new MatTableDataSource<Customer>(
+      this.customers_type_person
+    );
+    this.dataSourceCustomersTypeBusiness = new MatTableDataSource<Customer>(
+      this.customers_type_bussiness
+    );
+  }
+
   fetchCustomers() {
-    console.log('selectedSubscription: ', this.selectedSubscription);
+    //console.log('selectedSubscription: ', this.selectedSubscription);
     if (this.selectedSubscription) {
       this.customersService
         .getCustomers(this.selectedSubscription?.ssid)
         .subscribe((customers: Customer[]) => {
           //console.log(customers);
           this.memCustomers = customers;
+          this.ngAfterViewInit();
         });
     }
   }
@@ -186,6 +113,28 @@ export class ClientComponent implements OnInit {
     })[0];
   }
 
+  applyFilter(filterValue: any, typeCustomer = '') {
+    switch (typeCustomer) {
+      case 'P':
+        filterValue = filterValue.target.value.trim();
+        filterValue = filterValue.toLowerCase();
+        this.dataSourceCustomersTypePerson.filter = filterValue;
+        break;
+
+      case 'B':
+        filterValue = filterValue.target.value.trim();
+        filterValue = filterValue.toLowerCase();
+        this.dataSourceCustomersTypeBusiness.filter = filterValue;
+        break;
+
+      default:
+        filterValue = filterValue.target.value.trim();
+        filterValue = filterValue.toLowerCase();
+        this.dataSourceCustomers.filter = filterValue;
+        break;
+    }
+  }
+
   get customers(): Customer[] {
     //console.log('Customers: ', this.memCustomers);
     if (this.memCustomers) {
@@ -217,5 +166,32 @@ export class ClientComponent implements OnInit {
   }
   openDialogNewCostumer() {
     this.dialog.open(DialogNewCostumerComponent);
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSourceCustomers.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSourceCustomers.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
   }
 }

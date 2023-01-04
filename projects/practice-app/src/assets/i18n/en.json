@@ -227,10 +227,39 @@
       }
    },
    "clients":{
-    "header":{
-      "title":"Clients",
-      "button_invitation":"Invite to Register",
-      "button_create_client":"Create a New Customer"
+      "header":{
+        "title":"Customers",
+        "button_invitation":"Invite to Register",
+        "button_create_client":"Create a New Customer"
+      },
+    "tabs":{
+        "tab_all_customers":"All",
+        "tab_customers_person":"Person",
+        "tab_customers_bussiness":"Bussiness"
+    },
+    "table":{
+        "table_header":{
+          "sort_a_z":"Sort From A to Z",
+          "search_placeholder":"Search For Name",
+          "title_count_customers":"",
+          "have":"Have",
+          "customers_in_total":"customers in total",
+          "customers_type_person":"customers type person",
+          "customers_type_bussiness":"customers type bussiness"
+        },
+        "column_header":{
+          "type":"Type",
+          "name":"Name",
+          "cellphone_number":"Cellphone Number",
+          "email":"Email",
+          "creation_date":"Creation Date",
+          "last_update":"Last Update",
+          "actions":"Actions"
+        },
+        "buttons":{
+          "edit":"Edit",
+          "delete":"Delete"
+        }
     }
    }
 }

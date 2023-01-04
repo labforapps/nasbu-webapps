@@ -15,19 +15,19 @@
     </div>
     <div class="l-page__body">
         <mat-tab-group class="c-tabs">
-            <mat-tab label="Todos">
+            <mat-tab label="{{'clients.tabs.tab_all_customers'  | translate}}">
 
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize flex-wrap mt-1">
-                    <p><b>Tienes {{customers.length}}</b> clientes en total </p>
+                    <p><b>{{'clients.table.table_header.have' | translate}} {{customers.length}}</b> {{'clients.table.table_header.customers_in_total' | translate}} </p>
 
                     <div class="c-form-group--search bordered ml-auto">
-                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <input matInput type="text" placeholder="{{'clients.table.table_header.search_placeholder' | translate}}">
                         <span class="icon-search"></span>
                     </div>
 
                     <div class="d-flex align-items-center u-gap-1">
 
-                        <p class="u-textLightColor">Organizado de A-Z</p>
+                        <p class="u-textLightColor">{{'clients.table.table_header.sort_a_z' | translate}}</p>
                         <button mat-button [matMenuTriggerFor]="menu" class="c-btn-sort"><span class="icon-sort-desending"></span></button>
                         <mat-menu #menu="matMenu">
                           <button mat-menu-item>Item 1</button>
@@ -58,13 +58,13 @@
 
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
-                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{"clients.table.column_header.type" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" [src]="getCustomerIconUrl(element)" alt=""> </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.name" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link" routerLink="/client-profile">{{getCustomerName(element)}} </div>
                             </td>
@@ -72,13 +72,13 @@
 
                         <!-- Estatus Column -->
                         <ng-container matColumnDef="number">
-                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Teléfono Celular </th>
+                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{"clients.table.column_header.cellphone_number" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="u-link"> {{getFirstContact(element)}} </td>
                         </ng-container>
 
                         <!-- Expedient Column -->
                         <ng-container matColumnDef="email">
-                            <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.email" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link">{{getFirstEmail(element)}}</div>
                             </td>
@@ -86,31 +86,30 @@
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.creation_date" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="update">
-                            <th mat-header-cell *matHeaderCellDef> Últ. Actualización </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.last_update" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
                         </ng-container>
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{"clients.table.column_header.actions" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center">
 
                                 <mat-button-toggle-group class="c-btn-table">
-                                    <mat-button-toggle>Editar</mat-button-toggle>
+                                    <mat-button-toggle>{{"clients.table.buttons.edit" | translate}}</mat-button-toggle>
                                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                                         <span class="icon-arrow-down"></span>
                                     </mat-button-toggle>
                                 </mat-button-toggle-group>
 
                                 <mat-menu #dropdownMenuOne="matMenu">
-                                    <button mat-menu-item>One</button>
-                                    <button mat-menu-item>Two</button>
-                                    <button mat-menu-item>Three</button>
+                                    <button mat-menu-item class="matMenu-yellow">{{"clients.table.buttons.edit" | translate}} <span class="icon-pen"></span></button>
+                                    <button mat-menu-item class="matMenu-red">{{'clients.table.buttons.delete' | translate}} <span class="icon-trash"></span></button>
                                 </mat-menu>
                             </td>
                         </ng-container>
@@ -125,19 +124,19 @@
 
 
             </mat-tab>
-            <mat-tab label="Personas ">
+            <mat-tab label="{{'clients.tabs.tab_customers_person'  | translate}}">
 
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize  flex-wrap mt-1">
-                    <p><b>Tienes {{customers_type_person.length}}</b> tipo persona </p>
+                    <p><b>{{'clients.table.table_header.have' | translate}} {{customers_type_person.length}}</b> {{'clients.table.table_header.customers_type_person' | translate}} </p>
 
                     <div class="c-form-group--search bordered ml-auto">
-                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <input matInput type="text" placeholder="{{'clients.table.table_header.search_placeholder' | translate}}" (keyup)="applyFilter($event,'P')">
                         <span class="icon-search"></span>
                     </div>
 
                     <div class="d-flex align-items-center u-gap-1">
 
-                        <p class="u-textLightColor">Organizado de A-Z</p>
+                        <p class="u-textLightColor">{{'clients.table.table_header.sort_a_z' | translate}}</p>
                         <button mat-button [matMenuTriggerFor]="menu" class="c-btn-sort"><span class="icon-sort-desending"></span></button>
                         <mat-menu #menu="matMenu">
                           <button mat-menu-item>Item 1</button>
@@ -168,13 +167,13 @@
 
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
-                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{"clients.table.column_header.type" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" [src]="getCustomerIconUrl(element)" alt=""> </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.name" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link" routerLink="/client-profile">{{getCustomerName(element)}} </div>
                             </td>
@@ -182,13 +181,13 @@
 
                         <!-- Estatus Column -->
                         <ng-container matColumnDef="number">
-                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Teléfono Celular </th>
+                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{"clients.table.column_header.cellphone_number" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="u-link"> {{getFirstContact(element)}} </td>
                         </ng-container>
 
                         <!-- Expedient Column -->
                         <ng-container matColumnDef="email">
-                            <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.email" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link">{{getFirstEmail(element)}}</div>
                             </td>
@@ -196,31 +195,30 @@
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.creation_date" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="update">
-                            <th mat-header-cell *matHeaderCellDef> Últ. Actualización </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.last_update" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
                         </ng-container>
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{"clients.table.column_header.actions" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center">
 
                                 <mat-button-toggle-group class="c-btn-table">
-                                    <mat-button-toggle>Editar</mat-button-toggle>
+                                    <mat-button-toggle>{{"clients.table.buttons.edit" | translate}}</mat-button-toggle>
                                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                                         <span class="icon-arrow-down"></span>
                                     </mat-button-toggle>
                                 </mat-button-toggle-group>
 
                                 <mat-menu #dropdownMenuOne="matMenu">
-                                    <button mat-menu-item>One</button>
-                                    <button mat-menu-item>Two</button>
-                                    <button mat-menu-item>Three</button>
+                                    <button mat-menu-item class="matMenu-yellow">{{"clients.table.buttons.edit" | translate}} <span class="icon-pen"></span></button>
+                                    <button mat-menu-item class="matMenu-red">{{'clients.table.buttons.delete' | translate}} <span class="icon-trash"></span></button>
                                 </mat-menu>
                             </td>
                         </ng-container>
@@ -234,17 +232,17 @@
 
 
             </mat-tab>
-            <mat-tab label="Empresas">
+            <mat-tab label="{{'clients.tabs.tab_customers_bussiness'  | translate}}">
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize flex-wrap mt-1">
-                    <p><b>Tienes {{customers_type_bussiness.length}}</b> tipo empresa </p>
+                    <p><b>{{'clients.table.table_header.have' | translate}} {{customers_type_bussiness.length}}</b> {{'clients.table.table_header.customers_type_bussiness' | translate}} </p>
 
                     <div class="c-form-group--search bordered ml-auto">
-                        <input matInput type="text" placeholder="Buscar por nombre">
+                        <input matInput type="text" placeholder="{{'clients.table.table_header.search_placeholder' | translate}}" (keyup)="applyFilter($event,'B')">
                         <span class="icon-search"></span>
                     </div>
 
                     <div class="d-flex align-items-center u-gap-1">
-                        <p class="u-textLightColor">Organizado de A-Z</p>
+                        <p class="u-textLightColor">{{'clients.table.table_header.sort_a_z' | translate}}</p>
                         <button mat-button [matMenuTriggerFor]="menu" class="c-btn-sort"><span class="icon-sort-desending"></span></button>
                         <mat-menu #menu="matMenu">
                           <button mat-menu-item>Item 1</button>
@@ -275,13 +273,13 @@
 
                         <!-- Type Column -->
                         <ng-container matColumnDef="type">
-                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{"clients.table.column_header.type" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" [src]="getCustomerIconUrl(element)" alt=""> </td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.name" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link" routerLink="/client-profile">{{getCustomerName(element)}} </div>
                             </td>
@@ -289,13 +287,13 @@
 
                         <!-- Estatus Column -->
                         <ng-container matColumnDef="number">
-                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Teléfono Celular </th>
+                            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{"clients.table.column_header.cellphone_number" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="u-link"> {{getFirstContact(element)}} </td>
                         </ng-container>
 
                         <!-- Expedient Column -->
                         <ng-container matColumnDef="email">
-                            <th mat-header-cell *matHeaderCellDef> Correo electrónico </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.email" | translate}} </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="u-link">{{getFirstEmail(element)}}</div>
                             </td>
@@ -303,31 +301,30 @@
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef> Fecha de creación </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.creation_date" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="update">
-                            <th mat-header-cell *matHeaderCellDef> Últ. Actualización </th>
+                            <th mat-header-cell *matHeaderCellDef> {{"clients.table.column_header.last_update" | translate}} </th>
                             <td mat-cell *matCellDef="let element"> {{element.updated_at}} </td>
                         </ng-container>
 
                         <!-- Date Column -->
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+                            <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{"clients.table.column_header.actions" | translate}} </th>
                             <td mat-cell *matCellDef="let element" class="text-center">
 
                                 <mat-button-toggle-group class="c-btn-table">
-                                    <mat-button-toggle>Editar</mat-button-toggle>
+                                    <mat-button-toggle>{{"clients.table.buttons.edit" | translate}}</mat-button-toggle>
                                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                                         <span class="icon-arrow-down"></span>
                                     </mat-button-toggle>
                                 </mat-button-toggle-group>
 
                                 <mat-menu #dropdownMenuOne="matMenu">
-                                    <button mat-menu-item>One</button>
-                                    <button mat-menu-item>Two</button>
-                                    <button mat-menu-item>Three</button>
+                                    <button mat-menu-item class="matMenu-yellow">{{'clients.table.buttons.edit' | translate}} <span class="icon-pen"></span></button>
+                                    <button mat-menu-item class="matMenu-red">{{'clients.table.buttons.delete' | translate}} <span class="icon-trash"></span></button>
                                 </mat-menu>
                             </td>
                         </ng-container>
