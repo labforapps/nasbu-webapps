@@ -261,6 +261,115 @@
           "edit":"Edit",
           "delete":"Delete"
         }
+    },
+    "form_create":{
+      "create_new_customer":"Create New Customer",
+      "what_type_customer_create_now":"What type of customer will we create noew ?",
+      "choose_option":"Choose one of the options",
+      "person":"Person",
+      "business":"Business",
+      "name_of_the_person":"Name of the Person",
+      "photo_or_logo":"Photo or Logo",
+      "name":"Name",
+      "lastname":"Lastname",
+      "contact":"Contact",
+      "email":"Email",
+      "cellphone_number":"",
+      "telephone_number":"",
+      "add_another_telephone_number":"Add another telephone number",
+      "phisical_address":"Phisical Address",
+      "postal_address":"Postal Address",
+      "city":"City",
+      "postal_code":"Postal Code",
+      "address":"Address",
+      "add_another_address":"Add another address",
+      "phisical_postal_address_share_info":"Phisical Address and Postal Code share the same information",
+      "associate_contact_to_bussiness":"Associate Contact to Bussiness",
+      "change":"Change",
+      "link_with_bussiness":"Link with bussiness",
+      "see_business_associated_to_user":"Here you can see the company that this user is associated with"
+
+    },
+    "client_detail":{
+      "back":"Back",
+      "quick_billing":"Quick Billing",
+      "edit_client":"Edit Client",
+      "general_data":"General Data",
+      "contact_details":"Contact Details",
+      "user_details":"User Details",
+      "personal_circumstances":"Personal Circumstances",
+      "birth_date":"Birth Date",
+      "profession_and_or_trade":"Profession and/or trade",
+      "civil_status":"Civil status",
+      "contacts":"Contacts",
+      "telephones":"Telephones",
+      "telephone_number":"Telephone Number",
+      "personal_mail":"Personal mail",
+      "business_mail":"business mail",
+      "fee":"Fee",
+      "data":"Data",
+      "license":"License",
+      "cost_per_hour":"Cost per hour",
+      "government_issuing_license":"government issuing license",
+      "phisical_mailing_address":"Physical and mailing address",
+      "phisical_address":"Physical Address",
+      "country":"Country",
+      "city_state_province":"",
+      "mailing_address":"",
+      "not_have_mailing_address":"Does not have mailing address"
+
+    },
+    "files":{
+      "files_title":"Files",
+      "tabs":{
+
+      },
+      "table_header":{
+
+      },
+      "table_columns":{
+
+      },
+      "buttons":{
+
+      }
+
+    },
+    "pending_issues":{
+      "pending_issues_title":"",
+      "tabs":{
+
+      },
+      "table_header":{
+
+      },
+      "table_columns":{
+
+      },
+      "buttons":{
+
+      }
+
+    },
+    "billing":{
+
+      "pending_issues_title":"",
+      "tabs":{
+
+      },
+      "table_header":{
+
+      },
+      "table_columns":{
+
+      },
+      "buttons":{
+
+      }
+
+    },
+    "client_intake":{
+
     }
    }
 }
