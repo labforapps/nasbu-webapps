@@ -227,10 +227,175 @@
       }
    },
    "clients":{
+    "common":{
+      "back":"Volver Atras",
+      "person":"Persona",
+      "business":"Empresa",
+      "note":"Nota",
+      "delete":"Eliminar",
+      "change":"Cambiar"
+    },
     "header":{
       "title":"Clientes",
       "button_invitation":"Invitacion a Registrarse",
       "button_create_client":"Crear Nuevo Cliente"
+    },
+    "tabs":{
+        "tab_all_customers":"Todos",
+        "tab_customers_person":"Persona",
+        "tab_customers_bussiness":"Empresa"
+    },
+    "table":{
+        "table_header":{
+          "sort_a_z":"Organizado de A-Z",
+          "search_placeholder":"Buscar por Nombre",
+          "title_count_customers":"",
+          "have":"Tienes",
+          "customers_in_total":"clientes en total",
+          "customers_type_person":"clientes tipo persona",
+          "customers_type_bussiness":"clientes tipo empresa"
+        },
+        "column_header":{
+          "type":"Tipo",
+          "name":"Nombre",
+          "cellphone_number":"Telefono Celular",
+          "email":"Correo Electronico",
+          "creation_date":"Fecha de Creacion",
+          "last_update":"Ult. Actualizacion",
+          "actions":"Acciones"
+        },
+        "buttons":{
+          "edit":"Editar",
+          "delete":"Eliminar"
+        }
+    },
+    "form_create":{
+      "create_new_customer":"Crear Nuevo Cliente",
+      "what_type_customer_create_now":"¿Que tipo de cliente crearemos ahora? *",
+      "choose_option":"Seleccionar una de las opciones",
+      "name_of_the_person":"Nombre de la Persona",
+      "photo_or_logo":"Foto o Logo",
+      "upload_image_max_2":"Subir imagen máximo 2MB",
+      "name":"Nombre",
+      "lastname":"Apellido",
+      "contact":"Contacto",
+      "email":"Correo Electronico",
+      "cellphone_number":"Num. Telefono celular",
+      "telephone_number":"Num. de Telefono",
+      "add_another_telephone_number":"Agregar otro telefono",
+      "choose_country":"Seleccionar Pais",
+      "physical_address":"Direccion Fisica",
+      "mailing_address":"Direccion Postal",
+      "city":"Ciudad",
+      "postal_code":"Codigo Postal",
+      "address":"Direccion",
+      "add_another_address":"Agregar nueva direccion",
+      "phisical_postal_address_share_info":"Direccion Fisica y Postal comparten la misma informacion",
+      "associate_contact_to_bussiness":"Asociar contacto a empresa ",
+      "change":"Cambiar",
+      "link_with_business":"Enlazar con empresa",
+      "see_business_associated_to_user":"Aquí podrás ver a la empresa que está asociado este usuario",
+      "remember_fill_required_information":"Recuerda completar los datos requeridos",
+      "save_customer":"Guardar Cliente",
+      "save_create_another":"Guardar y crear otro"
+
+    },
+    "details":{
+      "express_billing":"Facturacion Rapida",
+      "edit_customer":"Editar Cliente",
+      "general_data":"Datos Generales",
+      "files":"Expedientes",
+      "pending_issues":"Asuntos Pendientes",
+      "billing":"Facturacion",
+      "contact_information":"Datos de Contacto",
+      "user_details":"Detalles del Usuario",
+      "personal_circumstances":"Circunstancias personales",
+      "birth_date":"Fecha de nacimiento",
+      "profession_and_or_trade":"Profesion u/o oficio",
+      "civil_status":"Estado Civil",
+      "contacts":"Contactos",
+      "telephones":"Telefonos",
+      "telephone_number":"Num. Celular",
+      "personal_mail":"Correo Personal",
+      "business_mail":"Correo Empresarial",
+      "fee":"Honorarios",
+      "data":"Datos",
+      "license":"Licencia",
+      "cost_per_hour":"Costo por hora",
+      "government_issuing_license":"Gobierno emisor licencia",
+      "physical_mailing_address":"Direccion Fisical y postal",
+      "physical_address":"Direccion Fisica",
+      "country":"Pais",
+      "city_state_province":"Ciudad, Estado o Provincia",
+      "postal_code":"Codigo Postal",
+      "mailing_address":"Direccion Postal",
+      "not_have_mailing_address":"No tiene direccion postal"
+
+    },
+    "files":{
+      "files_title":"Files",
+      "tabs":{
+        "all":"All",
+        "open":"Open",
+        "closed":"Closed"
+      },
+      "table_header":{
+        "search_for_name":"Search For Name",
+        "create_new":"Create New"
+      },
+      "table_columns":{
+        "type":"Type",
+        "subject_description":"Subject Description",
+        "case_assigned_to":"Case Assigned To",
+        "customer":"Customer",
+        "last_update":"Last Update",
+        "shared_with":"Shared With",
+        "actions":"Actions"
+      },
+      "buttons":{
+        "edit":"Edit",
+        "delete":"Delete",
+        "share":"Share",
+        "watch":"Watch",
+        "send_file_to_client":"Send File to Client"
+      }
+
+    },
+    "pending_issues":{
+      "pending_issues_title":"",
+      "tabs":{
+          "pending":"Pending",
+          "completed":"Completed"
+      },
+      "table_header":{
+        "filter_by":"Filter By"
+      },
+      "table_columns":{
+        "task_assigned_to":"Task Assigned To",
+        "expiration_date":"Expiration Date",
+        "shared_with":"Shared with"
+      }
+
+    },
+    "billing":{
+
+
+      "pending_issues_title":"",
+      "tabs":{
+        "pending_charge":"Pending Charge",
+        "charged":"Charged"
+      },
+      "table_header":{
+        "new_bill":"New Bill"
+      },
+      "table_columns":{
+        "status":"Status",
+        "date":"Date"
+      }
+
+    },
+    "client_intake":{
+
     }
    }
 }

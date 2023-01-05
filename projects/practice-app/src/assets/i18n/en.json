@@ -228,6 +228,14 @@
       }
    },
    "clients":{
+    "common":{
+      "back":"Back",
+      "person":"Person",
+      "business":"Business",
+      "note":"Note",
+      "delete":"Delete",
+      "change":"Change"
+    },
       "header":{
         "title":"Customers",
         "button_invitation":"Invite to Register",
@@ -264,38 +272,43 @@
     },
     "form_create":{
       "create_new_customer":"Create New Customer",
-      "what_type_customer_create_now":"What type of customer will we create noew ?",
+      "what_type_customer_create_now":"What type of customer will we create now ? *",
       "choose_option":"Choose one of the options",
-      "person":"Person",
-      "business":"Business",
       "name_of_the_person":"Name of the Person",
       "photo_or_logo":"Photo or Logo",
+      "upload_image_max_2":"Upload image maximum 2MB",
       "name":"Name",
       "lastname":"Lastname",
       "contact":"Contact",
       "email":"Email",
-      "cellphone_number":"",
-      "telephone_number":"",
+      "cellphone_number":"Cellphone Number",
+      "telephone_number":"Telephone Number",
       "add_another_telephone_number":"Add another telephone number",
-      "phisical_address":"Phisical Address",
-      "postal_address":"Postal Address",
+      "choose_country":"Choose a Country",
+      "physical_address":"Physical Address",
+      "mailing_address":"Mailing Address",
       "city":"City",
       "postal_code":"Postal Code",
       "address":"Address",
       "add_another_address":"Add another address",
-      "phisical_postal_address_share_info":"Phisical Address and Postal Code share the same information",
+      "physical_postal_address_share_info":"Physical Address and Postal Code share the same information",
       "associate_contact_to_bussiness":"Associate Contact to Bussiness",
       "change":"Change",
-      "link_with_bussiness":"Link with bussiness",
-      "see_business_associated_to_user":"Here you can see the company that this user is associated with"
+      "link_with_business":"Link with business",
+      "see_business_associated_to_user":"Here you can see the company that this user is associated with",
+      "remember_fill_required_information":"Remember to fill in the required information",
+      "save_customer":"Save Customer",
+      "save_create_another":"Save Customer and create another"
 
     },
-    "client_detail":{
-      "back":"Back",
-      "quick_billing":"Quick Billing",
-      "edit_client":"Edit Client",
+    "details":{
+      "express_billing":"Express Billing",
+      "edit_customer":"Edit Customer",
       "general_data":"General Data",
-      "contact_details":"Contact Details",
+      "files":"Files",
+      "pending_issues":"Pending Issues",
+      "billing":"Billing",
+      "contact_information":"Contact Information",
       "user_details":"User Details",
       "personal_circumstances":"Personal Circumstances",
       "birth_date":"Birth Date",
@@ -311,65 +324,80 @@
       "license":"License",
       "cost_per_hour":"Cost per hour",
       "government_issuing_license":"government issuing license",
-      "phisical_mailing_address":"Physical and mailing address",
-      "phisical_address":"Physical Address",
+      "physical_mailing_address":"Physical and mailing address",
+      "physical_address":"Physical Address",
       "country":"Country",
-      "city_state_province":"",
-      "mailing_address":"",
+      "city_state_province":"City, State, Province",
+      "postal_code":"Postal Code",
+      "mailing_address":"Mailing Address",
       "not_have_mailing_address":"Does not have mailing address"
 
     },
     "files":{
       "files_title":"Files",
       "tabs":{
-
+        "all":"All",
+        "open":"Open",
+        "closed":"Closed"
       },
       "table_header":{
-
+        "search_for_name":"Search For Name",
+        "create_new":"Create New"
       },
       "table_columns":{
-
+        "type":"Type",
+        "subject_description":"Subject Description",
+        "case_assigned_to":"Case Assigned To",
+        "customer":"Customer",
+        "last_update":"Last Update",
+        "shared_with":"Shared With",
+        "actions":"Actions"
       },
       "buttons":{
-
+        "edit":"Edit",
+        "delete":"Delete",
+        "share":"Share",
+        "watch":"Watch",
+        "send_file_to_client":"Send File to Client"
       }
 
     },
     "pending_issues":{
       "pending_issues_title":"",
       "tabs":{
-
+          "pending":"Pending",
+          "completed":"Completed"
       },
       "table_header":{
-
+        "filter_by":"Filter By"
       },
       "table_columns":{
-
-      },
-      "buttons":{
-
+        "task_assigned_to":"Task Assigned To",
+        "expiration_date":"Expiration Date",
+        "shared_with":"Shared with"
       }
 
     },
     "billing":{
 
+
       "pending_issues_title":"",
       "tabs":{
-
+        "pending_charge":"Pending Charge",
+        "charged":"Charged"
       },
       "table_header":{
-
+        "new_bill":"New Bill"
       },
       "table_columns":{
-
-      },
-      "buttons":{
-
+        "status":"Status",
+        "date":"Date"
       }
 
     },
     "client_intake":{
 
     }
+
    }
 }

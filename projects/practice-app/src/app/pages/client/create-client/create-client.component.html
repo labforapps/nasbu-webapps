@@ -4,15 +4,15 @@
     </div>
     <div class="l-create__body">
         <div class="l-create__btnBack">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>Volver atras</button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>{{'clients.common.back' | translate}}</button>
         </div>
         <div class="c-create">
             <div class="c-create__header">
                 <div class="row w-100">
                     <div class="col-sm-8">
-                        <div class="c-create__title">Crear nuevo cliente</div>
-                        <div class="c-create__subtitle">¿Qué tipo de cliente crearemos ahora? *</div>
-                        <div class="c-create__text">Selecciona una de las opciones</div>
+                        <div class="c-create__title">{{'clients.form_create.create_new_customer' | translate}}</div>
+                        <div class="c-create__subtitle">{{'clients.form_create.what_type_customer_create_now' | translate}}</div>
+                        <div class="c-create__text">{{'clients.form_create.choose_option' | translate}}</div>
                     </div>
                     <div class="col-sm-4 ml-auto">
                         <div class="c-toggleOptions">
@@ -20,13 +20,13 @@
                                 <div class="c-toggleOptions__icon">
                                     <span class="icon-user"></span>
                                 </div>
-                                <div class="c-toggleOptions__title">Persona</div>
+                                <div class="c-toggleOptions__title">{{'clients.common.person' | translate}}</div>
                             </div>
                             <div class="c-toggleOptions__item">
                                 <div class="c-toggleOptions__icon">
                                     <span class="icon-company"></span>
                                 </div>
-                                <div class="c-toggleOptions__title">Empresa</div>
+                                <div class="c-toggleOptions__title">{{'clients.common.business' | translate}}</div>
                             </div>
 
                         </div>
@@ -39,18 +39,18 @@
 
                   <div class="row">
                     <div class="col-sm-6">
-                      <label class="u-title-label">Nombre de la persona <span class="u-dangerColor">*</span></label>
+                      <label class="u-title-label">{{'clients.form_create.name_of_the_person' | translate}}<span class="u-dangerColor">*</span></label>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Nombre </mat-label>
+                        <mat-label>{{'clients.form_create.name' | translate}} </mat-label>
                         <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Apellido</mat-label>
+                        <mat-label>{{'clients.form_create.lastname' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
                       </mat-form-field>
                     </div>
                     <div class="col-sm-6">
-                      <label class="u-title-label">Foto o logo</label>
+                      <label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
                       <div class="c-uploadPicture">
                         <div class="c-uploadPicture__img">
                           <img src="../../../../assets/images/upload-camera.svg" alt="">
@@ -58,9 +58,9 @@
                         </div>
                         <div class="c-uploadPicture__controls">
                           <div class="c-uploadPicture__text">
-                            Nota: <br> Subir imagen máximo 2MB
+                            {{'clients.common.note' | translate}}: <br> {{'clients.form_create.upload_image_max_2' | translate}}
                           </div>
-                          <div class="u-link mt-1">Eliminar</div>
+                          <div class="u-link mt-1">{{'clients.common.delete' | translate}}</div>
                         </div>
                       </div>
                     </div>
@@ -68,9 +68,9 @@
                   <hr class="u-divider--marginBig">
                   <div class="row">
                     <div class="col-sm-6">
-                      <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
+                      <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                        <mat-label>Núm. Teléfono celular</mat-label>
+                        <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
                         <mat-select>
                           <mat-option>
                             Option 1
@@ -84,10 +84,10 @@
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Num. de Teléfono </mat-label>
+                        <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
                         <input class="c-form-group__input" matInput>
                       </mat-form-field>
-                      <button mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
+                      <button mat-button class="c-btn-add mb-4">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
                     </div>
                     <div class="col-sm-6">
                       <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
@@ -106,18 +106,18 @@
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Correo electrónico</mat-label>
+                        <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput>
                       </mat-form-field>
-                      <button mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
+                      <button mat-button class="c-btn-add mb-4">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
                     </div>
                   </div>
                   <hr class="u-divider--marginBig">
                   <div class="row">
                     <div class="col-sm-6">
-                      <label class="u-title-label">Dirección Física</label>
+                      <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                        <mat-label>Seleccionar país </mat-label>
+                        <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
                         <mat-select>
                           <mat-option>
                             Option 1
@@ -131,60 +131,60 @@
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Ciudad</mat-label>
+                        <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Dirección</mat-label>
+                        <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
                       </mat-form-field>
                       <div class="col-sm-5 p-0">
                         <mat-form-field appearance="fill" class="c-form-group">
-                          <mat-label>Código Postal</mat-label>
+                          <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                           <input class="c-form-group__input" matInput>
                         </mat-form-field>
                       </div>
                       <mat-checkbox class="c-checkbox mt-1 mb-4">
-                        Dirección Física y Postal comparten la misma información
+                        {{'clients.form_create.physical_postal_address_share_info' | translate}}
                       </mat-checkbox>
                     </div>
                     <div class="col-sm-6">
-                      <label class="u-title-label">Dirección postal</label>
+                      <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Ciudad</mat-label>
+                        <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
                       </mat-form-field>
                       <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Dirección</mat-label>
+                        <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
                       </mat-form-field>
                       <div class="col-sm-5 p-0">
                         <mat-form-field appearance="fill" class="c-form-group">
-                          <mat-label>Código Postal</mat-label>
+                          <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                           <input class="c-form-group__input" matInput>
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="col-sm-12 mt-1">
-                      <button mat-button class="c-btn-add">+ Añadir nuevo domicilio</button>
+                      <button mat-button class="c-btn-add">+ {{'clients.form_create.mailing_address' | translate}}</button>
                     </div>
                   </div>
                   <hr class="u-divider--marginBig">
                   <div class="row">
                     <div class="col-sm-12">
-                      <h4>Asociar contacto a empresa <span class="u-dangerColor">*</span></h4>
-                      <p class="mt-1 u-smallSize">Aquí podrás ver a la empresa que está asociado este usuario</p>
+                      <h4>{{'clients.form_create.associate_contact_to_bussiness' | translate}}<span class="u-dangerColor">*</span></h4>
+                      <p class="mt-1 u-smallSize">{{'clients.form_create.see_business_associated_to_user' | translate}}</p>
                       <div class="mt-5">
                         <div class="align-items-center c-form-item d-flex flex-wrap justify-content-center u-gap-1">
                           <img src="../../../../assets/images/company.svg" alt="">
                           <div class="u-normalSize mr-auto">
                             <b class="mr-1">Compañía</b> Moya & Asociados
                           </div>
-                          <button mat-button class="u-link u-link--underline mr-2 u-normalSize">Eliminar</button>
-                          <button mat-button class="c-btn-add w-25">Cambiar</button>
+                          <button mat-button class="u-link u-link--underline mr-2 u-normalSize">{{'clients.common.delete' | translate}}</button>
+                          <button mat-button class="c-btn-add w-25">{{'clients.common.change' | translate}}</button>
                         </div>
                       </div>
-                      <button mat-button class="c-btn-add" (click)="openDialogList()">+ Enlazar con empresa</button>
+                      <button mat-button class="c-btn-add" (click)="openDialogList()">+ {{'clients.form_create.link_with_business' | translate}}</button>
                     </div>
                   </div>
 
@@ -193,10 +193,10 @@
         </div>
     </div>
     <div class="c-ribbon">
-        <div class="c-ribbon__text">“Recuerda completar los datos requeridos"</div>
+        <div class="c-ribbon__text">“{{'clients.form_create.remember_fill_required_information' | translate}}"</div>
         <div class="c-ribbon__actions">
-            <button mat-button class="c-btn-function">Guardar cliente </button>
-            <button mat-button class="c-btn-function">Guardar y crear otro</button>
+            <button mat-button class="c-btn-function">{{'clients.form_create.save_customer' | translate}} </button>
+            <button mat-button class="c-btn-function">{{'clients.form_create.save_create_another' | translate}}</button>
         </div>
 
     </div>
