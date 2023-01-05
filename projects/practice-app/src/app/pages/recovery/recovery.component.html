@@ -16,11 +16,13 @@
                     <input class="c-form-group__input" matInput type="text" disabled  [ngModel]="recoveryCode">
                 </mat-form-field>
             </div>
-            <form class="w-75" [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" >
+            <div class="w-75">
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>{{'register.email' | translate}}</mat-label>
-                    <input class="c-form-group__input" matInput type="text" autocomplete="off" formControlName="username">
+                    <input class="c-form-group__input" matInput type="text" disabled  [ngModel]="recoveryEmail">
                 </mat-form-field>
+            </div>
+            <form class="w-75" [formGroup]="recoveryForm" (ngSubmit)="onSubmit()" >
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>{{'recovery.newPassword' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput type="password"  placeholder="*******" formControlName="newPassword">

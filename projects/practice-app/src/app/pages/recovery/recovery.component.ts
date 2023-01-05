@@ -19,6 +19,7 @@ export class RecoveryComponent implements OnInit, OnDestroy {
   public passwordDontMatchMsg: string = '';
   public recoveryCode!: string;
   public errorMessage!: string;
+  public recoveryEmail!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +50,6 @@ export class RecoveryComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this.recoveryForm = this.fb.group({
-      username: [null, Validators.required],
       newPassword: [null, [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
       confirmPassword: [null, Validators.required]
     });
@@ -67,8 +67,8 @@ export class RecoveryComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.recoveryForm.invalid) return;
-    const {username, newPassword} = this.recoveryForm.value;  
-    this.authService.forgotPasswordSubmit({code: this.recoveryCode, username, newPassword}).subscribe(
+    const newPassword = this.recoveryForm.value.newPassword;  
+    this.authService.forgotPasswordSubmit({code: this.recoveryCode, username: this.recoveryEmail, newPassword}).subscribe(
       (payload)=>{
         this.router.navigate(['/signin']);
       }, (error)=>{
@@ -88,11 +88,13 @@ export class RecoveryComponent implements OnInit, OnDestroy {
 
   validateRecoveryCode(): void {
     const code = this.route.snapshot.queryParamMap.get('code');
-    if (!code) {
+    const email = this.route.snapshot.queryParamMap.get('email');
+    if (!code || !email) {
       this.router.navigate(['/signin']);
       return;
     }
     this.recoveryCode = code;
+    this.recoveryEmail = email;
   }
 
   ngOnDestroy(): void {

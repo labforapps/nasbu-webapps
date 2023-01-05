@@ -79,7 +79,8 @@
       "UserNotConfirmedException": " User not confirmed.",
       "passwordsDoNotMatch": "passwords don't match.",
       "LimitExceededException": "Attempt limit exceeded, please try after some time.",
-      "ExpiredCodeException": "Invalid code provided, please request a code again."
+      "ExpiredCodeException": "Invalid code provided, please request a code again.",
+      "CodeMismatchException": "Invalid verification code provided, please try again."
    },
    "formValidations": {
       "required": "The field $0 is required",

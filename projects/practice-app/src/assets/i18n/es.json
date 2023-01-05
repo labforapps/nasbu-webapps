@@ -78,7 +78,8 @@
       "UserNotConfirmedException": "Usuario no confirmado.",
       "passwordsDoNotMatch": "Contraseñas no coinciden.",
       "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo.",
-      "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente."
+      "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente.",
+      "CodeMismatchException":"Se proporcionó un código de verificación no válido, inténtelo de nuevo."
    },
    "formValidations": {
       "required": "El campo $0 es requerido",
