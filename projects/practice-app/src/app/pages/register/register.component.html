@@ -55,7 +55,7 @@
             </div>
             <div class="c-register__right">
                 <mat-slide-toggle class="c-switch mb-3" (change)="onSelectSubscriptionPeriod($event)">
-                    <span i18n [ngClass]="{'is-active': !anualSubscription}">{{'register.monthly' | translate}}</span>
+                    <span [ngClass]="{'is-active': !anualSubscription}">{{'register.monthly' | translate}}</span>
                     <span>/</span>
                     <span [ngClass]="{'is-active': anualSubscription}">{{'register.annual' | translate}}</span>
                 </mat-slide-toggle>
@@ -93,7 +93,7 @@
                     <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)">
                        {{'register.getFreeTrialButton'| translate}} 
                     </button>
-                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" i18n (click)="signupAndCreateSubscription(false)">
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(false)">
                         {{'register.buyNowButton'| translate}} 
                     </button>
                 </div>
