@@ -233,7 +233,9 @@
       "business":"Empresa",
       "note":"Nota",
       "delete":"Eliminar",
-      "change":"Cambiar"
+      "change":"Cambiar",
+      "share":"Compartir",
+      "edit":"Editar"
     },
     "header":{
       "title":"Clientes",
@@ -333,47 +335,52 @@
 
     },
     "files":{
-      "files_title":"Files",
+      "files_title":"Expedientes",
       "tabs":{
-        "all":"All",
-        "open":"Open",
-        "closed":"Closed"
+        "all":"Todos",
+        "open":"Abiertos",
+        "closed":"Cerrados"
       },
       "table_header":{
-        "search_for_name":"Search For Name",
-        "create_new":"Create New"
+        "search_for_name":"Buscar por Nombre",
+        "create_new":"Crear nuevo"
       },
       "table_columns":{
-        "type":"Type",
-        "subject_description":"Subject Description",
-        "case_assigned_to":"Case Assigned To",
-        "customer":"Customer",
-        "last_update":"Last Update",
-        "shared_with":"Shared With",
-        "actions":"Actions"
+        "type":"Tipo",
+        "subject_description":"Descripcion Asunto",
+        "case_assigned_to":"Caso asignado a",
+        "customer":"Cliente",
+        "last_update":"Ult. Actualizacion",
+        "shared_with":"Compartido con",
+        "actions":"Acciones"
       },
       "buttons":{
-        "edit":"Edit",
-        "delete":"Delete",
-        "share":"Share",
-        "watch":"Watch",
-        "send_file_to_client":"Send File to Client"
+        "edit":"Editar",
+        "delete":"Eliminar",
+        "share":"Compartir",
+        "watch":"Ver",
+        "send_file_to_client":"Enviar expediente a cliente"
       }
 
     },
     "pending_issues":{
       "pending_issues_title":"",
       "tabs":{
-          "pending":"Pending",
-          "completed":"Completed"
+          "all":"Todos",
+          "pending":"Pendientes",
+          "completed":"Completados"
       },
       "table_header":{
-        "filter_by":"Filter By"
+        "filter_by":"Filtrar por",
+        "search":"Buscar",
+        "create_new_task":"Crear nueva tarea"
       },
       "table_columns":{
-        "task_assigned_to":"Task Assigned To",
-        "expiration_date":"Expiration Date",
-        "shared_with":"Shared with"
+        "type":"Tipo",
+        "task_assigned_to":"Tarea asignada a",
+        "expiration_date":"Fecha de Vencimiento",
+        "shared_with":"Compartido con",
+        "subject_description":"Descripcion Asunto"
       }
 
     },

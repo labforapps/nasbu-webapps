@@ -234,7 +234,9 @@
       "business":"Business",
       "note":"Note",
       "delete":"Delete",
-      "change":"Change"
+      "change":"Change",
+      "share":"Share",
+      "edit":"Edit"
     },
       "header":{
         "title":"Customers",
@@ -358,23 +360,28 @@
         "delete":"Delete",
         "share":"Share",
         "watch":"Watch",
-        "send_file_to_client":"Send File to Client"
+        "send_file_to_client":"Send File to customer"
       }
 
     },
     "pending_issues":{
       "pending_issues_title":"",
       "tabs":{
+          "all":"All",
           "pending":"Pending",
           "completed":"Completed"
       },
       "table_header":{
-        "filter_by":"Filter By"
+        "filter_by":"Filter By",
+        "search":"Search",
+        "create_new_task":"Create New Task"
       },
       "table_columns":{
+        "type":"Type",
         "task_assigned_to":"Task Assigned To",
         "expiration_date":"Expiration Date",
-        "shared_with":"Shared with"
+        "shared_with":"Shared with",
+        "subject_description":"Subject Description"
       }
 
     },

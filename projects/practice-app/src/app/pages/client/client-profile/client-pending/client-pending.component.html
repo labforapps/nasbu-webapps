@@ -2,16 +2,16 @@
     <mat-tab-group class="c-tabs c-tabs--green c-tabs--sub">
         <mat-tab>
             <ng-template mat-tab-label>
-                Todos
+                {{'clients.pending_issues.tabs.all' | translate}}
             </ng-template>
             <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>Tienes 10 tareas </b> en total con Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="Buscar...">
+                    <input matInput type="mail" placeholder="{{'clients.pending_issues.table_header.search' | translate}}...">
                     <span class="icon-search"></span>
                 </div>
                 <div class="c-btn-filter">
-                    Filtrar por
+                    {{'clients.pending_issues.table_header.filter_by' | translate}}
                     <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
                     <mat-menu #filterMenu="matMenu">
                         <div class="c-filter" (click)="$event.stopPropagation()">
@@ -92,7 +92,7 @@
                         </div>
                     </mat-menu>
                 </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">Crear nueva tarea<span class="icon-plus ml-2 "></span></button>
+                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
@@ -108,36 +108,36 @@
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="position">
                         <th mat-header-cell *matHeaderCellDef> No. </th>
                         <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.pending_issues.table_columns.type' | translate}} </th>
                         <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/phone.svg" alt=""> </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.pending_issues.table_columns.subject_description' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="w-20">
                             <div class="u-link c-table__truncate" >{{element.description}} </div>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>Taréa asignada a</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.task_assigned_to' | translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <div class="u-link">{{element.case}}</div>
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef> Fecha Vencimiento </th>
+                        <th mat-header-cell *matHeaderCellDef> {{'clients.pending_issues.table_columns.expiration_date' | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             {{element.date}}
                         </td>
@@ -151,12 +151,12 @@
                     </ng-container>
 
                     <ng-container matColumnDef="state">
-                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.shared_with' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="u-yellowColor u-fontBold">
                             {{element.state}}
                         </td>
                     </ng-container>
-                    
+
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -169,11 +169,9 @@
                             </mat-button-toggle-group>
 
                             <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item class="matMenu-yellow">Editar <span class="icon-pen"></span></button>
-                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
-                                <button mat-menu-item class="matMenu-green">Compartir <span class="icon-people"></span></button>
-                                <button mat-menu-item class="matMenu-blue">Enviar expdiente a cliente <span class="icon-send"></span></button>
-                            </mat-menu>
+                                <button mat-menu-item class="matMenu-yellow">{{'clients.common.edit' | translate}} <span class="icon-pen"></span></button>
+                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">{{'clients.common.delete' | translate}} <span class="icon-trash"></span></button>
+                                <button mat-menu-item class="matMenu-green">{{'clients.common.share' | translate}} <span class="icon-people"></span></button>                            </mat-menu>
                         </td>
                     </ng-container>
 
@@ -185,16 +183,16 @@
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
-                Pendientes
+                {{'clients.pending_issues.tabs.pending' | translate}}
             </ng-template>
             <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>Tienes 10 tareas </b> en total con Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="Buscar...">
+                    <input matInput type="mail" placeholder="{{'clients.pending_issues.table_header.search' | translate}}...">
                     <span class="icon-search"></span>
                 </div>
                 <div class="c-btn-filter">
-                    Filtrar por
+                    {{'clients.pending_issues.table_header.filter_by' | translate}}
                     <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
                     <mat-menu #filterMenu="matMenu">
                         <div class="c-filter" (click)="$event.stopPropagation()">
@@ -275,7 +273,7 @@
                         </div>
                     </mat-menu>
                 </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">Crear nueva tarea<span class="icon-plus ml-2 "></span></button>
+                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
@@ -291,36 +289,36 @@
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="position">
                         <th mat-header-cell *matHeaderCellDef> No. </th>
                         <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.pending_issues.table_columns.type' | translate}} </th>
                         <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/company.svg" alt=""> </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.pending_issues.table_columns.subject_description' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="w-20">
                             <div class="u-link c-table__truncate" >{{element.description}} </div>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>Taréa asignada a</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.task_assigned_to' | translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <div class="u-link">{{element.case}}</div>
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef> Fecha Vencimiento </th>
+                        <th mat-header-cell *matHeaderCellDef> {{'clients.pending_issues.table_columns.expiration_date' | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             {{element.date}}
                         </td>
@@ -334,12 +332,12 @@
                     </ng-container>
 
                     <ng-container matColumnDef="state">
-                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.shared_with' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="u-yellowColor u-fontBold">
                             {{element.state}}
                         </td>
                     </ng-container>
-                    
+
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -352,10 +350,9 @@
                             </mat-button-toggle-group>
 
                             <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item>Editar <span class="icon-pen"></span></button>
-                                <button mat-menu-item (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
-                                <button mat-menu-item>Compartir <span class="icon-people"></span></button>
-                                <button mat-menu-item>Enviar expdiente a cliente <span class="icon-send"></span></button>
+                                <button mat-menu-item>{{'clients.common.edit' | translate}} <span class="icon-pen"></span></button>
+                                <button mat-menu-item (click)="openAlertDelete()">{{'clients.common.delete' | translate}} <span class="icon-trash"></span></button>
+                                <button mat-menu-item>{{'clients.common.share' | translate}} <span class="icon-people"></span></button>
                             </mat-menu>
                         </td>
                     </ng-container>
@@ -368,17 +365,17 @@
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
-               Completados
+              {{'clients.pending_issues.tabs.completed' | translate}}
 
             </ng-template>
             <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>Tienes 10 tareas </b> en total con Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="Buscar...">
+                    <input matInput type="mail" placeholder="{{'clients.pending_issues.table_header.search' | translate}}...">
                     <span class="icon-search"></span>
                 </div>
                 <div class="c-btn-filter">
-                    Filtrar por
+                    {{'clients.pending_issues.table_header.filter_by' | translate}}
                     <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
                     <mat-menu #filterMenu="matMenu">
                         <div class="c-filter" (click)="$event.stopPropagation()">
@@ -459,7 +456,7 @@
                         </div>
                     </mat-menu>
                 </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">Crear nueva tarea<span class="icon-plus ml-2 "></span></button>
+                <button class="c-btn-function" mat-button (click)="openDialogNewTask()">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
@@ -475,36 +472,36 @@
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="position">
                         <th mat-header-cell *matHeaderCellDef> No. </th>
                         <td mat-cell *matCellDef="let element"> {{element.position}} </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.pending_issues.table_columns.type' | translate}} </th>
                         <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/calendar.svg" alt=""> </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">Descripción asunto</th>
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.pending_issues.table_columns.subject_description' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="w-20">
                             <div class="u-link c-table__truncate" >{{element.description}} </div>
                         </td>
                     </ng-container>
 
                     <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>Taréa asignada a</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.task_assigned_to' | translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <div class="u-link">{{element.case}}</div>
                         </td>
                     </ng-container>
 
-                    
+
                     <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef> Fecha Vencimiento </th>
+                        <th mat-header-cell *matHeaderCellDef> {{'clients.pending_issues.table_columns.expiration_date' | translate}} </th>
                         <td mat-cell *matCellDef="let element">
                             {{element.date}}
                         </td>
@@ -518,12 +515,12 @@
                     </ng-container>
 
                     <ng-container matColumnDef="state">
-                        <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+                        <th mat-header-cell *matHeaderCellDef>{{'clients.pending_issues.table_columns.shared_with' | translate}}</th>
                         <td mat-cell *matCellDef="let element" class="u-yellowColor u-fontBold">
                             {{element.state}}
                         </td>
                     </ng-container>
-                    
+
                     <ng-container matColumnDef="action">
                         <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
                         <td mat-cell *matCellDef="let element" class="text-center">
@@ -536,11 +533,9 @@
                             </mat-button-toggle-group>
 
                             <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item>Editar <span class="icon-pen"></span></button>
-                                <button mat-menu-item (click)="openAlertDelete()">Eliminar <span class="icon-trash"></span></button>
-                                <button mat-menu-item>Compartir <span class="icon-people"></span></button>
-                                <button mat-menu-item>Enviar expdiente a cliente <span class="icon-send"></span></button>
-                            </mat-menu>
+                                <button mat-menu-item>{{'clients.common.edit' | translate}} <span class="icon-pen"></span></button>
+                                <button mat-menu-item (click)="openAlertDelete()">{{'clients.common.delete' | translate}} <span class="icon-trash"></span></button>
+                                <button mat-menu-item>{{'clients.common.share' | translate}} <span class="icon-people"></span></button>                            </mat-menu>
                         </td>
                     </ng-container>
 

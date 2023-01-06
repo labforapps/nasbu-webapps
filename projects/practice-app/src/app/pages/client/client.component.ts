@@ -67,13 +67,13 @@ export class ClientComponent implements OnInit {
   fetchCustomers() {
     //console.log('selectedSubscription: ', this.selectedSubscription);
     if (this.selectedSubscription) {
-      this.customersService
+      /*this.customersService
         .getCustomers(this.selectedSubscription?.ssid)
         .subscribe((customers: Customer[]) => {
           //console.log(customers);
           this.memCustomers = customers;
           this.ngAfterViewInit();
-        });
+        });*/
     }
   }
 
