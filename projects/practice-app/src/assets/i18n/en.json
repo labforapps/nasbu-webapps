@@ -236,8 +236,10 @@
       "delete":"Delete",
       "change":"Change",
       "share":"Share",
-      "edit":"Edit"
-    },
+      "edit":"Edit",
+      "watch":"Watch",
+      "have":"Have",
+      "records_in_total_with":"records in total with"    },
       "header":{
         "title":"Customers",
         "button_invitation":"Invite to Register",
@@ -381,7 +383,8 @@
         "task_assigned_to":"Task Assigned To",
         "expiration_date":"Expiration Date",
         "shared_with":"Shared with",
-        "subject_description":"Subject Description"
+        "subject_description":"Subject Description",
+        "actions":"Actions"
       }
 
     },
@@ -390,15 +393,24 @@
 
       "pending_issues_title":"",
       "tabs":{
+        "all":"All",
         "pending_charge":"Pending Charge",
         "charged":"Charged"
       },
       "table_header":{
-        "new_bill":"New Bill"
+        "new_bill":"New Bill",
+        "date_range":"Date Range",
+        "search_for_name":"Search for name",
+        "organized_by_creation_date":"Organized by creation date",
+        "billings_listed":"billings listed"
       },
       "table_columns":{
+        "type":"Type",
         "status":"Status",
-        "date":"Date"
+        "file":"File",
+        "date":"Date",
+        "balance":"Balance",
+        "actions":"Actions"
       }
 
     },

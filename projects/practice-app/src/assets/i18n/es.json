@@ -235,7 +235,9 @@
       "delete":"Eliminar",
       "change":"Cambiar",
       "share":"Compartir",
-      "edit":"Editar"
+      "edit":"Editar",
+      "watch":"Ver",
+      "records_in_total_with":"registros en total con"
     },
     "header":{
       "title":"Clientes",
@@ -386,18 +388,26 @@
     },
     "billing":{
 
-
-      "pending_issues_title":"",
+      "billing_title":"",
       "tabs":{
-        "pending_charge":"Pending Charge",
-        "charged":"Charged"
+        "all":"Todas",
+        "pending_charge":"Pendiente de Cobro",
+        "charged":"Cobrado"
       },
       "table_header":{
-        "new_bill":"New Bill"
+        "new_bill":"Nueva factura",
+        "date_range":"Rango de fecha",
+        "search_for_name":"Buscar por nombre",
+        "organized_by_creation_date":"Organizado por fecha de creacion",
+        "billings_listed":"facturaciones listadas"
       },
       "table_columns":{
-        "status":"Status",
-        "date":"Date"
+        "type":"Tipo",
+        "status":"Estatus",
+        "file":"Expediente",
+        "date":"Fecha",
+        "balance":"Balance",
+        "actions":"Acciones"
       }
 
     },
