@@ -383,6 +383,18 @@
         "expiration_date":"Fecha de Vencimiento",
         "shared_with":"Compartido con",
         "subject_description":"Descripcion Asunto"
+      },
+      "filter_by":{
+        "filter_criteria":"Criterios de filtrado",
+        "priority":"Prioridad",
+        "priority_level":"Nivel de prioridad",
+        "status":"Estatus",
+        "state":"Estado",
+        "responsible_for_the_task":"Responsable de la tarea",
+        "name":"Nombre",
+        "subject_type":"Tipo asunto",
+        "apply_filters":"Aplicar filtros",
+        "clear_criteria":"Limpiar criterios"
       }
 
     },
@@ -412,7 +424,20 @@
 
     },
     "client_intake":{
-
+      "create_new_client":"Crear nuevo/a cliente",
+      "choose_one_option":"Selecciona una opción",
+      "send_form_to_customer":"Enviar formulario al cliente",
+      "client_completes_his_data_himself":"Con esta función el cliente completa el mismo sus datos y evitas tener que registrarlo",
+      "create_manually":"Crear manualmente",
+      "you_fill_in_the_customer_data_yourself":"Con esta opción completas tu mismo los datos del cliente. ",
+      "close_window":"Cerrar Ventana",
+      "registration_form_submition":"Envío de formulario de registro",
+      "What_sending_method_will_you_use":"¿Cuál método de envio utilizaras?",
+      "email":"Correo Electronico",
+      "customer_email":"Email del cliente",
+      "customer_cellphone":"Teléfono celular del cliente",
+      "phone_number":"Num. de Telefono",
+      "send":"Enviar"
     }
    }
 }

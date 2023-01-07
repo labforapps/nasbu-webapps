@@ -385,7 +385,19 @@
         "shared_with":"Shared with",
         "subject_description":"Subject Description",
         "actions":"Actions"
-      }
+      },
+      "filter_by":{
+        "filter_criteria":"Filter criteria",
+        "priority":"Priority",
+        "priority_level":"Priority level",
+        "status":"Status",
+        "state":"State",
+        "responsible_for_the_task":"Responsible for the task",
+        "name":"Name",
+        "subject_type":"Subject type",
+        "apply_filters":"Apply filters",
+        "clear_criteria":"Clear criteria"
+    }
 
     },
     "billing":{
@@ -415,7 +427,20 @@
 
     },
     "client_intake":{
-
+      "create_new_client":"Create new client",
+      "choose_one_option":"Choose one option",
+      "send_form_to_customer":"Send form to customer",
+      "client_completes_his_data_himself":"With this function, the client completes his data himself and you avoid having to register him",
+      "create_manually":"Create Manually",
+      "you_fill_in_the_customer_data_yourself":"With this option you fill in the customer data yourself",
+      "close_window":"Close Window",
+      "registration_form_submition":"Registration form submission",
+      "What_sending_method_will_you_use":"What sending method will you use?",
+      "email":"Email",
+      "customer_email":"Customer Email",
+      "customer_cellphone":"Customer cellphone",
+      "phone_number":"Phone Number",
+      "send":"Send"
     }
 
    }
