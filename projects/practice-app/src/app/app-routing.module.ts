@@ -69,7 +69,7 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        resolve: { user: UserResolver }
+        resolve: { user: UserResolver },
       },
       {
         path: 'customers',
@@ -82,6 +82,10 @@ const routes: Routes = [
 
       {
         path: 'client-profile',
+        component: ClientProfileComponent,
+      },
+      {
+        path: 'client-profile/:id',
         component: ClientProfileComponent,
       },
       {

@@ -48,11 +48,12 @@ export class AuthInterceptor implements HttpInterceptor {
                   const subscription = next.handle(clonedRequest).pipe(
                     retry(2),
                     catchError(error => {
-                      if (error.status === 401 || error.status === 403) {
-                          this.authService.signOut();
-                          this.router.navigate([ 'signin' ]);
+                      console.log(error);
+                       if (error.status === 401 || error.status === 403) {
+                           this.authService.signOut();
+                           this.router.navigate([ 'signin' ]);
                           return throwError(error);
-                      }
+                       }
                       return throwError(error);
                     })
                 ).subscribe(

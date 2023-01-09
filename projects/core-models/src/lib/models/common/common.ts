@@ -13,3 +13,9 @@ export interface Address {
   postal_address: string;
   postal_postal_code: string;
 }
+
+export interface Country{
+  uuid:string,
+  code:string,
+  name:string
+}

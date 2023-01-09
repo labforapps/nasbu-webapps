@@ -9,6 +9,7 @@ import { throws } from 'assert';
 import { DialogSendRegisterComponent } from '../../components/dialogs/dialog-send-register/dialog-send-register.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client',
@@ -18,7 +19,8 @@ import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-
 export class ClientComponent implements OnInit {
   customers$!: Observable<Customer[]>;
   memCustomers!: Customer[];
-  selectedSubscription!: SelectedSubscription | null;
+  //selectedSubscription!: SelectedSubscription | null;
+  selectedSubscription!: any;
 
   displayedColumns: string[] = [];
   dataSourceCustomers!: any;
@@ -31,11 +33,13 @@ export class ClientComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private customersService: CustomersService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router:Router
   ) {}
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    console.log(this.selectedSubscription);
     this.fetchCustomers();
   }
 
@@ -67,13 +71,13 @@ export class ClientComponent implements OnInit {
   fetchCustomers() {
     //console.log('selectedSubscription: ', this.selectedSubscription);
     if (this.selectedSubscription) {
-      /*this.customersService
-        .getCustomers(this.selectedSubscription?.ssid)
+      this.customersService
+        .getCustomers(this.selectedSubscription?.ssid.uuid)
         .subscribe((customers: Customer[]) => {
-          //console.log(customers);
+          console.log(customers);
           this.memCustomers = customers;
           this.ngAfterViewInit();
-        });*/
+        });
     }
   }
 
@@ -159,6 +163,11 @@ export class ClientComponent implements OnInit {
     }
 
     return [];
+  }
+
+  navigateToClientProfile(id:string)
+  {
+    this.router.navigate(['client-profile',id]);
   }
 
   openDialogSendRegister() {

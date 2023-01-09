@@ -30,13 +30,24 @@ export interface SelectedSubscription {
     mt: string;
 }
 
+export interface SSID {
+  uuid: string;
+  type: string;
+  free_trial: boolean;
+  effective_date: Date;
+  expiration_date: null;
+  plan: string;
+  status: string;
+  tutorial_was_completed: boolean;
+}
+
 export interface ForgotPasswordSubmit {
     username: string;
     code: string;
     newPassword: string;
 }
 
-export interface CurrentUserInfo { 
+export interface CurrentUserInfo {
   username: string;
   attributes: UserAtribetes;
 }

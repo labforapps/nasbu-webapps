@@ -17,14 +17,24 @@ export class CustomersService {
     return this.httpClient.get<Customer[]>(serverUrl);
   }
 
-  getCustomer(subscription: string): Observable<Customer[]> {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/?subscription=${subscription}`;
-    return this.httpClient.get<Customer[]>(serverUrl);
+  getCustomerById(subscription: string, id: string): Observable<Customer> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+    return this.httpClient.get<Customer>(serverUrl);
   }
 
-  createCustomer(body:Customer): Observable<Customer[]> {
+  createCustomer(body: Customer): Observable<Customer[]> {
     console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/`;
-    return this.httpClient.post<Customer[]>(serverUrl,body);
+    return this.httpClient.post<Customer[]>(serverUrl, body);
+  }
+
+  updateCustomer(subscription: string, id: string,body:Customer){
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+    return this.httpClient.patch<any>(serverUrl,body);
+  }
+
+  deleteCustomer(subscription: string, id: string): Observable<Customer> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+    return this.httpClient.delete<Customer>(serverUrl);
   }
 }
