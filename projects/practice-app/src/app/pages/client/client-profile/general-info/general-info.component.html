@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">Compañía </b>Moya & Asociados
+            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">{{customer.company_name}}</b>
 
         </div>
     </div>
@@ -47,44 +47,64 @@
             <span class="icon-phone"></span>{{'clients.details.contacts' | translate}}
         </div>
         <div class="row ">
+
             <div class="col-md-6 ">
+
                 <div class="information-title ">{{'clients.details.telephones' | translate}}</div>
 
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-mobile"></span> {{'clients.details.telephone_number' | translate}}
-                    </div>
-                    <div class="info-group__data mr-5">
-                        +1 (734) 938 8394
-                    </div>
+                <div class="row" *ngFor="let contact of customer_contacts_phone">
+                  <div class="md-12">
+
+                      <div class="info-group ">
+                        <div class="info-group__info ">
+                          <span class="icon-mobile"></span> {{'clients.details.telephone_number' | translate}}
+                        </div>
+                        <div class="info-group__data mr-5">
+                          {{contact.contact_value}}
+                        </div>
+                      </div>
+                      <div class="info-group ">
+                        <div class="info-group__info ">
+                          <span class="icon-company "></span> {{'clients.details.telephone_number' | translate}}
+                        </div>
+                        <div class="info-group__data mr-5">
+                          {{contact.contact_value}}
+                        </div>
+                      </div>
+                  </div>
                 </div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-company "></span> {{'clients.details.telephone_number' | translate}}
-                    </div>
-                    <div class="info-group__data mr-5">
-                        +1 (734) 938 8394
-                    </div>
-                </div>
+
             </div>
+
             <div class="col-md-6 ">
-                <div class="information-title ">{{'clients.details.telephones' | translate}}</div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
+
+                <div class="information-title ">{{'clients.details.emails' | translate}}</div>
+
+
+                <div class="row" *ngFor="let contact of customer_contacts_email">
+                  <div class="col-md-12">
+
+                    <div class="info-group ">
+                      <div class="info-group__info ">
                         <span class="icon-email"></span> {{'clients.details.personal_mail' | translate}}
+                      </div>
+                      <div class="info-group__data ">
+                        {{contact.contact_value}}
+                      </div>
                     </div>
-                    <div class="info-group__data ">
-                        Manuel@fugus.com
-                    </div>
-                </div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
+                    <div class="info-group ">
+                      <div class="info-group__info ">
                         <span class="icon-email"></span> {{'clients.details.business_mail' | translate}}
+                      </div>
+                      <div class="info-group__data ">
+                        {{contact.contact_value}}
+                      </div>
                     </div>
-                    <div class="info-group__data ">
-                        Manuel@fugus.com
-                    </div>
+
+                  </div>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -123,35 +143,48 @@
         <div class="c-generalInfo__title ">
             <span class="icon-phone"></span>{{'clients.details.physical_mailing_address' | translate}}
         </div>
-        <div class="row mb-5">
+        <div class="row mb-5" *ngFor="let address of customer.addresses; index as i">
             <div class="col-md-6">
-                <div class="information-title ">{{'clients.details.physical_address' | translate}} #1 </div>
+                <div class="information-title ">{{'clients.details.physical_address' | translate}} #{{i + 1}} </div>
 
                 <div class="info-group mb-2 ">
                     <div class="info-group__info ">{{'clients.details.country' | translate}}</div>
-                    <div class="info-group__data mr-5">República Dominicana</div>
+                    <div class="info-group__data mr-5" *ngIf="countries">{{return_country_name(address.physical_country)}}</div>
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
-                    <div class="info-group__data mr-5">Miami, Florida </div>
+                    <div class="info-group__data mr-5">{{address.physical_city}} </div>
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
-                    <div class="info-group__data mr-5">33126</div>
+                    <div class="info-group__data mr-5">{{address.physical_postal_code}}</div>
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">{{'clients.details.physical_address' | translate}}</div>
-                    <div class="info-group__data mr-5">1466 NW 78 AVE</div>
+                    <div class="info-group__data mr-5">{{address.physical_address}}</div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="information-title ">{{'clients.details.mailing_address' | translate}}</div>
-                <p class="u-textLightColor u-smallSize">
+                <!-- <p class="u-textLightColor u-smallSize">
                     {{'clients.details.not_have_mailing_address' | translate}}
-                </p>
+                </p> -->
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_city}} </div>
+                </div>
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_postal_code}}</div>
+                </div>
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.postal_address' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_address}}</div>
+                </div>
+
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6">
               <div class="information-title ">{{'clients.details.physical_address' | translate}} #2 </div>
 
@@ -178,6 +211,6 @@
                 {{'clients.details.not_have_mailing_address' | translate}}
               </p>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

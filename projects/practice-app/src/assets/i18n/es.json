@@ -320,6 +320,7 @@
       "civil_status":"Estado Civil",
       "contacts":"Contactos",
       "telephones":"Telefonos",
+      "emails":"Correos Electronicos",
       "telephone_number":"Num. Celular",
       "personal_mail":"Correo Personal",
       "business_mail":"Correo Empresarial",
@@ -334,7 +335,8 @@
       "city_state_province":"Ciudad, Estado o Provincia",
       "postal_code":"Codigo Postal",
       "mailing_address":"Direccion Postal",
-      "not_have_mailing_address":"No tiene direccion postal"
+      "not_have_mailing_address":"No tiene direccion postal",
+      "postal_address":"Direccion Postal"
 
     },
     "files":{

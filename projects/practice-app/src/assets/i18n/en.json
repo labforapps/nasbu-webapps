@@ -321,6 +321,7 @@
       "civil_status":"Civil status",
       "contacts":"Contacts",
       "telephones":"Telephones",
+      "emails":"Emails",
       "telephone_number":"Telephone Number",
       "personal_mail":"Personal mail",
       "business_mail":"business mail",
@@ -335,7 +336,8 @@
       "city_state_province":"City, State, Province",
       "postal_code":"Postal Code",
       "mailing_address":"Mailing Address",
-      "not_have_mailing_address":"Does not have mailing address"
+      "not_have_mailing_address":"Does not have mailing address",
+      "postal_address":"Postal Address"
 
     },
     "files":{

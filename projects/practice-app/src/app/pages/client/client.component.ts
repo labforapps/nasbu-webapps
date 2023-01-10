@@ -125,6 +125,7 @@ export class ClientComponent implements OnInit {
   }
 
   applyFilter(filterValue: any, typeCustomer = '') {
+
     switch (typeCustomer) {
       case 'P':
         filterValue = filterValue.target.value.trim();

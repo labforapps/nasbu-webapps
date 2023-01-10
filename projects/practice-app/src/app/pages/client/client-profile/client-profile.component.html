@@ -1,4 +1,4 @@
-<div class="l-page">
+<div class="l-page" *ngIf="customer">
     <div class="l-page__header">
         <div class="d-flex flex-wrap u-gap-1">
             <button mat-button [routerLink]="'/customers'"><span class="icon-arrow-back mr-2" ></span> {{'clients.common.back' | translate}}</button>
@@ -25,7 +25,7 @@
                     {{'clients.details.general_data' | translate}}
                     <span class="icon-id-card"></span>
                 </ng-template>
-                <app-general-info></app-general-info>
+                <app-general-info [customer]="customer"></app-general-info>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
