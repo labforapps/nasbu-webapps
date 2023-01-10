@@ -106,13 +106,20 @@ export class ClientComponent implements OnInit {
   }
 
   getFirstContact(customer: Customer): string {
-    return customer.contacts.map((c: any) => {
+    const customer_contacts_phone = customer.contacts.filter(x => x.type === 'P');
+
+    return customer_contacts_phone.map((c: any) => {
       return c.contact_value;
     })[0];
   }
 
   getFirstEmail(customer: Customer): string {
-    return customer.contacts.map((c: any) => {
+
+    const customer_contacts_email = customer.contacts.filter(
+          (x) => x.type === 'E'
+    );
+
+    return customer_contacts_email.map((c: any) => {
       return c.contact_value;
     })[0];
   }
@@ -168,6 +175,21 @@ export class ClientComponent implements OnInit {
   navigateToClientProfile(id:string)
   {
     this.router.navigate(['client-profile',id]);
+  }
+
+  navigateToEditClient(id:string)
+  {
+    console.log(id);
+    this.router.navigate(['customers/edit', id]);
+  }
+
+  deleteClient(id:string)
+  {
+    this.customersService.deleteCustomer(
+      this.selectedSubscription?.ssid.uuid,id
+    ).subscribe(data => {
+      console.log(data);
+    })
   }
 
   openDialogSendRegister() {

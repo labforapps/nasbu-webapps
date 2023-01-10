@@ -1,12 +1,12 @@
 <div class="l-page">
     <div class="l-page__header">
         <div class="d-flex flex-wrap u-gap-1">
-            <button mat-button [routerLink]="'/client'"><span class="icon-arrow-back mr-2" ></span> {{'clients.common.back' | translate}}</button>
+            <button mat-button [routerLink]="'/customers'"><span class="icon-arrow-back mr-2" ></span> {{'clients.common.back' | translate}}</button>
             <div class="d-flex">
                 <div class="l-page__icon">
                     <span class="icon-user"></span>
                 </div>
-                <div class="l-page__title">{{customer.first_name}} </div>
+                <div class="l-page__title">{{customer.first_name}} {{customer.last_name}} </div>
             </div>
 
         </div>

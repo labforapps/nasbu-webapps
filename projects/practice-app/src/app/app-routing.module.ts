@@ -143,6 +143,10 @@ const routes: Routes = [
     component: CreateClientComponent,
   },
   {
+    path: 'customers/edit/:id',
+    component: CreateClientComponent,
+  },
+  {
     path: 'configuration/profile-sign/create-profile',
     component: CreateProfileComponent,
   },

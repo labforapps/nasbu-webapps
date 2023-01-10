@@ -3,11 +3,11 @@
         <app-header></app-header>
     </div>
 
-    <form [formGroup]="createClientForm" (ngSubmit)="createClient()">
+    <form [formGroup]="createClientForm" (ngSubmit)="submitForm()">
 
         <div class="l-create__body">
             <div class="l-create__btnBack">
-                <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>{{'clients.common.back' | translate}}</button>
+                <button mat-button class="u-smallSize" [routerLink]="'/customers'" type="button"> <span class="icon-arrow-back mr-2"></span>{{'clients.common.back' | translate}}</button>
             </div>
             <div class="c-create">
                 <div class="c-create__header">
@@ -82,103 +82,172 @@
                       </div>
                       <hr class="u-divider--marginBig">
                       <div class="row">
-                        <div class="col-sm-6">
-                          <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
-                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                            <mat-select>
-                              <mat-option>
-                                Option 1
-                              </mat-option>
-                              <mat-option>
-                                Option 2
-                              </mat-option>
-                              <mat-option>
-                                Option 3
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
-                            <input class="c-form-group__input" matInput>
-                          </mat-form-field>
-                          <button mat-button class="c-btn-add mb-4" type="button">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
+
+
+                        <div class="col-sm-6" >
+
+
+                          <div class="row" *ngFor="let contact of customer_contacts_phone">
+                            <div class="col-sm-12">
+
+                              <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
+                                <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
+                                  <mat-option [value]="subtypeContact.cellphone_number">
+                                    Telefono Celular
+                                  </mat-option>
+                                  <mat-option [value]="subtypeContact.currentphone_number">
+                                    Telefono fijo
+                                  </mat-option>
+                                  <mat-option [value]="subtypeContact.phoneoffice_number">
+                                    Telefono Oficina
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
+                                <input class="c-form-group__input" matInput [(ngModel)]="contact.contact_value" [ngModelOptions]="{standalone: true}">
+                              </mat-form-field>
+
+                            </div>
+                          </div>
+
+                          <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactPhone()">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
+
+
                         </div>
+
+
                         <div class="col-sm-6">
-                          <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
-                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Personal</mat-label>
-                            <mat-select>
-                              <mat-option>
-                                Option 1
-                              </mat-option>
-                              <mat-option>
-                                Option 1
-                              </mat-option>
-                              <mat-option>
-                                Option 1
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput>
-                          </mat-form-field>
-                          <button mat-button class="c-btn-add mb-4" type="button">+ {{'clients.form_create.add_another_email' | translate}}</button>
+
+
+                          <div class="row" *ngFor="let contact of customer_contacts_email">
+                            <div class="col-sm-12">
+                              <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-label>Personal</mat-label>
+                                <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
+                                  <mat-option [value]="subtypeContact.personal_email">
+                                    Personal
+                                  </mat-option>
+                                  <mat-option [value]="subtypeContact.business_email">
+                                    Negocio
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
+                                <input class="c-form-group__input"
+                                       matInput
+                                       [(ngModel)]="contact.contact_value"
+                                       [ngModelOptions]="{standalone: true}">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+
+                          <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactEmail()">+ {{'clients.form_create.add_another_email' | translate}}</button>
+
+
                         </div>
+
+
                       </div>
+
                       <hr class="u-divider--marginBig">
-                      <div class="row">
+
+                      <div class="row" *ngFor="let address of customer_address">
                         <div class="col-sm-6">
+
                           <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}</label>
                           <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                             <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
-                            <mat-select>
-                              <mat-option *ngFor="let country of countries">
+                            <mat-select [(ngModel)]="address.physical_country" [ngModelOptions]="{standalone: true}">
+                              <mat-option *ngFor="let country of countries" [value]="country.uuid">
                                 {{country.name}}
                               </mat-option>
 
                             </mat-select>
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
+
+                            <input class="c-form-group__input"
+                                   matInput
+                                   [(ngModel)]="address.physical_city"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Ej: Miami, Florida">
+
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
+
+                            <input class="c-form-group__input"
+                                   matInput
+                                   [(ngModel)]="address.physical_address"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Calle, número, Apart.">
+
                           </mat-form-field>
+
                           <div class="col-sm-5 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                              <input class="c-form-group__input" matInput>
+                              <input class="c-form-group__input"
+                                     matInput
+                                     [(ngModel)]="address.physical_postal_code"
+                                     [ngModelOptions]="{standalone: true}">
                             </mat-form-field>
                           </div>
+
                           <mat-checkbox class="c-checkbox mt-1 mb-4">
                             {{'clients.form_create.physical_postal_address_share_info' | translate}}
                           </mat-checkbox>
+
                         </div>
                         <div class="col-sm-6">
+
                           <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
+                            <input class="c-form-group__input"
+                                   matInput
+                                   [(ngModel)]="address.postal_city"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Ej: Miami, Florida">
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
+                            <input class="c-form-group__input"
+                                   matInput
+                                   [(ngModel)]="address.postal_address"
+                                   [ngModelOptions]="{standalone: true}"
+                                   placeholder="Calle, número, Apart.">
                           </mat-form-field>
+
                           <div class="col-sm-5 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                              <input class="c-form-group__input" matInput>
+                              <input class="c-form-group__input"
+                                     matInput
+                                     [(ngModel)]="address.postal_postal_code"
+                                     [ngModelOptions]="{standalone: true}">
                             </mat-form-field>
                           </div>
+
                         </div>
-                        <div class="col-sm-12 mt-1">
-                          <button mat-button class="c-btn-add" type="button">+ {{'clients.form_create.mailing_address' | translate}}</button>
-                        </div>
+
                       </div>
+
+                      <div class="col-sm-12 mt-1">
+                        <button mat-button class="c-btn-add" type="button" (click)="addCustomerAddress()">+
+                          {{'clients.form_create.mailing_address' | translate}}</button>
+                      </div>
+
                       <hr class="u-divider--marginBig">
                       <div class="row">
                         <div class="col-sm-12">
