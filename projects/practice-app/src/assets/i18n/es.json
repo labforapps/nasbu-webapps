@@ -275,11 +275,13 @@
     },
     "form_create":{
       "create_new_customer":"Crear Nuevo Cliente",
+      "edit_customer":"Editar Cliente",
       "what_type_customer_create_now":"¿Que tipo de cliente crearemos ahora? *",
       "choose_option":"Seleccionar una de las opciones",
       "name_of_the_person":"Nombre de la Persona",
       "photo_or_logo":"Foto o Logo",
       "upload_image_max_2":"Subir imagen máximo 2MB",
+      "company_name":"Nombre de la Empresa",
       "name":"Nombre",
       "lastname":"Apellido",
       "contact":"Contacto",
@@ -336,7 +338,11 @@
       "postal_code":"Codigo Postal",
       "mailing_address":"Direccion Postal",
       "not_have_mailing_address":"No tiene direccion postal",
-      "postal_address":"Direccion Postal"
+      "postal_address":"Direccion Postal",
+      "married":"Casado/a",
+      "single":"Soltero/a",
+      "widowed":"Viudo/a",
+      "divorced":"Divorciado/a"
 
     },
     "files":{

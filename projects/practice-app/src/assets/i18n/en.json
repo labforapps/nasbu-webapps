@@ -276,11 +276,13 @@
     },
     "form_create":{
       "create_new_customer":"Create New Customer",
+      "edit_customer":"Edit Customer",
       "what_type_customer_create_now":"What type of customer will we create now ? *",
       "choose_option":"Choose one of the options",
       "name_of_the_person":"Name of the Person",
       "photo_or_logo":"Photo or Logo",
       "upload_image_max_2":"Upload image maximum 2MB",
+      "company_name":"Company Name",
       "name":"Name",
       "lastname":"Lastname",
       "contact":"Contact",
@@ -303,8 +305,11 @@
       "see_business_associated_to_user":"Here you can see the company that this user is associated with",
       "remember_fill_required_information":"Remember to fill in the required information",
       "save_customer":"Save Customer",
-      "save_create_another":"Save Customer and create another"
-
+      "save_create_another":"Save Customer and create another",
+      "married":"Married",
+      "single":"Single",
+      "widowed":"Widowed",
+      "divorced":"Divorced"
     },
     "details":{
       "express_billing":"Express Billing",

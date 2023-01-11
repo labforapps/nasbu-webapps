@@ -13,8 +13,9 @@
                 <div class="c-create__header">
                     <div class="row w-100">
                         <div class="col-sm-8">
-                            <div class="c-create__title">{{'clients.form_create.create_new_customer' | translate}}</div>
-                            <div class="c-create__subtitle">{{'clients.form_create.what_type_customer_create_now' | translate}}</div>
+                            <div class="c-create__title" *ngIf="!customerId">{{'clients.form_create.create_new_customer' | translate}}</div>
+                            <div class="c-create__title" *ngIf="customerId">{{'clients.form_create.edit_customer' | translate}}</div>
+                            <div class="c-create__subtitle" *ngIf="!customerId">{{'clients.form_create.what_type_customer_create_now' | translate}}</div>
                             <div class="c-create__text">{{'clients.form_create.choose_option' | translate}}</div>
                         </div>
                         <div class="col-sm-4 ml-auto">
@@ -43,7 +44,7 @@
                       <div class="row">
 
                         <div class="col-sm-6" *ngIf="customer_type === 'B'">
-                          <label class="u-title-label">Nombre de la Empresa<span
+                          <label class="u-title-label"> {{'clients.form_create.company_name' | translate}}<span
                               class="u-dangerColor">*</span></label>
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.name' | translate}} </mat-label>
@@ -52,15 +53,24 @@
                         </div>
 
                         <div class="col-sm-6" *ngIf="customer_type === 'P'">
+
                           <label class="u-title-label">{{'clients.form_create.name_of_the_person' | translate}}<span class="u-dangerColor">*</span></label>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.name' | translate}} </mat-label>
                             <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.lastname' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
                           </mat-form-field>
+
+                          <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Fecha de Nacimiento</mat-label>
+                            <input class="c-form-group__input" type="date" matInput placeholder="Apellido" formControlName="born_date">
+                          </mat-form-field>
+
                         </div>
 
 
@@ -80,6 +90,30 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="div row" *ngIf="customer_type === 'P'">
+                        <div class="div col-sm-6">
+                          <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Seleccionar Estado Civil</mat-label>
+                            <mat-select formControlName="marital_status">
+                              <mat-option [value]="''"></mat-option>
+                              <mat-option [value]="'clients.form_create.single' | translate">{{'clients.form_create.single' | translate}}</mat-option>
+                              <mat-option [value]="'clients.form_create.married' | translate">{{'clients.form_create.married' | translate}}</mat-option>
+                              <mat-option [value]="'clients.form_create.widowed' | translate">{{'clients.form_create.widowed' | translate}}</mat-option>
+                              <mat-option [value]="'clients.form_create.divorced' | translate">{{'clients.form_create.divorced' | translate}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="div col-sm-6">
+                          <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>Seleccionar Profesion</mat-label>
+                            <mat-select formControlName="occupation">
+                              <mat-option *ngFor="let occupation of occupations" [value]="occupation.uuid">{{occupation.name}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+
                       <hr class="u-divider--marginBig">
                       <div class="row">
 
@@ -88,10 +122,12 @@
 
 
                           <div class="row" *ngFor="let contact of customer_contacts_phone">
-                            <div class="col-sm-12">
+
+                            <div class="col-md-12">
 
                               <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
-                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+
+                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                 <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
                                 <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
                                   <mat-option [value]="subtypeContact.cellphone_number">
@@ -105,6 +141,7 @@
                                   </mat-option>
                                 </mat-select>
                               </mat-form-field>
+
                               <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
                                 <input class="c-form-group__input" matInput [(ngModel)]="contact.contact_value" [ngModelOptions]="{standalone: true}">
@@ -123,7 +160,7 @@
 
 
                           <div class="row" *ngFor="let contact of customer_contacts_email">
-                            <div class="col-sm-12">
+                            <div class="col-md-12">
                               <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
                               <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                 <mat-label>Personal</mat-label>
@@ -203,7 +240,7 @@
                             </mat-form-field>
                           </div>
 
-                          <mat-checkbox class="c-checkbox mt-1 mb-4">
+                          <mat-checkbox class="c-checkbox mt-1 mb-4" value="address.share_same_info"  (click)="changeValueCheckboxAddress(address)">
                             {{'clients.form_create.physical_postal_address_share_info' | translate}}
                           </mat-checkbox>
 
