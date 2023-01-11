@@ -7,7 +7,10 @@
     </button>
     <div class="c-menu__title mt-5">Menú</div>
 
-    <button mat-button class="c-menu__item" [routerLink]="'/customers'" routerLinkActive="is-active">
+    <button 
+       mat-button class="c-menu__item" 
+       [routerLink]="'/customers'" routerLinkActive="is-active" 
+       *ngxPermissionsOnly="['add_customer', 'view_customer', 'change_customer', 'delete_customer']">
         Clientes
         <span class="icon-user c-menu__icon"></span>
     </button>

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo } from 'core-models';
+import { UserSubscription } from 'core-models';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 
 @Injectable({
@@ -10,15 +12,15 @@ import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo } from 'core-m
 })
 export class AuthService {
 
-  constructor(private coreAuth: CoreAuthService) { }
+  constructor(private coreAuth: CoreAuthService, private permissionsService: NgxPermissionsService) { }
 
   signIn(username: string, password: string): Observable<any> {
-      return this.coreAuth.signin(username, password);
+    return this.coreAuth.signin(username, password);
   }
 
   signUp(userSignupPayload: UserSignupPayload): Observable<ISignUpResult> {
-      return this.coreAuth
-                .signup(userSignupPayload);
+    return this.coreAuth
+      .signup(userSignupPayload);
   }
 
   forgotPassword(username: string): Observable<any> {
@@ -33,4 +35,10 @@ export class AuthService {
     return this.coreAuth.getCurrentUserInfo();
   }
 
+  addPermissions(): void {
+    const user = this.coreAuth.getUserInfoFromLocalStorage();
+    const allPermissions: string[] = user?.permissions ?? [];
+    this.permissionsService.flushPermissions();
+    this.permissionsService.addPermission(allPermissions);
+  }
 }

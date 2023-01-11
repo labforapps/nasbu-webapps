@@ -91,6 +91,7 @@ import localeEn from '@angular/common/locales/en';
 import { LocalizedDatePipe } from './shared/pipes/Localized-date';
 import { EmptyDashboardComponent } from './pages/dashboard/empty/empty-dashboard.component';
 import { InvoicesComponent } from './pages/dashboard/invoices/invoices.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -193,7 +194,8 @@ registerLocaleData(localeEn, 'en');
       }
     }),
     SharedModule,
-    TasksModule
+    TasksModule,
+    NgxPermissionsModule.forRoot()
   ],
   bootstrap: [AppComponent],
 })
