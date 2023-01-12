@@ -34,6 +34,7 @@
     "ngx-mat-timepicker": "^14.0.2",
     "ngx-timer": "^1.0.6",
     "ngx-permissions": "^13.0.1",
+    "ngx-toastr": "^14.3.0",
     "rimraf": "^3.0.2",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.4.17",

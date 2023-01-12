@@ -10,6 +10,9 @@ import { DialogSendRegisterComponent } from '../../components/dialogs/dialog-sen
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-client',
@@ -34,7 +37,8 @@ export class ClientComponent implements OnInit {
     private authService: AuthService,
     private customersService: CustomersService,
     public dialog: MatDialog,
-    private router:Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +110,9 @@ export class ClientComponent implements OnInit {
   }
 
   getFirstContact(customer: Customer): string {
-    const customer_contacts_phone = customer.contacts.filter(x => x.type === 'P');
+    const customer_contacts_phone = customer.contacts.filter(
+      (x) => x.type === 'P'
+    );
 
     return customer_contacts_phone.map((c: any) => {
       return c.contact_value;
@@ -114,9 +120,8 @@ export class ClientComponent implements OnInit {
   }
 
   getFirstEmail(customer: Customer): string {
-
     const customer_contacts_email = customer.contacts.filter(
-          (x) => x.type === 'E'
+      (x) => x.type === 'E'
     );
 
     return customer_contacts_email.map((c: any) => {
@@ -125,7 +130,6 @@ export class ClientComponent implements OnInit {
   }
 
   applyFilter(filterValue: any, typeCustomer = '') {
-
     switch (typeCustomer) {
       case 'P':
         filterValue = filterValue.target.value.trim();
@@ -173,24 +177,37 @@ export class ClientComponent implements OnInit {
     return [];
   }
 
-  navigateToClientProfile(id:string)
-  {
-    this.router.navigate(['client-profile',id]);
+  navigateToClientProfile(id: string) {
+    this.router.navigate(['client-profile', id]);
   }
 
-  navigateToEditClient(id:string)
-  {
+  navigateToEditClient(id: string) {
     console.log(id);
     this.router.navigate(['customers/edit', id]);
   }
 
-  deleteClient(id:string)
-  {
-    this.customersService.deleteCustomer(
-      this.selectedSubscription?.ssid.uuid,id
-    ).subscribe(data => {
-      console.log(data);
-    })
+  deleteClient(id: string) {
+    Swal.fire({
+      title: '¿Deseas eliminar este elemento?',
+      text: 'Esta acción no se podrá revertir',
+      iconHtml: '<img src="assets/images/alert-delete.svg">',
+      confirmButtonText: 'Eliminar',
+      showCancelButton: true,
+      cancelButtonText: 'Cerrar ventana',
+      customClass: {
+        popup: 'c-alert c-alert--delete',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.customersService
+          .deleteCustomer(this.selectedSubscription?.ssid.uuid, id)
+          .subscribe((data) => {
+            console.log(data);
+            this.toastr.success('Successfully', 'Customer Deleted');
+            this.fetchCustomers();
+          });
+      }
+    });
   }
 
   openDialogSendRegister() {

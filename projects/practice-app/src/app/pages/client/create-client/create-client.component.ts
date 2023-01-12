@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
 import { Customer, SelectedSubscription,Country,Address,Contact,TypeContact,SubtypeContact,Occupation } from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-create-client',
@@ -22,7 +24,7 @@ export class CreateClientComponent implements OnInit {
   customer_address: Address[] = [];
   subtypeContact = SubtypeContact;
   occupations!: Occupation[];
-  checked_share_same_info:boolean = false;
+  checked_share_same_info: boolean = false;
 
   customerId!: string;
 
@@ -46,8 +48,9 @@ export class CreateClientComponent implements OnInit {
     private customerService: CustomersService,
     private commonService: CommonService,
     private authService: AuthService,
-    private Router: Router,
-    private ActivatedRoute: ActivatedRoute
+    private router: Router,
+    private ActivatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -86,10 +89,9 @@ export class CreateClientComponent implements OnInit {
       document_type: 'I',
       document_no: 'dgf',
       company_name: this.customer.company_name,
-      born_date:this.customer.born_date,
-      occupation:this.customer.occupation,
-      marital_status:this.customer.marital_status
-
+      born_date: this.customer.born_date,
+      occupation: this.customer.occupation,
+      marital_status: this.customer.marital_status,
     });
 
     const customer_contacts_phone = this.customer.contacts.filter(
@@ -141,7 +143,7 @@ export class CreateClientComponent implements OnInit {
         postal_city: '',
         postal_address: '',
         postal_postal_code: '',
-        share_same_info:false
+        share_same_info: false,
       });
     }
   }
@@ -149,7 +151,7 @@ export class CreateClientComponent implements OnInit {
   addCustomerContactPhone() {
     this.customer_contacts_phone.push({
       customer: '',
-      type: '',
+      type: TypeContact.phone_number,
       sub_type: '',
       contact_value: '',
     });
@@ -158,7 +160,7 @@ export class CreateClientComponent implements OnInit {
   addCustomerContactEmail() {
     this.customer_contacts_email.push({
       customer: '',
-      type: '',
+      type: TypeContact.email,
       sub_type: '',
       contact_value: '',
     });
@@ -174,7 +176,7 @@ export class CreateClientComponent implements OnInit {
       postal_city: '',
       postal_address: '',
       postal_postal_code: '',
-      share_same_info:false
+      share_same_info: false,
     });
   }
 
@@ -202,7 +204,7 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
-  submitForm() {
+  submitForm(create_another=false) {
     const customerContacts: Contact[] = this.customer_contacts_phone.concat(
       this.customer_contacts_email
     );
@@ -215,19 +217,23 @@ export class CreateClientComponent implements OnInit {
     };
     console.log(createClient);
 
-      if(this.customerId != '')
-      {
-         this.updateCustomer(createClient);
-      }
-      else
-      {
-       this.createCustomer(createClient);
-      }
+    if (this.customerId != '') {
+      this.updateCustomer(createClient);
+    } else {
+      this.createCustomer(createClient,create_another);
+    }
   }
 
-  createCustomer(body: any) {
+  createCustomer(body: any,create_another=false) {
     this.customerService.createCustomer(body).subscribe((data) => {
       console.log(data);
+      this.toastr.success('Successfully', 'Customer Created');
+      if(create_another)
+      {
+        console.log('create another');
+        //this.router.navigate(['customers/create']);
+        this.resetForm();
+      }
     });
   }
 
@@ -240,24 +246,34 @@ export class CreateClientComponent implements OnInit {
       )
       .subscribe((data) => {
         console.log(data);
+        this.toastr.success('Successfully', 'Customer Updated');
       });
   }
 
-  changeValueCheckboxAddress(address:Address) {
-
+  changeValueCheckboxAddress(address: Address) {
     address.share_same_info = !address.share_same_info;
 
-    if(address.share_same_info)
-    {
+    if (address.share_same_info) {
       address.postal_city = address.physical_city;
       address.postal_address = address.physical_address;
       address.postal_postal_code = address.physical_postal_code;
-    }
-    else
-    {
+    } else {
       address.postal_city = '';
       address.postal_address = '';
       address.postal_postal_code = '';
     }
+  }
+
+  resetForm()
+  {
+    this.createClientForm.reset();
+    this.customer_contacts_email = [];
+    this.customer_contacts_phone = [];
+    this.customer_address = [];
+
+    this.initCustomerContacts();
+    this.initCustomerAddress();
+
+    this.customer_type = 'P';
   }
 }

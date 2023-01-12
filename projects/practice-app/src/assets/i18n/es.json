@@ -335,6 +335,9 @@
       "lastname":"Apellido",
       "contact":"Contacto",
       "email":"Correo Electronico",
+      "born_date":"Fecha de Nacimiento",
+      "select_marital_status":"Seleccionar Estado Civil",
+      "select_occupation":"Seleccionar Profesion",
       "cellphone_number":"Num. Telefono celular",
       "telephone_number":"Num. de Telefono",
       "add_another_telephone_number":"Agregar otro telefono",
@@ -353,7 +356,11 @@
       "see_business_associated_to_user":"Aquí podrás ver a la empresa que está asociado este usuario",
       "remember_fill_required_information":"Recuerda completar los datos requeridos",
       "save_customer":"Guardar Cliente",
-      "save_create_another":"Guardar y crear otro"
+      "save_create_another":"Guardar y crear otro",
+      "married":"Casado/a",
+      "single":"Soltero/a",
+      "widowed":"Viudo/a",
+      "divorced":"Divorciado/a"
 
     },
     "details":{
@@ -387,11 +394,7 @@
       "postal_code":"Codigo Postal",
       "mailing_address":"Direccion Postal",
       "not_have_mailing_address":"No tiene direccion postal",
-      "postal_address":"Direccion Postal",
-      "married":"Casado/a",
-      "single":"Soltero/a",
-      "widowed":"Viudo/a",
-      "divorced":"Divorciado/a"
+      "postal_address":"Direccion Postal"
 
     },
     "files":{

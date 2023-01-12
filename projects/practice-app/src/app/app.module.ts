@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -91,11 +92,12 @@ import { LocalizedDatePipe } from './shared/pipes/Localized-date';
 import { EmptyDashboardComponent } from './pages/dashboard/empty/empty-dashboard.component';
 import { InvoicesComponent } from './pages/dashboard/invoices/invoices.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { ToastrModule } from 'ngx-toastr';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+};
 registerLocaleData(localeEs, 'es');
 registerLocaleData(localeEn, 'en');
 
@@ -171,7 +173,7 @@ registerLocaleData(localeEn, 'en');
     ClientIntakeComponent,
     EmptyDashboardComponent,
     InvoicesComponent,
-    LocalizedDatePipe
+    LocalizedDatePipe,
   ],
   imports: [
     BrowserModule,
@@ -184,17 +186,19 @@ registerLocaleData(localeEn, 'en');
     FormsModule,
     ReactiveFormsModule,
     CoreServicesModule.forRoot(environment),
+
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
     }),
     SharedModule,
     TasksModule,
-    NgxPermissionsModule.forRoot()
+    NgxPermissionsModule.forRoot(),
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

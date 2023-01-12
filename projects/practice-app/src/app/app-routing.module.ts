@@ -79,9 +79,14 @@ const routes: Routes = [
         component: ClientComponent,
         data: {
           permissions: {
-            only: ['add_customer', 'view_customer', 'change_customer', 'delete_customer'],
-            redirectTo: '/'
-          }
+            only: [
+              'add_customer',
+              'view_customer',
+              'change_customer',
+              'delete_customer',
+            ],
+            redirectTo: '/',
+          },
         },
       },
       {
@@ -154,9 +159,13 @@ const routes: Routes = [
     data: {
       permissions: {
         only: ['add_customer'],
-        redirectTo: '/'
-      }
+        redirectTo: '/',
+      },
     },
+  },
+  {
+    path: 'customers/create',
+    component: CreateClientComponent,
   },
   {
     path: 'customers/edit/:id',
@@ -164,8 +173,8 @@ const routes: Routes = [
     data: {
       permissions: {
         only: ['change_customer'],
-        redirectTo: '/'
-      }
+        redirectTo: '/',
+      },
     },
   },
   {

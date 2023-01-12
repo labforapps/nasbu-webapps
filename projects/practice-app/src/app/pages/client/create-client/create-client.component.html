@@ -94,7 +94,7 @@
                       <div class="div row" *ngIf="customer_type === 'P'">
                         <div class="div col-sm-6">
                           <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Seleccionar Estado Civil</mat-label>
+                            <mat-label>{{'clients.form_create.select_marital_status' | translate}}</mat-label>
                             <mat-select formControlName="marital_status">
                               <mat-option [value]="''"></mat-option>
                               <mat-option [value]="'clients.form_create.single' | translate">{{'clients.form_create.single' | translate}}</mat-option>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="div col-sm-6">
                           <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Seleccionar Profesion</mat-label>
+                            <mat-label>{{'clients.form_create.select_occupation' | translate}}</mat-label>
                             <mat-select formControlName="occupation">
                               <mat-option *ngFor="let occupation of occupations" [value]="occupation.uuid">{{occupation.name}}</mat-option>
                             </mat-select>
@@ -311,8 +311,9 @@
         <div class="c-ribbon">
             <div class="c-ribbon__text">“{{'clients.form_create.remember_fill_required_information' | translate}}"</div>
             <div class="c-ribbon__actions">
-                <button mat-button class="c-btn-function">{{'clients.form_create.save_customer' | translate}} </button>
-                <button mat-button class="c-btn-function">{{'clients.form_create.save_create_another' | translate}}</button>
+                <button mat-button class="c-btn-function" *ngIf="!customerId">{{'clients.form_create.save_customer' | translate}} </button>
+                <button mat-button class="c-btn-function" *ngIf="customerId">{{'clients.form_create.edit_customer' | translate}}</button>
+                <button mat-button class="c-btn-function" *ngIf="!customerId" type="button" (click)="submitForm(true)">{{'clients.form_create.save_create_another' | translate}}</button>
             </div>
 
         </div>
