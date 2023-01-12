@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { createTranslateLoader } from '../../app.module';
+import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../material/material.module';
-import { TaskTableComponent } from './task-table/task-table.component';
+import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { TaskTableComponent } from './components/task-table/task-table.component';
 import { TaskpageComponent } from './taskpage.component';
+import { DialogAddHoursComponent } from '../../components/dialogs/dialog-add-hours/dialog-add-hours.component';
+import { NgxTimerModule } from 'ngx-timer';
+import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
@@ -17,15 +20,22 @@ import { TaskpageComponent } from './taskpage.component';
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
-        TranslateModule.forChild()
+        TranslateModule.forChild(),
+        NgxTimerModule,
+        MatIconModule,
+        SharedModule
     ],
     exports: [
         TaskpageComponent,
-        TaskTableComponent
+        TaskTableComponent,
+        TaskFilterComponent,
+        DialogAddHoursComponent,
     ],
     declarations: [
         TaskpageComponent,
-        TaskTableComponent
+        TaskTableComponent,
+        TaskFilterComponent,
+        DialogAddHoursComponent,
     ],
     providers: [],
 })

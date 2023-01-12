@@ -44,3 +44,20 @@ export enum TaskPeriodicity {
     Monthly,
     Yearly
 }
+
+export interface TaskHour {
+    uuid?:string;
+    expedientId:string;
+    userId:string;
+    pricePerHour:number;
+    quotedHours:number;
+    isBillable:boolean;
+    description:string;
+    createdAt?:Date;
+    state:TaskHourState;
+}
+
+export enum TaskHourState {
+    Billed,
+    Unbilled
+}

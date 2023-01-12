@@ -39,6 +39,26 @@ export class TaskpageComponent implements OnInit {
       clientName: "Juan Perez",
       collaboratorName: "Juan Perez",
       expedientName: "Caso 001",
+    },
+    {
+      uuid: "2", 
+      expedientId: "2",
+      collaboratorId: "2",
+      clientId: "1",
+      description: "Llamar a cliente",
+      hours: 2,
+      type: 1,
+      state: 3,
+      periodicity: 0,
+      completed: false,
+      personName: "Juan Perez",
+      startDate: new Date(),
+      endDate: new Date(),
+      pricePerHour: 100,
+      quotedHours: 10,
+      clientName: "Maria rodriguez",
+      collaboratorName: "Carlos Perez",
+      expedientName: "Caso 001",
     }
   ];
 

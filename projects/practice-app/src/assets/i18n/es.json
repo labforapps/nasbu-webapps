@@ -118,6 +118,55 @@
             "uncomplete": "Descompletar",
             "addHours": "Añadir horas"
          }
+      },
+      "newTaskModal":{
+         "title": "Nueva tarea",
+         "type": "Tipo de la tarea",
+         "personName": "Nombre de la persona",
+         "periodicity": "periodicidad",
+         "description":"Descripción o detalle",
+         "assignTo": "Asignar a",
+         "expedient": "Expediente o caso al cual pertenece",
+         "whenReady": "¿Cúando debe estar lista?",
+         "noDate": "Sin fecha",
+         "haveDate": "definir una fecha",
+         "startDate": "Inicio de la tarea",
+         "endDate": "Fin de la tarea",
+         "pricePerHour": "Precio por hora",
+         "hours": "Horas cotizadas",
+         "close": "Cerrar ventana",
+         "save": "Crear nueva tareatarea"
+      },
+      "filterModal":{
+         "title": "Criterios de filtrado",
+         "priority": "Prioridad",
+         "status": "Estatus",
+         "responsable": "Responsable de la tarea",
+         "type":"Tipo",
+         "apply": "Aplicar filtros",
+         "clean": "Limpiar filtros"
+      }
+   },
+   "hoursModal":{
+      "title":"Listado horas cargadas",
+      "add":"Añadir hrs",
+      "edit": "Edit"
+   },
+   "addHoursModal":{
+      "title": "Agregar horas de cargo",
+      "pricePerHour": "Precio x Hr.",
+      "quotedHours": "Horas cotizadas",
+      "realTimeClock": "Reloj en iempo real",
+      "noBillable": "No facturable",
+      "expedient": "Expediente al cual aplicará el cargo",
+      "description": "Descripción o detalle",
+      "user": "film's user",
+      "save":"Save hours",
+      "saveAndMore":"Save and add more hours",
+      "close":"Close window",
+      "placeholder":{
+         "price": "Precio",
+         "description": "Ej: Este contrato es para poder vender unas máquinas de vapor etc…"
       }
    },
    "dashboard": {

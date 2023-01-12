@@ -119,6 +119,55 @@
             "uncomplete": "Uncomplete",
             "addHours": "Add hours"
          }
+      },
+      "newTaskModal":{
+         "title": "New task",
+         "type": "Task Type",
+         "periodicity": "Periodicity",
+         "personName": "Name of the person",
+         "description":"description or details",
+         "assignTo": "Assign to",
+         "expedient": "Expedient or case",
+         "whenReady": "When should it be ready?",
+         "noDate": "No date",
+         "haveDate": "define a date",
+         "startDate": "Start date",
+         "endDate": "End date",
+         "pricePerHour": "Price per hour",
+         "hours": "Quoted Hours",
+         "close": "Close window",
+         "save": "Create new task"
+      },
+      "filterModal":{
+         "title": "Filter criteria",
+         "priority": "Priority",
+         "status": "Status",
+         "responsable": "Responsable of the task",
+         "type":"Type",
+         "apply": "Apply filter",
+         "clean": "Clean filter"
+      }
+   },
+   "hoursModal":{
+      "title":"Charged hours list",
+      "add":"Add hours",
+      "edit": "Edit"
+   },
+   "addHoursModal":{
+      "title": "Add charge hours",
+      "pricePerHour": "Price x Hr.",
+      "quotedHours": "Quoted hours",
+      "realTimeClock": "Real-Time clock",
+      "noBillable": "No billable",
+      "expedient": "Expedient to which the charge will apply",
+      "description": "Description or details",
+      "user": "Firm's user",
+      "save":"Save hours",
+      "saveAndMore":"Save and add hours",
+      "close":"Close window",
+      "placeholder":{
+         "price": "Price",
+         "description": "Ex: this contract is for sale steam machine, etc..."
       }
    },
    "dashboard": {

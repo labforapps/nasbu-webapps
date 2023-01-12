@@ -1,14 +1,13 @@
 <div class="c-dialog-newTask c-dialog-header">
     <div class="c-dialog-header__header">
-        Nueva tarea
+        {{ 'tasks.newTask' | translate }}
     </div>
     <mat-dialog-content *ngIf="taskForm">
         <form [formGroup]="taskForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label class="u-title-label">Tipo de tarea</label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.type' | translate }}</label>
                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-label>Coordinar cita</mat-label>
                         <mat-select formControlName="type">
                             <mat-option value="1">
                                 Option 1
@@ -20,10 +19,9 @@
                     </mat-error>
                 </div>
                 <div class="col-md-6">
-                    <label class="u-title-label">Periodicidad</label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.periodicity' | translate }}</label>
                     <mat-form-field appearance="fill" 
                                     class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-label>Núm. Teléfono celular</mat-label>
                         <mat-select formControlName="periodicity">
                             <mat-option [value]="taskPeriodicity.Daily">
                                 Diario
@@ -46,9 +44,8 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label class="u-title-label">Nombre de la persona</label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.personName' | translate }}</label>
                     <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                        <mat-label>Nombre de la tarea</mat-label>
                         <input class="c-form-group__input" 
                                matInput 
                                placeholder="Ej: Crear contrato de servicio"
@@ -61,7 +58,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label class="u-title-label">Descripción o detalle</label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.description' | translate }}</label>
                     <div class="c-form-group">
                         <textarea matInput 
                                   class="c-form-group__textarea" 
@@ -76,10 +73,9 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label class="u-title-label">Asignar a </label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.assignTo' | translate }}</label>
                     <mat-form-field appearance="fill" 
                                     class="c-form-group c-form-group--small">
-                        <mat-label>Colaborador</mat-label>
                         <input class="c-form-group__input" 
                                matInput 
                                placeholder="Ej: Crear contrato de servicio"
@@ -92,10 +88,9 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label class="u-title-label">Expediente o caso al cual pertenece </label>
+                    <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
                     <mat-form-field appearance="fill" 
                                     class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-label>Nombre</mat-label>
                         <mat-select formControlName="expedientId">
                             <mat-option>
                                 Option 1
@@ -115,17 +110,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label class="u-title-label d-block mt-3">¿Cúando debe estar lista? </label>
+                    <label class="u-title-label d-block mt-3">{{ 'tasks.newTaskModal.whenReady' | translate }}</label>
                     <mat-radio-group aria-label="Select an option" [disabled]="taskForm?.disabled ?? false">
-                        <mat-radio-button class="c-radioButton mr-3" [value]="false" checked (change)="dateRadioChange($event)">Sin fecha {{ showDate }} </mat-radio-button>
-                        <mat-radio-button class="c-radioButton" [value]="true" (change)="dateRadioChange($event)">Definir una fecha</mat-radio-button>
+                        <mat-radio-button class="c-radioButton mr-3" [value]="false" checked (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.noDate' | translate }}</mat-radio-button>
+                        <mat-radio-button class="c-radioButton" [value]="true" (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.haveDate' | translate }}</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
             <div class="row mt-4" *ngIf="showDate">
                 <div class="col-md-6">
                     <mat-form-field class="c-form-group c-form-group__datepicker">
-                        <mat-label>Inicio de la tarea</mat-label>
+                        <mat-label>{{ 'tasks.newTaskModal.startDate' | translate }}</mat-label>
                         <input matInput 
                                type="datetime-local" 
                                placeholder="start date"
@@ -137,7 +132,7 @@
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="c-form-group c-form-group__datepicker">
-                        <mat-label>Final de la tarea</mat-label>
+                        <mat-label>{{ 'tasks.newTaskModal.endDate' | translate }}</mat-label>
                         <input matInput 
                                type="datetime-local" 
                                placeholder="end date"
@@ -155,9 +150,8 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12 p-0">
-                            <label class="u-title-label">Precio x Hr. </label>
+                            <label class="u-title-label">{{ 'tasks.newTaskModal.pricePerHour' | translate }}</label>
                             <mat-form-field appearance="fill" class="c-form-group ">
-                                <mat-label>Precio</mat-label>
                                 <input class="c-form-group__input" 
                                        matInput 
                                        placeholder="Ej: Crear contrato de servicio"
@@ -168,9 +162,8 @@
                             </mat-error>
                         </div>
                         <div class="col-md-12 p-0">
-                            <label class="u-title-label">Horas cotizadas</label>
+                            <label class="u-title-label">{{ 'tasks.newTaskModal.hours' | translate }}</label>
                             <mat-form-field appearance="fill" class="c-form-group ">
-                                <mat-label>Horas cotizadas</mat-label>
                                 <input class="c-form-group__input" 
                                        matInput 
                                        placeholder="Ej: Crear contrato de servicio"
@@ -207,7 +200,11 @@
     </mat-dialog-content>
 
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">Crea nueva tarea</button>
+        <button mat-button mat-dialog-close class="u-link text-center">
+            {{ 'tasks.newTaskModal.close' | translate }}
+        </button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">
+            {{ 'tasks.newTaskModal.save' | translate }}
+        </button>
     </mat-dialog-actions>
 </div>

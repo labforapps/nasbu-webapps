@@ -1,0 +1,96 @@
+
+<div class="c-filter" (click)="$event.stopPropagation()">
+  <div class="c-filter__header">
+    <span class="icon-filter"></span>
+    <div class="c-filter__title">
+      {{ 'tasks.filterModal.title' | translate }}
+    </div>
+  </div>
+
+  <div class="c-filter__body">
+    <form [formGroup]="filterForm">
+      <label class="u-title-label">{{ 'tasks.filterModal.priority' | translate }}</label>
+      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+          <mat-select formControlName="priority">
+            <mat-option [value]="''">
+              No filtrar
+            </mat-option>
+            <mat-option [value]="1">
+              Prioridad baja
+            </mat-option>
+            <mat-option [value]="2">
+              prioridad media
+            </mat-option>
+            <mat-option [value]="3">
+              Prioridad alta
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+  
+      <label class="u-title-label">{{ 'tasks.filterModal.status' | translate }}</label>
+      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+          <mat-select formControlName="state">
+            <mat-option [value]="''">
+              No filtrar
+            </mat-option>
+            <mat-option [value]="taskState.Pending">
+              Pendiente
+            </mat-option>
+            <mat-option [value]="taskState.Completed">
+              Completada
+            </mat-option>
+            <mat-option [value]="taskState.Overdue">
+              Vencida
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+  
+      <label class="u-title-label">{{ 'tasks.filterModal.responsable' | translate }} </label>
+      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+          <mat-select formControlName="collaboratorId">
+            <mat-option [value]="''">
+              No filtrar
+            </mat-option>
+            <mat-option value="1">
+              Juan Perez
+            </mat-option>
+            <mat-option value="2">
+              Carlos Perez
+            </mat-option>
+            <mat-option value="12345">
+              Maria Perez
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+  
+      <label class="u-title-label">{{ 'tasks.filterModal.type' | translate }}</label>
+      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+          <mat-select formControlName="type" >
+            <mat-option [value]="''">
+              No filtrar
+            </mat-option>
+              <mat-option [value]="taskType.Call">
+                Llamada
+              </mat-option>
+              <mat-option [value]="taskType.Date">
+                Cita
+              </mat-option>
+              <mat-option [value]="taskType.Consult">
+                Consulta
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="c-filter__footer">
+      <button mat-button class="c-btn c-btn--primary c-btn--small w-100"
+              (click)="applyFilter()">
+        {{ 'tasks.filterModal.apply' | translate }}
+      </button>
+      <button mat-button class="u-link w-100 mt-2"
+              (click)="cleanFilter()">
+        {{ 'tasks.filterModal.clean' | translate }}
+      </button>
+  </div>
+</div>
