@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogNewTaskComponent } from '../../../components/dialogs/dialog-new-task/dialog-new-task.component';
+import { DialogNewTaskComponent } from '../../../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import { DialogChargedHoursComponent } from '../../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
+import { DialogChargedHoursComponent } from '../../../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
 import Swal from 'sweetalert2';
 import { Tasks } from 'core-models';
 
@@ -12,7 +12,7 @@ import { Tasks } from 'core-models';
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss']
 })
-export class TaskTableComponent  implements OnInit, OnChanges {
+export class TaskTableComponent  implements OnChanges {
   @Input() tasks: Tasks[] = [];
 
   images:any = {
@@ -29,11 +29,8 @@ export class TaskTableComponent  implements OnInit, OnChanges {
 
   constructor(public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-  }
-
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource<Tasks>(this.tasks);
+    this.dataSource.data = this.tasks;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -92,5 +89,18 @@ export class TaskTableComponent  implements OnInit, OnChanges {
 
   selectTask(task:Tasks){
     this.selectedTask = task;
+  }
+
+  onFilter(obj:any){
+    let keys = Object.keys(obj);
+
+    if(!keys.length){
+      this.dataSource.data = this.tasks;
+      return;
+    }
+
+    this.dataSource.data = !keys.length 
+    ? this.tasks
+    : this.tasks.filter((t:any) => !(keys.map(k => t[k] == obj[k]).includes(false)))
   }
 }

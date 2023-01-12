@@ -1,3 +1,3 @@
-import { Tasks, TaskType, TaskState, TaskPeriodicity } from "./task";
+import { Tasks, TaskType, TaskState, TaskPeriodicity, TaskHour } from "./task";
 
-export { Tasks, TaskType, TaskState, TaskPeriodicity  }
+export { Tasks, TaskType, TaskState, TaskPeriodicity, TaskHour  }

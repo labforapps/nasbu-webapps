@@ -38,7 +38,6 @@ import { DialogNewDocumentComponent } from './components/dialogs/dialog-new-docu
 import { DialogNewTemplateComponent } from './components/dialogs/dialog-new-template/dialog-new-template.component';
 import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
 import { DialogChargedHoursComponent } from './components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
-import { DialogAddHoursComponent } from './components/dialogs/dialog-add-hours/dialog-add-hours.component';
 import { NewInvoiceComponent } from './pages/invoicing/new-invoice/new-invoice.component';
 import { ExpedientComponent } from './pages/expedient/expedient.component';
 import { DialogNewExpedientComponent } from './components/dialogs/dialog-new-expedient/dialog-new-expedient.component';
@@ -135,7 +134,6 @@ registerLocaleData(localeEn, 'en');
     DialogNewTemplateComponent,
     DocumentViewerComponent,
     DialogChargedHoursComponent,
-    DialogAddHoursComponent,
     NewInvoiceComponent,
     ExpedientComponent,
     DialogNewExpedientComponent,

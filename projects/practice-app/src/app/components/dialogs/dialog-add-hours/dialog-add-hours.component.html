@@ -1,117 +1,146 @@
 <div class="c-dialog-addHours c-dialog-header">
     <div class="c-dialog-header__header">
-        <span class="icon-clock u-icon-white mr-2"></span> Agregar horas de cargo
+        <span class="icon-clock u-icon-white mr-2"></span> {{ 'addHoursModal.title' | translate }}
     </div>
     <mat-dialog-content>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-6 p-0 pr-2">
-                        <label class="u-title-label">Precio x Hr. </label>
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Precio</mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                                <mat-option>
-                                    Option 2
-                                </mat-option>
-                                <mat-option>
-                                    Option 3
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6 p-0 pr-2">
+                            <label class="u-title-label">{{ 'addHoursModal.pricePerHour' |translate }}</label>
+                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-select formControlName="pricePerHour">
+                                    <mat-option [value]="10">
+                                        $10
+                                    </mat-option>
+                                    <mat-option [value]="15">
+                                        $15
+                                    </mat-option>
+                                    <mat-option [value]="20">
+                                        $20
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>
+                                {{
+                                    form.get("pricePerHour") | validations 
+                                }}
+                            </mat-error>
+                        </div>
+                        <div class="col-md-6 p-0 u-disable-list">
+                            <label class="u-title-label">{{ 'addHoursModal.quotedHours' |translate }}</label>
+                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-select formControlName="quotedHours">
+                                    <mat-option [value]="10">
+                                        10
+                                    </mat-option>
+                                    <mat-option [value]="15">
+                                        15
+                                    </mat-option>
+                                    <mat-option [value]="20">
+                                        20
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-error>
+                                {{
+                                    form.get("quotedHours") | validations 
+                                }}
+                            </mat-error>
+                        </div>
                     </div>
-                    <div class="col-md-6 p-0 u-disable-list">
-                        <label class="u-title-label">Horas cotizadas</label>
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Núm. Teléfono celular</mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                                <mat-option>
-                                    Option 2
-                                </mat-option>
-                                <mat-option>
-                                    Option 3
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="u-title-label">{{ 'addHoursModal.realTimeClock' |translate }}</label>
+                    <div class="c-timer-count" *ngIf="timerConfig">
+                        <div class="c-timer-count__number">
+                            <countup-timer  [countUpTimerConfig]="timerConfig"></countup-timer>
+                        </div>
+                        <button mat-button class="c-timer-count__button" (click)="startTimer()">
+                            <span [ngClass]="{'icon-pause': isTimerStart, 'icon-play': !isTimerStart }"
+                                  [title]="isTimerStart ? 'Pause' : 'Play'"></span>
+                       </button>
+                        <button class="btn-replay" title="Reset" (click)="resetTimer()">
+                            <span class="icon-replay"></span>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <label class="u-title-label">Real-Time clock</label>
-                <div class="c-timer-count">
-                    <div class="c-timer-count__number">
-
-                        00:00:00
+    
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <mat-checkbox class="c-checkbox mb-3 u-fontBold u-textColor mt-3" formControlName="isBillable">
+                            {{ 'addHoursModal.noBillable' |translate }}
+                        </mat-checkbox>
                     </div>
-                    <button mat-button class="c-timer-count__button">
-                       <span class="icon-play"></span>
-                   </button>
+    
+                    <label class="u-title-label">{{ 'addHoursModal.expedient' |translate }}</label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                        <mat-select formControlName="expedientId">
+                            <mat-option value="1">
+                                Expediente 1
+                            </mat-option>
+                            <mat-option value="2">
+                                Expediente 2
+                            </mat-option>
+                            <mat-option value="3">
+                                Expediente 3
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error>
+                        {{
+                            form.get("expedientId") | validations 
+                        }}
+                    </mat-error>
+    
+                    <label class="u-title-label">{{ 'addHoursModal.description' |translate }}</label>
+                    <div class="c-form-group">
+                        <textarea matInput class="c-form-group__textarea" 
+                                  style="min-height:11rem;" 
+                                  placeholder="{{ 'addHoursModal.placeholder.description' | translate }}"
+                                  formControlName="description">
+                        </textarea>
+                    </div>
+                    <mat-error>
+                        {{
+                            form.get("description") | validations 
+                        }}
+                    </mat-error>
+
+                    <label class="u-title-label">{{ 'addHoursModal.user' |translate }}</label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                        <mat-select formControlName="userId">
+                            <mat-option value="1">
+                                Usuario 1
+                            </mat-option>
+                            <mat-option value="2">
+                                Usuario 2
+                            </mat-option>
+                            <mat-option value="3">
+                                Usuario 3
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error>
+                        {{
+                            form.get("userId") | validations 
+                        }}
+                    </mat-error>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <mat-checkbox class="c-checkbox mb-3 u-fontBold u-textColor mt-3">
-                        No facturable
-                    </mat-checkbox>
-                </div>
-
-                <label class="u-title-label">Expediente al cual aplicará el cargo</label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Nombre expediente</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <label class="u-title-label">Descripción o detalle</label>
-                <div class="c-form-group">
-                    <textarea matInput class="c-form-group__textarea" style="min-height:11rem;" placeholder="Ej: Este contrato es para poder vender unas
-                    máquinas de vapor etc…"></textarea>
-                </div>
-                <label class="u-title-label">Usuario de la firma</label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Nombre expediente</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-
+        </form>
     </mat-dialog-content>
     <mat-dialog-actions class="mt-auto ">
         <div class="row w-100 mb-3">
             <div class="col-md-12">
                 <div class="d-flex">
-                    <button mat-button class="c-btn-function flex-1">Guardar horas</button>
-                    <button mat-button class="c-btn-function flex-1">Guardar y agregar nuevas <span class="icon-plus ml-2"></span></button>
-
+                    <button mat-button class="c-btn-function flex-1">{{ 'addHoursModal.save' |translate }}</button>
+                    <button mat-button class="c-btn-function flex-1">{{ 'addHoursModal.saveAndMore' |translate }}<span class="icon-plus ml-2"></span></button>
                 </div>
-                <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+                <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">{{ 'addHoursModal.close' |translate }}</button>
             </div>
         </div>
     </mat-dialog-actions>

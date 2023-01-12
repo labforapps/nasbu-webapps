@@ -1,91 +1,16 @@
 <div class="u-smallSize mb-3 d-flex align-items-center justify-content-between flex-wrap u-gap-1">
   <p><b>{{ 'tasks.table.title' |translate | titlecase }}</b></p>
   <div class="c-btn-filter">
-      {{ 'tasks.table.filterBy' |translate }}
-      <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
-      <mat-menu #filterMenu="matMenu">
-          <div class="c-filter" (click)="$event.stopPropagation()">
-              <div class="c-filter__header">
-                  <span class="icon-filter"></span>
-                  <div class="c-filter__title">
-                      Criterios de filtrado
-                  </div>
-              </div>
-              <div class="c-filter__body">
-                  <label class="u-title-label">Prioridad</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                      <mat-label>Nivel de prioridad</mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <label class="u-title-label">Estatus</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                      <mat-label>Estado</mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <label class="u-title-label">Responsable de la tarea </label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                      <mat-label>Nombre</mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-                  <label class="u-title-label">Tipo asunto</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                      <mat-label>Nombre</mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
-
-              </div>
-              <div class="c-filter__footer">
-                  <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
-                  <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
-              </div>
-
-          </div>
-      </mat-menu>
+    {{ 'tasks.table.filterBy' |translate }}
+    <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+    <mat-menu #filterMenu="matMenu">
+        <app-task-filter (filter)="onFilter($event)"></app-task-filter>
+    </mat-menu>
   </div>
 
 </div>
 <div class="u-table-responsive">
-  <table mat-table [dataSource]="dataSource" class="c-table">
+  <table mat-table [dataSource]="dataSource" class="c-table" aria-describedby="task table">
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">

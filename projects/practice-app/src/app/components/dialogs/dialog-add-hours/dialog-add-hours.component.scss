@@ -1,0 +1,27 @@
+::ng-deep.inline-timer{
+    margin-right: 5px;
+    span{
+        &:last-of-type{
+            display: none;
+        }
+    }
+}
+
+.btn-replay{
+    border-radius: 50%;
+    background-color: #389856;
+    border: none;
+    padding: 5px 9px;
+    color: #fff;
+    font-size: 16px;
+
+}
+
+.icon-replay:before {
+    content: "\21BA";
+    cursor: pointer;
+}
+
+.c-timer-count{
+    gap:0 !important;
+}
