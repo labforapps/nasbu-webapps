@@ -44,7 +44,7 @@ export class AuthService {
             );
     }
 
-    storeUserInfoInLocalStorage() {
+    storeUserInfoInLocalStorage(): void {
         const firstSubscription: UserSubscription = this.selectedUserInfo.subscriptions[0];
         const allPermissions = this.getAllPermisions(this.selectedUserInfo);
         const ssid: SelectedSubscription = { ssid: firstSubscription.subscription, mt: firstSubscription.member_type, permissions: allPermissions };

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
 import { map, Observable } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
-import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo } from 'core-models';
+import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo } from 'core-models';
 import { UserSubscription } from 'core-models';
 import { NgxPermissionsService } from 'ngx-permissions';
 
@@ -35,6 +35,19 @@ export class AuthService {
     return this.coreAuth.getCurrentUserInfo();
   }
 
+  fetchUserInfo(): Observable<UserInfo> {
+    return this.coreAuth.fetchUserInfo();
+  }
+
+  getAllPermisions(user: UserInfo): string[] {
+    return this.coreAuth.getAllPermisions(user);
+  }
+
+  /**
+   * Before taking the localStorage data, the permissions resolver
+   * is executed in the general dashboard route, updating the permissions
+   * @memberof AuthService
+   */
   addPermissions(): void {
     const user = this.coreAuth.getUserInfoFromLocalStorage();
     const allPermissions: string[] = user?.permissions ?? [];

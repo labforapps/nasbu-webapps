@@ -30,6 +30,7 @@ import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 import { UserResolver } from './resolvers/user.resolver';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { PermissionsResolver } from './resolvers/permissions.resolver';
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
     component: LayoutComponent,
     /*  canActivate: [AuthGuard],
     canActivateChild: [AuthGuard], */
+    resolve: { permissions: PermissionsResolver },
     children: [
       {
         path: '',
@@ -181,7 +183,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
