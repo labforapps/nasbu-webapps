@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogListComponent } from '../../../components/dialogs/dialog-list/dialog-list.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import { Customer, SelectedSubscription,Country,Address,Contact,TypeContact,SubtypeContact } from 'core-models';
+import { Customer, SelectedSubscription,Country,Address,Contact,TypeContact,SubtypeContact,Occupation } from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -21,8 +21,10 @@ export class CreateClientComponent implements OnInit {
   customer_contacts_email: Contact[] = [];
   customer_address: Address[] = [];
   subtypeContact = SubtypeContact;
+  occupations!: Occupation[];
+  checked_share_same_info:boolean = false;
 
-  customerId!:string;
+  customerId!: string;
 
   createClientForm = this._formBuilder.group({
     subscription: ['', Validators.required],
@@ -33,6 +35,9 @@ export class CreateClientComponent implements OnInit {
     company_name: ['Company'],
     first_name: [''],
     last_name: [''],
+    occupation: [''],
+    marital_status: [''],
+    born_date: [''],
   });
 
   constructor(
@@ -41,22 +46,21 @@ export class CreateClientComponent implements OnInit {
     private customerService: CustomersService,
     private commonService: CommonService,
     private authService: AuthService,
-    private Router:Router,
-    private ActivatedRoute:ActivatedRoute
+    private Router: Router,
+    private ActivatedRoute: ActivatedRoute
   ) {}
-
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
 
     this.fetchCountries();
+    this.fetchOccupations();
     this.getCustomerById();
     this.initCustomerContacts();
     this.initCustomerAddress();
   }
 
-  getCustomerById()
-  {
+  getCustomerById() {
     this.customerId = this.ActivatedRoute.snapshot.paramMap.get('id') || '';
 
     if (this.customerId != '') {
@@ -70,40 +74,44 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  setDataInForm()
-  {
+  setDataInForm() {
     this.customer_type = this.customer.type;
 
     this.createClientForm.setValue({
       subscription: this.selectedSubscription?.ssid.uuid,
       first_name: this.customer?.first_name,
-      last_name:this.customer.last_name,
+      last_name: this.customer.last_name,
       type: this.customer.type,
       intake_request: '',
       document_type: 'I',
       document_no: 'dgf',
-      company_name: this.customer.company_name
+      company_name: this.customer.company_name,
+      born_date:this.customer.born_date,
+      occupation:this.customer.occupation,
+      marital_status:this.customer.marital_status
+
     });
 
     const customer_contacts_phone = this.customer.contacts.filter(
       (x) => x.type === 'P'
     );
 
-    if (customer_contacts_phone.length > 0) this.customer_contacts_phone = customer_contacts_phone;
+    if (customer_contacts_phone.length > 0)
+      this.customer_contacts_phone = customer_contacts_phone;
 
     const customer_contacts_email = this.customer.contacts.filter(
-      x => x.type === 'E'
+      (x) => x.type === 'E'
     );
 
-    if(customer_contacts_email.length > 0) this.customer_contacts_email = customer_contacts_email;
+    if (customer_contacts_email.length > 0)
+      this.customer_contacts_email = customer_contacts_email;
 
-    if(this.customer.addresses.length > 0) this.customer_address = this.customer.addresses;
-
+    if (this.customer.addresses.length > 0)
+      this.customer_address = this.customer.addresses;
   }
 
   initCustomerContacts() {
     if (this.customer_contacts_phone.length === 0) {
-
       this.customer_contacts_phone.push({
         customer: '',
         type: TypeContact.phone_number,
@@ -133,6 +141,7 @@ export class CreateClientComponent implements OnInit {
         postal_city: '',
         postal_address: '',
         postal_postal_code: '',
+        share_same_info:false
       });
     }
   }
@@ -165,6 +174,7 @@ export class CreateClientComponent implements OnInit {
       postal_city: '',
       postal_address: '',
       postal_postal_code: '',
+      share_same_info:false
     });
   }
 
@@ -186,6 +196,12 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
+  fetchOccupations() {
+    this.commonService.getOccupations().subscribe((data) => {
+      this.occupations = data;
+    });
+  }
+
   submitForm() {
     const customerContacts: Contact[] = this.customer_contacts_phone.concat(
       this.customer_contacts_email
@@ -199,28 +215,49 @@ export class CreateClientComponent implements OnInit {
     };
     console.log(createClient);
 
-     if(this.customerId != '')
-     {
-        this.updateCustomer(createClient);
-     }
-     else
-     {
-      this.createCustomer(createClient);
-     }
+      if(this.customerId != '')
+      {
+         this.updateCustomer(createClient);
+      }
+      else
+      {
+       this.createCustomer(createClient);
+      }
   }
 
-  createCustomer(body:any)
-  {
+  createCustomer(body: any) {
     this.customerService.createCustomer(body).subscribe((data) => {
       console.log(data);
     });
   }
 
+  updateCustomer(body: any) {
+    this.customerService
+      .updateCustomer(
+        this.selectedSubscription.ssid.uuid,
+        this.customerId,
+        body
+      )
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 
-  updateCustomer(body:any)
-  {
-    this.customerService.updateCustomer(this.selectedSubscription.ssid.uuid,this.customerId,body).subscribe(data => {
-      console.log(data);
-    })
+  changeValueCheckboxAddress(address:Address) {
+
+    address.share_same_info = !address.share_same_info;
+
+    if(address.share_same_info)
+    {
+      address.postal_city = address.physical_city;
+      address.postal_address = address.physical_address;
+      address.postal_postal_code = address.physical_postal_code;
+    }
+    else
+    {
+      address.postal_city = '';
+      address.postal_address = '';
+      address.postal_postal_code = '';
+    }
   }
 }

@@ -16,6 +16,7 @@ export interface UserSubscription {
     member_type: string;
     member_group: string;
     case_file: string;
+    permissions: string[];
 }
 
 export interface UserInfo {
@@ -28,6 +29,7 @@ export interface UserInfo {
 export interface SelectedSubscription {
     ssid: string;
     mt: string;
+    permissions: string[];
 }
 
 export interface SSID {

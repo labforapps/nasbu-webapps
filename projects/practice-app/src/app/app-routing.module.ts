@@ -29,6 +29,7 @@ import { SuccessSubscriptionPaymentComponent } from './pages/success-subscriptio
 import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 import { UserResolver } from './resolvers/user.resolver';
+import { NgxPermissionsGuard } from 'ngx-permissions';
 
 const routes: Routes = [
   {
@@ -74,6 +75,12 @@ const routes: Routes = [
       {
         path: 'customers',
         component: ClientComponent,
+        data: {
+          permissions: {
+            only: ['add_customer', 'view_customer', 'change_customer', 'delete_customer'],
+            redirectTo: '/'
+          }
+        },
       },
       {
         path: 'collaborator',
@@ -141,10 +148,23 @@ const routes: Routes = [
   {
     path: 'customers/create-client',
     component: CreateClientComponent,
+    canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        only: ['add_customer'],
+        redirectTo: '/'
+      }
+    },
   },
   {
     path: 'customers/edit/:id',
     component: CreateClientComponent,
+    data: {
+      permissions: {
+        only: ['change_customer'],
+        redirectTo: '/'
+      }
+    },
   },
   {
     path: 'configuration/profile-sign/create-profile',
