@@ -93,7 +93,7 @@ import { EmptyDashboardComponent } from './pages/dashboard/empty/empty-dashboard
 import { InvoicesComponent } from './pages/dashboard/invoices/invoices.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
-
+import { ClientTableComponent } from './pages/client/components/client-table/client-table.component';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -174,6 +174,7 @@ registerLocaleData(localeEn, 'en');
     EmptyDashboardComponent,
     InvoicesComponent,
     LocalizedDatePipe,
+    ClientTableComponent,
   ],
   imports: [
     BrowserModule,

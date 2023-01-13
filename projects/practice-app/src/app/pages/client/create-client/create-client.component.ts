@@ -3,11 +3,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogListComponent } from '../../../components/dialogs/dialog-list/dialog-list.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import { Customer, SelectedSubscription,Country,Address,Contact,TypeContact,SubtypeContact,Occupation } from 'core-models';
+import {
+  Customer,
+  SelectedSubscription,
+  Country,
+  Address,
+  Contact,
+  TypeContact,
+  SubtypeContact,
+  Occupation,
+  TypeCustomer,
+} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-create-client',
   templateUrl: './create-client.component.html',
@@ -16,7 +25,7 @@ import { ToastrService } from 'ngx-toastr';
 export class CreateClientComponent implements OnInit {
   //selectedSubscription!: SelectedSubscription | null;
   selectedSubscription!: any;
-  customer_type: string = 'P';
+  customer_type: string = TypeCustomer.person;
   countries!: Country[];
   customer!: Customer;
   customer_contacts_phone: Contact[] = [];
@@ -28,19 +37,7 @@ export class CreateClientComponent implements OnInit {
 
   customerId!: string;
 
-  createClientForm = this._formBuilder.group({
-    subscription: ['', Validators.required],
-    intake_request: [''],
-    type: [this.customer_type, Validators.required],
-    document_type: ['I'],
-    document_no: ['ad cupidatat nu'],
-    company_name: ['Company'],
-    first_name: [''],
-    last_name: [''],
-    occupation: [''],
-    marital_status: [''],
-    born_date: [''],
-  });
+  createClientForm!:FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -50,7 +47,8 @@ export class CreateClientComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private ActivatedRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translateService:TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +59,20 @@ export class CreateClientComponent implements OnInit {
     this.getCustomerById();
     this.initCustomerContacts();
     this.initCustomerAddress();
+
+    this.createClientForm = this._formBuilder.group({
+      subscription: [''],
+      intake_request: [''],
+      type: [this.customer_type, Validators.required],
+      document_type: ['I'],
+      document_no: ['ad cupidatat nu'],
+      company_name: [null],
+      first_name: [null],
+      last_name: [null],
+      occupation: [null],
+      marital_status: [null],
+      born_date: [null],
+    });
   }
 
   getCustomerById() {
@@ -115,18 +127,16 @@ export class CreateClientComponent implements OnInit {
   initCustomerContacts() {
     if (this.customer_contacts_phone.length === 0) {
       this.customer_contacts_phone.push({
-        customer: '',
         type: TypeContact.phone_number,
-        sub_type: '',
+        sub_type: SubtypeContact.cellphone_number,
         contact_value: '',
       });
     }
 
     if (this.customer_contacts_email.length === 0) {
       this.customer_contacts_email.push({
-        customer: '',
         type: TypeContact.email,
-        sub_type: '',
+        sub_type: SubtypeContact.personal_email,
         contact_value: '',
       });
     }
@@ -150,18 +160,16 @@ export class CreateClientComponent implements OnInit {
 
   addCustomerContactPhone() {
     this.customer_contacts_phone.push({
-      customer: '',
       type: TypeContact.phone_number,
-      sub_type: '',
+      sub_type: SubtypeContact.cellphone_number,
       contact_value: '',
     });
   }
 
   addCustomerContactEmail() {
     this.customer_contacts_email.push({
-      customer: '',
       type: TypeContact.email,
-      sub_type: '',
+      sub_type: SubtypeContact.personal_email,
       contact_value: '',
     });
   }
@@ -204,7 +212,75 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
+  validateClientFormFields()
+  {
+    let fields_validate_required:any[]= [];
+    let fields_validate_non_required: any[] = [];
+
+    switch(this.customer_type)
+    {
+      case TypeCustomer.person:
+
+      fields_validate_required = [
+        'first_name',
+        'last_name',
+        'occupation',
+        'marital_status',
+        'born_date',
+      ];
+
+      fields_validate_non_required = ['company_name'];
+
+        break;
+      case TypeCustomer.business:
+        fields_validate_required = [
+          'company_name',
+        ];
+        fields_validate_non_required = [
+          'first_name',
+          'last_name',
+          'occupation',
+          'marital_status',
+          'born_date',
+        ];
+        break;
+    }
+
+    for (let i = 0; i < fields_validate_required.length; i++) {
+
+      if (
+        this.createClientForm.controls[fields_validate_required[i]].value ===
+          null ||
+        this.createClientForm.controls[fields_validate_required[i]].value === ''
+      ) {
+        this.createClientForm.controls[fields_validate_required[i]].setErrors({
+          incorrect: true,
+        });
+      }
+
+    }
+
+    for (let i = 0; i < fields_validate_non_required.length; i++) {
+      if (
+        this.createClientForm.controls[fields_validate_non_required[i]]
+          .value === null ||
+        this.createClientForm.controls[fields_validate_non_required[i]]
+          .value === ''
+      ) {
+        this.createClientForm.controls[
+          fields_validate_non_required[i]
+        ].setErrors(null);
+      }
+
+      this.createClientForm.controls[fields_validate_non_required[i]].setValue(null);
+    }
+
+  }
+
   submitForm(create_another=false) {
+
+    this.validateClientFormFields();
+
     const customerContacts: Contact[] = this.customer_contacts_phone.concat(
       this.customer_contacts_email
     );
@@ -216,24 +292,41 @@ export class CreateClientComponent implements OnInit {
       addresses: this.customer_address,
     };
     console.log(createClient);
+    console.log(this.createClientForm);
 
-    if (this.customerId != '') {
-      this.updateCustomer(createClient);
-    } else {
-      this.createCustomer(createClient,create_another);
+    if(this.createClientForm.valid)
+    {
+      if (this.customerId != '') {
+        this.updateCustomer(createClient);
+      } else {
+        this.createCustomer(createClient, create_another);
+      }
+    }
+    else
+    {
+      this.toastr.error(
+        'Error',
+        this.translateService.instant('errorMessages.InvalidForm')
+      );
     }
   }
 
   createCustomer(body: any,create_another=false) {
     this.customerService.createCustomer(body).subscribe((data) => {
       console.log(data);
-      this.toastr.success('Successfully', 'Customer Created');
+      this.toastr.success(
+        'Ok',
+        this.translateService.instant('successMessages.created_succesfully')
+      );
       if(create_another)
       {
-        console.log('create another');
-        //this.router.navigate(['customers/create']);
         this.resetForm();
       }
+    },error => {
+            this.toastr.error(
+              'Error',
+              this.translateService.instant('errorMessages.unexpectedError')
+            );
     });
   }
 
@@ -246,7 +339,15 @@ export class CreateClientComponent implements OnInit {
       )
       .subscribe((data) => {
         console.log(data);
-        this.toastr.success('Successfully', 'Customer Updated');
+        this.toastr.success(
+          'Ok',
+          this.translateService.instant('successMessages.updated_successfully')
+        );
+      },error => {
+        this.toastr.error(
+          'Error',
+          this.translateService.instant('errorMessages.unexpectedError')
+        );
       });
   }
 

@@ -19,6 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -41,7 +43,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
   ],
   exports: [
     MatInputModule,
@@ -62,7 +65,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
   ],
 })
 export class MaterialModule {}

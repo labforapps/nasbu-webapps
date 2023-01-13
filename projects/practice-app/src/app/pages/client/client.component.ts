@@ -1,7 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit} from '@angular/core';
 import { AuthService, CustomersService } from 'core-services';
 import { Customer, SelectedSubscription } from 'core-models';
 import { Observable } from 'rxjs';
@@ -10,8 +7,6 @@ import { DialogSendRegisterComponent } from '../../components/dialogs/dialog-sen
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -21,24 +16,15 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ClientComponent implements OnInit {
   customers$!: Observable<Customer[]>;
-  memCustomers!: Customer[];
+  memCustomers: Customer[] = [];
   //selectedSubscription!: SelectedSubscription | null;
   selectedSubscription!: any;
-
-  displayedColumns: string[] = [];
-  dataSourceCustomers!: any;
-  dataSourceCustomersTypePerson: any;
-  dataSourceCustomersTypeBusiness: any;
-  selection = new SelectionModel<any>(true, []);
-
-  @ViewChild(MatPaginator) paginator: any;
 
   constructor(
     private authService: AuthService,
     private customersService: CustomersService,
     public dialog: MatDialog,
     private router: Router,
-    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -48,28 +34,6 @@ export class ClientComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    this.displayedColumns = [
-      'select',
-      'type',
-      'name',
-      'number',
-      'email',
-      'date',
-      'update',
-      'action',
-    ];
-
-    this.dataSourceCustomers = new MatTableDataSource<Customer>(
-      this.memCustomers
-    );
-    this.dataSourceCustomersTypePerson = new MatTableDataSource<Customer>(
-      this.customers_type_person
-    );
-    this.dataSourceCustomersTypeBusiness = new MatTableDataSource<Customer>(
-      this.customers_type_bussiness
-    );
   }
 
   fetchCustomers() {
@@ -82,72 +46,6 @@ export class ClientComponent implements OnInit {
           this.memCustomers = customers;
           this.ngAfterViewInit();
         });
-    }
-  }
-
-  getCustomerIconUrl(customer: Customer): string {
-    let iconUrl: string = '';
-    const customerType: string = customer.type.toLowerCase();
-    if (customerType === 'p') {
-      iconUrl = '../../../../assets/images/table-icons/user.svg';
-    } else if (customerType === 'b') {
-      iconUrl = '../../../../assets/images/table-icons/company.svg';
-    }
-
-    return iconUrl;
-  }
-
-  getCustomerName(customer: Customer): string {
-    let customerName: string = '';
-    const customerType: string = customer.type.toLowerCase();
-    if (customerType === 'p') {
-      customerName = `${customer.first_name} ${customer.last_name}`;
-    } else if (customerType === 'b') {
-      customerName = customer.company_name;
-    }
-
-    return customerName;
-  }
-
-  getFirstContact(customer: Customer): string {
-    const customer_contacts_phone = customer.contacts.filter(
-      (x) => x.type === 'P'
-    );
-
-    return customer_contacts_phone.map((c: any) => {
-      return c.contact_value;
-    })[0];
-  }
-
-  getFirstEmail(customer: Customer): string {
-    const customer_contacts_email = customer.contacts.filter(
-      (x) => x.type === 'E'
-    );
-
-    return customer_contacts_email.map((c: any) => {
-      return c.contact_value;
-    })[0];
-  }
-
-  applyFilter(filterValue: any, typeCustomer = '') {
-    switch (typeCustomer) {
-      case 'P':
-        filterValue = filterValue.target.value.trim();
-        filterValue = filterValue.toLowerCase();
-        this.dataSourceCustomersTypePerson.filter = filterValue;
-        break;
-
-      case 'B':
-        filterValue = filterValue.target.value.trim();
-        filterValue = filterValue.toLowerCase();
-        this.dataSourceCustomersTypeBusiness.filter = filterValue;
-        break;
-
-      default:
-        filterValue = filterValue.target.value.trim();
-        filterValue = filterValue.toLowerCase();
-        this.dataSourceCustomers.filter = filterValue;
-        break;
     }
   }
 
@@ -177,39 +75,6 @@ export class ClientComponent implements OnInit {
     return [];
   }
 
-  navigateToClientProfile(id: string) {
-    this.router.navigate(['client-profile', id]);
-  }
-
-  navigateToEditClient(id: string) {
-    console.log(id);
-    this.router.navigate(['customers/edit', id]);
-  }
-
-  deleteClient(id: string) {
-    Swal.fire({
-      title: '¿Deseas eliminar este elemento?',
-      text: 'Esta acción no se podrá revertir',
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: 'Eliminar',
-      showCancelButton: true,
-      cancelButtonText: 'Cerrar ventana',
-      customClass: {
-        popup: 'c-alert c-alert--delete',
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.customersService
-          .deleteCustomer(this.selectedSubscription?.ssid.uuid, id)
-          .subscribe((data) => {
-            console.log(data);
-            this.toastr.success('Successfully', 'Customer Deleted');
-            this.fetchCustomers();
-          });
-      }
-    });
-  }
-
   openDialogSendRegister() {
     this.dialog.open(DialogSendRegisterComponent);
   }
@@ -217,30 +82,4 @@ export class ClientComponent implements OnInit {
     this.dialog.open(DialogNewCostumerComponent);
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSourceCustomers.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSourceCustomers.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: any): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.position + 1
-    }`;
-  }
 }
