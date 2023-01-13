@@ -79,7 +79,14 @@
       "passwordsDoNotMatch": "Contraseñas no coinciden.",
       "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo.",
       "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente.",
-      "CodeMismatchException":"Se proporcionó un código de verificación no válido, inténtelo de nuevo."
+      "CodeMismatchException":"Se proporcionó un código de verificación no válido, inténtelo de nuevo.",
+      "field_required":"Este campo es requerido",
+      "InvalidForm":"Formulario Invalido"
+   },
+   "successMessages":{
+      "created_succesfully":"Creado Exitosamente!!",
+      "updated_successfully":"Actualizado Exitosamente!!",
+      "deleted_successfully":"Eliminado Exitosamente!!"
    },
    "formValidations": {
       "required": "El campo $0 es requerido",
@@ -89,6 +96,9 @@
       "pattern": "El campo $0 no es valido",
       "min": "El campo $0 debe ser mayor a $1",
       "max": "El campo $0 debe ser menor a $1"
+   },
+   "notifications":{
+      "customer_created":"Cliente Creado"
    },
    "tasks": {
       "title": "Mis tareas",
@@ -319,7 +329,9 @@
         },
         "buttons":{
           "edit":"Editar",
-          "delete":"Eliminar"
+          "delete":"Eliminar",
+          "confirm_question_delete":"¿Deseas eliminar este elemento?",
+          "actions_cannot_be_reversed":"Esta acción no se podrá revertir"
         }
     },
     "form_create":{
@@ -335,8 +347,15 @@
       "lastname":"Apellido",
       "contact":"Contacto",
       "email":"Correo Electronico",
+      "personal_email":"Personal",
+      "business_email":"Negocio",
+      "born_date":"Fecha de Nacimiento",
+      "select_marital_status":"Seleccionar Estado Civil",
+      "select_occupation":"Seleccionar Profesion",
       "cellphone_number":"Num. Telefono celular",
       "telephone_number":"Num. de Telefono",
+      "landline_number":"Telefono fijo",
+      "phone_office_number":"Telefono Oficina",
       "add_another_telephone_number":"Agregar otro telefono",
       "add_another_email":"Agregar otro correo",
       "choose_country":"Seleccionar Pais",
@@ -353,7 +372,11 @@
       "see_business_associated_to_user":"Aquí podrás ver a la empresa que está asociado este usuario",
       "remember_fill_required_information":"Recuerda completar los datos requeridos",
       "save_customer":"Guardar Cliente",
-      "save_create_another":"Guardar y crear otro"
+      "save_create_another":"Guardar y crear otro",
+      "married":"Casado/a",
+      "single":"Soltero/a",
+      "widowed":"Viudo/a",
+      "divorced":"Divorciado/a"
 
     },
     "details":{
@@ -387,11 +410,7 @@
       "postal_code":"Codigo Postal",
       "mailing_address":"Direccion Postal",
       "not_have_mailing_address":"No tiene direccion postal",
-      "postal_address":"Direccion Postal",
-      "married":"Casado/a",
-      "single":"Soltero/a",
-      "widowed":"Viudo/a",
-      "divorced":"Divorciado/a"
+      "postal_address":"Direccion Postal"
 
     },
     "files":{

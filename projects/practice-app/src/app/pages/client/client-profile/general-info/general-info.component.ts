@@ -53,8 +53,21 @@ export class GeneralInfoComponent implements OnInit {
 
   return_occupation_name(uuid:string)
   {
-    const occupation_filtered = this.occupations.filter(x => x.uuid = uuid);
 
-    return occupation_filtered[0].name;
+    if(uuid)
+    {
+      console.log(uuid);
+
+      const occupation_filtered = this.occupations.filter(
+        (x) => x.uuid === uuid
+      );
+
+      return occupation_filtered[0].name;
+    }
+    else
+    {
+      return '';
+    }
+
   }
 }
