@@ -6,10 +6,14 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Plan, Subscription, UserSignupPayload } from 'core-models';
 import { Observable, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
+import { PlaceToPayStatus } from '../../common';
+import { AuthService } from '../../services/auth/auth.service';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
 const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 const phoneRegex = /^\+\d{10,15}$/;
+declare var P: any;
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -32,7 +36,8 @@ export class RegisterComponent implements OnInit {
     private onboardingService: OnboardingService,
     private fb: FormBuilder,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -61,10 +66,10 @@ export class RegisterComponent implements OnInit {
   get planTotalPrice(): string {
 
     if (this.selectedPlan) {
-      let totalPrice = +this.anualSubscription 
-        ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100))) 
+      let totalPrice = +this.anualSubscription
+        ? +(+this.selectedPlan.price - (+this.selectedPlan.price * (+this.selectedPlan.anual_discount_pct / 100)))
         : +this.selectedPlan.price;
-      this.totalUsers =(+this.totalUsers) < 1 ? (+this.totalUsers) * -1 : +this.totalUsers
+      this.totalUsers = (+this.totalUsers) < 1 ? (+this.totalUsers) * -1 : +this.totalUsers
       totalPrice = totalPrice * this.totalUsers;
       return totalPrice.toFixed(2);
     }
@@ -91,7 +96,7 @@ export class RegisterComponent implements OnInit {
       phoneNumber: [null, [Validators.required, Validators.pattern(phoneRegex)]],
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
-      confirmPassword: [null,[ Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]]
+      confirmPassword: [null, [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]]
     });
   }
 
@@ -131,22 +136,41 @@ export class RegisterComponent implements OnInit {
     this.onboardingService
       .createUserAndAccount(userSignupPayload)
       .subscribe((subscription: Subscription) => {
+        const { username, password } = userSignupPayload;
         if (isFreeTrial) {
-          this.router.navigate(['/signin']);
+          this.enterIntoApp(username, password);
         } else {
-          window.location.href = subscription.first_checkout_url;
+          this.initPaymentModal(subscription.first_checkout_url);
         }
       }, (error: any) => {
         this.errorMessage = (error.name == 'InvalidParameterException') ? error.message : error.name;
       });
   }
 
+  initPaymentModal(processUrl: string): void {
+    P.init(processUrl);
+    P.on('response', ({ status }: any) => {
+      if (status?.status === PlaceToPayStatus.Approved) {
+        const { email, password } = this.signupForm.value;
+        this.enterIntoApp(email, password);
+      } else {
+        //TODO: what to do with user 
+      }
+    });
+  }
+
+  enterIntoApp(username: string, password: string): void {
+    this.authService.signIn(username, password).subscribe(() => {
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
   formChange(): void {
-    this.formSubscription = this.signupForm.valueChanges.subscribe(({ password, confirmPassword }) => {
+    this.formSubscription = this.signupForm.valueChanges.subscribe(({ password, confirmPassword }: any) => {
       this.errorMessage = '';
       const passwordToched = this.signupForm.get('password')?.touched;
       const confirmPasswordTouched = this.signupForm.get('confirmPassword')?.touched;
-      
+
       if (!passwordToched && !confirmPasswordTouched) return;
       if (!password && !confirmPassword) {
         this.matchMessage = this.passwordDontMatchMsg;
