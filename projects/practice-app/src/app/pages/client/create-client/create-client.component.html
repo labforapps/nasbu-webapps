@@ -80,7 +80,7 @@
 
                         <div class="col-sm-6">
                           <label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
-                          <div class="c-uploadPicture">
+                          <div class="c-uploadPicture mb-4">
                             <div class="c-uploadPicture__img">
                               <img src="../../../../assets/images/upload-camera.svg" alt="">
                               <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
@@ -121,90 +121,72 @@
                       </div>
 
                       <hr class="u-divider--marginBig">
+
                       <div class="row">
-
-
                         <div class="col-sm-6" >
-
-
-                          <div class="row" *ngFor="let contact of customer_contacts_phone">
-
-                            <div class="col-md-12">
-
-                              <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
-
-                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                                <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
-                                  <mat-option [value]="subtypeContact.cellphone_number">
-                                    {{'clients.form_create.cellphone_number' | translate}}
-                                  </mat-option>
-                                  <mat-option [value]="subtypeContact.currentphone_number">
-                                    {{'clients.form_create.landline_number' | translate}}
-                                  </mat-option>
-                                  <mat-option [value]="subtypeContact.phoneoffice_number">
-                                    {{'clients.form_create.phone_office_number' | translate}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
-
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
-                                <input class="c-form-group__input"
-                                       matInput [(ngModel)]="contact.contact_value"
-                                       [ngModelOptions]="{standalone: true}"
-                                       required="">
-                              </mat-form-field>
-                              <mat-error *ngIf="contact.contact_value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
+                          <div *ngFor="let contact of customer_contacts_phone">
+                            <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
+                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                            <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
+                            <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
+                              <mat-option [value]="subtypeContact.cellphone_number">
+                                {{'clients.form_create.cellphone_number' | translate}}
+                              </mat-option>
+                              <mat-option [value]="subtypeContact.currentphone_number">
+                                {{'clients.form_create.landline_number' | translate}}
+                              </mat-option>
+                              <mat-option [value]="subtypeContact.phoneoffice_number">
+                                {{'clients.form_create.phone_office_number' | translate}}
+                              </mat-option>
+                            </mat-select>
+                            <div class="c-form-group__action">
+                              <button mat-button type='button'><span class="icon-times"></span></button>
                             </div>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
+                            <input class="c-form-group__input"
+                                   matInput [(ngModel)]="contact.contact_value"
+                                   [ngModelOptions]="{standalone: true}"
+                                   required="">
+                          </mat-form-field>
+                          <mat-error *ngIf="contact.contact_value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                           </div>
-
                           <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactPhone()">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
-
-
                         </div>
 
 
                         <div class="col-sm-6">
+                          <div *ngFor="let contact of customer_contacts_email">
+                            <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
 
+                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
+                              <mat-label>Personal</mat-label>
+                              <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
+                                <mat-option [value]="subtypeContact.personal_email">
+                                  {{'clients.form_create.personal_email' | translate}}
+                                </mat-option>
+                                <mat-option [value]="subtypeContact.business_email">
+                                  {{'clients.form_create.business_email' | translate}}
+                                </mat-option>
+                              </mat-select>
+                              <div class="c-form-group__action">
+                                <button mat-button type='button'><span class="icon-times"></span></button>
+                              </div>
+                            </mat-form-field>
 
-                          <div class="row" *ngFor="let contact of customer_contacts_email">
-                            <div class="col-md-12">
-                              <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
-
-                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
-                                <mat-label>Personal</mat-label>
-                                <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
-                                  <mat-option [value]="subtypeContact.personal_email">
-                                    {{'clients.form_create.personal_email' | translate}}
-                                  </mat-option>
-                                  <mat-option [value]="subtypeContact.business_email">
-                                    {{'clients.form_create.business_email' | translate}}
-                                  </mat-option>
-                                </mat-select>
-                              </mat-form-field>
-
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
-                                <input class="c-form-group__input"
-                                       matInput
-                                       [(ngModel)]="contact.contact_value"
-                                       [ngModelOptions]="{standalone: true}"
-                                       required>
-                              </mat-form-field>
-                             <mat-error *ngIf="contact.contact_value === '' && form.submitted" >{{'errorMessages.field_required' | translate}}</mat-error>
-
-                            </div>
+                            <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
+                              <input class="c-form-group__input"
+                                     matInput
+                                     [(ngModel)]="contact.contact_value"
+                                     [ngModelOptions]="{standalone: true}"
+                                     required>
+                            </mat-form-field>
+                           <mat-error *ngIf="contact.contact_value === '' && form.submitted" >{{'errorMessages.field_required' | translate}}</mat-error>
                           </div>
-
-
                           <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactEmail()">+ {{'clients.form_create.add_another_email' | translate}}</button>
-
-
                         </div>
-
-
                       </div>
 
                       <hr class="u-divider--marginBig">
@@ -251,7 +233,7 @@
                           <mat-error *ngIf="address.physical_address === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
 
-                          <div class="col-sm-5 p-0">
+                          <div class="col-sm-6 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                               <input class="c-form-group__input"
@@ -295,7 +277,7 @@
                           </mat-form-field>
                          <mat-error *ngIf="address.postal_address === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                          <div class="col-sm-5 p-0">
+                          <div class="col-sm-6 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                               <input class="c-form-group__input"

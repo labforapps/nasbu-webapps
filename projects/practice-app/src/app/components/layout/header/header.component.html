@@ -3,7 +3,7 @@
 
     <div class="c-header__content">
 
-        <div class="c-timer-count c-timer-count--small is-active">
+        <div class="c-timer-count c-timer-count--small is-active mr-2">
             <div>
                 <div class="c-timer-count__number">00:00:00</div>
                 <div class="c-timer-count__title">{{'header.timer' | translate}}</div>
@@ -13,34 +13,34 @@
            </button>
         </div>
 
-        <button mat-button [matMenuTriggerFor]="langMenu" class="c-notification">
+        <button mat-button [matMenuTriggerFor]="langMenu" class="c-notification c-notification--language">
             <div>
                 <div class="c-notification__title">{{ 'header.lang' | translate}}</div>
                 <div class="c-notification__subtitle">{{ currentLang | translate}}</div>
             </div>
             <div class="c-notification__icon">
-                <span matBadge="4" matBadgeOverlap="false"><span class="icon-bell"></span></span>
+                <img src="../../../../assets/images/spanish-flag.jpg" alt="">
             </div>
         </button>
 
-        <mat-menu #langMenu="matMenu" class="c-notification-menu">
+        <mat-menu #langMenu="matMenu" class="c-notification-menu c-notification-menu--language">
             <div class="c-notification-menu__header">
                 <div class="c-notification-menu__title"> {{'header.selectedLang' | translate}}</div>
                 <div class="c-notification-menu__subtitle"> <b class="u-primaryColor">{{ currentLang | translate}}</b></div>
             </div>
             <div class="c-nofitication-menu__body">
-                <div class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.Spanish)">
-                    <span class="icon-bell c-notification-menu__icon"></span>
+                <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.Spanish)">
+                    <img src="../../../../assets/images/spanish-flag.jpg" alt="">
                     <div class="flex-1">
                         <div class="c-notification-menu__text"> {{'languages.es' | translate}}</div>
                     </div>
-                </div>
-                <div class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.English)">
-                    <span class="icon-bell c-notification-menu__icon"></span>
+                </button>
+                <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.English)">
+                    <img src="../../../../assets/images/english-flag.jpg" alt="">
                     <div class="flex-1">
                         <div class="c-notification-menu__text"> {{'languages.en' | translate}}</div>
                     </div>
-                </div>
+                </button>
             </div>
             <div class="c-notification-menu__footer">
                 <button mat-button>
@@ -48,6 +48,7 @@
                 </button>
             </div>
         </mat-menu>
+
 
 
         <button mat-button [matMenuTriggerFor]="menu" class="c-notification">
