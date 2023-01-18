@@ -378,6 +378,14 @@
       "widowed":"Widowed",
       "divorced":"Divorced"
     },
+    "dialogListCustomerLink":{
+      "companies_list":"Companies List",
+      "do_not_have_companies_registered":"You don't have companies yet registered",
+      "select":"select",
+      "add":"Add",
+      "have":"Have",
+      "registered":"registered"
+    },
     "details":{
       "express_billing":"Express Billing",
       "edit_customer":"Edit Customer",
@@ -515,7 +523,15 @@
       "customer_email":"Customer Email",
       "customer_cellphone":"Customer cellphone",
       "phone_number":"Phone Number",
-      "send":"Send"
+      "send":"Send",
+      "form_create":{
+        "title":"Hello!, <b>{{business}}</b> asks you for this information to be able to start working with you.",
+        "general_data":"General Data",
+        "steps_title":"Step $current of $next",
+        "what_profile_identifies_you_best":"What profile identifies you best?",
+        "person":"Person",
+        "business":"Business"
+      }
     }
 
    }

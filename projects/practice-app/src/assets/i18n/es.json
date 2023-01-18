@@ -365,7 +365,7 @@
       "postal_code":"Codigo Postal",
       "address":"Direccion",
       "add_another_address":"Agregar nueva direccion",
-      "phisical_postal_address_share_info":"Direccion Fisica y Postal comparten la misma informacion",
+      "physical_postal_address_share_info":"Direccion Fisica y Postal comparten la misma informacion",
       "associate_contact_to_bussiness":"Asociar contacto a empresa ",
       "change":"Cambiar",
       "link_with_business":"Enlazar con empresa",
@@ -378,6 +378,14 @@
       "widowed":"Viudo/a",
       "divorced":"Divorciado/a"
 
+    },
+     "dialogListCustomerLink":{
+      "companies_list":"Listado Empresas",
+      "do_not_have_companies_registered":"Aún no tienes empresar registradas",
+      "select":"Seleccionar",
+      "add":"Añadir",
+      "have":"Tienes",
+      "registered":"Registradas"
     },
     "details":{
       "express_billing":"Facturacion Rapida",
@@ -514,7 +522,15 @@
       "customer_email":"Email del cliente",
       "customer_cellphone":"Teléfono celular del cliente",
       "phone_number":"Num. de Telefono",
-      "send":"Enviar"
+      "send":"Enviar",
+       "form_create":{
+        "title":"¡Hola!, <b>{{business}}</b> te solicita estas informaciones para poder comenzar a trabajar contigo.",
+        "general_data":"Datos Generales",
+        "steps_title":"Paso $current de $next",
+        "what_profile_identifies_you_best":"¿Qué perfil te identifica mejor?",
+        "person":"Persona Individual",
+        "business":"Empresa"
+      }
     }
    }
 }

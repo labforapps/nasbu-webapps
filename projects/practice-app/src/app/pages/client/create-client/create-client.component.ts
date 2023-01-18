@@ -34,10 +34,12 @@ export class CreateClientComponent implements OnInit {
   subtypeContact = SubtypeContact;
   occupations!: Occupation[];
   checked_share_same_info: boolean = false;
+  imagenSubir!: File;
+  imgTemp!: any;
 
   customerId!: string;
 
-  createClientForm!:FormGroup;
+  createClientForm!: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -48,7 +50,7 @@ export class CreateClientComponent implements OnInit {
     private router: Router,
     private ActivatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private translateService:TranslateService
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -212,30 +214,25 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
-  validateClientFormFields()
-  {
-    let fields_validate_required:any[]= [];
+  validateClientFormFields() {
+    let fields_validate_required: any[] = [];
     let fields_validate_non_required: any[] = [];
 
-    switch(this.customer_type)
-    {
+    switch (this.customer_type) {
       case TypeCustomer.person:
+        fields_validate_required = [
+          'first_name',
+          'last_name',
+          'occupation',
+          'marital_status',
+          'born_date',
+        ];
 
-      fields_validate_required = [
-        'first_name',
-        'last_name',
-        'occupation',
-        'marital_status',
-        'born_date',
-      ];
-
-      fields_validate_non_required = ['company_name'];
+        fields_validate_non_required = ['company_name'];
 
         break;
       case TypeCustomer.business:
-        fields_validate_required = [
-          'company_name',
-        ];
+        fields_validate_required = ['company_name'];
         fields_validate_non_required = [
           'first_name',
           'last_name',
@@ -247,7 +244,6 @@ export class CreateClientComponent implements OnInit {
     }
 
     for (let i = 0; i < fields_validate_required.length; i++) {
-
       if (
         this.createClientForm.controls[fields_validate_required[i]].value ===
           null ||
@@ -257,7 +253,6 @@ export class CreateClientComponent implements OnInit {
           incorrect: true,
         });
       }
-
     }
 
     for (let i = 0; i < fields_validate_non_required.length; i++) {
@@ -272,13 +267,13 @@ export class CreateClientComponent implements OnInit {
         ].setErrors(null);
       }
 
-      this.createClientForm.controls[fields_validate_non_required[i]].setValue(null);
+      this.createClientForm.controls[fields_validate_non_required[i]].setValue(
+        null
+      );
     }
-
   }
 
-  submitForm(create_another=false) {
-
+  submitForm(create_another = false) {
     this.validateClientFormFields();
 
     const customerContacts: Contact[] = this.customer_contacts_phone.concat(
@@ -294,16 +289,13 @@ export class CreateClientComponent implements OnInit {
     console.log(createClient);
     console.log(this.createClientForm);
 
-    if(this.createClientForm.valid)
-    {
+    if (this.createClientForm.valid) {
       if (this.customerId != '') {
         this.updateCustomer(createClient);
       } else {
         this.createCustomer(createClient, create_another);
       }
-    }
-    else
-    {
+    } else {
       this.toastr.error(
         'Error',
         this.translateService.instant('errorMessages.InvalidForm')
@@ -311,23 +303,25 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  createCustomer(body: any,create_another=false) {
-    this.customerService.createCustomer(body).subscribe((data) => {
-      console.log(data);
-      this.toastr.success(
-        'Ok',
-        this.translateService.instant('successMessages.created_succesfully')
-      );
-      if(create_another)
-      {
-        this.resetForm();
+  createCustomer(body: any, create_another = false) {
+    this.customerService.createCustomer(body).subscribe(
+      (data) => {
+        console.log(data);
+        this.toastr.success(
+          'Ok',
+          this.translateService.instant('successMessages.created_succesfully')
+        );
+        if (create_another) {
+          this.resetForm();
+        }
+      },
+      (error) => {
+        this.toastr.error(
+          'Error',
+          this.translateService.instant('errorMessages.unexpectedError')
+        );
       }
-    },error => {
-            this.toastr.error(
-              'Error',
-              this.translateService.instant('errorMessages.unexpectedError')
-            );
-    });
+    );
   }
 
   updateCustomer(body: any) {
@@ -337,18 +331,23 @@ export class CreateClientComponent implements OnInit {
         this.customerId,
         body
       )
-      .subscribe((data) => {
-        console.log(data);
-        this.toastr.success(
-          'Ok',
-          this.translateService.instant('successMessages.updated_successfully')
-        );
-      },error => {
-        this.toastr.error(
-          'Error',
-          this.translateService.instant('errorMessages.unexpectedError')
-        );
-      });
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.toastr.success(
+            'Ok',
+            this.translateService.instant(
+              'successMessages.updated_successfully'
+            )
+          );
+        },
+        (error) => {
+          this.toastr.error(
+            'Error',
+            this.translateService.instant('errorMessages.unexpectedError')
+          );
+        }
+      );
   }
 
   changeValueCheckboxAddress(address: Address) {
@@ -365,8 +364,7 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  resetForm()
-  {
+  resetForm() {
     this.createClientForm.reset();
     this.customer_contacts_email = [];
     this.customer_contacts_phone = [];
@@ -376,5 +374,30 @@ export class CreateClientComponent implements OnInit {
     this.initCustomerAddress();
 
     this.customer_type = 'P';
+  }
+
+  changeImage(event: any) {
+    const file = event.target.files[0];
+    console.log(event);
+    console.log(file);
+
+    this.imagenSubir = file;
+
+    if (!file) {
+      return (this.imgTemp = null);
+    }
+
+    const reader = new FileReader();
+    const url64 = reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      this.imgTemp = reader.result;
+    };
+
+    return this.imgTemp;
+  }
+
+  removeImage() {
+    this.imgTemp = null;
   }
 }

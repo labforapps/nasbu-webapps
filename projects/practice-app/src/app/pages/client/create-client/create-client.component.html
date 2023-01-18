@@ -82,16 +82,19 @@
                           <label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
                           <div class="c-uploadPicture">
                             <div class="c-uploadPicture__img">
-                              <img src="../../../../assets/images/upload-camera.svg" alt="">
-                              <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
+                              <img *ngIf="!imgTemp" src="../../../../assets/images/upload-camera.svg" alt="">
+                              <img *ngIf="imgTemp" [src]="imgTemp" alt="">
+                              <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none"> -->
                             </div>
                             <div class="c-uploadPicture__controls">
                               <div class="c-uploadPicture__text">
                                 {{'clients.common.note' | translate}}: <br> {{'clients.form_create.upload_image_max_2' | translate}}
                               </div>
-                              <div class="u-link mt-1">{{'clients.common.delete' | translate}}</div>
+                              <div (click)="removeImage()" class="u-link mt-1">{{'clients.common.delete' | translate}}</div>
                             </div>
+
                           </div>
+                         <input type="file" (change)="changeImage($event)">
                         </div>
                       </div>
 

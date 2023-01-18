@@ -37,4 +37,11 @@ export class CustomersService {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
     return this.httpClient.delete<Customer>(serverUrl);
   }
+
+  createCustomerIntake(body:Customer):Observable<Customer[]>
+  {
+    console.log(body);
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/complete_request/`;
+    return this.httpClient.post<Customer[]>(serverUrl, body);
+  }
 }
