@@ -275,15 +275,15 @@
       "es": "Español"
    },
    "header": {
-      "lang": "Lenguajes",
-      "selectedLang": "Lenguaje seleccionado",
-      "closeWindows": "Cerrar ventana",
-      "timer": "Temporizador",
-      "user": "Usuario",
-      "notifications": {
-         "title": "Notificaciones",
-         "subTitle": "Aún sin leer"
-      }
+     "lang": "Idiomas",
+     "selectedLang": "Idioma seleccionado",
+     "closeWindows": "Cerrar ventana",
+     "timer": "Temporizador",
+     "user": "Usuario",
+     "notifications": {
+       "title": "Notificaciones",
+       "subTitle": "Aún sin leer"
+     }
    },
    "clients":{
     "common":{

@@ -1,0 +1,91 @@
+
+  <mat-stepper  #stepper [@.disabled]="true" class="c-stepper-slider">
+        <mat-step>
+            <div class="c-dialog-intake__header">
+                <div class="c-dialog-intake__title">¡Bienvenido a NASBU!</div>
+                <p class="c-dialog-intake__text">
+                    El software que facilitará la gestión legal de tu firma
+                   <b> observa lo que podrás hacer con nosotros</b>
+                </p>
+            </div>
+            <div class="c-dialog-intake__body">
+                <img src="../../../../assets/images/intake-1.png" alt="">
+                <div class="c-stepper-slider__pagination">
+                    <span class="is-active"></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="c-dialog-intake__footer">
+                <button mat-button matStepperPrevious  mat-dialog-close class="c-btn c-btn--small c-btn--outline-white flex-1">Ver más tarde</button>
+                <button mat-button matStepperNext class="c-btn c-btn--small c-btn-function flex-1">Continuar</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="c-dialog-intake__header">
+                <div class="c-dialog-intake__title">Manejo y control de tareas</div>
+                <p class="c-dialog-intake__text">
+                    Siempre es importante saber como están las cosas
+                    y con NASBU no dejas de atender tus asuntos importantes.
+                </p>
+            </div>
+            <div class="c-dialog-intake__body">
+                <img src="../../../../assets/images/intake-2.png" alt="">
+                <div class="c-stepper-slider__pagination">
+                    <span></span>
+                    <span class="is-active"></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="c-dialog-intake__footer">
+                <button mat-button matStepperPrevious class="c-btn c-btn--small c-btn--outline-white flex-1">Volver atrás</button>
+                <button mat-button matStepperNext class="c-btn c-btn--small c-btn-function flex-1">Continuar</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="c-dialog-intake__header">
+                <div class="c-dialog-intake__title">Tus expedientes de manera digital </div>
+                <p class="c-dialog-intake__text">
+                    Mantendrás siempre organizada todo la información 
+                    relacionada a los <b>expedientes de tu clientes.</b>
+                </p>
+            </div>
+            <div class="c-dialog-intake__body">
+                <img src="../../../../assets/images/intake-3.png" alt="">
+                <div class="c-stepper-slider__pagination">
+                    <span></span>
+                    <span ></span>
+                    <span class="is-active"> </span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="c-dialog-intake__footer">
+                <button mat-button matStepperPrevious class="c-btn c-btn--small c-btn--outline-white flex-1">Volver atrás</button>
+                <button mat-button matStepperNext class="c-btn c-btn--small c-btn-function flex-1">Continuar</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="c-dialog-intake__header">
+                <div class="c-dialog-intake__title">Entre otras cosas más</div>
+                <p class="c-dialog-intake__text">
+                    Como compartir expedientes con <b>amigos, facturación,
+                        Timer para control de Hrs. y más.</b>
+                </p>
+            </div>
+            <div class="c-dialog-intake__body">
+                <img src="../../../../assets/images/intake-4.png" alt="">
+                <div class="c-stepper-slider__pagination">
+                    <span></span>
+                    <span ></span>
+                    <span> </span>
+                    <span  class="is-active"></span>
+                </div>
+            </div>
+            <div class="c-dialog-intake__footer">
+                <button mat-button matStepperPrevious class="c-btn c-btn--small c-btn--outline-white flex-1">Volver atrás</button>
+                <button mat-button matStepperNext class="c-btn c-btn--small c-btn--primary flex-1">¡Comencemos!</button>
+            </div>
+        </mat-step>
+      </mat-stepper>

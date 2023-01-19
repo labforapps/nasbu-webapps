@@ -87,6 +87,9 @@
             font-size: var(--small-size);
             padding-top: 1.4rem !important;
         }
+        & .mat-form-field-label{
+            font-size: 14px;
+        }
         &.is-active {
             & .c-login__input__icon {
                 background: var(--primary-color);

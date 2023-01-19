@@ -66,3 +66,13 @@ body {
  ::-webkit-scrollbar-thumb:hover {
     background: #435b6c;
 }
+
+
+
+.mat-error {
+    color: #f44336;
+    font-size: 12px;
+    position: relative;
+    top: -7px;
+    left: 2px;
+}

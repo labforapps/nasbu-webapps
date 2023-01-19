@@ -94,6 +94,8 @@ import { InvoicesComponent } from './pages/dashboard/invoices/invoices.component
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
 import { ClientTableComponent } from './pages/client/components/client-table/client-table.component';
+import { DialogIntakeComponent } from './components/dialogs/dialog-intake/dialog-intake.component';
+import { DialogSendInvoiceComponent } from './components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -175,6 +177,8 @@ registerLocaleData(localeEn, 'en');
     InvoicesComponent,
     LocalizedDatePipe,
     ClientTableComponent,
+    DialogIntakeComponent,
+    DialogSendInvoiceComponent,
   ],
   imports: [
     BrowserModule,
