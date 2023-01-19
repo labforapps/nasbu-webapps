@@ -42,18 +42,24 @@
                   <hr class="u-divider u-divider--light">
                   <div class="row">
                     <div class="col-sm-6">
+
                       <mat-form-field appearance="fill" class="c-form-group" *ngIf="customerType === 'B'">
                         <mat-label>Nombre de la empresa</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="company_name">
                       </mat-form-field>
+                      <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group"  *ngIf="customerType === 'P'">
                         <mat-label>Nombre </mat-label>
                         <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
                       </mat-form-field>
+                      <mat-error *ngIf="createClientForm.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group"  *ngIf="customerType === 'P'">
                         <mat-label>Apellido</mat-label>
                         <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
                       </mat-form-field>
+                      <mat-error *ngIf="createClientForm.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
                       <div formArrayName="contacts">
                           <div [formGroupName]="'0'">
@@ -63,7 +69,11 @@
                               <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Correo">
                             </mat-form-field>
                           </div>
+
                       </div>
+                      <!-- <mat-error >{{'errorMessages.field_required' | translate}}</mat-error> -->
+
+
 
                     </div>
                     <div class="col-sm-6" formArrayName="contacts">
@@ -110,7 +120,7 @@
                   </div>
 
                   <div class="c-stepper__footer">
-                    <button mat-button class="c-btn c-btn--primary" matStepperNext (click)="onStepChange(stepper)">Siguiente</button>
+                    <button mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)">Siguiente</button>
                   </div>
                 </div>
               </mat-step>
@@ -146,6 +156,7 @@
                           <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker> -->
                         </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['born_date'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
                       </div>
                     </div>
                     <div class="row">
@@ -158,6 +169,8 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['occupation'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
                       </div>
                       <div class="col-sm-6">
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
@@ -173,6 +186,7 @@
                               translate}}</mat-option>
                           </mat-select>
                         </mat-form-field>
+                       <mat-error *ngIf="createClientForm.controls['marital_status'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
                       </div>
                     </div>
 
@@ -247,7 +261,7 @@
                   </div>
                   <div class="c-stepper__footer">
                     <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                    <button mat-button class="c-btn c-btn--primary" matStepperNext (click)="onStepChange(stepper)">Siguiente</button>
+                    <button mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)">Siguiente</button>
                   </div>
                 </div>
               </mat-step>
@@ -284,11 +298,13 @@
                         <mat-label>Nombre</mat-label>
                         <input formControlName="first_name" class="c-form-group__input" matInput>
                       </mat-form-field>
+                     <mat-error *ngIf="createRepresentative.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Apellido</mat-label>
                         <input formControlName="last_name" class="c-form-group__input" matInput>
                       </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
                      <div formArrayName="contacts">
                       <div [formGroupName]="'0'">
@@ -297,6 +313,7 @@
                           <input formControlName="contact_value" class="c-form-group__input" matInput>
                         </mat-form-field>
                       </div>
+
                       <div [formGroupName]="'1'">
                         <label class="u-title-label">Teléfono</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
@@ -333,10 +350,12 @@
                           </mat-form-field>
                         </div>
                       </div>
+
                      </div>
 
                     </div>
                     <div class="col-sm-6">
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Fecha de nacimiento</mat-label>
                         <input formControlName="born_date" matInput type="date">
@@ -344,6 +363,8 @@
                         <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                         <mat-datepicker #pickers></mat-datepicker> -->
                       </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['born_date'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                         <mat-label>Seleccionar <b>Estado civil</b></mat-label>
                         <mat-select formControlName="marital_status">
@@ -357,6 +378,8 @@
                             translate}}</mat-option>
                         </mat-select>
                       </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['marital_status'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                         <mat-label>Seleccionar <b>Profesión</b></mat-label>
                         <mat-select formControlName="occupation">
@@ -365,11 +388,14 @@
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
+                     <mat-error *ngIf="createRepresentative.controls['occupation'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+
                     </div>
                   </div>
                   <div class="c-stepper__footer">
                     <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                    <button type="button" mat-button class="c-btn c-btn--primary" matStepperNext (click)="onStepChange(stepper)" >Siguiente</button>
+                    <button type="button" mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)" >Siguiente</button>
                   </div>
                 </div>
               </mat-step>

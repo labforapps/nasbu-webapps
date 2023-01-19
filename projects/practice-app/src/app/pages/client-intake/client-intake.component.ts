@@ -144,7 +144,6 @@ export class ClientIntakeComponent implements OnInit {
 
   onStepChange(stepper: any) {
     this.currentStep = stepper._selectedIndex;
-    console.log('Current step: ', this.currentStep);
 
     const createClientResult = this.createClientForm.value;
 
@@ -157,7 +156,103 @@ export class ClientIntakeComponent implements OnInit {
     this.customer = this.createClientForm.value;
     this.customerRepresentative = this.createRepresentative.value;
 
+    console.log(this.createClientForm);
+
+    const form_validated = this.validateFormFields();
+
+    if(form_validated)
+    {
+      stepper.next();
+    }
+
   }
+
+  validateFormFields():Boolean
+  {
+    let fields_validate_required: any[] = [];
+    let fields_array_validate_required: any[] = [];
+    let validForm = true;
+
+    console.log(this.currentStep);
+
+    let FormValidate!: FormGroup;
+
+
+    switch (this.currentStep) {
+      case 0:
+        FormValidate = this.createClientForm;
+
+        if (this.customerType === this.typeCustomer.person) {
+          fields_validate_required = ['first_name', 'last_name'];
+        } else {
+          fields_validate_required = ['company_name'];
+        }
+
+        const contactValueEmailField = (
+          FormValidate.get('contacts') as FormArray
+        )
+          .at(0)
+          .get('contact_value');
+
+        if (
+          contactValueEmailField?.value === '' ||
+          contactValueEmailField?.value === null
+        ) {
+          contactValueEmailField.setErrors({
+            incorrect: true,
+          });
+        }
+
+
+        break;
+
+      case 1:
+        if (this.customerType === this.typeCustomer.person) {
+          fields_validate_required = [
+            'born_date',
+            'occupation',
+            'marital_status',
+          ];
+        }
+
+        FormValidate = this.createClientForm;
+
+        break;
+
+      case 2:
+        fields_validate_required = [
+          'first_name',
+          'last_name',
+          'born_date',
+          'occupation',
+          'marital_status',
+        ];
+
+        FormValidate = this.createRepresentative;
+
+        break;
+
+      default:
+        break;
+    }
+
+    for (let i = 0; i < fields_validate_required.length; i++) {
+      if (
+        FormValidate.controls[fields_validate_required[i]].value === null ||
+        FormValidate.controls[fields_validate_required[i]].value === ''
+      ) {
+        FormValidate.controls[fields_validate_required[i]].setErrors({
+          incorrect: true,
+        });
+
+        validForm = false;
+      }
+    }
+
+    return validForm;
+  }
+
+
 
   submitForm(stepper:any)
   {
