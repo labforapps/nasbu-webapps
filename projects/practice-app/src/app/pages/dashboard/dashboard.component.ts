@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { OnboardingComponent } from '../../components/onboarding/onboarding.component';
 import { AuthService } from '../../services/auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   public userName!: string;
@@ -15,28 +16,15 @@ export class DashboardComponent implements OnInit {
   scroll(el: HTMLElement) {
     el.scrollIntoView({ behavior: 'smooth' });
   }
-  constructor(
-    private route: ActivatedRoute,
-    public dialog: MatDialog,
-    private authService: AuthService
-  ) {
+  constructor(private route: ActivatedRoute, public dialog: MatDialog) {
     this.today = new Date();
   }
 
   ngOnInit(): void {
     this.userName = this.route.snapshot.data['user']['attributes']['name'];
-    this.openOnboardingDialog();
   }
 
-
-  openOnboardingDialog(): void {
-    const user = this.authService.getUserInfoFromLocalStorage(); 
-    if(user?.ssid?.tutorial_was_completed) return;
-    this.dialog.open(OnboardingComponent, {
-      width:'900px',
-      height: '700px',
-      minWidth: '350px',
-      minHeight: '500px'
-    });
+  openDialogNewCostumer() {
+    this.dialog.open(DialogNewCostumerComponent);
   }
 }

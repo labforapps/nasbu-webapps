@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Customer } from 'core-models';
+import { Customer,CustomerIntakeRequest } from 'core-models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +28,9 @@ export class CustomersService {
     return this.httpClient.post<Customer[]>(serverUrl, body);
   }
 
-  updateCustomer(subscription: string, id: string,body:Customer){
+  updateCustomer(subscription: string, id: string, body: Customer) {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
-    return this.httpClient.patch<any>(serverUrl,body);
+    return this.httpClient.patch<any>(serverUrl, body);
   }
 
   deleteCustomer(subscription: string, id: string): Observable<Customer> {
@@ -38,8 +38,15 @@ export class CustomersService {
     return this.httpClient.delete<Customer>(serverUrl);
   }
 
-  createCustomerIntake(body:Customer):Observable<Customer[]>
-  {
+  createCustomerIntakeRequest(
+    body: CustomerIntakeRequest
+  ): Observable<CustomerIntakeRequest> {
+    console.log(body);
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/`;
+    return this.httpClient.post<CustomerIntakeRequest>(serverUrl, body);
+  }
+
+  createCustomerIntake(body: Customer): Observable<Customer[]> {
     console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/complete_request/`;
     return this.httpClient.post<Customer[]>(serverUrl, body);

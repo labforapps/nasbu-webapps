@@ -14,33 +14,46 @@
             <div class="col-md-12">
                 <label class="u-title-label d-block mt-3">{{'clients.client_intake.What_sending_method_will_you_use' | translate}}</label>
                 <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button class="c-radioButton mr-3" value="1">{{'clients.client_intake.email' | translate}}</mat-radio-button>
-                    <mat-radio-button class="c-radioButton" value="2">SMS</mat-radio-button>
+                    <mat-radio-button checked class="c-radioButton mr-3" value="email" (change)="onChangeSendingMethod($event)">{{'clients.client_intake.email' | translate}}</mat-radio-button>
+                    <mat-radio-button class="c-radioButton" value="sms" (change)="onChangeSendingMethod($event)">SMS</mat-radio-button>
                 </mat-radio-group>
 
             </div>
         </div>
         <div class="row">
+          <div class="col-md-12">
+            <label class="u-title-label">Customer Name</label>
+            <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+              <mat-label>Name</mat-label>
+              <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="customer_intake_request.name">
+            </mat-form-field>
+            <mat-error *ngIf=" formSubmitted && customer_intake_request.name === ''">{{'errorMessages.field_required' | translate}}</mat-error>
+          </div>
+        </div>
+        <div class="row" *ngIf="sendingMethod === 'email'">
             <div class="col-md-12">
                 <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
                     <mat-label>Email</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com">
+                    <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField">
                 </mat-form-field>
+              <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
+
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="sendingMethod === 'sms'">
             <div class="col-md-12">
                 <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
                     <mat-label>{{'clients.client_intake.phone_number' | translate}} </mat-label>
-                    <input class="c-form-group__input" matInput>
+                    <input class="c-form-group__input" matInput [(ngModel)]="phoneNumberField">
                 </mat-form-field>
+                <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
             </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
         <button mat-button mat-dialog-close class="u-link text-center">{{'clients.client_intake.close_window' | translate}}</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small pr-5 pl-5" (click)="openDialogRecovery()">{{'clients.client_intake.send' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small pr-5 pl-5" (click)="sendCustomerIntakeRequest()">{{'clients.client_intake.send' | translate}}</button>
     </mat-dialog-actions>
 </div>

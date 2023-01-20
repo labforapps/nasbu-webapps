@@ -15,6 +15,25 @@ export interface Customer {
   active:boolean;
 }
 
+export interface CustomerIntakeRequest {
+  uuid?: string;
+  subscription: string;
+  type: string;
+  name: string;
+  send_by: string;
+  to_origin_value: string;
+  token?: string;
+  active?: boolean;
+  created_at?: Date;
+  updated_by?: null;
+  updated_at?: Date;
+}
+
+export enum CustomerIntakeSendingMethod{
+  email = 'email',
+  sms = 'sms'
+}
+
 export enum TypeCustomer{
   person = 'P',
   business = 'B'

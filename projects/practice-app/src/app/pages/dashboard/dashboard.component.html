@@ -18,7 +18,7 @@
 
             <button class="c-btn-function mt-1" mat-button [matMenuTriggerFor]="menu">{{'dashboard.menu.shortcuts.label' | translate }}<span class="icon-bell ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
-                <button mat-menu-item><span class="icon-add-user"></span>{{'dashboard.menu.shortcuts.createCustomer' | translate }}</button>
+                <button mat-menu-item (click)="openDialogNewCostumer()"><span class="icon-add-user"></span>{{'dashboard.menu.shortcuts.createCustomer' | translate }}</button>
                 <button mat-menu-item><span class="icon-task-list"></span>{{'dashboard.menu.shortcuts.createTask' | translate }}</button>
                 <button mat-menu-item><span class="icon-businessman-color"></span>{{'dashboard.menu.shortcuts.addCollaborator' | translate }}</button>
                 <button mat-menu-item><span class="icon-timer"></span>{{'dashboard.menu.shortcuts.timer' | translate }} </button>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="c-dashboard-tab">
-       
+
         <div class="c-dashboard-tab__header">
             <button mat-menu-item (click)="scroll(stats)" class="is-active"><span class="icon-stats-color c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.statistics' | translate }}</button>
             <button mat-menu-item (click)="scroll(task)"><span class="icon-hot c-dashboard-tab__icon"></span>{{'dashboard.menu.tabs.importantTasks' | translate }} </button>

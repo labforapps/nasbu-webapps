@@ -14,6 +14,7 @@ import {
 } from 'core-models';
 import { AuthService, CommonService, CustomersService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class ClientIntakeComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private ActivatedRoute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -80,23 +82,23 @@ export class ClientIntakeComponent implements OnInit {
             this.customerType === TypeCustomer.person
               ? this.subtypeContact.personal_email
               : this.subtypeContact.business_email,
-          contact_value: '',
+          contact_value: null,
         }),
         this._formBuilder.group({
           type: this.typeContact.phone_number,
-          sub_type: '',
-          contact_value: '',
+          sub_type: null,
+          contact_value: null,
         }),
       ]),
       addresses: this._formBuilder.array([
         this._formBuilder.group({
-          physical_country: '',
-          physical_city: '',
-          physical_address: '',
-          physical_postal_code: '',
-          postal_city: '',
-          postal_address: '',
-          postal_postal_code: '',
+          physical_country: null,
+          physical_city: null,
+          physical_address: null,
+          physical_postal_code: null,
+          postal_city: null,
+          postal_address: null,
+          postal_postal_code: null,
         }),
       ]),
     });
@@ -160,15 +162,12 @@ export class ClientIntakeComponent implements OnInit {
 
     const form_validated = this.validateFormFields();
 
-    if(form_validated)
-    {
+    if (form_validated) {
       stepper.next();
     }
-
   }
 
-  validateFormFields():Boolean
-  {
+  validateFormFields(): Boolean {
     let fields_validate_required: any[] = [];
     let fields_array_validate_required: any[] = [];
     let validForm = true;
@@ -176,7 +175,6 @@ export class ClientIntakeComponent implements OnInit {
     console.log(this.currentStep);
 
     let FormValidate!: FormGroup;
-
 
     switch (this.currentStep) {
       case 0:
@@ -202,7 +200,6 @@ export class ClientIntakeComponent implements OnInit {
             incorrect: true,
           });
         }
-
 
         break;
 
@@ -252,30 +249,38 @@ export class ClientIntakeComponent implements OnInit {
     return validForm;
   }
 
-
-
-  submitForm(stepper:any)
-  {
-    if(this.customerType === TypeCustomer.person)
-    {
+  submitForm(stepper: any) {
+    if (this.customerType === TypeCustomer.person) {
       this.customerService
         .createCustomerIntake(this.createClientForm.value)
         .subscribe((data) => {
           console.log(data);
           stepper.next();
         });
-    }
-    else
-    {
-       this.customerService
-         .createCustomerIntake(this.createClientForm.value)
-         .subscribe((data) => {
-           console.log(data);
-           this.customerService.createCustomerIntake(this.createRepresentative.value).subscribe(data => {
-            console.log(data);
-            stepper.next();
-           })
-         });
+    } else {
+      this.customerService
+        .createCustomerIntake(this.createClientForm.value)
+        .subscribe((data) => {
+          console.log(data);
+          this.customerService
+            .createCustomerIntake(this.createRepresentative.value)
+            .subscribe((data) => {
+              console.log(data);
+              stepper.next();
+            }),
+            (error: any) => {
+              this.toastr.error(
+                'Error 2',
+                this.translateService.instant('errorMessages.unexpectedError')
+              );
+            };;
+        }),
+        (error: any) => {
+          this.toastr.error(
+            'Error 1',
+            this.translateService.instant('errorMessages.unexpectedError')
+          );
+        };
     }
   }
 
