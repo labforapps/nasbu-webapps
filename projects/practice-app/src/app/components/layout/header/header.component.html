@@ -19,7 +19,7 @@
                 <div class="c-notification__subtitle">{{ currentLang | translate}}</div>
             </div>
             <div class="c-notification__icon">
-                <img src="../../../../assets/images/spanish-flag.jpg" alt="">
+                <img [src]="currentFlag" alt="flag">
             </div>
         </button>
 
@@ -30,13 +30,13 @@
             </div>
             <div class="c-nofitication-menu__body">
                 <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.Spanish)">
-                    <img src="../../../../assets/images/spanish-flag.jpg" alt="">
+                    <img [src]="langFlags[allowLangs.Spanish]" alt="spanish-flag">
                     <div class="flex-1">
                         <div class="c-notification-menu__text"> {{'languages.es' | translate}}</div>
                     </div>
                 </button>
                 <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.English)">
-                    <img src="../../../../assets/images/english-flag.jpg" alt="">
+                    <img [src]="langFlags[allowLangs.English]" alt="english-flag">
                     <div class="flex-1">
                         <div class="c-notification-menu__text"> {{'languages.en' | translate}}</div>
                     </div>

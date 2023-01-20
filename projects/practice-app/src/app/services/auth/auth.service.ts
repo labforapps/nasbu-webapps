@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
-import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo } from 'core-models';
-import { UserSubscription } from 'core-models';
+import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription } from 'core-models';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 
@@ -49,9 +48,13 @@ export class AuthService {
    * @memberof AuthService
    */
   addPermissions(): void {
-    const user = this.coreAuth.getUserInfoFromLocalStorage();
+    const user = this.getUserInfoFromLocalStorage();
     const allPermissions: string[] = user?.permissions ?? [];
     this.permissionsService.flushPermissions();
     this.permissionsService.addPermission(allPermissions);
+  }
+
+  getUserInfoFromLocalStorage(): SelectedSubscription | null {
+    return this.coreAuth.getUserInfoFromLocalStorage();
   }
 }

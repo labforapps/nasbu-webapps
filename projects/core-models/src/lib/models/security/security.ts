@@ -17,6 +17,7 @@ export interface UserSubscription {
     member_group: string;
     case_file: string;
     permissions: string[];
+    tutorial_was_completed: boolean;
 }
 
 export interface UserInfo {
@@ -27,7 +28,7 @@ export interface UserInfo {
 }
 
 export interface SelectedSubscription {
-    ssid: string;
+    ssid: SSID;
     mt: string;
     permissions: string[];
 }

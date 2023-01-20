@@ -14,16 +14,23 @@ export class HeaderComponent implements OnInit {
   public allowLangs = AllowedLangs;
   public currentLang: string = 'languages.';
   public user$!: Observable<CurrentUserInfo>;
+  public currentFlag!: string;
+  public langFlags: any =  {
+    [AllowedLangs.English]: '../../../../assets/images/english-flag.jpg',
+    [AllowedLangs.Spanish]: '../../../../assets/images/spanish-flag.jpg'
+  };
   constructor(private langService: LangService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this,this.loadUser();
     this.currentLang += this.langService.currentLang;
+    this.currentFlag = this.langFlags[this.langService.currentLang]
   }
 
   changeLanguaje(lang: AllowedLangs): void {
     this.langService.changeLang(lang);
     this.currentLang = `languages.${lang}`;
+    this.currentFlag = this.langFlags[lang]
   }
 
   loadUser(): void {

@@ -149,13 +149,9 @@ export class RegisterComponent implements OnInit {
 
   initPaymentModal(processUrl: string): void {
     P.init(processUrl);
-    P.on('response', ({ status }: any) => {
-      if (status?.status === PlaceToPayStatus.Approved) {
-        const { email, password } = this.signupForm.value;
-        this.enterIntoApp(email, password);
-      } else {
-        //TODO: what to do with user 
-      }
+    P.on('response', () => {
+      const { email, password } = this.signupForm.value;
+      this.enterIntoApp(email, password);
     });
   }
 
