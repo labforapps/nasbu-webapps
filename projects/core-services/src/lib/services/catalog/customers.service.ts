@@ -17,8 +17,8 @@ export class CustomersService {
     return this.httpClient.get<Customer[]>(serverUrl);
   }
 
-  getCustomerById(subscription: string, id: string): Observable<Customer> {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+  getCustomerById(subscription: string, uuid: string): Observable<Customer> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/?subscription=${subscription}`;
     return this.httpClient.get<Customer>(serverUrl);
   }
 
@@ -28,13 +28,13 @@ export class CustomersService {
     return this.httpClient.post<Customer[]>(serverUrl, body);
   }
 
-  updateCustomer(subscription: string, id: string, body: Customer) {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+  updateCustomer(subscription: string, uuid: string, body: Customer) {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/?subscription=${subscription}`;
     return this.httpClient.patch<any>(serverUrl, body);
   }
 
-  deleteCustomer(subscription: string, id: string): Observable<Customer> {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${id}/?subscription=${subscription}`;
+  deleteCustomer(subscription: string, uuid: string): Observable<Customer> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/?subscription=${subscription}`;
     return this.httpClient.delete<Customer>(serverUrl);
   }
 
@@ -50,5 +50,30 @@ export class CustomersService {
     console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/complete_request/`;
     return this.httpClient.post<Customer[]>(serverUrl, body);
+  }
+
+  validateRequest(subscription: string): Observable<Customer[]> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/validate_request/?subscription=${subscription}`;
+    return this.httpClient.get<Customer[]>(serverUrl);
+  }
+
+  getCustomersAvailableForLink(subscription: string) {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/customers_available_for_link/?subscription=${subscription}`;
+    return this.httpClient.get<Customer[]>(serverUrl);
+  }
+
+  linkToCustomer(subscription: string, uuid: string, body: Customer) {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/link_to_customer/`;
+    return this.httpClient.put<any>(serverUrl, body);
+  }
+
+  uploadImage(subscription: string, uuid: string, body: Customer) {
+    const serverUrl: string = `${this.config.serverUrl}/api/catalog/customers/${uuid}/upload_image/`;
+    return this.httpClient.put<any>(serverUrl, body);
+  }
+
+  getCaseFiles(subscription: string,uuid:string): Observable<Customer[]> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/case_files/?subscription=${subscription}`;
+    return this.httpClient.get<Customer[]>(serverUrl);
   }
 }

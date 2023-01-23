@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogRecoveryComponent } from '../dialog-recovery/dialog-recovery.component';
 import { AuthService,CustomersService } from 'core-services';
 import { CustomerIntakeRequest } from 'core-models';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-dialog-send-register',
@@ -17,25 +20,26 @@ export class DialogSendRegisterComponent implements OnInit {
   emailField: string = '';
   phoneNumberField: string = '';
 
-  customer_intake_request!:CustomerIntakeRequest;
+  customer_intake_request!: CustomerIntakeRequest;
 
-  constructor(public dialog: MatDialog,
-              private authService: AuthService,
-              private customerService:CustomersService) {}
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private customerService: CustomersService,
+    private toastr: ToastrService,
+    private translateService: TranslateService,
+  ) {}
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
 
-    this.selectedSubscription =
-      this.authService.getUserInfoFromLocalStorage();
-
-      this.customer_intake_request = {
-        subscription: this.selectedSubscription?.ssid.uuid,
-        type: 'P',
-        name: '',
-        send_by: this.sendingMethod,
-        to_origin_value: '',
-      };
-
+    this.customer_intake_request = {
+      subscription: this.selectedSubscription?.ssid.uuid,
+      type: 'P',
+      name: '',
+      send_by: this.sendingMethod,
+      to_origin_value: '',
+    };
   }
 
   onChangeSendingMethod(event: any) {
@@ -61,13 +65,27 @@ export class DialogSendRegisterComponent implements OnInit {
   sendCustomerIntakeRequest() {
     const formValidated = this.validateFields();
 
+    this.customer_intake_request.send_by = this.sendingMethod;
+
     if (!formValidated) {
       return;
     }
 
-    this.customerService.createCustomerIntakeRequest(this.customer_intake_request).subscribe(data => {
-      console.log(data);
-    })
+    this.customerService
+      .createCustomerIntakeRequest(this.customer_intake_request)
+      .subscribe((data) => {
+        this.toastr.success(
+          'Ok',
+          this.translateService.instant('successMessages.created_succesfully'));
 
+          this.dialog.closeAll();
+
+        console.log(data);
+      },(error:any) => {
+        this.toastr.error(
+                'Error',
+                this.translateService.instant('errorMessages.unexpectedError'));
+      }
+      )
   }
 }

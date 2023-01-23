@@ -1,5 +1,6 @@
 export interface Customer {
-  subscription: string;
+  uuid?: string;
+  subscription?: string;
   intake_request?: string;
   type: string;
   document_type: string;
@@ -7,12 +8,17 @@ export interface Customer {
   company_name: string;
   first_name: string;
   last_name: string;
-  born_date:string;
-  marital_status:string;
-  occupation:string;
+  born_date: string;
+  image: null;
+  marital_status: string;
+  occupation: string;
+  linked_customer?: null;
   contacts: Contact[];
   addresses: Address[];
-  active:boolean;
+  active?: boolean;
+  created_at?: Date;
+  updated_by?: null;
+  updated_at?: Date;
 }
 
 export interface CustomerIntakeRequest {

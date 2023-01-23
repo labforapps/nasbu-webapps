@@ -35,7 +35,7 @@
                 <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
                     <mat-label>Email</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField">
+                    <input type="email" class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField">
                 </mat-form-field>
               <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
 

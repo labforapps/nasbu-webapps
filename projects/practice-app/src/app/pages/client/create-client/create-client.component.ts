@@ -1,6 +1,4 @@
 import { Component, OnInit, Type } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogListComponent } from '../../../components/dialogs/dialog-list/dialog-list.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
 import {
@@ -37,12 +35,13 @@ export class CreateClientComponent implements OnInit {
   imagenSubir!: File;
   imgTemp!: any;
 
+  emailFormat = /[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}/;
+
   customerId!: string;
 
   createClientForm!: FormGroup;
 
   constructor(
-    public dialog: MatDialog,
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,
     private commonService: CommonService,
@@ -190,10 +189,6 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
-  openDialogList() {
-    this.dialog.open(DialogListComponent);
-  }
-
   setCustomerType(value: string) {
     this.customer_type = value;
 
@@ -286,8 +281,6 @@ export class CreateClientComponent implements OnInit {
       contacts: customerContacts,
       addresses: this.customer_address,
     };
-    console.log(createClient);
-    console.log(this.createClientForm);
 
     if (this.createClientForm.valid) {
       if (this.customerId != '') {
@@ -305,14 +298,18 @@ export class CreateClientComponent implements OnInit {
 
   createCustomer(body: any, create_another = false) {
     this.customerService.createCustomer(body).subscribe(
-      (data) => {
-        console.log(data);
+      (data:any) => {
         this.toastr.success(
           'Ok',
           this.translateService.instant('successMessages.created_succesfully')
         );
+
         if (create_another) {
           this.resetForm();
+        }
+        else
+        {
+            this.router.navigate(['customers/edit', data.uuid]);
         }
       },
       (error) => {
@@ -353,15 +350,9 @@ export class CreateClientComponent implements OnInit {
   changeValueCheckboxAddress(address: Address) {
     address.share_same_info = !address.share_same_info;
 
-    if (address.share_same_info) {
-      address.postal_city = address.physical_city;
-      address.postal_address = address.physical_address;
-      address.postal_postal_code = address.physical_postal_code;
-    } else {
-      address.postal_city = '';
-      address.postal_address = '';
-      address.postal_postal_code = '';
-    }
+    address.postal_city = address.share_same_info ? address.physical_city : '';
+    address.postal_address = address.share_same_info ? address.physical_address : '';
+    address.postal_postal_code = address.share_same_info ? address.physical_postal_code : '';
   }
 
   resetForm() {
@@ -383,9 +374,7 @@ export class CreateClientComponent implements OnInit {
 
     this.imagenSubir = file;
 
-    if (!file) {
-      return (this.imgTemp = null);
-    }
+    if (!file) return (this.imgTemp = null);
 
     const reader = new FileReader();
     const url64 = reader.readAsDataURL(file);
@@ -399,5 +388,22 @@ export class CreateClientComponent implements OnInit {
 
   removeImage() {
     this.imgTemp = null;
+  }
+
+  deleteCustomerContactPhone(index: number) {
+    if (this.customer_contacts_phone.length > 1) this.customer_contacts_phone.splice(index, 1);
+  }
+
+  deleteCustomerContactEmail(index: number) {
+    if (this.customer_contacts_email.length > 1) this.customer_contacts_email.splice(index, 1);
+  }
+
+  deleteCustomerAddress(index: number) {
+    if (this.customer_address.length > 1) this.customer_address.splice(index, 1);
+  }
+
+  validateEmailFormat(email:string)
+  {
+    return this.emailFormat.test(email);
   }
 }

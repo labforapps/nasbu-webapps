@@ -8,7 +8,7 @@
                        class="c-stepper"
                        (selectedIndexChange)="onStepChange($event)">
 
-            <form [formGroup]="createClientForm" #form1="ngForm">
+            <form [formGroup]="createClientForm" #form="ngForm">
 
               <mat-step>
                 <div class="c-stepper__header">
@@ -43,23 +43,29 @@
                   <div class="row">
                     <div class="col-sm-6">
 
-                      <mat-form-field appearance="fill" class="c-form-group" *ngIf="customerType === 'B'">
-                        <mat-label>Nombre de la empresa</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="company_name">
-                      </mat-form-field>
-                      <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      <div *ngIf="customerType === typeCustomer.business">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>Nombre de la empresa</mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="company_name">
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID'">{{'errorMessages.field_required' |translate}}</mat-error>
+                      </div>
 
-                      <mat-form-field appearance="fill" class="c-form-group"  *ngIf="customerType === 'P'">
-                        <mat-label>Nombre </mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
-                      </mat-form-field>
-                      <mat-error *ngIf="createClientForm.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      <div *ngIf="customerType === typeCustomer.person">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>Nombre </mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
 
-                      <mat-form-field appearance="fill" class="c-form-group"  *ngIf="customerType === 'P'">
-                        <mat-label>Apellido</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
-                      </mat-form-field>
-                      <mat-error *ngIf="createClientForm.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      <div *ngIf="customerType === typeCustomer.person">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>Apellido</mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
 
                       <div formArrayName="contacts">
                           <div [formGroupName]="'0'">
@@ -68,6 +74,14 @@
                               <mat-label *ngIf="customerType === typeCustomer.business">Correo electrónico de la empresa</mat-label>
                               <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Correo">
                             </mat-form-field>
+                            <mat-error *ngIf="returnFormArrayFields('client','contacts',0,'contact_value')?.value === '' && matStepperSubmitted">
+                              {{'errorMessages.field_required' | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="returnFormArrayFields('client','contacts',0,'contact_value')?.value !== ''
+                                              && returnFormArrayFields('client','contacts',0,'contact_value')?.status === 'INVALID'
+                                              && matStepperSubmitted">
+                              Invalid Email Format
+                            </mat-error>
                           </div>
 
                       </div>
@@ -79,6 +93,7 @@
                     <div class="col-sm-6" formArrayName="contacts">
 
                       <div [formGroupName]="'1'">
+
                           <label class="u-title-label">Teléfono</label>
                           <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                             <mat-label *ngIf="customerType === typeCustomer.person">Personal</mat-label>
@@ -95,7 +110,12 @@
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('client','contacts',1,'sub_type')?.value === '' && matStepperSubmitted">
+                            {{'errorMessages.field_required' | translate}}
+                          </mat-error>
+
                           <div class="d-flex u-gap-1">
+
                             <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
                               <mat-select>
                                 <mat-option>
@@ -109,10 +129,21 @@
                                 </mat-option>
                               </mat-select>
                             </mat-form-field>
+
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>Num. Teléfono celular</mat-label>
                               <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
                             </mat-form-field>
+
+
+                          </div>
+                          <div class="d-flex u-gap-1">
+                            <div></div>
+                            <div>
+                              <mat-error *ngIf="returnFormArrayFields('client','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">
+                                {{'errorMessages.field_required' | translate}}
+                              </mat-error>
+                            </div>
                           </div>
                       </div>
 
@@ -195,9 +226,11 @@
                   <div class="row">
                     <div class="col-sm-6" formArrayName="addresses">
 
+
                       <div [formGroupName]="'0'">
                         <label class="u-title-label" *ngIf="customerType === typeCustomer.person">Dirección de residencia</label>
                         <label class="u-title-label" *ngIf="customerType === typeCustomer.business">Dirección de la empresa</label>
+
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                           <mat-label>Seleccionar país </mat-label>
                           <mat-select [formControlName]="'physical_country'">
@@ -206,22 +239,39 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'physical_country')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
                         <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>Ciudad</mat-label>
                           <input class="c-form-group__input"  [formControlName]="'physical_city'" matInput placeholder="Ciudad:  Ej: Miami, Florida">
                         </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('client','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
                         <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>Dirección</mat-label>
                           <input class="c-form-group__input" [formControlName]="'physical_address'" matInput placeholder="Dirección: Calle, número, Apart.">
                         </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'physical_address')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
                         <div class="col-sm-6 pl-0">
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>Código Postal</mat-label>
                             <input class="c-form-group__input" [formControlName]="'physical_postal_code'" matInput placeholder="Código">
                           </mat-form-field>
+                          <mat-error
+                            *ngIf="returnFormArrayFields('client','addresses',0,'physical_postal_code')?.value === '' && matStepperSubmitted">
+                            {{'errorMessages.field_required' | translate}}
+                          </mat-error>
                         </div>
 
-                      <mat-checkbox class="c-checkbox mt-1" (click)="changeValueCheckboxAddressClientForm()">
+                      <mat-checkbox class="c-checkbox mt-1" (change)="changeValueCheckboxAddressClientForm($event)">
                         Dirección Física y Postal comparten la misma información
                       </mat-checkbox>
 
@@ -245,20 +295,36 @@
                         <mat-label>Ciudad</mat-label>
                         <input class="c-form-group__input" [formControlName]="'postal_city'" matInput placeholder="Ciudad:  Ej: Miami, Florida">
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('client','addresses',0,'postal_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Dirección</mat-label>
                         <input class="c-form-group__input" [formControlName]="'postal_address'" matInput placeholder="Dirección: Calle, número, Apart.">
                       </mat-form-field>
+                      <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_address')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <div class="col-sm-6 pl-0">
                         <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>Código Postal</mat-label>
                           <input class="c-form-group__input" [formControlName]="'postal_postal_code'" matInput placeholder="Código">
                         </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
                       </div>
                     </div>
+                      </div>
+
+
+                    </div>
                   </div>
-                  </div>
-                  </div>
+
                   <div class="c-stepper__footer">
                     <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
                     <button mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)">Siguiente</button>
@@ -312,6 +378,14 @@
                           <mat-label>Correo electrónico personal</mat-label>
                           <input formControlName="contact_value" class="c-form-group__input" matInput>
                         </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',0,'contact_value')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',0,'contact_value')?.value !== ''
+                                                                      && returnFormArrayFields('representative','contacts',0,'contact_value')?.status === 'INVALID'
+                                                                      && matStepperSubmitted">
+                          Invalid Email Format
+                        </mat-error>
                       </div>
 
                       <div [formGroupName]="'1'">
@@ -330,6 +404,10 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'sub_type')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
                         <div class="d-flex u-gap-1">
                           <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
                             <mat-select>
@@ -344,11 +422,16 @@
                               </mat-option>
                             </mat-select>
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>Num. Teléfono celular</mat-label>
                             <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
                           </mat-form-field>
+
                         </div>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
                       </div>
 
                      </div>
@@ -390,7 +473,6 @@
                       </mat-form-field>
                      <mat-error *ngIf="createRepresentative.controls['occupation'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
-
                     </div>
                   </div>
                   <div class="c-stepper__footer">
@@ -423,6 +505,7 @@
                     <div class="col-sm-6" >
 
                       <label class="u-title-label">Dirección de residencia</label>
+
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                         <mat-label>Seleccionar país </mat-label>
                         <mat-select formControlName="physical_country">
@@ -431,24 +514,43 @@
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_country')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Ciudad</mat-label>
                         <input formControlName="physical_city" class="c-form-group__input" matInput
                           placeholder="Ciudad:  Ej: Miami, Florida">
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Dirección</mat-label>
                         <input formControlName="physical_address" class="c-form-group__input" matInput
                           placeholder="Dirección: Calle, número, Apart.">
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <div class="col-sm-6 pl-0">
                         <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>Código Postal</mat-label>
                           <input formControlName="physical_postal_code" class="c-form-group__input" matInput placeholder="Código">
                         </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('representative','addresses',0,'physical_postal_code')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
                       </div>
 
-                      <mat-checkbox class="c-checkbox mt-1" (click)="changeValueCheckboxAddressRepresentativeForm()">
+                      <mat-checkbox class="c-checkbox mt-1" (change)="changeValueCheckboxAddressRepresentativeForm($event)">
                         Dirección Física y Postal comparten la misma información
                       </mat-checkbox>
                     </div>
@@ -459,29 +561,41 @@
                         <mat-label>Ciudad</mat-label>
                         <input formControlName="postal_city" class="c-form-group__input" matInput placeholder="Ciudad:  Ej: Miami, Florida">
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','postal_city',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>Dirección</mat-label>
                         <input formControlName="postal_address" class="c-form-group__input" matInput placeholder="Dirección: Calle, número, Apart.">
                       </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'postal_address')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
                       <div class="col-sm-6 pl-0">
                         <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>Código Postal</mat-label>
                           <input formControlName="postal_postal_code" class="c-form-group__input" matInput placeholder="Código">
                         </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('representative','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
                       </div>
                     </div>
                     </div>
                   </div>
                   <div class="c-stepper__footer">
                     <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                    <button mat-button class="c-btn c-btn--primary" matStepperNext (click)="onStepChange(stepper)">Siguiente</button>
+                    <button mat-button class="c-btn c-btn--primary" (click)="onStepChange(stepper)">Siguiente</button>
                   </div>
                 </div>
               </mat-step>
 
             </form>
-
-
 
             <mat-step>
               <div class="c-stepper__header">

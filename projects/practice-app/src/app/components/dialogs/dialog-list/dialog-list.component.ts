@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomersService } from 'core-services';
+import { Customer } from 'core-models';
 
 @Component({
   selector: 'app-dialog-list',
   templateUrl: './dialog-list.component.html',
-  styleUrls: ['./dialog-list.component.scss']
+  styleUrls: ['./dialog-list.component.scss'],
 })
 export class DialogListComponent implements OnInit {
 
-  constructor() { }
+  customers!:Customer[];
 
-  ngOnInit(): void {
-  }
+  constructor(private customerService: CustomersService) {}
+
+  ngOnInit(): void {}
+
+  getCustomersAvailableForLink(){}
+
 
 }

@@ -28,7 +28,8 @@ export interface UserInfo {
 }
 
 export interface SelectedSubscription {
-    ssid: SSID;
+    //ssid: SSID;
+    ssid:any
     mt: string;
     permissions: string[];
 }

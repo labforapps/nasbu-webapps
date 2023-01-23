@@ -16,7 +16,6 @@ import { AuthService, CommonService, CustomersService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-client-intake',
   templateUrl: './client-intake.component.html',
@@ -24,6 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ClientIntakeComponent implements OnInit {
   selectedSubscription!: any;
+  token:string = '';
   customerType: string = TypeCustomer.person;
   typeCustomer = TypeCustomer;
   typeContact = TypeContact;
@@ -33,32 +33,35 @@ export class ClientIntakeComponent implements OnInit {
   customer!: Customer;
   customerRepresentative!: Customer;
   occupations!: Occupation[];
-  checked_share_same_info: boolean = false;
 
   createClientForm!: FormGroup;
   createRepresentative!: FormGroup;
 
   currentStep: number = 0;
+  matStepperSubmitted: boolean = false;
 
   constructor(
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,
     private commonService: CommonService,
-    private authService: AuthService,
-    private router: Router,
     private ActivatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    this.customerType = this.typeCustomer.person;
+    this.getTokenByURL();
 
     this.fetchCountries();
     this.fetchOccupations();
 
     this.initReactiveForms();
+  }
+
+  getTokenByURL() {
+    this.ActivatedRoute.queryParams.subscribe((params:any) => {
+      this.token  = params.token;
+    });
   }
 
   initReactiveForms() {
@@ -82,23 +85,23 @@ export class ClientIntakeComponent implements OnInit {
             this.customerType === TypeCustomer.person
               ? this.subtypeContact.personal_email
               : this.subtypeContact.business_email,
-          contact_value: null,
+          contact_value: ['', [Validators.required, Validators.email]],
         }),
         this._formBuilder.group({
           type: this.typeContact.phone_number,
-          sub_type: null,
-          contact_value: null,
+          sub_type: ['', Validators.required],
+          contact_value: ['', Validators.required],
         }),
       ]),
       addresses: this._formBuilder.array([
         this._formBuilder.group({
-          physical_country: null,
-          physical_city: null,
-          physical_address: null,
-          physical_postal_code: null,
-          postal_city: null,
-          postal_address: null,
-          postal_postal_code: null,
+          physical_country: ['', Validators.required],
+          physical_city: ['', Validators.required],
+          physical_address: ['', Validators.required],
+          physical_postal_code: ['', Validators.required],
+          postal_city: ['', Validators.required],
+          postal_address: ['', Validators.required],
+          postal_postal_code: ['', Validators.required],
         }),
       ]),
     });
@@ -122,166 +125,26 @@ export class ClientIntakeComponent implements OnInit {
             this.customerType === TypeCustomer.person
               ? this.subtypeContact.personal_email
               : this.subtypeContact.business_email,
-          contact_value: '',
+          contact_value: ['', [Validators.required, Validators.email]],
         }),
         this._formBuilder.group({
           type: this.typeContact.phone_number,
-          sub_type: '',
-          contact_value: '',
+          sub_type: ['', Validators.required],
+          contact_value: ['', Validators.required],
         }),
       ]),
       addresses: this._formBuilder.array([
         this._formBuilder.group({
-          physical_country: '',
-          physical_city: '',
-          physical_address: '',
-          physical_postal_code: '',
-          postal_city: '',
-          postal_address: '',
-          postal_postal_code: '',
+          physical_country: ['', Validators.required],
+          physical_city: ['', Validators.required],
+          physical_address: ['', Validators.required],
+          physical_postal_code: ['', Validators.required],
+          postal_city: ['', Validators.required],
+          postal_address: ['', Validators.required],
+          postal_postal_code: ['', Validators.required],
         }),
       ]),
     });
-  }
-
-  onStepChange(stepper: any) {
-    this.currentStep = stepper._selectedIndex;
-
-    const createClientResult = this.createClientForm.value;
-
-    console.log(createClientResult);
-
-    const clientRepresentative = this.createRepresentative.value;
-
-    console.log(clientRepresentative);
-
-    this.customer = this.createClientForm.value;
-    this.customerRepresentative = this.createRepresentative.value;
-
-    console.log(this.createClientForm);
-
-    const form_validated = this.validateFormFields();
-
-    if (form_validated) {
-      stepper.next();
-    }
-  }
-
-  validateFormFields(): Boolean {
-    let fields_validate_required: any[] = [];
-    let fields_array_validate_required: any[] = [];
-    let validForm = true;
-
-    console.log(this.currentStep);
-
-    let FormValidate!: FormGroup;
-
-    switch (this.currentStep) {
-      case 0:
-        FormValidate = this.createClientForm;
-
-        if (this.customerType === this.typeCustomer.person) {
-          fields_validate_required = ['first_name', 'last_name'];
-        } else {
-          fields_validate_required = ['company_name'];
-        }
-
-        const contactValueEmailField = (
-          FormValidate.get('contacts') as FormArray
-        )
-          .at(0)
-          .get('contact_value');
-
-        if (
-          contactValueEmailField?.value === '' ||
-          contactValueEmailField?.value === null
-        ) {
-          contactValueEmailField.setErrors({
-            incorrect: true,
-          });
-        }
-
-        break;
-
-      case 1:
-        if (this.customerType === this.typeCustomer.person) {
-          fields_validate_required = [
-            'born_date',
-            'occupation',
-            'marital_status',
-          ];
-        }
-
-        FormValidate = this.createClientForm;
-
-        break;
-
-      case 2:
-        fields_validate_required = [
-          'first_name',
-          'last_name',
-          'born_date',
-          'occupation',
-          'marital_status',
-        ];
-
-        FormValidate = this.createRepresentative;
-
-        break;
-
-      default:
-        break;
-    }
-
-    for (let i = 0; i < fields_validate_required.length; i++) {
-      if (
-        FormValidate.controls[fields_validate_required[i]].value === null ||
-        FormValidate.controls[fields_validate_required[i]].value === ''
-      ) {
-        FormValidate.controls[fields_validate_required[i]].setErrors({
-          incorrect: true,
-        });
-
-        validForm = false;
-      }
-    }
-
-    return validForm;
-  }
-
-  submitForm(stepper: any) {
-    if (this.customerType === TypeCustomer.person) {
-      this.customerService
-        .createCustomerIntake(this.createClientForm.value)
-        .subscribe((data) => {
-          console.log(data);
-          stepper.next();
-        });
-    } else {
-      this.customerService
-        .createCustomerIntake(this.createClientForm.value)
-        .subscribe((data) => {
-          console.log(data);
-          this.customerService
-            .createCustomerIntake(this.createRepresentative.value)
-            .subscribe((data) => {
-              console.log(data);
-              stepper.next();
-            }),
-            (error: any) => {
-              this.toastr.error(
-                'Error 2',
-                this.translateService.instant('errorMessages.unexpectedError')
-              );
-            };;
-        }),
-        (error: any) => {
-          this.toastr.error(
-            'Error 1',
-            this.translateService.instant('errorMessages.unexpectedError')
-          );
-        };
-    }
   }
 
   fetchCountries() {
@@ -327,29 +190,295 @@ export class ClientIntakeComponent implements OnInit {
     }
   }
 
-  changeValueCheckboxAddressClientForm() {
+  changeValueCheckboxAddressClientForm(event: any) {
+    const checked = event.checked;
+
     let formArray = this.createClientForm.get('addresses') as FormArray;
 
     formArray.patchValue([
       {
-        postal_city: formArray.controls[0].get('physical_city')?.value,
-        postal_address: formArray.controls[0].get('physical_address')?.value,
-        postal_postal_code: formArray.controls[0].get('physical_postal_code')
-          ?.value,
+        postal_city: checked
+          ? formArray.controls[0].get('physical_city')?.value
+          : '',
+        postal_address: checked
+          ? formArray.controls[0].get('physical_address')?.value
+          : '',
+        postal_postal_code: checked
+          ? formArray.controls[0].get('physical_postal_code')?.value
+          : '',
       },
     ]);
   }
 
-  changeValueCheckboxAddressRepresentativeForm() {
+  changeValueCheckboxAddressRepresentativeForm(event: any) {
+    const checked = event.checked;
+
     let formArray = this.createRepresentative.get('addresses') as FormArray;
 
     formArray.patchValue([
       {
-        postal_city: formArray.controls[0].get('physical_city')?.value,
-        postal_address: formArray.controls[0].get('physical_address')?.value,
-        postal_postal_code: formArray.controls[0].get('physical_postal_code')
-          ?.value,
+        postal_city: checked
+          ? formArray.controls[0].get('physical_city')?.value
+          : '',
+        postal_address: checked
+          ? formArray.controls[0].get('physical_address')?.value
+          : '',
+        postal_postal_code: checked
+          ? formArray.controls[0].get('physical_postal_code')?.value
+          : '',
       },
     ]);
+  }
+
+  onStepChange(stepper: any) {
+    this.matStepperSubmitted = true;
+    this.currentStep = stepper._selectedIndex;
+
+    const createClientResult = this.createClientForm.value;
+
+    const clientRepresentative = this.createRepresentative.value;
+
+    this.customer = this.createClientForm.value;
+    this.customerRepresentative = this.createRepresentative.value;
+
+    const form_validated = this.validateFormFields();
+
+    if (form_validated) {
+      this.matStepperSubmitted = false;
+      stepper.next();
+    }
+  }
+
+  validateFormFields(): Boolean {
+    let fields_validate_required: any[] = [];
+
+    let fields_array_validate_required: any[] = [
+      'physical_country',
+      'physical_city',
+      'physical_address',
+      'physical_postal_code',
+      'postal_city',
+      'postal_address',
+      'postal_postal_code',
+    ];
+
+    let validForm = true;
+
+    let FormValidate!: FormGroup;
+
+    switch (this.currentStep) {
+      case 0:
+        FormValidate = this.createClientForm;
+
+        if (this.customerType === this.typeCustomer.person) {
+          fields_validate_required = ['first_name', 'last_name'];
+        } else {
+          fields_validate_required = ['company_name'];
+        }
+
+        if (
+          this.returnFormArrayFields('client', 'contacts', 0, 'contact_value')
+            ?.status === 'INVALID'
+        )
+          validForm = false;
+        if (
+          this.returnFormArrayFields('client', 'contacts', 1, 'sub_type')
+            ?.status === 'INVALID'
+        )
+          validForm = false;
+        if (
+          this.returnFormArrayFields('client', 'contacts', 1, 'contact_value')
+            ?.status === 'INVALID'
+        )
+          validForm = false;
+
+        break;
+
+      case 1:
+        if (this.customerType === this.typeCustomer.person) {
+          fields_validate_required = [
+            'born_date',
+            'occupation',
+            'marital_status',
+          ];
+        }
+
+        for (let i = 0; i < fields_array_validate_required.length; i++) {
+          if (
+            this.returnFormArrayFields(
+              'client',
+              'addresses',
+              0,
+              fields_array_validate_required[i]
+            )?.status === 'INVALID'
+          )
+            validForm = false;
+        }
+
+        FormValidate = this.createClientForm;
+
+        break;
+
+      case 2:
+        fields_validate_required = [
+          'first_name',
+          'last_name',
+          'born_date',
+          'occupation',
+          'marital_status',
+        ];
+
+        if (
+          this.returnFormArrayFields(
+            'representative',
+            'contacts',
+            0,
+            'contact_value'
+          )?.status === 'INVALID'
+        )
+          validForm = false;
+        if (
+          this.returnFormArrayFields(
+            'representative',
+            'contacts',
+            1,
+            'sub_type'
+          )?.status === 'INVALID'
+        )
+          validForm = false;
+        if (
+          this.returnFormArrayFields(
+            'representative',
+            'contacts',
+            1,
+            'contact_value'
+          )?.status === 'INVALID'
+        )
+          validForm = false;
+
+        FormValidate = this.createRepresentative;
+
+        break;
+
+      case 3:
+        for (let i = 0; i < fields_array_validate_required.length; i++) {
+          if (
+            this.returnFormArrayFields(
+              'representative',
+              'addresses',
+              0,
+              fields_array_validate_required[i]
+            )?.status === 'INVALID'
+          )
+            validForm = false;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    for (let i = 0; i < fields_validate_required.length; i++) {
+      if (
+        FormValidate.controls[fields_validate_required[i]].value === null ||
+        FormValidate.controls[fields_validate_required[i]].value === ''
+      ) {
+        FormValidate.controls[fields_validate_required[i]].setErrors({
+          incorrect: true,
+        });
+
+        validForm = false;
+      }
+    }
+
+    return validForm;
+  }
+
+  returnFormArrayFields(
+    form: string,
+    formArray: string,
+    index: number,
+    field: string
+  ) {
+    let reactiveForm: any;
+
+    if (form === 'client') {
+      reactiveForm = this.createClientForm;
+    } else {
+      reactiveForm = this.createRepresentative;
+    }
+
+    //console.log((reactiveForm.get(formArray) as FormArray).at(index).get(field))
+
+    return (reactiveForm.get(formArray) as FormArray)?.at(index).get(field);
+  }
+
+  submitForm(stepper: any) {
+    if (this.customerType === TypeCustomer.person) {
+      this.createCustomerTypePerson(stepper);
+    } else {
+      this.createCustomerTypeBusiness(stepper);
+    }
+  }
+
+  createCustomerTypePerson(stepper:any)
+  {
+    this.customerService
+      .createCustomerIntake(this.createClientForm.value)
+      .subscribe(
+        (data) => {
+          this.toastr.success(
+            'Ok',
+            this.translateService.instant('successMessages.created_succesfully')
+          );
+
+          stepper.next();
+        },
+        (error) => {
+          this.toastr.error(
+            'error',
+            this.translateService.instant('errorMessages.unexpectedError')
+          );
+        }
+      );
+  }
+
+  createCustomerTypeBusiness(stepper:any)
+  {
+    this.customerService
+      .createCustomerIntake(this.createClientForm.value)
+      .subscribe((data:any) => {
+
+        const body = {
+          ...this.createRepresentative.value,
+          linked_customer:data.uuid
+        };
+
+        this.customerService
+          .createCustomerIntake(body)
+          .subscribe(
+            (data) => {
+              this.toastr.success(
+                'Ok',
+                this.translateService.instant(
+                  'successMessages.created_succesfully'
+                )
+              );
+              stepper.next();
+            },
+            (error: any) => {
+              this.toastr.error(
+                'Error',
+                this.translateService.instant('errorMessages.unexpectedError')
+              );
+            }
+          );
+      }),
+      (error: any) => {
+        this.toastr.error(
+          'Error',
+          this.translateService.instant('errorMessages.unexpectedError')
+        );
+      };
   }
 }

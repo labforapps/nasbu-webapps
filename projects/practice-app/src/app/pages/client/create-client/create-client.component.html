@@ -127,7 +127,7 @@
 
                       <div class="row">
                         <div class="col-sm-6" >
-                          <div *ngFor="let contact of customer_contacts_phone">
+                          <div *ngFor="let contact of customer_contacts_phone; let i = index">
                             <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
                             <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                             <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
@@ -142,10 +142,13 @@
                                 {{'clients.form_create.phone_office_number' | translate}}
                               </mat-option>
                             </mat-select>
-                            <div class="c-form-group__action">
+
+                            <div class="c-form-group__action" (click)="deleteCustomerContactPhone(i)">
                               <button mat-button type='button'><span class="icon-times"></span></button>
                             </div>
+
                           </mat-form-field>
+
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
                             <input class="c-form-group__input"
@@ -160,7 +163,7 @@
 
 
                         <div class="col-sm-6">
-                          <div *ngFor="let contact of customer_contacts_email">
+                          <div *ngFor="let contact of customer_contacts_email; let i = index">
                             <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
 
                             <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
@@ -174,19 +177,22 @@
                                 </mat-option>
                               </mat-select>
                               <div class="c-form-group__action">
-                                <button mat-button type='button'><span class="icon-times"></span></button>
+                                <button mat-button type='button' (click)="deleteCustomerContactEmail(i)"><span class="icon-times"></span></button>
                               </div>
                             </mat-form-field>
 
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
-                              <input class="c-form-group__input"
+                              <input
+                                     class="c-form-group__input"
                                      matInput
                                      [(ngModel)]="contact.contact_value"
                                      [ngModelOptions]="{standalone: true}"
                                      required>
                             </mat-form-field>
                            <mat-error *ngIf="contact.contact_value === '' && form.submitted" >{{'errorMessages.field_required' | translate}}</mat-error>
+                          <mat-error *ngIf="!validateEmailFormat(contact.contact_value) && form.submitted">Invalid Email Format</mat-error>
+
                           </div>
                           <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactEmail()">+ {{'clients.form_create.add_another_email' | translate}}</button>
                         </div>
@@ -194,7 +200,7 @@
 
                       <hr class="u-divider--marginBig">
 
-                      <div class="row" *ngFor="let address of customer_address">
+                      <div class="row" *ngFor="let address of customer_address; let i = index">
                         <div class="col-sm-6">
 
                           <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}
@@ -206,6 +212,11 @@
                                 {{country.name}}
                               </mat-option>
                             </mat-select>
+
+                            <div class="c-form-group__action">
+                              <button mat-button type='button' (click)="deleteCustomerAddress(i)"><span class="icon-times"></span></button>
+                            </div>
+
                           </mat-form-field>
                         <mat-error *ngIf="address.physical_country === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
@@ -302,22 +313,9 @@
                       </div>
 
                       <hr class="u-divider--marginBig">
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h4>{{'clients.form_create.associate_contact_to_bussiness' | translate}}<span class="u-dangerColor">*</span></h4>
-                          <p class="mt-1 u-smallSize">{{'clients.form_create.see_business_associated_to_user' | translate}}</p>
-                          <div class="mt-5">
-                            <div class="align-items-center c-form-item d-flex flex-wrap justify-content-center u-gap-1">
-                              <img src="../../../../assets/images/company.svg" alt="">
-                              <div class="u-normalSize mr-auto">
-                                <b class="mr-1">Compañía</b> Moya & Asociados
-                              </div>
-                              <button mat-button class="u-link u-link--underline mr-2 u-normalSize" type="button">{{'clients.common.delete' | translate}}</button>
-                              <button mat-button class="c-btn-add w-25" type="button">{{'clients.common.change' | translate}}</button>
-                            </div>
-                          </div>
-                          <button mat-button class="c-btn-add" (click)="openDialogList()" type="button">+ {{'clients.form_create.link_with_business' | translate}}</button>
-                        </div>
+
+                      <div *ngIf="customer_type === 'P'">
+                        <app-associate-customers></app-associate-customers>
                       </div>
 
                 </div>

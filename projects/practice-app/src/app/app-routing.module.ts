@@ -164,10 +164,6 @@ const routes: Routes = [
     },
   },
   {
-    path: 'customers/create',
-    component: CreateClientComponent,
-  },
-  {
     path: 'customers/edit/:id',
     component: CreateClientComponent,
     data: {
@@ -186,8 +182,12 @@ const routes: Routes = [
     component: CreateCollaboratorComponent,
   },
   {
-    path: 'client-intake',
+    path: 'registerClient',
     component: ClientIntakeComponent,
+  },
+  {
+    path: 'client-profile',
+    component: ClientProfileComponent,
   },
 ];
 
