@@ -1,17 +1,7 @@
-import { Component, OnInit, Type } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import {
-  Customer,
-  SelectedSubscription,
-  Country,
-  Address,
-  Contact,
-  TypeContact,
-  SubtypeContact,
-  Occupation,
-  TypeCustomer,
-} from 'core-models';
+import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,21 +13,18 @@ import { TranslateService } from '@ngx-translate/core';
 export class CreateClientComponent implements OnInit {
   //selectedSubscription!: SelectedSubscription | null;
   selectedSubscription!: any;
-  customer_type: string = TypeCustomer.person;
-  countries!: Country[];
   customer!: Customer;
-  customer_contacts_phone: Contact[] = [];
-  customer_contacts_email: Contact[] = [];
-  customer_address: Address[] = [];
+  customer_type: string = TypeCustomer.person;
+  typeCustomer = TypeCustomer;
+  typeContact = TypeContact;
   subtypeContact = SubtypeContact;
+  countries!: Country[];
   occupations!: Occupation[];
-  checked_share_same_info: boolean = false;
   imagenSubir!: File;
   imgTemp!: any;
 
-  emailFormat = /[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}/;
-
   customerId!: string;
+  linked_customer!: string;
 
   createClientForm!: FormGroup;
 
@@ -58,9 +45,11 @@ export class CreateClientComponent implements OnInit {
     this.fetchCountries();
     this.fetchOccupations();
     this.getCustomerById();
-    this.initCustomerContacts();
-    this.initCustomerAddress();
 
+    this.initCreateClientForm();
+  }
+
+  initCreateClientForm() {
     this.createClientForm = this._formBuilder.group({
       subscription: [''],
       intake_request: [''],
@@ -73,7 +62,43 @@ export class CreateClientComponent implements OnInit {
       occupation: [null],
       marital_status: [null],
       born_date: [null],
+      contacts: this._formBuilder.array([
+        this._formBuilder.group({
+          type: this.typeContact.phone_number,
+          sub_type: ['', Validators.required],
+          contact_value: ['', Validators.required],
+        }),
+        this._formBuilder.group({
+          type: this.typeContact.email,
+          sub_type:
+            this.customer_type === TypeCustomer.person
+              ? this.subtypeContact.personal_email
+              : this.subtypeContact.business_email,
+          contact_value: ['', [Validators.required, Validators.email]],
+        }),
+      ]),
+      addresses: this._formBuilder.array([
+        this._formBuilder.group({
+          physical_country: ['', Validators.required],
+          physical_city: ['', Validators.required],
+          physical_address: ['', Validators.required],
+          physical_postal_code: ['', Validators.required],
+          postal_city: ['', Validators.required],
+          postal_address: ['', Validators.required],
+          postal_postal_code: ['', Validators.required],
+        }),
+      ]),
     });
+  }
+
+  returnFormArray(formArray: string) {
+    return (this.createClientForm.get(formArray) as FormArray).controls;
+  }
+
+  returnFormArrayFields(formArray: string, index: number, field: string) {
+    return (this.createClientForm.get(formArray) as FormArray)
+      ?.at(index)
+      .get(field);
   }
 
   getCustomerById() {
@@ -93,7 +118,7 @@ export class CreateClientComponent implements OnInit {
   setDataInForm() {
     this.customer_type = this.customer.type;
 
-    this.createClientForm.setValue({
+    this.createClientForm.patchValue({
       subscription: this.selectedSubscription?.ssid.uuid,
       first_name: this.customer?.first_name,
       last_name: this.customer.last_name,
@@ -107,86 +132,73 @@ export class CreateClientComponent implements OnInit {
       marital_status: this.customer.marital_status,
     });
 
-    const customer_contacts_phone = this.customer.contacts.filter(
-      (x) => x.type === 'P'
-    );
+    this.removeItem('addresses', 0);
 
-    if (customer_contacts_phone.length > 0)
-      this.customer_contacts_phone = customer_contacts_phone;
-
-    const customer_contacts_email = this.customer.contacts.filter(
-      (x) => x.type === 'E'
-    );
-
-    if (customer_contacts_email.length > 0)
-      this.customer_contacts_email = customer_contacts_email;
-
-    if (this.customer.addresses.length > 0)
-      this.customer_address = this.customer.addresses;
-  }
-
-  initCustomerContacts() {
-    if (this.customer_contacts_phone.length === 0) {
-      this.customer_contacts_phone.push({
-        type: TypeContact.phone_number,
-        sub_type: SubtypeContact.cellphone_number,
-        contact_value: '',
-      });
+    for (let i = 0; i < this.customer.addresses.length; i++) {
+      (this.createClientForm.get('addresses') as FormArray).push(
+        this._formBuilder.group({
+          ...this.customer.addresses[i],
+        })
+      );
     }
 
-    if (this.customer_contacts_email.length === 0) {
-      this.customer_contacts_email.push({
-        type: TypeContact.email,
-        sub_type: SubtypeContact.personal_email,
-        contact_value: '',
-      });
+    this.removeItem('contacts', 0);
+    this.removeItem('contacts', 0);
+
+    for (let i = 0; i < this.customer.contacts.length; i++) {
+      (this.createClientForm.get('contacts') as FormArray).push(
+        this._formBuilder.group({
+          ...this.customer.contacts[i],
+        })
+      );
     }
   }
 
-  initCustomerAddress() {
-    if (this.customer_address.length === 0) {
-      this.customer_address.push({
-        customer: '',
-        physical_country: '',
-        physical_city: '',
-        physical_address: '',
-        physical_postal_code: '',
-        postal_city: '',
-        postal_address: '',
-        postal_postal_code: '',
-        share_same_info: false,
-      });
+  setLinkedCustomer(event: any) {
+    this.linked_customer = event;
+  }
+
+  addItem(formArray: string, type = '') {
+    switch (formArray) {
+      case 'addresses':
+        (this.createClientForm.get(formArray) as FormArray).push(
+          this._formBuilder.group({
+            physical_country: [''],
+            physical_city: [''],
+            physical_address: [''],
+            physical_postal_code: [''],
+            postal_city: [''],
+            postal_address: [''],
+            postal_postal_code: [''],
+          })
+        );
+        break;
+      case 'contacts':
+        if (type === 'E') {
+          (this.createClientForm.get(formArray) as FormArray).push(
+            this._formBuilder.group({
+              type: this.typeContact.email,
+              sub_type:
+                this.customer_type === TypeCustomer.person
+                  ? this.subtypeContact.personal_email
+                  : this.subtypeContact.business_email,
+              contact_value: [''],
+            })
+          );
+        } else {
+          (this.createClientForm.get(formArray) as FormArray).push(
+            this._formBuilder.group({
+              type: this.typeContact.phone_number,
+              sub_type: ['', Validators.required],
+              contact_value: ['', Validators.required],
+            })
+          );
+        }
     }
   }
 
-  addCustomerContactPhone() {
-    this.customer_contacts_phone.push({
-      type: TypeContact.phone_number,
-      sub_type: SubtypeContact.cellphone_number,
-      contact_value: '',
-    });
-  }
-
-  addCustomerContactEmail() {
-    this.customer_contacts_email.push({
-      type: TypeContact.email,
-      sub_type: SubtypeContact.personal_email,
-      contact_value: '',
-    });
-  }
-
-  addCustomerAddress() {
-    this.customer_address.push({
-      customer: '',
-      physical_country: '',
-      physical_city: '',
-      physical_address: '',
-      physical_postal_code: '',
-      postal_city: '',
-      postal_address: '',
-      postal_postal_code: '',
-      share_same_info: false,
-    });
+  removeItem(formArray: string, index: number) {
+    (this.createClientForm.get(formArray) as FormArray).removeAt(index);
   }
 
   setCustomerType(value: string) {
@@ -195,6 +207,17 @@ export class CreateClientComponent implements OnInit {
     this.createClientForm.patchValue({
       type: value,
     });
+
+    const formArrayFields = this.returnFormArray('contacts');
+
+    for (let i = 0; i < formArrayFields.length; i++) {
+      if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'E')
+        (this.createClientForm.get('contacts') as FormArray)
+          ?.at(i)
+          ?.patchValue({
+            sub_type: this.customer_type === 'P' ? 'E' : 'B',
+          });
+    }
   }
 
   fetchCountries() {
@@ -271,16 +294,13 @@ export class CreateClientComponent implements OnInit {
   submitForm(create_another = false) {
     this.validateClientFormFields();
 
-    const customerContacts: Contact[] = this.customer_contacts_phone.concat(
-      this.customer_contacts_email
-    );
-
     const createClient: Customer = {
       ...this.createClientForm.value,
       subscription: this.selectedSubscription?.ssid.uuid,
-      contacts: customerContacts,
-      addresses: this.customer_address,
     };
+
+    console.log(createClient);
+    console.log(this.createClientForm);
 
     if (this.createClientForm.valid) {
       if (this.customerId != '') {
@@ -298,7 +318,7 @@ export class CreateClientComponent implements OnInit {
 
   createCustomer(body: any, create_another = false) {
     this.customerService.createCustomer(body).subscribe(
-      (data:any) => {
+      (data: any) => {
         this.toastr.success(
           'Ok',
           this.translateService.instant('successMessages.created_succesfully')
@@ -306,10 +326,25 @@ export class CreateClientComponent implements OnInit {
 
         if (create_another) {
           this.resetForm();
-        }
-        else
-        {
+        } else {
+          if (this.linked_customer) {
+            body = {
+              ...body,
+              linked_customer: this.linked_customer,
+            };
+
+            this.customerService
+              .linkToCustomer(
+                this.selectedSubscription?.ssid.uuid,
+                data.uuid,
+                body
+              )
+              .subscribe((data) => {
+                this.router.navigate(['customers/edit', data.uuid]);
+              });
+          } else {
             this.router.navigate(['customers/edit', data.uuid]);
+          }
         }
       },
       (error) => {
@@ -337,6 +372,25 @@ export class CreateClientComponent implements OnInit {
               'successMessages.updated_successfully'
             )
           );
+
+          if (this.linked_customer) {
+            console.log('Object for link to customer', body);
+
+            body = {
+              ...body,
+              linked_customer: this.linked_customer,
+            };
+
+            this.customerService
+              .linkToCustomer(
+                this.selectedSubscription?.ssid.uuid,
+                this.customerId,
+                body
+              )
+              .subscribe((data) => {
+                this.router.navigate(['customers/edit', data.uuid]);
+              });
+          }
         },
         (error) => {
           this.toastr.error(
@@ -347,23 +401,38 @@ export class CreateClientComponent implements OnInit {
       );
   }
 
-  changeValueCheckboxAddress(address: Address) {
-    address.share_same_info = !address.share_same_info;
+  changeValueCheckboxAddress(event: any, index: number) {
+    const checked = event.checked;
 
-    address.postal_city = address.share_same_info ? address.physical_city : '';
-    address.postal_address = address.share_same_info ? address.physical_address : '';
-    address.postal_postal_code = address.share_same_info ? address.physical_postal_code : '';
+    if (checked) {
+      (this.createClientForm.get('addresses') as FormArray)
+        ?.at(index)
+        .patchValue({
+          postal_city: (this.createClientForm.get('addresses') as FormArray)
+            ?.at(index)
+            .get('physical_city')?.value,
+          postal_address: (this.createClientForm.get('addresses') as FormArray)
+            ?.at(index)
+            .get('physical_address')?.value,
+          postal_postal_code: (
+            this.createClientForm.get('addresses') as FormArray
+          )
+            ?.at(index)
+            .get('physical_postal_code')?.value,
+        });
+    } else {
+      (this.createClientForm.get('addresses') as FormArray)
+        ?.at(index)
+        .patchValue({
+          postal_city: '',
+          postal_address: '',
+          postal_postal_code: '',
+        });
+    }
   }
 
   resetForm() {
     this.createClientForm.reset();
-    this.customer_contacts_email = [];
-    this.customer_contacts_phone = [];
-    this.customer_address = [];
-
-    this.initCustomerContacts();
-    this.initCustomerAddress();
-
     this.customer_type = 'P';
   }
 
@@ -388,22 +457,5 @@ export class CreateClientComponent implements OnInit {
 
   removeImage() {
     this.imgTemp = null;
-  }
-
-  deleteCustomerContactPhone(index: number) {
-    if (this.customer_contacts_phone.length > 1) this.customer_contacts_phone.splice(index, 1);
-  }
-
-  deleteCustomerContactEmail(index: number) {
-    if (this.customer_contacts_email.length > 1) this.customer_contacts_email.splice(index, 1);
-  }
-
-  deleteCustomerAddress(index: number) {
-    if (this.customer_address.length > 1) this.customer_address.splice(index, 1);
-  }
-
-  validateEmailFormat(email:string)
-  {
-    return this.emailFormat.test(email);
   }
 }

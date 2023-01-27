@@ -31,6 +31,7 @@ import { ClientIntakeComponent } from './pages/client-intake/client-intake.compo
 import { UserResolver } from './resolvers/user.resolver';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionsResolver } from './resolvers/permissions.resolver';
+import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 
 const routes: Routes = [
   {
@@ -149,6 +150,10 @@ const routes: Routes = [
       {
         path: 'configuration/plans',
         component: PlansComponent,
+      },
+      {
+        path: 'collaborator-profile',
+        component: CollaboratorProfileComponent,
       },
     ],
   },

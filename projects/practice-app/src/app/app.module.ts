@@ -97,6 +97,8 @@ import { ClientTableComponent } from './pages/client/components/client-table/cli
 import { DialogIntakeComponent } from './components/dialogs/dialog-intake/dialog-intake.component';
 import { DialogSendInvoiceComponent } from './components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 import { AssociateCustomersComponent } from './pages/client/components/associate-customers/associate-customers.component';
+import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
+import { CollabotatorGeneralInfoComponent } from './pages/collaborator/collaborator-profile/collabotator-general-info/collabotator-general-info.component';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -181,6 +183,8 @@ registerLocaleData(localeEn, 'en');
     DialogIntakeComponent,
     DialogSendInvoiceComponent,
     AssociateCustomersComponent,
+    CollaboratorProfileComponent,
+    CollabotatorGeneralInfoComponent,
   ],
   imports: [
     BrowserModule,

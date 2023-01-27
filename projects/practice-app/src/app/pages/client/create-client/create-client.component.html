@@ -125,197 +125,180 @@
 
                       <hr class="u-divider--marginBig">
 
-                      <div class="row">
-                        <div class="col-sm-6" >
-                          <div *ngFor="let contact of customer_contacts_phone; let i = index">
-                            <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span class="u-dangerColor">*</span></label>
-                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                            <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
-                              <mat-option [value]="subtypeContact.cellphone_number">
-                                {{'clients.form_create.cellphone_number' | translate}}
-                              </mat-option>
-                              <mat-option [value]="subtypeContact.currentphone_number">
-                                {{'clients.form_create.landline_number' | translate}}
-                              </mat-option>
-                              <mat-option [value]="subtypeContact.phoneoffice_number">
-                                {{'clients.form_create.phone_office_number' | translate}}
-                              </mat-option>
-                            </mat-select>
+                      <div formArrayName="contacts">
 
-                            <div class="c-form-group__action" (click)="deleteCustomerContactPhone(i)">
-                              <button mat-button type='button'><span class="icon-times"></span></button>
+                        <div class="row">
+                          <div *ngFor="let contact of returnFormArray('contacts'); let i = index" class="col-sm-6" [formGroupName]="i">
+
+                            <div *ngIf="contact.value.type === 'P'">
+
+                                <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span
+                                    class="u-dangerColor">*</span></label>
+                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                  <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
+                                  <mat-select formControlName="sub_type">
+                                    <mat-option [value]="subtypeContact.cellphone_number">
+                                      {{'clients.form_create.cellphone_number' | translate}}
+                                    </mat-option>
+                                    <mat-option [value]="subtypeContact.currentphone_number">
+                                      {{'clients.form_create.landline_number' | translate}}
+                                    </mat-option>
+                                    <mat-option [value]="subtypeContact.phoneoffice_number">
+                                      {{'clients.form_create.phone_office_number' | translate}}
+                                    </mat-option>
+                                  </mat-select>
+
+                                  <div class="c-form-group__action" (click)="removeItem('contacts',i)">
+                                    <button mat-button type='button'><span class="icon-times"></span></button>
+                                  </div>
+
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="contact_value" required>
+                                </mat-form-field>
+                                <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','P')">+
+                                  {{'clients.form_create.add_another_telephone_number' | translate}}</button>
+
                             </div>
 
-                          </mat-form-field>
+                            <div  *ngIf="contact.value.type === 'E'">
 
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
-                            <input class="c-form-group__input"
-                                   matInput [(ngModel)]="contact.contact_value"
-                                   [ngModelOptions]="{standalone: true}"
-                                   required="">
-                          </mat-form-field>
-                          <mat-error *ngIf="contact.contact_value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-                          </div>
-                          <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactPhone()">+ {{'clients.form_create.add_another_telephone_number' | translate}}</button>
-                        </div>
+                                <label class="u-title-label">{{'clients.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
+
+                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
+                                  <mat-label *ngIf="customer_type === 'P'">Personal</mat-label>
+                                  <mat-label *ngIf="customer_type === 'B'">{{'clients.common.business' | translate}}</mat-label>
+                                  <mat-select [disabled] = true formControlName="sub_type">
+                                    <mat-option [value]="subtypeContact.personal_email">
+                                      {{'clients.form_create.personal_email' | translate}}
+                                    </mat-option>
+                                    <mat-option [value]="subtypeContact.business_email">
+                                      {{'clients.form_create.business_email' | translate}}
+                                    </mat-option>
+                                  </mat-select>
+                                  <div class="c-form-group__action">
+                                    <button mat-button type='button' (click)="removeItem('contacts',i)"><span
+                                        class="icon-times"></span></button>
+                                  </div>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="contact_value" required>
+                                </mat-form-field>
+                                <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                               <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">Invalid Email Format</mat-error>
+
+                                <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','E')">+
+                                  {{'clients.form_create.add_another_email' | translate}}</button>
 
 
-                        <div class="col-sm-6">
-                          <div *ngFor="let contact of customer_contacts_email; let i = index">
-                            <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
+                            </div>
 
-                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
-                              <mat-label>Personal</mat-label>
-                              <mat-select [(ngModel)]="contact.sub_type" [ngModelOptions]="{standalone: true}">
-                                <mat-option [value]="subtypeContact.personal_email">
-                                  {{'clients.form_create.personal_email' | translate}}
-                                </mat-option>
-                                <mat-option [value]="subtypeContact.business_email">
-                                  {{'clients.form_create.business_email' | translate}}
-                                </mat-option>
-                              </mat-select>
-                              <div class="c-form-group__action">
-                                <button mat-button type='button' (click)="deleteCustomerContactEmail(i)"><span class="icon-times"></span></button>
-                              </div>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" class="c-form-group">
-                              <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
-                              <input
-                                     class="c-form-group__input"
-                                     matInput
-                                     [(ngModel)]="contact.contact_value"
-                                     [ngModelOptions]="{standalone: true}"
-                                     required>
-                            </mat-form-field>
-                           <mat-error *ngIf="contact.contact_value === '' && form.submitted" >{{'errorMessages.field_required' | translate}}</mat-error>
-                          <mat-error *ngIf="!validateEmailFormat(contact.contact_value) && form.submitted">Invalid Email Format</mat-error>
 
                           </div>
-                          <button mat-button class="c-btn-add mb-4" type="button" (click)="addCustomerContactEmail()">+ {{'clients.form_create.add_another_email' | translate}}</button>
                         </div>
-                      </div>
+
+                        </div>
 
                       <hr class="u-divider--marginBig">
 
-                      <div class="row" *ngFor="let address of customer_address; let i = index">
-                        <div class="col-sm-6">
+                      <div formArrayName="addresses">
+                        <div *ngFor="let address of returnFormArray('addresses'); let i = index">
+                          <div class="row" [formGroupName]="i">
+                            <div class="col-sm-6">
 
-                          <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}
-                            <span class="u-dangerColor">*</span></label>
-                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
-                            <mat-select [(ngModel)]="address.physical_country" [ngModelOptions]="{standalone: true}" required>
-                              <mat-option *ngFor="let country of countries" [value]="country.uuid">
-                                {{country.name}}
-                              </mat-option>
-                            </mat-select>
+                              <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}
+                                <span class="u-dangerColor">*</span></label>
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                                <mat-select formControlName="physical_country" required>
+                                  <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                    {{country.name}}
+                                  </mat-option>
+                                </mat-select>
 
-                            <div class="c-form-group__action">
-                              <button mat-button type='button' (click)="deleteCustomerAddress(i)"><span class="icon-times"></span></button>
+                                <div class="c-form-group__action">
+                                  <button mat-button type='button' (click)="removeItem('addresses',i)"><span class="icon-times"></span></button>
+                                </div>
+
+                              </mat-form-field>
+                               <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_country')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+
+                                <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="Ej: Miami, Florida" required>
+
+                              </mat-form-field>
+                              <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+
+                                <input class="c-form-group__input" matInput formControlName="physical_address" placeholder="Calle, número, Apart." required>
+
+                              </mat-form-field>
+                              <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+
+                              <div class="col-sm-6 p-0">
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="physical_postal_code" required>
+                                </mat-form-field>
+                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                              </div>
+
+                              <mat-checkbox class="c-checkbox mt-1 mb-4" (change)="changeValueCheckboxAddress($event,i)">
+                                {{'clients.form_create.physical_postal_address_share_info' | translate}}
+                              </mat-checkbox>
+
+                            </div>
+                            <div class="col-sm-6">
+
+                                <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}
+                                  <span class="u-dangerColor">*</span>
+                                </label>
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="postal_city" placeholder="Ej: Miami, Florida" required>
+                                </mat-form-field>
+                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="postal_address" placeholder="Calle, número, Apart." required="">
+                                </mat-form-field>
+                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <div class="col-sm-6 p-0">
+                                  <mat-form-field appearance="fill" class="c-form-group">
+                                    <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput formControlName="postal_postal_code" required>
+                                  </mat-form-field>
+                                  <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                </div>
+
                             </div>
 
-                          </mat-form-field>
-                        <mat-error *ngIf="address.physical_country === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-
-                            <input class="c-form-group__input"
-                                   matInput
-                                   [(ngModel)]="address.physical_city"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Ej: Miami, Florida"
-                                   required>
-
-                          </mat-form-field>
-                          <mat-error *ngIf="address.physical_city === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-
-                            <input class="c-form-group__input"
-                                   matInput
-                                   [(ngModel)]="address.physical_address"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Calle, número, Apart."
-                                   required>
-
-                          </mat-form-field>
-                          <mat-error *ngIf="address.physical_address === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-
-                          <div class="col-sm-6 p-0">
-                            <mat-form-field appearance="fill" class="c-form-group">
-                              <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                              <input class="c-form-group__input"
-                                     matInput
-                                     [(ngModel)]="address.physical_postal_code"
-                                     [ngModelOptions]="{standalone: true}"
-                                     required>
-                            </mat-form-field>
-                           <mat-error *ngIf="address.physical_postal_code === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                           </div>
-
-                          <mat-checkbox class="c-checkbox mt-1 mb-4" value="address.share_same_info"  (click)="changeValueCheckboxAddress(address)">
-                            {{'clients.form_create.physical_postal_address_share_info' | translate}}
-                          </mat-checkbox>
-
                         </div>
-                        <div class="col-sm-6">
-
-                          <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}
-                            <span class="u-dangerColor">*</span>
-                          </label>
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-                            <input class="c-form-group__input"
-                                   matInput
-                                   [(ngModel)]="address.postal_city"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Ej: Miami, Florida"
-                                   required>
-                          </mat-form-field>
-                         <mat-error *ngIf="address.postal_city === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-                            <input class="c-form-group__input"
-                                   matInput
-                                   [(ngModel)]="address.postal_address"
-                                   [ngModelOptions]="{standalone: true}"
-                                   placeholder="Calle, número, Apart."
-                                   required="">
-                          </mat-form-field>
-                         <mat-error *ngIf="address.postal_address === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                          <div class="col-sm-6 p-0">
-                            <mat-form-field appearance="fill" class="c-form-group">
-                              <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                              <input class="c-form-group__input"
-                                     matInput
-                                     [(ngModel)]="address.postal_postal_code"
-                                     [ngModelOptions]="{standalone: true}"
-                                     required>
-                            </mat-form-field>
-                           <mat-error *ngIf="address.postal_postal_code === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-                          </div>
-
-                        </div>
-
                       </div>
 
+
                       <div class="col-sm-12 mt-1">
-                        <button mat-button class="c-btn-add" type="button" (click)="addCustomerAddress()">+
+                        <button mat-button class="c-btn-add" type="button" (click)="addItem('addresses')">+
                           {{'clients.form_create.mailing_address' | translate}}</button>
                       </div>
 
                       <hr class="u-divider--marginBig">
 
                       <div *ngIf="customer_type === 'P'">
-                        <app-associate-customers></app-associate-customers>
+                        <app-associate-customers [customerId]="this.customerId" (customerIdSelected)="setLinkedCustomer($event)"></app-associate-customers>
                       </div>
 
                 </div>

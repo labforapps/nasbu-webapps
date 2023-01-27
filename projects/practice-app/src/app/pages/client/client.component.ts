@@ -2,7 +2,6 @@ import { Component, OnInit} from '@angular/core';
 import { AuthService, CustomersService } from 'core-services';
 import { Customer, SelectedSubscription } from 'core-models';
 import { Observable } from 'rxjs';
-import { throws } from 'assert';
 import { DialogSendRegisterComponent } from '../../components/dialogs/dialog-send-register/dialog-send-register.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
@@ -29,7 +28,6 @@ export class ClientComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    console.log(this.selectedSubscription);
     this.fetchCustomers();
   }
 
@@ -37,12 +35,10 @@ export class ClientComponent implements OnInit {
   }
 
   fetchCustomers() {
-    //console.log('selectedSubscription: ', this.selectedSubscription);
     if (this.selectedSubscription) {
       this.customersService
         .getCustomers(this.selectedSubscription?.ssid.uuid)
         .subscribe((customers: Customer[]) => {
-          console.log(customers);
           this.memCustomers = customers;
           this.ngAfterViewInit();
         });
@@ -50,7 +46,6 @@ export class ClientComponent implements OnInit {
   }
 
   get customers(): Customer[] {
-    //console.log('Customers: ', this.memCustomers);
     if (this.memCustomers) {
       return this.memCustomers;
     }
@@ -58,7 +53,6 @@ export class ClientComponent implements OnInit {
   }
 
   get customers_type_person(): Customer[] {
-    //console.log('Customers Person: ', this.memCustomers);
     if (this.memCustomers) {
       return this.memCustomers.filter((x) => x.type === 'P');
     }
@@ -67,7 +61,6 @@ export class ClientComponent implements OnInit {
   }
 
   get customers_type_bussiness(): Customer[] {
-    //console.log('Customers Bussiness: ', this.memCustomers);
     if (this.memCustomers) {
       return this.memCustomers.filter((x) => x.type === 'B');
     }

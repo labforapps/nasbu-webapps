@@ -63,7 +63,7 @@ export class CustomersService {
   }
 
   linkToCustomer(subscription: string, uuid: string, body: Customer) {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/link_to_customer/`;
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/link_to_customer/?subscription=${subscription}`;
     return this.httpClient.put<any>(serverUrl, body);
   }
 

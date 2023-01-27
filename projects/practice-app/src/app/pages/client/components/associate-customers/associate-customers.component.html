@@ -2,18 +2,18 @@
   <div class="col-sm-12">
     <h4>{{'clients.form_create.associate_contact_to_bussiness' | translate}}<span class="u-dangerColor">*</span></h4>
     <p class="mt-1 u-smallSize">{{'clients.form_create.see_business_associated_to_user' | translate}}</p>
-    <div class="mt-5">
+    <div class="mt-5" *ngIf="customer">
       <div class="align-items-center c-form-item d-flex flex-wrap justify-content-center u-gap-1">
         <img src="../../../../assets/images/company.svg" alt="">
-        <div class="u-normalSize mr-auto">
-          <b class="mr-1">Compañía</b> Moya & Asociados
+        <div class="u-normalSize mr-auto" >
+          {{customer.company_name}}
         </div>
         <button mat-button class="u-link u-link--underline mr-2 u-normalSize" type="button">{{'clients.common.delete' |
           translate}}</button>
-        <button mat-button class="c-btn-add w-25" type="button">{{'clients.common.change' | translate}}</button>
+        <button mat-button class="c-btn-add w-25" type="button" (click)="openDialogList()">{{'clients.common.change' | translate}}</button>
       </div>
     </div>
-    <button mat-button class="c-btn-add" (click)="openDialogList()" type="button">+
+    <button mat-button class="c-btn-add" (click)="openDialogList()" type="button" *ngIf="!customer">+
       {{'clients.form_create.link_with_business' | translate}}</button>
   </div>
 </div>

@@ -1,17 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup,Validators,FormControl,FormArray} from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
-import {
-  Customer,
-  SelectedSubscription,
-  Country,
-  Address,
-  Contact,
-  TypeContact,
-  SubtypeContact,
-  Occupation,
-  TypeCustomer,
-} from 'core-models';
+import { Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
 import { AuthService, CommonService, CustomersService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -407,8 +397,6 @@ export class ClientIntakeComponent implements OnInit {
     } else {
       reactiveForm = this.createRepresentative;
     }
-
-    //console.log((reactiveForm.get(formArray) as FormArray).at(index).get(field))
 
     return (reactiveForm.get(formArray) as FormArray)?.at(index).get(field);
   }

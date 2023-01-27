@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomersService } from 'core-services';
+import { CustomersService,AuthService } from 'core-services';
 import { Customer } from 'core-models';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-dialog-list',
@@ -8,14 +10,30 @@ import { Customer } from 'core-models';
   styleUrls: ['./dialog-list.component.scss'],
 })
 export class DialogListComponent implements OnInit {
+  selectedSubscription!: any;
+  customers!: Customer[];
 
-  customers!:Customer[];
+  constructor(
+    private customerService: CustomersService,
+    private authService: AuthService,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<DialogListComponent>
+  ) {}
 
-  constructor(private customerService: CustomersService) {}
+  ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getCustomersAvailableForLink();
+  }
 
-  ngOnInit(): void {}
+  getCustomersAvailableForLink() {
+    this.customerService
+      .getCustomersAvailableForLink(this.selectedSubscription?.ssid.uuid)
+      .subscribe((data) => {
+        this.customers = data;
+      });
+  }
 
-  getCustomersAvailableForLink(){}
-
-
+  closeModal(customerId = '') {
+    this.dialogRef.close(customerId);
+  }
 }

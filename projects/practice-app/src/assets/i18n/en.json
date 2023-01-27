@@ -82,7 +82,8 @@
       "ExpiredCodeException": "Invalid code provided, please request a code again.",
       "CodeMismatchException": "Invalid verification code provided, please try again.",
       "field_required":"This field is required",
-      "InvalidForm":"Invalid Form"
+      "InvalidForm":"Invalid Form",
+      "InvalidEmailFormat":"Invalid Email Format"
    },
    "successMessages":{
       "created_succesfully":"Created Successfully",
@@ -352,6 +353,10 @@
       "born_date":"Born Date",
       "select_marital_status":"Select Marital Status",
       "select_occupation":"Select Occupation",
+      "marital_status":"Marital Status",
+      "occupation":"Occupation",
+      "personal_telephone":"Personal Telephone",
+      "business_telephone":"Business Telephone",
       "cellphone_number":"Cellphone Number",
       "telephone_number":"Telephone Number",
       "landline_number":"Landline Number",
@@ -527,10 +532,19 @@
       "form_create":{
         "title":"Hello!, <b>{{business}}</b> asks you for this information to be able to start working with you.",
         "general_data":"General Data",
-        "steps_title":"Step $current of $next",
+        "steps_title":"Step {{current}} of {{next}}",
         "what_profile_identifies_you_best":"What profile identifies you best?",
         "person":"Person",
-        "business":"Business"
+        "business":"Business",
+        "next":"Next",
+        "back":"Atras",
+        "circumstantial_data":"Circumstantial Data",
+        "address_data":"Address Data",
+        "residence_address":"Residence address",
+        "company_address":"Company address",
+        "representative_data":"Representative data",
+        "summary_information":"Summary Information",
+        "thanks_for_sharing_data":"Thank you for completing your information <br><b>Moya & associates <br>will be reviewing your information.</b>"
       }
     }
 

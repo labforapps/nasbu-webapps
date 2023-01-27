@@ -81,7 +81,9 @@
       "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente.",
       "CodeMismatchException":"Se proporcionó un código de verificación no válido, inténtelo de nuevo.",
       "field_required":"Este campo es requerido",
-      "InvalidForm":"Formulario Invalido"
+      "InvalidForm":"Formulario Invalido",
+      "InvalidEmailFormat":"Formato de Email Invalido"
+
    },
    "successMessages":{
       "created_succesfully":"Creado Exitosamente!!",
@@ -347,11 +349,15 @@
       "lastname":"Apellido",
       "contact":"Contacto",
       "email":"Correo Electronico",
-      "personal_email":"Personal",
-      "business_email":"Negocio",
+      "personal_email":"Correo Electronico Personal",
+      "business_email":"Correo Electronico de la empresa",
       "born_date":"Fecha de Nacimiento",
       "select_marital_status":"Seleccionar Estado Civil",
       "select_occupation":"Seleccionar Profesion",
+      "marital_status":"Estado Civil",
+      "occupation":"Ocupacion",
+      "personal_telephone":"Telefono Personal",
+      "business_telephone":"Telefono Empresarial",
       "cellphone_number":"Num. Telefono celular",
       "telephone_number":"Num. de Telefono",
       "landline_number":"Telefono fijo",
@@ -526,10 +532,19 @@
        "form_create":{
         "title":"¡Hola!, <b>{{business}}</b> te solicita estas informaciones para poder comenzar a trabajar contigo.",
         "general_data":"Datos Generales",
-        "steps_title":"Paso $current de $next",
+        "steps_title":"Paso {{current}} de {{next}}",
         "what_profile_identifies_you_best":"¿Qué perfil te identifica mejor?",
         "person":"Persona Individual",
-        "business":"Empresa"
+        "business":"Empresa",
+        "next":"Siguiente",
+        "back":"Atras",
+        "circumstantial_data":"Datos Circunstanciales",
+        "address_data":"Datos Direccion",
+        "residence_address":"Dirección de residencia",
+        "company_address":"Dirección de la empresa",
+        "representative_data":"Datos Representante",
+        "summary_information":"Resumen Informacion",
+        "thanks_for_sharing_data":"Gracias por completar tus datos <br><b>Moya & asociados <br>estará revisando tu información.</b>"
       }
     }
    }
