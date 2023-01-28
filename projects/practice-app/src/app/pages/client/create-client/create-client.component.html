@@ -171,7 +171,7 @@
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
                                   <mat-label *ngIf="customer_type === 'P'">Personal</mat-label>
                                   <mat-label *ngIf="customer_type === 'B'">{{'clients.common.business' | translate}}</mat-label>
-                                  <mat-select [disabled] = true formControlName="sub_type">
+                                  <mat-select [disabled] = true formControlName="sub_type" required>
                                     <mat-option [value]="subtypeContact.personal_email">
                                       {{'clients.form_create.personal_email' | translate}}
                                     </mat-option>
@@ -190,7 +190,7 @@
                                   <input class="c-form-group__input" matInput formControlName="contact_value" required>
                                 </mat-form-field>
                                 <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-                               <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">Invalid Email Format</mat-error>
+                               <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.InvalidEmailFormat' | translate}}</mat-error>
 
                                 <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','E')">+
                                   {{'clients.form_create.add_another_email' | translate}}</button>
