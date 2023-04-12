@@ -129,7 +129,7 @@
 
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                              <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
+                              <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
                             </mat-form-field>
 
 
@@ -416,7 +416,7 @@
 
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                            <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
+                            <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
                           </mat-form-field>
 
                         </div>

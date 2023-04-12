@@ -84,6 +84,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
 import { TasksModule } from './pages/taskpage/tasks.module';
 import { registerLocaleData } from '@angular/common';
+import { TextMaskModule } from 'angular2-text-mask';
+
 
 // importar locales
 import localeEs from '@angular/common/locales/es';
@@ -209,6 +211,7 @@ registerLocaleData(localeEn, 'en');
     TasksModule,
     NgxPermissionsModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added
+    TextMaskModule
   ],
   bootstrap: [AppComponent],
 })

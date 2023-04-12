@@ -1,6 +1,7 @@
 import { Component, OnInit,Input,ViewChild } from '@angular/core';
 import { Customer } from 'core-models';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService, CustomersService } from 'core-services';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 
 @Component({
@@ -20,6 +22,9 @@ export class ClientTableComponent implements OnInit {
   @Input() customers!: Customer[];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatSort) sort: any;
+  sortAsc:boolean = true;
+
   dataSourceCustomers!: any;
   displayedColumns: string[] = [];
   selectedSubscription!: any;
@@ -60,6 +65,31 @@ export class ClientTableComponent implements OnInit {
     filterValue = filterValue.target.value.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSourceCustomers.filter = filterValue;
+  }
+
+  sortByName() {
+    if (this.sortAsc) {
+      this.customers.sort((a, b) => {
+
+         if (a.first_name && b.first_name) {
+           return a.first_name.localeCompare(b.first_name);
+         } else {
+           return (a.company_name ?? '').localeCompare(b.company_name ?? '');
+         }
+
+      });
+    } else {
+      this.customers.sort((a, b) => {
+        if (a.first_name && b.first_name) {
+          return b.first_name.localeCompare(a.first_name);
+        } else {
+          return (b.company_name ?? '').localeCompare(a.company_name ?? '');
+        }
+      });
+    }
+    this.sortAsc = !this.sortAsc; // toggle the sort order flag
+
+    this.dataSourceCustomers = new MatTableDataSource<Customer>(this.customers);
   }
 
   getCustomerIconUrl(customer: Customer): string {
@@ -104,6 +134,13 @@ export class ClientTableComponent implements OnInit {
     return customer_contacts_email.map((c: any) => {
       return c.contact_value;
     })[0];
+  }
+
+  returnDateFormatted(dateCustomer: string) {
+    const date = moment(dateCustomer);
+    const formattedDate = date.locale('es').format('D MMM. YYYY');
+
+    return formattedDate;
   }
 
   deleteClient(id: string) {

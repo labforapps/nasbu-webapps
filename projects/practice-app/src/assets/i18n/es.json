@@ -312,7 +312,8 @@
     },
     "table":{
         "table_header":{
-          "sort_a_z":"Organizado de A-Z",
+          "sort_a_z":"Ordenar de A-Z",
+          "sort_z_a":"Ordenar de Z-A",
           "search_placeholder":"Buscar por Nombre",
           "title_count_customers":"",
           "have":"Tienes",

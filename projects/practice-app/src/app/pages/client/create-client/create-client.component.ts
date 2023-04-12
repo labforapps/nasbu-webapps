@@ -28,6 +28,9 @@ export class CreateClientComponent implements OnInit {
 
   createClientForm!: FormGroup;
 
+  public mask_telephone_number = [ /[0-9]/, /\d/, /\d/,' ', /\d/, /\d/, /\d/,' ', /\d/, /\d/, /\d/, /\d/];
+
+
   constructor(
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,
@@ -311,7 +314,8 @@ export class CreateClientComponent implements OnInit {
     } else {
       this.toastr.error(
         'Error',
-        this.translateService.instant('errorMessages.InvalidForm')
+        'Completar campos obligatorios'
+        //this.translateService.instant('errorMessages.InvalidForm')
       );
     }
   }
