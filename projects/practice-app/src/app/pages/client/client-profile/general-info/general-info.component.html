@@ -8,8 +8,9 @@
             </div>
         </div>
         <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">{{customer.company_name}}</b>
-
+            <img src="../../../../../assets/images/company.svg" alt=" ">
+            <span><b class="mr-1" *ngIf="customer.company_name"> Compañia</b> <span style="color:#435B6C">{{customer.company_name}}</span></span>
+            <span *ngIf="!customer.company_name"><b class="mr-1">Compañia </b> <span style="color:#435B6C">No disponible</span></span>
         </div>
     </div>
     <hr class="u-divider ">
