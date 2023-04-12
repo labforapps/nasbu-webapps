@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="c-toggleOptions__title">{{'clients.common.person' | translate}}</div>
                                 </div>
-                                <div class="c-toggleOptions__item" [ngClass]="{'client-is-active' : customer_type === 'B'}">
+                                <div class="c-toggleOptions__item" [ngClass]="{'company-is-active' : customer_type === 'B'}">
                                     <div class="c-toggleOptions__icon" (click)="setCustomerType('B')">
                                         <span class="icon-company"></span>
                                     </div>
@@ -171,7 +171,7 @@
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
                                   <mat-label *ngIf="customer_type === 'P'">Personal</mat-label>
                                   <mat-label *ngIf="customer_type === 'B'">{{'clients.common.business' | translate}}</mat-label>
-                                  <mat-select [disabled] = true formControlName="sub_type" required>
+                                  <mat-select formControlName="sub_type" required>
                                     <mat-option [value]="subtypeContact.personal_email">
                                       {{'clients.form_create.personal_email' | translate}}
                                     </mat-option>

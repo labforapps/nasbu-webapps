@@ -312,6 +312,7 @@
     "table":{
         "table_header":{
           "sort_a_z":"Sort From A to Z",
+          "sort_z_a":"Sort From Z to A",
           "search_placeholder":"Search For Name",
           "title_count_customers":"",
           "have":"Have",
