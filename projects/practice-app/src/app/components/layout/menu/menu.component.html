@@ -2,44 +2,45 @@
     <div class="c-menu__title">Dashboard </div>
 
     <button mat-button class="c-menu__item" [routerLink]="'dashboard'" routerLinkActive="is-active">
-        Resumen de actividades
+        {{'menu.activity_summary' | translate}}
         <span class="icon-dashboard c-menu__icon"></span>
     </button>
-    <div class="c-menu__title mt-5">Menú</div>
+    <div class="c-menu__title mt-5">{{'menu.title' | translate}}</div>
 
-    <button 
-       mat-button class="c-menu__item" 
-       [routerLink]="'/customers'" routerLinkActive="is-active" 
+    <button
+       mat-button class="c-menu__item"
+       [routerLink]="'/customers'" routerLinkActive="is-active"
        *ngxPermissionsOnly="['add_customer', 'view_customer', 'change_customer', 'delete_customer']">
-        Clientes
+          {{'menu.clients' | translate}}
+
         <span class="icon-user c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item"  [routerLink]="'collaborator'" routerLinkActive="is-active">
-        Colaboradores
+        {{'menu.shared_dockets' | translate}}
         <span class="icon-businessman c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'expedient'" routerLinkActive="is-active">
-        Expedientes
+        {{'menu.dockets' | translate}}
         <span class="icon-expedient c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'task'" routerLinkActive="is-active">
-        Mis tareas
+        {{'menu.my_tasks' | translate}}
         <span class="icon-task c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'templates'" routerLinkActive="is-active">
-        Documentos y plantillas
+       {{'menu.documents_templates' | translate}}
         <span class="icon-document-color c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'invoicing'" routerLinkActive="is-active">
-        Facturación
+        {{'menu.invoicing' | translate}}
         <span class="icon-invoice c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item">
-        Reportes
+        {{'menu.reports' | translate}}
         <span class="icon-report c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'configuration'" routerLinkActive="is-active">
-        Configuraciones
+        {{'menu.settings' | translate}}
         <span class="icon-gear c-menu__icon"></span>
     </button>
 

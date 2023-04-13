@@ -288,9 +288,9 @@
    },
    "clients":{
     "common":{
-      "back":"Back",
+      "back":"Go back",
       "person":"Person",
-      "business":"Business",
+      "business":"Entity",
       "note":"Note",
       "delete":"Delete",
       "change":"Change",
@@ -300,33 +300,33 @@
       "have":"Have",
       "records_in_total_with":"records in total with"    },
       "header":{
-        "title":"Customers",
+        "title":"Clients",
         "button_invitation":"Invite to Register",
-        "button_create_client":"Create a New Customer"
+        "button_create_client":"Create new client"
       },
     "tabs":{
         "tab_all_customers":"All",
-        "tab_customers_person":"Person",
-        "tab_customers_bussiness":"Bussiness"
+        "tab_customers_person":"Persons",
+        "tab_customers_bussiness":"Entities"
     },
     "table":{
         "table_header":{
-          "sort_a_z":"Sort From A to Z",
-          "sort_z_a":"Sort From Z to A",
-          "search_placeholder":"Search For Name",
+          "sort_a_z":"Organize by A - Z",
+          "sort_z_a":"Organize by Z - A",
+          "search_placeholder":"Search by name",
           "title_count_customers":"",
-          "have":"Have",
-          "customers_in_total":"customers in total",
+          "have":"You have",
+          "customers_in_total":"people clients",
           "customers_type_person":"customers type person",
           "customers_type_bussiness":"customers type bussiness"
         },
         "column_header":{
           "type":"Type",
           "name":"Name",
-          "cellphone_number":"Cellphone Number",
-          "email":"Email",
-          "creation_date":"Creation Date",
-          "last_update":"Last Update",
+          "cellphone_number":"Cellphone number",
+          "email":"Email address",
+          "creation_date":"Creation date",
+          "last_update":"Last update",
           "actions":"Actions"
         },
         "buttons":{
@@ -337,48 +337,51 @@
         }
     },
     "form_create":{
-      "create_new_customer":"Create New Customer",
+      "create_new_customer":"Create new client",
       "edit_customer":"Edit Customer",
-      "what_type_customer_create_now":"What type of customer will we create now ? *",
-      "choose_option":"Choose one of the options",
-      "name_of_the_person":"Name of the Person",
-      "photo_or_logo":"Photo or Logo",
-      "upload_image_max_2":"Upload image maximum 2MB",
+      "what_type_customer_create_now":"What type of client would you like to add? *",
+      "choose_option":"Select one of the options",
+      "name_of_the_person":"Name of the person",
+      "photo_or_logo":"Photo or logo",
+      "upload_image_max_2":"File size maximum 2MB",
       "company_name":"Company Name",
       "name":"Name",
-      "lastname":"Lastname",
+      "firstname":"First name",
+      "lastname":"Last name",
       "contact":"Contact",
       "email":"Email",
       "personal_email":"Personal Email",
       "business_email":"Business Email",
       "born_date":"Born Date",
-      "select_marital_status":"Select Marital Status",
-      "select_occupation":"Select Occupation",
+      "select_marital_status":"Select marital status",
+      "select_occupation":"Select occupation",
       "marital_status":"Marital Status",
       "occupation":"Occupation",
       "personal_telephone":"Personal Telephone",
       "business_telephone":"Business Telephone",
-      "cellphone_number":"Cellphone Number",
+      "cellphone_number":"Cell phone Number",
       "telephone_number":"Telephone Number",
       "landline_number":"Landline Number",
       "phone_office_number":"Phone Office Number",
       "add_another_telephone_number":"Add another telephone number",
       "add_another_email":"Add another email",
-      "choose_country":"Choose a Country",
+      "choose_country":"Select country",
       "physical_address":"Physical Address",
       "mailing_address":"Mailing Address",
+      "placeholder_physical_city":"Ex.: Miami, Florida",
+      "placeholder_physical_address":"Number, street, apartment",
       "city":"City",
       "postal_code":"Postal Code",
       "address":"Address",
-      "add_another_address":"Add another address",
-      "physical_postal_address_share_info":"Physical Address and Postal Code share the same information",
+      "add_another_address":"Add new address",
+      "physical_postal_address_share_info":"Check this box if the physical and mailing address is the same",
       "associate_contact_to_bussiness":"Associate Contact to Bussiness",
       "change":"Change",
       "link_with_business":"Link with business",
       "see_business_associated_to_user":"Here you can see the company that this user is associated with",
-      "remember_fill_required_information":"Remember to fill in the required information",
-      "save_customer":"Save Customer",
-      "save_create_another":"Save Customer and create another",
+      "remember_fill_required_information":"Remember to complete all required fields",
+      "save_customer":"Save client",
+      "save_create_another":"Save and create another one",
       "married":"Married",
       "single":"Single",
       "widowed":"Widowed",
@@ -434,7 +437,7 @@
         "closed":"Closed"
       },
       "table_header":{
-        "search_for_name":"Search For Name",
+        "search_for_name":"Search by name",
         "create_new":"Create New"
       },
       "table_columns":{
@@ -501,7 +504,7 @@
       "table_header":{
         "new_bill":"New Bill",
         "date_range":"Date Range",
-        "search_for_name":"Search for name",
+        "search_for_name":"Search by name",
         "organized_by_creation_date":"Organized by creation date",
         "billings_listed":"billings listed"
       },
@@ -549,5 +552,17 @@
       }
     }
 
+   },
+    "menu":{
+      "title":"Menu",
+      "activity_summary":"Activity Summary",
+      "clients":"Clients",
+      "shared_dockets":"Shared dockets",
+      "dockets":"Dockets",
+      "documents_templates":"Documents and templates",
+      "my_tasks":"My tasks",
+      "invoicing":"Invoicing",
+      "reports":"Reports",
+      "settings":"Settings"
    }
 }

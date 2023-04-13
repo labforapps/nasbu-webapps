@@ -302,7 +302,7 @@
     },
     "header":{
       "title":"Clientes",
-      "button_invitation":"Invitacion a Registrarse",
+      "button_invitation":"Invitación a Registrarse",
       "button_create_client":"Crear Nuevo Cliente"
     },
     "tabs":{
@@ -324,10 +324,10 @@
         "column_header":{
           "type":"Tipo",
           "name":"Nombre",
-          "cellphone_number":"Telefono Celular",
-          "email":"Correo Electronico",
-          "creation_date":"Fecha de Creacion",
-          "last_update":"Ult. Actualizacion",
+          "cellphone_number":"Teléfono celular",
+          "email":"Correo electrónico",
+          "creation_date":"Fecha de creación",
+          "last_update":"Ult. actualización",
           "actions":"Acciones"
         },
         "buttons":{
@@ -347,6 +347,7 @@
       "upload_image_max_2":"Subir imagen máximo 2MB",
       "company_name":"Nombre de la Empresa",
       "name":"Nombre",
+      "firstname":"Primer nombre",
       "lastname":"Apellido",
       "contact":"Contacto",
       "email":"Correo Electronico",
@@ -354,12 +355,12 @@
       "business_email":"Correo Electronico de la empresa",
       "born_date":"Fecha de Nacimiento",
       "select_marital_status":"Seleccionar Estado Civil",
-      "select_occupation":"Seleccionar Profesion",
+      "select_occupation":"Seleccionar Profesión",
       "marital_status":"Estado Civil",
-      "occupation":"Ocupacion",
+      "occupation":"Ocupación",
       "personal_telephone":"Telefono Personal",
       "business_telephone":"Telefono Empresarial",
-      "cellphone_number":"Num. Telefono celular",
+      "cellphone_number":"Num. Teléfono celular",
       "telephone_number":"Num. de Telefono",
       "landline_number":"Telefono fijo",
       "phone_office_number":"Telefono Oficina",
@@ -368,11 +369,13 @@
       "choose_country":"Seleccionar Pais",
       "physical_address":"Direccion Fisica",
       "mailing_address":"Direccion Postal",
+      "placeholder_physical_city":"Ej.: Miami, Florida",
+      "placeholder_physical_address":"Calle, número, Apart.",
       "city":"Ciudad",
       "postal_code":"Codigo Postal",
-      "address":"Direccion",
-      "add_another_address":"Agregar nueva direccion",
-      "physical_postal_address_share_info":"Direccion Fisica y Postal comparten la misma informacion",
+      "address":"Dirección",
+      "add_another_address":"Agregar nueva dirección",
+      "physical_postal_address_share_info":"Direccion Fisica y Postal comparten la misma información",
       "associate_contact_to_bussiness":"Asociar contacto a empresa ",
       "change":"Cambiar",
       "link_with_business":"Enlazar con empresa",
@@ -400,7 +403,7 @@
       "general_data":"Datos Generales",
       "files":"Expedientes",
       "pending_issues":"Asuntos Pendientes",
-      "billing":"Facturacion",
+      "billing":"Facturación",
       "contact_information":"Datos de Contacto",
       "user_details":"Detalles del Usuario",
       "personal_circumstances":"Circunstancias personales",
@@ -444,7 +447,7 @@
         "subject_description":"Descripcion Asunto",
         "case_assigned_to":"Caso asignado a",
         "customer":"Cliente",
-        "last_update":"Ult. Actualizacion",
+        "last_update":"Ult. Actualización",
         "shared_with":"Compartido con",
         "actions":"Acciones"
       },
@@ -502,7 +505,7 @@
         "new_bill":"Nueva factura",
         "date_range":"Rango de fecha",
         "search_for_name":"Buscar por nombre",
-        "organized_by_creation_date":"Organizado por fecha de creacion",
+        "organized_by_creation_date":"Organizado por fecha de creación",
         "billings_listed":"facturaciones listadas"
       },
       "table_columns":{
@@ -540,13 +543,25 @@
         "next":"Siguiente",
         "back":"Atras",
         "circumstantial_data":"Datos Circunstanciales",
-        "address_data":"Datos Direccion",
+        "address_data":"Datos Dirección",
         "residence_address":"Dirección de residencia",
         "company_address":"Dirección de la empresa",
         "representative_data":"Datos Representante",
-        "summary_information":"Resumen Informacion",
+        "summary_information":"Resumen Información",
         "thanks_for_sharing_data":"Gracias por completar tus datos <br><b>Moya & asociados <br>estará revisando tu información.</b>"
       }
     }
+   },
+   "menu":{
+    "title":"Menú",
+    "activity_summary":"Resumen de actividades",
+    "clients":"Clientes",
+    "shared_dockets":"Colaboradores",
+    "dockets":"Expedientes",
+    "documents_templates":"Documentos y plantillas",
+    "my_tasks":"Mis tareas",
+    "invoicing":"Facturacion",
+    "reports":"Reportes",
+    "settings":"Configuraciones"
    }
 }

@@ -58,14 +58,14 @@
                           <label class="u-title-label">{{'clients.form_create.name_of_the_person' | translate}}<span class="u-dangerColor">*</span></label>
 
                           <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.name' | translate}} </mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="first_name">
+                            <mat-label>{{'clients.form_create.firstname' | translate}} </mat-label>
+                            <input class="c-form-group__input" matInput formControlName="first_name">
                           </mat-form-field>
                          <mat-error *ngIf="createClientForm.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.lastname' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
+                            <input class="c-form-group__input" matInput formControlName="last_name">
                           </mat-form-field>
                           <mat-error *ngIf="createClientForm.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 
@@ -231,7 +231,7 @@
                               <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
 
-                                <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="Ej: Miami, Florida" required>
+                                <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}" required>
 
                               </mat-form-field>
                               <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
@@ -239,7 +239,7 @@
                               <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
 
-                                <input class="c-form-group__input" matInput formControlName="physical_address" placeholder="Calle, número, Apart." required>
+                                <input class="c-form-group__input" matInput formControlName="physical_address" placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}" required>
 
                               </mat-form-field>
                               <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
@@ -292,7 +292,7 @@
 
                       <div class="col-sm-12 mt-1">
                         <button mat-button class="c-btn-add" type="button" (click)="addItem('addresses')">+
-                          {{'clients.form_create.mailing_address' | translate}}</button>
+                          {{'clients.form_create.add_another_address' | translate}}</button>
                       </div>
 
                       <hr class="u-divider--marginBig">
