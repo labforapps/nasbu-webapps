@@ -27,7 +27,7 @@ export class DialogSendRegisterComponent implements OnInit {
     private authService: AuthService,
     private customerService: CustomersService,
     private toastr: ToastrService,
-    private translateService: TranslateService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +44,12 @@ export class DialogSendRegisterComponent implements OnInit {
 
   onChangeSendingMethod(event: any) {
     this.sendingMethod = event.value;
+  }
+
+  setPhoneField(event:any){
+
+    this.phoneNumberField = event.value;
+
   }
 
   validateFields(): boolean {
@@ -73,19 +79,23 @@ export class DialogSendRegisterComponent implements OnInit {
 
     this.customerService
       .createCustomerIntakeRequest(this.customer_intake_request)
-      .subscribe((data) => {
-        this.toastr.success(
-          'Ok',
-          this.translateService.instant('successMessages.created_succesfully'));
+      .subscribe(
+        (data) => {
+          this.toastr.success(
+            'Ok',
+            this.translateService.instant('successMessages.created_succesfully')
+          );
 
           this.dialog.closeAll();
 
-        console.log(data);
-      },(error:any) => {
-        this.toastr.error(
-                'Error',
-                this.translateService.instant('errorMessages.unexpectedError'));
-      }
-      )
+          console.log(data);
+        },
+        (error: any) => {
+          this.toastr.error(
+            'Error',
+            this.translateService.instant('errorMessages.unexpectedError')
+          );
+        }
+      );
   }
 }

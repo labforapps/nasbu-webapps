@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ClientIntakeComponent implements OnInit {
   selectedSubscription!: any;
-  token:string = '';
+  token: string = '';
   customerType: string = TypeCustomer.person;
   typeCustomer = TypeCustomer;
   typeContact = TypeContact;
@@ -30,8 +30,20 @@ export class ClientIntakeComponent implements OnInit {
   currentStep: number = 0;
   matStepperSubmitted: boolean = false;
 
-  public mask_telephone_number = [ /[0-9]/, /\d/, /\d/,' ', /\d/, /\d/, /\d/,' ', /\d/, /\d/, /\d/, /\d/];
-
+  public mask_telephone_number = [
+    /[0-9]/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
 
   constructor(
     public _formBuilder: FormBuilder,
@@ -52,8 +64,8 @@ export class ClientIntakeComponent implements OnInit {
   }
 
   getTokenByURL() {
-    this.ActivatedRoute.queryParams.subscribe((params:any) => {
-      this.token  = params.token;
+    this.ActivatedRoute.queryParams.subscribe((params: any) => {
+      this.token = params.token;
     });
   }
 
@@ -223,7 +235,21 @@ export class ClientIntakeComponent implements OnInit {
     ]);
   }
 
+  setPhoneField(event: any,form:string) {
+    if(form === 'cliente'){
+      (this.createClientForm.get('contacts') as FormArray)?.at(1).patchValue({
+        contact_value: event,
+      });
+    }
+    else{
+      (this.createRepresentative.get('contacts') as FormArray)?.at(1).patchValue({
+        contact_value: event,
+      });
+    }
+  }
+
   onStepChange(stepper: any) {
+
     this.matStepperSubmitted = true;
     this.currentStep = stepper._selectedIndex;
 
@@ -412,8 +438,7 @@ export class ClientIntakeComponent implements OnInit {
     }
   }
 
-  createCustomerTypePerson(stepper:any)
-  {
+  createCustomerTypePerson(stepper: any) {
     this.customerService
       .createCustomerIntake(this.createClientForm.value)
       .subscribe(
@@ -434,36 +459,32 @@ export class ClientIntakeComponent implements OnInit {
       );
   }
 
-  createCustomerTypeBusiness(stepper:any)
-  {
+  createCustomerTypeBusiness(stepper: any) {
     this.customerService
       .createCustomerIntake(this.createClientForm.value)
-      .subscribe((data:any) => {
-
+      .subscribe((data: any) => {
         const body = {
           ...this.createRepresentative.value,
-          linked_customer:data.uuid
+          linked_customer: data.uuid,
         };
 
-        this.customerService
-          .createCustomerIntake(body)
-          .subscribe(
-            (data) => {
-              this.toastr.success(
-                'Ok',
-                this.translateService.instant(
-                  'successMessages.created_succesfully'
-                )
-              );
-              stepper.next();
-            },
-            (error: any) => {
-              this.toastr.error(
-                'Error',
-                this.translateService.instant('errorMessages.unexpectedError')
-              );
-            }
-          );
+        this.customerService.createCustomerIntake(body).subscribe(
+          (data) => {
+            this.toastr.success(
+              'Ok',
+              this.translateService.instant(
+                'successMessages.created_succesfully'
+              )
+            );
+            stepper.next();
+          },
+          (error: any) => {
+            this.toastr.error(
+              'Error',
+              this.translateService.instant('errorMessages.unexpectedError')
+            );
+          }
+        );
       }),
       (error: any) => {
         this.toastr.error(

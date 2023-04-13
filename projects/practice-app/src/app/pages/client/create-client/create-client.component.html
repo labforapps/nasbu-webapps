@@ -154,11 +154,15 @@
 
                                 </mat-form-field>
 
-                                <mat-form-field appearance="fill" class="c-form-group">
+                                <!-- <mat-form-field appearance="fill" class="c-form-group">
                                   <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
                                   <input [textMask]="{mask: mask_telephone_number}"  class="c-form-group__input" matInput formControlName="contact_value" required>
-                                </mat-form-field>
+                                </mat-form-field> -->
+
+                                 <ngx-intl-tel-input (numberChange)="setPhoneField($event,i)"></ngx-intl-tel-input>
+
                                 <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                                 <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','P')">+
                                   {{'clients.form_create.add_another_telephone_number' | translate}}</button>
 

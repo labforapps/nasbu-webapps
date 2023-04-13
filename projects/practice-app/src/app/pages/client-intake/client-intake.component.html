@@ -113,7 +113,7 @@
 
                           <div class="d-flex u-gap-1">
 
-                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
+                            <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
                               <mat-select>
                                 <mat-option>
                                   Option 1
@@ -130,7 +130,8 @@
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
                               <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
-                            </mat-form-field>
+                            </mat-form-field> -->
+                            <ngx-intl-tel-input (numberChange)="setPhoneField($event,'cliente')"></ngx-intl-tel-input>
 
 
                           </div>
@@ -400,7 +401,8 @@
                         </mat-error>
 
                         <div class="d-flex u-gap-1">
-                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
+
+                          <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
                             <mat-select>
                               <mat-option>
                                 Option 1
@@ -417,7 +419,10 @@
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
                             <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
-                          </mat-form-field>
+                          </mat-form-field> -->
+
+                          <ngx-intl-tel-input (numberChange)="setPhoneField($event,'representative')"></ngx-intl-tel-input>
+
 
                         </div>
                         <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">

@@ -85,6 +85,7 @@ import { SharedModule } from './shared/shared.module';
 import { TasksModule } from './pages/taskpage/tasks.module';
 import { registerLocaleData } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
+import { NgxIntlTelInputModule } from './shared/lib/phoneInput/ngx-intl-tel-input.module';
 
 
 // importar locales
@@ -211,7 +212,8 @@ registerLocaleData(localeEn, 'en');
     TasksModule,
     NgxPermissionsModule.forRoot(),
     ToastrModule.forRoot(), // ToastrModule added
-    TextMaskModule
+    TextMaskModule,
+    NgxIntlTelInputModule,
   ],
   bootstrap: [AppComponent],
 })

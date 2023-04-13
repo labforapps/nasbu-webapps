@@ -20,6 +20,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [],
@@ -45,6 +46,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatStepperModule,
     MatIconModule,
     MatPaginatorModule,
+    NgxMatSelectSearchModule,
   ],
   exports: [
     MatInputModule,
@@ -67,6 +69,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatStepperModule,
     MatIconModule,
     MatPaginatorModule,
+    NgxMatSelectSearchModule,
   ],
 })
 export class MaterialModule {}

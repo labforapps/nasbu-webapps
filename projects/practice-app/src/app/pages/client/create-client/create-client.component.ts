@@ -28,8 +28,20 @@ export class CreateClientComponent implements OnInit {
 
   createClientForm!: FormGroup;
 
-  public mask_telephone_number = [ /[0-9]/, /\d/, /\d/,' ', /\d/, /\d/, /\d/,' ', /\d/, /\d/, /\d/, /\d/];
-
+  public mask_telephone_number = [
+    /[0-9]/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
 
   constructor(
     public _formBuilder: FormBuilder,
@@ -102,6 +114,13 @@ export class CreateClientComponent implements OnInit {
     return (this.createClientForm.get(formArray) as FormArray)
       ?.at(index)
       .get(field);
+  }
+
+  setPhoneField(event: any, index:number) {
+      (this.createClientForm.get('contacts') as FormArray)?.at(index).patchValue({
+        contact_value: event,
+      });
+
   }
 
   getCustomerById() {
@@ -301,9 +320,6 @@ export class CreateClientComponent implements OnInit {
       ...this.createClientForm.value,
       subscription: this.selectedSubscription?.ssid.uuid,
     };
-
-    console.log(createClient);
-    console.log(this.createClientForm);
 
     if (this.createClientForm.valid) {
       if (this.customerId != '') {

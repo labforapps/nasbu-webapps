@@ -1,0 +1,29 @@
+<div class="d-flex u-gap-1">
+
+  <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
+    <mat-select (opened)="fillAgain()" [value]="selectedCountry.iso2" (valueChange)="changeSelected($event, focusable)">
+      <mat-select-trigger>
+        <div class="option-selected">
+          <div class="iti__flag" [ngClass]="selectedCountry.flagClass"> </div>
+        </div>
+      </mat-select-trigger>
+      <mat-option>
+        <ngx-mat-select-search (keyup)="availableCountriesSearch($event)">
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option *ngFor="let item of  countriesAvailables" [value]="item.iso2">
+        <div (click)="changeIso(item.iso2)" class="option">
+          <div class="iti__flag" [ngClass]="item.flagClass"> </div>
+          <span>+{{item.dialCode}} {{item.name}}</span>
+        </div>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="c-form-group">
+    <input class="c-form-group__input" matInput autocomplete="off" (keypress)="onInputKeyPress($event)" [(ngModel)]="phoneNumber"
+      (ngModelChange)="onPhoneNumberChange()" [disabled]="disabled" [placeholder]="resolvePlaceholder()"
+      [attr.maxLength]="maxLength" [attr.validation]="phoneValidation" #focusable>
+  </mat-form-field>
+
+</div>
