@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AllowedLangs } from '../../../common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LangService } from '../../../services/lang.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,9 @@ export class HeaderComponent implements OnInit {
     [AllowedLangs.English]: '../../../../assets/images/english-flag.jpg',
     [AllowedLangs.Spanish]: '../../../../assets/images/spanish-flag.jpg'
   };
-  constructor(private langService: LangService, private authService: AuthService) { }
+  constructor(private langService: LangService,
+              private authService: AuthService,
+              private router:Router) { }
 
   ngOnInit(): void {
     this,this.loadUser();
@@ -35,6 +38,11 @@ export class HeaderComponent implements OnInit {
 
   loadUser(): void {
     this.user$ = this.authService.getCurrentUserInfo();
+  }
+
+  logout(){
+    this.authService.signOut();
+    this.router.navigate(['signin']);
   }
 
 }

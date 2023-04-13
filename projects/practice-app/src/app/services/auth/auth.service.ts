@@ -22,6 +22,10 @@ export class AuthService {
       .signup(userSignupPayload);
   }
 
+  signOut(){
+    return this.coreAuth.signOut();
+  }
+
   forgotPassword(username: string): Observable<any> {
     return this.coreAuth.recoverPassword(username);
   }

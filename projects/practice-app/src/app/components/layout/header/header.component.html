@@ -90,7 +90,7 @@
                 </button>
             </div>
         </mat-menu>
-        <div class="c-header__user">
+        <div class="c-header__user" [matMenuTriggerFor]="userMenu">
             <div class="text-right">
                 <div class="c-header__name" *ngIf="user$ | async as userData">
                     {{ userData.attributes.given_name }}
@@ -100,5 +100,17 @@
             <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image">
 
         </div>
+
+
+
+        <mat-menu #userMenu="matMenu">
+
+          <button mat-button (click)="logout()">
+            Logout
+          </button>
+
+        </mat-menu>
+
+
     </div>
 </header>
