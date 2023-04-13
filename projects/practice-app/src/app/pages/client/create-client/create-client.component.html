@@ -159,7 +159,7 @@
                                   <input [textMask]="{mask: mask_telephone_number}"  class="c-form-group__input" matInput formControlName="contact_value" required>
                                 </mat-form-field> -->
 
-                                 <ngx-intl-tel-input (numberChange)="setPhoneField($event,i)"></ngx-intl-tel-input>
+                                 <ngx-intl-tel-input (numberChange)="setPhoneField($event,i)" [value]="returnValueFormField(i)"></ngx-intl-tel-input>
 
                                 <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 

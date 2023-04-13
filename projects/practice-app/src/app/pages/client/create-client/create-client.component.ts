@@ -116,6 +116,13 @@ export class CreateClientComponent implements OnInit {
       .get(field);
   }
 
+  returnValueFormField(index:number)
+  {
+    return (this.createClientForm.get('contacts') as FormArray)
+      ?.at(index)
+      .get('contact_value')?.value;
+  }
+
   setPhoneField(event: any, index:number) {
       (this.createClientForm.get('contacts') as FormArray)?.at(index).patchValue({
         contact_value: event,

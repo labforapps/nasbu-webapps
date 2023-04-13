@@ -71,7 +71,7 @@ export class ClientIntakeComponent implements OnInit {
 
   initReactiveForms() {
     this.createClientForm = this._formBuilder.group({
-      subscription: ['a4e9fb1e-72f6-4860-8629-3e1b0594ac2a'],
+      subscription: [''],
       intake_request: [''],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
@@ -112,7 +112,7 @@ export class ClientIntakeComponent implements OnInit {
     });
 
     this.createRepresentative = this._formBuilder.group({
-      subscription: ['a4e9fb1e-72f6-4860-8629-3e1b0594ac2a'],
+      subscription: [''],
       intake_request: [''],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
@@ -170,6 +170,11 @@ export class ClientIntakeComponent implements OnInit {
     this.createClientForm.patchValue({
       type: value,
     });
+  }
+
+  validateRequest()
+  {
+
   }
 
   return_country_name(countryId: string) {
@@ -440,7 +445,7 @@ export class ClientIntakeComponent implements OnInit {
 
   createCustomerTypePerson(stepper: any) {
     this.customerService
-      .createCustomerIntake(this.createClientForm.value)
+      .createCustomerIntake({...this.createClientForm.value,token:this.token})
       .subscribe(
         (data) => {
           this.toastr.success(
@@ -461,11 +466,12 @@ export class ClientIntakeComponent implements OnInit {
 
   createCustomerTypeBusiness(stepper: any) {
     this.customerService
-      .createCustomerIntake(this.createClientForm.value)
+      .createCustomerIntake({...this.createClientForm.value,token:this.token})
       .subscribe((data: any) => {
         const body = {
           ...this.createRepresentative.value,
           linked_customer: data.uuid,
+          token: this.token
         };
 
         this.customerService.createCustomerIntake(body).subscribe(
