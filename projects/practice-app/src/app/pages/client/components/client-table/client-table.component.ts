@@ -68,25 +68,31 @@ export class ClientTableComponent implements OnInit {
   }
 
   sortByName() {
-    if (this.sortAsc) {
-      this.customers.sort((a, b) => {
 
-         if (a.first_name && b.first_name) {
-           return a.first_name.localeCompare(b.first_name);
-         } else {
-           return (a.company_name ?? '').localeCompare(b.company_name ?? '');
-         }
-
-      });
-    } else {
+    if(this.sortAsc){
       this.customers.sort((a, b) => {
-        if (a.first_name && b.first_name) {
-          return b.first_name.localeCompare(a.first_name);
-        } else {
-          return (b.company_name ?? '').localeCompare(a.company_name ?? '');
-        }
+          if (a.first_name < b.first_name) {
+            return -1;
+          } else if (a.first_name > b.first_name) {
+            return 1;
+          } else {
+            return 0;
+          }
+
       });
     }
+    else{
+      this.customers.sort((a, b) => {
+          if (a.first_name > b.first_name) {
+            return -1;
+          } else if (a.first_name < b.first_name) {
+            return 1;
+          } else {
+            return 0;
+          }
+      });
+    }
+
     this.sortAsc = !this.sortAsc; // toggle the sort order flag
 
     this.dataSourceCustomers = new MatTableDataSource<Customer>(this.customers);
@@ -111,6 +117,7 @@ export class ClientTableComponent implements OnInit {
       customerName = `${customer.first_name} ${customer.last_name}`;
     } else if (customerType === 'b') {
       customerName = customer.company_name;
+      customer.first_name = customer.company_name;
     }
 
     return customerName;
