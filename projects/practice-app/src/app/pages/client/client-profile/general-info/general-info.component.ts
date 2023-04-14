@@ -1,7 +1,8 @@
 import { Component, OnInit ,Input} from '@angular/core';
 import {Customer,Contact,Country} from 'core-models';
-import { AuthService, CommonService } from 'core-services';
+import { AuthService, CommonService, CustomersService } from 'core-services';
 import { Occupation } from '../../../../../../../../dist/core-models/lib/models/common/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-general-info',
@@ -13,9 +14,10 @@ export class GeneralInfoComponent implements OnInit {
   customer_contacts_phone!: Contact[];
   customer_contacts_email!: Contact[];
   countries!: Country[];
-  occupations!:Occupation[];
+  occupations!: Occupation[];
 
-  constructor(private commonService: CommonService) {}
+  constructor(private commonService: CommonService,
+              private router:Router) {}
 
   ngOnInit(): void {
     this.setCustomerContacts();
@@ -32,30 +34,25 @@ export class GeneralInfoComponent implements OnInit {
     );
   }
   fetchCountries() {
-    this.commonService.getCountries().subscribe(data => {
+    this.commonService.getCountries().subscribe((data) => {
       this.countries = data;
-    })
+    });
   }
 
-  fetchOccupations()
-  {
-    this.commonService.getOccupations().subscribe(data => {
+  fetchOccupations() {
+    this.commonService.getOccupations().subscribe((data) => {
       this.occupations = data;
-    })
+    });
   }
 
-  return_country_name(countryId:string)
-  {
-    const country_filtered = this.countries.filter(x => x.uuid === countryId);
+  return_country_name(countryId: string) {
+    const country_filtered = this.countries.filter((x) => x.uuid === countryId);
 
     return country_filtered[0].name;
   }
 
-  return_occupation_name(uuid:string)
-  {
-
-    if(uuid)
-    {
+  return_occupation_name(uuid: string) {
+    if (uuid) {
       console.log(uuid);
 
       const occupation_filtered = this.occupations.filter(
@@ -63,11 +60,12 @@ export class GeneralInfoComponent implements OnInit {
       );
 
       return occupation_filtered[0].name;
-    }
-    else
-    {
+    } else {
       return '';
     }
+  }
 
+  navigateToEditClient() {
+    this.router.navigate(['customers/edit', this.customer.uuid]);
   }
 }

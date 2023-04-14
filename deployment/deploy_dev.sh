@@ -11,7 +11,7 @@ aws s3 sync . s3://dev.nasbulegal.com  --profile nasbu --delete
 
 aws cloudfront create-invalidation \
     --distribution-id E3MHELUD8EBU5U \
-    --paths "/**" --profile nasbu
+    --paths "/**" "/index.html" --profile nasbu
 
 
 

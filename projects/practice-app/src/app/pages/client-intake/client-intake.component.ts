@@ -66,13 +66,24 @@ export class ClientIntakeComponent implements OnInit {
   getTokenByURL() {
     this.ActivatedRoute.queryParams.subscribe((params: any) => {
       this.token = params.token;
+      this.validateRequest();
     });
   }
 
+  validateRequest(){
+
+    this.customerService.validateRequest(this.token).subscribe((data:any) => {
+      console.log(data);
+      this.selectedSubscription = data.subscription;
+    })
+
+  }
+
+
   initReactiveForms() {
     this.createClientForm = this._formBuilder.group({
-      subscription: [''],
-      intake_request: [''],
+      subscription: [this.selectedSubscription],
+      intake_request: ['I'],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
       document_no: ['ad cupidatat nu'],
@@ -170,11 +181,6 @@ export class ClientIntakeComponent implements OnInit {
     this.createClientForm.patchValue({
       type: value,
     });
-  }
-
-  validateRequest()
-  {
-
   }
 
   return_country_name(countryId: string) {
@@ -445,7 +451,7 @@ export class ClientIntakeComponent implements OnInit {
 
   createCustomerTypePerson(stepper: any) {
     this.customerService
-      .createCustomerIntake({...this.createClientForm.value,token:this.token})
+      .createCustomerIntake({...this.createClientForm.value,token:this.token, subscription: this.selectedSubscription})
       .subscribe(
         (data) => {
           this.toastr.success(
@@ -466,7 +472,7 @@ export class ClientIntakeComponent implements OnInit {
 
   createCustomerTypeBusiness(stepper: any) {
     this.customerService
-      .createCustomerIntake({...this.createClientForm.value,token:this.token})
+      .createCustomerIntake({...this.createClientForm.value,token:this.token,subscription: this.selectedSubscription})
       .subscribe((data: any) => {
         const body = {
           ...this.createRepresentative.value,
@@ -474,7 +480,7 @@ export class ClientIntakeComponent implements OnInit {
           token: this.token
         };
 
-        this.customerService.createCustomerIntake(body).subscribe(
+        this.customerService.createCustomerIntake({...body,subscription: this.selectedSubscription}).subscribe(
           (data) => {
             this.toastr.success(
               'Ok',

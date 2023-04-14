@@ -85,30 +85,41 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   authenticateReq(req: HttpRequest<any>): Observable<HttpRequest<any>> {
-    if (req.url.toString().indexOf('/api/token') < 0
-        && req.url.toString().indexOf('/oauth/access_token') < 0
-        && req.url.toString().indexOf('password_recovery_request') < 0
-        && !req.url.toString().endsWith('/api/inventory/items/availables_to_order/')
-        && !req.url.toString().endsWith('/search_by_slug/')
-        && !req.url.toString().endsWith('/available_items_suggestions/')
-        && req.url.toString().indexOf('validate_password_recovery_token') < 0
-        && req.url.toString().indexOf('catalog/customers/search_by_phone_number') < 0
-        && req.url.toString().indexOf('common/payment_types/') < 0
-        && req.url.toString().indexOf('recover_password') < 0
-        && req.url.toString().indexOf('/api/catalog/cities/') < 0
-        && req.url.toString().indexOf('/api/catalog/stores/') < 0
-        && req.url.toString().indexOf('/api/catalog/delivery_zones/') < 0
-        && req.url.toString().indexOf('/api/core/plans/') < 0
-        && req.url.toString().indexOf('/api/subscription/onboarding/') < 0
-        //&& ! this.isCreateCustomerOrAddressRequest(req)
-        && ! this.isCreatedOrderRequest(req)) {
-          return this.authService
-              .getAccessToken()
-              .pipe(
-                switchMap((accessToken: string) => {
-                  const newRequest = req.clone({headers : req.headers.set('Authorization', 'Bearer ' + accessToken)});
-                  return of(newRequest);
-              }));
+    if (
+      req.url.toString().indexOf('/api/token') < 0 &&
+      req.url.toString().indexOf('/oauth/access_token') < 0 &&
+      req.url.toString().indexOf('password_recovery_request') < 0 &&
+      !req.url
+        .toString()
+        .endsWith('/api/inventory/items/availables_to_order/') &&
+      !req.url.toString().endsWith('/search_by_slug/') &&
+      !req.url.toString().endsWith('/available_items_suggestions/') &&
+      req.url.toString().indexOf('validate_password_recovery_token') < 0 &&
+      req.url.toString().indexOf('catalog/customers/search_by_phone_number') <
+        0 &&
+      req.url.toString().indexOf('common/payment_types/') < 0 &&
+      req.url.toString().indexOf('recover_password') < 0 &&
+      req.url.toString().indexOf('/api/catalog/cities/') < 0 &&
+      req.url.toString().indexOf('/api/catalog/stores/') < 0 &&
+      req.url.toString().indexOf('/api/catalog/delivery_zones/') < 0 &&
+      req.url.toString().indexOf('/api/core/plans/') < 0 &&
+      req.url.toString().indexOf('/api/subscription/onboarding/') < 0 &&
+      req.url.toString().indexOf('/api/common/occupations/') < 0 &&
+      req.url.toString().indexOf('/api/common/countries/') < 0 &&
+      req.url.toString().indexOf('/api/catalog/customers_intake_requests/validate_request/') < 0 &&
+      req.url.toString().indexOf('/api/catalog/customers_intake_requests/complete_request/') < 0 &&
+
+      //&& ! this.isCreateCustomerOrAddressRequest(req)
+      !this.isCreatedOrderRequest(req)
+    ) {
+      return this.authService.getAccessToken().pipe(
+        switchMap((accessToken: string) => {
+          const newRequest = req.clone({
+            headers: req.headers.set('Authorization', 'Bearer ' + accessToken),
+          });
+          return of(newRequest);
+        })
+      );
     } else {
       return of(req);
     }

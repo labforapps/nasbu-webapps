@@ -25,24 +25,26 @@ export class AssociateCustomersComponent implements OnInit {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
 
     if (this.customerId) {
-      this.getCustomerById();
+      //this.getCustomerById();
     }
   }
 
   getCustomerById() {
-    this.customerService
-      .getCustomerById(this.selectedSubscription?.ssid.uuid, this.customerId)
-      .subscribe((data: any) => {
-        console.log(data);
-        this.customerService
-          .getCustomerById(
-            this.selectedSubscription?.ssid.uuid,
-            data.linked_customer
-          )
-          .subscribe((data) => {
-            this.customer = data;
-          });
-      });
+    if(this.customerId){
+      this.customerService
+        .getCustomerById(this.selectedSubscription?.ssid.uuid, this.customerId)
+        .subscribe((data: any) => {
+          console.log(data);
+          this.customerService
+            .getCustomerById(
+              this.selectedSubscription?.ssid.uuid,
+              data.linked_customer
+            )
+            .subscribe((data) => {
+              this.customer = data;
+            });
+        });
+    }
   }
 
   openDialogList() {

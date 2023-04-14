@@ -400,6 +400,23 @@ export class CreateClientComponent implements OnInit {
             )
           );
 
+          const bodyCustomerImage = { ...body, image: this.imagenSubir };
+
+          console.log(bodyCustomerImage);
+
+          if(this.imagenSubir){
+            this.customerService
+              .uploadImage(
+                this.selectedSubscription.ssid.uuid,
+                this.customerId,
+                bodyCustomerImage
+              )
+              .subscribe((data) => {
+                console.log('Imagen Subida');
+                console.log({ ...body, image: this.imagenSubir });
+              });
+          }
+
           if (this.linked_customer) {
             console.log('Object for link to customer', body);
 
@@ -477,7 +494,11 @@ export class CreateClientComponent implements OnInit {
 
     reader.onloadend = () => {
       this.imgTemp = reader.result;
+      console.log(url64);
+      console.log(this.imgTemp);
+      console.log(url64);
     };
+
 
     return this.imgTemp;
   }

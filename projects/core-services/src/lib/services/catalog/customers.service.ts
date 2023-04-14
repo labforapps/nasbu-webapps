@@ -52,9 +52,9 @@ export class CustomersService {
     return this.httpClient.post<Customer[]>(serverUrl, body);
   }
 
-  validateRequest(subscription: string): Observable<Customer[]> {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/validate_request/?subscription=${subscription}`;
-    return this.httpClient.get<Customer[]>(serverUrl);
+  validateRequest(token: string): Observable<any[]> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/validate_request/?t=${token}`;
+    return this.httpClient.get<any[]>(serverUrl);
   }
 
   getCustomersAvailableForLink(subscription: string) {
@@ -68,7 +68,7 @@ export class CustomersService {
   }
 
   uploadImage(subscription: string, uuid: string, body: Customer) {
-    const serverUrl: string = `${this.config.serverUrl}/api/catalog/customers/${uuid}/upload_image/`;
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/upload_image/`;
     return this.httpClient.put<any>(serverUrl, body);
   }
 

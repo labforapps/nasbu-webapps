@@ -9,7 +9,7 @@ export interface Customer {
   first_name: string;
   last_name: string;
   born_date: string;
-  image: null;
+  image: any;
   marital_status: string;
   occupation: string;
   linked_customer?: null;

@@ -323,7 +323,7 @@
         "column_header":{
           "type":"Type",
           "name":"Name",
-          "cellphone_number":"Cellphone number",
+          "cellphone_number":"Cell phone number",
           "email":"Email address",
           "creation_date":"Creation date",
           "last_update":"Last update",
@@ -338,7 +338,7 @@
     },
     "form_create":{
       "create_new_customer":"Create new client",
-      "edit_customer":"Edit Customer",
+      "edit_customer":"Edit client",
       "what_type_customer_create_now":"What type of client would you like to add? *",
       "choose_option":"Select one of the options",
       "name_of_the_person":"Name of the person",

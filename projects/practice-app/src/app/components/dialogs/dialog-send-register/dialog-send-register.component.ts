@@ -46,10 +46,8 @@ export class DialogSendRegisterComponent implements OnInit {
     this.sendingMethod = event.value;
   }
 
-  setPhoneField(event:any){
-
-    this.phoneNumberField = event.value;
-
+  setPhoneField(value:any){
+    this.phoneNumberField = value.replace(/[\s-]/g, '');
   }
 
   validateFields(): boolean {
@@ -69,9 +67,10 @@ export class DialogSendRegisterComponent implements OnInit {
   }
 
   sendCustomerIntakeRequest() {
-    const formValidated = this.validateFields();
 
-    this.customer_intake_request.send_by = this.sendingMethod;
+     const formValidated = this.validateFields();
+
+     this.customer_intake_request.send_by = this.sendingMethod;
 
     if (!formValidated) {
       return;
