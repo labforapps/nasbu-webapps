@@ -90,7 +90,7 @@ export class ClientIntakeComponent implements OnInit {
         }),
         this._formBuilder.group({
           type: this.typeContact.phone_number,
-          sub_type: ['', Validators.required],
+          sub_type: ['P', Validators.required],
           contact_value: ['', Validators.required],
         }),
       ]),
@@ -151,6 +151,16 @@ export class ClientIntakeComponent implements OnInit {
   fetchCountries() {
     this.commonService.getCountries().subscribe((data) => {
       this.countries = data;
+      this.countries.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          } else {
+            return 0;
+          }
+
+      });
     });
   }
 
