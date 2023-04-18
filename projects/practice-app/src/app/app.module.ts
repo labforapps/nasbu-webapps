@@ -110,6 +110,7 @@ import { FormCreateClientIntakeGeneralDataComponent } from './pages/client-intak
 import { FormCreateClientIntakeCircumstantialDataComponent } from './pages/client-intake/form-create-client-intake-circumstantial-data/form-create-client-intake-circumstantial-data.component';
 import { FormCreateRepresentativeDataComponent } from './pages/client-intake/form-create-representative-data/form-create-representative-data.component';
 import { FormCreateRepresentativeAddressComponent } from './pages/client-intake/form-create-representative-address/form-create-representative-address.component';
+import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -204,6 +205,7 @@ registerLocaleData(localeEn, 'en');
     FormCreateClientIntakeCircumstantialDataComponent,
     FormCreateRepresentativeDataComponent,
     FormCreateRepresentativeAddressComponent,
+    AccountConfirmationComponent,
   ],
   imports: [
     BrowserModule,
