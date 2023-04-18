@@ -12,7 +12,6 @@ export class AccountConfirmationComponent implements OnInit {
 
   email!: string;
   code!: string;
-  params$!: Subscription;
   confirmed!: boolean;
 
 
@@ -27,24 +26,13 @@ export class AccountConfirmationComponent implements OnInit {
   fetchParams() {
       this.email = this.activatedRoute.snapshot.queryParams['email'];
       this.code = this.activatedRoute.snapshot.queryParams['code'];
-      // this.params$ = this.activatedRoute
-      //     .queryParams
-      //     .subscribe((params: Params) => {
-      //           this.code = params['code'];
-      //           this.email = params['email'];
-      //           this.confirmAccount();
-      //     });
-
       this.confirmAccount();
   }
 
   confirmAccount() {
-      console.log('this.email', this.email);
-      console.log('this.code', this.code);
       this.authService
           .confirmAccount(this.email, this.code)
           .subscribe((response: any) => {
-                console.log('Response: ', response);
                 this.confirmed = true;
           }, (error) => {
                 this.navigateToSignin();
