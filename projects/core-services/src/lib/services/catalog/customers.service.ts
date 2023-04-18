@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { Customer,CustomerIntakeRequest } from 'core-models';
 
 @Injectable({
@@ -22,10 +22,10 @@ export class CustomersService {
     return this.httpClient.get<Customer>(serverUrl);
   }
 
-  createCustomer(body: Customer): Observable<Customer[]> {
+  createCustomer(body: Customer): Observable<Customer> {
     console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/`;
-    return this.httpClient.post<Customer[]>(serverUrl, body);
+    return this.httpClient.post<Customer>(serverUrl, body);
   }
 
   updateCustomer(subscription: string, uuid: string, body: Customer) {
@@ -67,12 +67,34 @@ export class CustomersService {
     return this.httpClient.put<any>(serverUrl, body);
   }
 
-  uploadImage(subscription: string, uuid: string, body: Customer) {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/upload_image/`;
-    return this.httpClient.put<any>(serverUrl, body);
+  saveCustomer(customerPayload: Customer): Observable<Customer> {
+    let saveOperation$: Observable<Customer>;
+    const payload: Customer = { ...customerPayload };
+    if (customerPayload.uuid != null && customerPayload.uuid !== '') {
+      saveOperation$ = this.updateCustomer(payload.subscription || '',payload.uuid || '', payload);
+    } else {
+      saveOperation$ = this.createCustomer(payload);
+    }
+    return saveOperation$.pipe(
+      switchMap((item: Customer) => {
+        if (customerPayload.image) {
+          return this.uploadImage(payload.subscription || '',item.uuid || '', customerPayload.image);
+        }
+        return of(item);
+      })
+    );
   }
 
-  getCaseFiles(subscription: string,uuid:string): Observable<Customer[]> {
+  uploadImage(subscription: string, uuid: string, image: any) {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/upload_image/?subscription=${subscription}`;
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('subscription', subscription);
+    console.log('Form Data',formData);
+    return this.httpClient.put<any>(serverUrl, formData);
+  }
+
+  getCaseFiles(subscription: string, uuid: string): Observable<Customer[]> {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/case_files/?subscription=${subscription}`;
     return this.httpClient.get<Customer[]>(serverUrl);
   }

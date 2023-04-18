@@ -5,12 +5,13 @@ import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupat
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+
 @Component({
-  selector: 'app-create-client',
-  templateUrl: './create-client.component.html',
-  styleUrls: ['./create-client.component.scss'],
+  selector: 'app-form-create-client',
+  templateUrl: './form-create-client.component.html',
+  styleUrls: ['./form-create-client.component.scss'],
 })
-export class CreateClientComponent implements OnInit {
+export class FormCreateClientComponent implements OnInit {
   //selectedSubscription!: SelectedSubscription | null;
   selectedSubscription!: any;
   customer!: Customer;
@@ -32,23 +33,13 @@ export class CreateClientComponent implements OnInit {
   constructor(
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,
-    private commonService: CommonService,
     private authService: AuthService,
     private router: Router,
-    private ActivatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private translateService: TranslateService
   ) {}
 
-  ngOnInit(): void {
-    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-
-    this.fetchCountries();
-    this.fetchOccupations();
-    this.getCustomerById();
-
-    this.initCreateClientForm();
-  }
+  ngOnInit(): void {}
 
   initCreateClientForm() {
     this.createClientForm = this._formBuilder.group({
@@ -92,40 +83,10 @@ export class CreateClientComponent implements OnInit {
     });
   }
 
-  returnFormArray(formArray: string) {
-    return (this.createClientForm.get(formArray) as FormArray).controls;
-  }
-
-  returnFormArrayFields(formArray: string, index: number, field: string) {
-    return (this.createClientForm.get(formArray) as FormArray)
-      ?.at(index)
-      .get(field);
-  }
-
-  returnValueFormField(index: number) {
-    return (this.createClientForm.get('contacts') as FormArray)
-      ?.at(index)
-      .get('contact_value')?.value;
-  }
-
   setPhoneField(event: any, index: number) {
     (this.createClientForm.get('contacts') as FormArray)?.at(index).patchValue({
       contact_value: event,
     });
-  }
-
-  getCustomerById() {
-    this.customerId = this.ActivatedRoute.snapshot.paramMap.get('id') || '';
-
-    if (this.customerId != '') {
-      this.customerService
-        .getCustomerById(this.selectedSubscription?.ssid.uuid, this.customerId)
-        .subscribe((data) => {
-          console.log(data);
-          this.customer = data;
-          this.setDataInForm();
-        });
-    }
   }
 
   setDataInForm() {
@@ -133,19 +94,10 @@ export class CreateClientComponent implements OnInit {
 
     this.createClientForm.patchValue({
       subscription: this.selectedSubscription?.ssid.uuid,
-      first_name: this.customer?.first_name,
-      last_name: this.customer.last_name,
-      type: this.customer.type,
-      intake_request: '',
-      document_type: 'I',
-      document_no: 'dgf',
-      company_name: this.customer.company_name,
-      born_date: this.customer.born_date,
-      occupation: this.customer.occupation,
-      marital_status: this.customer.marital_status,
+      ...this.customer
     });
 
-    this.removeItem('addresses', 0);
+    //this.removeItem('addresses', 0);
 
     for (let i = 0; i < this.customer.addresses.length; i++) {
       (this.createClientForm.get('addresses') as FormArray).push(
@@ -155,8 +107,8 @@ export class CreateClientComponent implements OnInit {
       );
     }
 
-    this.removeItem('contacts', 0);
-    this.removeItem('contacts', 0);
+    // this.removeItem('contacts', 0);
+    //this.removeItem('contacts', 0);
 
     for (let i = 0; i < this.customer.contacts.length; i++) {
       (this.createClientForm.get('contacts') as FormArray).push(
@@ -210,10 +162,6 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  removeItem(formArray: string, index: number) {
-    (this.createClientForm.get(formArray) as FormArray).removeAt(index);
-  }
-
   setCustomerType(value: string) {
     this.customer_type = value;
 
@@ -221,100 +169,29 @@ export class CreateClientComponent implements OnInit {
       type: value,
     });
 
-    const formArrayFields = this.returnFormArray('contacts');
+    // const formArrayFields = this.returnFormArray('contacts');
 
-    for (let i = 0; i < formArrayFields.length; i++) {
-      if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'E')
-        (this.createClientForm.get('contacts') as FormArray)
-          ?.at(i)
-          ?.patchValue({
-            sub_type: this.customer_type === 'P' ? 'E' : 'B',
-          });
-    }
-  }
-
-  fetchCountries() {
-    this.commonService.getCountries().subscribe((data) => {
-      this.countries = data;
-    });
-  }
-
-  fetchOccupations() {
-    this.commonService.getOccupations().subscribe((data) => {
-      this.occupations = data;
-    });
-  }
-
-  validateClientFormFields() {
-    let fields_validate_required: any[] = [];
-    let fields_validate_non_required: any[] = [];
-
-    switch (this.customer_type) {
-      case TypeCustomer.person:
-        fields_validate_required = [
-          'first_name',
-          'last_name',
-          'occupation',
-          'marital_status',
-          'born_date',
-        ];
-
-        fields_validate_non_required = ['company_name'];
-
-        break;
-      case TypeCustomer.business:
-        fields_validate_required = ['company_name'];
-        fields_validate_non_required = [
-          'first_name',
-          'last_name',
-          'occupation',
-          'marital_status',
-          'born_date',
-        ];
-        break;
-    }
-
-    for (let i = 0; i < fields_validate_required.length; i++) {
-      if (
-        this.createClientForm.controls[fields_validate_required[i]].value ===
-          null ||
-        this.createClientForm.controls[fields_validate_required[i]].value === ''
-      ) {
-        this.createClientForm.controls[fields_validate_required[i]].setErrors({
-          incorrect: true,
-        });
-      }
-    }
-
-    for (let i = 0; i < fields_validate_non_required.length; i++) {
-      if (
-        this.createClientForm.controls[fields_validate_non_required[i]]
-          .value === null ||
-        this.createClientForm.controls[fields_validate_non_required[i]]
-          .value === ''
-      ) {
-        this.createClientForm.controls[
-          fields_validate_non_required[i]
-        ].setErrors(null);
-      }
-
-      this.createClientForm.controls[fields_validate_non_required[i]].setValue(
-        null
-      );
-    }
+    // for (let i = 0; i < formArrayFields.length; i++) {
+    //   if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'E')
+    //     (this.createClientForm.get('contacts') as FormArray)
+    //       ?.at(i)
+    //       ?.patchValue({
+    //         sub_type: this.customer_type === 'P' ? 'E' : 'B',
+    //       });
+    // }
   }
 
   submitForm(create_another = false) {
-    this.validateClientFormFields();
+    //this.validateClientFormFields();
 
     const createClient: Customer = {
       ...this.createClientForm.value,
       subscription: this.selectedSubscription?.ssid.uuid,
       uuid: this.customerId,
-      image: this.imagenSubir
+      image: this.imagenSubir,
     };
 
-    console.log('Imagen Subir: ',createClient.image);
+    console.log('Imagen Subir: ', createClient.image);
 
     if (this.createClientForm.valid) {
       this.customerService.saveCustomer(createClient).subscribe((data) => {
@@ -348,43 +225,12 @@ export class CreateClientComponent implements OnInit {
           }
         }
       });
-
     } else {
       this.toastr.error(
         'Error',
         'Completar campos obligatorios'
         //this.translateService.instant('errorMessages.InvalidForm')
       );
-    }
-  }
-
-  changeValueCheckboxAddress(event: any, index: number) {
-    const checked = event.checked;
-
-    if (checked) {
-      (this.createClientForm.get('addresses') as FormArray)
-        ?.at(index)
-        .patchValue({
-          postal_city: (this.createClientForm.get('addresses') as FormArray)
-            ?.at(index)
-            .get('physical_city')?.value,
-          postal_address: (this.createClientForm.get('addresses') as FormArray)
-            ?.at(index)
-            .get('physical_address')?.value,
-          postal_postal_code: (
-            this.createClientForm.get('addresses') as FormArray
-          )
-            ?.at(index)
-            .get('physical_postal_code')?.value,
-        });
-    } else {
-      (this.createClientForm.get('addresses') as FormArray)
-        ?.at(index)
-        .patchValue({
-          postal_city: '',
-          postal_address: '',
-          postal_postal_code: '',
-        });
     }
   }
 

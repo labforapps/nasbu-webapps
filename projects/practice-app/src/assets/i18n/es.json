@@ -302,8 +302,8 @@
     },
     "header":{
       "title":"Clientes",
-      "button_invitation":"Invitación a Registrarse",
-      "button_create_client":"Crear Nuevo Cliente"
+      "button_invitation":"Invitación a registrarse",
+      "button_create_client":"Crear nuevo cliente"
     },
     "tabs":{
         "tab_all_customers":"Todos",
@@ -312,8 +312,8 @@
     },
     "table":{
         "table_header":{
-          "sort_a_z":"Ordenar de A-Z",
-          "sort_z_a":"Ordenar de Z-A",
+          "sort_a_z":"Ordenado de A-Z",
+          "sort_z_a":"Ordenado de Z-A",
           "search_placeholder":"Buscar por Nombre",
           "title_count_customers":"",
           "have":"Tienes",
@@ -327,7 +327,7 @@
           "cellphone_number":"Teléfono celular",
           "email":"Correo electrónico",
           "creation_date":"Fecha de creación",
-          "last_update":"Ult. actualización",
+          "last_update":"Últ. actualización",
           "actions":"Acciones"
         },
         "buttons":{
@@ -340,6 +340,8 @@
     "form_create":{
       "create_new_customer":"Crear Nuevo Cliente",
       "edit_customer":"Editar Cliente",
+      "button_save_changes":"Guardar cambios",
+      "button_is_everything_ready":"¿Está todo listo?",
       "what_type_customer_create_now":"¿Que tipo de cliente crearemos ahora? *",
       "choose_option":"Seleccionar una de las opciones",
       "name_of_the_person":"Nombre de la Persona",
@@ -528,6 +530,8 @@
       "close_window":"Cerrar Ventana",
       "registration_form_submition":"Envío de formulario de registro",
       "What_sending_method_will_you_use":"¿Cuál método de envio utilizaras?",
+      "customer_name":"Nombre del cliente",
+      "name":"Nombre",
       "email":"Correo Electronico",
       "customer_email":"Email del cliente",
       "customer_cellphone":"Teléfono celular del cliente",

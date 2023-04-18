@@ -25,7 +25,7 @@ export class AssociateCustomersComponent implements OnInit {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
 
     if (this.customerId) {
-      //this.getCustomerById();
+      this.getCustomerById();
     }
   }
 
@@ -34,15 +34,16 @@ export class AssociateCustomersComponent implements OnInit {
       this.customerService
         .getCustomerById(this.selectedSubscription?.ssid.uuid, this.customerId)
         .subscribe((data: any) => {
-          console.log(data);
-          this.customerService
-            .getCustomerById(
-              this.selectedSubscription?.ssid.uuid,
-              data.linked_customer
-            )
-            .subscribe((data) => {
-              this.customer = data;
-            });
+          if(data.linked_customer){
+            this.customerService
+              .getCustomerById(
+                this.selectedSubscription?.ssid.uuid,
+                data.linked_customer
+              )
+              .subscribe((data) => {
+                this.customer = data;
+              });
+          }
         });
     }
   }
@@ -52,7 +53,7 @@ export class AssociateCustomersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       this.customerService
-        .getCustomerById('a4e9fb1e-72f6-4860-8629-3e1b0594ac2a', result)
+        .getCustomerById(this.selectedSubscription?.ssid.uuid, result)
         .subscribe((data) => {
           this.customer = data;
           this.customerIdSelected.emit(result);

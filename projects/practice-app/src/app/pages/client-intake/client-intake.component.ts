@@ -30,21 +30,6 @@ export class ClientIntakeComponent implements OnInit {
   currentStep: number = 0;
   matStepperSubmitted: boolean = false;
 
-  public mask_telephone_number = [
-    /[0-9]/,
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    ' ',
-    /\d/,
-    /\d/,
-    /\d/,
-    /\d/,
-  ];
-
   constructor(
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,

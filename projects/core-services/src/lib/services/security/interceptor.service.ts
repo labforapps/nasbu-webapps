@@ -50,8 +50,8 @@ export class AuthInterceptor implements HttpInterceptor {
                     catchError(error => {
                       console.log(error);
                        if (error.status === 401 || error.status === 403) {
-                           this.authService.signOut();
-                           this.router.navigate([ 'signin' ]);
+                           //this.authService.signOut();
+                           //this.router.navigate([ 'signin' ]);
                           return throwError(error);
                        }
                       return throwError(error);

@@ -311,8 +311,8 @@
     },
     "table":{
         "table_header":{
-          "sort_a_z":"Organize by A - Z",
-          "sort_z_a":"Organize by Z - A",
+          "sort_a_z":"Organized by A - Z",
+          "sort_z_a":"Organized by Z - A",
           "search_placeholder":"Search by name",
           "title_count_customers":"",
           "have":"You have",
@@ -339,6 +339,8 @@
     "form_create":{
       "create_new_customer":"Create new client",
       "edit_customer":"Edit client",
+      "button_save_changes":"Save changes",
+      "button_is_everything_ready":"Is everything ready?",
       "what_type_customer_create_now":"What type of client would you like to add? *",
       "choose_option":"Select one of the options",
       "name_of_the_person":"Name of the person",
@@ -528,8 +530,10 @@
       "close_window":"Close Window",
       "registration_form_submition":"Registration form submission",
       "What_sending_method_will_you_use":"What sending method will you use?",
+      "customer_name":"Customer name",
+      "name":"Name",
       "email":"Email",
-      "customer_email":"Customer Email",
+      "customer_email":"Customer email",
       "customer_cellphone":"Customer cellphone",
       "phone_number":"Phone Number",
       "send":"Send",

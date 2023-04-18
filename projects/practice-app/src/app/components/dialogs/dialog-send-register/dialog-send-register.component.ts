@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogRecoveryComponent } from '../dialog-recovery/dialog-recovery.component';
 import { AuthService,CustomersService } from 'core-services';
 import { CustomerIntakeRequest } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogReSendRegisterComponent } from '../dialog-re-send-register-email/dialog-re-send-register.component';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class DialogSendRegisterComponent implements OnInit {
     this.sendingMethod = event.value;
   }
 
-  setPhoneField(value:any){
+  setPhoneField(value: any) {
     this.phoneNumberField = value.replace(/[\s-]/g, '');
   }
 
@@ -67,10 +68,9 @@ export class DialogSendRegisterComponent implements OnInit {
   }
 
   sendCustomerIntakeRequest() {
+    const formValidated = this.validateFields();
 
-     const formValidated = this.validateFields();
-
-     this.customer_intake_request.send_by = this.sendingMethod;
+    this.customer_intake_request.send_by = this.sendingMethod;
 
     if (!formValidated) {
       return;
@@ -85,7 +85,7 @@ export class DialogSendRegisterComponent implements OnInit {
             this.translateService.instant('successMessages.created_succesfully')
           );
 
-          this.dialog.closeAll();
+          this.openDialogReSendRegister();
 
           console.log(data);
         },
@@ -96,5 +96,16 @@ export class DialogSendRegisterComponent implements OnInit {
           );
         }
       );
+  }
+
+  openDialogReSendRegister() {
+
+    this.dialog.closeAll();
+
+     const dialogConfig: MatDialogConfig = {
+       data: { body: this.customer_intake_request },
+     };
+
+    this.dialog.open(DialogReSendRegisterComponent, dialogConfig);
   }
 }

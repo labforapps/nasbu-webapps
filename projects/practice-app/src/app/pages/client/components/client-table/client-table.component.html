@@ -12,8 +12,8 @@
 
         <div class="d-flex align-items-center u-gap-1">
 
-            <p class="u-textLightColor" *ngIf="sortAsc">{{'clients.table.table_header.sort_a_z' | translate}}</p>
-            <p class="u-textLightColor" *ngIf="!sortAsc">{{'clients.table.table_header.sort_z_a' | translate}}</p>
+            <p class="u-textLightColor" *ngIf="!sortAsc">{{'clients.table.table_header.sort_a_z' | translate}}</p>
+            <p class="u-textLightColor" *ngIf="sortAsc">{{'clients.table.table_header.sort_z_a' | translate}}</p>
             <button mat-button  class="c-btn-sort" (click)="sortByName()"><span class="icon-sort-desending"></span></button>
         </div>
     </div>
@@ -102,9 +102,6 @@
                     </mat-button-toggle-group>
 
                     <mat-menu #dropdownMenuOne="matMenu">
-                        <button *ngxPermissionsOnly="['change_customer']" mat-menu-item class="matMenu-yellow"
-                            (click)="navigateToEditClient(element.uuid)">{{"clients.table.buttons.edit" | translate}}
-                            <span class="icon-pen"></span></button>
                         <button *ngxPermissionsOnly="['delete_customer']" mat-menu-item class="matMenu-red"
                             (click)="deleteClient(element.uuid)">{{'clients.table.buttons.delete' | translate}} <span
                                 class="icon-trash"></span></button>

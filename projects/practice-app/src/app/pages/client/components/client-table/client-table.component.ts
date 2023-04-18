@@ -56,6 +56,7 @@ export class ClientTableComponent implements OnInit {
       'action',
     ];
 
+    this.sortByName();
     this.dataSourceCustomers = new MatTableDataSource<Customer>(this.customers);
 
     this.dataSourceCustomers.paginator = this.paginator;
@@ -71,6 +72,7 @@ export class ClientTableComponent implements OnInit {
 
     if(this.sortAsc){
       this.customers.sort((a, b) => {
+        this.getCustomerName(a);
           if (a.first_name < b.first_name) {
             return -1;
           } else if (a.first_name > b.first_name) {
@@ -83,6 +85,7 @@ export class ClientTableComponent implements OnInit {
     }
     else{
       this.customers.sort((a, b) => {
+          this.getCustomerName(a);
           if (a.first_name > b.first_name) {
             return -1;
           } else if (a.first_name < b.first_name) {

@@ -102,6 +102,14 @@ import { DialogSendInvoiceComponent } from './components/dialogs/dialog-send-inv
 import { AssociateCustomersComponent } from './pages/client/components/associate-customers/associate-customers.component';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 import { CollabotatorGeneralInfoComponent } from './pages/collaborator/collaborator-profile/collabotator-general-info/collabotator-general-info.component';
+import { DialogReSendRegisterComponent } from './components/dialogs/dialog-re-send-register-email/dialog-re-send-register.component';
+import { FormCreateClientComponent } from './pages/client/components/form-create-client/form-create-client.component';
+import { ClientIntakeSummaryComponent } from './pages/client-intake/client-intake-summary/client-intake-summary.component';
+import { ClientIntakeSuccessComponent } from './pages/client-intake/client-intake-success/client-intake-success.component';
+import { FormCreateClientIntakeGeneralDataComponent } from './pages/client-intake/form-create-client-intake-general-data/form-create-client-intake-general-data.component';
+import { FormCreateClientIntakeCircumstantialDataComponent } from './pages/client-intake/form-create-client-intake-circumstantial-data/form-create-client-intake-circumstantial-data.component';
+import { FormCreateRepresentativeDataComponent } from './pages/client-intake/form-create-representative-data/form-create-representative-data.component';
+import { FormCreateRepresentativeAddressComponent } from './pages/client-intake/form-create-representative-address/form-create-representative-address.component';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -188,6 +196,14 @@ registerLocaleData(localeEn, 'en');
     AssociateCustomersComponent,
     CollaboratorProfileComponent,
     CollabotatorGeneralInfoComponent,
+    DialogReSendRegisterComponent,
+    FormCreateClientComponent,
+    ClientIntakeSummaryComponent,
+    ClientIntakeSuccessComponent,
+    FormCreateClientIntakeGeneralDataComponent,
+    FormCreateClientIntakeCircumstantialDataComponent,
+    FormCreateRepresentativeDataComponent,
+    FormCreateRepresentativeAddressComponent,
   ],
   imports: [
     BrowserModule,

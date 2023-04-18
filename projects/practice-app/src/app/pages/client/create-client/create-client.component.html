@@ -257,7 +257,7 @@
                                 <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                               </div>
 
-                              <mat-checkbox class="c-checkbox mt-1 mb-4" (change)="changeValueCheckboxAddress($event,i)">
+                              <mat-checkbox class="c-checkbox mt-1 mb-4" [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}" (change)="changeValueCheckboxAddress($event,i)">
                                 {{'clients.form_create.physical_postal_address_share_info' | translate}}
                               </mat-checkbox>
 
@@ -310,10 +310,11 @@
         </div>
 
         <div class="c-ribbon">
-            <div class="c-ribbon__text">“{{'clients.form_create.remember_fill_required_information' | translate}}"</div>
+            <div class="c-ribbon__text" *ngIf="!customerId">“{{'clients.form_create.remember_fill_required_information' | translate}}"</div>
+            <div class="c-ribbon__text" *ngIf="customerId">{{'clients.form_create.button_is_everything_ready' | translate}}</div>
             <div class="c-ribbon__actions">
                 <button mat-button class="c-btn-function" *ngIf="!customerId">{{'clients.form_create.save_customer' | translate}} </button>
-                <button mat-button class="c-btn-function" *ngIf="customerId">{{'clients.form_create.edit_customer' | translate}}</button>
+                <button mat-button class="c-btn-function" *ngIf="customerId">{{'clients.form_create.button_save_changes' | translate}}</button>
                 <button mat-button class="c-btn-function" *ngIf="!customerId" type="button" (click)="submitForm(true)">{{'clients.form_create.save_create_another' | translate}}</button>
             </div>
 
