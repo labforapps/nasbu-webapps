@@ -419,6 +419,8 @@ export class CreateClientComponent implements OnInit {
     this.addItem('contacts', 'P');
     this.isChecked = false;
     this.customer_type = 'P';
+    this.imgTemp = null;
+
   }
 
   changeImage(event: any) {

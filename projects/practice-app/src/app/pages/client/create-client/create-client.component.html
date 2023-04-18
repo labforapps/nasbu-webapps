@@ -81,14 +81,16 @@
                         <div class="col-sm-6">
                           <label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
 
-                          <label for="inputTypeFile">
                             <div class="c-uploadPicture mb-4">
-                              <div class="c-uploadPicture__img">
-                                <img *ngIf="!imgTemp && !customer?.image" src="../../../../assets/images/upload-camera.svg" alt="">
-                                <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
-                                <img id="imgUpload" *ngIf="customer?.image && !imgTemp" [src]="customer.image" alt="">
-                                <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none"> -->
-                              </div>
+                              <label for="inputTypeFile">
+                                <div class="c-uploadPicture__img">
+                                  <img *ngIf="!imgTemp && !customer?.image" src="../../../../assets/images/upload-camera.svg" alt="">
+                                  <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
+                                  <img id="imgUpload" *ngIf="customer?.image && !imgTemp" [src]="customer.image" alt="">
+                                  <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none"> -->
+                                </div>
+                            </label>
+
                               <div class="c-uploadPicture__controls">
                                 <div class="c-uploadPicture__text">
                                   {{'clients.common.note' | translate}}: <br> {{'clients.form_create.upload_image_max_2' | translate}}
@@ -97,7 +99,6 @@
                               </div>
 
                             </div>
-                          </label>
                          <input id="inputTypeFile" type="file" (change)="changeImage($event)">
                         </div>
                       </div>
