@@ -135,4 +135,9 @@ export class AuthService {
         );
     }
 
+    confirmAccount(username: string, code: string): Observable<any> {
+        const confirm$ = Auth.confirmSignUp(username, code)
+        return from(confirm$);
+    }
+
 }

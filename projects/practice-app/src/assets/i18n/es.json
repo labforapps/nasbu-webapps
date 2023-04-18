@@ -33,6 +33,11 @@
       "successMessage": "¿Qué te parece si volvemos al trabajo?",
       "errorTitle": "!Algo salió mal!"
    },
+   "confirmAccount": {
+      "title": "Tu cuenta ha sido confirmada!",
+      "subTitle": "Ya puedes disfrutar de Nasbu.",
+      "gotoLoginButton": "Acceder"
+  },
    "recovery": {
       "title": "Recuperación de contraseña",
       "subTitle": "Coloca una nueva contraseña y continua disfrutando de nasbu sin contratiempos",

@@ -32,6 +32,7 @@ import { UserResolver } from './resolvers/user.resolver';
 import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionsResolver } from './resolvers/permissions.resolver';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
+import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'register-client',
     component: RegisterClientComponent,
+  },
+  {
+    path: 'account-confirmation',
+    component: AccountConfirmationComponent,
   },
   {
     path: 'register/success',
