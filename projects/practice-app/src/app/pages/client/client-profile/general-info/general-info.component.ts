@@ -11,18 +11,32 @@ import { Router } from '@angular/router';
 })
 export class GeneralInfoComponent implements OnInit {
   @Input() customer!: Customer;
+  linkedCustomer!:Customer;
   customer_contacts_phone!: Contact[];
   customer_contacts_email!: Contact[];
   countries!: Country[];
   occupations!: Occupation[];
 
   constructor(private commonService: CommonService,
-              private router:Router) {}
+              private router:Router,
+              private customerService:CustomersService) {}
 
   ngOnInit(): void {
     this.setCustomerContacts();
     this.fetchCountries();
     this.fetchOccupations();
+    this.getlinkedCustomer();
+  }
+
+  getlinkedCustomer()
+  {
+   if(this.customer.linked_customer){
+    this.customerService.getCustomerById(this.customer.subscription || '', this.customer.linked_customer || '').subscribe(data => {
+      this.linkedCustomer = data;
+      console.log(this.linkedCustomer);
+      console.log(this.customer);
+    })
+   }
   }
 
   setCustomerContacts() {
@@ -53,7 +67,6 @@ export class GeneralInfoComponent implements OnInit {
 
   return_occupation_name(uuid: string) {
     if (uuid) {
-      console.log(uuid);
 
       const occupation_filtered = this.occupations.filter(
         (x) => x.uuid === uuid

@@ -3,7 +3,6 @@ import { CustomersService,AuthService } from 'core-services';
 import { Customer } from 'core-models';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-
 @Component({
   selector: 'app-dialog-list',
   templateUrl: './dialog-list.component.html',
@@ -12,6 +11,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 export class DialogListComponent implements OnInit {
   selectedSubscription!: any;
   customers!: Customer[];
+  customersTemp!:Customer[];
+  searchTerm: string = '';
 
   constructor(
     private customerService: CustomersService,
@@ -28,9 +29,26 @@ export class DialogListComponent implements OnInit {
   getCustomersAvailableForLink() {
     this.customerService
       .getCustomersAvailableForLink(this.selectedSubscription?.ssid.uuid)
-      .subscribe((data) => {
-        this.customers = data;
+      .subscribe((data:Customer[]) => {
+
+        const filteredArray = data.filter(item => {
+          return item.type === "B"
+        });
+
+        this.customers = filteredArray;
+        this.customersTemp = filteredArray;
+
       });
+  }
+
+  searchCustomer(){
+    const searchTerm = this.searchTerm.trim().toLowerCase();
+
+    const filteredArray = this.customers.filter(item =>
+      item.company_name.trim().toLowerCase().includes(searchTerm)
+    );
+
+    this.customers = searchTerm ? filteredArray : this.customersTemp
   }
 
   closeModal(customerId = '') {

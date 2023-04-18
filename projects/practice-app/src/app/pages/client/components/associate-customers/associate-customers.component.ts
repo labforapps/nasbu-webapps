@@ -10,8 +10,8 @@ import { AuthService } from 'core-services';
   styleUrls: ['./associate-customers.component.scss'],
 })
 export class AssociateCustomersComponent implements OnInit {
-  customer!: Customer;
-  @Output() customerIdSelected = new EventEmitter<string>();
+  customer!: Customer | null;
+  @Output() customerIdSelected = new EventEmitter<any>();
   @Input() customerId!: string;
   selectedSubscription: any;
 
@@ -52,12 +52,21 @@ export class AssociateCustomersComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogListComponent);
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      this.customerService
+      if(result){
+        this.customerService
         .getCustomerById(this.selectedSubscription?.ssid.uuid, result)
         .subscribe((data) => {
           this.customer = data;
           this.customerIdSelected.emit(result);
         });
+      }
     });
   }
+
+unlinkCustomer()
+{
+  this.customer = null;
+  this.customerIdSelected.emit(null);
+}
+
 }

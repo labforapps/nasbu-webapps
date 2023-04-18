@@ -5,7 +5,7 @@
             <div>
                 <div>{{'clients.dialogListCustomerLink.companies_list' | translate}}</div>
                 <div class="u-smallSize u-fontRegular mt-1">
-                    {{'clients.dialogListCustomerLink.have' | translate}} 2
+                    {{'clients.dialogListCustomerLink.have' | translate}} <span *ngIf="customers">{{customers.length}}</span>
                     {{'clients.dialogListCustomerLink.registered' | translate}}</div>
             </div>
 
@@ -15,7 +15,7 @@
        <div class="c-dialog-list__content">
         <div class="c-dialog-list__header">
             <div class="c-form-group--search bordered ml-auto">
-                <input matInput type="text" placeholder="Buscar por nombre">
+                <input matInput type="text" placeholder="Buscar por nombre" [(ngModel)]="searchTerm" (keyup)="searchCustomer()">
                 <span class="icon-search"></span>
             </div>
            </div>

@@ -169,6 +169,18 @@ export class CreateClientComponent implements OnInit {
 
   setLinkedCustomer(event: any) {
     this.linked_customer = event;
+
+    if(this.customer && this.linked_customer)
+    {
+      this.linkToCustomer(this.customer);
+    }
+    if(this.customer && this.linked_customer === null)
+    {
+      this.customerService.updateCustomer(this.selectedSubscription?.ssid.uuid,this.customerId,{...this.customer,linked_customer:null})
+      .subscribe(data => {
+      })
+    }
+
   }
 
   addItem(formArray: string, type = '') {
@@ -324,8 +336,6 @@ export class CreateClientComponent implements OnInit {
       image: this.imagenSubir
     };
 
-    console.log('Imagen Subir: ',createClient.image);
-
     if (this.createClientForm.valid) {
       this.customerService.saveCustomer(createClient).subscribe((data) => {
         this.toastr.success(
@@ -333,26 +343,11 @@ export class CreateClientComponent implements OnInit {
           this.translateService.instant('successMessages.created_succesfully')
         );
 
-        let body: any;
-
         if (create_another) {
           this.resetForm();
         } else {
           if (this.linked_customer) {
-            body = {
-              ...body,
-              linked_customer: this.linked_customer,
-            };
-
-            this.customerService
-              .linkToCustomer(
-                this.selectedSubscription?.ssid.uuid,
-                data.uuid || '',
-                body
-              )
-              .subscribe((data) => {
-                this.router.navigate(['customers/edit', data.uuid]);
-              });
+            this.linkToCustomer(data);
           } else {
             this.router.navigate(['customers/edit', data.uuid]);
           }
@@ -366,6 +361,26 @@ export class CreateClientComponent implements OnInit {
         //this.translateService.instant('errorMessages.InvalidForm')
       );
     }
+  }
+
+  linkToCustomer(data:any){
+
+    let body: any;
+
+    body = {
+      ...data,
+      linked_customer: this.linked_customer,
+    };
+
+    this.customerService
+      .linkToCustomer(
+        this.selectedSubscription?.ssid.uuid,
+        data.uuid || '',
+        body
+      )
+      .subscribe((data) => {
+        this.router.navigate(['customers/edit', data.uuid]);
+      });
   }
 
   changeValueCheckboxAddress(event: any, index: number) {
