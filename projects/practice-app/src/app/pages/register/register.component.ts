@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
       .subscribe((subscription: Subscription) => {
         const { username, password } = userSignupPayload;
         if (isFreeTrial) {
-          this.enterIntoApp(username, password);
+          this.navigateToLogin();
         } else {
           this.initPaymentModal(subscription.first_checkout_url);
         }
@@ -159,6 +159,10 @@ export class RegisterComponent implements OnInit {
     this.authService.signIn(username, password).subscribe(() => {
       this.router.navigate(['/dashboard']);
     });
+  }
+
+  navigateToLogin() {
+      this.router.navigate(['/signin']);
   }
 
   formChange(): void {
