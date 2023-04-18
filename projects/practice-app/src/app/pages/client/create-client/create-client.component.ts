@@ -425,5 +425,6 @@ export class CreateClientComponent implements OnInit {
 
   removeImage() {
     this.imgTemp = null;
+    if(this.customer) this.customer.image = null;
   }
 }

@@ -4,3 +4,18 @@
       /* This will render the 'X' */
 
 }
+
+#imgUpload{
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+
+}
+
+.c-uploadPicture__img{
+  overflow: hidden;
+}
+
+#inputTypeFile{
+  display: none;
+}

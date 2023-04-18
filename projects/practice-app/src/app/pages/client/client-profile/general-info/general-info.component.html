@@ -1,7 +1,9 @@
 <div class="c-generalInfo">
     <div class="c-generalInfo__header">
         <div class="align-items-center d-flex">
-            <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <img *ngIf="!customer.image" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <img *ngIf="customer.image" [src]="customer.image" class="c-generalInfo__profilePicture">
+
             <div>
                 <div class=" c-generalInfo__name ">{{'clients.details.contact_information' | translate}} </div>
                 <div class="c-generalInfo__subname ">{{'clients.details.user_details' | translate}} </div>
