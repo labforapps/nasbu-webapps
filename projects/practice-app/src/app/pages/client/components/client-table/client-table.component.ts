@@ -12,7 +12,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'app-client-table',
   templateUrl: './client-table.component.html',
@@ -178,14 +177,17 @@ export class ClientTableComponent implements OnInit {
           .deleteCustomer(this.selectedSubscription?.ssid.uuid, id)
           .subscribe(
             (data) => {
-              console.log(data);
+
+              const arrayFiltered = this.customers.filter(x => x.uuid !== id);
+              this.customers = arrayFiltered;
+              this.dataSourceCustomers = new MatTableDataSource<Customer>(this.customers);
+
               this.toastr.success(
                 'Ok',
                 this.translateService.instant(
                   'successMessages.deleted_successfully'
                 )
               );
-              //this.fetchCustomers();
             },
             (error) => {
               this.toastr.error(
