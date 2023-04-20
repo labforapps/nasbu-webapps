@@ -6,8 +6,8 @@
 image: node:16
 
 pipelines:
-  default:
-    - parallel:
+  branches:
+    '{develop}':
         - step:
             name: Build project
             caches:
