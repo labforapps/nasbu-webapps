@@ -13,10 +13,12 @@ pipelines:
             caches:
               - node
             script:
+              - mkdir artifact
               - npm install --legacy-peer-deps
               - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa
+              - mv dist/practice-app/* artifact/
             artifacts:
-              - dist/practice-app
+              - artifact
         - step:
             name: Deploy to S3
             deployment: production
@@ -27,5 +29,5 @@ pipelines:
                   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                   AWS_DEFAULT_REGION: 'us-east-1'
                   S3_BUCKET: 'dev.nasbulegal.com'
-                  LOCAL_PATH: 'dist/practice-app'
+                  LOCAL_PATH: 'artifact'
                   ACL: 'public-read'
