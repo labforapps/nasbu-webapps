@@ -28,5 +28,11 @@ pipelines:
                   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                   AWS_DEFAULT_REGION: 'us-east-1'
                   S3_BUCKET: 'dev.nasbulegal.com'
-                  LOCAL_PATH: 'artifact'
+                  LOCAL_PATH: 'dist/practice-app'
                   ACL: 'public-read'
+              - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
+                variables:
+                  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                  AWS_DEFAULT_REGION: 'us-east-1'
+                  DISTRIBUTION_ID: 'E3MHELUD8EBU5U'
