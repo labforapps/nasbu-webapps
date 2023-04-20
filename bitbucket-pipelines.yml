@@ -15,11 +15,9 @@ pipelines:
             script:
               - mkdir artifact
               - npm install --legacy-peer-deps
-              - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa
-              - ls
-              - mv dist/practice-app/* artifact/
+              - npm run build-qa
             artifacts:
-              - artifact
+              - dist/practice-app/**
         - step:
             name: Deploy to S3
             deployment: production
