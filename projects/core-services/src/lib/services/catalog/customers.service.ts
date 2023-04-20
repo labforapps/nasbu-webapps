@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
-import { Customer,CustomerIntakeRequest } from 'core-models';
+import { Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest } from 'core-models';
 
 @Injectable({
   providedIn: 'root',
@@ -52,9 +52,9 @@ export class CustomersService {
     return this.httpClient.post<Customer[]>(serverUrl, body);
   }
 
-  validateRequest(token: string): Observable<any[]> {
+  validateRequest(token: string): Observable<CustomerIntakeValidateRequest> {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/validate_request/?t=${token}`;
-    return this.httpClient.get<any[]>(serverUrl);
+    return this.httpClient.get<CustomerIntakeValidateRequest>(serverUrl);
   }
 
   getCustomersAvailableForLink(subscription: string) {

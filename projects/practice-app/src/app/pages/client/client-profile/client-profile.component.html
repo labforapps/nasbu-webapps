@@ -3,10 +3,13 @@
         <div class="d-flex flex-wrap u-gap-1">
             <button mat-button [routerLink]="'/customers'"><span class="icon-arrow-back mr-2" ></span> {{'clients.common.back' | translate}}</button>
             <div class="d-flex">
-                <div class="l-page__icon">
-                    <span class="icon-user"></span>
-                </div>
-                <div class="l-page__title">{{customer.first_name}} {{customer.last_name}} </div>
+                   <div class="l-page__icon" *ngIf="customer.type === 'P'">
+                    <span  class="icon-user"></span>
+                  </div>
+                  <img *ngIf="customer.type === 'B'" src="../../../../../assets/images/company.svg" alt=" ">
+
+                <div *ngIf="customer.type === 'P'" class="l-page__title">{{customer.first_name}} {{customer.last_name}} </div>
+                <div *ngIf="customer.type === 'B'" class="l-page__title">{{customer.company_name}}</div>
             </div>
 
         </div>

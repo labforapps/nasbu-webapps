@@ -12,14 +12,16 @@
 
               <mat-step>
                 <div class="c-stepper__header">
-                  <div class="c-stepper__logo">
-                    <img src="../../../assets/images/moya-logo.jpg" alt="">
+                  <div class="c-stepper__logo" *ngIf="customerIntake">
+                    <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/moya-logo.jpg" alt="">
+                    <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
                     <span class="icon-check"></span>
                   </div>
-                  <div class="c-stepper__info">
-                    <div [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}">
-
-                    </div>
+                  <div class="c-stepper__info" *ngIf="customerIntake">
+                    <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="!customerIntake">
+                    <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
                   </div>
                 </div>
                 <div class="c-stepper__subheader">

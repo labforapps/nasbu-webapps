@@ -9,14 +9,14 @@
                 <div class="c-generalInfo__subname ">{{'clients.details.user_details' | translate}} </div>
             </div>
         </div>
-        <div class="c-generalInfo__company ">
+        <div class="c-generalInfo__company " *ngIf="customer.type === 'P'">
             <img src="../../../../../assets/images/company.svg" alt=" ">
-            <span *ngIf="!linkedCustomer"><b class="mr-1">Compañia </b> <span style="color:#435B6C">No disponible</span></span>
-            <span *ngIf="linkedCustomer"><b class="mr-1">Compañia </b> <span style="color:#435B6C">{{linkedCustomer.company_name}}</span></span>
+            <span *ngIf="!linkedCustomer"><b class="mr-1">{{'clients.details.business' | translate}} </b> <span style="color:#435B6C">{{'clients.details.not_available' | translate}}</span></span>
+            <span *ngIf="linkedCustomer"><b class="mr-1">{{'clients.details.business' | translate}} </b> <span style="color:#435B6C">{{linkedCustomer.company_name}}</span></span>
         </div>
     </div>
-    <hr class="u-divider ">
-    <div class="c-generalInfo__body">
+    <hr *ngIf="customer.type === 'P'" class="u-divider ">
+    <div class="c-generalInfo__body" *ngIf="customer.type === 'P'">
         <div class="c-generalInfo__title ">
             {{'clients.details.personal_circumstances' | translate}}
         </div>

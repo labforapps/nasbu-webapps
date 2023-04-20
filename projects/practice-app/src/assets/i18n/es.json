@@ -411,6 +411,8 @@
       "files":"Expedientes",
       "pending_issues":"Asuntos pendientes",
       "billing":"Facturación",
+      "business":"Compañía",
+      "not_available":"No disponible",
       "contact_information":"Datos de contacto",
       "user_details":"Detalles del usuario",
       "personal_circumstances":"Circunstancias personales",

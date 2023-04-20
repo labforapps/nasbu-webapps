@@ -337,7 +337,7 @@
         "buttons":{
           "edit":"Edit",
           "delete":"Delete",
-          "confirm_question_delete":"Do you want to delete this customer?",
+          "confirm_question_delete":"Are you sure you want to delete this item?",
           "actions_cannot_be_reversed":"This action cannot be reversed"
         }
     },
@@ -409,10 +409,12 @@
       "files":"Files",
       "pending_issues":"Pending Issues",
       "billing":"Billing",
+      "business":"Entity",
+      "not_available":"Not Available",
       "contact_information":"Contact Information",
       "user_details":"User Details",
       "personal_circumstances":"Personal Circumstances",
-      "birth_date":"Birth Date",
+      "birth_date":"Date of Birth",
       "profession_and_or_trade":"Profession and/or trade",
       "civil_status":"Civil status",
       "contacts":"Contacts",

@@ -214,7 +214,9 @@ export class CreateClientComponent implements OnInit {
           (this.createClientForm.get(formArray) as FormArray).push(
             this._formBuilder.group({
               type: this.typeContact.phone_number,
-              sub_type: ['', Validators.required],
+              sub_type: [this.customer_type === TypeCustomer.person
+                ? this.subtypeContact.cellphone_number
+                : this.subtypeContact.phoneoffice_number, Validators.required],
               contact_value: ['', Validators.required],
             })
           );
@@ -237,11 +239,22 @@ export class CreateClientComponent implements OnInit {
 
     for (let i = 0; i < formArrayFields.length; i++) {
       if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'E')
+      {
         (this.createClientForm.get('contacts') as FormArray)
           ?.at(i)
           ?.patchValue({
             sub_type: this.customer_type === 'P' ? 'E' : 'B',
           });
+      }
+      if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'P')
+      {
+        (this.createClientForm.get('contacts') as FormArray)
+          ?.at(i)
+          ?.patchValue({
+            sub_type: this.customer_type === 'P' ? 'P' : 'O',
+          });
+      }
+
     }
   }
 

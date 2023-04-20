@@ -35,6 +35,13 @@ export interface CustomerIntakeRequest {
   updated_at?: Date;
 }
 
+export interface CustomerIntakeValidateRequest{
+  is_valid: boolean;
+  subscription: string;
+  subscription_logo: string;
+  subscription_name: string;
+}
+
 export enum CustomerIntakeSendingMethod{
   email = 'email',
   sms = 'sms'
