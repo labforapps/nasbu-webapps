@@ -1,0 +1,146 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
+import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { AppRoutingModule } from '../app-routing.module';
+
+import { LoginComponent } from './login/login.component';
+import { RecoveryComponent } from './recovery/recovery.component';
+import { RegisterComponent } from './register/register.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { IndicatorsComponent } from './dashboard/indicators/indicators.component';
+import { TaskComponent } from './dashboard/task/task.component';
+import { InvoicesComponent } from './dashboard/invoices/invoices.component';
+import { EmptyDashboardComponent } from './dashboard/empty/empty-dashboard.component';
+import { ClientComponent } from './client/client.component';
+import { ClientTableComponent } from './client/components/client-table/client-table.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
+import { CreateClientComponent } from './client/create-client/create-client.component';
+import { ComponentsModule } from '../components/components.module';
+import { AssociateCustomersComponent } from './client/components/associate-customers/associate-customers.component';
+import { ClientProfileComponent } from './client/client-profile/client-profile.component';
+import { GeneralInfoComponent } from './client/client-profile/general-info/general-info.component';
+import { ClientExpedientComponent } from './client/client-profile/client-expedient/client-expedient.component';
+import { ClientPendingComponent } from './client/client-profile/client-pending/client-pending.component';
+import { ClientInvoicingComponent } from './client/client-profile/client-invoicing/client-invoicing.component';
+import { CollaboratorProfileComponent } from './collaborator/collaborator-profile/collaborator-profile.component';
+import { CollabotatorGeneralInfoComponent } from './collaborator/collaborator-profile/collabotator-general-info/collabotator-general-info.component';
+import { InvoicingComponent } from './invoicing/invoicing.component';
+import { InvoicingPendingComponent } from './invoicing/invoicing-pending/invoicing-pending.component';
+import { InvoicingWaitingComponent } from './invoicing/invoicing-waiting/invoicing-waiting.component';
+import { InvoicingPaidComponent } from './invoicing/invoicing-paid/invoicing-paid.component';
+import { InvoicingExpiredComponent } from './invoicing/invoicing-expired/invoicing-expired.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
+import { InvoicingParametersComponent } from './configuration/invoicing-parameters/invoicing-parameters.component';
+import { PermissionComponent } from './configuration/permission/permission.component';
+import { ProfileSignComponent } from './configuration/profile-sign/profile-sign.component';
+import { ProfileGeneralInfoComponent } from './configuration/profile-sign/profile-general-info/profile-general-info.component';
+import { PaymentMethodComponent } from './configuration/profile-sign/payment-method/payment-method.component';
+import { SubscriptionComponent } from './configuration/profile-sign/subscription/subscription.component';
+import { NotificationComponent } from './configuration/notification/notification.component';
+import { PlansComponent } from './configuration/plans/plans.component';
+import { TemplatesComponent } from './templates/templates.component';
+import { NewInvoiceComponent } from './invoicing/new-invoice/new-invoice.component';
+import { ExpedientComponent } from './expedient/expedient.component';
+import { ExpedientInfoComponent } from './expedient/expedient-info/expedient-info.component';
+import { DocumentComponent } from './expedient/expedient-info/document/document.component';
+import { NotesComponent } from './expedient/expedient-info/notes/notes.component';
+import { ExpedientTasksComponent } from './expedient/expedient-info/expedient-tasks/expedient-tasks.component';
+import { ExpedientInvoicingComponent } from './expedient/expedient-info/expedient-invoicing/expedient-invoicing.component';
+import { ExpedientWalletComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet.component';
+import { CollaboratorComponent } from './collaborator/collaborator.component';
+import { CreateCollaboratorComponent } from './collaborator/create-collaborator/create-collaborator.component';
+import { CreateProfileComponent } from './configuration/profile-sign/create-profile/create-profile.component';
+import { RegisterClientComponent } from './register/register-client/register-client.component';
+import { SuccessSubscriptionPaymentComponent } from './success-subscription-payment/success-subscription-payment.component';
+import { CancelSubscriptionPaymentComponent } from './cancel-subscription-payment/cancel-subscription-payment.component';
+import { ClientIntakeComponent } from './client-intake/client-intake.component';
+import { FormCreateClientComponent } from './client/components/form-create-client/form-create-client.component';
+import { ClientIntakeSummaryComponent } from './client-intake/client-intake-summary/client-intake-summary.component';
+import { ClientIntakeSuccessComponent } from './client-intake/client-intake-success/client-intake-success.component';
+import { FormCreateClientIntakeGeneralDataComponent } from './client-intake/form-create-client-intake-general-data/form-create-client-intake-general-data.component';
+import { FormCreateClientIntakeCircumstantialDataComponent } from './client-intake/form-create-client-intake-circumstantial-data/form-create-client-intake-circumstantial-data.component';
+import { FormCreateRepresentativeDataComponent } from './client-intake/form-create-representative-data/form-create-representative-data.component';
+import { FormCreateRepresentativeAddressComponent } from './client-intake/form-create-representative-address/form-create-representative-address.component';
+import { AccountConfirmationComponent } from './account-confirmation/account-confirmation.component';
+import { TasksModule } from './taskpage/tasks.module';
+
+
+@NgModule({
+  declarations: [
+    LoginComponent,
+    RecoveryComponent,
+    RegisterComponent,
+    DashboardComponent,
+    IndicatorsComponent,
+    TaskComponent,
+    InvoicesComponent,
+    EmptyDashboardComponent,
+    ClientComponent,
+    ClientTableComponent,
+    CreateClientComponent,
+    AssociateCustomersComponent,
+    ClientProfileComponent,
+    GeneralInfoComponent,
+    ClientExpedientComponent,
+    ClientPendingComponent,
+    ClientInvoicingComponent,
+    CollaboratorProfileComponent,
+    CollabotatorGeneralInfoComponent,
+    InvoicingComponent,
+    InvoicingPendingComponent,
+    InvoicingWaitingComponent,
+    InvoicingPaidComponent,
+    InvoicingExpiredComponent,
+    ConfigurationComponent,
+    InvoicingParametersComponent,
+    PermissionComponent,
+    ProfileSignComponent,
+    ProfileGeneralInfoComponent,
+    PaymentMethodComponent,
+    SubscriptionComponent,
+    NotificationComponent,
+    PlansComponent,
+    TemplatesComponent,
+    CreateProfileComponent,
+    RegisterClientComponent,
+    SuccessSubscriptionPaymentComponent,
+    CancelSubscriptionPaymentComponent,
+    FormCreateClientComponent,
+    ClientIntakeSummaryComponent,
+    ClientIntakeSuccessComponent,
+    FormCreateClientIntakeGeneralDataComponent,
+    FormCreateClientIntakeCircumstantialDataComponent,
+    FormCreateRepresentativeDataComponent,
+    FormCreateRepresentativeAddressComponent,
+    AccountConfirmationComponent,
+    ClientIntakeComponent,
+    CollaboratorComponent,
+    CreateCollaboratorComponent,
+    NewInvoiceComponent,
+    ExpedientComponent,
+    ExpedientInfoComponent,
+    DocumentComponent,
+    ExpedientInvoicingComponent,
+    ExpedientWalletComponent,
+    NotesComponent,
+    ExpedientTasksComponent,
+  ],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    NgxPermissionsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    ComponentsModule,
+    AppRoutingModule,
+    TasksModule
+  ]
+})
+export class PagesModule { }
