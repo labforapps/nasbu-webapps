@@ -1,4 +1,7 @@
 {
+   "common":{
+
+   },
    "login": {
       "title": "Login",
       "subTitle": "Welcome to Nasbu",
@@ -564,11 +567,209 @@
     }
 
    },
+   "collaborator":{
+    "title":"Collaborators",
+    "search_by_name":"Search by name",
+    "all":"All",
+    "buttons":{
+      "create_new_collaborator":"Create new collaborator",
+      "edit":"Edit",
+      "delete":"Delete"
+    },
+    "table":{
+      "photo":"Photo",
+      "name":"Name",
+      "cellphone_number":"Cell phone number",
+      "email":"Email",
+      "function_or_role":"Function or role",
+      "license":"License",
+      "actions":"Actions"
+    },
+    "form_create":{
+      "create_new_collaborator":"Create new collaborator",
+      "edit_collaborator":"Edit Collaborator",
+      "button_save_changes":"Save changes",
+      "button_is_everything_ready":"Is everything ready?",
+      "choose_option":"Select one of the options",
+      "name_of_the_collaborator":"Name of the collaborator",
+      "photo_or_logo":"Photo or logo",
+      "upload_image_max_2":"File size maximum 2MB",
+      "name":"Name",
+      "firstname":"First name",
+      "lastname":"Last name",
+      "origin_country":"Origin Country",
+      "contact":"Contact",
+      "email":"Email",
+      "personal_email":"Personal email",
+      "business_email":"Business email",
+      "born_date":"Born Date",
+      "select_marital_status":"Select marital status",
+      "select_occupation":"Select occupation",
+      "marital_status":"Marital status",
+      "occupation":"Occupation",
+      "add_new_license":"Add new license",
+      "personal_telephone":"Personal telephone",
+      "business_telephone":"Business telephone",
+      "cellphone_number":"Cellular Phone Number",
+      "telephone_number":"Telephone Number",
+      "landline_number":"Home Telephone Number",
+      "phone_office_number":"Work Telephone Number",
+      "add_another_telephone_number":"Add another telephone number",
+      "add_another_email":"Add another email",
+      "choose_country":"Select country",
+      "physical_address":"Physical Address",
+      "mailing_address":"Mailing Address",
+      "placeholder_physical_city":"Ex.: Miami, Florida",
+      "placeholder_physical_address":"Number, street, apartment",
+      "city":"City",
+      "postal_code":"Postal Code",
+      "address":"Address",
+      "add_another_address":"Add new address",
+      "physical_postal_address_share_info":"Check this box if the physical and mailing address is the same",
+      "associate_contact_to_bussiness":"Associate Contact to Bussiness",
+      "change":"Change",
+      "link_with_business":"Link with business",
+      "see_business_associated_to_user":"Here you can see the company that this user is associated with",
+      "remember_fill_required_information":"Remember to complete all required fields",
+      "save_customer":"Save client",
+      "save_create_another":"Save and create another one",
+      "married":"Married",
+      "single":"Single",
+      "widowed":"Widowed",
+      "divorced":"Divorced"
+    },
+    "profile":{
+      "goBack":"Go back",
+      "fast_invoicing":"Fast Invoicing",
+      "edit_collaborator":"Edit Collaborator",
+      "general_details":"General details",
+      "dockets":"Dockets",
+      "pending_tasks":"Pending Tasks",
+      "invoicing":"Invoicing",
+      "contact_details":"Contact Details",
+      "user_details":"User Details",
+      "entity":"Entity",
+      "personal_circumstances":"Personal Circumstances",
+      "birth_date":"Date of Birth",
+      "profession_and_or_trade":"Profession and/or trade",
+      "civil_status":"Civil status",
+      "contact_information":"Contact Information",
+      "telephones":"Telephones",
+      "telephone_number":"Telephone number",
+      "cellphone_number":"Cellphone number",
+      "work_number":"Work number",
+      "email":"Email",
+      "personal_email":"Personal email",
+      "work_email":"Work email",
+      "details":"Details",
+      "license":"License",
+      "licensing_government_authority":"Licensing government authority",
+      "attorney_fees":"Attorney fees",
+      "cost_per_hour":"Cost per hour",
+      "physical_mailing_address":"Physical and mailing address",
+      "physical_address":"Physical Address",
+      "country":"Country",
+      "city_state_province":"City, State, Province",
+      "postal_code":"Postal Code",
+      "mailing_address":"Mailing Address",
+      "not_have_mailing_address":"Does not have mailing address",
+      "postal_address":"Postal Address"
+    },
+    "files":{
+      "files_title":"Files",
+      "tabs":{
+        "all":"All",
+        "open":"Open",
+        "closed":"Closed"
+      },
+      "table_header":{
+        "search_for_name":"Search by name",
+        "create_new":"Create New"
+      },
+      "table_columns":{
+        "type":"Type",
+        "subject_description":"Subject Description",
+        "case_assigned_to":"Case Assigned To",
+        "customer":"Customer",
+        "last_update":"Last Update",
+        "shared_with":"Shared With",
+        "actions":"Actions"
+      },
+      "buttons":{
+        "edit":"Edit",
+        "delete":"Delete",
+        "share":"Share",
+        "watch":"Watch",
+        "send_file_to_client":"Send File to customer"
+      }
+
+    },
+    "pending_issues":{
+      "pending_issues_title":"",
+      "tabs":{
+          "all":"All",
+          "pending":"Pending",
+          "completed":"Completed"
+      },
+      "table_header":{
+        "filter_by":"Filter By",
+        "search":"Search",
+        "create_new_task":"Create New Task"
+      },
+      "table_columns":{
+        "type":"Type",
+        "task_assigned_to":"Task Assigned To",
+        "expiration_date":"Expiration Date",
+        "shared_with":"Shared with",
+        "subject_description":"Subject Description",
+        "actions":"Actions"
+      },
+      "filter_by":{
+        "filter_criteria":"Filter criteria",
+        "priority":"Priority",
+        "priority_level":"Priority level",
+        "status":"Status",
+        "state":"State",
+        "responsible_for_the_task":"Responsible for the task",
+        "name":"Name",
+        "subject_type":"Subject type",
+        "apply_filters":"Apply filters",
+        "clear_criteria":"Clear criteria"
+    }
+
+    },
+    "billing":{
+      "pending_issues_title":"",
+      "tabs":{
+        "all":"All",
+        "pending_charge":"Pending Charge",
+        "charged":"Charged"
+      },
+      "table_header":{
+        "new_bill":"New Bill",
+        "date_range":"Date Range",
+        "search_for_name":"Search by name",
+        "organized_by_creation_date":"Organized by creation date",
+        "billings_listed":"billings listed"
+      },
+      "table_columns":{
+        "type":"Type",
+        "status":"Status",
+        "file":"File",
+        "date":"Date",
+        "balance":"Balance",
+        "actions":"Actions"
+      }
+
+    }
+
+
+   },
     "menu":{
       "title":"Menu",
       "activity_summary":"Activity Summary",
       "clients":"Clients",
-      "shared_dockets":"Shared dockets",
+      "collaborators":"Collaborators",
       "dockets":"Dockets",
       "documents_templates":"Documents and templates",
       "my_tasks":"My tasks",

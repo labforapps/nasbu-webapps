@@ -4,15 +4,15 @@
     </div>
     <div class="l-create__body">
         <div class="l-create__btnBack">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>Volver atras</button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>{{'collaborator.profile.goBack' | translate }}</button>
         </div>
         <div class="c-create">
             <div class="c-create__header">
                 <div class="row w-100">
                     <div class="col-sm-12 mb-5">
-                        <div class="c-create__title">Crear nuevo colaborador</div>
+                        <div class="c-create__title">{{'collaborator.form_create.create_new_collaborator' | translate }}</div>
                         <div class="c-create__subtitle">¿Qué función o rol desempeña? <span class="u-dangerColor">*</span></div>
-                        <div class="c-create__text">Selecciona una de las opciones</div>
+                        <div class="c-create__text">{{'collaborator.form_create.choose_option' | translate }}</div>
                     </div>
                     <div class="col-sm-6 mb-2">
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0">
@@ -39,18 +39,18 @@
             <div class="c-create__body">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="u-title-label">Nombre del colaborador<span class="u-dangerColor">*</span></label>
+                        <label class="u-title-label">{{'collaborator.form_create.name_of_the_collaborator' | translate }}<span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Nombre </mat-label>
+                            <mat-label>{{'collaborator.form_create.firstname' | translate }} </mat-label>
                             <input class="c-form-group__input" matInput placeholder="Nombre">
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Apellido</mat-label>
+                            <mat-label>{{'collaborator.form_create.lastname' | translate }}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Apellido">
                         </mat-form-field>
-                        <label class="u-title-label">Pais de origen<span class="u-dangerColor">*</span></label>
+                        <label class="u-title-label">{{'collaborator.form_create.origin_country' | translate}}<span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Seleccionar país </mat-label>
+                            <mat-label>{{'collaborator.form_create.choose_country' | translate }} </mat-label>
                             <mat-select>
                                 <mat-option>
                                     Option 1
@@ -65,7 +65,7 @@
                         </mat-form-field>
                     </div>
                     <div class="col-sm-6">
-                        <label class="u-title-label">Foto o logo</label>
+                        <label class="u-title-label">{{'collaborator.form_create.photo_or_logo' | translate }}</label>
                         <div class="c-uploadPicture">
                             <div class="c-uploadPicture__img">
                                 <img src="../../../../assets/images/upload-camera.svg" alt="">
@@ -73,9 +73,9 @@
                             </div>
                             <div class="c-uploadPicture__controls">
                                 <div class="c-uploadPicture__text">
-                                    Nota: <br> Subir imagen máximo 2MB
+                                    Nota: <br> {{'collaborator.form_create.upload_image_max_2' | translate }}
                                 </div>
-                                <div class="u-link mt-1">Eliminar</div>
+                                <div class="u-link mt-1">{{'collaborator.buttons.delete' | translate }}</div>
                             </div>
                         </div>
                     </div>
@@ -87,24 +87,24 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <label class="u-title-label mb-0">Licencia de abogado ó profesional</label>
-                        
+
                         <p class="u-textLightColor u-smallSize mb-2">(Número ó código alfanumérico)</p>
 
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Licencia</mat-label>
+                            <mat-label>{{'collaborator.profile.license' | translate }}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="No. de licencia Ej: A34BB8">
                         </mat-form-field>
                     </div>
                     <div class="col-sm-6">
                         <label class="u-title-label mt-4">¿Qué gobierno emitió esta licencia?</label>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Nombre</mat-label>
+                            <mat-label>{{'collaborator.form_create.name' | translate }}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Estado ó provincia ">
                         </mat-form-field>
-                        
+
                     </div>
                     <div class="col-sm-12">
-                        <button mat-button class="c-btn-add">+ Añadir nueva licencia</button>
+                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_new_license' | translate }}</button>
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
                     <div class="col-sm-6">
                         <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Núm. Teléfono celular</mat-label>
+                            <mat-label>{{'collaborator.form_create.cellphone_number' | translate}}</mat-label>
                             <mat-select>
                                 <mat-option>
                                     Option 1
@@ -133,15 +133,15 @@
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Num. de Teléfono </mat-label>
+                            <mat-label>{{'clients.form_create.cellphone_number' | translate}} </mat-label>
                             <input class="c-form-group__input" matInput>
                         </mat-form-field>
-                        <button mat-button class="c-btn-add">+ Añadir otro teléfono</button>
+                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_telephone_number' | translate}}</button>
                     </div>
                     <div class="col-sm-6">
-                        <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
+                        <label class="u-title-label">{{'collaborator.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Personal</mat-label>
+                            <mat-label>{{'collaborator.form_create.personal_email' | translate}}</mat-label>
                             <mat-select>
                                 <mat-option>
                                     Option 1
@@ -155,18 +155,18 @@
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Correo electrónico</mat-label>
+                            <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput>
                         </mat-form-field>
-                        <button mat-button class="c-btn-add">+ Añadir otro teléfono</button>
+                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_email' | translate}}</button>
                     </div>
                 </div>
                 <hr class="u-divider--marginBig">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="u-title-label">Dirección Física</label>
+                        <label class="u-title-label">{{'collaborator.form_create.physical_address' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>Seleccionar país </mat-label>
+                            <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
                             <mat-select>
                                 <mat-option>
                                     Option 1
@@ -180,46 +180,46 @@
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Ciudad</mat-label>
+                            <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Dirección</mat-label>
+                            <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
                         </mat-form-field>
                         <div class="col-sm-5 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>Código Postal</mat-label>
+                                <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput>
                             </mat-form-field>
                         </div>
                         <div class="col-sm-12">
                             <mat-checkbox class="c-checkbox mt-1 mb-4">
-                                Dirección Física y Postal comparten la misma información
+                              {{'collaborator.form_create.physical_postal_address_share_info' | translate}}
                             </mat-checkbox>
                         </div>
-                        
+
                     </div>
                     <div class="col-sm-6">
-                        <label class="u-title-label">Dirección postal</label>
+                        <label class="u-title-label">{{'collaborator.form_create.mailing_address' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Ciudad</mat-label>
+                            <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
                         </mat-form-field>
                         <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Dirección</mat-label>
+                            <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
                         </mat-form-field>
                         <div class="col-sm-5 p-0">
                             <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>Código Postal</mat-label>
+                                <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput>
                             </mat-form-field>
                         </div>
                     </div>
 
                     <div class="col-sm-12 mt-1">
-                        <button mat-button class="c-btn-add">+ Añadir nuevo domicilio</button>
+                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_address' | translate}}</button>
                     </div>
                 </div>
 
@@ -251,7 +251,7 @@
                             <mat-checkbox class="c-checkbox mb-2">
                                 No facturable
                             </mat-checkbox>
-        
+
                         </div>
                     </div>
                 </div>
