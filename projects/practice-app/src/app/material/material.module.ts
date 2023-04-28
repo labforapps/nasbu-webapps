@@ -21,6 +21,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 
 @NgModule({
   declarations: [],
@@ -47,6 +49,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatIconModule,
     MatPaginatorModule,
     NgxMatSelectSearchModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     MatInputModule,
@@ -70,6 +73,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatIconModule,
     MatPaginatorModule,
     NgxMatSelectSearchModule,
+    NgxMaterialTimepickerModule
   ],
 })
 export class MaterialModule {}

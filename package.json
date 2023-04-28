@@ -40,6 +40,7 @@
     "ngx-mask": "14.0",
     "ngx-mat-select-search": "^5.0.0",
     "ngx-mat-timepicker": "^14.0.2",
+    "ngx-material-timepicker": "^5.5.3",
     "ngx-permissions": "^13.0.1",
     "ngx-timer": "^1.0.6",
     "ngx-toastr": "^14.3.0",
