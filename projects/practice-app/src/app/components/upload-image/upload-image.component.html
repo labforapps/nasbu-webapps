@@ -1,14 +1,19 @@
 <label class="u-title-label">Foto o logo</label>
 <div class="c-uploadPicture">
+   <label for="inputTypeFile">
     <div class="c-uploadPicture__img">
-        <img src="../../../../assets/images/upload-camera.svg" alt="">
-        <!-- <img id="imgUpload" *ngIf="subscription" [src]="subscription.logo_url" alt=""> -->
-        <img src="../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
+      <img *ngIf="!imgTemp && !imgUrl" src="../../../../assets/images/upload-camera.svg" alt="">
+      <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
+      <img id="imgUpload" *ngIf="imgUrl && !imgTemp" [src]="imgUrl" alt="">
     </div>
+   </label>
     <div class="c-uploadPicture__controls">
         <div class="c-uploadPicture__text">
             Nota: <br> Subir imagen máximo 2MB
         </div>
-        <div class="u-link mt-1">Eliminar</div>
+        <div class="u-link mt-1" (click)="removeImage()">Eliminar</div>
     </div>
 </div>
+
+<input id="inputTypeFile" type="file" (change)="changeImage($event)">
+

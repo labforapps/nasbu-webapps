@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService, CommonService, SubscriptionService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
-import { SelectedSubscription, TypeContact,Subscription, SubtypeContact, Country, WeekDaysDescription, SubscriptionPayload } from 'core-models';
+import { SelectedSubscription, TypeContact,Subscription, SubtypeContact, Country, SubscriptionPayload, Schedule } from 'core-models';
 import { FormService } from 'projects/practice-app/src/app/services/form.service';
 
 @Component({
@@ -17,10 +17,12 @@ export class CreateProfileComponent implements OnInit {
   subscriptionForm!:FormGroup;
   subscription!:Subscription;
   subscriptionPayload!:SubscriptionPayload;
+  subscriptionSchedule!:Schedule[];
   typeContact = TypeContact;
   subtypeContact = SubtypeContact;
   selectedSubscription!:any;
   countries!:Country[];
+  logoFile!:File;
 
   constructor(private _formBuilder:FormBuilder,
               private subscriptionService:SubscriptionService,
@@ -65,14 +67,6 @@ export class CreateProfileComponent implements OnInit {
           postal_address: ['', Validators.required],
           postal_postal_code: ['', Validators.required],
         }),
-      ]),
-      schedules: this._formBuilder.array([
-        this._formBuilder.group({
-          week_day:    [''],
-          is_closed:   [false],
-          start_time:  [''],
-          end_time:    ['']
-        })
       ])
     })
   }
@@ -87,15 +81,6 @@ export class CreateProfileComponent implements OnInit {
   fetchCountries() {
     this.commonService.getCountries().subscribe((data:Country[]) => {
       this.countries = data;
-      this.countries.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        } else if (a.name > b.name) {
-          return 1;
-        } else {
-          return 0;
-        }
-    });
     });
   }
 
@@ -106,48 +91,29 @@ export class CreateProfileComponent implements OnInit {
     })
 
     this.setDataInFormArrays();
+
+    console.log(this.subscriptionForm.value);
   }
 
   setDataInFormArrays(){
 
    if(this.subscription.contacts.length > 0){
     this.removeItemFormArray('contacts',0);
-    this.removeItemFormArray('contacts',1);
-    this.formService.setDataFormArray(this.subscriptionForm,'contacts',this.subscription.contacts);
+    this.removeItemFormArray('contacts',0);
+    this.formService.setDataFormArray(this.subscriptionForm,'contacts',this.subscription.contacts.filter(x => x.contact_value != ''));
    }
 
    if(this.subscription.addresses.length > 0){
-    this.removeItemFormArray('addresses',1);
+    this.removeItemFormArray('addresses',0);
     this.formService.setDataFormArray(this.subscriptionForm,'addresses',this.subscription.addresses);
    }
-
-    if(this.subscription.schedules.length === 0){
-      this.removeItemFormArray('schedules',0);
-      const weekDaysArray = [1,2,3,4,5,6,7];
-
-      for(let i = 0; i < weekDaysArray.length; i++){
-        this.subscription.schedules.push({
-          week_day:    weekDaysArray[i],
-          is_closed:   true,
-          start_time:  '',
-          end_time:    '',
-        })
-      }
-    }
-
-    const weekdays = [2, 3, 4, 5, 6, 7, 1];
-
-    this.subscription.schedules.sort((a, b) => {
-      const aIndex = weekdays.indexOf(a.week_day);
-      const bIndex = weekdays.indexOf(b.week_day);
-      return aIndex - bIndex;
-    });
-
-    this.formService.setDataFormArray(this.subscriptionForm,'schedules',this.subscription.schedules);
   }
 
   submitForm(){
-    this.subscriptionPayload = {...this.subscriptionForm.value}
+    this.subscriptionPayload = {...this.subscriptionForm.value, schedules: this.subscriptionSchedule}
+    if(this.logoFile) this.subscriptionPayload.logoFile = this.logoFile;
+
+    console.log(this.subscriptionPayload);
 
     if(this.subscriptionForm.valid){
       this.subscriptionService.updateSubscription(this.subscriptionPayload,this.selectedSubscription?.ssid.uuid).subscribe(data => {
@@ -160,8 +126,12 @@ export class CreateProfileComponent implements OnInit {
 
   }
 
-  setPhoneField(contact:any,event:any) {
+  setSubscriptionSchedule(subscriptionSchedule:Schedule[]){
+    this.subscriptionSchedule = subscriptionSchedule.length > 0 ? subscriptionSchedule : [] ;
+  }
 
+  setPhoneField(contact:any,event:any) {
+    console.log(event);
     const index = this.returnIndexFormArrayContact(contact);
 
     (this.subscriptionForm.get('contacts') as FormArray)?.at(index).patchValue({
@@ -169,15 +139,8 @@ export class CreateProfileComponent implements OnInit {
     });
   }
 
-  setScheduleFieldToggle(event:any,index:any)
-  {
-    (this.subscriptionForm.get('schedules') as FormArray)?.at(index).patchValue({
-      is_closed: !event.checked,
-    });
-  }
-
-  returnWeekDayDesc(weekDay: number) {
-    return WeekDaysDescription.get(weekDay);
+  setLogoFileSubscription(event:any){
+    this.logoFile = event;
   }
 
   addItem(formArray:string,item:any){
@@ -202,6 +165,11 @@ export class CreateProfileComponent implements OnInit {
 
   returnFormArray(formArray: string) {
     return this.formService.returnFormArrayControls(this.subscriptionForm,formArray);
+  }
+
+  returnFormArrayFields(formArray:string,field:any,index = 0,contact = null){
+    if(contact) index = this.returnIndexFormArrayContact(contact);
+    return this.formService.returnFormArrayFields(this.subscriptionForm,formArray,index,field);
   }
 
   changeValueCheckboxAddress(event:any,index:number){

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-upload-image',
@@ -7,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadImageComponent implements OnInit {
 
-  imagenSubir!: File;
-  imgTemp!: any;
+  @Output() imgUpload:any = new EventEmitter<File>();
+  @Input()  imgUrl!:string | null;
+  imgTemp!:any;
 
   constructor() { }
 
@@ -18,8 +19,6 @@ export class UploadImageComponent implements OnInit {
   changeImage(event: any) {
     const file = event.target.files[0];
 
-    this.imagenSubir = file;
-
     if (!file) return (this.imgTemp = null);
 
     const reader = new FileReader();
@@ -27,6 +26,7 @@ export class UploadImageComponent implements OnInit {
 
     reader.onloadend = () => {
       this.imgTemp = reader.result;
+      this.imgUpload.emit(file);
     };
 
     return this.imgTemp;
@@ -34,6 +34,7 @@ export class UploadImageComponent implements OnInit {
 
   removeImage() {
     this.imgTemp = null;
+    this.imgUrl = null;
   }
 
 }

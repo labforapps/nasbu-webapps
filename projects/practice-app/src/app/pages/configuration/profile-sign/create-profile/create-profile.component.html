@@ -2,10 +2,10 @@
     <div class="l-create__header">
         <app-header></app-header>
     </div>
-    <form [formGroup]="subscriptionForm" (ngSubmit)="submitForm()">
+    <form [formGroup]="subscriptionForm" (ngSubmit)="submitForm()" #form="ngForm">
         <div class="l-create__body">
           <div class="l-create__btnBack">
-              <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>Volver atras</button>
+              <button type="button" mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>Volver atras</button>
           </div>
           <div class="c-create">
               <div class="c-create__header mb-0">
@@ -26,10 +26,10 @@
                               <mat-label>Nombre </mat-label>
                               <input formControlName="name" class="c-form-group__input" matInput placeholder="Nombre">
                           </mat-form-field>
-
+                        <mat-error *ngIf="subscriptionForm.controls['name'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                       </div>
                       <div class="col-sm-6">
-                         <app-upload-image></app-upload-image>
+                         <app-upload-image *ngIf="subscription" [imgUrl]="subscription.logo_url" (imgUpload)="setLogoFileSubscription($event)"></app-upload-image>
                       </div>
                   </div>
                   <hr class="u-divider--marginBig">
@@ -62,6 +62,8 @@
                             </mat-form-field> -->
                             <ngx-intl-tel-input (numberChange)="setPhoneField(contactPhone.value,$event)" [value]="contactPhone.value.contact_value" ></ngx-intl-tel-input>
 
+                            <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactPhone.value)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                             <button (click)="addItem('contacts',contactPhone.value)" type="button" mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
 
                           </div>
@@ -89,6 +91,8 @@
                                   <mat-label>Correo electrónico</mat-label>
                                   <input class="c-form-group__input" matInput formControlName="contact_value">
                               </mat-form-field>
+                              <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactEmail.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                               <button mat-button type="button" class="c-btn-add mb-4" (click)="addItem('contacts',contactEmail.value)">+ Añadir otro email</button>
                             </div>
                          </div>
@@ -181,120 +185,9 @@
                     </div>
                   </div>
                   <hr class="u-divider--marginBig">
-                  <div class="row">
-                      <div class="col-lg-11">
-                          <div class="information-title mb-1 u-bigSize">Horario de la firma</div>
-                          <p class="u-textLightColor mb-5">Puedes modificar todos los horarios</p>
-                           <div formArrayName="schedules" >
-                            <div *ngFor="let schedule of returnFormArray('schedules'); let i = index;" [formGroupName]="i">
-                              <div class="c-hour-sign">
-                                <div class="c-hour-sign__label u-primaryColor">{{returnWeekDayDesc(schedule.value.week_day)}}</div>
 
-                                <mat-form-field appearance="fill" class="c-form-group is-valid">
-                                    <mat-label>Hora de apertura</mat-label>
-                                    <input formControlName="start_time" class="c-form-group__input" matInput [ngxTimepicker]="picker1">
-                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
-                                </mat-form-field>
+                  <app-profile-schedule *ngIf="subscription" (subscriptionSchedule)="setSubscriptionSchedule($event)" [subscription]="subscription"></app-profile-schedule>
 
-                                <div class="c-hour-sign__dash">-</div>
-
-                                <mat-form-field appearance="fill" class="c-form-group is-valid">
-                                    <mat-label>Hora de cierre</mat-label>
-                                    <input formControlName="end_time" class="c-form-group__input" matInput [ngxTimepicker]="picker2">
-                                    <ngx-material-timepicker #picker2></ngx-material-timepicker>
-                                </mat-form-field>
-
-                                <mat-slide-toggle class="c-switch" (change)="setScheduleFieldToggle($event,i)" [checked]="!schedule.value.is_closed">
-                                </mat-slide-toggle>
-                            </div>
-                            </div>
-                           </div>
-                          <!--<div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Martes</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div>
-                          <div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Miercoles</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div>
-                          <div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Jueves</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div>
-                          <div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Viernes</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div>
-                          <div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Sábado</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div>
-                          <div class="c-hour-sign">
-                              <div class="c-hour-sign__label">Domingo</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de apertura</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <div class="c-hour-sign__dash">-</div>
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Hora de cierre</mat-label>
-                                  <input class="c-form-group__input" matInput>
-                              </mat-form-field>
-                              <mat-slide-toggle class="c-switch">
-                              </mat-slide-toggle>
-                          </div> -->
-                      </div>
-                  </div>
               </div>
           </div>
       </div>

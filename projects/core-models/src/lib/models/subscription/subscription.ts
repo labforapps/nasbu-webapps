@@ -39,12 +39,19 @@ export interface Subscription extends SubscriptionPayload {
 
 export interface SubscriptionPayload {
   name: string;
-  contacts: Contact[];
+  contacts: SubscriptionContact[];
   schedules: Schedule[];
-  addresses: Address[];
+  addresses: SubscriptionAddress[];
   logoFile?: any;
 }
 
+export interface SubscriptionContact extends Contact{
+  subscription:string;
+}
+
+export interface SubscriptionAddress extends Address{
+  subscription:string;
+}
 export interface Schedule {
   schedule_id?: string;
   week_day:    number;

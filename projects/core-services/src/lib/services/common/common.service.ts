@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Country,Occupation } from 'core-models';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +13,19 @@ export class CommonService {
 
   getCountries(): Observable<Country[]> {
     const serverUrl: string = `${this.config.serverUrl}/common/countries/`;
-    return this.httpClient.get<Country[]>(serverUrl);
+    return this.httpClient.get<Country[]>(serverUrl).pipe(
+      map((countries:Country[]) => {
+        return countries.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          } else {
+            return 0;
+          }
+      });
+      })
+    );
   }
 
    getOccupations(): Observable<Occupation[]> {
