@@ -20,7 +20,6 @@ export class ProfileGeneralInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setArrayFields();
-    console.log(this.subscription);
 
     if(this.subscription.schedules.length === 0){
       this.subscription.schedules = [
@@ -88,7 +87,6 @@ export class ProfileGeneralInfoComponent implements OnInit {
 
   returnScheduleInformation(weekDay:number){
     const scheduleFiltered = this.subscription.schedules.filter(x => x.week_day === weekDay);
-    console.log(scheduleFiltered);
 
     return {
       ...scheduleFiltered[0],

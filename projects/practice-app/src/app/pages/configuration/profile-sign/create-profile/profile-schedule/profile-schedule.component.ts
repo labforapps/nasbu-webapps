@@ -20,7 +20,6 @@ export class ProfileScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.setDataFormArray();
-    console.log(this.subscription);
   }
 
   initForm()
@@ -39,7 +38,6 @@ export class ProfileScheduleComponent implements OnInit {
     const myArrayForm = this.scheduleForm.get('schedules') as FormArray;
     myArrayForm?.valueChanges.subscribe((newValues) => {
       this.subscriptionSchedule.emit(newValues);
-      // do something else here, such as update a variable or call a function
     });
   }
 
@@ -61,7 +59,6 @@ export class ProfileScheduleComponent implements OnInit {
   setDataFormArray()
   {
     if(this.subscription.schedules.length === 0){
-      this.formService.removeItemFormArray(this.scheduleForm,'schedules',0);
       const weekDaysArray = [1,2,3,4,5,6,7];
 
       for(let i = 0; i < weekDaysArray.length; i++){
@@ -82,6 +79,13 @@ export class ProfileScheduleComponent implements OnInit {
       return aIndex - bIndex;
     });
 
+    this.subscription.schedules = this.subscription.schedules.map(schedule => ({
+      ...schedule,
+      start_time: `${schedule.start_time.slice(0, 5)}`,
+      end_time: `${schedule.end_time.slice(0, 5)}`
+    }));
+
+    this.formService.removeItemFormArray(this.scheduleForm,'schedules',0);
     this.formService.setDataFormArray(this.scheduleForm,'schedules',this.subscription.schedules);
     this.subscriptionSchedule.emit(this.subscription.schedules);
   }

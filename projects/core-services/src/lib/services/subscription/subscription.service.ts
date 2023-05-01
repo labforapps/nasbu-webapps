@@ -29,15 +29,19 @@ export class SubscriptionService {
     return updateOperation$.pipe(
       switchMap((item: Subscription) => {
         if (subscriptionPayload.logoFile) {
-          return this.uploadImage(item.uuid);
+          return this.uploadImage(item.uuid,subscriptionPayload.logoFile);
         }
         return of(item);
       })
     );
   }
 
-  uploadImage(uuid:string){
-    const serverUrl = `${this.config.serverUrl}/subscription/${uuid}/upload_image/`;
-    return this.httpClient.get<any>(serverUrl);
+  uploadImage(subscription:string,image:File){
+    const serverUrl = `${this.config.serverUrl}/subscription/${subscription}/upload_image/`;
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('subscription', subscription);
+    console.log('Form Data',formData);
+    return this.httpClient.put<any>(serverUrl,formData);
   }
 }

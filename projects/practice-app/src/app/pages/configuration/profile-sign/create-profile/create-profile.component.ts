@@ -85,18 +85,14 @@ export class CreateProfileComponent implements OnInit {
   }
 
   setDataInForm(){
-
     this.subscriptionForm.patchValue({
       ...this.subscription
     })
 
     this.setDataInFormArrays();
-
-    console.log(this.subscriptionForm.value);
   }
 
   setDataInFormArrays(){
-
    if(this.subscription.contacts.length > 0){
     this.removeItemFormArray('contacts',0);
     this.removeItemFormArray('contacts',0);
@@ -113,11 +109,9 @@ export class CreateProfileComponent implements OnInit {
     this.subscriptionPayload = {...this.subscriptionForm.value, schedules: this.subscriptionSchedule}
     if(this.logoFile) this.subscriptionPayload.logoFile = this.logoFile;
 
-    console.log(this.subscriptionPayload);
-
     if(this.subscriptionForm.valid){
       this.subscriptionService.updateSubscription(this.subscriptionPayload,this.selectedSubscription?.ssid.uuid).subscribe(data => {
-        console.log(data);
+        this.toastr.success('Ok',this.translateService.instant('successMessages.updated_successfully'));
       })
     }
     else{
@@ -131,9 +125,7 @@ export class CreateProfileComponent implements OnInit {
   }
 
   setPhoneField(contact:any,event:any) {
-    console.log(event);
     const index = this.returnIndexFormArrayContact(contact);
-
     (this.subscriptionForm.get('contacts') as FormArray)?.at(index).patchValue({
       contact_value: event,
     });
@@ -143,7 +135,18 @@ export class CreateProfileComponent implements OnInit {
     this.logoFile = event;
   }
 
-  addItem(formArray:string,item:any){
+  addContactItem(formArray:string,item:any){
+    item = {
+      type:item.type,
+      sub_type:item.sub_type,
+      contact_value: item.contact_value
+    }
+    this.formService.addItemFormArray(this.subscriptionForm,formArray,item);
+  }
+
+  addAddressItem(formArray:string,item:any){
+    delete item.uuid;
+    delete item.address_id;
     this.formService.addItemFormArray(this.subscriptionForm,formArray,item);
   }
 

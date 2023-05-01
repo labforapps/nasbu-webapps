@@ -23,8 +23,8 @@
                       <div class="col-sm-6 d-flex flex-column justify-content-center">
                           <label class="u-title-label">Nombre de la empresa <span class="u-dangerColor">*</span></label>
                           <mat-form-field appearance="fill" class="c-form-group">
-                              <mat-label>Nombre </mat-label>
-                              <input formControlName="name" class="c-form-group__input" matInput placeholder="Nombre">
+                              <mat-label> </mat-label>
+                              <input formControlName="name" class="c-form-group__input" matInput placeholder="">
                           </mat-form-field>
                         <mat-error *ngIf="subscriptionForm.controls['name'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                       </div>
@@ -64,7 +64,7 @@
 
                             <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactPhone.value)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                            <button (click)="addItem('contacts',contactPhone.value)" type="button" mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
+                            <button (click)="addContactItem('contacts',contactPhone.value)" type="button" mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
 
                           </div>
                         </div>
@@ -93,7 +93,7 @@
                               </mat-form-field>
                               <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactEmail.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                              <button mat-button type="button" class="c-btn-add mb-4" (click)="addItem('contacts',contactEmail.value)">+ Añadir otro email</button>
+                              <button mat-button type="button" class="c-btn-add mb-4" (click)="addContactItem('contacts',contactEmail.value)">+ Añadir otro email</button>
                             </div>
                          </div>
                       </div>
@@ -128,7 +128,7 @@
                               <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}" required>
 
                             </mat-form-field>
-                            <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                            <mat-error *ngIf="returnFormArrayFields('addresses','physical_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                             <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
@@ -136,7 +136,7 @@
                               <input class="c-form-group__input" matInput formControlName="physical_address" placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}" required>
 
                             </mat-form-field>
-                            <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                            <mat-error *ngIf="returnFormArrayFields('addresses','physical_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
 
                             <div class="col-sm-6 p-0">
@@ -144,7 +144,7 @@
                                 <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput formControlName="physical_postal_code" required>
                               </mat-form-field>
-                              <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                              <mat-error *ngIf="returnFormArrayFields('addresses','physical_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                             </div>
 
                             <mat-checkbox class="c-checkbox mt-1 mb-4"   (change)="changeValueCheckboxAddress($event,i)">
@@ -161,26 +161,26 @@
                                 <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput formControlName="postal_city" placeholder="Ej: Miami, Florida" required>
                               </mat-form-field>
-                              <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                              <mat-error *ngIf="returnFormArrayFields('addresses','postal_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                               <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput formControlName="postal_address" placeholder="Calle, número, Apart." required="">
                               </mat-form-field>
-                              <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                              <mat-error *ngIf="returnFormArrayFields('addresses','postal_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                               <div class="col-sm-6 p-0">
                                 <mat-form-field appearance="fill" class="c-form-group">
                                   <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
                                   <input class="c-form-group__input" matInput formControlName="postal_postal_code" required>
                                 </mat-form-field>
-                                <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
+                                <mat-error *ngIf="returnFormArrayFields('addresses','postal_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                               </div>
 
                           </div>
                       </div>
                       <div class="col-sm-12 mt-1">
-                        <button mat-button type="button" class="c-btn-add" (click)="addItem('addresses',address.value)">+ Añadir nuevo domicilio</button>
+                        <button mat-button type="button" class="c-btn-add" (click)="addAddressItem('addresses',address.value)">+ Añadir nuevo domicilio</button>
                     </div>
                     </div>
                   </div>

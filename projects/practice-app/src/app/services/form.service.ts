@@ -46,7 +46,8 @@ export class FormService {
     const contactArray = (form.get('contacts') as FormArray).controls.filter((control) => {
       return control.get('type')?.value === contact.type
       && control.get('sub_type')?.value === contact.sub_type
-      && control.get('contact_value')?.value === contact.contact_value;
+      && control.get('contact_value')?.value === contact.contact_value
+      && (control.get('contact_id')?.value ? control.get('contact_id')?.value === contact.contact_id : true )
     });
 
     const index = (form.get('contacts') as FormArray).controls.indexOf(contactArray[0]);
