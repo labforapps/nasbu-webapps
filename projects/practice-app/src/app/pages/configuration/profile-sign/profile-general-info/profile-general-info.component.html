@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">Compañía </b>Moya & Asociados
+            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">Compañía </b>{{subscription.name}}
 
         </div>
     </div>
@@ -21,39 +21,31 @@
             <div class="col-md-6 ">
                 <div class="information-title ">Teléfonos</div>
 
-                <div class="info-group ">
+                <div class="info-group " *ngFor="let contact of subscriptionContactPhones">
                     <div class="info-group__info ">
                         <span class="icon-mobile"></span> Núm. Celular
                     </div>
                     <div class="info-group__data mr-5">
-                        +1 (734) 938 8394
+                        {{contact.contact_value}}
                     </div>
                 </div>
-                <div class="info-group ">
+                <!-- <div class="info-group ">
                     <div class="info-group__info ">
                         <span class="icon-company "></span> Núm. Celular
                     </div>
                     <div class="info-group__data mr-5">
                         +1 (734) 938 8394
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-6 ">
-                <div class="information-title ">Teléfonos</div>
-                <div class="info-group ">
+                <div class="information-title ">Email</div>
+                <div class="info-group " *ngFor="let contact of subscriptionContactEmail">
                     <div class="info-group__info ">
                         <span class="icon-email"></span> Correo personal
                     </div>
                     <div class="info-group__data ">
-                        Manuel@fugus.com
-                    </div>
-                </div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-email"></span> Correo empresarial
-                    </div>
-                    <div class="info-group__data ">
-                        Manuel@fugus.com
+                        {{contact.contact_value}}
                     </div>
                 </div>
             </div>
@@ -69,36 +61,17 @@
                 <div class="c-generalInfo__title ">
                     <span class="icon-clock mr-3"></span>Horarios
                 </div>
-
                 <div class="w-75">
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Lunes </b>
-                        <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p>
+                    <div class="d-flex justify-content-between mb-1" *ngFor="let weekDay of weekDays">
+                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).nameDay}} </b>
+                        <!-- <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p> -->
+                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).start_time}} - {{returnScheduleInformation(weekDay).end_time}} </b>
                     </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Martes </b>
-                        <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Miercoles</b>
-                        <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Jueves</b>
-                        <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Viernes</b>
-                        <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Sabado</b>
+
+                    <!-- <div class="d-flex justify-content-between mb-1">
+                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(1).nameDay}}</b>
                         <p class="u-textLightColor u-smallSize">No laborable</p>
-                    </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <b class="u-textColor u-smallSize mr-3">Domingo</b>
-                        <p class="u-textLightColor u-smallSize">No laborable</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-md-6">
@@ -108,7 +81,7 @@
                 <div class="align-items-center d-flex">
                     <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
                     <div>
-                        <div class=" c-generalInfo__name ">Kenneth Leonord </div>
+                        <div class=" c-generalInfo__name ">{{this.subscription.name}} </div>
                         <div class="c-generalInfo__subname ">Responsable de la cuenta </div>
                     </div>
                 </div>
@@ -126,7 +99,7 @@
         <div class="c-generalInfo__title ">
             <span class="icon-place mr-3"></span>Dirección física y postal
         </div>
-        <div class="row mb-5">
+        <div class="row mb-5" *ngFor="let address of subscription.addresses">
             <div class="col-md-6">
                 <div class="information-title ">Dirección física #1 </div>
 
@@ -136,51 +109,39 @@
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">Ciudad, Estado ó provincia</div>
-                    <div class="info-group__data mr-5">Miami, Florida </div>
+                    <div class="info-group__data mr-5">{{address.physical_city}} </div>
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">Código Postal</div>
-                    <div class="info-group__data mr-5">33126</div>
+                    <div class="info-group__data mr-5">{{address.physical_postal_code}}</div>
                 </div>
                 <div class="info-group mb-2">
                     <div class="info-group__info ">Dirección física</div>
-                    <div class="info-group__data mr-5">1466 NW 78 AVE</div>
+                    <div class="info-group__data mr-5">{{address.physical_address}}</div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="information-title ">Dirección Postal #1</div>
+            <!-- <div class="col-md-6" *ngIf="address.postal_address === '' && address.postal_city === '' && address.postal_postal_code === ''">
+                <div class="information-title ">Dirección Postal</div>
                 <p class="u-textLightColor u-smallSize">
                     No tiene dirección postal
                 </p>
+            </div> -->
+            <div class="col-md-6" *ngIf="address.postal_address !== '' && address.postal_city !== '' && address.postal_postal_code !== ''">
+              <div class="information-title ">Dirección Postal #1 </div>
+                  <div class="info-group mb-2">
+                    <div class="info-group__info ">Ciudad</div>
+                    <div class="info-group__data mr-5">{{address.postal_city}}</div>
+                </div>
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">Codigo Postal</div>
+                  <div class="info-group__data mr-5">{{address.postal_postal_code}}</div>
+              </div>
+              <div class="info-group mb-2">
+                <div class="info-group__info ">Dirección</div>
+                <div class="info-group__data mr-5">{{address.postal_address}}</div>
             </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="information-title ">Dirección física #2 </div>
 
-                <div class="info-group mb-2 ">
-                    <div class="info-group__info ">País</div>
-                    <div class="info-group__data mr-5">República Dominicana</div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Ciudad, Estado ó provincia</div>
-                    <div class="info-group__data mr-5">Miami, Florida </div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Código Postal</div>
-                    <div class="info-group__data mr-5">33126</div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Dirección física</div>
-                    <div class="info-group__data mr-5">1466 NW 78 AVE</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="information-title ">Dirección Postal #2</div>
-                <p class="u-textLightColor u-smallSize">
-                    No tiene dirección postal
-                </p>
-            </div>
-        </div>
     </div>
 </div>

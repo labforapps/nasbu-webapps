@@ -1,4 +1,7 @@
 {
+  "common":{
+
+  },
    "login": {
       "title": "Iniciar sesión",
       "subTitle": "Bienvenido a Nasbu",
@@ -563,10 +566,205 @@
       }
     }
    },
+   "collaborator":{
+    "title":"Colaboradores",
+    "search_by_name":"Buscar por nombre",
+    "all":"Todos",
+    "buttons":{
+      "create_new_collaborator":"Crear nuevo colaborador",
+      "edit":"editar",
+      "delete":"Eliminar"
+    },
+    "table":{
+      "photo":"Foto",
+      "name":"Nombre",
+      "cellphone_number":"Teléfono celular",
+      "email":"Correo electrónico",
+      "function_or_role":"Función o rol",
+      "license":"Licencia",
+      "actions":"Acciones"
+    },
+    "form_create":{
+      "create_new_collaborator":"Create new collaborator",
+      "edit_collaborator":"Editar colaborador",
+      "button_save_changes":"Guardar cambios",
+      "button_is_everything_ready":"¿Está todo listo?",
+      "choose_option":"Seleccionar una de las opciones",
+      "name_of_the_collaborator":"Nombre del colaborador",
+      "name_of_the_person":"Nombre de la persona",
+      "photo_or_logo":"Foto o Logo",
+      "upload_image_max_2":"Subir imagen máximo 2MB",
+      "name":"Nombre",
+      "firstname":"Primer nombre",
+      "lastname":"Apellido",
+      "origin_country":"Pais de origen",
+      "contact":"Contacto",
+      "email":"Correo electrónico",
+      "personal_email":"Correo electrónico Personal",
+      "business_email":"Correo electrónico de la empresa",
+      "born_date":"Fecha de nacimiento",
+      "select_marital_status":"Seleccionar estado civil",
+      "select_occupation":"Seleccionar profesión",
+      "marital_status":"Estado civil",
+      "occupation":"Ocupación",
+      "add_new_license":"Añadir nueva licencia",
+      "personal_telephone":"Teléfono personal",
+      "business_telephone":"Teléfono empresarial",
+      "cellphone_number":"Núm. de teléfono celular",
+      "telephone_number":"Núm. de teléfono",
+      "landline_number":"Residencia",
+      "phone_office_number":"Núm. del trabajo",
+      "add_another_telephone_number":"Agregar otro teléfono",
+      "add_another_email":"Agregar otro correo",
+      "choose_country":"Seleccionar país",
+      "physical_address":"Dirección física",
+      "mailing_address":"Dirección postal",
+      "placeholder_physical_city":"Ej.: Miami, Florida",
+      "placeholder_physical_address":"Calle, número, Apart.",
+      "city":"Ciudad",
+      "postal_code":"Código postal",
+      "address":"Dirección",
+      "add_another_address":"Agregar nueva dirección",
+      "physical_postal_address_share_info":"Dirección física y postal comparten la misma información",
+      "change":"Cambiar",
+      "remember_fill_required_information":"Recuerda completar los datos requeridos",
+      "save_create_another":"Guardar y crear otro",
+      "married":"Casado/a",
+      "single":"Soltero/a",
+      "widowed":"Viudo/a",
+      "divorced":"Divorciado/a"
+
+    },
+    "profile":{
+      "goBack":"Volver atrás",
+      "fast_invoicing":"Facturación rápida",
+      "edit_collaborator":"Editar colaborador",
+      "general_details":"Datos generales",
+      "dockets":"Expedientes",
+      "pending_tasks":"Asuntos pendientes",
+      "invoicing":"Facturación",
+      "contact_details":"Datos de contacto",
+      "user_details":"Detalles del usuario",
+      "entity":"Compañía",
+      "contact_information":"Contactos",
+      "personal_circumstances":"Circunstancias personales",
+      "birth_date":"Fecha de nacimiento",
+      "profession_and_or_trade":"Profesión u/o oficio",
+      "civil_status":"Estado civil",
+      "telephones":"Teléfonos",
+      "telephone_number":"Telephone numbers",
+      "cellphone_number":"Núm. Celular",
+      "work_number":"Work number",
+      "email":"Correo electrónico",
+      "personal_email":"Correo Personal",
+      "work_email":"Correo empresarial",
+      "details":"Datos",
+      "license":"Licencia",
+      "licensing_government_authority":"Gobierno emisor licencia",
+      "attorney_fees":"Honorarios",
+      "cost_per_hour":"Costo por hora",
+      "physical_mailing_address":"Dirección físical y postal",
+      "physical_address":"Dirección física",
+      "country":"País",
+      "city_state_province":"Ciudad, Estado o Provincia",
+      "postal_code":"Código postal",
+      "mailing_address":"Dirección postal",
+      "not_have_mailing_address":"No tiene dirección postal",
+      "postal_address":"Dirección Postal"
+    },
+    "files":{
+      "files_title":"Expedientes",
+      "tabs":{
+        "all":"Todos",
+        "open":"Abiertos",
+        "closed":"Cerrados"
+      },
+      "table_header":{
+        "search_for_name":"Buscar por Nombre",
+        "create_new":"Crear nuevo"
+      },
+      "table_columns":{
+        "type":"Tipo",
+        "subject_description":"Descripcion Asunto",
+        "case_assigned_to":"Caso asignado a",
+        "customer":"Cliente",
+        "last_update":"Ult. Actualización",
+        "shared_with":"Compartido con",
+        "actions":"Acciones"
+      },
+      "buttons":{
+        "edit":"Editar",
+        "delete":"Eliminar",
+        "share":"Compartir",
+        "watch":"Ver",
+        "send_file_to_client":"Enviar expediente a cliente"
+      }
+
+    },
+    "pending_issues":{
+      "pending_issues_title":"",
+      "tabs":{
+          "all":"Todos",
+          "pending":"Pendientes",
+          "completed":"Completados"
+      },
+      "table_header":{
+        "filter_by":"Filtrar por",
+        "search":"Buscar",
+        "create_new_task":"Crear nueva tarea"
+      },
+      "table_columns":{
+        "type":"Tipo",
+        "task_assigned_to":"Tarea asignada a",
+        "expiration_date":"Fecha de Vencimiento",
+        "shared_with":"Compartido con",
+        "subject_description":"Descripcion Asunto"
+      },
+      "filter_by":{
+        "filter_criteria":"Criterios de filtrado",
+        "priority":"Prioridad",
+        "priority_level":"Nivel de prioridad",
+        "status":"Estatus",
+        "state":"Estado",
+        "responsible_for_the_task":"Responsable de la tarea",
+        "name":"Nombre",
+        "subject_type":"Tipo asunto",
+        "apply_filters":"Aplicar filtros",
+        "clear_criteria":"Limpiar criterios"
+      }
+
+    },
+    "billing":{
+
+      "billing_title":"",
+      "tabs":{
+        "all":"Todas",
+        "pending_charge":"Pendiente de Cobro",
+        "charged":"Cobrado"
+      },
+      "table_header":{
+        "new_bill":"Nueva factura",
+        "date_range":"Rango de fecha",
+        "search_for_name":"Buscar por nombre",
+        "organized_by_creation_date":"Organizado por fecha de creación",
+        "billings_listed":"facturaciones listadas"
+      },
+      "table_columns":{
+        "type":"Tipo",
+        "status":"Estatus",
+        "file":"Expediente",
+        "date":"Fecha",
+        "balance":"Balance",
+        "actions":"Acciones"
+      }
+
+    }
+   },
    "menu":{
     "title":"Menú",
     "activity_summary":"Resumen de actividades",
     "clients":"Clientes",
+    "collaborators":"Colaboradores",
     "shared_dockets":"Colaboradores",
     "dockets":"Expedientes",
     "documents_templates":"Documentos y plantillas",

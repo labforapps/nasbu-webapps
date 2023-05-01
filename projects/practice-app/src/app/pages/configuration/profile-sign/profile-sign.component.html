@@ -21,7 +21,7 @@
                     Datos generales
                     <span class="icon-contacts"></span>
                 </ng-template>
-                <app-profile-general-info></app-profile-general-info>
+                <app-profile-general-info *ngIf="subscription" [subscription]="subscription"></app-profile-general-info>
 
             </mat-tab>
             <mat-tab>

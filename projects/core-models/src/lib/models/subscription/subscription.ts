@@ -1,3 +1,5 @@
+import { Address, Contact } from "../shared";
+
 export type SubscriptionPeriod = 'M' | 'Y';
 
 export interface SubscriptionOnboarding {
@@ -8,7 +10,7 @@ export interface SubscriptionOnboarding {
     total_users: number;
 }
 
-export interface Subscription {
+export interface Subscription extends SubscriptionPayload {
   uuid: string;
   active: boolean;
   created_at: Date;
@@ -33,5 +35,28 @@ export interface Subscription {
   created_by: string;
   updated_by?: any;
   plan: string;
+}
+
+export interface SubscriptionPayload {
+  name: string;
+  contacts: SubscriptionContact[];
+  schedules: Schedule[];
+  addresses: SubscriptionAddress[];
+  logoFile?: any;
+}
+
+export interface SubscriptionContact extends Contact{
+  subscription:string;
+}
+
+export interface SubscriptionAddress extends Address{
+  subscription:string;
+}
+export interface Schedule {
+  schedule_id?: string;
+  week_day:    number;
+  is_closed:   boolean;
+  start_time:  string;
+  end_time:    string;
 }
 

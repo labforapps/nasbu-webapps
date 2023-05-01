@@ -36,6 +36,7 @@ import { FilePickerModule } from 'ngx-awesome-uploader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     DialogIntakeComponent,
     DialogSendInvoiceComponent,
     DialogReSendRegisterComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
@@ -80,7 +82,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     NgxPermissionsModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    UploadImageComponent
   ]
 })
 export class ComponentsModule { }

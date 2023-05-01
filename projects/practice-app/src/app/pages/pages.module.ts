@@ -69,6 +69,13 @@ import { FormCreateRepresentativeDataComponent } from './client-intake/form-crea
 import { FormCreateRepresentativeAddressComponent } from './client-intake/form-create-representative-address/form-create-representative-address.component';
 import { AccountConfirmationComponent } from './account-confirmation/account-confirmation.component';
 import { TasksModule } from './taskpage/tasks.module';
+import { CollaboratorExpedientComponent } from './collaborator/collaborator-profile/collaborator-expedient/collaborator-expedient.component';
+import { CollaboratorPendingIssuesComponent } from './collaborator/collaborator-profile/collaborator-pending-issues/collaborator-pending-issues.component';
+import { CollaboratorInvoicingComponent } from './collaborator/collaborator-profile/collaborator-invoicing/collaborator-invoicing.component';
+import { CollaboratorExpedientTableComponent } from './collaborator/collaborator-profile/collaborator-expedient/collaborator-expedient-table/collaborator-expedient-table.component';
+import { CollaboratorInvoicingTableComponent } from './collaborator/collaborator-profile/collaborator-invoicing/collaborator-invoicing-table/collaborator-invoicing-table.component';
+import { CollaboratorPendingIssuesTableComponent } from './collaborator/collaborator-profile/collaborator-pending-issues/collaborator-pending-issues-table/collaborator-pending-issues-table.component';
+import { ProfileScheduleComponent } from './configuration/profile-sign/create-profile/profile-schedule/profile-schedule.component';
 
 
 @NgModule({
@@ -130,6 +137,13 @@ import { TasksModule } from './taskpage/tasks.module';
     ExpedientWalletComponent,
     NotesComponent,
     ExpedientTasksComponent,
+    CollaboratorExpedientComponent,
+    CollaboratorPendingIssuesComponent,
+    CollaboratorInvoicingComponent,
+    CollaboratorExpedientTableComponent,
+    CollaboratorInvoicingTableComponent,
+    CollaboratorPendingIssuesTableComponent,
+    ProfileScheduleComponent,
   ],
   imports: [
     CommonModule,

@@ -180,7 +180,7 @@ export class ClientTableComponent implements OnInit {
 
               const arrayFiltered = this.customers.filter(x => x.uuid !== id);
               this.customers = arrayFiltered;
-              this.dataSourceCustomers = new MatTableDataSource<Customer>(this.customers);
+              this.dataSourceCustomers.data = this.customers;
 
               this.toastr.success(
                 'Ok',
