@@ -2,9 +2,10 @@
     <div class="l-create__header">
         <app-header></app-header>
     </div>
-    <div class="l-create__body">
+   <form [formGroup]="collaboratorForm" (ngSubmit)="submitForm()" #form="ngForm">
+      <div class="l-create__body">
         <div class="l-create__btnBack">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>{{'collaborator.profile.goBack' | translate }}</button>
+            <button type="button" mat-button class="u-smallSize" [routerLink]="'/collaborator'"> <span class="icon-arrow-back mr-2"></span>{{'collaborator.profile.goBack' | translate }}</button>
         </div>
         <div class="c-create">
             <div class="c-create__header">
@@ -15,9 +16,9 @@
                         <div class="c-create__text">{{'collaborator.form_create.choose_option' | translate }}</div>
                     </div>
                     <div class="col-sm-6 mb-2">
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0">
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0" >
                             <mat-label>Abogado</mat-label>
-                            <mat-select>
+                            <mat-select formControlName="role">
                                 <mat-option>
                                     Option 1
                                 </mat-option>
@@ -29,9 +30,13 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <br><br>
+                        <mat-error *ngIf="collaboratorForm.controls['role'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                     </div>
+
                     <div class="col-sm-6 align-items-center d-flex">
-                        <button mat-button class="u-link" (click)="openDialogNewRole()">Añadir nuevo rol ó función</button>
+                        <button type="button" mat-button class="u-link" (click)="openDialogNewRole()">Añadir nuevo rol ó función</button>
                     </div>
                 </div>
             </div>
@@ -39,222 +44,225 @@
             <div class="c-create__body">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="u-title-label">{{'collaborator.form_create.name_of_the_collaborator' | translate }}<span class="u-dangerColor">*</span></label>
+
+                      <label class="u-title-label">{{'collaborator.form_create.name_of_the_collaborator' | translate }}<span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'collaborator.form_create.firstname' | translate }} </mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Nombre">
+                            <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="firstname">
                         </mat-form-field>
+                        <mat-error *ngIf="collaboratorForm.controls['firstname'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                         <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'collaborator.form_create.lastname' | translate }}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Apellido">
+                            <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="lastname">
                         </mat-form-field>
+                        <mat-error *ngIf="collaboratorForm.controls['lastname'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                         <label class="u-title-label">{{'collaborator.form_create.origin_country' | translate}}<span class="u-dangerColor">*</span></label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                             <mat-label>{{'collaborator.form_create.choose_country' | translate }} </mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                                <mat-option>
-                                    Option 2
-                                </mat-option>
-                                <mat-option>
-                                    Option 3
+                            <mat-select formControlName="country">
+                                <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                    {{country.name}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <mat-error *ngIf="collaboratorForm.controls['country'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
                     </div>
                     <div class="col-sm-6">
-                        <label class="u-title-label">{{'collaborator.form_create.photo_or_logo' | translate }}</label>
-                        <div class="c-uploadPicture">
-                            <div class="c-uploadPicture__img">
-                                <img src="../../../../assets/images/upload-camera.svg" alt="">
-                                <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
-                            </div>
-                            <div class="c-uploadPicture__controls">
-                                <div class="c-uploadPicture__text">
-                                    Nota: <br> {{'collaborator.form_create.upload_image_max_2' | translate }}
+                        <app-upload-image></app-upload-image>
+                    </div>
+                </div>
+
+
+
+                <hr class="u-divider--marginBig">
+
+                <div formArrayName="licenses">
+                  <div *ngFor="let license of returnFormArray('licenses'); let i = index" [formGroupName]="i">
+                    <br>
+                    <div class="row">
+                      <div class="col-sm-6">
+                          <label class="u-title-label mb-0">Licencia de abogado ó profesional</label>
+
+                          <p class="u-textLightColor u-smallSize mb-2">(Número ó código alfanumérico)</p>
+
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.profile.license' | translate }}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="No. de licencia Ej: A34BB8" formControlName="license">
+                              <div class="c-form-group__action" (click)="removeItemFormArray('licenses',i)">
+                                <button type="button" mat-button type='button'><span class="icon-times"></span></button>
+                              </div>
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('licenses','license',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      </div>
+                      <div class="col-sm-6">
+                          <label class="u-title-label mt-4">¿Qué gobierno emitió esta licencia?</label>
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.name' | translate }}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="Estado ó provincia " formControlName="government">
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('licenses','government',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      </div>
+                      <div class="col-sm-12">
+                          <button type="button" mat-button class="c-btn-add" (click)="addLicenseItem('licenses',license.value)">+ {{'collaborator.form_create.add_new_license' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <hr class="u-divider--marginBig">
+                <div class="row" formArrayName="contacts">
+                    <div class="col-sm-6">
+                       <div *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)">
+                        <br>
+                            <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
+                            <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-label>{{'collaborator.form_create.cellphone_number' | translate}}</mat-label>
+                                <mat-select formControlName="sub_type">
+                                  <mat-option [value]="subtypeContact.cellphone_number">
+                                    {{'clients.form_create.cellphone_number' | translate}}
+                                  </mat-option>
+                                  <mat-option [value]="subtypeContact.currentphone_number">
+                                    {{'clients.form_create.landline_number' | translate}}
+                                  </mat-option>
+                                  <mat-option [value]="subtypeContact.phoneoffice_number">
+                                    {{'clients.form_create.phone_office_number' | translate}}
+                                  </mat-option>
+                                </mat-select>
+                                <div class="c-form-group__action" (click)="deleteContact(contactPhone.value)">
+                                  <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                                 </div>
-                                <div class="u-link mt-1">{{'collaborator.buttons.delete' | translate }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </mat-form-field>
+                            <!-- <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'clients.form_create.cellphone_number' | translate}} </mat-label>
+                                <input class="c-form-group__input" matInput>
+                            </mat-form-field> -->
+                            <ngx-intl-tel-input (numberChange)="setPhoneField(contactPhone.value,$event)" [value]="contactPhone.value.contact_value" ></ngx-intl-tel-input>
+                            <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactPhone.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
 
+                            <button type="button" mat-button class="c-btn-add" (click)="addContactItem('contacts',contactPhone.value)">+ {{'collaborator.form_create.add_another_telephone_number' | translate}}</button>
+                       </div>
 
-                <hr class="u-divider--marginBig">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label class="u-title-label mb-0">Licencia de abogado ó profesional</label>
-
-                        <p class="u-textLightColor u-smallSize mb-2">(Número ó código alfanumérico)</p>
-
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.profile.license' | translate }}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="No. de licencia Ej: A34BB8">
-                        </mat-form-field>
                     </div>
                     <div class="col-sm-6">
-                        <label class="u-title-label mt-4">¿Qué gobierno emitió esta licencia?</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.name' | translate }}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Estado ó provincia ">
-                        </mat-form-field>
-
-                    </div>
-                    <div class="col-sm-12">
-                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_new_license' | translate }}</button>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-                <hr class="u-divider--marginBig">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'collaborator.form_create.cellphone_number' | translate}}</mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                                <mat-option>
-                                    Option 2
-                                </mat-option>
-                                <mat-option>
-                                    Option 3
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.cellphone_number' | translate}} </mat-label>
-                            <input class="c-form-group__input" matInput>
-                        </mat-form-field>
-                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_telephone_number' | translate}}</button>
-                    </div>
-                    <div class="col-sm-6">
+                      <div  *ngFor="let contactEmail of filterFormArray('contacts','type',typeContact.email); let i = index" [formGroupName]="returnIndexFormArrayContact(contactEmail.value)">
+                        <br>
                         <label class="u-title-label">{{'collaborator.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'collaborator.form_create.personal_email' | translate}}</mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
+                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                              <mat-label>{{'collaborator.form_create.personal_email' | translate}}</mat-label>
+                              <mat-select formControlName="sub_type">
+                                <mat-option [value]="subtypeContact.personal_email">
+                                  {{'clients.form_create.personal_email' | translate}}
                                 </mat-option>
-                                <mat-option>
-                                    Option 1
+                                <mat-option [value]="subtypeContact.business_email">
+                                  {{'clients.form_create.business_email' | translate}}
                                 </mat-option>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput>
-                        </mat-form-field>
-                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_email' | translate}}</button>
+                              </mat-select>
+                              <div class="c-form-group__action" (click)="deleteContact(contactEmail.value)">
+                                <button type="button" mat-button type='button'><span class="icon-times"></span></button>
+                              </div>
+                          </mat-form-field>
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
+                              <input class="c-form-group__input" matInput>
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactEmail.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          <button type="button" mat-button class="c-btn-add" (click)="addContactItem('contacts',contactEmail.value)">+ {{'collaborator.form_create.add_another_email' | translate}}</button>
+                        </div>
                     </div>
                 </div>
                 <hr class="u-divider--marginBig">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label class="u-title-label">{{'collaborator.form_create.physical_address' | translate}}</label>
-                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                            <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
-                            <mat-select>
-                                <mat-option>
-                                    Option 1
-                                </mat-option>
-                                <mat-option>
-                                    Option 2
-                                </mat-option>
-                                <mat-option>
-                                    Option 3
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
-                        </mat-form-field>
-                        <div class="col-sm-5 p-0">
-                            <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
-                                <input class="c-form-group__input" matInput>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-sm-12">
-                            <mat-checkbox class="c-checkbox mt-1 mb-4">
-                              {{'collaborator.form_create.physical_postal_address_share_info' | translate}}
-                            </mat-checkbox>
-                        </div>
+                <div formArrayName="addresses">
+                  <div *ngFor="let address of returnFormArray('addresses'); let i = index" [formGroupName]="i">
+                    <br>
+                    <div class="row">
+                      <div class="col-sm-6">
 
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="u-title-label">{{'collaborator.form_create.mailing_address' | translate}}</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Calle, número, Apart.">
-                        </mat-form-field>
-                        <div class="col-sm-5 p-0">
-                            <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
-                                <input class="c-form-group__input" matInput>
-                            </mat-form-field>
-                        </div>
-                    </div>
+                          <label class="u-title-label">{{'collaborator.form_create.physical_address' | translate}}</label>
+                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                              <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
+                              <mat-select formControlName="physical_country">
+                                  <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                      {{country.name}}
+                                  </mat-option>
+                              </mat-select>
+                              <div class="c-form-group__action" (click)="removeItemFormArray('addresses',i)">
+                                <button type="button" mat-button type='button'><span class="icon-times"></span></button>
+                              </div>
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','physical_country',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                    <div class="col-sm-12 mt-1">
-                        <button mat-button class="c-btn-add">+ {{'collaborator.form_create.add_another_address' | translate}}</button>
-                    </div>
+
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="physical_city">
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','physical_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="Calle, número, Apart." formControlName="physical_address">
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','physical_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          <div class="col-sm-5 p-0">
+
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="physical_postal_code">
+                              </mat-form-field>
+                              <mat-error *ngIf="returnFormArrayFields('addresses','physical_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          </div>
+                          <div class="col-sm-12">
+                              <mat-checkbox class="c-checkbox mt-1 mb-4" (change)="changeValueCheckboxAddress($event,i)">
+                                {{'collaborator.form_create.physical_postal_address_share_info' | translate}}
+                              </mat-checkbox>
+                          </div>
+
+                      </div>
+                      <div class="col-sm-6">
+
+                          <label class="u-title-label">{{'collaborator.form_create.mailing_address' | translate}}</label>
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="postal_city">
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','postal_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
+                              <input class="c-form-group__input" matInput placeholder="Calle, número, Apart." formControlName="postal_address">
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','postal_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                          <div class="col-sm-5 p-0">
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput formControlName="postal_postal_code">
+                              </mat-form-field>
+                          </div>
+                          <mat-error *ngIf="returnFormArrayFields('addresses','postal_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      </div>
+
+                      <div class="col-sm-12 mt-1">
+                          <button type="button" mat-button class="c-btn-add" (click)="addAddressItem('addresses',address.value)">+ {{'collaborator.form_create.add_another_address' | translate}}</button>
+                      </div>
+                  </div>
+                  </div>
                 </div>
 
 
                 <hr class="u-divider--marginBig">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label class="u-title-label mb-4">Configuración rated facturación  <span class="u-dangerColor">*</span></label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Monto</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="u-title-label mb-4">Dirección postal <span class="u-dangerColor">*</span></label>
-                        <div class="d-flex flex-column">
-                            <mat-checkbox class="c-checkbox mb-2">
-                                Añadir Honorarios por hora
-                            </mat-checkbox>
-                            <mat-checkbox class="c-checkbox mb-2">
-                                Precio único
-                            </mat-checkbox>
-                            <mat-checkbox class="c-checkbox mb-2">
-                                Por Incremento de tiempo
-                            </mat-checkbox>
-                            <mat-checkbox class="c-checkbox mb-2">
-                                Monto fijo ( Flat fee)
-                            </mat-checkbox>
-                            <mat-checkbox class="c-checkbox mb-2">
-                                No facturable
-                            </mat-checkbox>
-
-                        </div>
-                    </div>
-                </div>
+                <app-setting-rated-invoice-collaborator></app-setting-rated-invoice-collaborator>
             </div>
         </div>
     </div>
@@ -266,4 +274,5 @@
         </div>
 
     </div>
+   </form>
 </div>

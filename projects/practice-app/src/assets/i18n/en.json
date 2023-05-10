@@ -776,5 +776,86 @@
       "invoicing":"Invoicing",
       "reports":"Reports",
       "settings":"Settings"
-   }
+   },
+   "Monday":"Monday",
+   "Tuesday":"Tuesday",
+   "Wednesday":"Wednesday",
+   "Thursday":"Thursday",
+   "Friday":"Friday",
+   "Saturday":"Saturday",
+   "Sunday":"Sunday",
+   "firm":{
+    "goBack":"Go back",
+      "profile":{
+        "firm_profile":"Firm profile",
+        "general_details":"General details",
+        "payment_methods":"Payment methods",
+        "subscription_and_billing":"Subscription and billing",
+        "edit_profile":"Edit profile",
+        "hours":"Hours",
+        "administrator":"Administrator",
+        "account_manager":"Account manager",
+        "add_a_card":"Add a card",
+        "do_not_have_any_payment_methods_added":"You currently do not have any payment methods added",
+        "add_payment_method":"Add a payment method",
+        "current_plan":"Current plan",
+        "change_plan":"Change plan",
+        "monthly_subscription":"Monthly subscription",
+        "account_premium":"Account premium",
+        "cancel_subscription":"Cancel subscription",
+        "billing":"Billing",
+        "your_last_payment_was_made_on":"Your last payment was made on ",
+        "view_billing_history":"View billing history",
+        "these_payments_will_be_generated_automatically":"These payments will be generated automatically on a monthly basis.",
+        "your_next_payment_will_be_charged_on":"Your next payment payment of <b>38</b> USD, will be charged on"
+      },
+      "form_create":{
+        "name_of_the_firm":"Name of the firm",
+        "edit_profile_law_firm":"Edit the profile of your law firm",
+        "you_can_customize_all_the_information":"You can customize all the information",
+        "hours_of_operation":"Hours of operation",
+        "when_is_your_law_firm_open":"When is your law firm open?",
+        "opening_time":"Opening time",
+        "closing_time":"Closing time",
+        "save":"Save changes",
+        "remember_to_complete_all_required_fields":"Remember to complete all required fields"
+      }
+   },
+   "settings":{
+
+    "title":"Settings",
+    "permissions_and_users":"Permissions and users",
+    "here_you_can_configure_permissions_of_collaborators":"Here you can configure the permissions of your collaborators",
+    "firm_profile":"Firm profile",
+    "configure_details_of_your_firm_in_this_section":"Configure the details of your firm in this section.",
+    "nasbu_plans":"NASBU plans",
+    "change_your_plan_whenever_necessary":"Change your plan whenever necessary",
+    "invoicing_parameters":"Invoicing parameters",
+    "configure_your_rates_and_invoicing_models":"Configure your rates and invoicing models",
+    "notifications":"Notifications",
+    "configure_and_control_your_notifications":"Configure and control your notifications",
+
+    "permissions": {
+      "title":"Permissions",
+      "goBack":"Go back",
+      "add_group":"Add group",
+      "my_configured_permissions":"My configured permissions",
+      "permission_levels_of_NASBU":"Permission levels of NASBU",
+      "administrator":"Administrator",
+      "this_model_allows_you_crud_function_within_platform":"This model allows you to create, delete, edit, and view any function within the platform.",
+      "editor":"Editor",
+      "this_model_allows_you_create_edit_certain_elements":"This model allows you to create and edit certain elements.",
+      "read_only":"Read only",
+      "this_model_allows_you_view_information_applying_modification":"This model allows you to only view information without applying modifications.",
+      "existing_permission_group":"Existing permission group"
+    }
+  },
+  "Customers":"Customers",
+  "Case Files":"Case Files",
+  "Invoicing":"Invoicing",
+  "Reports":"Reports",
+  "Tasks":"Tasks",
+  "Settings":"Settings",
+  "Users":"Users"
+
 }

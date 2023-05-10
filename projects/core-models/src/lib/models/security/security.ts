@@ -69,3 +69,44 @@ export interface UserAtribetes {
     sub: string;
     updated_at: string;
 }
+
+export interface Group {
+  subscription:   string;
+  name:           string;
+  modules_access: ModulesAccess[];
+}
+
+export interface ModulesAccess {
+  module:    string;
+  type:      string;
+  access_id?: string;
+}
+
+export enum modules{
+  CUSTOMERS = 'customers',
+  CASE_FILES = 'case_files',
+  BILLING = 'billing',
+  REPORTS = 'reports',
+  TASKS = 'tasks',
+  CONFIG = 'config',
+  USERS = 'users',
+  ALL = 'all'
+}
+
+export const modulesDescription = new Map<string, string>([
+  [modules.CUSTOMERS, 'Customers'],
+  [modules.CASE_FILES, 'Case Files'],
+  [modules.BILLING, 'Invoicing'],
+  [modules.REPORTS, 'Reports'],
+  [modules.TASKS, 'Tasks'],
+  [modules.CONFIG, 'Settings'],
+  [modules.USERS, 'Users']
+
+]);
+
+
+export enum typeAccess{
+  ADMINISTRATOR = 'A',
+  WRITE = 'W',
+  READ = 'R'
+}

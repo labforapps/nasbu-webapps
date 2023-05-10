@@ -76,6 +76,7 @@ import { CollaboratorExpedientTableComponent } from './collaborator/collaborator
 import { CollaboratorInvoicingTableComponent } from './collaborator/collaborator-profile/collaborator-invoicing/collaborator-invoicing-table/collaborator-invoicing-table.component';
 import { CollaboratorPendingIssuesTableComponent } from './collaborator/collaborator-profile/collaborator-pending-issues/collaborator-pending-issues-table/collaborator-pending-issues-table.component';
 import { ProfileScheduleComponent } from './configuration/profile-sign/create-profile/profile-schedule/profile-schedule.component';
+import { SettingRatedInvoiceCollaboratorComponent } from './collaborator/create-collaborator/setting-rated-invoice-collaborator/setting-rated-invoice-collaborator.component';
 
 
 @NgModule({
@@ -144,6 +145,7 @@ import { ProfileScheduleComponent } from './configuration/profile-sign/create-pr
     CollaboratorInvoicingTableComponent,
     CollaboratorPendingIssuesTableComponent,
     ProfileScheduleComponent,
+    SettingRatedInvoiceCollaboratorComponent,
   ],
   imports: [
     CommonModule,

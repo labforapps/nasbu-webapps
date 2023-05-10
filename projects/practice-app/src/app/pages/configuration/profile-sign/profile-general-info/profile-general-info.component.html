@@ -3,27 +3,27 @@
         <div class="align-items-center d-flex">
             <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
             <div>
-                <div class=" c-generalInfo__name ">Datos de contacto </div>
-                <div class="c-generalInfo__subname ">Detalles del usuario </div>
+                <div class=" c-generalInfo__name ">{{'collaborator.profile.contact_details' | translate}} </div>
+                <div class="c-generalInfo__subname ">{{'collaborator.profile.user_details' | translate}} </div>
             </div>
         </div>
         <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">Compañía </b>{{subscription.name}}
+            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">{{'collaborator.profile.entity' | translate}} </b>{{subscription.name}}
 
         </div>
     </div>
     <hr class="u-divider ">
     <div class="c-generalInfo__body ">
         <div class="c-generalInfo__title ">
-            <span class="icon-phone mr-3"></span>Contactos
+            <span class="icon-phone mr-3"></span>{{'collaborator.profile.contact_information' | translate}}
         </div>
         <div class="row ">
             <div class="col-md-6 ">
-                <div class="information-title ">Teléfonos</div>
+                <div class="information-title ">{{'collaborator.profile.telephones' | translate}}</div>
 
                 <div class="info-group " *ngFor="let contact of subscriptionContactPhones">
                     <div class="info-group__info ">
-                        <span class="icon-mobile"></span> Núm. Celular
+                        <span class="icon-mobile"></span> {{'collaborator.profile.telephone_number' | translate}}
                     </div>
                     <div class="info-group__data mr-5">
                         {{contact.contact_value}}
@@ -39,10 +39,10 @@
                 </div> -->
             </div>
             <div class="col-md-6 ">
-                <div class="information-title ">Email</div>
+                <div class="information-title ">{{'collaborator.profile.email' | translate}}</div>
                 <div class="info-group " *ngFor="let contact of subscriptionContactEmail">
                     <div class="info-group__info ">
-                        <span class="icon-email"></span> Correo personal
+                        <span class="icon-email"></span> {{'collaborator.profile.personal_email' | translate}}
                     </div>
                     <div class="info-group__data ">
                         {{contact.contact_value}}
@@ -59,11 +59,11 @@
         <div class="row">
             <div class="col-md-6 mb-5">
                 <div class="c-generalInfo__title ">
-                    <span class="icon-clock mr-3"></span>Horarios
+                    <span class="icon-clock mr-3"></span>{{'firm.profile.hours' | translate}}
                 </div>
                 <div class="w-75">
                     <div class="d-flex justify-content-between mb-1" *ngFor="let weekDay of weekDays">
-                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).nameDay}} </b>
+                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).nameDay || '' | translate}} </b>
                         <!-- <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p> -->
                         <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).start_time}} - {{returnScheduleInformation(weekDay).end_time}} </b>
                     </div>
@@ -76,13 +76,13 @@
             </div>
             <div class="col-md-6">
                 <div class="c-generalInfo__title ">
-                    <span class="icon-id-card mr-3"></span>Administrador
+                    <span class="icon-id-card mr-3"></span>{{'firm.profile.administrator' | translate}}
                 </div>
                 <div class="align-items-center d-flex">
                     <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
                     <div>
                         <div class=" c-generalInfo__name ">{{this.subscription.name}} </div>
-                        <div class="c-generalInfo__subname ">Responsable de la cuenta </div>
+                        <div class="c-generalInfo__subname ">{{'firm.profile.account_manager' | translate}} </div>
                     </div>
                 </div>
             </div>
@@ -97,26 +97,26 @@
 
     <div class="c-generalInfo__body ">
         <div class="c-generalInfo__title ">
-            <span class="icon-place mr-3"></span>Dirección física y postal
+            <span class="icon-place mr-3"></span>{{'collaborator.profile.physical_mailing_address' | translate}}
         </div>
-        <div class="row mb-5" *ngFor="let address of subscription.addresses">
+        <div class="row mb-5" *ngFor="let address of subscription.addresses; let i = index">
             <div class="col-md-6">
-                <div class="information-title ">Dirección física #1 </div>
+                <div class="information-title ">{{'collaborator.profile.physical_address' | translate}}#{{i + 1}} </div>
 
                 <div class="info-group mb-2 ">
-                    <div class="info-group__info ">País</div>
-                    <div class="info-group__data mr-5">República Dominicana</div>
+                    <div class="info-group__info ">{{'collaborator.profile.country' | translate}}</div>
+                    <div class="info-group__data mr-5" *ngIf="countries">{{returnCountryName(address.physical_country)}}</div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Ciudad, Estado ó provincia</div>
+                    <div class="info-group__info ">{{'collaborator.profile.city_state_province' | translate}}</div>
                     <div class="info-group__data mr-5">{{address.physical_city}} </div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Código Postal</div>
+                    <div class="info-group__info ">{{'collaborator.profile.postal_code' | translate}}</div>
                     <div class="info-group__data mr-5">{{address.physical_postal_code}}</div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Dirección física</div>
+                    <div class="info-group__info ">{{'collaborator.profile.physical_address' | translate}}</div>
                     <div class="info-group__data mr-5">{{address.physical_address}}</div>
                 </div>
             </div>
@@ -127,17 +127,17 @@
                 </p>
             </div> -->
             <div class="col-md-6" *ngIf="address.postal_address !== '' && address.postal_city !== '' && address.postal_postal_code !== ''">
-              <div class="information-title ">Dirección Postal #1 </div>
+              <div class="information-title ">{{'clients.details.mailing_address' | translate}} #{{i + 1}} </div>
                   <div class="info-group mb-2">
-                    <div class="info-group__info ">Ciudad</div>
+                    <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
                     <div class="info-group__data mr-5">{{address.postal_city}}</div>
                 </div>
                 <div class="info-group mb-2">
-                  <div class="info-group__info ">Codigo Postal</div>
+                  <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
                   <div class="info-group__data mr-5">{{address.postal_postal_code}}</div>
               </div>
               <div class="info-group mb-2">
-                <div class="info-group__info ">Dirección</div>
+                <div class="info-group__info ">{{'clients.details.postal_address' | translate}}</div>
                 <div class="info-group__data mr-5">{{address.postal_address}}</div>
             </div>
           </div>

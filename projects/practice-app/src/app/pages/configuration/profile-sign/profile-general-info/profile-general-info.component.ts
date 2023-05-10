@@ -20,6 +20,7 @@ export class ProfileGeneralInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.setArrayFields();
+    this.fetchCountries();
 
     if(this.subscription.schedules.length === 0){
       this.subscription.schedules = [

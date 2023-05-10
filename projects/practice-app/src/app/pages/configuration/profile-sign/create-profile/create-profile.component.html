@@ -5,15 +5,14 @@
     <form [formGroup]="subscriptionForm" (ngSubmit)="submitForm()" #form="ngForm">
         <div class="l-create__body">
           <div class="l-create__btnBack">
-              <button type="button" mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>Volver atras</button>
+              <button type="button" mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>{{'firm.goBack' | translate}}</button>
           </div>
           <div class="c-create">
               <div class="c-create__header mb-0">
                   <div class="row w-100">
                       <div class="col-sm-8">
-                          <div class="c-create__title">Editar perfil de la empresa</div>
-                          <div class="c-create__subtitle">Puedes modificar todos los parámetros </div>
-                          <div class="c-create__text">Selecciona una de las opciones</div>
+                          <div class="c-create__title">{{'firm.form_create.edit_profile_law_firm' | translate}}</div>
+                          <div class="c-create__subtitle">{{'firm.form_create.you_can_customize_all_the_information' | translate}} </div>
                       </div>
                   </div>
               </div>
@@ -21,7 +20,7 @@
               <div class="c-create__body">
                   <div class="row">
                       <div class="col-sm-6 d-flex flex-column justify-content-center">
-                          <label class="u-title-label">Nombre de la empresa <span class="u-dangerColor">*</span></label>
+                          <label class="u-title-label">{{'firm.form_create.name_of_the_firm' | translate}} <span class="u-dangerColor">*</span></label>
                           <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label> </mat-label>
                               <input formControlName="name" class="c-form-group__input" matInput placeholder="">
@@ -36,11 +35,13 @@
                   <div class="row" formArrayName="contacts">
                       <div class="col-sm-6">
 
-                        <div class="row" id="phoneRow" *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)">
-                          <div class="col-sm-12">
+                        <!-- <div class="row" id="phoneRow" *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)"> -->
+                          <div  id="phoneRow" *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)">
+
+                          <!-- <div class="col-sm-12"> -->
                             <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
                             <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                <mat-label>Núm. Teléfono celular</mat-label>
+                                <mat-label>{{'collaborator.form_create.cellphone_number' | translate}}</mat-label>
                                 <mat-select formControlName="sub_type">
                                   <mat-option [value]="subtypeContact.cellphone_number">
                                     {{'clients.form_create.cellphone_number' | translate}}
@@ -64,17 +65,19 @@
 
                             <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactPhone.value)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                            <button (click)="addContactItem('contacts',contactPhone.value)" type="button" mat-button class="c-btn-add mb-4">+ Añadir otro teléfono</button>
+                            <button (click)="addContactItem('contacts',contactPhone.value)" type="button" mat-button class="c-btn-add mb-4">+ {{'collaborator.form_create.add_another_telephone_number' | translate}}</button>
 
-                          </div>
+                          <!-- </div> -->
                         </div>
                       </div>
                       <div class="col-sm-6">
-                         <div class="row" *ngFor="let contactEmail of filterFormArray('contacts','type',typeContact.email); let i = index" [formGroupName]="returnIndexFormArrayContact(contactEmail.value)">
-                          <div class="col-sm-12">
-                              <label class="u-title-label">Email <span class="u-dangerColor">*</span></label>
+                         <!-- <div class="row" *ngFor="let contactEmail of filterFormArray('contacts','type',typeContact.email); let i = index" [formGroupName]="returnIndexFormArrayContact(contactEmail.value)"> -->
+                          <div  *ngFor="let contactEmail of filterFormArray('contacts','type',typeContact.email); let i = index" [formGroupName]="returnIndexFormArrayContact(contactEmail.value)">
+
+                          <!-- <div class="col-sm-12"> -->
+                              <label class="u-title-label">{{'collaborator.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
                               <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                  <mat-label>Personal</mat-label>
+                                  <mat-label>{{'collaborator.form_create.personal_email' | translate}}</mat-label>
                                   <mat-select formControlName="sub_type">
                                     <mat-option [value]="subtypeContact.personal_email">
                                       {{'clients.form_create.personal_email' | translate}}
@@ -88,13 +91,13 @@
                                   </div>
                               </mat-form-field>
                               <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>Correo electrónico</mat-label>
+                                  <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
                                   <input class="c-form-group__input" matInput formControlName="contact_value">
                               </mat-form-field>
                               <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactEmail.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                              <button mat-button type="button" class="c-btn-add mb-4" (click)="addContactItem('contacts',contactEmail.value)">+ Añadir otro email</button>
-                            </div>
+                              <button mat-button type="button" class="c-btn-add mb-4" (click)="addContactItem('contacts',contactEmail.value)">+ {{'collaborator.form_create.add_another_email' | translate}}</button>
+                            <!-- </div> -->
                          </div>
                       </div>
                   </div>
@@ -180,7 +183,7 @@
                           </div>
                       </div>
                       <div class="col-sm-12 mt-1">
-                        <button mat-button type="button" class="c-btn-add" (click)="addAddressItem('addresses',address.value)">+ Añadir nuevo domicilio</button>
+                        <button mat-button type="button" class="c-btn-add" (click)="addAddressItem('addresses',address.value)">+ {{'collaborator.form_create.add_another_address' | translate}}</button>
                     </div>
                     </div>
                   </div>
@@ -192,9 +195,9 @@
           </div>
       </div>
       <div class="c-ribbon">
-          <div class="c-ribbon__text">“Recuerda completar los datos requeridos"</div>
+          <div class="c-ribbon__text">“{{'firm.form_create.remember_to_complete_all_required_fields' | translate}}"</div>
           <div class="c-ribbon__actions">
-              <button mat-button class="c-btn-function">Guardar Cambios </button>
+              <button mat-button class="c-btn-function">{{'firm.form_create.save' | translate}} </button>
           </div>
 
       </div>

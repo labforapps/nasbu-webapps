@@ -4,11 +4,11 @@
             <div class="l-page__icon">
                 <span class="icon-company"></span>
             </div>
-            <div class="l-page__title">Perfil de tu firma</div>
+            <div class="l-page__title">{{'firm.profile.firm_profile' | translate}}</div>
         </div>
         <div class="l-page__controls">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
-            <button class="c-btn-function" mat-button [routerLink]="'create-profile'">Editar perfil<span class="icon-pen ml-2 "></span></button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{'collaborator.profile.goBack' | translate}}</button>
+            <button class="c-btn-function" mat-button [routerLink]="'create-profile'">{{'firm.profile.edit_profile' | translate}} <span class="icon-pen ml-2 "></span></button>
         </div>
 
 
@@ -18,7 +18,7 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Datos generales
+                    {{'firm.profile.general_details' | translate}}
                     <span class="icon-contacts"></span>
                 </ng-template>
                 <app-profile-general-info *ngIf="subscription" [subscription]="subscription"></app-profile-general-info>
@@ -27,8 +27,8 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Métodos de pago
-                    <span class="icon-credit-card"></span>
+                  {{'firm.profile.payment_methods' | translate}}
+                  <span class="icon-credit-card"></span>
                 </ng-template>
 
                 <app-payment-method></app-payment-method>
@@ -37,8 +37,8 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Suscripción y facturación
-                    <span class="icon-invoice"></span>
+                  {{'firm.profile.subscription_and_billing' | translate}}
+                  <span class="icon-invoice"></span>
                 </ng-template>
 
                 <app-subscription></app-subscription>

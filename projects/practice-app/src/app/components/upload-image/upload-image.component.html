@@ -1,4 +1,4 @@
-<label class="u-title-label">Foto o logo</label>
+<label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
 <div class="c-uploadPicture">
    <label for="inputTypeFile">
     <div class="c-uploadPicture__img">
@@ -9,9 +9,9 @@
    </label>
     <div class="c-uploadPicture__controls">
         <div class="c-uploadPicture__text">
-            Nota: <br> Subir imagen máximo 2MB
+          {{'clients.common.note' | translate}}: <br> {{'clients.form_create.upload_image_max_2' | translate}}
         </div>
-        <div class="u-link mt-1" (click)="removeImage()">Eliminar</div>
+        <div class="u-link mt-1" (click)="removeImage()">{{'clients.common.delete' | translate}}</div>
     </div>
 </div>
 

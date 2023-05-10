@@ -772,5 +772,77 @@
     "invoicing":"Facturacion",
     "reports":"Reportes",
     "settings":"Configuraciones"
-   }
+   },
+   "Monday":"Lunes",
+   "Tuesday":"Martes",
+   "Wednesday":"Miércoles",
+   "Thursday":"Jueves",
+   "Friday":"Viernes",
+   "Saturday":"Sábado",
+   "Sunday":"Domingo",
+   "firm":{
+      "goBack":"Volver atrás",
+      "profile":{
+        "firm_profile":"Perfil de tu firma",
+        "general_details":"Datos generales",
+        "payment_methods":"Métodos de pago",
+        "subscription_and_billing":"Subscripción y facturación",
+        "edit_profile":"Editar perfil",
+        "hours":"Horarios",
+        "administrator":"Administrador",
+        "account_manager":"Responsable de la cuenta",
+        "add_a_card":"Añadir tarjeta",
+        "do_not_have_any_payment_methods_added":"Aún no tienes métodos de pago añadidos",
+        "add_payment_method":"Añadir método de pago",
+        "current_plan":"Plan actual en curso",
+        "change_plan":"Cambiar de plan",
+        "monthly_subscription":"Subscripción mensual",
+        "account_premium":"Cuenta premium",
+        "cancel_subscription":"Cancelar renovación",
+        "billing":"Facturación",
+        "your_last_payment_was_made_on":"Último pago realizado en ",
+        "view_billing_history":"Ver historial de facturación",
+        "these_payments_will_be_generated_automatically":"Estos pagos se generará automáticamente de manera mensual.",
+        "your_next_payment_will_be_charged_on":"Tu próximo pago es <b>38</b> USD, será cargado el día "
+      },
+      "form_create":{
+        "name_of_the_firm":"Nombre de la empresa",
+        "edit_profile_law_firm":"Editar perfil de la empresa",
+        "you_can_customize_all_the_information":"Puedes modificar todos los parámetros",
+        "choose_one_of_the_options":"Selecciona una de las opciones",
+        "hours_of_operation":"Horario de la firma",
+        "when_is_your_law_firm_open":"Puedes modificar todos los horarios",
+        "opening_time":"Horario de apertura",
+        "closing_time":"Horario de cierre",
+        "save":"Guardar cambios",
+        "remember_to_complete_all_required_fields":"Recuerda completar los datos requeridos"
+      }
+    },
+    "settings":{
+
+      "title":"Configuraciones",
+      "permissions_and_users":"Permisos y usuarios",
+      "here_you_can_configure_permissions_of_collaborators":"Aquí podrás configurar los permisos de tus colaboradores",
+      "firm_profile":"Perfil de tu firma",
+      "configure_details_of_your_firm_in_this_section":"Configura los detalles de tu firma en esta sección.",
+      "nasbu_plans":"Planes de NASBU",
+      "change_your_plan_whenever_necessary":"Cambia de plan cuando quieras",
+      "invoicing_parameters":"Parámetros de facturación",
+      "configure_your_rates_and_invoicing_models":"Configura tus tarifas y esquemas de cobro.",
+      "notifications":"Notificaciones",
+      "configure_and_control_your_notifications":"Configura y controla tus notificaciones"
+    },
+    "Customers":"Clientes",
+    "Case Files":"Expedientes",
+    "Invoicing":"Facturación",
+    "Reports":"Reportes",
+    "Tasks":"Tareas",
+    "Settings":"Configuración",
+    "Users":"Usuarios"
+
+
+
+
+
+
 }

@@ -192,6 +192,10 @@ const routes: Routes = [
     component: CreateCollaboratorComponent,
   },
   {
+    path: 'collaborator/edit/:id',
+    component: CreateCollaboratorComponent,
+  },
+  {
     path: 'registerClient',
     component: ClientIntakeComponent,
   },

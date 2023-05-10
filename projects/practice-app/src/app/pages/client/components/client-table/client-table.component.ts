@@ -232,7 +232,6 @@ export class ClientTableComponent implements OnInit {
   }
 
   navigateToEditClient(id: string) {
-    console.log(id);
     this.router.navigate(['customers/edit', id]);
   }
 }
