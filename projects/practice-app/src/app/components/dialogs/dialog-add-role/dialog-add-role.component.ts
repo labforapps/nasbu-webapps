@@ -5,6 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Group, modules, modulesDescription, typeAccess } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-add-role',
@@ -25,7 +26,9 @@ export class DialogAddRoleComponent implements OnInit {
               private securityService:SecurityService,
               private _formBuilder:FormBuilder,
               private translateService:TranslateService,
-              private toastr:ToastrService) { }
+              private toastr:ToastrService,
+              private dialogRef: MatDialogRef<DialogAddRoleComponent>
+              ) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -39,7 +42,8 @@ export class DialogAddRoleComponent implements OnInit {
       modules_access: this._formBuilder.array([
         this._formBuilder.group({
           module:[''],
-          type:['']
+          type:['',Validators.required],
+          active: false
         })
       ])
     })
@@ -56,7 +60,8 @@ export class DialogAddRoleComponent implements OnInit {
       (this.groupForm.get('modules_access') as FormArray).push(
         this._formBuilder.group({
           module: modules[i],
-          type: ''
+          type: ['',Validators.required],
+          active: false
         })
       );
 
@@ -85,15 +90,21 @@ export class DialogAddRoleComponent implements OnInit {
       ...this.groupForm.value
     }
 
+    console.log(this.groupPayload);
+
     if(this.groupForm.valid){
       this.securityService.createSecurityGroup(this.groupPayload,this.selectedSubscription?.ssid.uuid).subscribe(data => {
-        console.log(data);
-        this.toastr.success('Ok',this.translateService.instant('successMessages.created_succesfully'));
+         this.toastr.success('Ok',this.translateService.instant('successMessages.created_succesfully'));
+        this.closeModal();
       })
     }
     else{
       this.toastr.error('Error','Completar campos obligatorios');
     }
+  }
+
+  closeModal() {
+    this.dialogRef.close(true);
   }
 
 }

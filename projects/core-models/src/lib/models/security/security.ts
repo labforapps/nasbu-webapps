@@ -71,15 +71,20 @@ export interface UserAtribetes {
 }
 
 export interface Group {
+  uuid: string;
   subscription:   string;
   name:           string;
   modules_access: ModulesAccess[];
+  group: number;
+  created_at: Date;
+  active: Boolean;
 }
 
 export interface ModulesAccess {
   module:    string;
   type:      string;
   access_id?: string;
+  active: Boolean;
 }
 
 export enum modules{

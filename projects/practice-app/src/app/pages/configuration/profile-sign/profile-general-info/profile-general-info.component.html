@@ -23,7 +23,7 @@
 
                 <div class="info-group " *ngFor="let contact of subscriptionContactPhones">
                     <div class="info-group__info ">
-                        <span class="icon-mobile"></span> {{'collaborator.profile.telephone_number' | translate}}
+                        <span class="icon-mobile"></span> {{returnContactDescription(contact.sub_type) || '' | translate}}
                     </div>
                     <div class="info-group__data mr-5">
                         {{contact.contact_value}}
@@ -42,7 +42,7 @@
                 <div class="information-title ">{{'collaborator.profile.email' | translate}}</div>
                 <div class="info-group " *ngFor="let contact of subscriptionContactEmail">
                     <div class="info-group__info ">
-                        <span class="icon-email"></span> {{'collaborator.profile.personal_email' | translate}}
+                        <span class="icon-email"></span> {{returnContactDescription(contact.sub_type) || '' | translate}}
                     </div>
                     <div class="info-group__data ">
                         {{contact.contact_value}}
@@ -65,7 +65,7 @@
                     <div class="d-flex justify-content-between mb-1" *ngFor="let weekDay of weekDays">
                         <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).nameDay || '' | translate}} </b>
                         <!-- <p class="u-textLightColor u-smallSize">8:00 a.m. - 5:30 p.m</p> -->
-                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).start_time}} - {{returnScheduleInformation(weekDay).end_time}} </b>
+                        <b class="u-textColor u-smallSize mr-3">{{returnScheduleInformation(weekDay).start_time || '---'}} - {{returnScheduleInformation(weekDay).end_time || '---'}} </b>
                     </div>
 
                     <!-- <div class="d-flex justify-content-between mb-1">

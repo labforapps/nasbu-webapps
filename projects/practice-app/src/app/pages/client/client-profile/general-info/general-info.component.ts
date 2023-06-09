@@ -1,7 +1,6 @@
 import { Component, OnInit ,Input} from '@angular/core';
-import {Customer,Contact,Country} from 'core-models';
+import {Customer,Contact,Country,Occupation,TypeContact,SubtypeContact,SubtypeContactDescripcion} from 'core-models';
 import { AuthService, CommonService, CustomersService } from 'core-services';
-import { Occupation } from '../../../../../../../../dist/core-models/lib/models/common/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,6 +15,7 @@ export class GeneralInfoComponent implements OnInit {
   customer_contacts_email!: Contact[];
   countries!: Country[];
   occupations!: Occupation[];
+  typeContact = TypeContact
 
   constructor(private commonService: CommonService,
               private router:Router,
@@ -33,18 +33,16 @@ export class GeneralInfoComponent implements OnInit {
    if(this.customer.linked_customer){
     this.customerService.getCustomerById(this.customer.subscription || '', this.customer.linked_customer || '').subscribe(data => {
       this.linkedCustomer = data;
-      console.log(this.linkedCustomer);
-      console.log(this.customer);
     })
    }
   }
 
   setCustomerContacts() {
     this.customer_contacts_phone = this.customer.contacts.filter(
-      (x) => x.type === 'P'
+      (x) => x.type === this.typeContact.phone_number
     );
     this.customer_contacts_email = this.customer.contacts.filter(
-      (x) => x.type === 'E'
+      (x) => x.type === this.typeContact.email
     );
   }
   fetchCountries() {
@@ -59,13 +57,12 @@ export class GeneralInfoComponent implements OnInit {
     });
   }
 
-  return_country_name(countryId: string) {
+  returnCountryName(countryId: string) {
     const country_filtered = this.countries.filter((x) => x.uuid === countryId);
-
     return country_filtered[0].name;
   }
 
-  return_occupation_name(uuid: string) {
+  returnOccupationName(uuid: string) {
     if (uuid) {
 
       const occupation_filtered = this.occupations.filter(
@@ -76,6 +73,10 @@ export class GeneralInfoComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  returnContactDescription(subtypeContact:string){
+    return SubtypeContactDescripcion.get(subtypeContact);
   }
 
   navigateToEditClient() {

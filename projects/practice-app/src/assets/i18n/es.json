@@ -838,11 +838,10 @@
     "Reports":"Reportes",
     "Tasks":"Tareas",
     "Settings":"Configuración",
-    "Users":"Usuarios"
-
-
-
-
-
-
+    "Users":"Usuarios",
+    "cellphone_number":"Núm. de teléfono celular",
+    "landline_number":"Residencia",
+    "phone_office_number":"Núm. del trabajo",
+    "personal_email":"Correo electrónico Personal",
+    "business_email":"Correo electrónico de la empresa"
 }

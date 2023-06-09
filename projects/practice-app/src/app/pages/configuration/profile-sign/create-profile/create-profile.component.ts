@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService, CommonService, SubscriptionService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
-import { SelectedSubscription, TypeContact,Subscription, SubtypeContact, Country, SubscriptionPayload, Schedule } from 'core-models';
-import { FormService } from 'projects/practice-app/src/app/services/form.service';
+import { SelectedSubscription, TypeContact,Subscription, SubtypeContact, Country, SubscriptionPayload, Schedule, WeekDaysDescription } from 'core-models';
+import { FormService } from '../../../../services/form.service';
 
 @Component({
   selector: 'app-create-profile',
@@ -105,7 +105,30 @@ export class CreateProfileComponent implements OnInit {
    }
   }
 
+  validateSchedule(){
+    for (let i = 0; i < this.subscriptionSchedule.length; i++) {
+      const schedule = this.subscriptionSchedule[i];
+      const weekDayDescription = WeekDaysDescription.get(schedule.week_day);
+      if (!schedule.is_closed) {
+        const startTime = new Date(`2000-01-01T${schedule.start_time}`);
+        const endTime = new Date(`2000-01-01T${schedule.end_time}`);
+        if (startTime >= endTime) {
+          this.toastr.error('Error',
+          `${this.translateService.instant('Start time is greater than or equal to end time')}
+          in day ${this.translateService.instant(weekDayDescription || '')}`
+          );
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   submitForm(){
+
+    if(!this.validateSchedule()) return;
+
     this.subscriptionPayload = {...this.subscriptionForm.value, schedules: this.subscriptionSchedule}
     if(this.logoFile) this.subscriptionPayload.logoFile = this.logoFile;
 

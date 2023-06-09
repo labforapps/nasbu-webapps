@@ -856,6 +856,11 @@
   "Reports":"Reports",
   "Tasks":"Tasks",
   "Settings":"Settings",
-  "Users":"Users"
+  "Users":"Users",
+  "cellphone_number":"Cellular Phone Number",
+  "landline_number":"Home Telephone Number",
+  "phone_office_number":"Work Telephone Number",
+  "personal_email":"Personal email",
+  "business_email":"Business email"
 
 }

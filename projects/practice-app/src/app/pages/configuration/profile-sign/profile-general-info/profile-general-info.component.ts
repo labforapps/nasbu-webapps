@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Country, Subscription, SubscriptionAddress, SubscriptionContact, TypeContact, WeekDaysDescription } from 'core-models';
-import { CommonService } from 'projects/core-services/src/public-api';
+import { Country, Subscription, SubscriptionAddress, SubscriptionContact, SubtypeContact, TypeContact, WeekDaysDescription,SubtypeContactDescripcion } from 'core-models';
+import { CommonService } from 'core-services';
 
 @Component({
   selector: 'app-profile-general-info',
@@ -13,66 +13,35 @@ export class ProfileGeneralInfoComponent implements OnInit {
   subscriptionContactPhones!:SubscriptionContact[];
   subscriptionContactEmail!:SubscriptionContact[];
   typeContact = TypeContact;
+  subtypeContact = SubtypeContact;
+
   countries!:Country[];
   weekDays = [2,3,4,5,6,7,1];
 
   constructor(private commonSevice:CommonService) { }
 
   ngOnInit(): void {
-    this.setArrayFields();
+    this.setContacts();
     this.fetchCountries();
-
-    if(this.subscription.schedules.length === 0){
-      this.subscription.schedules = [
-        {
-            "week_day": 2,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 3,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 4,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 5,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 6,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 7,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        },
-        {
-            "week_day": 1,
-            "is_closed": true,
-            "start_time": "00:00",
-            "end_time": "00:00"
-        }
-     ]
-    }
+    this.setScheduleProfile();
   }
 
-  setArrayFields(){
+  setContacts(){
     this.subscriptionContactPhones = this.subscription.contacts.filter( x => x.type === this.typeContact.phone_number);
     this.subscriptionContactEmail = this.subscription.contacts.filter(x => x.type === this.typeContact.email);
+  }
+
+  setScheduleProfile(){
+    if(this.subscription.schedules.length === 0){
+      this.weekDays.forEach(x => {
+        this.subscription.schedules.push({
+            "week_day": x,
+            "is_closed": true,
+            "start_time": "00:00",
+            "end_time": "00:00"
+        })
+      })
+    }
   }
 
   fetchCountries(){
@@ -87,12 +56,16 @@ export class ProfileGeneralInfoComponent implements OnInit {
   }
 
   returnScheduleInformation(weekDay:number){
-    const scheduleFiltered = this.subscription.schedules.filter(x => x.week_day === weekDay);
+    const scheduleFiltered = this.subscription.schedules.filter(x => x.week_day === weekDay && !x.is_closed) || [];
 
     return {
       ...scheduleFiltered[0],
-      nameDay: WeekDaysDescription.get(scheduleFiltered[0].week_day)
+      nameDay: WeekDaysDescription.get(weekDay)
     }
+  }
+
+  returnContactDescription(subtypeContact:string){
+    return SubtypeContactDescripcion.get(subtypeContact || '');
   }
 
 

@@ -31,158 +31,27 @@
 
                           <td>
 
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor" formControlName="active">
                                   Acceso a la sección de <b>{{returnModuleDescription(module.value.module) || '' | translate}}</b>
                               </mat-checkbox>
                           </td>
-                              <td>
-                                <mat-radio-group formControlName="type">
-                                  <mat-radio-button [value]="typeAccess.ADMINISTRATOR" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                                </mat-radio-group>
-                              </td>
-                              <td>
-                                <mat-radio-group formControlName="type">
-                                  <mat-radio-button [value]="typeAccess.WRITE" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                                </mat-radio-group>
-                              </td>
-                              <td>
-                                <mat-radio-group formControlName="type">
-                                  <mat-radio-button [value]="typeAccess.READ" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                                </mat-radio-group>
-                                </td>
+                          <td>
+                            <mat-radio-group formControlName="type">
+                              <mat-radio-button [value]="typeAccess.ADMINISTRATOR" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                            </mat-radio-group>
+                          </td>
+                          <td>
+                            <mat-radio-group formControlName="type">
+                              <mat-radio-button [value]="typeAccess.WRITE" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                            </mat-radio-group>
+                          </td>
+                          <td>
+                            <mat-radio-group formControlName="type">
+                              <mat-radio-button [value]="typeAccess.READ" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                            </mat-radio-group>
+                          </td>
 
                         </tr>
-
-                      <!-- <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>facturación</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>expedientes</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>reportes</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>clientes</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>tareas</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>configuraciones</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a la sección de <b>colaboradores</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor">
-                                  Acceso a <b>todas las secciones</b>
-                              </mat-checkbox>
-                          </td>
-                          <td>
-                              <mat-radio-button value="1" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="2" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                          <td>
-                              <mat-radio-button value="3" name="escalationTeam" class="c-radioButton"></mat-radio-button>
-                          </td>
-                      </tr> -->
-
 
                   </table>
 

@@ -35,6 +35,7 @@ export class UploadImageComponent implements OnInit {
   removeImage() {
     this.imgTemp = null;
     this.imgUrl = null;
+    this.imgUpload.emit(null);
   }
 
 }

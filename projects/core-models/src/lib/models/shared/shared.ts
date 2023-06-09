@@ -32,3 +32,11 @@ export enum SubtypeContact {
   personal_email = 'E',
   business_email = 'B',
 }
+
+export const SubtypeContactDescripcion = new Map<string, string>([
+  [SubtypeContact.cellphone_number, 'cellphone_number'],
+  [SubtypeContact.currentphone_number, 'landline_number'],
+  [SubtypeContact.phoneoffice_number, 'phone_office_number'],
+  [SubtypeContact.personal_email, 'personal_email'],
+  [SubtypeContact.business_email, 'business_email'],
+]);
