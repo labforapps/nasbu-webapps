@@ -1,14 +1,14 @@
 <div class=" c-dialog-header">
     <div class="c-dialog-header__header">
-        Nuevo grupo
+      {{'settings.permissions.add_group' | translate}}
     </div>
    <form action="" [formGroup]="groupForm" (submit)="submitForm()">
     <mat-dialog-content class="pr-5 pl-5 pb-5 pt-0">
       <div class="row">
           <div class="col-sm-6">
-              <label class="u-title-label">Nombre del grupo <span class="u-dangerColor">*</span></label>
+              <label class="u-title-label">{{'settings.permissions.group_name' | translate}}<span class="u-dangerColor">*</span></label>
               <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                  <mat-label>Nombre</mat-label>
+                  <mat-label>{{'settings.permissions.name' | translate}}</mat-label>
                   <input class="c-form-group__input" matInput placeholder="Nombre grupo  Ej: Equipo de ventas" formControlName="name">
               </mat-form-field>
           </div>
@@ -16,15 +16,15 @@
       <div class="row">
           <div class="col-md-12">
               <hr class="u-divider">
-              <div class="l-configuration__title">Permiso para este grupo</div>
+              <div class="l-configuration__title">{{'settings.permissions.permissions_for_this_group' | translate}}</div>
               <hr class="u-divider mb-0">
               <div class="u-table-responsive" formArrayName="modules_access">
                   <table class="c-table-roles">
                       <tr>
-                          <th><span class="icon-bell u-icon-yellow mr-2"></span>Acceso a la secciones de menú y permisos </th>
-                          <th>Administrador</th>
-                          <th>Escritura</th>
-                          <th>Solo lectura</th>
+                          <th><span class="icon-bell u-icon-yellow mr-2"></span>{{'settings.permissions.access_to_menu_and_permissions' | translate}} </th>
+                          <th>{{'settings.permissions.administrator' | translate}}</th>
+                          <th>{{'settings.permissions.editor' | translate}}</th>
+                          <th>{{'settings.permissions.read_only' | translate}}</th>
                       </tr>
 
                        <tr *ngFor="let module of returnFormArray('modules_access'); let i = index" [formGroupName]="i">
@@ -32,7 +32,7 @@
                           <td>
 
                               <mat-checkbox class="c-checkbox mb-2 u-textColor" formControlName="active">
-                                  Acceso a la sección de <b>{{returnModuleDescription(module.value.module) || '' | translate}}</b>
+                                {{'settings.permissions.access_to' | translate}} <b>{{returnModuleDescription(module.value.module) || '' | translate}}</b>
                               </mat-checkbox>
                           </td>
                           <td>
@@ -61,8 +61,8 @@
 
     </mat-dialog-content>
     <mat-dialog-actions class="mt-auto">
-        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">Guardar grupo</button>
-        <button type="button" mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+        <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">{{'settings.permissions.save_group' | translate}}</button>
+        <button type="button" mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">{{'settings.permissions.close_window' | translate}}</button>
     </mat-dialog-actions>
    </form>
 </div>

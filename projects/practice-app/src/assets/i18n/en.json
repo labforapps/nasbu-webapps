@@ -847,7 +847,21 @@
       "this_model_allows_you_create_edit_certain_elements":"This model allows you to create and edit certain elements.",
       "read_only":"Read only",
       "this_model_allows_you_view_information_applying_modification":"This model allows you to only view information without applying modifications.",
-      "existing_permission_group":"Existing permission group"
+      "existing_permission_group":"Existing permission group",
+      "you_currently_have_permission_groups":"You currently have <b class='u-primaryColor'>{{permissionsQuantity}}</b> permission groups configured",
+      "permissions_group":"permissions",
+      "the_following_configuration_for_this_role":"The following is the configuration for this role:",
+      "access_to_menu_and_permissions":"Access to menu and permissions",
+      "access_to":"Access to",
+      "delete":"Delete",
+      "create_new_permission_group":"Create new permission group",
+      "what_would_you_like_to_name_it":"What would you like to name it?",
+      "permissions_for_this_group":"Permissions for this group",
+      "are_you_all_set":"Are you all set?",
+      "save_group":"Save Group",
+      "close_window":"Close window",
+      "group_name":"Group name",
+      "name":"Name"
     }
   },
   "Customers":"Customers",

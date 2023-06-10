@@ -830,7 +830,35 @@
       "invoicing_parameters":"Parámetros de facturación",
       "configure_your_rates_and_invoicing_models":"Configura tus tarifas y esquemas de cobro.",
       "notifications":"Notificaciones",
-      "configure_and_control_your_notifications":"Configura y controla tus notificaciones"
+      "configure_and_control_your_notifications":"Configura y controla tus notificaciones",
+
+      "permissions": {
+        "title":"Permisos",
+        "goBack":"Volver atrás",
+        "add_group":"Agregar grupo",
+        "my_configured_permissions":"Mis permisos configurados",
+        "permission_levels_of_NASBU":"Niveles de permiso de NASBU",
+        "administrator":"Administrador",
+        "this_model_allows_you_crud_function_within_platform":"En este modelo te permite que puedes crear, eliminar, editar y visualizar cualquier función dentro de la plataforma.",
+        "editor":"Escritura",
+        "this_model_allows_you_create_edit_certain_elements":"En este modelo te permite que puedes crear y editar elementos.",
+        "read_only":"Solo lectura",
+        "this_model_allows_you_view_information_applying_modification":"En este modelo te permite que puedas solo visualizar información sin aplicar modificaciones.",
+        "existing_permission_group":"Grupo de permisos existentes",
+        "you_currently_have_permission_groups":"Tiene configurado <b class='u-primaryColor'>{{permissionsQuantity}}</b> permisos",
+        "permissions_group":"Permisos para",
+        "the_following_configuration_for_this_role":"Esta es la configuración para este rol:",
+        "access_to_menu_and_permissions":"Acceso a las secciones de menú y permisos",
+        "access_to":"Acceso a la sección de ",
+        "delete":"Eliminar",
+        "create_new_permission_group":"Nuevo grupo",
+        "what_would_you_like_to_name_it":"What would you like to name it?",
+        "permissions_for_this_group":"Permiso para este grupo",
+        "are_you_all_set":"Are you all set?",
+        "save_group":"Guardar grupo",
+        "group_name":"Nombre del grupo",
+        "name":"Nombre"
+      }
     },
     "Customers":"Clientes",
     "Case Files":"Expedientes",
@@ -843,5 +871,8 @@
     "landline_number":"Residencia",
     "phone_office_number":"Núm. del trabajo",
     "personal_email":"Correo electrónico Personal",
-    "business_email":"Correo electrónico de la empresa"
+    "business_email":"Correo electrónico de la empresa",
+    "permissions":{
+      "title":"Permisos"
+    }
 }
