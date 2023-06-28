@@ -20,6 +20,8 @@ export class PermissionComponent implements OnInit {
   typeAccess = typeAccess;
 
 
+
+
   constructor(private dialog: MatDialog,
               private securityService:SecurityService,
               private authService:AuthService,
@@ -34,7 +36,7 @@ export class PermissionComponent implements OnInit {
 
   getSubscriptionGroups(){
     this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe((data:Group[]) => {
-      this.groups = data.filter( x => x.modules_access.length === 7).sort((a, b) =>  b.group - a.group);
+      this.groups = data.filter( x => x.modules_access.length === 7).sort((a, b) => (b.group && a.group) ? b.group - a.group : 0);
     })
   }
 
@@ -43,7 +45,7 @@ export class PermissionComponent implements OnInit {
   }
 
   updateSubscriptionGroups(group:Group){
-    this.securityService.updateSecurityGroup(group,group.uuid,this.selectedSubscription?.ssid.uuid).subscribe(data => {})
+    this.securityService.updateSecurityGroup(group,group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {})
   }
 
   deleteSecurityGroup(group: Group) {
@@ -74,7 +76,7 @@ export class PermissionComponent implements OnInit {
 
   executeDeletionSecurityGroup(group:Group){
 
-    this.securityService.deleteSecurityGroup(group.uuid,this.selectedSubscription?.ssid.uuid).subscribe(data => {
+    this.securityService.deleteSecurityGroup(group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.getSubscriptionGroups();
       this.toastr.success('Ok',this.translateService.instant('successMessages.deleted_successfully')
       );

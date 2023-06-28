@@ -40,3 +40,5 @@ export const SubtypeContactDescripcion = new Map<string, string>([
   [SubtypeContact.personal_email, 'personal_email'],
   [SubtypeContact.business_email, 'business_email'],
 ]);
+
+//Billing Type
