@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddRoleComponent } from '../../../components/dialogs/dialog-add-role/dialog-add-role.component';
 import { AuthService, SecurityService } from 'core-services';
-import { Group, modulesDescription, typeAccess } from 'core-models';
+import { Group, modules, modulesDescription, typeAccess } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
@@ -18,9 +18,7 @@ export class PermissionComponent implements OnInit {
   groups!:Group[];
   modulesDescription = modulesDescription;
   typeAccess = typeAccess;
-
-
-
+  modules = Object.values(modules);
 
   constructor(private dialog: MatDialog,
               private securityService:SecurityService,
@@ -32,13 +30,24 @@ export class PermissionComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.getSubscriptionGroups();
+    console.log(this.modules);
   }
 
   getSubscriptionGroups(){
     this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe((data:Group[]) => {
-      this.groups = data.filter( x => x.modules_access.length === 7).sort((a, b) => (b.group && a.group) ? b.group - a.group : 0);
+      this.groups = data.sort((a, b) => (b.group && a.group) ? b.group - a.group : 0);
     })
   }
+
+  returnModuleAccessType(uuidGroup:string,module:string){
+
+    const indexGroup = this.groups.findIndex(objeto => objeto.uuid === uuidGroup);
+    const indexModuleAccess = this.groups[indexGroup].modules_access.findIndex(objeto => objeto.module === module)
+
+    return this.groups[indexGroup].modules_access[indexModuleAccess].type;
+
+  }
+
 
   returnModuleDescription(module: string) {
     return this.modulesDescription.get(module);
