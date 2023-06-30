@@ -6,6 +6,7 @@ import { Subscription, take } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 
 const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+
 @Component({
   selector: 'app-recovery',
   templateUrl: './recovery.component.html',
@@ -36,7 +37,7 @@ export class RecoveryComponent implements OnInit, OnDestroy {
     this.validateRecoveryCode();
   }
 
-  get isValidForm(): boolean { 
+  get isValidForm(): boolean {
     return this.recoveryForm.valid && this.passwordMatch;
   }
 
@@ -67,7 +68,7 @@ export class RecoveryComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.recoveryForm.invalid) return;
-    const newPassword = this.recoveryForm.value.newPassword;  
+    const newPassword = this.recoveryForm.value.newPassword;
     this.authService.forgotPasswordSubmit({code: this.recoveryCode, username: this.recoveryEmail, newPassword}).subscribe(
       (payload)=>{
         this.router.navigate(['/signin']);
