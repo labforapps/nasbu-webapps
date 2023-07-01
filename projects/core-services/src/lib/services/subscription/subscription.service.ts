@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class SubscriptionService {
               private httpClient: HttpClient) { }
 
   getSubscription(uuid:string): Observable<Subscription> {
-    const serverUrl = `${this.config.serverUrl}/subscription/${uuid}/`;
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${uuid}/`;
     return this.httpClient.get<Subscription>(serverUrl);
   }
 
@@ -23,7 +23,7 @@ export class SubscriptionService {
 
   updateSubscription(subscriptionPayload: SubscriptionPayload,uuid:string): Observable<Subscription> {
 
-    const serverUrl = `${this.config.serverUrl}/subscription/${uuid}/`;
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${uuid}/`;
     const updateOperation$ = this.httpClient.put<Subscription>(serverUrl,subscriptionPayload);
 
     return updateOperation$.pipe(
@@ -37,11 +37,37 @@ export class SubscriptionService {
   }
 
   uploadImage(subscription:string,image:File){
-    const serverUrl = `${this.config.serverUrl}/subscription/${subscription}/upload_image/`;
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/upload_image/`;
     const formData = new FormData();
     formData.append('file', image);
     formData.append('subscription', subscription);
     console.log('Form Data',formData);
     return this.httpClient.put<any>(serverUrl,formData);
   }
+
+  getSubscriptionBillingFee(subscription:string):Observable<SubscriptionBillingFee>{
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
+  }
+
+  createSubscriptionBillingFee(subscription:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
+    return this.httpClient.post<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
+  }
+
+  getSubscriptionBillingFeeById(subscription:string,uuid:string):Observable<SubscriptionBillingFee>{
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
+  }
+
+  updateSubscriptionBillingFee(subscription:string,uuid:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
+    return this.httpClient.put<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
+  }
+
+  deleteSubscriptionBillingFee(subscription:string,uuid:string){
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
+    return this.httpClient.delete<SubscriptionBillingFee>(serverUrl);
+  }
+
 }

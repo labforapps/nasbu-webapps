@@ -88,10 +88,48 @@
                             <th>{{'settings.permissions.read_only' | translate}}</th>
                             <th></th>
                           </tr>
-                          <tr *ngFor="let module_access of group.modules_access; let i = index">
+                          <tr *ngFor="let module of modules; let i = index;">
+                            <td>
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor" [checked]="isModuleChecked(group, module)" (change)="checkOrUncheckModule(group, module)">
+                                {{'settings.permissions.access_to' | translate}} <b>{{ returnModuleDescription(module) || '' | translate }}</b>
+                              </mat-checkbox>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'admin_' + group.name + '_' + i">
+                                <mat-radio-button
+                                                  [value]="typeAccess.ADMINISTRATOR"
+                                                  (change)="selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.ADMINISTRATOR)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'write_' + group.name + '_' + i">
+                                <mat-radio-button [value]="typeAccess.WRITE"
+                                                  (change)="selectModulePerm(group, module, typeAccess.WRITE)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.WRITE)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'read_' + group.name + '_' + i">
+                                <mat-radio-button [value]="typeAccess.READ"
+                                                  (change)="selectModulePerm(group, module, typeAccess.READ)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.READ)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td *ngIf="i === 0">
+                              <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
+                            </td>
+                          </tr>
+                          <!-- <tr *ngFor="let module_access of group.modules_access; let i = index">
                             <td>
                               <mat-checkbox class="c-checkbox mb-2 u-textColor" [(ngModel)]="module_access.active">
-                                {{'settings.permissions.access_to' | translate}} <b>{{ returnModuleDescription(module_access.module) || '' | translate }}</b>
+                                {{'settings.permissions.i' | translate}} <b>{{ returnModuleDescription(module_access.module) || '' | translate }}</b>
                               </mat-checkbox>
                             </td>
                             <td>
@@ -121,7 +159,7 @@
                             <td *ngIf="i === 0">
                               <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
                             </td>
-                          </tr>
+                          </tr> -->
                         </table>
                       </div>
                     </div>

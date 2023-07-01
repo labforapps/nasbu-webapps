@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService,SecurityService } from 'core-services';
 import { FormService } from '../../../services/form.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Group, modules, modulesDescription, typeAccess } from 'core-models';
+import { Group, ModulesAccess, modules, modulesDescription, typeAccess } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -42,7 +42,7 @@ export class DialogAddRoleComponent implements OnInit {
       modules_access: this._formBuilder.array([
         this._formBuilder.group({
           module:[''],
-          type:['',Validators.required],
+          type:[''],
           active: false
         })
       ])
@@ -60,7 +60,7 @@ export class DialogAddRoleComponent implements OnInit {
       (this.groupForm.get('modules_access') as FormArray).push(
         this._formBuilder.group({
           module: modules[i],
-          type: ['',Validators.required],
+          type: [''],
           active: false
         })
       );
@@ -73,6 +73,11 @@ export class DialogAddRoleComponent implements OnInit {
     (this.groupForm.get('modules_access') as FormArray)?.at(index).patchValue({
       type: event.value,
     });
+
+    (this.groupForm.get('modules_access') as FormArray)?.at(index).patchValue({
+      active: true,
+    });
+
   }
 
   returnFormArray(formArray: string) {
@@ -85,9 +90,12 @@ export class DialogAddRoleComponent implements OnInit {
 
   submitForm(){
 
+    const modulesActived = this.groupForm.value.modules_access.filter((x:ModulesAccess) => x.active === true);
+
     this.groupPayload = {
       subscription: this.selectedSubscription?.ssid.uuid,
-      ...this.groupForm.value
+      name: this.groupForm.value.name,
+      modules_access: modulesActived
     }
 
     console.log(this.groupPayload);

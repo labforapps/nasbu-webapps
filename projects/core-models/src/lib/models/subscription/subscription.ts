@@ -60,3 +60,12 @@ export interface Schedule {
   end_time:    string;
 }
 
+export interface SubscriptionBillingFee {
+    billing_fee_id?:      string;
+    price_per_hour:      string;
+    increment_factor:    string;
+    price_per_increment: string;
+    allow_retainers:     boolean;
+    allow_flat_fee:      boolean;
+}
+
