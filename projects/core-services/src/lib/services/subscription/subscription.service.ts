@@ -51,7 +51,7 @@ export class SubscriptionService {
   }
 
   createSubscriptionBillingFee(subscription:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
     return this.httpClient.post<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
   }
 
