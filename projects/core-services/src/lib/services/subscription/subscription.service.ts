@@ -46,7 +46,7 @@ export class SubscriptionService {
   }
 
   getSubscriptionBillingFee(subscription:string):Observable<SubscriptionBillingFee>{
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
   }
 
@@ -56,17 +56,17 @@ export class SubscriptionService {
   }
 
   getSubscriptionBillingFeeById(subscription:string,uuid:string):Observable<SubscriptionBillingFee>{
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
   }
 
   updateSubscriptionBillingFee(subscription:string,uuid:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.put<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
   }
 
   deleteSubscriptionBillingFee(subscription:string,uuid:string){
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.delete<SubscriptionBillingFee>(serverUrl);
   }
 
