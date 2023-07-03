@@ -101,7 +101,8 @@
                                                   (change)="selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.ADMINISTRATOR)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>
                             <td>
@@ -110,7 +111,8 @@
                                                   (change)="selectModulePerm(group, module, typeAccess.WRITE)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.WRITE)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>
                             <td>
@@ -119,7 +121,8 @@
                                                   (change)="selectModulePerm(group, module, typeAccess.READ)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.READ)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>
                             <td *ngIf="i === 0">

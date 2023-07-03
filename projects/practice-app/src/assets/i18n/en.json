@@ -647,7 +647,7 @@
       "pending_tasks":"Pending Tasks",
       "invoicing":"Invoicing",
       "contact_details":"Contact Details",
-      "user_details":"User Details",
+      "user_details":"Firm",
       "entity":"Entity",
       "personal_circumstances":"Personal Circumstances",
       "birth_date":"Date of Birth",
@@ -897,6 +897,7 @@
     "goBack":"Go back",
     "price":"Price",
     "quantity":"Quantity",
+    "value":"Value",
     "save_changes":"Save changes"
   },
   "start_time_is_greater_or_equal_to_end_time":"Start time is greater than or equal to end time in day"

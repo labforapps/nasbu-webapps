@@ -1,16 +1,18 @@
 <div class="c-generalInfo">
     <div class="c-generalInfo__header">
         <div class="align-items-center d-flex">
-            <img *ngIf="!subscription.logo_url" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <!-- <img *ngIf="!subscription.logo_url" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture"> -->
+            <img *ngIf="!subscription.logo_url" src="../../../../../assets/images/Foto empty State.jpeg" class="c-generalInfo__profilePicture">
+
             <img *ngIf="subscription.logo_url" [src]="subscription.logo_url" class="c-generalInfo__profilePicture">
             <div>
-                <div class=" c-generalInfo__name ">{{'collaborator.profile.contact_details' | translate}} </div>
+                <div class=" c-generalInfo__name ">{{subscription.name}} </div>
                 <div class="c-generalInfo__subname ">{{'collaborator.profile.user_details' | translate}} </div>
             </div>
         </div>
         <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" ">
-             <b class="mr-1">{{'collaborator.profile.entity' | translate}} </b>{{subscription.name}}
+            <!-- <img src="../../../../../assets/images/company.svg" alt=" "> -->
+             <!-- <b class="mr-1">{{'collaborator.profile.entity' | translate}} </b>{{subscription.name}} -->
 
         </div>
     </div>
@@ -81,9 +83,11 @@
                     <span class="icon-id-card mr-3"></span>{{'firm.profile.administrator' | translate}}
                 </div>
                 <div class="align-items-center d-flex">
-                    <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
-                    <div>
-                        <div class=" c-generalInfo__name ">{{this.subscription.name}} </div>
+                    <!-- <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture"> -->
+                    <img src="../../../../../assets/images/table-icons/user.svg" class="c-generalInfo__profilePicture">
+
+                    <div  *ngIf="user$ | async as userData">
+                        <div class=" c-generalInfo__name ">{{ userData.attributes.given_name }} </div>
                         <div class="c-generalInfo__subname ">{{'firm.profile.account_manager' | translate}} </div>
                     </div>
                 </div>

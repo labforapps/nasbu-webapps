@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Country, Subscription, SubscriptionAddress, SubscriptionContact, SubtypeContact, TypeContact, WeekDaysDescription,SubtypeContactDescripcion } from 'core-models';
-import { CommonService } from 'core-services';
+import { Country, Subscription, SubscriptionAddress, SubscriptionContact, SubtypeContact, TypeContact, WeekDaysDescription,SubtypeContactDescripcion, CurrentUserInfo } from 'core-models';
+import { AuthService, CommonService } from 'core-services';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-general-info',
@@ -14,16 +15,19 @@ export class ProfileGeneralInfoComponent implements OnInit {
   subscriptionContactEmail!:SubscriptionContact[];
   typeContact = TypeContact;
   subtypeContact = SubtypeContact;
+  public user$!: Observable<CurrentUserInfo>;
 
   countries!:Country[];
   weekDays = [2,3,4,5,6,7,1];
 
-  constructor(private commonSevice:CommonService) { }
+  constructor(private commonSevice:CommonService,
+              private authService: AuthService,) { }
 
   ngOnInit(): void {
     this.setContacts();
     this.fetchCountries();
     this.setScheduleProfile();
+    this.loadUser();
   }
 
   setContacts(){
@@ -66,6 +70,10 @@ export class ProfileGeneralInfoComponent implements OnInit {
 
   returnContactDescription(subtypeContact:string){
     return SubtypeContactDescripcion.get(subtypeContact || '');
+  }
+
+  loadUser(): void {
+    this.user$ = this.authService.getCurrentUserInfo();
   }
 
 

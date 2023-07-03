@@ -644,7 +644,7 @@
       "pending_tasks":"Asuntos pendientes",
       "invoicing":"Facturación",
       "contact_details":"Datos de contacto",
-      "user_details":"Detalles del usuario",
+      "user_details":"Empresa",
       "entity":"Compañía",
       "contact_information":"Contactos",
       "personal_circumstances":"Circunstancias personales",
@@ -896,6 +896,7 @@
       "goBack":"Volver",
       "price":"Precio",
       "quantity":"Cantidad",
+      "value":"Valor",
       "save_changes":"Guardar Cambios"
     },
     "start_time_is_greater_or_equal_to_end_time":"La hora de inicio es mayor o igual que la hora de finalización en el día"

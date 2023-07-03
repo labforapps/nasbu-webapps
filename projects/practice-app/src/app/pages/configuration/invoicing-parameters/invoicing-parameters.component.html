@@ -31,7 +31,7 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-md-5 col-sm-6">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" [checked]="invoicingParameterForm.controls['price_per_hour'].value > 0">
                               {{'invoice_parameter.add_hourly_rate' | translate}}
                             </mat-checkbox>
                             <p class="u-smallSize u-textColor pl-4 mb-1">
@@ -62,7 +62,7 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" [checked]="invoicingParameterForm.controls['price_per_increment'].value > 0">
                                 {{'invoice_parameter.by_increment_of_time' | translate}}
                             </mat-checkbox>
                             <p class="u-smallSize u-textColor pl-4 mb-1">
@@ -80,8 +80,8 @@
                         <div class="col-lg-2 col-sm-12">
                             <label class="u-title-label">{{'invoice_parameter.cost_per_increment' | translate}}</label>
                             <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                                <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_increment">
+                                <mat-label>{{'invoice_parameter.value' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej: 15 MIN" formControlName="price_per_increment">
                             </mat-form-field>
                         </div>
                     </div>

@@ -31,13 +31,11 @@ export class PermissionComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.getSubscriptionGroups();
-    console.log(this.modules);
   }
 
   getSubscriptionGroups(){
     this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe((data:Group[]) => {
       this.groups = data.sort((a, b) => (b.group && a.group) ? b.group - a.group : 0);
-      console.log('this.groups: ', this.groups);
     })
   }
 
