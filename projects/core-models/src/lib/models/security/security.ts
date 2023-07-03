@@ -1,3 +1,4 @@
+import { Address, Contact } from '../shared';
 import { SubscriptionOnboarding } from "../subscription";
 
 export interface UserSignupPayload {
@@ -114,4 +115,48 @@ export enum typeAccess{
   ADMINISTRATOR = 'A',
   WRITE = 'W',
   READ = 'R'
+}
+
+export interface SecurityUser {
+  uuid?: string;
+  subscription:   string;
+  user:           User;
+  origin_country: string;
+  group:          number;
+  contacts:       SecurityUserContact[];
+  addresses:      SecurityUserAddress[];
+  licenses:       License[];
+  billing_fees:   any[];
+  image_url?:     string;
+  active?:        boolean;
+  created_at?:    Date;
+}
+
+export interface User {
+  email:      string;
+  first_name: string;
+  last_name:  string;
+}
+
+export interface SecurityUserContact extends Contact {
+  subscription:         string;
+  subscription_user:    string;
+}
+
+export interface SecurityUserAddress extends Address{
+  subscription:         string;
+  subscription_user:    string;
+}
+
+export interface License {
+  uuid?:              string;
+  subscription:      string;
+  subscription_user: string;
+  license_country:   string;
+  license_id:        string;
+  license_no:        string;
+  created_by:        string;
+  created_at:        Date;
+  updated_by:        null;
+  updated_at:        Date;
 }

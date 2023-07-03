@@ -5,6 +5,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService,SecurityService } from 'core-services';
+import { Group, SecurityUser, TypeContact } from 'core-models';
+import { ToastrService } from 'ngx-toastr';
 export interface PeriodicElement {
   position: number;
   name: string;
@@ -32,22 +35,60 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./collaborator.component.scss']
 })
 export class CollaboratorComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'type','name', 'number', 'email', 'rol','license', 'action'];
+
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
   @ViewChild(MatPaginator) paginator: any;
+  selectedSubscription!: any;
+  securityUsers!:SecurityUser[];
+  dataSourceSecurityUsers!: any;
+  typeContact = TypeContact;
+  securityGroups!:Group[];
+
 
   constructor(private router:Router,
-              private translateService:TranslateService) { }
+              private translateService:TranslateService,
+              private securityService:SecurityService,
+              private authService: AuthService,
+              private toastr: ToastrService,) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getSecurityUsers();
+    this.getSecurityGroups();
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-    this.dataSource.paginator = this.paginator;
 
+    this.displayedColumns = ['select', 'type','name', 'number', 'email', 'rol','license', 'action'];
+
+    this.dataSourceSecurityUsers = new MatTableDataSource<SecurityUser>(this.securityUsers);
+    this.dataSourceSecurityUsers.paginator = this.paginator;
+  }
+
+  getSecurityUsers(){
+    this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityUser[]) => {
+      this.securityUsers = data;
+      this.dataSourceSecurityUsers = new MatTableDataSource<SecurityUser>(this.securityUsers);
+      this.dataSourceSecurityUsers.paginator = this.paginator;
+    })
+  }
+
+  getFirstContact(securityUser: SecurityUser,type:TypeContact): string {
+    const contactSecurityUser = securityUser.contacts.filter(x => x.type === type);
+    return contactSecurityUser[0]?.contact_value ? contactSecurityUser[0].contact_value : '' ;
+  }
+
+  getSecurityGroupNameByNumber(group:number){
+    const securityGroup = this.securityGroups.filter( x => x.group === group);
+    return securityGroup[0]?.name || '';
+  }
+
+  getSecurityGroups(){
+    this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.securityGroups = data;
+    })
   }
 
   applyFilter(filterValue: any, typeCustomer = '') {
@@ -56,11 +97,11 @@ export class CollaboratorComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  navigateToEditCollaborator(){
-    this.router.navigate(['collaborator/edit', '1234']);
+  navigateToEditUser(id:string){
+    this.router.navigate(['user/edit', id]);
   }
 
-  deleteCollaborator() {
+  deleteCollaborator(uuid:string) {
     Swal.fire({
       title: this.translateService.instant(
         'clients.table.buttons.confirm_question_delete'
@@ -81,7 +122,10 @@ export class CollaboratorComponent implements OnInit {
       },
     }).then((result:any) => {
       if (result.isConfirmed) {
-
+        this.securityService.deleteSecurityUser(this.selectedSubscription?.ssid.uuid,uuid).subscribe( data => {
+            this.toastr.success("Ok","Deleted Successfully");
+            this.getSecurityUsers();
+        })
       }
     });
   }
@@ -109,6 +153,10 @@ export class CollaboratorComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  navigateToSecurityUserProfile(id: string) {
+    this.router.navigate(['user-profile', id]);
   }
 
 }

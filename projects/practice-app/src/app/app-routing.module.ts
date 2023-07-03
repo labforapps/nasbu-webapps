@@ -96,7 +96,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'collaborator',
+        path: 'users',
         component: CollaboratorComponent,
       },
 
@@ -157,7 +157,7 @@ const routes: Routes = [
         component: PlansComponent,
       },
       {
-        path: 'collaborator-profile',
+        path: 'user-profile/:id',
         component: CollaboratorProfileComponent,
       },
     ],
@@ -188,7 +188,11 @@ const routes: Routes = [
     component: CreateProfileComponent,
   },
   {
-    path: 'collaborator/create-collaborator',
+    path: 'user/create',
+    component: CreateCollaboratorComponent,
+  },
+  {
+    path: 'user/edit/:id',
     component: CreateCollaboratorComponent,
   },
   {

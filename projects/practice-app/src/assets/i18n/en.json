@@ -568,11 +568,11 @@
 
    },
    "collaborator":{
-    "title":"Collaborators",
+    "title":"Users",
     "search_by_name":"Search by name",
     "all":"All",
     "buttons":{
-      "create_new_collaborator":"Create new collaborator",
+      "create_new_collaborator":"Create new user",
       "edit":"Edit",
       "delete":"Delete"
     },
@@ -586,7 +586,7 @@
       "actions":"Actions"
     },
     "form_create":{
-      "create_new_collaborator":"Create new collaborator",
+      "create_new_collaborator":"Create new user",
       "edit_collaborator":"Edit Collaborator",
       "button_save_changes":"Save changes",
       "button_is_everything_ready":"Is everything ready?",
@@ -770,6 +770,7 @@
       "activity_summary":"Activity Summary",
       "clients":"Clients",
       "collaborators":"Collaborators",
+      "users":"Users",
       "dockets":"Dockets",
       "documents_templates":"Documents and templates",
       "my_tasks":"My tasks",
@@ -891,12 +892,14 @@
     "this_model_defines_your_pay_by_hour_minute":"This model defines your pay by the hour, minute, or your preferred increment to apply to tasks within this docket.",
     "this_model_your_hourly_rate_time_invested_in_a_task":"This model defines your hourly rate for time invested in a task created under this docket.",
     "by_increment_of_time":"By increment of time",
-    "increment_factor":"Increment factor",
+    "increment_factor":"Increment parameter",
     "save":"Save",
     "goBack":"Go back",
     "price":"Price",
     "quantity":"Quantity",
     "save_changes":"Save changes"
-  }
+  },
+  "start_time_is_greater_or_equal_to_end_time":"Start time is greater than or equal to end time in day"
+
 
 }

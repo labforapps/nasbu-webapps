@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogNewRoleComponent } from '../../../components/dialogs/dialog-new-role/dialog-new-role.component';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../services/form.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Country, SubtypeContact, TypeContact } from 'core-models';
-import { AuthService, CommonService } from 'core-services';
+import { Country, Group, SecurityUser, SubtypeContact, TypeContact } from 'core-models';
+import { AuthService, CommonService, SecurityService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -21,35 +21,46 @@ export class CreateCollaboratorComponent implements OnInit {
   typeContact = TypeContact;
   subtypeContact = SubtypeContact;
   logoFile!:File;
+  image_url!:string;
   countries!:Country[];
+  securityGroups!:Group[];
+  securityUserId!:string;
+  securityUser!:SecurityUser;
 
 
-  constructor(public dialog: MatDialog,
+  constructor(public  dialog: MatDialog,
               private formBuilder:FormBuilder,
               private authService:AuthService,
               private commonService:CommonService,
               private formService:FormService,
               private router:Router,
               private toastr: ToastrService,
-              private translateService:TranslateService) { }
+              private translateService:TranslateService,
+              private securityService:SecurityService,
+              private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.initForm();
     this.fetchCountries();
+    this.getSecurityGroups();
+    this.getSecurityUserById();
   }
 
   initForm(){
 
     this.collaboratorForm = this.formBuilder.group({
-      role: ['',Validators.required],
-      firstname: ['',Validators.required],
-      lastname: ['',Validators.required],
-      country: ['',Validators.required],
+      group: ['',Validators.required],
+      first_name: ['',Validators.required],
+      last_name: ['',Validators.required],
+      origin_country: ['',Validators.required],
+      email: ['',Validators.required],
+      password: ['',Validators.required],
       licenses: this.formBuilder.array([
         this.formBuilder.group({
-          license:['',Validators.required],
-          government:['',Validators.required]
+          license_country:['81635e71-a6b6-44dc-9d82-b9ee0aad8660',Validators.required],
+          license_no:['',Validators.required],
+          license_country_state: ['']
         })
       ]),
       contacts: this.formBuilder.array([
@@ -79,6 +90,48 @@ export class CreateCollaboratorComponent implements OnInit {
 
   }
 
+  getSecurityUserById() {
+    this.securityUserId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+
+    if (this.securityUserId != '') {
+      this.securityService
+        .getSecurityUserById(this.selectedSubscription?.ssid.uuid, this.securityUserId)
+        .subscribe((data) => {
+          console.log(data);
+          this.securityUser = data;
+          this.setDataInForm();
+        });
+    }
+  }
+
+  setDataInForm(){
+    this.collaboratorForm.patchValue({
+      ...this.securityUser,
+      ...this.securityUser.user
+    })
+
+    this.setDataInFormArrays();
+  }
+
+  setDataInFormArrays(){
+   if(this.securityUser.contacts.length > 0){
+    this.removeItemFormArray('contacts',0);
+    this.removeItemFormArray('contacts',0);
+    this.formService.setDataFormArray(this.collaboratorForm,'contacts',this.securityUser.contacts.filter(x => x.contact_value != ''));
+   }
+
+   if(this.securityUser.addresses.length > 0){
+    this.removeItemFormArray('addresses',0);
+    this.formService.setDataFormArray(this.collaboratorForm,'addresses',this.securityUser.addresses);
+   }
+  }
+
+  getSecurityGroups(){
+    this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.securityGroups = data;
+    })
+  }
+
   fetchCountries() {
     this.commonService.getCountries().subscribe((data:Country[]) => {
       this.countries = data;
@@ -92,7 +145,7 @@ export class CreateCollaboratorComponent implements OnInit {
     });
   }
 
-  setLogoFileSubscription(event:any){
+  setLogoFile(event:any){
     this.logoFile = event;
   }
 
@@ -146,11 +199,27 @@ export class CreateCollaboratorComponent implements OnInit {
 
   submitForm(){
 
-    console.log(this.collaboratorForm);
+     const securityUserPayload:SecurityUser = {
+      uuid:this.securityUserId,
+      subscription: this.selectedSubscription?.ssid.uuid,
+      user: {
+        email: this.collaboratorForm.value.email,
+        first_name: this.collaboratorForm.value.first_name,
+        last_name: this.collaboratorForm.value.last_name
+      },
+      origin_country: this.collaboratorForm.value.origin_country,
+      group: this.collaboratorForm.value.group,
+      contacts: this.collaboratorForm.value.contacts,
+      addresses: this.collaboratorForm.value.addresses,
+      licenses: this.collaboratorForm.value.licenses,
+      billing_fees: []
+     }
 
-    if(this.collaboratorForm.valid){
-      console.log(this.collaboratorForm.value);
-    }
+    console.log(this.collaboratorForm.value);
+
+    this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {
+      this.toastr.success('Success','Creado Exitosamente');
+    })
 
   }
 

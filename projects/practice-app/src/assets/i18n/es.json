@@ -567,11 +567,11 @@
     }
    },
    "collaborator":{
-    "title":"Colaboradores",
+    "title":"Usuarios",
     "search_by_name":"Buscar por nombre",
     "all":"Todos",
     "buttons":{
-      "create_new_collaborator":"Crear nuevo colaborador",
+      "create_new_collaborator":"Crear nuevo Usuario",
       "edit":"editar",
       "delete":"Eliminar"
     },
@@ -585,7 +585,7 @@
       "actions":"Acciones"
     },
     "form_create":{
-      "create_new_collaborator":"Create new collaborator",
+      "create_new_collaborator":"Crear nuevo usuario",
       "edit_collaborator":"Editar colaborador",
       "button_save_changes":"Guardar cambios",
       "button_is_everything_ready":"¿Está todo listo?",
@@ -765,6 +765,7 @@
     "activity_summary":"Resumen de actividades",
     "clients":"Clientes",
     "collaborators":"Colaboradores",
+    "users":"Usuarios",
     "shared_dockets":"Colaboradores",
     "dockets":"Expedientes",
     "documents_templates":"Documentos y plantillas",
@@ -886,15 +887,16 @@
       "this_is_a_set_that_represents_the_total_invoice_amount":"Este es el valor fijo que represente facturación Total de la ejecución de este expediente",
       "retainer":"Retencion de pago",
       "under_this_model_you_retain_a_given_amount":"En este modelo retienes un monto acordado con tu cliente del cual se irán cubriendo las horas que vayas ejecutando mientras realizas el trabajo",
-      "cost_per_increment":"Precio por incremento",
+      "cost_per_increment":"Factor de incremento (Min)",
       "this_model_defines_your_pay_by_hour_minute":"En este modelo defines por Hr. / Minuto/ que insertes de como se manejará con Las tareas que ejecutes en este expediente",
       "this_model_your_hourly_rate_time_invested_in_a_task":"En este modelo defines tu precio por hora y cada hora que inviertas en una tarea en el expediente se multiplicará por el valor de la misma.",
       "by_increment_of_time":"Por incremento de tiempo",
-      "increment_factor":"Factor de incremento",
+      "increment_factor":"Parámetro de incremento",
       "save":"Guardar",
       "goBack":"Volver",
       "price":"Precio",
       "quantity":"Cantidad",
       "save_changes":"Guardar Cambios"
-    }
+    },
+    "start_time_is_greater_or_equal_to_end_time":"La hora de inicio es mayor o igual que la hora de finalización en el día"
 }

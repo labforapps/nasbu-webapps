@@ -114,8 +114,7 @@ export class CreateProfileComponent implements OnInit {
         const endTime = new Date(`2000-01-01T${schedule.end_time}`);
         if (startTime >= endTime) {
           this.toastr.error('Error',
-          `${this.translateService.instant('Start time is greater than or equal to end time')}
-          in day ${this.translateService.instant(weekDayDescription || '')}`
+          `${this.translateService.instant('start_time_is_greater_or_equal_to_end_time')} ${this.translateService.instant(weekDayDescription || '')}`
           );
           return false;
         }

@@ -1,4 +1,4 @@
-<div class="l-page">
+<div class="l-page" *ngIf="securityUser" >
     <div class="l-page__header">
         <div class="d-flex flex-wrap u-gap-1">
             <button mat-button [routerLink]="'/client'"><span class="icon-arrow-back mr-2" ></span> {{'collaborator.profile.goBack' | translate}}</button>
@@ -6,14 +6,14 @@
                 <div class="l-page__icon">
                     <span class="icon-user"></span>
                 </div>
-                <div class="l-page__title">Manuel Cabral M. </div>
+                <div class="l-page__title">{{securityUser.user.first_name + ' ' + securityUser.user.last_name }} </div>
             </div>
 
         </div>
 
         <div class="l-page__controls">
             <button class="c-btn c-btn--outline c-btn--small" mat-button>{{'collaborator.profile.fast_invoicing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
-            <button class="c-btn c-btn--primary c-btn--small" mat-button>{{'collaborator.profile.edit_collaborator' | translate}} <span class="icon-pen ml-2 "></span></button>
+            <button class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditUser(securityUser.uuid || '')">{{'collaborator.profile.edit_collaborator' | translate}} <span class="icon-pen ml-2 "></span></button>
 
         </div>
 
@@ -25,7 +25,7 @@
                   {{'collaborator.profile.general_details' | translate}}
                     <span class="icon-id-card"></span>
                 </ng-template>
-                <app-collabotator-general-info></app-collabotator-general-info>
+                <app-collabotator-general-info [securityUser]="securityUser"></app-collabotator-general-info>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>

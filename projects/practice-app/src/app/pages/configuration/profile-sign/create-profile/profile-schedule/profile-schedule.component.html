@@ -19,7 +19,7 @@
               <mat-form-field appearance="fill" class="c-form-group is-valid">
                   <mat-label>{{'firm.form_create.closing_time' | translate}}</mat-label>
                   <input formControlName="end_time" class="c-form-group__input" matInput [ngxTimepicker]="picker2" [format]="24">
-                  <ngx-material-timepicker #picker2></ngx-material-timepicker>
+                  <ngx-material-timepicker #picker2  [timepickerClass]="'custome-class'"></ngx-material-timepicker>
               </mat-form-field>
 
               <mat-slide-toggle class="c-switch" (change)="setScheduleFieldToggle($event,i)" [checked]="!schedule.value.is_closed">

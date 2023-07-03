@@ -61,11 +61,18 @@ export interface Schedule {
 }
 
 export interface SubscriptionBillingFee {
-    billing_fee_id?:      string;
-    price_per_hour:      string;
-    increment_factor:    string;
-    price_per_increment: string;
-    allow_retainers:     boolean;
-    allow_flat_fee:      boolean;
+  uuid?:                string;
+  subscription:        string;
+  billing_fee_id:      string;
+  price_per_hour:      string;
+  increment_factor:    string;
+  price_per_increment: string;
+  allow_retainers:     boolean;
+  allow_flat_fee:      boolean;
+  active?:              boolean;
+  created_by?:          null;
+  created_at?:          Date;
+  updated_by?:          null;
+  updated_at?:          Date;
 }
 

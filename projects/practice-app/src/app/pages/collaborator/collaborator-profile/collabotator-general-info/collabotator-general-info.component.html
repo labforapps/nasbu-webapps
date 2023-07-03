@@ -7,13 +7,13 @@
         <div class="c-generalInfo__subname ">{{'collaborator.profile.user_details' | translate}} </div>
       </div>
     </div>
-    <div class="c-generalInfo__company ">
+    <!-- <div class="c-generalInfo__company ">
       <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">{{'collaborator.profile.entity' | translate}} </b>Moya & Asociados
 
-    </div>
+    </div> -->
   </div>
-  <hr class="u-divider ">
-  <div class="c-generalInfo__body">
+  <!-- <hr class="u-divider "> -->
+  <!-- <div class="c-generalInfo__body">
     <div class="c-generalInfo__title ">
       {{'collaborator.profile.personal_circumstances' | translate}}
     </div>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <hr class="u-divider ">
   <div class="c-generalInfo__body ">
     <div class="c-generalInfo__title ">
@@ -50,14 +50,16 @@
       <div class="col-md-6 ">
         <div class="information-title ">{{'collaborator.profile.telephones' | translate}}</div>
 
-        <div class="info-group ">
+        <div class="info-group " *ngFor="let contactPhone of securityUserContactPhone">
           <div class="info-group__info ">
             <span class="icon-mobile"></span> {{'collaborator.profile.telephone_number' | translate}}
           </div>
           <div class="info-group__data mr-5">
-            +1 (734) 938 8394
+           {{contactPhone.contact_value}}
           </div>
         </div>
+
+
         <!-- <div class="info-group ">
           <div class="info-group__info ">
             <span class="icon-company "></span> {{'collaborator.profile.cellphone_number' | translate}}
@@ -69,12 +71,12 @@
       </div>
       <div class="col-md-6 ">
         <div class="information-title ">{{'collaborator.profile.email' | translate}}</div>
-        <div class="info-group ">
+        <div class="info-group " *ngFor="let contact of securityUserContactEmail">
           <div class="info-group__info ">
             <span class="icon-email"></span> {{'collaborator.profile.personal_email' | translate}}
           </div>
           <div class="info-group__data ">
-            Manuel@fugus.com
+            {{contact.contact_value}}
           </div>
         </div>
       </div>
@@ -86,17 +88,22 @@
 
     <div class="row mb-5">
       <div class="col-md-6">
-        <div class="c-generalInfo__title">
-          <span class="icon-id-card"></span>{{'collaborator.profile.details' | translate}}
-        </div>
-        <div class="mb-4">
-          <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.license' | translate}} # 1 </div>
-          <p class="u-textLightColor">983792A38</p>
-        </div>
-        <div class="mb-4">
-          <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.licensing_government_authority' | translate}}</div>
-          <p class="u-textLightColor">Estado Unidos, estado de alabama</p>
-        </div>
+
+          <div class="c-generalInfo__title">
+            <span class="icon-id-card"></span>{{'collaborator.profile.details' | translate}}
+          </div>
+          <div *ngFor="let license of securityUser.licenses; let i = index">
+              <div class="mb-4">
+                <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.license' | translate}} # {{i + 1}} </div>
+                <p class="u-textLightColor">{{license.license_no}}</p>
+              </div>
+              <div class="mb-4">
+                <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.licensing_government_authority' | translate}}</div>
+                <p class="u-textLightColor">Estado Unidos, estado de alabama</p>
+              </div>
+          </div>
+
+
       </div>
       <div class="col-md-6">
         <div class="c-generalInfo__title ">
@@ -115,32 +122,48 @@
     <div class="c-generalInfo__title ">
       <span class="icon-phone"></span>{{'collaborator.profile.physical_mailing_address' | translate}}
     </div>
-    <div class="row mb-5">
+    <div class="row mb-5" *ngFor="let address of securityUser.addresses; let i = index">
       <div class="col-md-6">
-        <div class="information-title ">{{'collaborator.profile.physical_address' | translate}} #1 </div>
+        <div class="information-title ">{{'collaborator.profile.physical_address' | translate}} #{{i + 1}} </div>
 
         <div class="info-group mb-2 ">
           <div class="info-group__info ">{{'collaborator.profile.country' | translate}}</div>
-          <div class="info-group__data mr-5">República Dominicana</div>
+          <div class="info-group__data mr-5" *ngIf="countries">{{returnCountryName(address.physical_country)}}</div>
         </div>
         <div class="info-group mb-2">
           <div class="info-group__info ">{{'collaborator.profile.city_state_province' | translate}}</div>
-          <div class="info-group__data mr-5">Miami, Florida </div>
+          <div class="info-group__data mr-5">{{address.physical_city}} </div>
         </div>
         <div class="info-group mb-2">
           <div class="info-group__info ">{{'collaborator.profile.postal_code' | translate}}</div>
-          <div class="info-group__data mr-5">33126</div>
+          <div class="info-group__data mr-5">{{address.physical_postal_code}}</div>
         </div>
         <div class="info-group mb-2">
           <div class="info-group__info ">{{'collaborator.profile.physical_address' | translate}}</div>
-          <div class="info-group__data mr-5">1466 NW 78 AVE</div>
+          <div class="info-group__data mr-5">{{address.physical_address}}</div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="information-title ">{{'collaborator.profile.postal_address' | translate}} #1</div>
-        <p class="u-textLightColor u-smallSize">
+        <div class="information-title ">{{'collaborator.profile.postal_address' | translate}}</div>
+        <!--<p class="u-textLightColor u-smallSize">
           {{'collaborator.profile.not_have_mailing_address' | translate}}
-        </p>
+        </p> -->
+
+        <div class="info-group mb-2">
+          <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
+          <div class="info-group__data mr-5">{{address.postal_city}}</div>
+        </div>
+
+        <div class="info-group mb-2">
+          <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
+          <div class="info-group__data mr-5">{{address.postal_postal_code}}</div>
+        </div>
+
+        <div class="info-group mb-2">
+          <div class="info-group__info ">{{'clients.details.postal_address' | translate}}</div>
+          <div class="info-group__data mr-5">{{address.postal_address}}</div>
+        </div>
+
       </div>
     </div>
   </div>

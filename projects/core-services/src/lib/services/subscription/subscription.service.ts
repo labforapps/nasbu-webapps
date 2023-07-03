@@ -37,7 +37,7 @@ export class SubscriptionService {
   }
 
   uploadImage(subscription:string,image:File){
-    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/upload_image/`;
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/upload_image/?subscription=${subscription}`;
     const formData = new FormData();
     formData.append('file', image);
     formData.append('subscription', subscription);
@@ -45,9 +45,9 @@ export class SubscriptionService {
     return this.httpClient.put<any>(serverUrl,formData);
   }
 
-  getSubscriptionBillingFee(subscription:string):Observable<SubscriptionBillingFee>{
+  getSubscriptionBillingFee(subscription:string):Observable<SubscriptionBillingFee[]>{
     const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
-    return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
+    return this.httpClient.get<SubscriptionBillingFee[]>(serverUrl);
   }
 
   createSubscriptionBillingFee(subscription:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
