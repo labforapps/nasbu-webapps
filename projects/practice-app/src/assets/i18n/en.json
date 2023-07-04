@@ -587,7 +587,7 @@
     },
     "form_create":{
       "create_new_collaborator":"Create new user",
-      "edit_collaborator":"Edit Collaborator",
+      "edit_collaborator":"Edit User",
       "button_save_changes":"Save changes",
       "button_is_everything_ready":"Is everything ready?",
       "choose_option":"Select one of the options",

@@ -22,7 +22,7 @@
                 <div class="align-items-center d-flex justify-content-between mb-3 ng-star-inserted u-gap-1 u-smallSize flex-wrap mt-1">
 
                     <div class="c-form-group--search bordered ml-auto">
-                        <input matInput type="text" placeholder="{{'collaborator.search_by_name' | translate}}" (keyup)="applyFilter($event)">
+                        <input matInput type="text" placeholder="{{'collaborator.search_by_name' | translate}}" [(ngModel)]="searchQuery" (keyup)="applyFilter($event)">
                         <span class="icon-search"></span>
                     </div>
 

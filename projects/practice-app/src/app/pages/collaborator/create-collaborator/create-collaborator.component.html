@@ -11,7 +11,9 @@
             <div class="c-create__header">
                 <div class="row w-100">
                     <div class="col-sm-12 mb-5">
-                        <div class="c-create__title">{{'collaborator.form_create.create_new_collaborator' | translate }}</div>
+                        <div class="c-create__title" *ngIf="!securityUser">{{'collaborator.form_create.create_new_collaborator' | translate }}</div>
+                        <div class="c-create__title" *ngIf="securityUser">{{'collaborator.form_create.edit_collaborator' | translate }}</div>
+
                         <div class="c-create__subtitle">¿Qué función o rol desempeña? <span class="u-dangerColor">*</span></div>
                         <div class="c-create__text">{{'collaborator.form_create.choose_option' | translate }}</div>
                     </div>

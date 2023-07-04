@@ -20,7 +20,7 @@ export class CreateCollaboratorComponent implements OnInit {
   collaboratorForm!:FormGroup;
   typeContact = TypeContact;
   subtypeContact = SubtypeContact;
-  logoFile!:File;
+  logoFile!:any;
   image_url!:string;
   countries!:Country[];
   securityGroups!:Group[];
@@ -99,6 +99,7 @@ export class CreateCollaboratorComponent implements OnInit {
         .subscribe((data) => {
           console.log(data);
           this.securityUser = data;
+          this.image_url = this.securityUser.image_url || '';
           this.setDataInForm();
         });
     }
@@ -212,6 +213,7 @@ export class CreateCollaboratorComponent implements OnInit {
       contacts: this.collaboratorForm.value.contacts,
       addresses: this.collaboratorForm.value.addresses,
       licenses: this.collaboratorForm.value.licenses,
+      image_url: this.logoFile,
       billing_fees: []
      }
 

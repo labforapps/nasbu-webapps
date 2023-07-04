@@ -31,7 +31,7 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-md-5 col-sm-6">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" [checked]="invoicingParameterForm.controls['price_per_hour'].value > 0">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" style="color: #DDDDDD !important" [checked]="invoicingParameterForm.controls['price_per_hour'].value > 0" [disabled]="true">
                               {{'invoice_parameter.add_hourly_rate' | translate}}
                             </mat-checkbox>
                             <p class="u-smallSize u-textColor pl-4 mb-1">

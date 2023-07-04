@@ -1,48 +1,15 @@
-.custome-class {
-  direction: ltr;
-  background-color: #389856;
-  .timepicker__header {
-    padding: 0px 30px !important;
-    border-top-right-radius: 12px;
-    border-top-left-radius: 12px;
-  }
-  .timepicker-dial__control {
-    font-size: 20px !important;
-  }
-
-  .timepicker-dial {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    display: flex;
-    justify-content: center;
-    height: 44px;
-  }
-}
-
-
-.timepicker {
-
-  .timepicker__header {
-    background-color: #389856 !important;
-  }
-}
-body > ngx-material-timepicker-container > div.timepicker-overlay.ng-tns-c221-58 > ngx-material-timepicker-content > div > header
-{
-  background-color: #389856 !important;
-}
-
 ::ng-deep ngx-material-timepicker-content{
-  --body-background-color: #389856;
   --primary-font-family: 'Roboto',sans-serif;
-  --button-color: #c6ff00 !important;
+  --button-color: #389856 !important;
   --dial-active-color: #fff;
   --dial-inactive-color: rgba(255, 255, 255, .5);
-  --dial-background-color: #c6ff00 !important;
-  --dial-editable-active-color: #c6ff00 !important;
+  --dial-background-color: #389856 !important;
+  --dial-editable-active-color: #389856 !important;
   --dial-editable-background-color: #fff;
   --clock-face-time-active-color: #fff;
   --clock-face-time-inactive-color: #6c6c6c;
   --clock-face-inner-time-inactive-color: #929292;
   --clock-face-time-disabled-color: #c5c5c5;
   --clock-face-background-color: #f0f0f0;
-  --clock-hand-color: #c6ff00 !important;
+  --clock-hand-color: #389856 !important;
 }

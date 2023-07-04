@@ -45,7 +45,7 @@ export class CollaboratorComponent implements OnInit {
   dataSourceSecurityUsers!: any;
   typeContact = TypeContact;
   securityGroups!:Group[];
-
+  searchQuery!: string;
 
   constructor(private router:Router,
               private translateService:TranslateService,
@@ -69,7 +69,14 @@ export class CollaboratorComponent implements OnInit {
 
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityUser[]) => {
-      this.securityUsers = data;
+
+      this.securityUsers = data.map(item => {
+        return {
+            ...item,
+            first_name: item.user.first_name,
+        };
+    });
+
       this.dataSourceSecurityUsers = new MatTableDataSource<SecurityUser>(this.securityUsers);
       this.dataSourceSecurityUsers.paginator = this.paginator;
     })
@@ -91,10 +98,8 @@ export class CollaboratorComponent implements OnInit {
     })
   }
 
-  applyFilter(filterValue: any, typeCustomer = '') {
-    filterValue = filterValue.target.value.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
+  applyFilter(event: any) {
+    this.dataSourceSecurityUsers.filter = event.target.value.trim().toLowerCase();
   }
 
   navigateToEditUser(id:string){
