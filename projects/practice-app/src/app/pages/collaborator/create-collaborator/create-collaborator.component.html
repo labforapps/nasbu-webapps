@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-sm-6 mb-2">
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0" >
-                            <mat-label>Seleccionar Grupo</mat-label>
+                            <mat-label>Seleccionar Opción</mat-label>
                             <mat-select formControlName="group">
                                 <mat-option *ngFor="let group of securityGroups" [value]="group.group">
                                     {{group.name}}
@@ -281,8 +281,8 @@
     <div class="c-ribbon">
         <div class="c-ribbon__text">“Recuerda completar los datos requeridos"</div>
         <div class="c-ribbon__actions">
-            <button mat-button class="c-btn-function">Guardar Usuario </button>
-            <button mat-button class="c-btn-function">Guardar y crear otro</button>
+            <button mat-button class="c-btn-function" *ngIf="!securityUser">Guardar Usuario </button>
+            <button mat-button class="c-btn-function" *ngIf="securityUser">Guardar Cambios </button>
         </div>
 
     </div>

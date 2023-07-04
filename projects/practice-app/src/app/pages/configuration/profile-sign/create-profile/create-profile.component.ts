@@ -129,7 +129,7 @@ export class CreateProfileComponent implements OnInit {
     if(!this.validateSchedule()) return;
 
     this.subscriptionPayload = {...this.subscriptionForm.value, schedules: this.subscriptionSchedule}
-    if(this.logoFile) this.subscriptionPayload.logoFile = this.logoFile;
+     this.subscriptionPayload.logoFile = this.logoFile ? this.logoFile : null;
 
     if(this.subscriptionForm.valid){
       this.subscriptionService.updateSubscription(this.subscriptionPayload,this.selectedSubscription?.ssid.uuid).subscribe(data => {

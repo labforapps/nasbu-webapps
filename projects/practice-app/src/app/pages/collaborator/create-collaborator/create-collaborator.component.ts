@@ -220,7 +220,12 @@ export class CreateCollaboratorComponent implements OnInit {
     console.log(this.collaboratorForm.value);
 
     this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {
-      this.toastr.success('Success','Creado Exitosamente');
+      if(this.securityUser){
+        this.toastr.success('Success','Cambios guardados');
+      }
+      else{
+        this.toastr.success('Success','Creado Exitosamente');
+      }
     })
 
   }

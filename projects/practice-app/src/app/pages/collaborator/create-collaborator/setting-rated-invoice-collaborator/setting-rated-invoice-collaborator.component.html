@@ -1,50 +1,57 @@
-<div class="row">
-  <div class="col-sm-6">
-      <label class="u-title-label mb-4">Configuración precio x Hr  <span class="u-dangerColor">*</span></label>
-      <mat-form-field appearance="fill" class="c-form-group">
-          <mat-label>Monto</mat-label>
-          <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-      </mat-form-field>
+
+<form [formGroup]="invoicingParameterForm"  #form="ngForm">
+
+
+  <div class="row">
+    <div class="col-sm-6">
+        <label class="u-title-label mb-4">Configuración precio x Hr  <span class="u-dangerColor">*</span></label>
+        <mat-form-field appearance="fill" class="c-form-group">
+            <mat-label>Monto</mat-label>
+            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_hour">
+        </mat-form-field>
+    </div>
+    <div class="col-sm-6">
+        <label class="u-title-label mb-4">Modalidades permitidas <span class="u-dangerColor">*</span></label>
+        <div class="d-flex flex-column">
+            <mat-checkbox class="c-checkbox mb-2">
+              {{'invoice_parameter.hourly_rate' | translate}}
+            </mat-checkbox>
+            <mat-checkbox class="c-checkbox mb-2" formControlName="allow_retainers">
+              {{'invoice_parameter.retainer' | translate}}
+            </mat-checkbox>
+            <mat-checkbox class="c-checkbox mb-2">
+              {{'invoice_parameter.by_increment_of_time' | translate}}
+            </mat-checkbox>
+            <mat-checkbox class="c-checkbox mb-2" formControlName="allow_flat_fee">
+                Monto fijo ( Flat fee)
+            </mat-checkbox>
+
+        </div>
+    </div>
   </div>
-  <div class="col-sm-6">
-      <label class="u-title-label mb-4">Modalidades permitidas <span class="u-dangerColor">*</span></label>
-      <div class="d-flex flex-column">
-          <mat-checkbox class="c-checkbox mb-2">
-              Honorarios por hora
-          </mat-checkbox>
-          <mat-checkbox class="c-checkbox mb-2">
-              Retención de Pago
-          </mat-checkbox>
-          <mat-checkbox class="c-checkbox mb-2">
-              Por Incremento de tiempo
-          </mat-checkbox>
-          <mat-checkbox class="c-checkbox mb-2">
-              Monto fijo ( Flat fee)
-          </mat-checkbox>
 
-      </div>
-  </div>
-</div>
+  <div class="row">
 
-<div class="row">
-
-  <div class="col-sm-6">
-    <label class="u-title-label mb-4">Configuración incremento  <span class="u-dangerColor">*</span></label>
-    <mat-form-field appearance="fill" class="c-form-group">
-        <mat-label>Parámetro de incremento</mat-label>
-        <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-    </mat-form-field>
-    <p>
-      <label class="u-title-label mb-4">Factor de incremento (Min)  <span class="u-dangerColor">*</span></label>
+    <div class="col-sm-6">
+      <label class="u-title-label mb-4">Configuración incremento  <span class="u-dangerColor">*</span></label>
       <mat-form-field appearance="fill" class="c-form-group">
-          <mat-label>Monto</mat-label>
-          <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
+          <mat-label>Parámetro de incremento</mat-label>
+          <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_increment">
       </mat-form-field>
-    </p>
-</div>
+      <p>
+        <label class="u-title-label mb-4">Factor de incremento (Min)  <span class="u-dangerColor">*</span></label>
+        <mat-form-field appearance="fill" class="c-form-group">
+            <mat-label>Monto</mat-label>
+            <input class="c-form-group__input" matInput placeholder="Ej: 15 Min" formControlName="increment_factor">
+        </mat-form-field>
+      </p>
+  </div>
 
-<div class="col-sm-6">
+  <div class="col-sm-6">
 
-</div>
+  </div>
 
-</div>
+  </div>
+
+
+</form>

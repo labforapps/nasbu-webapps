@@ -28,10 +28,8 @@ export class SubscriptionService {
 
     return updateOperation$.pipe(
       switchMap((item: Subscription) => {
-        if (subscriptionPayload.logoFile) {
           return this.uploadImage(item.uuid,subscriptionPayload.logoFile);
-        }
-        return of(item);
+
       })
     );
   }
