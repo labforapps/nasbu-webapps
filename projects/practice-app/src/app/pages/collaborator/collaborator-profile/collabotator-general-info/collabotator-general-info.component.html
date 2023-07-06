@@ -101,7 +101,7 @@
               </div>
               <div class="mb-4">
                 <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.licensing_government_authority' | translate}}</div>
-                <p class="u-textLightColor">Estado Unidos, estado de alabama</p>
+                <p class="u-textLightColor">{{license.license_country_state}}</p>
               </div>
           </div>
 
@@ -113,7 +113,7 @@
         </div>
         <div class="mb-4">
           <div class="u-smallSize u-textColor u-fontBold mb-1">{{'collaborator.profile.cost_per_hour' | translate}}</div>
-          <p class="u-textLightColor u-bigSize-2">25 USD x Hr. </p>
+          <p class="u-textLightColor u-bigSize-2" *ngIf="securityUser.billing_fees.length > 0">{{securityUser.billing_fees[0].price_per_hour}} USD x Hr. </p>
         </div>
       </div>
     </div>

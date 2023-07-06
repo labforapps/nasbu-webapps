@@ -1,5 +1,5 @@
 import { Address, Contact } from '../shared';
-import { SubscriptionOnboarding } from "../subscription";
+import { SubscriptionBillingFee, SubscriptionOnboarding } from "../subscription";
 
 export interface UserSignupPayload {
     firstName: string;
@@ -126,7 +126,7 @@ export interface SecurityUser {
   contacts:       SecurityUserContact[];
   addresses:      SecurityUserAddress[];
   licenses:       License[];
-  billing_fees:   any[];
+  billing_fees:   SubscriptionBillingFee[];
   image_url?:     string;
   active?:        boolean;
   created_at?:    Date;
@@ -153,6 +153,7 @@ export interface License {
   subscription:      string;
   subscription_user: string;
   license_country:   string;
+  license_country_state: string;
   license_id:        string;
   license_no:        string;
   created_by:        string;

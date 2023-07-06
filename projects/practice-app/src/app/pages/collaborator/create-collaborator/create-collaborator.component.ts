@@ -5,7 +5,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Country, Group, SecurityUser, SubtypeContact, TypeContact } from 'core-models';
+import { Country, Group, SecurityUser, SubscriptionBillingFee, SubtypeContact, TypeContact } from 'core-models';
 import { AuthService, CommonService, SecurityService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 
@@ -26,7 +26,7 @@ export class CreateCollaboratorComponent implements OnInit {
   securityGroups!:Group[];
   securityUserId!:string;
   securityUser!:SecurityUser;
-
+  billingFee!:SubscriptionBillingFee;
 
   constructor(public  dialog: MatDialog,
               private formBuilder:FormBuilder,
@@ -97,7 +97,6 @@ export class CreateCollaboratorComponent implements OnInit {
       this.securityService
         .getSecurityUserById(this.selectedSubscription?.ssid.uuid, this.securityUserId)
         .subscribe((data) => {
-          console.log(data);
           this.securityUser = data;
           this.image_url = this.securityUser.image_url || '';
           this.setDataInForm();
@@ -148,6 +147,10 @@ export class CreateCollaboratorComponent implements OnInit {
 
   setLogoFile(event:any){
     this.logoFile = event;
+  }
+
+  setSubscriptionBillingFee(billingFee:SubscriptionBillingFee){
+    this.billingFee = billingFee;
   }
 
   addContactItem(formArray:string,item:any){
@@ -214,24 +217,18 @@ export class CreateCollaboratorComponent implements OnInit {
       addresses: this.collaboratorForm.value.addresses,
       licenses: this.collaboratorForm.value.licenses,
       image_url: this.logoFile,
-      billing_fees: []
+      billing_fees: [this.billingFee]
      }
-
-    console.log(this.collaboratorForm.value);
 
     this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {
       if(this.securityUser){
-        this.toastr.success('Success','Cambios guardados');
+        this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
       }
       else{
-        this.toastr.success('Success','Creado Exitosamente');
+        this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
       }
     })
 
-  }
-
-  openDialogNewRole(){
-    this.dialog.open(DialogNewRoleComponent);
   }
 
 }

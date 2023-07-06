@@ -14,12 +14,12 @@
                         <div class="c-create__title" *ngIf="!securityUser">{{'collaborator.form_create.create_new_collaborator' | translate }}</div>
                         <div class="c-create__title" *ngIf="securityUser">{{'collaborator.form_create.edit_collaborator' | translate }}</div>
 
-                        <div class="c-create__subtitle">¿Qué función o rol desempeña? <span class="u-dangerColor">*</span></div>
+                        <div class="c-create__subtitle">{{'collaborator.form_create.what_function_or_role_does_it_play' | translate}} <span class="u-dangerColor">*</span></div>
                         <div class="c-create__text">{{'collaborator.form_create.choose_option' | translate }}</div>
                     </div>
                     <div class="col-sm-6 mb-2">
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0" >
-                            <mat-label>Seleccionar Opción</mat-label>
+                            <mat-label>{{'collaborator.form_create.choose_option' | translate}}</mat-label>
                             <mat-select formControlName="group">
                                 <mat-option *ngFor="let group of securityGroups" [value]="group.group">
                                     {{group.name}}
@@ -76,11 +76,11 @@
 
                 <div class="row">
                   <div class="col-sm-6">
-                      <label class="u-title-label mt-4">Correo electrónico para tu usuario</label>
+                      <label class="u-title-label mt-4">{{'collaborator.form_create.user_email' | translate}}</label>
 
 
                       <mat-form-field appearance="fill" class="c-form-group" >
-                          <mat-label>Correo electrónico</mat-label>
+                          <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
                           <input class="c-form-group__input" matInput placeholder="Ej: tucorreo@gmail.com" formControlName="email">
 
                       </mat-form-field>
@@ -96,9 +96,9 @@
                     <br>
                     <div class="row">
                       <div class="col-sm-6">
-                          <label class="u-title-label mb-0">Licencia de abogado ó profesional</label>
+                          <label class="u-title-label mb-0">{{'collaborator.form_create.lawyer_or_professional_license' | translate}}</label>
 
-                          <p class="u-textLightColor u-smallSize mb-2">(Número ó código alfanumérico)</p>
+                          <p class="u-textLightColor u-smallSize mb-2">({{'collaborator.form_create.number_or_alphanumeric_code' | translate}})</p>
 
                           <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'collaborator.profile.license' | translate }}</mat-label>
@@ -111,7 +111,7 @@
 
                       </div>
                       <div class="col-sm-6">
-                          <label class="u-title-label mt-4">¿Qué gobierno emitió esta licencia?</label>
+                          <label class="u-title-label mt-4">{{'collaborator.profile.licensing_government_authority' | translate}}</label>
                           <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'collaborator.form_create.name' | translate }}</mat-label>
                               <input class="c-form-group__input" matInput placeholder="Estado ó provincia " formControlName="license_country_state">
@@ -274,15 +274,15 @@
 
 
                 <hr class="u-divider--marginBig">
-                <app-setting-rated-invoice-collaborator></app-setting-rated-invoice-collaborator>
+                <app-setting-rated-invoice-collaborator (billingFeeOutput)="setSubscriptionBillingFee($event)" [securityUser]="securityUser"></app-setting-rated-invoice-collaborator>
             </div>
         </div>
     </div>
     <div class="c-ribbon">
-        <div class="c-ribbon__text">“Recuerda completar los datos requeridos"</div>
+        <div class="c-ribbon__text">“{{'clients.form_create.remember_fill_required_information' | translate}}"</div>
         <div class="c-ribbon__actions">
-            <button mat-button class="c-btn-function" *ngIf="!securityUser">Guardar Usuario </button>
-            <button mat-button class="c-btn-function" *ngIf="securityUser">Guardar Cambios </button>
+            <button mat-button class="c-btn-function" *ngIf="!securityUser">{{'collaborator.form_create.save_user' | translate}} </button>
+            <button mat-button class="c-btn-function" *ngIf="securityUser">{{'collaborator.form_create.button_save_changes' | translate}} </button>
         </div>
 
     </div>
