@@ -33,6 +33,7 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionsResolver } from './resolvers/permissions.resolver';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
+import { FirstPasswordComponent } from './pages/first-password/first-password.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
   {
     path: 'register/cancel',
     component: CancelSubscriptionPaymentComponent,
+  },
+  {
+    path: 'first-password',
+    component: FirstPasswordComponent,
   },
   {
     path: '',

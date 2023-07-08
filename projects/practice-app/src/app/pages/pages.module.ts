@@ -77,6 +77,7 @@ import { CollaboratorInvoicingTableComponent } from './collaborator/collaborator
 import { CollaboratorPendingIssuesTableComponent } from './collaborator/collaborator-profile/collaborator-pending-issues/collaborator-pending-issues-table/collaborator-pending-issues-table.component';
 import { ProfileScheduleComponent } from './configuration/profile-sign/create-profile/profile-schedule/profile-schedule.component';
 import { SettingRatedInvoiceCollaboratorComponent } from './collaborator/create-collaborator/setting-rated-invoice-collaborator/setting-rated-invoice-collaborator.component';
+import { FirstPasswordComponent } from './first-password/first-password.component';
 
 
 @NgModule({
@@ -146,6 +147,7 @@ import { SettingRatedInvoiceCollaboratorComponent } from './collaborator/create-
     CollaboratorPendingIssuesTableComponent,
     ProfileScheduleComponent,
     SettingRatedInvoiceCollaboratorComponent,
+    FirstPasswordComponent,
   ],
   imports: [
     CommonModule,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
 import { Observable } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
-import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription } from 'core-models';
+import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription, ChangeFirstPasswordPayload } from 'core-models';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 
@@ -44,6 +44,10 @@ export class AuthService {
 
   getAllPermisions(user: UserInfo): string[] {
     return this.coreAuth.getAllPermisions(user);
+  }
+
+  saveFirstUserPassword(payload:ChangeFirstPasswordPayload) {
+    return this.coreAuth.saveFirstUserPassword(payload);
   }
 
   /**

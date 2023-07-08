@@ -32,8 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this.signinForm = this.fb.group({
-      username: [null, Validators.required],
-      password: [null, Validators.required]
+      username: ['cdavid47@mailinator.com'],
+      password: ['X6N?nbL0!g[_9}-v']
     });
   }
 
@@ -49,11 +49,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     const { username, password } = this.signinForm.value;
     this.authService
       .signIn(username, password)
-      .subscribe(() => {
+      .subscribe((data:any) => {
+
+        console.log('data:',data);
+        console.log(data.challengeName);
+
         this.router.navigate(['/dashboard']);
+
+
+        // if(data.challengeName === 'NEW_PASSWORD_REQUIRED'){
+        //   console.log('Redirect to First Password')
+        //   this.router.navigate(['/dashboard']);
+        // }
+        // else{
+        //   this.router.navigate(['/dashboard']);
+        // }
+
       }, (error) => {
-        console.log('Error: ', error);
         this.errorMessage = error.message;
+
       });
   }
 
