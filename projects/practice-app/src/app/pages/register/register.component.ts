@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
   public passwordMatchMsg: string = '';
   public passwordDontMatchMsg: string = '';
   public totalUsers: number = 1;
+  public phoneNumberField!:string;
 
   constructor(
     private onboardingService: OnboardingService,
@@ -113,6 +114,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  setPhoneField(value: any) {
+    this.phoneNumberField = value.replace(/[\s-]/g, '');
+    this.signupForm.patchValue({
+      phoneNumber: this.phoneNumberField
+    })
+  }
+
   signupAndCreateSubscription(isFreeTrial: boolean): void {
     const { password, confirmPassword } = this.signupForm.value;
     if (password !== confirmPassword) {
@@ -124,7 +132,7 @@ export class RegisterComponent implements OnInit {
       password: this.signupForm.value.password,
       firstName: this.signupForm.value.firstName,
       lastName: this.signupForm.value.lastName,
-      phoneNumber: this.signupForm.value.phoneNumber,
+      phoneNumber: this.phoneNumberField,
       email: this.signupForm.value.email,
       subscriptionInfo: {
         plan: this.selectedPlan.uuid,
@@ -133,6 +141,7 @@ export class RegisterComponent implements OnInit {
         total_users: +this.totalUsers,
       }
     };
+
     this.onboardingService
       .createUserAndAccount(userSignupPayload)
       .subscribe((subscription: Subscription) => {

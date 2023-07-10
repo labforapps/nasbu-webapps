@@ -9,11 +9,11 @@ import { ChangeFirstPasswordPayload } from 'core-models';
 const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
 @Component({
-  selector: 'app-first-password',
-  templateUrl: './first-password.component.html',
-  styleUrls: ['./first-password.component.scss']
+  selector: 'app-sign-in-first-password',
+  templateUrl: './sign-in-first-password.component.html',
+  styleUrls: ['./sign-in-first-password.component.scss']
 })
-export class FirstPasswordComponent implements OnInit {
+export class SignInFirstPasswordComponent implements OnInit {
 
   public formSubscription!: Subscription;
   public recoveryForm!: FormGroup;
@@ -23,7 +23,7 @@ export class FirstPasswordComponent implements OnInit {
   public recoveryCode!: string;
   public errorMessage!: string;
   public recoveryEmail!: string;
-  private isPasswordChanged: Boolean = false;
+  private firstPasswordUsername!:string;
 
   constructor(
     private fb: FormBuilder,
@@ -34,10 +34,10 @@ export class FirstPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.buildForm();
-    this.formChange();
-    this.loadTranslatedWords();
-    this.validateRecoveryCode();
+     this.buildForm();
+     this.formChange();
+     this.loadTranslatedWords();
+     this.validatefirstPasswordUsername();
   }
 
   get isValidForm(): boolean {
@@ -54,8 +54,9 @@ export class FirstPasswordComponent implements OnInit {
 
   buildForm(): void {
     this.recoveryForm = this.fb.group({
-      newPassword: [null, [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
-      confirmPassword: [null, Validators.required]
+      currentPassword: [null,Validators.required],
+      newPassword: ['Da15121904', [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
+      confirmPassword: ['Da15121904', Validators.required]
     });
   }
 
@@ -71,14 +72,31 @@ export class FirstPasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (this.recoveryForm.invalid) return;
-    const newPassword = this.recoveryForm.value.newPassword;
-    this.authService.forgotPasswordSubmit({code: this.recoveryCode, username: this.recoveryEmail, newPassword}).subscribe(
-      (payload)=>{
-        this.router.navigate(['/signin']);
-      }, (error)=>{
-        this.errorMessage = error.name;
-      }
-    );
+
+    const username: string = this.firstPasswordUsername;
+    const password: string = window.history.state.currentPassword;
+    this.authService
+        .signIn(username, password)
+        .pipe(
+            switchMap((user) => {
+
+              user.challengeParam.userAttributes.address = 'test';
+
+              const payload: ChangeFirstPasswordPayload = {
+                user,
+                oldPassword: password,
+                newPassword: this.recoveryForm.value.newPassword
+              };
+
+              return this.authService
+                  .saveFirstUserPassword(payload);
+          })
+        ).subscribe((response) => {
+            console.log('Response: ', response);
+            this.router.navigate(['/signin']);
+          }, (error) => {
+            console.log('Error: ', error);
+        })
   }
 
   loadTranslatedWords(): void {
@@ -90,39 +108,14 @@ export class FirstPasswordComponent implements OnInit {
       });
   }
 
-  validateRecoveryCode(): void {
-    const code = this.route.snapshot.queryParamMap.get('code');
-    const email = this.route.snapshot.queryParamMap.get('email');
-    if (!code || !email) {
+  validatefirstPasswordUsername(): void {
+    if(!window.history.state.firstPasswordUsername){
       this.router.navigate(['/signin']);
       return;
     }
-    this.recoveryCode = code;
-    this.recoveryEmail = email;
-  }
 
-  changePassword() {
-    const username: string = '';
-    const password: string = '';
-    this.authService
-        .signIn(username, password)
-        .pipe(
-            switchMap((user) => {
-              const payload: ChangeFirstPasswordPayload = {
-                user: '',
-                oldPassword: '',
-                newPassword: this.recoveryForm.value.newPassword
-              };
-              return this.authService
-                  .saveFirstUserPassword(payload);
-          })
-        ).subscribe((response) => {
-            console.log('Response: ', response);
-            this.isPasswordChanged = true;
-        }, (error:any) => {
-            console.log('Error: ', error);
-        })
-}
+    this.firstPasswordUsername = window.history.state.firstPasswordUsername;
+  }
 
   ngOnDestroy(): void {
     this.formSubscription?.unsubscribe();

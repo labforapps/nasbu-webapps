@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FirstPasswordComponent } from './first-password.component';
+import { ExpedientTableComponent } from './expedient-table.component';
 
-describe('FirstPasswordComponent', () => {
-  let component: FirstPasswordComponent;
-  let fixture: ComponentFixture<FirstPasswordComponent>;
+describe('ExpedientTableComponent', () => {
+  let component: ExpedientTableComponent;
+  let fixture: ComponentFixture<ExpedientTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FirstPasswordComponent ]
+      declarations: [ ExpedientTableComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FirstPasswordComponent);
+    fixture = TestBed.createComponent(ExpedientTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

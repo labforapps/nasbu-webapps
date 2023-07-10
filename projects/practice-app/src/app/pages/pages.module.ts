@@ -77,7 +77,10 @@ import { CollaboratorInvoicingTableComponent } from './collaborator/collaborator
 import { CollaboratorPendingIssuesTableComponent } from './collaborator/collaborator-profile/collaborator-pending-issues/collaborator-pending-issues-table/collaborator-pending-issues-table.component';
 import { ProfileScheduleComponent } from './configuration/profile-sign/create-profile/profile-schedule/profile-schedule.component';
 import { SettingRatedInvoiceCollaboratorComponent } from './collaborator/create-collaborator/setting-rated-invoice-collaborator/setting-rated-invoice-collaborator.component';
-import { FirstPasswordComponent } from './first-password/first-password.component';
+import { SignInFirstPasswordComponent } from './sign-in-first-password/sign-in-first-password.component';
+import { ExpedientTableComponent } from './expedient/expedient-table/expedient-table.component';
+import { ExpedientInvoicingTableComponent } from './expedient/expedient-info/expedient-invoicing/expedient-invoicing-table/expedient-invoicing-table.component';
+import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-table/expedient-wallet-table.component';
 
 
 @NgModule({
@@ -147,7 +150,10 @@ import { FirstPasswordComponent } from './first-password/first-password.componen
     CollaboratorPendingIssuesTableComponent,
     ProfileScheduleComponent,
     SettingRatedInvoiceCollaboratorComponent,
-    FirstPasswordComponent,
+    SignInFirstPasswordComponent,
+    ExpedientTableComponent,
+    ExpedientInvoicingTableComponent,
+    ExpedientWalletTableComponent,
   ],
   imports: [
     CommonModule,

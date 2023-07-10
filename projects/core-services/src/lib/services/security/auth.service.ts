@@ -34,7 +34,6 @@ export class AuthService {
     }
 
     fetchUserInfo(): Observable<UserInfo> {
-      console.log('fetchUserInfo')
         if (this.selectedUserInfo) {
             return of(this.selectedUserInfo);
         }
@@ -146,7 +145,7 @@ export class AuthService {
     }
 
     saveFirstUserPassword(payload: ChangeFirstPasswordPayload): Observable<any> {
-      const changePassword$ = Auth.completeNewPassword(payload.user, payload.newPassword);
+      const changePassword$ = Auth.completeNewPassword(payload.user, payload.newPassword,{});
       return of(changePassword$);
     }
 

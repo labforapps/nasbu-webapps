@@ -25,10 +25,13 @@
                     </mat-form-field>
 
                     <label class="u-title-label">{{'register.contactTitle' | translate}}</label>
-                    <mat-form-field appearance="fill" class="c-form-group mb-3">
+                    <!-- <mat-form-field appearance="fill" class="c-form-group mb-3">
                         <mat-label>{{'register.phoneNumber' | translate}}</mat-label>
                         <input class="c-form-group__input" matInput placeholder="+1829*******" formControlName="phoneNumber"    >
-                    </mat-form-field>
+                    </mat-form-field> -->
+
+                    <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
+
                     <label class="u-title-label">{{'register.emailTitle' | translate}}</label>
                     <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'register.email' | translate}}</mat-label>
