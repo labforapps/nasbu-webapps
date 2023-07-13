@@ -1,14 +1,14 @@
 <div class="c-dialog-newTask c-dialog-header">
     <div class="c-dialog-header__header">
-        Nueva nota
+        {{'dockets.profile.notes.new_note' | translate}}
     </div>
     <mat-dialog-content>
 
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label">Titulo de la nueva nota</label>
+                <label class="u-title-label">{{'dockets.profile.notes.new_note_title' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Titulo</mat-label>
+                    <mat-label>{{'dockets.profile.notes.title' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput>
                 </mat-form-field>
                 <textarea rows="8" matInput class="c-form-group__textarea text-area--outlined" placeholder="Escribe aquí lo detalles"></textarea>
@@ -17,8 +17,8 @@
 
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-        <button mat-button class="c-btn c-btn--outline c-btn--small">Guardar y crear otra</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">Guardar nota</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.profile.notes.close_window' | translate}}</button>
+        <button mat-button class="c-btn c-btn--outline c-btn--small">{{'dockets.profile.notes.save_create_another' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">{{'dockets.profile.notes.save_note' | translate}}</button>
     </mat-dialog-actions>
 </div>

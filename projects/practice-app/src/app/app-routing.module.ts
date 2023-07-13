@@ -33,11 +33,16 @@ import { NgxPermissionsGuard } from 'ngx-permissions';
 import { PermissionsResolver } from './resolvers/permissions.resolver';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
+import { SignInFirstPasswordComponent } from './pages/sign-in-first-password/sign-in-first-password.component';
 
 const routes: Routes = [
   {
     path: 'signin',
     component: LoginComponent,
+  },
+  {
+    path: 'signin-first-password',
+    component: SignInFirstPasswordComponent
   },
   {
     path: 'recovery',

@@ -2,10 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { ICredentials } from '@aws-amplify/core';
 import { catchError, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
-import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo } from 'core-models';
+import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo,ChangeFirstPasswordPayload } from 'core-models';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { HttpClient } from '@angular/common/http';
-
 @Injectable({
     providedIn: 'root'
 })
@@ -19,13 +18,18 @@ export class AuthService {
         // Amplify.configure(this.config.awsconfig);
     }
 
-    signin(username: string, password: string): Observable<UserInfo> {
+    signin(username: string, password: string): Observable<UserInfo | CognitoUser> {
         const signin$ = Auth.signIn(username, password);
         return from(signin$).pipe(
             switchMap((cognitoUser: CognitoUser) => {
                 console.log('Cognito user: ', cognitoUser);
-                return this.fetchUserInfo();
-            })
+                if(cognitoUser.challengeName === 'NEW_PASSWORD_REQUIRED' ){
+                  return of(cognitoUser);
+                }
+                else{
+                  return this.fetchUserInfo();
+                }
+              })
         );
     }
 
@@ -139,5 +143,12 @@ export class AuthService {
         const confirm$ = Auth.confirmSignUp(username, code)
         return from(confirm$);
     }
+
+    saveFirstUserPassword(payload: ChangeFirstPasswordPayload): Observable<any> {
+      const changePassword$ = Auth.completeNewPassword(payload.user, payload.newPassword,{});
+      return of(changePassword$);
+    }
+
+
 
 }

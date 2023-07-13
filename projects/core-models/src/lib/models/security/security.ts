@@ -57,6 +57,12 @@ export interface CurrentUserInfo {
   attributes: UserAtribetes;
 }
 
+export interface ChangeFirstPasswordPayload {
+  user: string,
+  oldPassword: string,
+  newPassword: string
+}
+
 export interface UserAtribetes {
     email: string;
     email_verified: boolean;
@@ -130,6 +136,7 @@ export interface SecurityUser {
   image_url?:     string;
   active?:        boolean;
   created_at?:    Date;
+  birthdate?: Date;
 }
 
 export interface User {

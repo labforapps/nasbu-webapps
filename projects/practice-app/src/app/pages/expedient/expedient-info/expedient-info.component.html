@@ -4,31 +4,31 @@
             <div class="l-page__title m-0">NB0001-Acta de divorcio</div>
             <div class="l-page__info flex-wrap u-gap-1">
                 <div>
-                    <div>Cliente</div>
+                    <div>{{'dockets.profile.client' | translate}}</div>
                     <div class="u-link u-link--underline">Manuel Cabral</div>
                 </div>
                 <div>
-                    <div>Designado a:</div>
+                    <div>{{'dockets.profile.delegated_to' | translate}}:</div>
                     <div class="u-link u-link--underline">Carlos Pérez</div>
                 </div>
                 <div>
-                    <div>Fecha de creación</div>
+                    <div>{{'dockets.profile.creation_date' | translate}}</div>
                     <div>22 Sept. 2021</div>
                 </div>
             </div>
 
         </div>
-        
-            
+
+
         <div class="l-page__controls">
-            <button mat-button class="c-btn-filter" [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> Volver atras</button>
+            <button mat-button class="c-btn-filter" [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> {{'dockets.profile.goBack' | translate}}</button>
         </div>
     </div>
     <div class="l-page__body">
         <mat-tab-group class="c-tabs c-tabs--green c-tabs--darkText c-tabs--expedient">
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Documentos
+                  {{'dockets.profile.documents.title' | translate}}
                     <span class="icon-document-color"></span>
                 </ng-template>
                <app-document></app-document>
@@ -36,7 +36,8 @@
 
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Notas
+                  {{'dockets.profile.notes.title' | translate}}
+
                     <span class=" icon-note-pen"></span>
                 </ng-template>
                 <app-notes></app-notes>
@@ -44,23 +45,25 @@
 
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Tareas
+                  {{'dockets.profile.tasks.title' | translate}}
+
                     <span class="icon-task"></span>
                 </ng-template>
 
                <app-expedient-tasks></app-expedient-tasks>
 
-            
+
             </mat-tab>
             <mat-tab class="test">
                 <ng-template mat-tab-label>
-                    Facturación
+                  {{'dockets.profile.invoicing.title' | translate}}
+
                     <span class="icon-invoice"></span>
                 </ng-template>
 
                 <app-expedient-invoicing></app-expedient-invoicing>
 
-            
+
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
@@ -70,10 +73,10 @@
 
                <app-expedient-wallet></app-expedient-wallet>
 
-            
+
             </mat-tab>
-           
-            
+
+
         </mat-tab-group>
     </div>
 </div>
