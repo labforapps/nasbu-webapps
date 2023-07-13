@@ -217,7 +217,8 @@ export class CreateCollaboratorComponent implements OnInit {
       addresses: this.collaboratorForm.value.addresses,
       licenses: this.collaboratorForm.value.licenses,
       image_url: this.logoFile,
-      billing_fees: [this.billingFee]
+      billing_fees: [this.billingFee],
+      birthdate: new Date()
      }
 
     this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {

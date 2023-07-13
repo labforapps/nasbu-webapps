@@ -55,8 +55,8 @@ export class SignInFirstPasswordComponent implements OnInit {
   buildForm(): void {
     this.recoveryForm = this.fb.group({
       currentPassword: [null,Validators.required],
-      newPassword: ['Da15121904', [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
-      confirmPassword: ['Da15121904', Validators.required]
+      newPassword: ['', [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required]
     });
   }
 
@@ -92,7 +92,6 @@ export class SignInFirstPasswordComponent implements OnInit {
                   .saveFirstUserPassword(payload);
           })
         ).subscribe((response) => {
-            console.log('Response: ', response);
             this.router.navigate(['/signin']);
           }, (error) => {
             console.log('Error: ', error);

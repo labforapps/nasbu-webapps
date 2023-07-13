@@ -1,21 +1,21 @@
 <div class="c-dialog-paymentRegister c-dialog-header">
     <div class="c-dialog-header__header d-flex align-items-center justify-content-between">
-        Agregar nuevo balance
+        {{'dockets.profile.wallet.add_new_balance' | translate}}
     </div>
     <mat-dialog-content>
 
         <div class="row mb-2">
             <div class="col-md-12">
-                <label class="u-title-label">¿Cantidad a sumar?</label>
+                <label class="u-title-label">{{'dockets.profile.wallet.quantity_to_add?' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Monto</mat-label>
+                    <mat-label>{{'dockets.profile.wallet.amount' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput placeholder="Ej: 2,500">
                 </mat-form-field>
             </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer flex-column">
-        <button mat-button class="c-btn c-btn--primary c-btn--small w-75">Agregar nuevo</button>
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small w-75">{{'dockets.profile.wallet.add_new' | translate}}</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.profile.wallet.close_window' | translate}}</button>
     </mat-dialog-actions>
 </div>

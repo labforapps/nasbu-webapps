@@ -1,20 +1,20 @@
 <div class="c-dialog-newTask c-dialog-header">
     <div class="c-dialog-header__header">
-        Nuevo expediente
+        {{'dockets.form.new_docket' | translate}}
     </div>
     <mat-dialog-content>
 
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label">Nombre de Expediente</label>
+                <label class="u-title-label">{{'dockets.form.docket_name' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Expediente</mat-label>
+                    <mat-label>{{'dockets.form.docket' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
                 </mat-form-field>
 
-                <label class="u-title-label">Cliente</label>
+                <label class="u-title-label">{{'dockets.form.client' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Nombre cliente</mat-label>
+                    <mat-label>{{'dockets.form.client_name' | translate}}</mat-label>
                     <mat-select>
                         <mat-option>
                             Option 1
@@ -28,11 +28,12 @@
                     </mat-select>
                 </mat-form-field>
 
-                <p class="u-textColor mt-2 text-right mb-3">¿No existe el cliente que buscas? <b class="u-link u-fontBold">Crear nuevo cliente +</b></p>
+                <p class="u-textColor mt-2 text-right mb-3">{{'dockets.form.the_client_you_are_looking_for_does_not_exist?' | translate}}
+                  <b class="u-link u-fontBold">{{'dockets.form.create_new_client' | translate}} +</b></p>
 
-                <label class="u-title-label">Asignar expediente a  </label>
+                <label class="u-title-label">{{'dockets.form.assigned_docket_to' | translate}}  </label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Colaborador</mat-label>
+                    <mat-label>{{'dockets.form.user' | translate}}</mat-label>
                     <mat-select>
                         <mat-option>
                             Option 1
@@ -51,72 +52,72 @@
 
         <div class="row mt-5">
             <div class="col-md-6">
-                <label class="u-title-label mb-5">¿Cómo se facturará este expediente? </label>
+                <label class="u-title-label mb-5">{{'dockets.form.how_will_this_docket_be_billed' | translate}} </label>
 
                     <mat-radio-group>
                         <div class="u-textColor mb-2">
-                            <mat-radio-button value="1" class="c-radioButton u-smallSize u-fontBold">Honorario por Hr.</mat-radio-button>
+                            <mat-radio-button value="1" class="c-radioButton u-smallSize u-fontBold">{{'invoice_parameter.hourly_rate' | translate}}</mat-radio-button>
                             <p class="u-smallerSize ml-5 mt-1">
-                                En este modelo defines tu precio por hora y cada hora que inviertas en una tarea en el expediente se multiplicará por el valor de la misma. 
+                              {{'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate}}
                             </p>
                         </div>
                         <div class="u-textColor mb-2">
-                            <mat-radio-button value="2" class="c-radioButton u-smallSize u-fontBold">Retención de pago </mat-radio-button>
+                            <mat-radio-button value="2" class="c-radioButton u-smallSize u-fontBold">{{'invoice_parameter.retainer' | translate}}</mat-radio-button>
                             <p class="u-smallerSize ml-5 mt-1">
-                                En este modelo retienes un monto acordado con tu cliente del cual se irán cubriendo las horas que vayas ejecutando mientras realizas el trabajo
+                              {{'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate}}
                             </p>
                         </div>
                         <div class="u-textColor mb-2">
-                            <mat-radio-button value="3" class="c-radioButton u-smallSize u-fontBold">Por incremento de tiempo</mat-radio-button>
+                            <mat-radio-button value="3" class="c-radioButton u-smallSize u-fontBold">{{'invoice_parameter.by_increment_of_time' | translate}}</mat-radio-button>
                             <p class="u-smallerSize ml-5 mt-1">
-                                En este modelo defines por Hr. / Minuto/ Que insertes de como se manejará con las tareas que ejecutes en este expediente
+                              {{'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate}}
                             </p>
                         </div>
                         <div class="u-textColor">
                             <mat-radio-button value="4" class="c-radioButton u-smallSize u-fontBold">Flat fee</mat-radio-button>
                             <p class="u-smallerSize ml-5 mt-1">
-                                Este es el valor fijo que represente facturación total de la ejecución de este expediente
+                              {{'invoice_parameter.this_is_a_set_that_represents_the_total_invoice_amount' | translate}}
                             </p>
                         </div>
                     </mat-radio-group>
 
 
-               
+
 
             </div>
             <div class="col-md-6 d-flex justify-content-center align-content-center flex-wrap">
                 <div class="mb-2 text-center">
-                        <label class="u-title-label">Precio x Hr. </label>
+                        <label class="u-title-label">{{'invoice_parameter.hourly_rate' | translate}} </label>
                         <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>Cantidad</mat-label>
+                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
                         </mat-form-field>
                 </div>
                 <div class="mb-2 text-center">
-                        <label class="u-title-label">Valor del monto a retener  </label>
+                        <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
                         <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>Cantidad</mat-label>
+                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Ej: 300USD">
                         </mat-form-field>
                 </div>
                 <div class="mb-2 text-center">
-                        <label class="u-title-label">¿Cuál será tu parametro de incremento?</label>
+                        <label class="u-title-label">{{'invoice_parameter.what_will_be_your_increment_parameter?' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>Cantidad</mat-label>
+                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Minuto">
                         </mat-form-field>
                 </div>
                 <div class="mb-2 text-center">
-                        <label class="u-title-label">Factor de incremento</label>
+                        <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>Cantidad</mat-label>
+                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Minuto">
                         </mat-form-field>
                 </div>
                 <div class="mb-2 text-center">
-                        <label class="u-title-label">Precio por incremento</label>
+                        <label class="u-title-label">{{'invoice_parameter.price_per_increment' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group  col-md-9">
-                            <mat-label>Cantidad</mat-label>
+                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
                             <input class="c-form-group__input" matInput placeholder="Ej:25 USD">
                         </mat-form-field>
                 </div>
@@ -124,7 +125,7 @@
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">Crear expediente</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.form.close_window' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">{{'dockets.form.create_docket' | translate}}</button>
     </mat-dialog-actions>
 </div>

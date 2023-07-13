@@ -1,8 +1,11 @@
 <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-    <p>
+    <!-- <p>
         Este expediente contiene <b>6 Notas</b>
-    </p>
-    <button class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">Añadir nota<span class="icon-plus ml-3 "></span></button>
+    </p> -->
+    <p>
+      {{'dockets.profile.notes.this_docket_has_7_notes' | translate}}
+  </p>
+    <button class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">{{'dockets.profile.notes.add_note' | translate}}<span class="icon-plus ml-3 "></span></button>
 </div>
 <div class="u-table-responsive">
     <table mat-table [dataSource]="dataSource" class="c-table">
@@ -26,18 +29,18 @@
 
         <!-- Type Column -->
         <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+            <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'dockets.profile.notes.type' | translate}} </th>
             <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/paper-yellow.svg" alt=""> </td>
         </ng-container>
 
         <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> Titulo </th>
+            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{'dockets.profile.notes.title' | translate}} </th>
             <td mat-cell *matCellDef="let element"> {{element.title}} </td>
         </ng-container>
 
         <!-- task Column -->
         <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <th mat-header-cell *matHeaderCellDef> {{'dockets.profile.notes.description' | translate}} </th>
             <td mat-cell *matCellDef="let element" class="c-table__truncate">
                 {{element.description}}
             </td>
@@ -45,25 +48,25 @@
 
         <!-- Date Column -->
         <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef> Fech. Vencimiento </th>
+            <th mat-header-cell *matHeaderCellDef> {{'dockets.profile.notes.date_created' | translate}} </th>
             <td mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
 
         <!-- Date Column -->
         <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+            <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'dockets.profile.notes.actions' | translate}} </th>
             <td mat-cell *matCellDef="let element" class="text-center">
 
                 <mat-button-toggle-group class="c-btn-table">
-                    <mat-button-toggle>Ver</mat-button-toggle>
+                    <mat-button-toggle>{{'dockets.profile.notes.see' | translate}}</mat-button-toggle>
                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                         <span class="icon-arrow-down"></span>
                     </mat-button-toggle>
                 </mat-button-toggle-group>
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                    <button mat-menu-item>Eliminar <span class="icon-trash"></span></button>
-                    <button mat-menu-item>Editar<span class="icon-pen"></span></button>
+                    <button mat-menu-item>{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
+                    <button mat-menu-item>{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
                 </mat-menu>
             </td>
         </ng-container>

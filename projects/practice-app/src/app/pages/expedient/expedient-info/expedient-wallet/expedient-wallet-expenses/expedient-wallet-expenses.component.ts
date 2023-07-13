@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogAddBalanceComponent } from '../../../../../components/dialogs/dialog-add-balance/dialog-add-balance.component';
 export interface PeriodicElement {
   position: number;
   expedient: string;
@@ -26,12 +27,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 ];
+
 @Component({
-  selector: 'app-expedient-wallet-table',
-  templateUrl: './expedient-wallet-table.component.html',
-  styleUrls: ['./expedient-wallet-table.component.scss']
+  selector: 'app-expedient-wallet-expenses',
+  templateUrl: './expedient-wallet-expenses.component.html',
+  styleUrls: ['./expedient-wallet-expenses.component.scss']
 })
-export class ExpedientWalletTableComponent implements OnInit {
+export class ExpedientWalletExpensesComponent implements OnInit {
 
   displayedColumns: string[] = ['select','type','expedient','task', 'date', 'hours','value','amount', 'action'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -62,8 +64,14 @@ export class ExpedientWalletTableComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+
+  openDialogAddBalance(){
+    this.dialog.open(DialogAddBalanceComponent);
+  }
+
   constructor(public dialog: MatDialog) { }
   ngOnInit(): void {
   }
+
 
 }

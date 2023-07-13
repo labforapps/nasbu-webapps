@@ -1,15 +1,17 @@
   <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-      <p><b>Tienes 20 Expediente</b> en total con Manuel Cabral</p>
+      <!-- <p><b>Tienes 20 Expediente</b> en total con Manuel Cabral</p> -->
+      <p>{{'dockets.you_have_a_total_of_20_dockets' | translate}}</p>
+
       <div class="col-md-5">
           <div class="d-flex u-gap-1 mt-2">
               <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                  <mat-label>Date range</mat-label>
+                  <mat-label>{{'dockets.date_range' | translate}}</mat-label>
                   <input matInput [matDatepicker]="picker">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
               <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                  <mat-label>Date range</mat-label>
+                  <mat-label>{{'dockets.date_range' | translate}}</mat-label>
                   <input matInput [matDatepicker]="pickers">
                   <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                   <mat-datepicker #pickers></mat-datepicker>
@@ -19,24 +21,24 @@
       </div>
 
       <div class="c-form-group--search bordered ml-auto">
-          <input matInput type="text" placeholder="Buscar por nombre">
+          <input matInput type="text" placeholder="{{'dockets.search_by_name' | translate}}">
           <span class="icon-search"></span>
       </div>
       <div class="c-btn-filter">
-          Filtrar por
+          {{'dockets.filter_by' | translate}}
           <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
           <mat-menu #filterMenu="matMenu">
               <div class="c-filter" (click)="$event.stopPropagation()">
                   <div class="c-filter__header">
                       <span class="icon-filter"></span>
                       <div class="c-filter__title">
-                          Criterios de filtrado
+                        {{'dockets.filter_criteria' | translate}}
                       </div>
                   </div>
                   <div class="c-filter__body">
-                      <label class="u-title-label">Prioridad</label>
+                      <label class="u-title-label">{{'dockets.priority' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                          <mat-label>Nivel de prioridad</mat-label>
+                          <mat-label>{{'dockets.priority_level' | translate}}</mat-label>
                           <mat-select>
                               <mat-option>
                                   Option 1
@@ -49,7 +51,7 @@
                               </mat-option>
                           </mat-select>
                       </mat-form-field>
-                      <label class="u-title-label">Estatus</label>
+                      <label class="u-title-label">{{'dockets.status' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
                           <mat-label>Estado</mat-label>
                           <mat-select>
@@ -64,9 +66,9 @@
                               </mat-option>
                           </mat-select>
                       </mat-form-field>
-                      <label class="u-title-label">Responsable de la tarea </label>
+                      <label class="u-title-label">{{'dockets.responsible_for_the_task' | translate}} </label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                          <mat-label>Nombre</mat-label>
+                          <mat-label>{{'dockets.name' | translate}}</mat-label>
                           <mat-select>
                               <mat-option>
                                   Option 1
@@ -79,9 +81,9 @@
                               </mat-option>
                           </mat-select>
                       </mat-form-field>
-                      <label class="u-title-label">Tipo asunto</label>
+                      <label class="u-title-label">{{'dockets.type_of_task' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                          <mat-label>Nombre</mat-label>
+                          <mat-label>{{'dockets.name' | translate}}</mat-label>
                           <mat-select>
                               <mat-option>
                                   Option 1
@@ -97,8 +99,8 @@
 
                   </div>
                   <div class="c-filter__footer">
-                      <button mat-button class="c-btn c-btn--primary c-btn--small w-100">Aplicar filtros</button>
-                      <button mat-button class="u-link w-100 mt-2">Limpiar criterios </button>
+                      <button mat-button class="c-btn c-btn--primary c-btn--small w-100">{{'dockets.apply_filters' | translate}}</button>
+                      <button mat-button class="u-link w-100 mt-2">{{'dockets.clean_filters' | translate}}</button>
                   </div>
 
               </div>
@@ -128,20 +130,20 @@
 
 
           <ng-container matColumnDef="type">
-              <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+              <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'dockets.type' | translate}} </th>
               <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
           </ng-container>
 
 
           <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef>Descripción asunto</th>
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.type_of_task' | translate}} </th>
               <td mat-cell *matCellDef="let element" class="w-20">
                   <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
               </td>
           </ng-container>
 
           <ng-container matColumnDef="case">
-              <th mat-header-cell *matHeaderCellDef>Caso asignada a</th>
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.assigned_to' | translate}} </th>
               <td mat-cell *matCellDef="let element">
                   <div class="u-link">{{element.case}}</div>
               </td>
@@ -149,21 +151,21 @@
 
 
           <ng-container matColumnDef="client">
-              <th mat-header-cell *matHeaderCellDef> Cliente </th>
+              <th mat-header-cell *matHeaderCellDef> {{'dockets.client' | translate}}  </th>
               <td mat-cell *matCellDef="let element">
                   <div class="u-link">{{element.client}}</div>
               </td>
           </ng-container>
 
           <ng-container matColumnDef="update">
-              <th mat-header-cell *matHeaderCellDef>Últ. Actualización</th>
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.last_update' | translate}} </th>
               <td mat-cell *matCellDef="let element">
                   {{element.update}}
               </td>
           </ng-container>
 
           <ng-container matColumnDef="share">
-              <th mat-header-cell *matHeaderCellDef>Compartido con</th>
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.shared_with' | translate}} </th>
               <td mat-cell *matCellDef="let element">
                   <div class="u-textLightColor">
                       {{element.share}}
@@ -173,22 +175,22 @@
           </ng-container>
 
           <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+              <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'dockets.actions' | translate}}  </th>
               <td mat-cell *matCellDef="let element" class="text-center">
 
                   <mat-button-toggle-group class="c-btn-table">
-                      <mat-button-toggle>Ver</mat-button-toggle>
+                      <mat-button-toggle>{{'dockets.see' | translate}} </mat-button-toggle>
                       <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                           <span class="icon-arrow-down"></span>
                       </mat-button-toggle>
                   </mat-button-toggle-group>
 
                   <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                      <button mat-menu-item class="matMenu-yellow">Editar <span class="icon-pen"></span></button>
-                      <button mat-menu-item class="matMenu-red">Eliminar <span class="icon-trash"></span></button>
-                      <button mat-menu-item class="matMenu-green">Generar factura <span class="icon-invoice"></span></button>
-                      <button mat-menu-item class="matMenu-green">Agregar nota <span class="icon-note-pen"></span></button>
-                      <button mat-menu-item class="matMenu-blue">Compartir <span class="icon-people"></span></button>
+                      <button mat-menu-item class="matMenu-yellow">{{'dockets.edit' | translate}} <span class="icon-pen"></span></button>
+                      <button mat-menu-item class="matMenu-red">{{'dockets.delete' | translate}} <span class="icon-trash"></span></button>
+                      <button mat-menu-item class="matMenu-green">{{'dockets.generate_invoice' | translate}} <span class="icon-invoice"></span></button>
+                      <button mat-menu-item class="matMenu-green">{{'dockets.add_note' | translate}}<span class="icon-note-pen"></span></button>
+                      <button mat-menu-item class="matMenu-blue">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
                   </mat-menu>
               </td>
           </ng-container>

@@ -136,6 +136,7 @@ export interface SecurityUser {
   image_url?:     string;
   active?:        boolean;
   created_at?:    Date;
+  birthdate?: Date;
 }
 
 export interface User {

@@ -80,7 +80,8 @@ import { SettingRatedInvoiceCollaboratorComponent } from './collaborator/create-
 import { SignInFirstPasswordComponent } from './sign-in-first-password/sign-in-first-password.component';
 import { ExpedientTableComponent } from './expedient/expedient-table/expedient-table.component';
 import { ExpedientInvoicingTableComponent } from './expedient/expedient-info/expedient-invoicing/expedient-invoicing-table/expedient-invoicing-table.component';
-import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-table/expedient-wallet-table.component';
+import { ExpedientWalletExpensesComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-expenses/expedient-wallet-expenses.component';
+import { ExpedientWalletIncomesComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-incomes/expedient-wallet-incomes.component';
 
 
 @NgModule({
@@ -153,7 +154,8 @@ import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedi
     SignInFirstPasswordComponent,
     ExpedientTableComponent,
     ExpedientInvoicingTableComponent,
-    ExpedientWalletTableComponent,
+    ExpedientWalletExpensesComponent,
+    ExpedientWalletIncomesComponent,
   ],
   imports: [
     CommonModule,
