@@ -34,6 +34,7 @@ import { PermissionsResolver } from './resolvers/permissions.resolver';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
 import { SignInFirstPasswordComponent } from './pages/sign-in-first-password/sign-in-first-password.component';
+import { DialogUploadComponent } from './components/dialogs/dialog-upload/dialog-upload.component';
 
 const routes: Routes = [
   {
@@ -130,7 +131,7 @@ const routes: Routes = [
         component: ExpedientComponent,
       },
       {
-        path: 'expedient-info',
+        path: 'expedient-info/:id',
         component: ExpedientInfoComponent,
       },
       {
@@ -212,6 +213,10 @@ const routes: Routes = [
     path: 'client-profile',
     component: ClientProfileComponent,
   },
+  {
+    path:'dialog-upload',
+    component:DialogUploadComponent
+  }
 ];
 
 @NgModule({

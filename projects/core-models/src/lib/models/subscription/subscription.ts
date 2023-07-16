@@ -64,9 +64,9 @@ export interface SubscriptionBillingFee {
   uuid?:                string;
   subscription?:        string;
   billing_fee_id:      string;
-  price_per_hour:      string;
+  price_per_hour:      number;
   increment_factor:    string;
-  price_per_increment: string;
+  price_per_increment: number | string;
   allow_retainers:     boolean;
   allow_flat_fee:      boolean;
   active?:              boolean;

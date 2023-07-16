@@ -1,14 +1,10 @@
 <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-    <!-- <p>
-        Este expediente contiene <b>6 Notas</b>
-    </p> -->
-    <p>
-      {{'dockets.profile.notes.this_docket_has_7_notes' | translate}}
-  </p>
+    <p *ngIf="caseFileNotes" [innerHTML]="'dockets.profile.notes.this_docket_has_notes' | translate:{notesQuantity: caseFileNotes.length}"></p>
+
     <button class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">{{'dockets.profile.notes.add_note' | translate}}<span class="icon-plus ml-3 "></span></button>
 </div>
 <div class="u-table-responsive">
-    <table mat-table [dataSource]="dataSource" class="c-table">
+    <table mat-table [dataSource]="dataSourceCaseFileNotes" class="c-table">
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
@@ -34,7 +30,7 @@
         </ng-container>
 
         <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{'dockets.profile.notes.title' | translate}} </th>
+            <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;"> {{'dockets.profile.notes.title_column' | translate}} </th>
             <td mat-cell *matCellDef="let element"> {{element.title}} </td>
         </ng-container>
 
@@ -42,14 +38,14 @@
         <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef> {{'dockets.profile.notes.description' | translate}} </th>
             <td mat-cell *matCellDef="let element" class="c-table__truncate">
-                {{element.description}}
+                {{element.body}}
             </td>
         </ng-container>
 
         <!-- Date Column -->
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef> {{'dockets.profile.notes.date_created' | translate}} </th>
-            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            <td mat-cell *matCellDef="let element"> {{returnDateFormatted(element.created_at)}} </td>
         </ng-container>
 
         <!-- Date Column -->
@@ -65,8 +61,8 @@
                 </mat-button-toggle-group>
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                    <button mat-menu-item>{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
-                    <button mat-menu-item>{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
+                    <button mat-menu-item (click)="deleteCaseFileNote(element)">{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
+                    <button mat-menu-item (click)="openDialogNewNote(element)">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
                 </mat-menu>
             </td>
         </ng-container>
@@ -75,4 +71,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
         </tr>
     </table>
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+    </mat-paginator>
 </div>

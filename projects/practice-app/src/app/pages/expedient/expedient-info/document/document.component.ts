@@ -1,43 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { DialogUploadComponent } from '../../../../components/dialogs/dialog-upload/dialog-upload.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CaseFile, CaseFileDocument } from 'core-models';
+import { MatPaginator } from '@angular/material/paginator';
+import { PracticeService } from 'core-services';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
-export interface PeriodicElement {
-  position: number;
-  description: string;
-  taskType: string;
-  date: string;
-
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, description: 'Acta de asamblea constitutiva', taskType: 'PDF',  date: '23/9/22 '},
-  {position: 1, description: 'Carta dirigida al tribunal superior 29 Abril 2019', taskType: 'Word microsoft',  date: '23/9/22 '},
-  {position: 1, description: 'Carta dirigida al tribunal superior 29 Abril 2019', taskType: 'Word microsoft',  date: '23/9/22 '},
-  {position: 1, description: 'Acta de asamblea constitutiva', taskType: 'Word microsoft',  date: '23/9/22 '},
-  {position: 1, description: 'Carta dirigida al tribunal superior 29 Abril 2019', taskType: 'PDF',  date: '23/9/22 '},
-  {position: 1, description: 'Carta dirigida al tribunal superior 29 Abril 2019', taskType: 'Word microsoft',  date: '23/9/22 '},
-  {position: 1, description: 'Acta de asamblea constitutiva', taskType: 'PDF',  date: '23/9/22 '},
-
-
-];
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  // displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
+  // caseFilesDocuments!:CaseFileDocument;
+  // dataSource = new MatTableDataSource<CaseFileDocument[]>(this.caseFilesDocuments);
+  // selection = new SelectionModel<CaseFileDocument>(true, []);
+
+  displayedColumns: string[] = [];
+  dataSourceCaseFileDocuments!:any;
+  selection = new SelectionModel<CaseFileDocument>(true, []);
+  @Input() caseFile!:CaseFile;
+  @ViewChild(MatPaginator) paginator: any;
+  caseFilesDocuments!:CaseFileDocument[];
+
+
+  constructor(public dialog: MatDialog,
+              private practiceService:PracticeService,
+              private translateService:TranslateService,
+              private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getCaseFileDocuments();
+  }
+
+  ngAfterViewInit(): void {
+    this.displayedColumns = ['select', 'type','description', 'taskType', 'date', 'action'];
+    this.dataSourceCaseFileDocuments = new MatTableDataSource<CaseFileDocument>(this.caseFilesDocuments);
+    this.dataSourceCaseFileDocuments.paginator = this.paginator;
+  }
+
+  getCaseFileDocuments(){
+   this.practiceService.getCaseFileDocuments(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
+    this.caseFilesDocuments = data;
+    this.ngAfterViewInit();
+   })
+  }
+
+  openDialogUpload(){
+    this.dialog.open(DialogUploadComponent);
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSourceCaseFileDocuments.data.length;
     return numSelected === numRows;
   }
 
@@ -48,23 +68,16 @@ export class DocumentComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSourceCaseFileDocuments.data);
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
-  openDialogUpload(){
-    this.dialog.open(DialogUploadComponent);
-  }
 
-  constructor(public dialog: MatDialog) { }
-
-  ngOnInit(): void {
-  }
 
 }

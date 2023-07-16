@@ -8,27 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService,SecurityService } from 'core-services';
 import { Group, SecurityUser, TypeContact } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
-export interface PeriodicElement {
-  position: number;
-  name: string;
-  number: string;
-  email: string;
-  rol: string;
-  license : string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Carlos Inojosa', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 2, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 3, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 4, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 5, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 6, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 7, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 8, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 9, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-  {position: 10, name: 'Irene Sánchez', number: '+1 (789) 378 27483', email: 'irene@nasbu.com',  rol: 'Abg. Paralegal', license: 'No aplica' },
-];
 @Component({
   selector: 'app-collaborator',
   templateUrl: './collaborator.component.html',
@@ -37,8 +17,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class CollaboratorComponent implements OnInit {
 
   displayedColumns: string[] = [];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<SecurityUser>(true, []);
   @ViewChild(MatPaginator) paginator: any;
   selectedSubscription!: any;
   securityUsers!:SecurityUser[];
@@ -138,7 +117,7 @@ export class CollaboratorComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSourceSecurityUsers.data.length;
     return numSelected === numRows;
   }
 
@@ -149,11 +128,11 @@ export class CollaboratorComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSourceSecurityUsers.data);
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

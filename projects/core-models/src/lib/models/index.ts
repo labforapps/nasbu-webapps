@@ -5,3 +5,4 @@ export * from './common';
 export * from './catalog';
 export * from './tasks';
 export * from './shared';
+export * from './practice';

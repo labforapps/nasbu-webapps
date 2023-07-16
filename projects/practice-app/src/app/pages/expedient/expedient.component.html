@@ -13,13 +13,13 @@
     <div class="l-page__body">
         <mat-tab-group class="c-tabs">
             <mat-tab label="{{'dockets.all' | translate}}">
-                <app-expedient-table></app-expedient-table>
+                <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
             <mat-tab label="{{'dockets.open' | translate}}">
-                <app-expedient-table></app-expedient-table>
+                <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
             <mat-tab label="{{'dockets.closed' | translate}}">
-                <app-expedient-table></app-expedient-table>
+                <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
         </mat-tab-group>
     </div>

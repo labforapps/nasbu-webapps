@@ -1,5 +1,5 @@
 <div class="l-create">
-    <div class="l-create__header">
+    <div class="l-create__header" *ngIf="!dataDialog">
         <app-header></app-header>
     </div>
 
@@ -320,7 +320,7 @@
             <div class="c-ribbon__actions">
                 <button mat-button class="c-btn-function" *ngIf="!customerId">{{'clients.form_create.save_customer' | translate}} </button>
                 <button mat-button class="c-btn-function" *ngIf="customerId">{{'clients.form_create.button_save_changes' | translate}}</button>
-                <button mat-button class="c-btn-function" *ngIf="!customerId" type="button" (click)="submitForm(true)">{{'clients.form_create.save_create_another' | translate}}</button>
+                <button mat-button class="c-btn-function" *ngIf="!customerId && !dataDialog" type="button" (click)="submitForm(true)">{{'clients.form_create.save_create_another' | translate}}</button>
             </div>
 
         </div>

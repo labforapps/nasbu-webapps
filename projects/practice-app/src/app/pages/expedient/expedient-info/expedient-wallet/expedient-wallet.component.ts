@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CaseFile } from 'core-models';
 
 @Component({
   selector: 'app-expedient-wallet',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExpedientWalletComponent implements OnInit {
 
+  @Input() caseFile!:CaseFile
 
   constructor() { }
   ngOnInit(): void {
+    console.log(this.caseFile);
   }
 
 }

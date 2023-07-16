@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
 import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-create-client',
   templateUrl: './create-client.component.html',
@@ -28,6 +29,8 @@ export class CreateClientComponent implements OnInit {
   linked_customer!: string;
 
   createClientForm!: FormGroup;
+  dialogRef: MatDialogRef<CreateClientComponent>;
+
 
   constructor(
     public _formBuilder: FormBuilder,
@@ -37,8 +40,13 @@ export class CreateClientComponent implements OnInit {
     private router: Router,
     private ActivatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private translateService: TranslateService
-  ) {}
+    private translateService: TranslateService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+    @Optional() dialogRef: MatDialogRef<CreateClientComponent>,
+
+  ) {
+    this.dialogRef = dialogRef;
+  }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -355,6 +363,11 @@ export class CreateClientComponent implements OnInit {
           'Ok',
           this.translateService.instant('successMessages.created_succesfully')
         );
+
+        if(this.dataDialog) {
+          this.dialogRef.close(data);
+          return;
+        }
 
         if (create_another) {
           this.resetForm();

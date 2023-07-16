@@ -1,19 +1,19 @@
-<div class="l-page">
+<div class="l-page" *ngIf="caseFile">
     <div class="l-page__header">
         <div>
-            <div class="l-page__title m-0">NB0001-Acta de divorcio</div>
+            <div class="l-page__title m-0">{{caseFile.case_no + '-'+ caseFile.name}}</div>
             <div class="l-page__info flex-wrap u-gap-1">
                 <div>
                     <div>{{'dockets.profile.client' | translate}}</div>
-                    <div class="u-link u-link--underline">Manuel Cabral</div>
+                    <div class="u-link u-link--underline">{{caseFile.customer.first_name + ' ' + caseFile.customer.last_name}}</div>
                 </div>
                 <div>
                     <div>{{'dockets.profile.delegated_to' | translate}}:</div>
-                    <div class="u-link u-link--underline">Carlos Pérez</div>
+                    <div class="u-link u-link--underline">{{caseFile.assigned_to.user.first_name + ' ' + caseFile.assigned_to.user.last_name}}</div>
                 </div>
                 <div>
                     <div>{{'dockets.profile.creation_date' | translate}}</div>
-                    <div>22 Sept. 2021</div>
+                    <div>{{returnDateFormatted(caseFile.created_at)}}</div>
                 </div>
             </div>
 
@@ -31,7 +31,7 @@
                   {{'dockets.profile.documents.title' | translate}}
                     <span class="icon-document-color"></span>
                 </ng-template>
-               <app-document></app-document>
+               <app-document *ngIf="caseFile" [caseFile]="caseFile"></app-document>
             </mat-tab>
 
             <mat-tab>
@@ -40,7 +40,7 @@
 
                     <span class=" icon-note-pen"></span>
                 </ng-template>
-                <app-notes></app-notes>
+                <app-notes *ngIf="caseFile" [caseFile]="caseFile"></app-notes>
             </mat-tab>
 
             <mat-tab>
@@ -50,7 +50,7 @@
                     <span class="icon-task"></span>
                 </ng-template>
 
-               <app-expedient-tasks></app-expedient-tasks>
+               <app-expedient-tasks *ngIf="caseFile"></app-expedient-tasks>
 
 
             </mat-tab>
@@ -61,7 +61,7 @@
                     <span class="icon-invoice"></span>
                 </ng-template>
 
-                <app-expedient-invoicing></app-expedient-invoicing>
+                <app-expedient-invoicing *ngIf="caseFile"></app-expedient-invoicing>
 
 
             </mat-tab>
@@ -71,7 +71,7 @@
                     <span class="icon-wallet"></span>
                 </ng-template>
 
-               <app-expedient-wallet></app-expedient-wallet>
+               <app-expedient-wallet *ngIf="caseFile" [caseFile]="caseFile"></app-expedient-wallet>
 
 
             </mat-tab>
