@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CaseFile, CaseFileStatus } from 'core-models';
@@ -23,7 +22,8 @@ export class ExpedientInfoComponent implements OnInit {
   constructor(private practiceService:PracticeService,
               private authService: AuthService,
               private activatedRoute:ActivatedRoute,
-              private translateService:TranslateService
+              private translateService:TranslateService,
+              private router:Router
               ) { }
 
   ngOnInit(): void {
@@ -43,6 +43,14 @@ export class ExpedientInfoComponent implements OnInit {
     this.practiceService.getCaseFileById(this.selectedSubscription?.ssid.uuid,this.caseFileId).subscribe(data => {
       this.caseFile = data;
     })
+  }
+
+  navigateToCustomer(){
+    this.router.navigate(['customers/edit', this.caseFile.customer.uuid]);
+  }
+
+  navigateToUser(){
+    this.router.navigate(['user/edit', this.caseFile.assigned_to.uuid]);
   }
 
   returnDateFormatted(dateCaseFile: string | undefined) {
