@@ -1,0 +1,42 @@
+<div class=" c-dialog-header c-dialog-list">
+  <div class="c-dialog-header__header">
+      <div class="align-items-center d-flex u-gap-1">
+          <span class="icon-company u-icon-white mr-3"></span>
+          <div>
+              <div>Listado de Usuarios</div>
+              <div class="u-smallSize u-fontRegular mt-1">Tienes {{this.securityUsers.length}} registrados</div>
+          </div>
+
+      </div>
+  </div>
+  <mat-dialog-content>
+     <div class="c-dialog-list__content">
+      <div class="c-dialog-list__header">
+          <div class="c-form-group--search bordered ml-auto">
+              <input matInput type="text" placeholder="Buscar por nombre">
+              <span class="icon-search"></span>
+          </div>
+         </div>
+         <div class="c-dialog-list__body">
+          <!-- <div class="c-dialog-list__blank">
+              <div class="c-dialog-list__blank__icon">
+                  <span class="icon-company"></span>
+              </div>
+              <div class="c-dialog-list__blank__text">
+                  Aún no tienes empresar registradas
+              </div>
+          </div> -->
+          <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2" *ngFor="let securityUser of securityUsers">
+              <img src="../../../../assets/images/company.svg" alt="">
+              <p class="mr-auto u-textColor">{{securityUser.user.first_name + ' ' + securityUser.user.last_name}}</p>
+              <button mat-button class="c-btn c-btn--small c-btn--outline-primary" (click)="onSelectUser(securityUser)">Seleccionar</button>
+          </div>
+
+         </div>
+     </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="c-dialog-header__footer">
+      <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+      <button mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">Añadir</button>
+  </mat-dialog-actions>
+</div>

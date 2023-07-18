@@ -1,6 +1,6 @@
 <div class="l-create">
     <div class="l-create__header">
-        <app-header></app-header>
+        <app-header *ngIf="!dataDialog"></app-header>
     </div>
    <form [formGroup]="collaboratorForm" (ngSubmit)="submitForm()" #form="ngForm">
       <div class="l-create__body">

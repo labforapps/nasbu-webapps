@@ -963,7 +963,7 @@
         "documents":{
           "title":"Documentos",
           "upload_file":"Subir archivo",
-          "this_docket_contains_6_documents":"Este expediente contiene 6 documentos",
+          "this_docket_contains_documents":"Este expediente contiene <b>{{caseFileDocumentsQuantity}} documentos</b>",
           "type":"Tipo",
           "description":"Descripción",
           "type_of_file":"Type de archivo",

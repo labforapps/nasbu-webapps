@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogNewRoleComponent } from '../../../components/dialogs/dialog-new-role/dialog-new-role.component';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../services/form.service';
@@ -27,6 +27,7 @@ export class CreateCollaboratorComponent implements OnInit {
   securityUserId!:string;
   securityUser!:SecurityUser;
   billingFee!:SubscriptionBillingFee;
+  dialogRef: MatDialogRef<CreateCollaboratorComponent>;
 
   constructor(public  dialog: MatDialog,
               private formBuilder:FormBuilder,
@@ -37,7 +38,11 @@ export class CreateCollaboratorComponent implements OnInit {
               private toastr: ToastrService,
               private translateService:TranslateService,
               private securityService:SecurityService,
-              private activatedRoute:ActivatedRoute) { }
+              private activatedRoute:ActivatedRoute,
+              @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+              @Optional() dialogRef: MatDialogRef<CreateCollaboratorComponent>) {
+                this.dialogRef = dialogRef;
+              }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -222,6 +227,12 @@ export class CreateCollaboratorComponent implements OnInit {
      }
 
     this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {
+
+      if(this.dataDialog) {
+        this.dialogRef.close(data);
+        return;
+      }
+
       if(this.securityUser){
         this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
       }

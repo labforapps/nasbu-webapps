@@ -19,13 +19,13 @@
 
         </div>
 
-
         <div class="l-page__controls">
+            <button class="c-btn-function" mat-button>Cerrar expediente<span class="icon-plus ml-3 "></span></button>
             <button mat-button class="c-btn-filter" [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> {{'dockets.profile.goBack' | translate}}</button>
         </div>
     </div>
     <div class="l-page__body">
-        <mat-tab-group class="c-tabs c-tabs--green c-tabs--darkText c-tabs--expedient">
+        <mat-tab-group class="c-tabs c-tabs--green c-tabs--darkText c-tabs--expedient" [(selectedIndex)]="selectedTabIndex">
             <mat-tab>
                 <ng-template mat-tab-label>
                   {{'dockets.profile.documents.title' | translate}}

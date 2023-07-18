@@ -102,8 +102,8 @@ export class DialogNewExpedientComponent implements OnInit {
   }
 
   doesReceiveRetainer(){
-    if(this.securityUserSelected) return !this.securityUserSelected.billing_fees[0].allow_retainers
-    if(this.caseFile) return  !this.caseFile.receive_retainer
+    if(this.securityUserSelected) return !this.securityUserSelected.billing_fees[0].allow_retainers && !this.caseFileForm.value.flat_fee;
+    if(this.caseFile) return  !this.caseFile.receive_retainer;
 
     return true;
   }
@@ -122,6 +122,12 @@ export class DialogNewExpedientComponent implements OnInit {
 
   onChangeAssignto(uuid:string){
     this.securityUserSelected = this.securityUsers.find(x => x.uuid === uuid);
+
+    this.caseFileForm.patchValue({
+      bt_price_per_hour: this.securityUserSelected?.billing_fees[0].price_per_hour,
+      bt_increment_factor: this.securityUserSelected?.billing_fees[0].increment_factor
+    })
+
   }
 
   onCheckBillingTypes(billingType:BillingType,value:MatCheckboxChange){
@@ -135,6 +141,16 @@ export class DialogNewExpedientComponent implements OnInit {
   submitForm() {
 
     const caseFileFormValue = this.caseFileForm.value;
+
+    if(!this.caseFileForm.valid){
+      this.toastr.error('Error','Completar campos obligatorios');
+      return;
+    }
+
+    if(Number(caseFileFormValue.retainer_amt) > Number(caseFileFormValue.flat_fee_amt)) {
+      this.toastr.error('Error','El monto de retención no puede ser mayor al Flat Fee');
+      return;
+    }
 
     let billingType!:BillingType;
     let billingTypeAmount = 0;
@@ -170,21 +186,17 @@ export class DialogNewExpedientComponent implements OnInit {
 
     if(this.caseFile) caseFilePayload.uuid = this.caseFile.uuid;
 
-    if(this.caseFileForm.valid){
-        this.practiceService.saveCaseFile(caseFilePayload).subscribe(data => {
-          if(this.caseFile){
-            this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
-          }
-          else{
-            this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
-          }
+    this.practiceService.saveCaseFile(caseFilePayload).subscribe(data => {
+      if(this.caseFile){
+        this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
+      }
+      else{
+        this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
+      }
 
-        this.dialogRef.close(data);
-      })
-    }
-    else{
-      this.toastr.error('Error','Completar campos obligatorios');
-    }
+    this.dialogRef.close(data);
+  })
+
 
   }
 

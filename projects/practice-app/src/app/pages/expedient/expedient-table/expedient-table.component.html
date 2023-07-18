@@ -170,8 +170,8 @@
                       <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewExpedient(element)" >{{'dockets.edit' | translate}} <span class="icon-pen"></span></button>
                       <button mat-menu-item class="matMenu-red" (click)="deleteCaseFile(element)">{{'dockets.delete' | translate}} <span class="icon-trash"></span></button>
                       <button mat-menu-item class="matMenu-green">{{'dockets.generate_invoice' | translate}} <span class="icon-invoice"></span></button>
-                      <button mat-menu-item class="matMenu-green">{{'dockets.add_note' | translate}}<span class="icon-note-pen"></span></button>
-                      <button mat-menu-item class="matMenu-blue">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
+                      <button mat-menu-item class="matMenu-green" [routerLink]="'/expedient-info/' + element.uuid" [queryParams]="{ tab: 1 }">{{'dockets.add_note' | translate}}<span class="icon-note-pen"></span></button>
+                      <button mat-menu-item class="matMenu-blue" (click)="openDialogUserShareExpedient(element)">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
                   </mat-menu>
               </td>
           </ng-container>

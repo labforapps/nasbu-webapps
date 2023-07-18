@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogNewExpedientComponent } from '../dialog-new-expedient/dialog-new-expedient.component';
 import { PracticeService } from 'core-services';
 import { CaseFile, CaseFileNote } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-dialog-new-note',
@@ -17,6 +19,7 @@ export class DialogNewNoteComponent implements OnInit {
   caseFileNoteForm!:FormGroup;
   caseFile!:CaseFile;
   caseFileNote!:CaseFileNote | null;
+  autosaveTrigger: Subject<void> = new Subject<void>();
 
   constructor(private formBuilder:FormBuilder,
               public dialogRef: MatDialogRef<DialogNewNoteComponent>,
@@ -31,24 +34,42 @@ export class DialogNewNoteComponent implements OnInit {
     this.caseFileNote = this.data.caseFileNote ? this.data.caseFileNote : null;
     this.initForm();
     this.setFormValue();
+
+    if(this.caseFileNote){
+      this.autosaveTrigger.subscribe(() => {
+        this.submitForm(false,true);
+      });
+    }
+
   }
 
   initForm() {
     this.caseFileNoteForm = this.formBuilder.group({
       title: ['',Validators.required],
       body: ['',Validators.required]
-    })
+    });
+
+    this.caseFileNoteForm.valueChanges
+    .pipe(debounceTime(250))
+    .subscribe(() => {
+      this.autosaveTrigger.next();
+    });
+
   }
 
   setFormValue(){
+
     if(this.caseFileNote){
-      this.caseFileNoteForm.patchValue({
-        ...this.caseFileNote
+
+      this.practiceService.getCaseFileNoteById(this.caseFileNote.subscription,this.caseFileNote.uuid || '').subscribe(data => {
+        this.caseFileNoteForm.patchValue({
+          ...data
+        })
       })
     }
   }
 
-  submitForm(createAnother = false){
+  submitForm(createAnother = false,autoSave = false){
 
     const caseFileNotePayload:CaseFileNote = {
       ...this.caseFileNoteForm.value,
@@ -61,6 +82,8 @@ export class DialogNewNoteComponent implements OnInit {
    if(this.caseFileNoteForm.valid){
 
     this.practiceService.saveCaseFileNote(caseFileNotePayload).subscribe(data => {
+
+      if(autoSave) return;
 
       if(this.caseFileNote){
         this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
@@ -75,13 +98,7 @@ export class DialogNewNoteComponent implements OnInit {
 
    }
    else{
-
-    this.toastr.error(
-      'Error',
-      'Completar campos obligatorios'
-      //this.translateService.instant('errorMessages.InvalidForm')
-    );
-
+    if(!autoSave)  this.toastr.error('Error','Completar campos obligatorios');
    }
   }
 

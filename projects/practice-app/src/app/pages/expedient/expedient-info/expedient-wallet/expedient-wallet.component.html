@@ -1,12 +1,34 @@
 <mat-tab-group class="c-tabs c-tabs-sub c-tabs-sub--padding">
-    <mat-tab label="Egresos">
+  <mat-tab label="Todos">
 
-    <!-- <app-expedient-wallet-table></app-expedient-wallet-table> -->
+    <app-expedient-wallet-table
+                                *ngIf="allWalletDetails.length > 0"
+                                [caseFile]="caseFile"
+                                [caseFileWalletDetail]="allWalletDetails"
+                                [inputCaseFileWalletDetailType]="caseFileWalletDetailType.ALL">
+    </app-expedient-wallet-table>
 
     </mat-tab>
+
+    <mat-tab label="Egresos">
+
+    <app-expedient-wallet-table
+                                *ngIf="debitWalletDetails.length > 0"
+                                [caseFile]="caseFile"
+                                [caseFileWalletDetail]="debitWalletDetails"
+                                [inputCaseFileWalletDetailType]="caseFileWalletDetailType.DEBIT">
+    </app-expedient-wallet-table>
+
+    </mat-tab>
+
     <mat-tab label="Ingresos">
 
-    <!-- <app-expedient-wallet-table></app-expedient-wallet-table> -->
+    <app-expedient-wallet-table
+                                *ngIf="creditWalletDetails.length > 0"
+                                [caseFile]="caseFile"
+                                [caseFileWalletDetail]="creditWalletDetails"
+                                [inputCaseFileWalletDetailType]="caseFileWalletDetailType.CREDIT">
+    </app-expedient-wallet-table>
 
     </mat-tab>
 </mat-tab-group>

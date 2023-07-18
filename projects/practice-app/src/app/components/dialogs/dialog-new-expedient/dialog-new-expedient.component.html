@@ -90,11 +90,11 @@
 
             </div>
             <div class="col-md-6 d-flex justify-content-center align-content-center flex-wrap">
-                <div class="mb-2 text-center" *ngIf="caseFileForm.value.hourly_rate">
+                <div class="mb-2 text-center">
                         <label class="u-title-label">{{'invoice_parameter.hourly_rate' | translate}} </label>
                         <mat-form-field appearance="fill" class="c-form-group col-md-9">
                             <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="bt_price_per_hour">
+                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="bt_price_per_hour" [readonly]="!caseFileForm.value.hourly_rate">
                         </mat-form-field>
                 </div>
                 <div class="mb-2 text-center" *ngIf="caseFileForm.value.receive_retainer">

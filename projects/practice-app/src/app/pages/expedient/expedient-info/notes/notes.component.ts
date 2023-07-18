@@ -42,7 +42,11 @@ export class NotesComponent implements OnInit {
 
   getCaseFileNotes(){
    this.practiceService.getCaseFileNotes(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
-    this.caseFileNotes = data;
+    this.caseFileNotes = data.sort((a, b) => {
+      let dateA = new Date(a.created_at || '').getTime();
+      let dateB = new Date(b.created_at || '').getTime();
+      return dateB - dateA;
+  });;;
     this.ngAfterViewInit();
    })
   }
@@ -60,18 +64,12 @@ export class NotesComponent implements OnInit {
 
         const caseFileNoteFiltered = this.caseFileNotes.filter(x => x.uuid === result.caseFileNote.uuid);
 
-        if(caseFileNoteFiltered){
-          this.caseFileNotes = this.caseFileNotes.filter(x => x.uuid !== result.caseFileNote.uuid);
-          this.caseFileNotes.push(result.caseFileNote);
-          this.ngAfterViewInit();
-        }
-        else{
-          this.caseFileNotes.push(result.caseFileNote);
-          this.ngAfterViewInit();
-        }
+        if(caseFileNoteFiltered) this.caseFileNotes = this.caseFileNotes.filter(x => x.uuid !== result.caseFileNote.uuid);
+
+        this.caseFileNotes.push(result.caseFileNote);
+        this.ngAfterViewInit();
 
         if(result.createAnother) this.openDialogNewNote();
-
       }
 
     });

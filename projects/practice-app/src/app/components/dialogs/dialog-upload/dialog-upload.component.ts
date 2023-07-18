@@ -5,11 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CaseFile, CaseFileDocument,CaseFileDocumentPayload } from 'core-models';
 import { PracticeService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
-import { FilePickerAdapter } from 'ngx-awesome-uploader';
-
-import { DemoFilePickerAdapter } from './demo-file-picker.adapter';
 import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-dialog-upload',
@@ -21,7 +17,7 @@ export class DialogUploadComponent implements OnInit {
   caseFileDocumentForm!:FormGroup;
   caseFile!:CaseFile;
   caseFileDocument!:CaseFileDocument | null;
-  public adapter = new DemoFilePickerAdapter(this.http);
+  selectedFile!: File;
 
 
   constructor(private formBuilder:FormBuilder,
@@ -29,38 +25,44 @@ export class DialogUploadComponent implements OnInit {
               private toastr: ToastrService,
               private translateService:TranslateService,
               @Optional() public dialogRef: MatDialogRef<DialogUploadComponent>,
-              @Optional() @Inject(MAT_DIALOG_DATA) public data: CaseFile,
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: {caseFile: CaseFile},
               private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.caseFile = this.data.caseFile;
     this.initForm();
   }
 
   initForm(){
 
     this.caseFileDocumentForm = this.formBuilder.group({
-      filename: ['',Validators.required]
+      document_name: ['',Validators.required]
     })
 
   }
 
-  public uploadSuccess(event:any): void {
-    console.log(event);
+  onFileAdded(value: any) {
+    this.selectedFile = value.file;
   }
 
   submitForm(){
 
     const CaseFileDocumentPayload:CaseFileDocumentPayload = {
-      subscription:  '',
-      case_file:     '',
-     // document:      ,
-      document_name: ''
+      subscription:  this.caseFile.subscription,
+      case_file:     this.caseFile.uuid || '',
+      document:      this.selectedFile ,
+      ...this.caseFileDocumentForm.value
+    }
+
+    if(!this.caseFileDocumentForm.valid || !this.selectedFile) {
+      this.toastr.error('Error','Completar campos obligatorios');
+      return;
     }
 
     this.practiceService.createCaseFileDocument(CaseFileDocumentPayload).subscribe(data => {
-      console.log(data);
-    })
-
+      this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
+      this.dialogRef.close(data);
+    });
 
   }
 

@@ -37,6 +37,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AvatarModule } from 'ngx-avatar';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { UploadImageComponent } from './upload-image/upload-image.component';
+import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
     DialogSendInvoiceComponent,
     DialogReSendRegisterComponent,
     UploadImageComponent,
+    DialogUsersShareExpedientComponent,
   ],
   imports: [
     CommonModule,

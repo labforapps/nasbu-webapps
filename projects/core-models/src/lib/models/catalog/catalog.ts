@@ -17,6 +17,7 @@ export interface Customer {
   linked_customer?: null;
   contacts: Contact[];
   addresses: Address[];
+  wallet?: string;
   active?: boolean;
   created_at?: Date;
   updated_by?: null;

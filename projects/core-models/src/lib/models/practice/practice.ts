@@ -9,6 +9,7 @@ export interface CaseFile {
   bt_price_per_hour:    number;
   bt_increment_factor:  number;
   bt_amt:               number;
+  status?:              string;
   access_type?:         string;
   code?:                string;
   name:                 string;
@@ -96,21 +97,30 @@ export interface CaseFileNote {
 }
 
 export interface CaseFileWalletDetail  {
-  uuid:         string;
-  active:       boolean;
-  created_at:   Date;
-  updated_at:   Date;
+  uuid?:         string;
+  active?:       boolean;
+  created_at?:   Date;
+  updated_at?:   Date;
   type:         string;
   amt:          string;
   description:  string;
-  created_by:   string;
-  updated_by:   null;
+  created_by?:   string;
+  updated_by?:   null;
   subscription: string;
   wallet:       string;
   case_file:    string;
 }
 
-export enum customerWalletDetailType{
+export interface CaseFileAccess{
+    uuid?:             string;
+    subscription:      string;
+    case_file:         string;
+    subscription_user: string;
+    created_by?:        string;
+}
+
+export enum CaseFileWalletDetailType{
+  ALL = 'A',
   DEBIT = 'D',
   CREDIT = 'C'
 }
@@ -119,6 +129,11 @@ export enum BillingType {
   PER_HOUR = 'H',
   FLAT_FEE = 'F',
   BY_TIME_INCREMENT = 'T'
+}
+
+export enum CaseFileStatus {
+  OPEN   = 'O',
+  CLOSED = 'C'
 }
 
 

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogNewExpedientComponent } from '../../components/dialogs/dialog-new-expedient/dialog-new-expedient.component';
 import { CaseFile } from 'projects/core-models/src/lib/models/practice/practice';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
-import { Customer, SecurityUser } from 'core-models';
+import { CaseFileStatus, Customer, SecurityUser } from 'core-models';
 
 @Component({
   selector: 'app-expedient',
@@ -16,6 +16,7 @@ export class ExpedientComponent implements OnInit {
   selectedSubscription!: any;
   customers!:Customer[];
   securityUsers!:SecurityUser[];
+  caseFileStatus = CaseFileStatus
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -39,6 +40,30 @@ export class ExpedientComponent implements OnInit {
     });;
     })
   }
+
+  get allCaseFiles(): CaseFile[] {
+    if (this.caseFiles) {
+      return this.caseFiles;
+    }
+    return [];
+  }
+
+  get openCaseFiles(): CaseFile[] {
+    if (this.caseFiles) {
+      return this.caseFiles.filter((x) => x.status === this.caseFileStatus.OPEN);
+    }
+
+    return [];
+  }
+
+  get closedCaseFiles(): CaseFile[] {
+    if (this.caseFiles) {
+      return this.caseFiles.filter((x) => x.status === this.caseFileStatus.CLOSED);
+    }
+
+    return [];
+  }
+
 
   getCustomers(){
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {

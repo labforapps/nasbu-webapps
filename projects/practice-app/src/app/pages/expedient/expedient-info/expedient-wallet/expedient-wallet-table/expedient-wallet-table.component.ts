@@ -3,11 +3,14 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddBalanceComponent } from '../../../../../components/dialogs/dialog-add-balance/dialog-add-balance.component';
-import { CaseFile, CaseFileWalletDetail } from 'core-models';
+import { CaseFile, CaseFileWalletDetail,CaseFileWalletDetailType } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from 'core-services';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
+import { DialogPaymentRegisterComponent } from '../../../../../components/dialogs/dialog-payment-register/dialog-payment-register.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-expedient-wallet-table',
@@ -16,38 +19,114 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ExpedientWalletTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['select','type','expedient','task', 'date', 'hours','value','amount', 'action'];
+  displayedColumns: string[] = [];
   dataSourceCaseFileWalletDetail!:any;
   selection = new SelectionModel<CaseFileWalletDetail>(true, []);
   @ViewChild(MatPaginator) paginator: any;
   @Input() caseFile!:CaseFile;
-  caseFileWalletDetail!:CaseFileWalletDetail[];
+  @Input() caseFileWalletDetail!:CaseFileWalletDetail[];
+  @Input() inputCaseFileWalletDetailType!: CaseFileWalletDetailType.CREDIT |  CaseFileWalletDetailType.DEBIT | CaseFileWalletDetailType.ALL;
+  caseFileWalletDetailType = CaseFileWalletDetailType;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
               private translateService:TranslateService,
               private toastr: ToastrService
-    ) { }
+    ) {}
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit(): void {
-    this.displayedColumns = ['select', 'type','title','description','date','action']
+    this.displayedColumns = ['select','type','task', 'date','value', 'action'];
     this.dataSourceCaseFileWalletDetail = new MatTableDataSource<CaseFileWalletDetail>(this.caseFileWalletDetail);
     this.dataSourceCaseFileWalletDetail.paginator = this.paginator;
   }
 
-  getCaseFileNotes(){
-   this.practiceService.getCaseFileWalletDetails(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
-    this.caseFileWalletDetail = data;
-    this.ngAfterViewInit();
-   })
+  openDialogAddBalance(caseFileWalletDetail?:CaseFileWalletDetail){
+    const dialogRef = this.dialog.open(DialogAddBalanceComponent, {
+      data: {
+        caseFile: this.caseFile,
+        caseFileWalletDetail: caseFileWalletDetail
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:CaseFileWalletDetail) => {
+
+      if(result.uuid){
+        const caseFileFiltered = this.caseFileWalletDetail.filter(x => x.uuid === result.uuid);
+
+        if(caseFileFiltered.length > 0){
+          this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== result.uuid);
+          this.caseFileWalletDetail.push(result);
+          this.ngAfterViewInit();
+        }
+        else{
+          this.caseFileWalletDetail.push(result);
+          this.ngAfterViewInit();
+        }
+      }
+    });
+
   }
 
-  openDialogAddBalance(){
-    this.dialog.open(DialogAddBalanceComponent);
+  returnDateFormatted(dateCaseFile: string) {
+    const date = moment(dateCaseFile);
+    const formattedDate = date.locale('es').format('D MMM. YYYY');
+
+    return formattedDate;
+  }
+
+  openDialogPaymentRegister(){
+    this.dialog.open(DialogPaymentRegisterComponent);
+  }
+
+  deleteCaseFileWalletDetail(caseFile:CaseFile){
+    Swal.fire({
+      title: this.translateService.instant(
+        'clients.table.buttons.confirm_question_delete'
+      ),
+      text: this.translateService.instant(
+        'clients.table.buttons.actions_cannot_be_reversed'
+      ),
+      iconHtml: '<img src="assets/images/alert-delete.svg">',
+      confirmButtonText: this.translateService.instant(
+        'clients.table.buttons.delete'
+      ),
+      showCancelButton: true,
+      cancelButtonText: this.translateService.instant(
+        'clients.client_intake.close_window'
+      ),
+      customClass: {
+        popup: 'c-alert c-alert--delete',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.practiceService
+          .deleteCaseFileWalletDetail(caseFile.subscription, caseFile.uuid || '')
+          .subscribe(
+            (data) => {
+
+              const arrayFiltered = this.caseFileWalletDetail.filter(x => x.uuid !== caseFile.uuid);
+              this.caseFileWalletDetail = arrayFiltered;
+              this.dataSourceCaseFileWalletDetail.data = this.caseFileWalletDetail;
+
+              this.toastr.success(
+                'Ok',
+                this.translateService.instant(
+                  'successMessages.deleted_successfully'
+                )
+              );
+            },
+            (error) => {
+              this.toastr.error(
+                'Error',
+                this.translateService.instant('errorMessages.unexpectedError')
+              );
+            }
+          );
+      }
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

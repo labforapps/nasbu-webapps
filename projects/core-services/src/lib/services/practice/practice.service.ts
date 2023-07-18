@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CaseFile, CaseFileDocument, CaseFileNote, CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload } from 'core-models';
-import { Observable, of, switchMap } from 'rxjs';
+import { CaseFile, CaseFileDocument, CaseFileNote, CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload, CaseFileAccess } from 'core-models';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,19 +52,19 @@ export class PracticeService {
     return this.httpClient.get<CaseFileDocument[]>(serverUrl);
   }
 
-  // createCaseFileDocument(subscription:string,uuid:string):Observable<CaseFileDocument[]>{
-  //   const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/documents/?subscription=${subscription}`;
-  //   return this.httpClient.delete<CaseFileDocument[]>(serverUrl);
-  // }
-
-  createCaseFileDocument(createCaseFileDocument: CaseFileDocumentPayload) {
-    const serverUrl = `${this.config.serverUrl}/practice/case_files/${createCaseFileDocument.case_file}/documents/?subscription=${createCaseFileDocument.subscription}`;
+  createCaseFileDocument(createCaseFileDocument: CaseFileDocumentPayload):Observable<CaseFileDocument> {
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_documents/?subscription=${createCaseFileDocument.subscription}`;
     const formData = new FormData();
-    formData.append('file', createCaseFileDocument.document || '');
+    formData.append('document', createCaseFileDocument.document || '');
     formData.append('case_file', createCaseFileDocument.case_file);
     formData.append('subscription', createCaseFileDocument.subscription);
-    console.log('Form Data',formData);
-    return this.httpClient.post<any>(serverUrl, formData);
+    formData.append('document_name', createCaseFileDocument.document_name);
+    return this.httpClient.post<CaseFileDocument>(serverUrl, formData);
+  }
+
+  deleteCaseFileDocuments(subscription:string,uuid:string){
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_documents/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<CaseFileDocument>(serverUrl);
   }
 
   getCaseFileNotes(subscription:string,uuid:string):Observable<CaseFileNote[]>{
@@ -105,8 +105,38 @@ export class PracticeService {
 
   getCaseFileWalletDetails(subscription:string,uuid:string):Observable<CaseFileWalletDetail[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/wallet_details/?subscription=${subscription}`;
-    return this.httpClient.delete<CaseFileWalletDetail[]>(serverUrl);
+    return this.httpClient.get<CaseFileWalletDetail[]>(serverUrl);
   }
 
+  createCaseFileWalletDetail(subscription:string,caseFileWalletDetail:CaseFileWalletDetail):Observable<CaseFileWalletDetail> {
+    const serverUrl = `${this.config.serverUrl}/catalog/customer_wallet_details/?subscription=${subscription}`;
+    return this.httpClient.post<CaseFileWalletDetail>(serverUrl,caseFileWalletDetail);
+  }
+
+  updateCaseFileWalletDetail(subscription:string,caseFileWalletDetail:CaseFileWalletDetail):Observable<CaseFileWalletDetail> {
+    const serverUrl = `${this.config.serverUrl}/catalog/customer_wallet_details/${caseFileWalletDetail.uuid}/?subscription=${subscription}`;
+    return this.httpClient.put<CaseFileWalletDetail>(serverUrl,caseFileWalletDetail);
+  }
+
+  saveCaseFileWalletDetail(caseFileWalletDetail: CaseFileWalletDetail): Observable<CaseFileWalletDetail> {
+    let saveOperation$: Observable<CaseFileWalletDetail>;
+    const payload: CaseFileWalletDetail = { ...caseFileWalletDetail };
+    if (caseFileWalletDetail.uuid != null && caseFileWalletDetail.uuid !== '') {
+      saveOperation$ = this.updateCaseFileWalletDetail(payload.subscription || '',payload);
+    } else {
+      saveOperation$ = this.createCaseFileWalletDetail(caseFileWalletDetail.subscription || '', payload);
+    }
+    return saveOperation$;
+  }
+
+  deleteCaseFileWalletDetail(subscription:string,uuid:string):Observable<CaseFileWalletDetail> {
+    const serverUrl = `${this.config.serverUrl}/catalog/customer_wallet_details/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<CaseFileWalletDetail>(serverUrl);
+  }
+
+  createCaseFileAccess(caseFileAccess:CaseFileAccess):Observable<CaseFileAccess> {
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_access/?subscription=${caseFileAccess.subscription}`;
+    return this.httpClient.post<CaseFileAccess>(serverUrl,caseFileAccess);
+  }
 
 }

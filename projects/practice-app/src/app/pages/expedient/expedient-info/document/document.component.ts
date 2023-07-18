@@ -8,6 +8,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from 'core-services';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-document',
@@ -15,10 +17,6 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-  // displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
-  // caseFilesDocuments!:CaseFileDocument;
-  // dataSource = new MatTableDataSource<CaseFileDocument[]>(this.caseFilesDocuments);
-  // selection = new SelectionModel<CaseFileDocument>(true, []);
 
   displayedColumns: string[] = [];
   dataSourceCaseFileDocuments!:any;
@@ -51,7 +49,80 @@ export class DocumentComponent implements OnInit {
   }
 
   openDialogUpload(){
-    this.dialog.open(DialogUploadComponent);
+    const dialogRef = this.dialog.open(DialogUploadComponent,{
+      data: {
+        caseFile: this.caseFile
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: CaseFileDocument) => {
+      if(result.uuid){
+        this.caseFilesDocuments.push(result);
+        this.ngAfterViewInit();
+      }
+    });
+
+  }
+
+  openNewTab(caseFileDocument:CaseFileDocument) {
+    window.open(caseFileDocument.document, '_blank');
+  }
+
+  deleteCaseFileDocument(caseFileDocument:CaseFileDocument) {
+
+    Swal.fire({
+      title: this.translateService.instant(
+        'clients.table.buttons.confirm_question_delete'
+      ),
+      text: this.translateService.instant(
+        'clients.table.buttons.actions_cannot_be_reversed'
+      ),
+      iconHtml: '<img src="assets/images/alert-delete.svg">',
+      confirmButtonText: this.translateService.instant(
+        'clients.table.buttons.delete'
+      ),
+      showCancelButton: true,
+      cancelButtonText: this.translateService.instant(
+        'clients.client_intake.close_window'
+      ),
+      customClass: {
+        popup: 'c-alert c-alert--delete',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.practiceService
+          .deleteCaseFileDocuments(caseFileDocument.subscription, caseFileDocument.uuid || '')
+          .subscribe(
+            (data) => {
+
+              const arrayFiltered = this.caseFilesDocuments.filter(x => x.uuid !== caseFileDocument.uuid);
+              this.caseFilesDocuments = arrayFiltered;
+              this.dataSourceCaseFileDocuments.data = this.caseFilesDocuments;
+
+              this.toastr.success(
+                'Ok',
+                this.translateService.instant(
+                  'successMessages.deleted_successfully'
+                )
+              );
+            },
+            (error) => {
+              this.toastr.error(
+                'Error',
+                this.translateService.instant('errorMessages.unexpectedError')
+              );
+            }
+          );
+      }
+    });
+
+  }
+
+  returnDateFormatted(dateCaseFileNote: string) {
+    const date = moment(dateCaseFileNote);
+    const formattedDate = date.locale('es').format('D MMM. YYYY');
+
+    return formattedDate;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

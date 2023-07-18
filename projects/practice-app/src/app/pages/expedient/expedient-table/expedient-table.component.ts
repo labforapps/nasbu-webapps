@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { DialogNewExpedientComponent } from '../../../components/dialogs/dialog-new-expedient/dialog-new-expedient.component';
 import Swal from 'sweetalert2';
+import { DialogUsersShareExpedientComponent } from '../../../components/dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
 @Component({
   selector: 'app-expedient-table',
   templateUrl: './expedient-table.component.html',
@@ -90,7 +91,6 @@ export class ExpedientTableComponent implements OnInit {
 
   applyFilters(){
 
-    console.log(this.filters);
     this.caseFiles = this.caseFilesCopy;
 
     if(this.filters.customer){
@@ -120,6 +120,15 @@ export class ExpedientTableComponent implements OnInit {
       }
     });
 
+  }
+
+  openDialogUserShareExpedient(caseFile:CaseFile){
+    const dialogRef = this.dialog.open(DialogUsersShareExpedientComponent,{
+      data: {
+          users: this.securityUsers,
+          caseFile:caseFile
+      }
+    });
   }
 
   deleteCaseFile(caseFile:CaseFile){

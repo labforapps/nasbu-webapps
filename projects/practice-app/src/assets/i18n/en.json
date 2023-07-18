@@ -964,7 +964,7 @@
       "documents":{
         "title":"Documents",
         "upload_file":"Upload file",
-        "this_docket_contains_6_documents":"This docket contains 6 documents",
+        "this_docket_contains_documents":"This docket contains <b>{{caseFileDocumentsQuantity}} documents</b>",
         "type":"Type",
         "description":"Description",
         "type_of_file":"Type of file",

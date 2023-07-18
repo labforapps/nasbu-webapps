@@ -12,13 +12,11 @@
                   <label class="u-title-label">{{'dockets.profile.documents.filename' | translate}}</label>
                   <mat-form-field appearance="fill" class="c-form-group">
                       <mat-label>{{'dockets.profile.documents.name' | translate}}</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio" formControlName="filename">
+                      <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio" formControlName="document_name">
                   </mat-form-field>
 
                   <label class="u-title-label">{{'dockets.profile.documents.description_or_details' | translate}}</label>
-                  <ngx-awesome-uploader class="c-uploadFile"
-                                        (uploadSuccess)="uploadSuccess($event)"
-                                        [adapter]="adapter">
+                  <ngx-awesome-uploader class="c-uploadFile" [enableAutoUpload]="false" [fileMaxCount]="1" (fileAdded)="onFileAdded($event)">
                   </ngx-awesome-uploader>
               </div>
           </div>
