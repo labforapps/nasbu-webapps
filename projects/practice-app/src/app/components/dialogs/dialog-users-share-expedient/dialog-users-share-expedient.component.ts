@@ -12,7 +12,10 @@ import { CreateCollaboratorComponent } from '../../../pages/collaborator/create-
 export class DialogUsersShareExpedientComponent implements OnInit {
 
   securityUsers!:SecurityUser[];
+  securityUsersTemp!:SecurityUser[];
   caseFile!:CaseFile;
+  searchTerm: string = '';
+
 
   constructor(
               @Inject(MAT_DIALOG_DATA) public data: {users:SecurityUser[],caseFile:CaseFile},
@@ -22,7 +25,18 @@ export class DialogUsersShareExpedientComponent implements OnInit {
 
   ngOnInit(): void {
     this.securityUsers = this.data.users;
+    this.securityUsersTemp = this.data.users;
     this.caseFile = this.data.caseFile;
+  }
+
+  searchSecurityUser(){
+    const searchTerm = this.searchTerm.trim().toLowerCase();
+
+    const filteredArray = this.securityUsers.filter(item =>
+      item.user.first_name.trim().toLowerCase().includes(searchTerm)
+    );
+
+    this.securityUsers = searchTerm ? filteredArray : this.securityUsersTemp
   }
 
   openCustomerDialog(){

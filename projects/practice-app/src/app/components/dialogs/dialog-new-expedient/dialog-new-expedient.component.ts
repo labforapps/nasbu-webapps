@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType } from 'core-models';
+import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus } from 'core-models';
 import { AuthService, CustomersService,PracticeService,SecurityService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -23,6 +23,7 @@ export class DialogNewExpedientComponent implements OnInit {
   typeCustomer = TypeCustomer;
   caseFile!:CaseFile
   billingType = BillingType;
+  caseFileStatus = CaseFileStatus;
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -181,7 +182,7 @@ export class DialogNewExpedientComponent implements OnInit {
       name: caseFileFormValue.name,
       case_no: caseFileFormValue.case_no,
       receive_retainer: caseFileFormValue.receive_retainer,
-      subscription: this.selectedSubscription?.ssid.uuid
+      subscription: this.selectedSubscription?.ssid.uuid,
     };
 
     if(this.caseFile) caseFilePayload.uuid = this.caseFile.uuid;

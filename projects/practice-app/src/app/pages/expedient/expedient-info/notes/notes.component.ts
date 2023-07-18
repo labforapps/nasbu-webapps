@@ -3,7 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { DialogNewNoteComponent } from '../../../../components/dialogs/dialog-new-note/dialog-new-note.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile, CaseFileNote } from 'core-models';
+import { CaseFile, CaseFileNote, CaseFileStatus } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from '../../../../../../../core-services/src/lib/services/practice/practice.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,7 @@ export class NotesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any;
   @Input() caseFile!:CaseFile;
   caseFileNotes!:CaseFileNote[];
+  caseFileStatus = CaseFileStatus;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,

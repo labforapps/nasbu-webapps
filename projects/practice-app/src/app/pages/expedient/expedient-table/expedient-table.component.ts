@@ -2,7 +2,7 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile,Customer, SecurityUser, TypeCustomer } from 'core-models';
+import { CaseFile,CaseFileStatus,Customer, SecurityUser, TypeCustomer } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { PracticeService } from 'core-services';
@@ -29,7 +29,8 @@ export class ExpedientTableComponent implements OnInit {
   startDateFilter!:string | null;
   endDateFilter!:string | null;
   typeCustomer = TypeCustomer;
-  filters: {customer?:string,assignTo?:string,status?:string,shared_with?:string} = {}
+  filters: {customer?:string,assignTo?:string,status?:string,shared_with?:string} = {};
+  caseFileStatus = CaseFileStatus;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -100,8 +101,16 @@ export class ExpedientTableComponent implements OnInit {
       this.caseFiles = this.caseFiles.filter(x => x.assigned_to.uuid === this.filters.assignTo)
     }
 
+    if(this.filters.status === this.caseFileStatus.OPEN || this.filters.status === this.caseFileStatus.CLOSED){
+      this.caseFiles = this.caseFiles.filter(x => x.status === this.filters.status)
+    }
+
     this.ngAfterViewInit();
 
+  }
+
+  cleanFilters(){
+    this.filters = {};
   }
 
   openDialogNewExpedient(caseFile:CaseFile){

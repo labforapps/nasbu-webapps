@@ -16,10 +16,10 @@
                 <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
             <mat-tab label="{{'dockets.open' | translate}}">
-                <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
+                <app-expedient-table *ngIf="caseFiles" [caseFiles]="openCaseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
             <mat-tab label="{{'dockets.closed' | translate}}">
-                <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
+                <app-expedient-table *ngIf="caseFiles" [caseFiles]="closedCaseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
         </mat-tab-group>
     </div>

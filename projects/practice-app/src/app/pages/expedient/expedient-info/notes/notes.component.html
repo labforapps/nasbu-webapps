@@ -1,7 +1,7 @@
 <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
     <p *ngIf="caseFileNotes" [innerHTML]="'dockets.profile.notes.this_docket_has_notes' | translate:{notesQuantity: caseFileNotes.length}"></p>
 
-    <button class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">{{'dockets.profile.notes.add_note' | translate}}<span class="icon-plus ml-3 "></span></button>
+    <button  *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">{{'dockets.profile.notes.add_note' | translate}}<span class="icon-plus ml-3 "></span></button>
 </div>
 <div class="u-table-responsive">
     <table mat-table [dataSource]="dataSourceCaseFileNotes" class="c-table">
@@ -61,8 +61,8 @@
                 </mat-button-toggle-group>
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                    <button mat-menu-item (click)="deleteCaseFileNote(element)">{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
-                    <button mat-menu-item (click)="openDialogNewNote(element)">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
+                    <button mat-menu-item (click)="deleteCaseFileNote(element)" *ngIf="caseFile.status === caseFileStatus.OPEN">{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
+                    <button mat-menu-item (click)="openDialogNewNote(element)" *ngIf="caseFile.status === caseFileStatus.OPEN">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
                 </mat-menu>
             </td>
         </ng-container>

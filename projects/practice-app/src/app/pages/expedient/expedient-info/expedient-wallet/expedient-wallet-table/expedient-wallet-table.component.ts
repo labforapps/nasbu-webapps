@@ -3,7 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddBalanceComponent } from '../../../../../components/dialogs/dialog-add-balance/dialog-add-balance.component';
-import { CaseFile, CaseFileWalletDetail,CaseFileWalletDetailType } from 'core-models';
+import { CaseFile, CaseFileStatus, CaseFileWalletDetail,CaseFileWalletDetailType } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from 'core-services';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ export class ExpedientWalletTableComponent implements OnInit {
   @Input() caseFileWalletDetail!:CaseFileWalletDetail[];
   @Input() inputCaseFileWalletDetailType!: CaseFileWalletDetailType.CREDIT |  CaseFileWalletDetailType.DEBIT | CaseFileWalletDetailType.ALL;
   caseFileWalletDetailType = CaseFileWalletDetailType;
+  caseFileStatus = CaseFileStatus;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -68,6 +69,12 @@ export class ExpedientWalletTableComponent implements OnInit {
       }
     });
 
+  }
+
+  returnAmountCaseFileWalletDetails(){
+    return this.caseFileWalletDetail.reduce((sum, caseFileWalletDetail) => {
+      return sum + Number(caseFileWalletDetail.amt);
+    }, 0);
   }
 
   returnDateFormatted(dateCaseFile: string) {

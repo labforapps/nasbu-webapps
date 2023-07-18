@@ -4,7 +4,7 @@
     <p class="u-textColor ml-auto mr-2">
       {{'dockets.profile.organized_by_creation_date' | translate}}
     </p>
-    <button class="c-btn-function " mat-button (click)="openDialogUpload()">{{'dockets.profile.documents.upload_file' | translate}}<span class="icon-plus ml-3 "></span></button>
+    <button *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function " mat-button (click)="openDialogUpload()">{{'dockets.profile.documents.upload_file' | translate}}<span class="icon-plus ml-3 "></span></button>
 
 
 </div>
@@ -67,8 +67,8 @@
                 </mat-button-toggle-group>
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                    <button mat-menu-item class="matMenu-red" (click)="deleteCaseFileDocument(element)">{{'dockets.profile.documents.delete' | translate}} <span class="icon-trash"></span></button>
-                    <button mat-menu-item class="matMenu-green">{{'dockets.profile.documents.download' | translate}}<span class="icon-download"></span></button>
+                    <button mat-menu-item class="matMenu-red" *ngIf="caseFile.status === caseFileStatus.OPEN"  (click)="deleteCaseFileDocument(element)">{{'dockets.profile.documents.delete' | translate}} <span class="icon-trash"></span></button>
+                    <button mat-menu-item class="matMenu-green" (click)="downloadFile(element.document,element.document_name)">{{'dockets.profile.documents.download' | translate}}<span class="icon-download"></span></button>
                     <button mat-menu-item class="matMenu-blue" (click)="openNewTab(element)">{{'dockets.profile.documents.open_new_tab' | translate}}<span class="icon-new-tab"></span></button>
                 </mat-menu>
             </td>

@@ -36,6 +36,7 @@ export interface CaseFilePayload {
   receive_retainer:     boolean;
   retainer_amt:         number;
   subscription:         string;
+  status?: string;
 }
 
 export interface AssignedTo {

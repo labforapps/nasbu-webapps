@@ -13,7 +13,7 @@
      <div class="c-dialog-list__content">
       <div class="c-dialog-list__header">
           <div class="c-form-group--search bordered ml-auto">
-              <input matInput type="text" placeholder="Buscar por nombre">
+              <input matInput type="text" placeholder="Buscar por nombre" [(ngModel)]="searchTerm" (keyup)="searchSecurityUser()">
               <span class="icon-search"></span>
           </div>
          </div>

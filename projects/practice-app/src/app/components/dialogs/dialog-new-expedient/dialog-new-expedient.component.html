@@ -1,6 +1,7 @@
 <div class="c-dialog-newTask c-dialog-header">
     <div class="c-dialog-header__header">
-        {{'dockets.form.new_docket' | translate}}
+      <span *ngIf="!caseFile">{{'dockets.form.new_docket' | translate}}</span>
+      <span *ngIf="caseFile">Edit Docket</span>
     </div>
 
 
@@ -130,7 +131,10 @@
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
         <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.form.close_window' | translate}}</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">{{'dockets.form.create_docket' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">
+          <span *ngIf="!caseFile">{{'dockets.form.create_docket' | translate}}</span>
+          <span *ngIf="caseFile && caseFile.status === caseFileStatus.OPEN">Save Changes</span>
+        </button>
     </mat-dialog-actions>
 
     </form>

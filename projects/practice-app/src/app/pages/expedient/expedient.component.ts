@@ -13,6 +13,8 @@ import { CaseFileStatus, Customer, SecurityUser } from 'core-models';
 export class ExpedientComponent implements OnInit {
 
   caseFiles!:CaseFile[];
+  openCaseFiles!:CaseFile[];
+  closedCaseFiles!:CaseFile[];
   selectedSubscription!: any;
   customers!:Customer[];
   securityUsers!:SecurityUser[];
@@ -38,32 +40,11 @@ export class ExpedientComponent implements OnInit {
         let dateB = new Date(b.created_at || '').getTime();
         return dateB - dateA;
     });;
+
+    this.openCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.OPEN);
+    this.closedCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.CLOSED);;
     })
   }
-
-  get allCaseFiles(): CaseFile[] {
-    if (this.caseFiles) {
-      return this.caseFiles;
-    }
-    return [];
-  }
-
-  get openCaseFiles(): CaseFile[] {
-    if (this.caseFiles) {
-      return this.caseFiles.filter((x) => x.status === this.caseFileStatus.OPEN);
-    }
-
-    return [];
-  }
-
-  get closedCaseFiles(): CaseFile[] {
-    if (this.caseFiles) {
-      return this.caseFiles.filter((x) => x.status === this.caseFileStatus.CLOSED);
-    }
-
-    return [];
-  }
-
 
   getCustomers(){
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {

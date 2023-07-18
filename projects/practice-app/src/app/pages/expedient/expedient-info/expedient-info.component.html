@@ -20,7 +20,9 @@
         </div>
 
         <div class="l-page__controls">
-            <button class="c-btn-function" mat-button>Cerrar expediente<span class="icon-plus ml-3 "></span></button>
+            <button *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function" mat-button (click)="closeCaseFile()">
+              Cerrar expediente<span class="icon-plus ml-3 "></span>
+            </button>
             <button mat-button class="c-btn-filter" [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> {{'dockets.profile.goBack' | translate}}</button>
         </div>
     </div>

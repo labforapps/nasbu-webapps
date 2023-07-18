@@ -3,13 +3,15 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { DialogUploadComponent } from '../../../../components/dialogs/dialog-upload/dialog-upload.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile, CaseFileDocument } from 'core-models';
+import { CaseFile, CaseFileDocument, CaseFileStatus } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from 'core-services';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-document',
@@ -24,12 +26,13 @@ export class DocumentComponent implements OnInit {
   @Input() caseFile!:CaseFile;
   @ViewChild(MatPaginator) paginator: any;
   caseFilesDocuments!:CaseFileDocument[];
-
+  caseFileStatus = CaseFileStatus;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
               private translateService:TranslateService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getCaseFileDocuments();
@@ -66,6 +69,12 @@ export class DocumentComponent implements OnInit {
 
   openNewTab(caseFileDocument:CaseFileDocument) {
     window.open(caseFileDocument.document, '_blank');
+  }
+
+  downloadFile(url: string, fileName: string): void {
+    this.http.get(url, { responseType: 'blob' as 'json' }).subscribe((data:any) => {
+      saveAs(data, fileName);
+    });
   }
 
   deleteCaseFileDocument(caseFileDocument:CaseFileDocument) {
