@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CaseFile, CaseFileDocument, CaseFileNote, CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload, CaseFileAccess } from 'core-models';
-import { Observable } from 'rxjs';
+import { CaseFile, CaseFileDocument, CaseFileNote,
+         CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload,
+         CaseFileAccess, CaseFileWalletDetailType, Customer } from 'core-models';
+import { CustomersService } from '../catalog/customers.service';
+import { Observable, map, of, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PracticeService {
 
+  private caseFileWalletDetailType = CaseFileWalletDetailType
+
   constructor(@Inject('config') private config: any,
-  private httpClient: HttpClient) { }
+  private httpClient: HttpClient,
+  private customerService:CustomersService) { }
 
   getCaseFiles(subscription:string):Observable<CaseFile[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/?subscription=${subscription}`;
@@ -32,9 +38,35 @@ export class PracticeService {
     if (caseFilePayload.uuid != null && caseFilePayload.uuid !== '') {
       saveOperation$ = this.updateCaseFile(payload.subscription || '',payload,payload.uuid || '');
     } else {
-      saveOperation$ = this.createCaseFile(caseFilePayload.subscription || '', payload);
+      saveOperation$ = this.createCaseFile(caseFilePayload.subscription || '', payload).pipe(
+        switchMap((caseFile: CaseFile) => this.createWalletDetailByCreatingCaseFile(caseFile))
+      );
     }
     return saveOperation$;
+  }
+
+  createWalletDetailByCreatingCaseFile(caseFile:CaseFile):Observable<CaseFile>{
+
+    if (!caseFile.receive_retainer) {
+      return of(caseFile);
+    }
+
+    return this.customerService.getCustomerById(caseFile.subscription, caseFile.customer.uuid || '').pipe(
+      tap((data: Customer) => {
+        const caseFileWalletDetailPayload: CaseFileWalletDetail = {
+          description: 'Monto de Retencion',
+          amt: caseFile.retainer_amt,
+          type: this.caseFileWalletDetailType.CREDIT,
+          case_file: caseFile.uuid || '',
+          wallet: data.wallet || '',
+          subscription: caseFile.subscription
+        }
+
+        this.createCaseFileWalletDetail(caseFile.subscription, caseFileWalletDetailPayload);
+      }),
+      map(() => caseFile)
+    );
+
   }
 
   updateCaseFile(subscription:string,caseFilePayload:CaseFilePayload,uuid:string):Observable<CaseFile>{
@@ -137,6 +169,11 @@ export class PracticeService {
   createCaseFileAccess(caseFileAccess:CaseFileAccess):Observable<CaseFileAccess> {
     const serverUrl = `${this.config.serverUrl}/practice/case_files_access/?subscription=${caseFileAccess.subscription}`;
     return this.httpClient.post<CaseFileAccess>(serverUrl,caseFileAccess);
+  }
+
+  deleteCaseFileAccess(caseFileAccess:CaseFileAccess):Observable<CaseFileAccess> {
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_access/${caseFileAccess.uuid}?subscription=${caseFileAccess.subscription}`;
+    return this.httpClient.delete<CaseFileAccess>(serverUrl);
   }
 
 }

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile,CaseFileStatus,Customer, SecurityUser, TypeCustomer } from 'core-models';
+import { CaseFile,CaseFileAccess,CaseFileStatus,Customer, SecurityUser, TypeCustomer } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { PracticeService } from 'core-services';
@@ -138,6 +138,11 @@ export class ExpedientTableComponent implements OnInit {
           caseFile:caseFile
       }
     });
+  }
+
+  returnSharedUserName(caseFileAccess:CaseFileAccess[]){
+    const securityUser:SecurityUser | undefined = this.securityUsers.find(x => x.uuid === caseFileAccess[0].subscription_user);
+    return securityUser?.user.first_name + ' ' + securityUser?.user.last_name;
   }
 
   deleteCaseFile(caseFile:CaseFile){

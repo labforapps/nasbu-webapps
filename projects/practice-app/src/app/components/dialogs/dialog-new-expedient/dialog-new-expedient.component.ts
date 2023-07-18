@@ -148,8 +148,13 @@ export class DialogNewExpedientComponent implements OnInit {
       return;
     }
 
-    if(Number(caseFileFormValue.retainer_amt) > Number(caseFileFormValue.flat_fee_amt)) {
+    if(caseFileFormValue.flat_fee &&  Number(caseFileFormValue.retainer_amt) > Number(caseFileFormValue.flat_fee_amt)) {
       this.toastr.error('Error','El monto de retención no puede ser mayor al Flat Fee');
+      return;
+    }
+
+    if(!caseFileFormValue.hourly_rate && !caseFileFormValue.increment_of_time && !caseFileFormValue.flat_fee){
+      this.toastr.error('Error','Debes elegir algun metodo de facturacion');
       return;
     }
 

@@ -16,7 +16,6 @@ export class DialogUsersShareExpedientComponent implements OnInit {
   caseFile!:CaseFile;
   searchTerm: string = '';
 
-
   constructor(
               @Inject(MAT_DIALOG_DATA) public data: {users:SecurityUser[],caseFile:CaseFile},
               private practiceService:PracticeService,
@@ -52,6 +51,14 @@ export class DialogUsersShareExpedientComponent implements OnInit {
   });
 }
 
+  isUserSelected(securityUser:SecurityUser){
+
+    const securityUserFiltered = this.caseFile.case_file_user_access?.filter( x => x.subscription_user === securityUser.uuid) || [];
+    if(securityUserFiltered?.length > 0) return true;
+    return false;
+
+   }
+
   onSelectUser(securityUser:SecurityUser){
 
     const createCaseFileAccess:CaseFileAccess = {
@@ -61,9 +68,22 @@ export class DialogUsersShareExpedientComponent implements OnInit {
     }
 
     this.practiceService.createCaseFileAccess(createCaseFileAccess).subscribe(data => {
-      console.log(data);
+      this.caseFile.case_file_user_access?.push(data);
     })
 
   }
+
+  onRemoveUser(securityUser: SecurityUser) {
+    const caseFileAccess: CaseFileAccess | undefined = this.caseFile.case_file_user_access?.find(x => x.subscription_user === securityUser.uuid);
+
+    console.log(caseFileAccess);
+
+    if (caseFileAccess) {
+      this.practiceService.deleteCaseFileAccess(caseFileAccess).subscribe(data => {
+        this.caseFile.case_file_user_access = this.caseFile.case_file_user_access?.filter(x => x.uuid != caseFileAccess.uuid);
+      });
+    }
+  }
+
 
 }

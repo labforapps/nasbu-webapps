@@ -148,8 +148,14 @@
           <ng-container matColumnDef="share">
               <th mat-header-cell *matHeaderCellDef>{{'dockets.shared_with' | translate}} </th>
               <td mat-cell *matCellDef="let element">
-                  <div class="u-textLightColor">
-                      {{element.share}}
+                  <div class="u-textLightColor" *ngIf="element.case_file_user_access?.length === 0">
+                      Sin Asignar
+                  </div>
+                  <div class="u-link" *ngIf="element.case_file_user_access?.length === 1 && securityUsers" (click)="openDialogUserShareExpedient(element)">
+                    {{returnSharedUserName(element.case_file_user_access)}}
+                  </div>
+                  <div class="u-link" *ngIf="element.case_file_user_access?.length > 1" (click)="openDialogUserShareExpedient(element)">
+                    Ver todos los usuarios
                   </div>
 
               </td>
