@@ -1,10 +1,24 @@
-<mat-tab-group class="c-tabs c-tabs-sub c-tabs-sub--padding">
+<mat-tab-group class="c-tabs c-tabs-sub c-tabs-sub--padding" *ngIf="caseFileWalletDetail">
   <mat-tab label="Todos">
 
+    <div class="mb-3 d-flex align-items-center flex-wrap u-gap-1">
+      <p class="u-textColor">
+          {{'dockets.profile.wallet.transactions_made' | translate}} <b>{{caseFileWalletDetail.length}}</b>
+      </p>
+
+        <div class="ml-auto text-right u-textColor mr-2">
+          <div *ngIf="caseFileWalletDetail" class="u-bigSize-2 u-fontBold">USD {{returnAmountCaseFileWalletDetails(caseFileWalletDetailType.ALL) | currency}} </div>
+          <div class="align-items-center d-flex justify-content-between u-smallSize">{{'dockets.profile.wallet.available' | translate}} <span class="icon-income ml-1"></span></div>
+
+        </div>
+
+    </div>
+
+
     <app-expedient-wallet-table
-                                *ngIf="allWalletDetails.length > 0"
+                                *ngIf="caseFileWalletDetail && caseFileWalletDetail.length > 0"
                                 [caseFile]="caseFile"
-                                [caseFileWalletDetail]="allWalletDetails"
+                                [caseFileWalletDetail]="caseFileWalletDetail"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.ALL">
     </app-expedient-wallet-table>
 
@@ -12,10 +26,24 @@
 
     <mat-tab label="Egresos">
 
+      <div class="mb-3 d-flex align-items-center flex-wrap u-gap-1">
+        <p class="u-textColor">
+            {{'dockets.profile.wallet.transactions_made' | translate}} <b>{{caseFileWalletDetailDebit.length}}</b>
+        </p>
+
+          <div class="ml-auto text-right u-textColor mr-2">
+            <div *ngIf="caseFileWalletDetailDebit"  class="u-bigSize-2 u-fontBold">USD {{returnAmountCaseFileWalletDetails(caseFileWalletDetailType.DEBIT) | currency}} </div>
+            <div class="align-items-center d-flex justify-content-between u-smallSize" >{{'dockets.profile.wallet.spent' | translate}} <span class="icon-outcome ml-1"></span></div>
+
+          </div>
+
+      </div>
+
+
     <app-expedient-wallet-table
-                                *ngIf="debitWalletDetails.length > 0"
+                                *ngIf="caseFileWalletDetail && caseFileWalletDetailDebit.length > 0"
                                 [caseFile]="caseFile"
-                                [caseFileWalletDetail]="debitWalletDetails"
+                                [caseFileWalletDetail]="caseFileWalletDetailDebit"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.DEBIT">
     </app-expedient-wallet-table>
 
@@ -23,11 +51,32 @@
 
     <mat-tab label="Ingresos">
 
+      <div class="mb-3 d-flex align-items-center flex-wrap u-gap-1">
+        <p class="u-textColor">
+            {{'dockets.profile.wallet.transactions_made' | translate}} <b>{{caseFileWalletDetailCredit.length}}</b>
+        </p>
+
+          <div class="ml-auto text-right u-textColor mr-2">
+            <div *ngIf="caseFileWalletDetailCredit"  class="u-bigSize-2 u-fontBold">USD {{returnAmountCaseFileWalletDetails(caseFileWalletDetailType.CREDIT) | currency}} </div>
+            <div class="align-items-center d-flex justify-content-between u-smallSize">Incomes <span class="icon-income ml-1"></span></div>
+
+          </div>
+
+        <button *ngIf=" caseFile.status === caseFileStatus.OPEN"
+                class="c-btn-function"
+                mat-button
+                (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span>
+        </button>
+      </div>
+
+
     <app-expedient-wallet-table
-                                *ngIf="creditWalletDetails.length > 0"
+                                *ngIf="caseFileWalletDetail && caseFileWalletDetailCredit.length > 0"
                                 [caseFile]="caseFile"
-                                [caseFileWalletDetail]="creditWalletDetails"
-                                [inputCaseFileWalletDetailType]="caseFileWalletDetailType.CREDIT">
+                                [caseFileWalletDetail]="caseFileWalletDetailCredit"
+                                [inputCaseFileWalletDetailType]="caseFileWalletDetailType.CREDIT"
+                                (onDeleteWalletDetail)="deleteCaseFileWalletDetail($event)"
+                                (onUpdateWalletDetail)="updateCaseFileWalletDetail($event)">
     </app-expedient-wallet-table>
 
     </mat-tab>

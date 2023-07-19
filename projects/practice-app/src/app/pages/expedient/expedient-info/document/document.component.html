@@ -1,6 +1,6 @@
 <div class="u-smallSize mb-3 d-flex align-items-center u-gap-1 flex-wrap">
 
-    <p [innerHTML]="'dockets.profile.documents.this_docket_contains_documents' | translate: {caseFileDocumentsQuantity: caseFilesDocuments.length}"></p>
+    <p *ngIf="caseFilesDocuments" [innerHTML]="'dockets.profile.documents.this_docket_contains_documents' | translate: {caseFileDocumentsQuantity: caseFilesDocuments.length}"></p>
     <p class="u-textColor ml-auto mr-2">
       {{'dockets.profile.organized_by_creation_date' | translate}}
     </p>
@@ -68,7 +68,7 @@
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
                     <button mat-menu-item class="matMenu-red" *ngIf="caseFile.status === caseFileStatus.OPEN"  (click)="deleteCaseFileDocument(element)">{{'dockets.profile.documents.delete' | translate}} <span class="icon-trash"></span></button>
-                    <button mat-menu-item class="matMenu-green" (click)="openNewTab(element)">{{'dockets.profile.documents.download' | translate}}<span class="icon-download"></span></button>
+                    <button mat-menu-item class="matMenu-green" (click)="downloadFile(element.document,element.document_name)">{{'dockets.profile.documents.download' | translate}}<span class="icon-download"></span></button>
                     <button mat-menu-item class="matMenu-blue" (click)="openNewTab(element)">{{'dockets.profile.documents.open_new_tab' | translate}}<span class="icon-new-tab"></span></button>
                 </mat-menu>
             </td>

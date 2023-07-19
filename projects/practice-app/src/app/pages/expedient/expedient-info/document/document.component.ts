@@ -46,7 +46,11 @@ export class DocumentComponent implements OnInit {
 
   getCaseFileDocuments(){
    this.practiceService.getCaseFileDocuments(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
-    this.caseFilesDocuments = data;
+    this.caseFilesDocuments = data.sort((a, b) => {
+      let dateA = new Date(a.created_at || '').getTime();
+      let dateB = new Date(b.created_at || '').getTime();
+      return dateB - dateA;
+  });;;;
     this.ngAfterViewInit();
    })
   }

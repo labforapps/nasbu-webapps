@@ -20,7 +20,8 @@
          <div class="c-dialog-list__body">
 
           <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2" *ngFor="let securityUser of securityUsers">
-              <img class="c-table__icon" src="../../../../assets/images/table-icons/user.svg" alt="">
+              <img *ngIf="!isUserSelected(securityUser)" class="c-table__icon" src="../../../../assets/images/table-icons/user.svg" alt="">
+              <img *ngIf="isUserSelected(securityUser)" class="c-table__icon" src="../../../../assets/images/table-icons/user-disabled.svg" alt="">
 
               <p class="mr-auto u-textColor">{{securityUser.user.first_name + ' ' + securityUser.user.last_name}}</p>
 
@@ -30,7 +31,7 @@
                       (click)="onSelectUser(securityUser)">Seleccionar</button>
 
               <button mat-button
-                      class="c-btn c-btn--small c-btn--outline-primary"
+                      class="c-btn c-btn--small c-btn--outline-primary btn-Disabled"
                       *ngIf="isUserSelected(securityUser)"
                       (click)="onRemoveUser(securityUser)">Quitar</button>
           </div>

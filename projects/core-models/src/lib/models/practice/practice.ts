@@ -10,7 +10,7 @@ export interface CaseFile {
   bt_price_per_hour:      number;
   bt_increment_factor:    number;
   bt_amt:                 number;
-  status?:                string;
+  status?:                CaseFileStatus;
   access_type?:           string;
   code?:                  string;
   name:                   string;
@@ -37,7 +37,7 @@ export interface CaseFilePayload {
   receive_retainer:     boolean;
   retainer_amt:         number;
   subscription:         string;
-  status?: string;
+  status?: CaseFileStatus;
 }
 
 export interface AssignedTo {
@@ -48,6 +48,7 @@ export interface AssignedTo {
 }
 
 export interface UserCaseFile {
+  uuid?:      string;
   email:      string;
   first_name: string;
   last_name:  string;

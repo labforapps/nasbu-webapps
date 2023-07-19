@@ -23,9 +23,9 @@ export class DialogUsersShareExpedientComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.securityUsers = this.data.users;
     this.securityUsersTemp = this.data.users;
     this.caseFile = this.data.caseFile;
+    this.securityUsers = this.data.users.sort((a, b) => (this.isUserSelected(b) ? 1 : 0) - (this.isUserSelected(a) ? 1 : 0));
   }
 
   searchSecurityUser(){

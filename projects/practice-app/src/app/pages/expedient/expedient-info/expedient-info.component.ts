@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CaseFile, CaseFileStatus } from 'core-models';
 import { AuthService, PracticeService } from 'core-services';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +24,8 @@ export class ExpedientInfoComponent implements OnInit {
               private authService: AuthService,
               private activatedRoute:ActivatedRoute,
               private translateService:TranslateService,
-              private router:Router
+              private router:Router,
+              private toastr: ToastrService
               ) { }
 
   ngOnInit(): void {
@@ -81,6 +83,11 @@ export class ExpedientInfoComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
+        this.caseFile.status = this.caseFileStatus.CLOSED;
+
+        this.practiceService.updateCaseFileChangeStatus(this.caseFile).subscribe(data => {
+          this.toastr.success('Ok',this.translateService.instant('successMessages.updated_successfully'))
+        })
       }
     });
 

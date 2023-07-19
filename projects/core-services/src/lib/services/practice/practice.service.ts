@@ -74,6 +74,11 @@ export class PracticeService {
     return this.httpClient.put<CaseFile>(serverUrl,caseFilePayload);
   }
 
+  updateCaseFileChangeStatus(caseFilePayload:CaseFile):Observable<CaseFile>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files/${caseFilePayload.uuid}/change_status/?subscription=${caseFilePayload.subscription}`;
+    return this.httpClient.put<CaseFile>(serverUrl,caseFilePayload);
+  }
+
   deleteCaseFile(subscription:string,uuid:string):Observable<CaseFile>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/?subscription=${subscription}`;
     return this.httpClient.delete<CaseFile>(serverUrl);
@@ -175,5 +180,7 @@ export class PracticeService {
     const serverUrl = `${this.config.serverUrl}/practice/case_files_access/${caseFileAccess.uuid}?subscription=${caseFileAccess.subscription}`;
     return this.httpClient.delete<CaseFileAccess>(serverUrl);
   }
+
+
 
 }

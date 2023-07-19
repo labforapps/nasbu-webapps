@@ -1,25 +1,3 @@
-<div class="mb-3 d-flex align-items-center flex-wrap u-gap-1">
-  <p class="u-textColor">
-    <!-- <b>Transaciones</b> realizadas <b>2 -->
-      {{'dockets.profile.wallet.transactions_made' | translate}} <b>{{caseFileWalletDetail.length}}</b>
-  </p>
-
-    <div class="ml-auto text-right u-textColor mr-2">
-      <div class="u-bigSize-2 u-fontBold">USD {{returnAmountCaseFileWalletDetails() | currency}} </div>
-      <div class="align-items-center d-flex justify-content-between u-smallSize" *ngIf=" inputCaseFileWalletDetailType === caseFileWalletDetailType.ALL">{{'dockets.profile.wallet.available' | translate}} <span class="icon-income ml-1"></span></div>
-      <div class="align-items-center d-flex justify-content-between u-smallSize" *ngIf=" inputCaseFileWalletDetailType === caseFileWalletDetailType.CREDIT">Incomes <span class="icon-income ml-1"></span></div>
-      <div class="align-items-center d-flex justify-content-between u-smallSize" *ngIf=" inputCaseFileWalletDetailType === caseFileWalletDetailType.DEBIT">{{'dockets.profile.wallet.spent' | translate}} <span class="icon-outcome ml-1"></span></div>
-
-    </div>
-
-  <button *ngIf="inputCaseFileWalletDetailType === caseFileWalletDetailType.CREDIT && caseFile.status === caseFileStatus.OPEN"
-          class="c-btn-function"
-          mat-button
-          (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span>
-  </button>
-</div>
-
-
 <div class="u-table-responsive">
   <table mat-table [dataSource]="dataSourceCaseFileWalletDetail" class="c-table">
       <!-- Checkbox Column -->
@@ -66,7 +44,7 @@
 
       <ng-container matColumnDef="value">
           <th mat-header-cell *matHeaderCellDef> {{'dockets.profile.wallet.value' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.amt}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.amt | currency}} </td>
       </ng-container>
 
       <!-- Date Column -->

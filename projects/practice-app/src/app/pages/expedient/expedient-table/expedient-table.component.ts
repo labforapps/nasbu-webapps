@@ -2,7 +2,7 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile,CaseFileAccess,CaseFileStatus,Customer, SecurityUser, TypeCustomer } from 'core-models';
+import { CaseFile,CaseFileAccess,CaseFileStatus,Customer, CustomerCaseFile, SecurityUser, TypeCustomer, UserCaseFile } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { PracticeService } from 'core-services';
@@ -23,11 +23,14 @@ export class ExpedientTableComponent implements OnInit {
   selection = new SelectionModel<CaseFile>(true, []);
   @Input() caseFiles!:CaseFile[];
   @Input() customers!:Customer[];
+  customersWithCaseFile!:CustomerCaseFile[] | null;
   @Input() securityUsers!:SecurityUser[];
+  securityUsersWithCaseFile!:UserCaseFile[] | null;
+  securityUsersWithCaseFileAccess!:SecurityUser[];
   caseFilesCopy!:CaseFile[];
   @ViewChild(MatPaginator) paginator: any;
-  startDateFilter!:string | null;
-  endDateFilter!:string | null;
+  startDateFilter!:Date | null;
+  endDateFilter!:Date | null;
   typeCustomer = TypeCustomer;
   filters: {customer?:string,assignTo?:string,status?:string,shared_with?:string} = {};
   caseFileStatus = CaseFileStatus;
@@ -43,8 +46,21 @@ export class ExpedientTableComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['caseFiles'] && changes['caseFiles'].currentValue) {
-      this.ngAfterViewInit();
+      this.caseFilesCopy = this.caseFiles;
     }
+
+    if (changes['securityUsers'] && changes['securityUsers'].currentValue) {
+      this.setUsersWithCaseFile();
+      this.setUsersWithAccessToCaseFiles()
+    }
+
+    if (changes['customers'] && changes['customers'].currentValue) {
+      this.setCustomersWithCaseFile();
+    }
+
+    this.ngAfterViewInit();
+    console.log('H')
+
   }
 
   ngAfterViewInit(): void {
@@ -60,6 +76,58 @@ export class ExpedientTableComponent implements OnInit {
     return formattedDate;
   }
 
+  setCustomersWithCaseFile(){
+    if( this.customers &&  this.customers.length > 0){
+      let uniqueCustomers: { [uuid: string]: CustomerCaseFile } = {};
+      this.caseFilesCopy.forEach(caseFile => {
+        let customer = caseFile.customer;
+        if (customer && customer.uuid && !uniqueCustomers[customer.uuid]) {
+          uniqueCustomers[customer.uuid] = customer;
+      }
+    });
+
+      this.customersWithCaseFile = Object.values(uniqueCustomers);
+    }
+
+    return [];
+  }
+
+  setUsersWithCaseFile() {
+    if( this.securityUsers && this.securityUsers.length > 0){
+      let uniqueUsers: { [key: string]: { user: UserCaseFile, uuid: string | undefined } } = {};
+      this.caseFilesCopy.forEach(caseFile => {
+        let user = caseFile.assigned_to?.user;
+        let uuid = caseFile.assigned_to?.uuid;
+        if (user && user.email && !uniqueUsers[user.email]) {
+          uniqueUsers[user.email] = { user: user, uuid: uuid };
+        }
+      });
+
+      this.securityUsersWithCaseFile =  Object.values(uniqueUsers).map(({user, uuid}) => ({...user, uuid}));
+    }
+
+    return [];
+  }
+
+  setUsersWithAccessToCaseFiles() {
+    let usersWithAccess: SecurityUser[] = [];
+
+    this.caseFilesCopy.forEach(caseFile => {
+      if (caseFile.case_file_user_access) {
+        caseFile.case_file_user_access.forEach(caseFileAccess => {
+          let user = this.securityUsers.find(user => user.uuid === caseFileAccess.subscription_user);
+          if (user && !usersWithAccess.some(u => user && u.uuid === user.uuid)) {
+            usersWithAccess.push(user);
+          }
+        });
+      }
+    });
+
+    this.securityUsersWithCaseFileAccess = usersWithAccess;
+  }
+
+
+
   searchByName(filterValue: any) {
     filterValue = filterValue.target.value.trim();
     filterValue = filterValue.toLowerCase();
@@ -70,21 +138,47 @@ export class ExpedientTableComponent implements OnInit {
 
     this.caseFiles = this.caseFilesCopy;
 
-    if(typeDate === 'S' && value) this.startDateFilter = new Date(value).toISOString();
-    if(typeDate === 'E' && value) this.endDateFilter = new Date(value).toISOString();
-    if(typeDate === 'S' && !value) this.startDateFilter = '';
-    if(typeDate === 'E' && !value) this.endDateFilter = '';
+    if(typeDate === 'S' && value) this.startDateFilter = new Date(value);
+    if(typeDate === 'E' && value) this.endDateFilter = new Date(value);
+    if(typeDate === 'S' && !value) this.startDateFilter = null;
+    if(typeDate === 'E' && !value) this.endDateFilter = null;
 
-   if(this.startDateFilter && !this.endDateFilter){
-    this.caseFiles = this.caseFiles.filter(x => x.created_at && this.startDateFilter && x.created_at >= this.startDateFilter);
-   }
-   else if(!this.startDateFilter && this.endDateFilter){
-    this.caseFiles = this.caseFiles.filter(x => x.created_at && this.endDateFilter && x.created_at <= this.endDateFilter);
-   }
-   else if(this.startDateFilter && this.endDateFilter){
-    this.caseFiles = this.caseFiles.filter(x => x.created_at && this.endDateFilter && this.startDateFilter
-      && x.created_at >= this.startDateFilter && x.created_at <= this.endDateFilter);
-   }
+    const start = new Date(this.startDateFilter || '');
+    const startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const end = new Date(this.endDateFilter || '');
+    const endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+
+    if(this.startDateFilter && this.endDateFilter){
+      this.caseFiles = this.caseFiles.filter(x => {
+        if(x.created_at) {
+          const createdDate = new Date(x.created_at);
+          const created = new Date(createdDate.getFullYear(), createdDate.getMonth(), createdDate.getDate());
+          return created >= startDate && created <= endDate;
+        }
+        return false;
+      });
+    }
+
+    else if(this.startDateFilter && !this.endDateFilter){
+      this.caseFiles = this.caseFiles.filter(x => {
+        if(x.created_at) {
+          const createdDate = new Date(x.created_at);
+          const created = new Date(createdDate.getFullYear(), createdDate.getMonth(), createdDate.getDate());
+          return created >= startDate;
+        }
+        return false;
+      });
+    }
+    else if(!this.startDateFilter && this.endDateFilter){
+      this.caseFiles = this.caseFiles.filter(x => {
+        if(x.created_at) {
+          const createdDate = new Date(x.created_at);
+          const created = new Date(createdDate.getFullYear(), createdDate.getMonth(), createdDate.getDate());
+          return created <=  endDate;
+        }
+        return false;
+      });
+    }
 
    this.ngAfterViewInit();
 
@@ -105,12 +199,23 @@ export class ExpedientTableComponent implements OnInit {
       this.caseFiles = this.caseFiles.filter(x => x.status === this.filters.status)
     }
 
+    if(this.filters.shared_with){
+      this.caseFiles = this.caseFiles.filter(x => {
+        if (x.case_file_user_access) {
+          return x.case_file_user_access.some(access => access.subscription_user === this.filters.shared_with);
+        }
+        return false;
+      });
+    }
+
     this.ngAfterViewInit();
 
   }
 
   cleanFilters(){
     this.filters = {};
+    this.caseFiles = this.caseFilesCopy;
+    this.ngAfterViewInit();
   }
 
   openDialogNewExpedient(caseFile:CaseFile){
@@ -132,6 +237,7 @@ export class ExpedientTableComponent implements OnInit {
   }
 
   openDialogUserShareExpedient(caseFile:CaseFile){
+    console.log(this.securityUsers);
     const dialogRef = this.dialog.open(DialogUsersShareExpedientComponent,{
       data: {
           users: this.securityUsers,

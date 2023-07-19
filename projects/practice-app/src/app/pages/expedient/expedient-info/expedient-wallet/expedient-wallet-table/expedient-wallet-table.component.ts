@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +28,10 @@ export class ExpedientWalletTableComponent implements OnInit {
   @Input() inputCaseFileWalletDetailType!: CaseFileWalletDetailType.CREDIT |  CaseFileWalletDetailType.DEBIT | CaseFileWalletDetailType.ALL;
   caseFileWalletDetailType = CaseFileWalletDetailType;
   caseFileStatus = CaseFileStatus;
+  onChangeValue = 0;
+  @Output() onDeleteWalletDetail = new EventEmitter<string>();
+  @Output() onUpdateWalletDetail = new EventEmitter<CaseFileWalletDetail>();
+
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -36,6 +40,14 @@ export class ExpedientWalletTableComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['caseFileWalletDetail'] && changes['caseFileWalletDetail'].currentValue){
+      if(this.dataSourceCaseFileWalletDetail){
+        this.dataSourceCaseFileWalletDetail.data = changes['caseFileWalletDetail'].currentValue;
+      }
+    }
   }
 
   ngAfterViewInit(): void {
@@ -54,19 +66,21 @@ export class ExpedientWalletTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result:CaseFileWalletDetail) => {
 
-      if(result.uuid){
-        const caseFileFiltered = this.caseFileWalletDetail.filter(x => x.uuid === result.uuid);
+      this.onUpdateWalletDetail.emit(result);
 
-        if(caseFileFiltered.length > 0){
-          this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== result.uuid);
-          this.caseFileWalletDetail.push(result);
-          this.ngAfterViewInit();
-        }
-        else{
-          this.caseFileWalletDetail.push(result);
-          this.ngAfterViewInit();
-        }
-      }
+      // if(result.uuid){
+      //   const caseFileFiltered = this.caseFileWalletDetail.filter(x => x.uuid === result.uuid);
+
+      //   if(caseFileFiltered.length > 0){
+      //     this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== result.uuid);
+      //     this.caseFileWalletDetail.push(result);
+      //     this.ngAfterViewInit();
+      //   }
+      //   else{
+      //     this.caseFileWalletDetail.push(result);
+      //     this.ngAfterViewInit();
+      //   }
+      // }
     });
 
   }
@@ -124,6 +138,9 @@ export class ExpedientWalletTableComponent implements OnInit {
                   'successMessages.deleted_successfully'
                 )
               );
+
+              this.onDeleteWalletDetail.emit(caseFile.uuid);
+
             },
             (error) => {
               this.toastr.error(
