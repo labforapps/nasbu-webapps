@@ -974,9 +974,11 @@
           "download":"Descargar",
           "open_new_tab":"Abrir en otra pestaña",
           "upload_new_file":"Subir nuevo archivo",
+          "filename":"Nombre de archivo",
+          "name":"Nombre",
           "description_or_details":"Descripción o detalles",
           "close_window":"Cerrar Ventana",
-          "Upload document":"Subir documento"
+          "upload_document":"Subir documento"
         },
         "notes":{
           "title":"Notas",

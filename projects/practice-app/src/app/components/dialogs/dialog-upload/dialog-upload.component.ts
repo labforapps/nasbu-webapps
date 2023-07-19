@@ -62,7 +62,9 @@ export class DialogUploadComponent implements OnInit {
     this.practiceService.createCaseFileDocument(CaseFileDocumentPayload).subscribe(data => {
       this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
       this.dialogRef.close(data);
-    });
+    }),(Error:any) => {
+      this.toastr.error('Error', 'Has alcanzado el límite de subida de archivos');
+    };
 
   }
 

@@ -38,6 +38,7 @@ import { AvatarModule } from 'ngx-avatar';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
+import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/dialog-close-expedient.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share
     DialogReSendRegisterComponent,
     UploadImageComponent,
     DialogUsersShareExpedientComponent,
+    DialogCloseExpedientComponent,
   ],
   imports: [
     CommonModule,

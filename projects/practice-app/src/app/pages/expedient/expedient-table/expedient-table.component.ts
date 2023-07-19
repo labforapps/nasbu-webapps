@@ -59,7 +59,6 @@ export class ExpedientTableComponent implements OnInit {
     }
 
     this.ngAfterViewInit();
-    console.log('H')
 
   }
 

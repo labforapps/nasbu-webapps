@@ -67,20 +67,6 @@ export class ExpedientWalletTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result:CaseFileWalletDetail) => {
 
       this.onUpdateWalletDetail.emit(result);
-
-      // if(result.uuid){
-      //   const caseFileFiltered = this.caseFileWalletDetail.filter(x => x.uuid === result.uuid);
-
-      //   if(caseFileFiltered.length > 0){
-      //     this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== result.uuid);
-      //     this.caseFileWalletDetail.push(result);
-      //     this.ngAfterViewInit();
-      //   }
-      //   else{
-      //     this.caseFileWalletDetail.push(result);
-      //     this.ngAfterViewInit();
-      //   }
-      // }
     });
 
   }

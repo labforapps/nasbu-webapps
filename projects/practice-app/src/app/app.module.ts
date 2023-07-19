@@ -63,7 +63,7 @@ registerLocaleData(localeEn, 'en');
     ToastrModule.forRoot(), // ToastrModule added
     TextMaskModule,
     PagesModule,
-    ComponentsModule
+    ComponentsModule,
   ],
   bootstrap: [AppComponent],
 })
