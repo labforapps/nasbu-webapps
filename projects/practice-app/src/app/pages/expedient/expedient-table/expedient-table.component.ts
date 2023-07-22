@@ -19,7 +19,7 @@ import { DialogUsersShareExpedientComponent } from '../../../components/dialogs/
 export class ExpedientTableComponent implements OnInit {
 
   displayedColumns: string[] = [];
-  dataSourceCaseFiles!:any;
+  dataSourceCaseFiles!:MatTableDataSource<CaseFile>;
   selection = new SelectionModel<CaseFile>(true, []);
   @Input() caseFiles!:CaseFile[];
   @Input() customers!:Customer[];
@@ -28,12 +28,14 @@ export class ExpedientTableComponent implements OnInit {
   securityUsersWithCaseFile!:UserCaseFile[] | null;
   securityUsersWithCaseFileAccess!:SecurityUser[];
   caseFilesCopy!:CaseFile[];
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   startDateFilter!:Date | null;
   endDateFilter!:Date | null;
   typeCustomer = TypeCustomer;
   filters: {customer?:string,assignTo?:string,status?:string,shared_with?:string} = {};
   caseFileStatus = CaseFileStatus;
+  focusStartDateFilter!:Boolean;
+  focusEndDateFilter!:Boolean
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -85,7 +87,22 @@ export class ExpedientTableComponent implements OnInit {
       }
     });
 
-      this.customersWithCaseFile = Object.values(uniqueCustomers);
+      this.customersWithCaseFile = Object.values(uniqueCustomers).sort((a, b) => {
+        const companyNameA = a.company_name || '';
+        const companyNameB = b.company_name || '';
+
+        const nameA = a.type === this.typeCustomer.person && companyNameA === '' ? a.first_name.toLowerCase() : companyNameA.toLowerCase();
+        const nameB = b.type === this.typeCustomer.person && companyNameB === '' ? b.first_name.toLowerCase() : companyNameB.toLowerCase();
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
     }
 
     return [];
@@ -102,7 +119,19 @@ export class ExpedientTableComponent implements OnInit {
         }
       });
 
-      this.securityUsersWithCaseFile =  Object.values(uniqueUsers).map(({user, uuid}) => ({...user, uuid}));
+      this.securityUsersWithCaseFile =  Object.values(uniqueUsers).map(({user, uuid}) => ({...user, uuid})).sort((a, b) => {
+
+        const nameA = a.first_name;
+        const nameB = b.first_name;
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });;
     }
 
     return [];
@@ -122,7 +151,19 @@ export class ExpedientTableComponent implements OnInit {
       }
     });
 
-    this.securityUsersWithCaseFileAccess = usersWithAccess;
+    this.securityUsersWithCaseFileAccess = usersWithAccess.sort((a, b) => {
+
+      const nameA = a.user.first_name;
+      const nameB = b.user.first_name;
+
+      if (nameA < nameB) {
+        return -1;
+      } else if (nameA > nameB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 
 
@@ -181,6 +222,23 @@ export class ExpedientTableComponent implements OnInit {
 
    this.ngAfterViewInit();
 
+  }
+
+  onInputFocus(type:string) {
+   if(type === 'S') this.focusStartDateFilter = true;
+   if(type === 'E') this.focusEndDateFilter = true;
+  }
+
+  onInputBlur(type:string) {
+    if(type === 'S') this.focusStartDateFilter = false;
+    if(type === 'E') this.focusEndDateFilter = false;
+  }
+
+  cleanDatesFilter(){
+    this.startDateFilter = null;
+    this.endDateFilter = null;
+    this.caseFiles = this.caseFilesCopy;
+    this.dataSourceCaseFiles.data = this.caseFiles;
   }
 
   applyFilters(){

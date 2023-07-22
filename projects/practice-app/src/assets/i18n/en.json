@@ -932,7 +932,7 @@
     "priority":"Priority",
     "priority_level":"Priority level",
     "status":"Status",
-    "responsible_for_the_task":"Responsible for the task",
+    "responsible_for_the_task":"Responsible for the docket",
     "name":"Name",
     "apply_filters":"Apply filters",
     "clean_filters":"Clean filters",
@@ -941,6 +941,7 @@
     "generate_invoice":"Generate invoice",
     "add_note":"Add note",
     "share":"Share",
+    "creation_date":"Creation date",
     "form":{
       "new_docket":"New docket",
       "docket_name":"Docket name",

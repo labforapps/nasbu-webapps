@@ -39,7 +39,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { UploadImageComponent } from './upload-image/upload-image.component';
 import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
 import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/dialog-close-expedient.component';
-
+import { DialogDocumentViewerComponent } from './dialogs/dialog-document-viewer/dialog-document-viewer.component';
+import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/
     UploadImageComponent,
     DialogUsersShareExpedientComponent,
     DialogCloseExpedientComponent,
+    DialogDocumentViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -83,7 +85,8 @@ import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/
     FormsModule,
     ReactiveFormsModule,
     AvatarModule,
-    NgxPermissionsModule
+    NgxPermissionsModule,
+    NgxDocViewerModule
   ],
   exports: [
     HeaderComponent,

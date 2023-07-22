@@ -48,6 +48,10 @@ export class SignInFirstPasswordComponent implements OnInit {
     return this.recoveryForm.controls['newPassword'].valid;
   }
 
+  get validConfirmPassword(): boolean {
+    return this.recoveryForm.controls['confirmPassword'].valid;
+  }
+
   get passwordMatch(): boolean {
     return this.matchMessage === this.passwordMatchMsg;
   }
@@ -56,7 +60,7 @@ export class SignInFirstPasswordComponent implements OnInit {
     this.recoveryForm = this.fb.group({
       currentPassword: [null,Validators.required],
       newPassword: ['', [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', [Validators.required, Validators.pattern(passwordRegex), Validators.minLength(8)]]
     });
   }
 

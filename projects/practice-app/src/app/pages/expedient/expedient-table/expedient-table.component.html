@@ -3,18 +3,32 @@
 
       <div class="col-md-5">
         <div class="d-flex u-gap-1 mt-2">
+
           <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
             <mat-label>{{ 'dockets.date_range' | translate }}</mat-label>
-            <input matInput [matDatepicker]="picker" (dateChange)="onSelectDatesFilter($event.value,'S')" [value]="startDateFilter">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <input matInput
+                   [matDatepicker]="picker"
+                   (dateChange)="onSelectDatesFilter($event.value,'S')"
+                   [value]="startDateFilter"
+                   (focus)="onInputFocus('S')"
+                   (blur)="onInputBlur('S')">
+            <mat-datepicker-toggle matSuffix [for]="picker" [ngStyle]="{'color': focusStartDateFilter ? 'green' : ''}"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+
           <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
             <mat-label>{{ 'dockets.date_range' | translate }}</mat-label>
-            <input matInput [matDatepicker]="pickers" (dateChange)="onSelectDatesFilter($event.value,'E')" [value]="endDateFilter">
-            <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-            <mat-datepicker #pickers></mat-datepicker>
+            <input matInput
+                   [matDatepicker]="pickers"
+                   (dateChange)="onSelectDatesFilter($event.value,'E')"
+                   [value]="endDateFilter"
+                   (focus)="onInputFocus('E')"
+                   (blur)="onInputBlur('E')">
+            <mat-datepicker-toggle matSuffix [for]="pickers" [ngStyle]="{'color': focusEndDateFilter ? 'green' : ''}"></mat-datepicker-toggle>
+            <mat-datepicker  #pickers></mat-datepicker>
           </mat-form-field>
+
+          <span class="mt-2" style="color: blue; cursor: pointer;" (click)="cleanDatesFilter()">Limpiar Fechas</span>
         </div>
       </div>
 
@@ -34,9 +48,9 @@
                       </div>
                   </div>
                   <div class="c-filter__body">
-                      <label class="u-title-label">Cliente</label>
+                      <label class="u-title-label">{{'dockets.client' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                          <mat-label>Cliente</mat-label>
+                          <mat-label>{{'dockets.client' | translate}}</mat-label>
                           <mat-select [(ngModel)]="filters.customer">
                               <mat-option *ngFor="let customer of customersWithCaseFile" [value]="customer.uuid">
                                   <span *ngIf="customer.type === typeCustomer.person">{{customer.first_name + ' ' + customer.last_name}}</span>
@@ -46,7 +60,7 @@
                       </mat-form-field>
                       <label class="u-title-label">{{'dockets.status' | translate}}</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
-                          <mat-label>Estado</mat-label>
+                          <mat-label>{{'dockets.status' | translate}}</mat-label>
                           <mat-select [(ngModel)]="filters.status">
                             <mat-option [value]="''">
                                 All
@@ -68,7 +82,7 @@
                               </mat-option>
                           </mat-select>
                       </mat-form-field>
-                      <label class="u-title-label">Shared with: </label>
+                      <label class="u-title-label">{{'dockets.shared_with' | translate}}: </label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
                           <mat-label>{{'dockets.name' | translate}}</mat-label>
                           <mat-select [(ngModel)]="filters.shared_with">
@@ -145,7 +159,7 @@
           </ng-container>
 
           <ng-container matColumnDef="update">
-              <th mat-header-cell *matHeaderCellDef>Creation Date </th>
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.creation_date' | translate}} </th>
               <td mat-cell *matCellDef="let element">
                   {{returnDateFormatted(element.created_at)}}
               </td>

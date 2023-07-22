@@ -83,6 +83,7 @@ import { ExpedientInvoicingTableComponent } from './expedient/expedient-info/exp
 import { ExpedientWalletExpensesComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-expenses/expedient-wallet-expenses.component';
 import { ExpedientWalletIncomesComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-incomes/expedient-wallet-incomes.component';
 import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-table/expedient-wallet-table.component';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 
 @NgModule({
@@ -168,7 +169,8 @@ import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedi
     SharedModule,
     ComponentsModule,
     AppRoutingModule,
-    TasksModule
+    TasksModule,
+    NgxDocViewerModule
   ]
 })
 export class PagesModule { }

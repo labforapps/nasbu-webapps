@@ -20,6 +20,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
+import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
 
 // importar locales
 import localeEs from '@angular/common/locales/es';
@@ -64,6 +65,7 @@ registerLocaleData(localeEn, 'en');
     TextMaskModule,
     PagesModule,
     ComponentsModule,
+    NgxDocViewerModule
   ],
   bootstrap: [AppComponent],
 })

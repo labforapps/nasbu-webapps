@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
+import { DialogDocumentViewerComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-document-viewer/dialog-document-viewer.component';
 
 @Component({
   selector: 'app-document',
@@ -31,8 +32,7 @@ export class DocumentComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
               private translateService:TranslateService,
-              private toastr: ToastrService,
-              private http: HttpClient) { }
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getCaseFileDocuments();
@@ -75,9 +75,16 @@ export class DocumentComponent implements OnInit {
     window.open(caseFileDocument.document, '_blank');
   }
 
-  downloadFile(url: string, fileName: string): void {
-    this.http.get(url, { responseType: 'blob' as 'json' }).subscribe((data:any) => {
-      saveAs(data, fileName);
+  downloadFile(caseFileDocument:CaseFileDocument): void {
+    this.practiceService.downloadCaseFileDocument(caseFileDocument).subscribe(data => {})
+  }
+
+  previewDocument(document:CaseFileDocument){
+    const dialogRef = this.dialog.open(DialogDocumentViewerComponent,{
+      data: {
+        url: document.document
+      },
+      panelClass: 'fullscreen',
     });
   }
 

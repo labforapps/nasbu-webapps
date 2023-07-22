@@ -181,6 +181,11 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileAccess>(serverUrl);
   }
 
+  downloadCaseFileDocument(caseFileDocument:CaseFileDocument){
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_documents/${caseFileDocument.uuid}/download?subscription=${caseFileDocument.subscription}`;
+    return this.httpClient.get<CaseFileAccess>(serverUrl);
+  }
+
 
 
 }

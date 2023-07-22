@@ -931,7 +931,7 @@
       "priority":"Prioridad",
       "priority_level":"Nivel de prioridad",
       "status":"Estatus",
-      "responsible_for_the_task":"Responsable de la tarea",
+      "responsible_for_the_task":"Responsable del expediente",
       "name":"Nombre",
       "apply_filters":"Aplicar filtros",
       "clean_filters":"Limpiar filtros",
@@ -940,6 +940,7 @@
       "generate_invoice":"Generar factura",
       "add_note":"Agregar nota",
       "share":"Compartir",
+      "creation_date":"Fecha de creación",
       "form":{
         "new_docket":"Nuevo expediente",
         "docket_name":"Nombre de Expediente",

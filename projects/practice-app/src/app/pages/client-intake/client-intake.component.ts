@@ -111,7 +111,7 @@ export class ClientIntakeComponent implements OnInit {
 
     this.createRepresentative = this._formBuilder.group({
       subscription: [''],
-      intake_request: [''],
+      intake_request: ['I'],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
       document_no: ['ad cupidatat nu'],
