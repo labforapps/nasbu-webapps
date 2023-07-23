@@ -941,7 +941,11 @@
     "generate_invoice":"Generate invoice",
     "add_note":"Add note",
     "share":"Share",
+    "date_from":"From",
+    "date_to":"To",
+    "clean_dates":"Clean filter",
     "creation_date":"Creation date",
+    "username_already_exists":"Username already exists",
     "form":{
       "new_docket":"New docket",
       "docket_name":"Docket name",

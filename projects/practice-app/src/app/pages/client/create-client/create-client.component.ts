@@ -449,6 +449,15 @@ export class CreateClientComponent implements OnInit {
 
   }
 
+  goBack(){
+    if(this.dataDialog){
+      this.dialogRef.close();
+    }
+    else{
+      this.router.navigate(['/customers']);
+    }
+  }
+
   changeImage(event: any) {
     const file = event.target.files[0];
 

@@ -111,13 +111,39 @@ export class DialogNewExpedientComponent implements OnInit {
 
   getCustomers() {
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.customers = data;
+      this.customers = data.sort((a, b) => {
+        const companyNameA = a.company_name || '';
+        const companyNameB = b.company_name || '';
+
+        const nameA = a.type === this.typeCustomer.person && companyNameA === '' ? a.first_name.toLowerCase() : companyNameA.toLowerCase();
+        const nameB = b.type === this.typeCustomer.person && companyNameB === '' ? b.first_name.toLowerCase() : companyNameB.toLowerCase();
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     })
   }
 
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.securityUsers = data;
+      this.securityUsers = data.sort((a, b) => {
+
+        const nameA = a.user.first_name;
+        const nameB = b.user.first_name;
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });;
     })
   }
 

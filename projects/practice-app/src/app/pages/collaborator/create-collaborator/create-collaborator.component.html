@@ -5,7 +5,7 @@
    <form [formGroup]="collaboratorForm" (ngSubmit)="submitForm()" #form="ngForm">
       <div class="l-create__body">
         <div class="l-create__btnBack">
-            <button type="button" mat-button class="u-smallSize" [routerLink]="'/users'"> <span class="icon-arrow-back mr-2"></span>{{'collaborator.profile.goBack' | translate }}</button>
+            <button type="button" mat-button class="u-smallSize" (click)="goBack()"> <span class="icon-arrow-back mr-2"></span>{{'collaborator.profile.goBack' | translate }}</button>
         </div>
         <div class="c-create">
             <div class="c-create__header">

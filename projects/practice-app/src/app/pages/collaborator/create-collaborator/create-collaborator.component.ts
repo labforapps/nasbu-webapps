@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogNewRoleComponent } from '../../../components/dialogs/dialog-new-role/dialog-new-role.component';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,8 +33,8 @@ export class CreateCollaboratorComponent implements OnInit {
               private authService:AuthService,
               private commonService:CommonService,
               private formService:FormService,
-              private router:Router,
               private toastr: ToastrService,
+              private router:Router,
               private translateService:TranslateService,
               private securityService:SecurityService,
               private activatedRoute:ActivatedRoute,
@@ -133,7 +132,21 @@ export class CreateCollaboratorComponent implements OnInit {
 
   getSecurityGroups(){
     this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.securityGroups = data;
+      this.securityGroups = data.sort((a, b) => {
+
+        const nameA = a.name;
+        const nameB = b.name;
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });;
+
+
     })
   }
 
@@ -206,6 +219,15 @@ export class CreateCollaboratorComponent implements OnInit {
     this.formService.changeValueCheckboxAddress(this.collaboratorForm,event,index);
   }
 
+  goBack(){
+    if(this.dataDialog){
+      this.dialogRef.close();
+    }
+    else{
+      this.router.navigate(['/users'])
+    }
+  }
+
   submitForm(){
 
      const securityUserPayload:SecurityUser = {
@@ -238,7 +260,10 @@ export class CreateCollaboratorComponent implements OnInit {
       }
       else{
         this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
+        this.router.navigate(['user/edit', data.uuid]);
       }
+    },(error) => {
+     if(!this.securityUserId) this.toastr.error('Error', this.translateService.instant('dockets.username_already_exists'));
     })
 
   }

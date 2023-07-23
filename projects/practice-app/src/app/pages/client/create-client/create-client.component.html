@@ -7,7 +7,7 @@
 
         <div class="l-create__body">
             <div class="l-create__btnBack">
-                <button mat-button class="u-smallSize" [routerLink]="'/customers'" type="button"> <span class="icon-arrow-back mr-2"></span>{{'clients.common.back' | translate}}</button>
+                <button mat-button class="u-smallSize" (click)="goBack()" type="button"> <span class="icon-arrow-back mr-2"></span>{{'clients.common.back' | translate}}</button>
             </div>
             <div class="c-create">
                 <div class="c-create__header">

@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription, switchMap, take } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { ChangeFirstPasswordPayload } from 'core-models';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogSuccessMessageComponent } from '../../components/dialogs/dialog-success-message/dialog-success-message.component';
 
 const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
 
@@ -24,12 +26,14 @@ export class SignInFirstPasswordComponent implements OnInit {
   public errorMessage!: string;
   public recoveryEmail!: string;
   private firstPasswordUsername!:string;
+  public pageStep = 1;
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
     private authService: AuthService,
   ) { }
 
@@ -37,7 +41,7 @@ export class SignInFirstPasswordComponent implements OnInit {
      this.buildForm();
      this.formChange();
      this.loadTranslatedWords();
-     this.validatefirstPasswordUsername();
+    // this.validatefirstPasswordUsername();
   }
 
   get isValidForm(): boolean {
@@ -96,10 +100,11 @@ export class SignInFirstPasswordComponent implements OnInit {
                   .saveFirstUserPassword(payload);
           })
         ).subscribe((response) => {
-            this.router.navigate(['/signin']);
+          this.dialog.open(DialogSuccessMessageComponent)
           }, (error) => {
             console.log('Error: ', error);
         })
+
   }
 
   loadTranslatedWords(): void {

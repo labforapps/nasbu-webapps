@@ -940,7 +940,11 @@
       "generate_invoice":"Generar factura",
       "add_note":"Agregar nota",
       "share":"Compartir",
+      "date_from":"Desde",
+      "date_to":"Hasta",
+      "clean_dates":"Limpiar fechas",
       "creation_date":"Fecha de creación",
+      "username_already_exists":"Ya existe ese usuario",
       "form":{
         "new_docket":"Nuevo expediente",
         "docket_name":"Nombre de Expediente",

@@ -5,7 +5,7 @@
         <div class="d-flex u-gap-1 mt-2">
 
           <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
-            <mat-label>{{ 'dockets.date_range' | translate }}</mat-label>
+            <mat-label>{{ 'dockets.date_from' | translate }}</mat-label>
             <input matInput
                    [matDatepicker]="picker"
                    (dateChange)="onSelectDatesFilter($event.value,'S')"
@@ -17,7 +17,7 @@
           </mat-form-field>
 
           <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
-            <mat-label>{{ 'dockets.date_range' | translate }}</mat-label>
+            <mat-label>{{ 'dockets.date_to' | translate }}</mat-label>
             <input matInput
                    [matDatepicker]="pickers"
                    (dateChange)="onSelectDatesFilter($event.value,'E')"
@@ -28,7 +28,7 @@
             <mat-datepicker  #pickers></mat-datepicker>
           </mat-form-field>
 
-          <span class="mt-2" style="color: blue; cursor: pointer;" (click)="cleanDatesFilter()">Limpiar Fechas</span>
+          <span class="mt-2" style="color: blue; cursor: pointer;" (click)="cleanDatesFilter()">{{ 'dockets.clean_dates' | translate }}</span>
         </div>
       </div>
 

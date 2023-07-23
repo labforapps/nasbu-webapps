@@ -41,6 +41,7 @@ import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share
 import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/dialog-close-expedient.component';
 import { DialogDocumentViewerComponent } from './dialogs/dialog-document-viewer/dialog-document-viewer.component';
 import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
+import { DialogSuccessMessageComponent } from './dialogs/dialog-success-message/dialog-success-message.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
     DialogUsersShareExpedientComponent,
     DialogCloseExpedientComponent,
     DialogDocumentViewerComponent,
+    DialogSuccessMessageComponent,
   ],
   imports: [
     CommonModule,
