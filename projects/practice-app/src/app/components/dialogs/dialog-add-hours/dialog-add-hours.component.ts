@@ -1,8 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskHour } from 'core-models';
-import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';    
+import { FormBuilder,FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TimeTask,Task, SecurityUser } from 'core-models';
+import { AuthService, SecurityService,PracticeService } from 'core-services';
+import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
+import { HelpersService } from '../../../services/helpers.service';
+import * as moment from 'moment'
+
 
 @Component({
   selector: 'app-dialog-add-hours',
@@ -11,15 +15,39 @@ import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-ti
 })
 export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
-  form!:FormGroup;
+  taskTimeForm!:FormGroup;
   timerConfig!: countUpTimerConfigModel;
   timerData: any;
+  task!:Task;
+  tasks!:Task[];
+  selectedSubscription!:any;
+  securityUsers!:SecurityUser[];
+  securityUserSelected!:SecurityUser;
+  taskTime!:TimeTask;
+  startTime!:Date;
+  endTime!:Date;
+
   constructor(private countUp:CountupTimerService,
-             @Inject(MAT_DIALOG_DATA) public data:TaskHour) { }
+             @Inject(MAT_DIALOG_DATA) public dataDialog:{task:Task,taskTime:TimeTask},
+             public  dialogRef: MatDialogRef<DialogAddHoursComponent>,
+             private formBuilder:FormBuilder,
+             private practiceService:PracticeService,
+             private authService:AuthService,
+             private securityService:SecurityService,
+             private helperService:HelpersService) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.task = this.dataDialog.task;
     this.configTimer();
-    this.setForm()
+    this.initForm();
+    this.getTasks();
+    this.getSecurityUsers();
+
+    if(this.dataDialog.taskTime) this.taskTime = this.dataDialog.taskTime;
+
+    this.setForm();
+
   }
 
   ngOnDestroy(): void {
@@ -28,36 +56,59 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     }
   }
 
-  setForm(){
-    this.form = new FormGroup({
-      expedientId: new FormControl(this.data?.expedientId ?? "", [Validators.required]),
-      userId: new FormControl(this.data?.userId ?? "", [Validators.required]),
-      pricePerHour: new FormControl(this.data?.pricePerHour ?? "", [Validators.required]),
-      quotedHours: new FormControl(this.data?.quotedHours ?? "", [Validators.required]),
-      isBillable: new FormControl(this.data?.isBillable ?? false, [Validators.required]),
-      description: new FormControl(this.data?.description ?? "", [Validators.required]),
-      state: new FormControl(this.data?.state ?? "", [Validators.required]),
+  initForm(){
+    this.taskTimeForm = this.formBuilder.group({
+      description:    ['',Validators.required],
+      task:           ['',Validators.required],
+      executed_by:    ['',Validators.required],
+      total_time:     [''],
+      total_amt:      ['',Validators.required],
+      not_billable:   [false,Validators.required],
     });
+  }
+
+  setForm(){
+    if(this.taskTime){
+      this.taskTimeForm.patchValue({
+        ...this.taskTime,
+        task: this.taskTime.task.uuid
+      })
+    }
+  }
+
+  getTasks(){
+    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
+      this.tasks = data;
+      if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid})
+    })
+  }
+
+  getSecurityUsers(){
+    this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityUser[]) => {
+      this.securityUsers = data;
+    })
   }
 
   configTimer(){
     this.timerData = JSON.parse(localStorage.getItem("add_hours_timer") || '{}');
     this.timerConfig = new countUpTimerConfigModel();
-    
+
     //custom class
     this.timerConfig.timerClass  = 'inline-timer';
- 
-    //timer text values  
+
+    //timer text values
     this.timerConfig.timerTexts = new timerTexts();
-    this.timerConfig.timerTexts.hourText = ':'; 
+    this.timerConfig.timerTexts.hourText = ':';
     this.timerConfig.timerTexts.minuteText = ":";
   }
 
   startTimer(){
     if(!this.countUp.isTimerStart){
+      this.startTime = new Date();
       this.countUp.startTimer();
     }
     else{
+      this.endTime = new Date();
       this.countUp.pauseTimer();
     }
 
@@ -70,7 +121,6 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   saveTimer(){
     this.countUp.getTimerValue().subscribe({
       next: (value) => {
-        console.log("val", value);
         localStorage.setItem("add_hours_timer", JSON.stringify({value, date: new Date()}));
       }
     })
@@ -82,6 +132,52 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   //Save= true, Edit = false
   get saveOrEdit(){
-    return this.data != null;
+    return this.dataDialog != null;
   }
+
+  setSecurityUserSelected(securityUser:SecurityUser){
+    this.securityUserSelected = securityUser;
+  }
+
+  submitForm(){
+
+    if(!this.taskTimeForm.valid){
+      this.helperService.showMessageRequiredFields();
+    }
+
+    const taskTimeFormValue = this.taskTimeForm.value;
+
+    const startDate = moment(new Date());
+    const endDate   = startDate.add(3,'h');
+    const totalTime = endDate.diff(startDate,'minute');
+
+    //const total_time = Math.round((this.endTime.getTime() - this.startTime.getTime()) / 1000) / 60;
+
+    const timeTaskPayload: TimeTask = {
+      subscription: this.task.subscription,
+      ...taskTimeFormValue,
+      title: taskTimeFormValue.description,
+      total_time_str: totalTime,//Enviar la hora del reloj
+      total_time: totalTime,
+      start_at: this.startTime.toISOString(),
+      total_amt: 0,
+      end_at: this.endTime.toISOString(),
+    };
+
+    if(this.taskTime) timeTaskPayload.uuid = this.taskTime.uuid;
+
+    this.practiceService.saveTaskTime(timeTaskPayload).subscribe(data => {
+
+      if(timeTaskPayload.uuid){
+        this.helperService.showMessageUpdated();
+      }
+      else{
+        this.helperService.showMessageCreated();
+      }
+      data.user = this.securityUserSelected;
+      this.dialogRef.close(data);
+    })
+
+  }
+
 }

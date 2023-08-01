@@ -1,210 +1,225 @@
 <div class="c-dialog-newTask c-dialog-header">
+
     <div class="c-dialog-header__header">
         {{ 'tasks.newTask' | translate }}
     </div>
-    <mat-dialog-content *ngIf="taskForm">
-        <form [formGroup]="taskForm">
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.type' | translate }}</label>
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-select formControlName="type">
-                            <mat-option value="1">
-                                Option 1
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('type') | validations }}
-                    </mat-error>
-                </div>
-                <div class="col-md-6">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.periodicity' | translate }}</label>
-                    <mat-form-field appearance="fill" 
-                                    class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-select formControlName="periodicity">
-                            <mat-option [value]="taskPeriodicity.Daily">
-                                Diario
-                            </mat-option>
-                            <mat-option [value]="taskPeriodicity.Weekly">
-                                Semanal
-                            </mat-option>
-                            <mat-option [value]="taskPeriodicity.Monthly">
-                                Mensualmente
-                            </mat-option>
-                            <mat-option [value]="taskPeriodicity.Yearly">
-                                Anualmente
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('periodicity') | validations }}
-                    </mat-error>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.personName' | translate }}</label>
-                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                        <input class="c-form-group__input" 
-                               matInput 
-                               placeholder="Ej: Crear contrato de servicio"
-                               formControlName="personName">
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('personName') | validations }}
-                    </mat-error>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.description' | translate }}</label>
-                    <div class="c-form-group">
-                        <textarea matInput 
-                                  class="c-form-group__textarea" 
-                                  placeholder="Ej: Este contrato es para poder vender unas máquinas de vapor etc…"
-                                  formControlName="description">
-                        </textarea>
+
+    <form [formGroup]="taskForm" (submit)="submitForm()">
+
+        <mat-dialog-content *ngIf="taskForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="u-title-label">{{ 'tasks.newTaskModal.type' | translate }}</label>
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-select formControlName="type">
+                                <mat-option *ngFor="let type of taskTypes" [value]="type.uuid">
+                                    {{type.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                         <mat-error>
-                            {{ taskForm.get('description') | validations }}
+                            {{ taskForm.get('type') | validations }}
+                        </mat-error>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="u-title-label">{{'dockets.profile.tasks.priority' | translate}}</label>
+                        <mat-form-field appearance="fill"
+                                        class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-select formControlName="priority">
+                                <mat-option [value]="priorityTask.High">
+                                  Alta
+                              </mat-option>
+                              <mat-option [value]="priorityTask.Medium">
+                                  Media
+                              </mat-option>
+                              <mat-option [value]="priorityTask.Low">
+                                  Baja
+                              </mat-option>
+                            </mat-select>
+
+                        </mat-form-field>
+                        <mat-error>
+                            {{ taskForm.get('priority') | validations }}
                         </mat-error>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.assignTo' | translate }}</label>
-                    <mat-form-field appearance="fill" 
-                                    class="c-form-group c-form-group--small">
-                        <input class="c-form-group__input" 
-                               matInput 
-                               placeholder="Ej: Crear contrato de servicio"
-                               formControlName="collaboratorId">
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('collaboratorId') | validations }}
-                    </mat-error>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
-                    <mat-form-field appearance="fill" 
-                                    class="c-form-group c-form-group__select c-form-group--small">
-                        <mat-select formControlName="expedientId">
-                            <mat-option>
-                                Option 1
-                            </mat-option>
-                            <mat-option>
-                                Option 2
-                            </mat-option>
-                            <mat-option>
-                                Option 3
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('expedientId') | validations }}
-                    </mat-error>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <label class="u-title-label d-block mt-3">{{ 'tasks.newTaskModal.whenReady' | translate }}</label>
-                    <mat-radio-group aria-label="Select an option" [disabled]="taskForm?.disabled ?? false">
-                        <mat-radio-button class="c-radioButton mr-3" [value]="false" checked (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.noDate' | translate }}</mat-radio-button>
-                        <mat-radio-button class="c-radioButton" [value]="true" (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.haveDate' | translate }}</mat-radio-button>
-                    </mat-radio-group>
-                </div>
-            </div>
-            <div class="row mt-4" *ngIf="showDate">
-                <div class="col-md-6">
-                    <mat-form-field class="c-form-group c-form-group__datepicker">
-                        <mat-label>{{ 'tasks.newTaskModal.startDate' | translate }}</mat-label>
-                        <input matInput 
-                               type="datetime-local" 
-                               placeholder="start date"
-                               formControlName="startDate">
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('startDate') | validations }}
-                    </mat-error>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field class="c-form-group c-form-group__datepicker">
-                        <mat-label>{{ 'tasks.newTaskModal.endDate' | translate }}</mat-label>
-                        <input matInput 
-                               type="datetime-local" 
-                               placeholder="end date"
-                               formControlName="endDate">
-                    </mat-form-field>
-                    <mat-error>
-                        {{ taskForm.get('endDate') | validations }}
-                    </mat-error>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <hr class="u-divider">
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12 p-0">
-                            <label class="u-title-label">{{ 'tasks.newTaskModal.pricePerHour' | translate }}</label>
-                            <mat-form-field appearance="fill" class="c-form-group ">
-                                <input class="c-form-group__input" 
-                                       matInput 
-                                       placeholder="Ej: Crear contrato de servicio"
-                                       formControlName="pricePerHour">
-                            </mat-form-field>
-                            <mat-error>
-                                {{ taskForm.get('pricePerHour') | validations }}
-                            </mat-error>
-                        </div>
-                        <div class="col-md-12 p-0">
-                            <label class="u-title-label">{{ 'tasks.newTaskModal.hours' | translate }}</label>
-                            <mat-form-field appearance="fill" class="c-form-group ">
-                                <input class="c-form-group__input" 
-                                       matInput 
-                                       placeholder="Ej: Crear contrato de servicio"
-                                       formControlName="quotedHours">
-                            </mat-form-field>
-                            <mat-error>
-                                {{ taskForm.get('quotedHours') | validations }}
-                            </mat-error>
-                        </div>
-                    </div>
-    
-                </div>
-                <div class="col-md-6">
-                    <div class="d-flex flex-column">
-                        <mat-checkbox class="c-checkbox mb-2">
-                            Añadir Honorarios por hora
-                        </mat-checkbox>
-                        <mat-checkbox class="c-checkbox mb-2">
-                            Precio único
-                        </mat-checkbox>
-                        <mat-checkbox class="c-checkbox mb-2">
-                            Por Incremento de tiempo
-                        </mat-checkbox>
-                        <mat-checkbox class="c-checkbox mb-2">
-                            Monto fijo ( Flat fee)
-                        </mat-checkbox>
-                        <mat-checkbox class="c-checkbox mb-2">
-                            No facturable
-                        </mat-checkbox>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </mat-dialog-content>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="u-title-label">{{ 'tasks.newTaskModal.personName' | translate }}</label>
 
-    <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">
-            {{ 'tasks.newTaskModal.close' | translate }}
-        </button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">
-            {{ 'tasks.newTaskModal.save' | translate }}
-        </button>
-    </mat-dialog-actions>
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-select formControlName="customer" [disabled]="this.dataDialog && this.dataDialog.customer !== undefined">
+                                <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                                    {{customer | customerFullName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-error>
+                            {{ taskForm.get('customer') | validations }}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="u-title-label">{{ 'tasks.newTaskModal.description' | translate }}</label>
+                        <div class="c-form-group">
+                            <textarea matInput
+                                      class="c-form-group__textarea"
+                                      placeholder="Ej: Este contrato es para poder vender unas máquinas de vapor etc…"
+                                      formControlName="description">
+                            </textarea>
+                        </div>
+                        <mat-error>
+                          {{ taskForm.get('description') | validations }}
+                      </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="u-title-label">{{ 'tasks.newTaskModal.assignTo' | translate }}</label>
+
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-select formControlName="assigned_to" [disabled]="this.dataDialog && this.dataDialog.securityUser !== undefined">
+                             <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
+                                {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}
+                             </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+
+                        <mat-error>
+                            {{ taskForm.get('assigned_to') | validations }}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
+                        <mat-form-field appearance="fill"
+                                        class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event.value)" [disabled]="this.dataDialog && this.dataDialog.caseFile !== undefined">
+                                <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
+                                    {{caseFile.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error>
+                            {{ taskForm.get('case_file') | validations }}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="u-title-label d-block mt-3">{{ 'tasks.newTaskModal.whenReady' | translate }}</label>
+                        <mat-radio-group aria-label="Select an option" formControlName="has_due_date">
+                            <mat-radio-button class="c-radioButton mr-3" [value]="false" (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.noDate' | translate }}</mat-radio-button>
+                            <mat-radio-button class="c-radioButton" [value]="true" (change)="dateRadioChange($event)">{{ 'tasks.newTaskModal.haveDate' | translate }}</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row mt-4" *ngIf="showDate">
+                    <div class="col-md-6">
+                        <mat-form-field class="c-form-group c-form-group__datepicker">
+                            <mat-label>{{ 'tasks.newTaskModal.startDate' | translate }}</mat-label>
+                            <input matInput
+                                  type="date"
+                                  placeholder="start date"
+                                  formControlName="start_date">
+                        </mat-form-field>
+                        <mat-error>
+                            {{ taskForm.get('startDate') | validations }}
+                        </mat-error>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="c-form-group c-form-group__datepicker">
+                            <mat-label>{{ 'tasks.newTaskModal.endDate' | translate }}</mat-label>
+                            <input matInput
+                                  type="date"
+                                  placeholder="end date"
+                                  formControlName="end_date">
+                        </mat-form-field>
+                        <mat-error>
+                            {{ taskForm.get('endDate') | validations }}
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr class="u-divider">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+
+                          <div class="col-md-12 p-0">
+                                <label class="u-title-label">{{ 'tasks.newTaskModal.pricePerHour' | translate }}</label>
+                                <mat-form-field appearance="fill" class="c-form-group ">
+                                    <input class="c-form-group__input"
+                                          matInput
+                                          placeholder="Ej: Crear contrato de servicio"
+                                          formControlName="bt_price_per_hour"
+                                          [readonly]="!taskForm.value.hourly_rate">
+                                </mat-form-field>
+                                <mat-error>
+                                    {{ taskForm.get('pricePerHour') | validations }}
+                                </mat-error>
+                            </div>
+
+                            <div class="col-md-12 p-0" *ngIf="taskForm.value.increment_of_time">
+                              <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}}</label>
+                              <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                                  <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput placeholder="Minuto" formControlName="bt_increment_factor">
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-12 p-0" *ngIf="taskForm.value.increment_of_time">
+                              <label class="u-title-label">{{'invoice_parameter.price_per_increment' | translate}}</label>
+                              <mat-form-field appearance="fill" class="c-form-group  col-md-9">
+                                  <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput placeholder="Ej:25 USD" formControlName="price_per_increment">
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-md-12 p-0" *ngIf="taskForm.value.flat_fee">
+                              <label class="u-title-label">Flat Fee (Monto Fijo)</label>
+                                <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                                    <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Minuto"  formControlName="flat_fee_amt">
+                                </mat-form-field>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex flex-column">
+                            <mat-checkbox class="c-checkbox mb-2" formControlName="hourly_rate" (change)="onCheckBillingTypes(billingType.PER_HOUR,$event)">
+                                Añadir Honorarios por hora
+                            </mat-checkbox>
+                            <mat-checkbox class="c-checkbox mb-2" formControlName="increment_of_time" (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)">
+                                Por Incremento de tiempo
+                            </mat-checkbox>
+                            <mat-checkbox class="c-checkbox mb-2" formControlName="flat_fee" (change)="onCheckBillingTypes(billingType.FLAT_FEE,$event)">
+                                Monto fijo ( Flat fee)
+                            </mat-checkbox>
+                            <mat-checkbox class="c-checkbox mb-2" formControlName="not_billable" (change)="onCheckBillingTypes(null,$event)">
+                                No facturable
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+        </mat-dialog-content>
+
+        <mat-dialog-actions class="c-dialog-header__footer">
+            <button mat-button mat-dialog-close class="u-link text-center">
+                {{ 'tasks.newTaskModal.close' | translate }}
+            </button>
+            <button mat-button class="c-btn c-btn--primary c-btn--small">
+                {{ 'tasks.newTaskModal.save' | translate }}
+            </button>
+        </mat-dialog-actions>
+
+    </form>
+
 </div>

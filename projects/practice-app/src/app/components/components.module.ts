@@ -40,9 +40,11 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 import { DialogUsersShareExpedientComponent } from './dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
 import { DialogCloseExpedientComponent } from './dialogs/dialog-close-expedient/dialog-close-expedient.component';
 import { DialogDocumentViewerComponent } from './dialogs/dialog-document-viewer/dialog-document-viewer.component';
-import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { DialogSuccessMessageComponent } from './dialogs/dialog-success-message/dialog-success-message.component';
-
+import { DialogImageViewerComponent } from './dialogs/dialog-image-viewer/dialog-image-viewer.component';
+import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
+import { DialogCloseTaskComponent } from './dialogs/dialog-close-task/dialog-close-task.component';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -77,6 +79,8 @@ import { DialogSuccessMessageComponent } from './dialogs/dialog-success-message/
     DialogCloseExpedientComponent,
     DialogDocumentViewerComponent,
     DialogSuccessMessageComponent,
+    DialogImageViewerComponent,
+    DialogCloseTaskComponent,
   ],
   imports: [
     CommonModule,
@@ -88,7 +92,8 @@ import { DialogSuccessMessageComponent } from './dialogs/dialog-success-message/
     ReactiveFormsModule,
     AvatarModule,
     NgxPermissionsModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    AngularImageViewerModule
   ],
   exports: [
     HeaderComponent,

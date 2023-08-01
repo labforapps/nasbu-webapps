@@ -28,21 +28,21 @@
                     {{'clients.details.general_data' | translate}}
                     <span class="icon-id-card"></span>
                 </ng-template>
-                <app-general-info [customer]="customer"></app-general-info>
+                <app-general-info *ngIf="customer" [customer]="customer"></app-general-info>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
                     {{'clients.details.files' | translate}}
                     <span class="icon-expedient"></span>
                 </ng-template>
-                <app-client-expedient></app-client-expedient>
+                <app-client-expedient *ngIf="customer" [customer]="customer"></app-client-expedient>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
                     {{'clients.details.pending_issues' | translate}}
                     <span class="icon-task"></span>
                 </ng-template>
-                <app-client-pending></app-client-pending>
+                <app-client-pending *ngIf="customer" [customer]="customer"></app-client-pending>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>

@@ -41,7 +41,7 @@ export class SignInFirstPasswordComponent implements OnInit {
      this.buildForm();
      this.formChange();
      this.loadTranslatedWords();
-    // this.validatefirstPasswordUsername();
+     this.validatefirstPasswordUsername();
   }
 
   get isValidForm(): boolean {

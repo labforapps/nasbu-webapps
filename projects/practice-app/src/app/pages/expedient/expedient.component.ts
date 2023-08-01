@@ -35,11 +35,7 @@ export class ExpedientComponent implements OnInit {
 
   getCaseFiles(){
     this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.caseFiles = data.sort((a, b) => {
-        let dateA = new Date(a.created_at || '').getTime();
-        let dateB = new Date(b.created_at || '').getTime();
-        return dateB - dateA;
-    });;
+      this.caseFiles = data;
 
     this.openCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.OPEN);
     this.closedCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.CLOSED);;

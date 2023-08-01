@@ -1,105 +1,101 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Tasks } from 'core-models';
-import { TaskState } from 'projects/core-models/src/public-api';
+import {TaskType,Task, TaskTypeEnum, TaskTypeiIconClassMap, TaskStatus } from 'core-models';
 import { DialogNewReasonComponent } from '../../components/dialogs/dialog-new-reason/dialog-new-reason.component';
 import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
-
+import { AuthService, CommonService, PracticeService } from 'core-services';
 @Component({
   selector: 'app-taskpage',
   templateUrl: './taskpage.component.html',
   styleUrls: ['./taskpage.component.scss']
 })
 export class TaskpageComponent implements OnInit {
+
   currentTab: number = 0;
-  tabs = [
-    { title: 'tasks.tabs.all', badge: 0, active: true, value: 0 },
-    { title: 'tasks.tabs.completed', badge: 0, active: true, value: TaskState.Completed },
-    { title: 'tasks.tabs.pending', badge: 0, active: true, value: TaskState.Pending },
-    { title: 'tasks.tabs.overdue', badge: 0, active: true, value: TaskState.Overdue },
-  ];
+  allTasks !:Task[];
+  pendingTasks!:Task[];
+  completedTasks!:Task[];
+  overdueTasks!:Task[];
+  selectedSubscription!:any;
+  public tasksTypes!:TaskType[];
+  taskTypeEnum = TaskTypeEnum;
+  taskStatus = TaskStatus
 
-  tasks:Tasks[] = [
-    {
-      uuid: "1", 
-      expedientId: "1",
-      collaboratorId: "1",
-      clientId: "1",
-      description: "Llamar a cliente",
-      hours: 2,
-      type: 1,
-      state: 1,
-      periodicity: 0,
-      completed: false,
-      personName: "Juan Perez",
-      startDate: new Date(),
-      endDate: new Date(),
-      pricePerHour: 100,
-      quotedHours: 10,
-      clientName: "Juan Perez",
-      collaboratorName: "Juan Perez",
-      expedientName: "Caso 001",
-    },
-    {
-      uuid: "2", 
-      expedientId: "2",
-      collaboratorId: "2",
-      clientId: "1",
-      description: "Llamar a cliente",
-      hours: 2,
-      type: 1,
-      state: 3,
-      periodicity: 0,
-      completed: false,
-      personName: "Juan Perez",
-      startDate: new Date(),
-      endDate: new Date(),
-      pricePerHour: 100,
-      quotedHours: 10,
-      clientName: "Maria rodriguez",
-      collaboratorName: "Carlos Perez",
-      expedientName: "Caso 001",
-    }
-  ];
-
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+             private practiceService:PracticeService,
+             private authService: AuthService,
+             private commonService:CommonService) { }
 
   ngOnInit(): void {
-    this.populateTabs();
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getTasks();
+    this.getTasksType();
   }
 
-  openDialogNewTask(){
-    this.dialog.open(DialogNewTaskComponent);
+  getTasks() {
+    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
+      this.allTasks = data;
+      this.pendingTasks = this.allTasks.filter(x => x.status === this.taskStatus.OPEN && (!x.end_date || new Date(x.end_date) >= new Date()));
+      this.completedTasks = this.allTasks.filter(x => x.status === this.taskStatus.CLOSED && (!x.end_date || new Date(x.end_date) >= new Date()));
+      this.overdueTasks = this.allTasks.filter(x => x.end_date && new Date(x.end_date) < new Date()).sort((a, b) => {
+          let dateA = new Date(a.end_date || '').getTime();
+          let dateB = new Date(b.end_date || '').getTime();
+          return dateB - dateA;
+      });
+    })
+  }
+
+  getTasksType(){
+    this.commonService.getTaskTypes().subscribe(data => {
+      this.tasksTypes = data;
+    })
+  }
+
+  openDialog(taskType:TaskType){
+
+    if(taskType.type === this.taskTypeEnum.OTHER && taskType.name === 'Otros'){
+      this.openDialogNewReason();
+    }
+    else{
+      this.openDialogNewTask(taskType);
+    }
+
+  }
+
+  openDialogNewTask(taskType:TaskType){
+    const dialogRef = this.dialog.open(DialogNewTaskComponent,{
+      data: {
+        taskType: taskType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Task) => {
+
+      if(result.uuid) {
+        this.getTasks();
+      }
+    });
+
   }
 
   openDialogNewReason(){
-    this.dialog.open(DialogNewReasonComponent);
+    const dialogRef = this.dialog.open(DialogNewReasonComponent);
+
+    dialogRef.afterClosed().subscribe((data:TaskType) => {
+      if(data.uuid){
+        this.tasksTypes.push(data);
+      }
+    })
+  }
+
+  returnTaskTypeIcon(taskType:TaskType){
+    return TaskTypeiIconClassMap.get(taskType.type) || '';
   }
 
   onTabChange(event: number) {
     this.currentTab = event;
   }
 
-  populateTabs() {
-    this.tabs.forEach((tab) => {
-      if (tab.value == 0) {
-        tab.badge = this.tasks.length;
-        return;
-      }
 
-      tab.badge = this.tasks.filter((task) => {
-        return task.state == tab.value;
-      }).length;
-    });
-  }
 
-  get _tasks(): Tasks[] {
-    let tab = this.tabs[this.currentTab];
-
-    return this.currentTab == 0 
-    ? this.tasks
-    : this.tasks.filter((task) => {
-      return task.state == tab?.value;
-    })
-  }
 }

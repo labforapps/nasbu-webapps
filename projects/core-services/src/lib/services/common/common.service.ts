@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Country,Occupation } from 'core-models';
+import { Country,Occupation, TaskType } from 'core-models';
 import { Observable, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -32,4 +32,15 @@ export class CommonService {
     const serverUrl: string = `${this.config.serverUrl}/common/occupations/`;
     return this.httpClient.get<Occupation[]>(serverUrl);
   }
+
+  getTaskTypes():Observable<TaskType[]>{
+    const serverUrl: string = `${this.config.serverUrl}/common/task_types/`;
+    return this.httpClient.get<TaskType[]>(serverUrl);
+  }
+
+  createTaskType(payload:TaskType):Observable<TaskType>{
+    const serverUrl: string = `${this.config.serverUrl}/common/task_types/`;
+    return this.httpClient.post<TaskType>(serverUrl,payload);
+  }
+
 }

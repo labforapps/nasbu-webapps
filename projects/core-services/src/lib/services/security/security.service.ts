@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Group,SecurityUser } from 'core-models';
-import { Observable, of, switchMap } from 'rxjs';
+import { CaseFile, Group,SecurityUser,Task,TaskType } from 'core-models';
+import { Observable, map, of, switchMap } from 'rxjs';
+import { CommonService } from '../common';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,9 @@ import { Observable, of, switchMap } from 'rxjs';
 export class SecurityService {
 
   constructor(@Inject('config') private config: any,
-              private httpClient: HttpClient) { }
+              private httpClient: HttpClient,
+              private commonService:CommonService,
+              ) { }
 
   getSecurityGroups(subscription:string):Observable<Group[]>{
     const serverUrl = `${this.config.serverUrl}/security/groups/?subscription=${subscription}`;
@@ -38,7 +41,23 @@ export class SecurityService {
 
   getSecurityUsers(subscription:string):Observable<SecurityUser[]>{
     const serverUrl = `${this.config.serverUrl}/security/users/?subscription=${subscription}`;
-    return this.httpClient.get<SecurityUser[]>(serverUrl)
+    return this.httpClient.get<SecurityUser[]>(serverUrl).pipe(
+      map( (securityUsers:SecurityUser[]) => {
+        return securityUsers.sort((a, b) => {
+
+          const nameA = a.user.first_name.toLowerCase();
+          const nameB = b.user.first_name.toLowerCase();
+
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      })
+    )
   }
 
   getSecurityUserById(subscription:string,uuid:string):Observable<SecurityUser>{
@@ -88,5 +107,24 @@ export class SecurityService {
     console.log('Form Data',formData);
     return this.httpClient.put<any>(serverUrl, formData);
   }
+
+  getCaseFilesBySecurityUsers(subscription:string,uuid:string):Observable<CaseFile[]>{
+    const serverUrl: string = `${this.config.serverUrl}/security/users/${uuid}/case_files?subscription=${subscription}`;
+    return this.httpClient.get<CaseFile[]>(serverUrl);
+  }
+
+  getTasksBySecurityUsers(subscription:string,uuid:string):Observable<Task[]>{
+    const serverUrl: string = `${this.config.serverUrl}/security/users/${uuid}/tasks?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl).pipe(
+      switchMap((tasks: Task[]) => {
+              return of(tasks.sort((a, b) => {
+                let dateA = new Date(a.created_at || '').getTime();
+                let dateB = new Date(b.created_at || '').getTime();
+                return dateB - dateA;
+            }));
+      })
+    );
+  }
+
 
 }

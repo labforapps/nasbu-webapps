@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload,
-         CaseFileAccess, CaseFileWalletDetailType, Customer } from 'core-models';
+         CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,TaskType, SecurityUser } from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
+import { CommonService } from '../common';
+import { SecurityService } from '../security/security.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +17,21 @@ export class PracticeService {
 
   constructor(@Inject('config') private config: any,
   private httpClient: HttpClient,
-  private customerService:CustomersService) { }
+  private customerService:CustomersService,
+  private commonService:CommonService,
+  private securityService:SecurityService) { }
 
   getCaseFiles(subscription:string):Observable<CaseFile[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/?subscription=${subscription}`;
-    return this.httpClient.get<CaseFile[]>(serverUrl);
+    return this.httpClient.get<CaseFile[]>(serverUrl).pipe(
+      map((caseFiles:CaseFile[]) => {
+        return caseFiles.sort((a, b) => {
+            let dateA = new Date(a.created_at || '').getTime();
+            let dateB = new Date(b.created_at || '').getTime();
+            return dateB - dateA;
+        });
+      })
+    );
   }
 
   getCaseFileById(subscription:string,uuid:string):Observable<CaseFile>{
@@ -181,11 +193,126 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileAccess>(serverUrl);
   }
 
-  downloadCaseFileDocument(caseFileDocument:CaseFileDocument){
+  downloadCaseFileDocument(caseFileDocument:CaseFileDocument):Observable<any>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files_documents/${caseFileDocument.uuid}/download?subscription=${caseFileDocument.subscription}`;
-    return this.httpClient.get<CaseFileAccess>(serverUrl);
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
   }
 
+
+  getTasks(subscription:string):Observable<Task[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl).pipe(
+      switchMap((tasks: Task[]) => {
+            return of(tasks.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+  getTaskById(subscription:string,uuid:string):Observable<Task[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${uuid}?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl);
+  }
+
+  createTask(task:TaskPayload):Observable<Task>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/?subscription=${task.subscription}`;
+    return this.httpClient.post<Task>(serverUrl,task);
+  }
+
+  updateTask(task:TaskPayload){
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${task.uuid}/?subscription=${task.subscription}`;
+    return this.httpClient.put<Task>(serverUrl,task);
+  }
+
+  saveTask(task: TaskPayload): Observable<Task> {
+    let saveOperation$: Observable<Task>;
+    const payload: TaskPayload = { ...task };
+    if (task.uuid != null && task.uuid !== '') {
+      saveOperation$ = this.updateTask(payload);
+    } else {
+      saveOperation$ = this.createTask( payload);
+    }
+    return saveOperation$;
+  }
+
+  deleteTask(subscription:string,uuid:string):Observable<Task>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<Task>(serverUrl);
+  }
+
+  getTasksTime(subscription:string):Observable<TimeTask[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/?subscription=${subscription}`;
+    return this.httpClient.get<TimeTask[]>(serverUrl).pipe(
+      switchMap((taskTime: TimeTask[]) => {
+        return this.securityService.getSecurityUsers(subscription).pipe(
+          switchMap((securityUsers: SecurityUser[]) => {
+            taskTime.forEach((taskTime: TimeTask) => {
+              const securityUser = securityUsers.find((type: SecurityUser) => type.uuid === taskTime.executed_by);
+              taskTime.user = securityUser;
+            });
+
+            return of(taskTime.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+          })
+        );
+      })
+    );
+  }
+
+  getTasksTimeByTask(task:Task):Observable<TimeTask[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${task.uuid}/time_details?subscription=${task.subscription}`;
+    return this.httpClient.get<TimeTask[]>(serverUrl);
+  }
+
+  getTaskTimeById(subscription:string,uuid:string):Observable<TimeTask[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/${uuid}?subscription=${subscription}`;
+    return this.httpClient.get<TimeTask[]>(serverUrl);
+  }
+
+  createTaskTime(task:TimeTask):Observable<TimeTask>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/?subscription=${task.subscription}`;
+    return this.httpClient.post<TimeTask>(serverUrl,task);
+  }
+
+  updateTaskTime(task:TimeTask){
+    const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/${task.uuid}/?subscription=${task.subscription}`;
+    return this.httpClient.put<TimeTask>(serverUrl,task);
+  }
+
+  saveTaskTime(task: TimeTask): Observable<TimeTask> {
+    let saveOperation$: Observable<TimeTask>;
+    const payload: TimeTask = { ...task };
+    if (task.uuid != null && task.uuid !== '') {
+      saveOperation$ = this.updateTaskTime(payload);
+    } else {
+      saveOperation$ = this.createTaskTime( payload);
+    }
+    return saveOperation$;
+  }
+
+  deleteTaskTime(subscription:string,uuid:string):Observable<TimeTask>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<TimeTask>(serverUrl);
+  }
+
+  getTasksByCaseFile(subscription:string,uuid:string):Observable<Task[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/tasks?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl).pipe(
+      switchMap((tasks: Task[]) => {
+            return of(tasks.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
 
 
 }

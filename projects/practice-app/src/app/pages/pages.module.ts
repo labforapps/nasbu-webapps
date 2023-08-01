@@ -84,6 +84,7 @@ import { ExpedientWalletExpensesComponent } from './expedient/expedient-info/exp
 import { ExpedientWalletIncomesComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-incomes/expedient-wallet-incomes.component';
 import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-table/expedient-wallet-table.component';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
 
 
 @NgModule({
@@ -170,7 +171,9 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     ComponentsModule,
     AppRoutingModule,
     TasksModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    AngularImageViewerModule
+
   ]
 })
 export class PagesModule { }

@@ -14,7 +14,7 @@ export class ValidationsPipe implements PipeTransform {
             this.validations = res;
         })
     }
-    
+
     transform(value: AbstractControl | null, ...args: any[]): string {
         if(!value || !value.touched || value.valid || !value.errors) return "";
 
@@ -43,7 +43,7 @@ export class ValidationsPipe implements PipeTransform {
             case "max":
                 return error['max'];
 
-            default: 
+            default:
                 return null;
         }
     }

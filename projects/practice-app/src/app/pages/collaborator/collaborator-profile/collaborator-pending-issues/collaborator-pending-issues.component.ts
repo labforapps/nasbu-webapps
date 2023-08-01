@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SecurityUser,Task, modules } from 'core-models';
+import { SecurityService } from 'core-services';
 
 @Component({
   selector: 'app-collaborator-pending-issues',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollaboratorPendingIssuesComponent implements OnInit {
 
-  constructor() { }
+  @Input() securityUser!:SecurityUser;
+  tasks!:Task[];
+  module = modules;
+
+  constructor(private securityService:SecurityService) { }
 
   ngOnInit(): void {
+    this.getTasksBySecurityUsers();
+  }
+
+  getTasksBySecurityUsers() {
+    this.securityService.getTasksBySecurityUsers(this.securityUser.subscription || '',this.securityUser.uuid || '').subscribe((data:Task[]) => {
+      this.tasks = data;
+    })
   }
 
 }

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { CommonService } from 'core-services';
+import { HelpersService } from '../../../services/helpers.service';
+import { TaskTypeEnum,TaskType } from 'core-models';
 
 @Component({
   selector: 'app-dialog-new-reason',
@@ -7,9 +11,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogNewReasonComponent implements OnInit {
 
-  constructor() { }
+  reason!:string;
+  typeTask = TaskTypeEnum;
+
+  constructor(public dialogRef: MatDialogRef<DialogNewReasonComponent>,
+             private commonService:CommonService,
+             private helperService:HelpersService ) { }
 
   ngOnInit(): void {
+  }
+
+  submitForm(){
+
+    if(!this.reason){
+      this.helperService.showMessageRequiredFields();
+      return;
+    }
+
+    const taskTypePayload:TaskType = {
+      name: this.reason,
+      type: this.typeTask.OTHER
+    }
+
+    this.commonService.createTaskType(taskTypePayload).subscribe((data:TaskType) => {
+      this.helperService.showMessageCreated();
+      this.dialogRef.close(data);
+    })
+
   }
 
 }

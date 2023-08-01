@@ -34,7 +34,7 @@ export class DialogNewExpedientComponent implements OnInit {
               private toastr: ToastrService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<DialogNewExpedientComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any
+              @Inject(MAT_DIALOG_DATA) public dataDialog: {caseFile:CaseFile,customer:Customer,securityUser:SecurityUser}
             ) { }
 
   ngOnInit(): void {
@@ -79,8 +79,8 @@ export class DialogNewExpedientComponent implements OnInit {
   }
 
   setCaseFile(){
-    if(this.data){
-      this.caseFile = this.data.caseFile;
+    if(this.dataDialog){
+      this.caseFile = this.dataDialog.caseFile;
 
       this.caseFileForm.patchValue({
         name: this.caseFile.name,
@@ -111,39 +111,15 @@ export class DialogNewExpedientComponent implements OnInit {
 
   getCustomers() {
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.customers = data.sort((a, b) => {
-        const companyNameA = a.company_name || '';
-        const companyNameB = b.company_name || '';
-
-        const nameA = a.type === this.typeCustomer.person && companyNameA === '' ? a.first_name.toLowerCase() : companyNameA.toLowerCase();
-        const nameB = b.type === this.typeCustomer.person && companyNameB === '' ? b.first_name.toLowerCase() : companyNameB.toLowerCase();
-
-        if (nameA < nameB) {
-          return -1;
-        } else if (nameA > nameB) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      this.customers = data;
+      if(this.dataDialog && this.dataDialog.customer) this.caseFileForm.patchValue({customer: this.dataDialog.customer.uuid})
     })
   }
 
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.securityUsers = data.sort((a, b) => {
-
-        const nameA = a.user.first_name;
-        const nameB = b.user.first_name;
-
-        if (nameA < nameB) {
-          return -1;
-        } else if (nameA > nameB) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });;
+      this.securityUsers = data;
+      if(this.dataDialog && this.dataDialog.securityUser) this.caseFileForm.patchValue({assigned_to: this.dataDialog.securityUser.uuid})
     })
   }
 

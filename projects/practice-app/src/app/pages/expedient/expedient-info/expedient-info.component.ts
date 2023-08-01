@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CaseFile, CaseFileStatus, TypeCustomer } from 'core-models';
+import { CaseFile, CaseFileStatus, TypeCustomer, modules } from 'core-models';
 import { AuthService, PracticeService } from 'core-services';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
@@ -25,9 +25,7 @@ export class ExpedientInfoComponent implements OnInit {
   constructor(private practiceService:PracticeService,
               private authService: AuthService,
               private activatedRoute:ActivatedRoute,
-              private translateService:TranslateService,
               private router:Router,
-              private toastr: ToastrService,
               public dialog: MatDialog,
               ) { }
 

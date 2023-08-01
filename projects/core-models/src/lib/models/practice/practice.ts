@@ -1,3 +1,6 @@
+import { TaskType } from "../common";
+import { SecurityUser } from "../security/index";
+
 export interface CaseFile {
   uuid?:                  string;
   customer:               CustomerCaseFile;
@@ -139,5 +142,96 @@ export enum CaseFileStatus {
   CLOSED = 'C'
 }
 
+export interface TaskPayload {
+  uuid?:               string;
+  subscription:        string;
+  type:                string;
+  priority:            string;
+  customer:            string;
+  case_file:           string;
+  name:                string;
+  description:         string;
+  assigned_to:         string;
+  has_due_date:        boolean;
+  start_date:          Date;
+  end_date:            Date;
+  billing_type:        string;
+  bt_price_per_hour:   string;
+  bt_increment_factor: number;
+  bt_amt:              number;
+}
+
+
+export interface Task {
+  uuid?:               string;
+  customer:            CustomerTask;
+  assigned_to:         AssignedTo;
+  case_file:           CaseFile;
+  active:              boolean;
+  created_at:          Date;
+  updated_at:          Date;
+  billing_type:        string;
+  bt_price_per_hour:   string;
+  bt_increment_factor: number;
+  bt_amt:              string;
+  bt_billable:         boolean;
+  priority:            string;
+  code:                string;
+  status:              string;
+  name:                string;
+  description:         string;
+  has_due_date:        boolean;
+  total_hours:          number;
+  start_date:          null;
+  end_date:            null;
+  created_by:          string;
+  updated_by:          null;
+  subscription:        string;
+  type:                TaskType;
+  typeName?:            string;
+}
+
+
+export interface CustomerTask {
+  uuid?:         string;
+  subscription: string;
+  type:         string;
+  company_name: null;
+  first_name:   string;
+  last_name:    string;
+  image?:        null;
+}
+
+
+export interface TimeTask {
+  uuid?:          string;
+  subscription:   string;
+  task:           Task;
+  title:          string;
+  description:    string;
+  executed_by:    string;
+  user?:          SecurityUser;
+  total_time_str: string;
+  total_time:     number;
+  total_amt:      number;
+  start_at:       Date;
+  end_at:         Date;
+  not_billable:   boolean;
+  created_at:     string;
+}
+
+
+export enum TaskStatus {
+  ALL  = 'all',
+  OPEN = 'open',
+  CLOSED = 'closed',
+  OVERDUE = 'overdue'
+}
+
+export enum PriorityTask {
+  High   = 'hight',
+  Medium = 'medium',
+  Low    = 'low'
+}
 
 

@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TaskHour } from 'core-models';
 import { DialogAddHoursComponent } from '../dialog-add-hours/dialog-add-hours.component';
+import { PracticeService } from 'core-services';
+import { Task, TimeTask } from 'core-models';
+import { HelpersService } from '../../../services/helpers.service';
 
 @Component({
   selector: 'app-dialog-charged-hours',
@@ -9,29 +11,78 @@ import { DialogAddHoursComponent } from '../dialog-add-hours/dialog-add-hours.co
   styleUrls: ['./dialog-charged-hours.component.scss']
 })
 export class DialogChargedHoursComponent implements OnInit {
-  hours:TaskHour[] = [
-    { uuid: '1', expedientId: '1', userId: '1', pricePerHour: 10, quotedHours: 1, isBillable: true, description: 'llamar a la esposa', createdAt: new Date(), state: 1 },
-    { uuid: '2', expedientId: '2', userId: '1', pricePerHour: 15, quotedHours: 1, isBillable: true, description: 'llamar a la esposa', createdAt: new Date(), state: 1 },
-  ];
+
+  task!:Task;
+  tasksTime!:TimeTask[];
+
+  constructor(public dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data:Task,
+              private practiceService:PracticeService,
+              private helperService:HelpersService) {
+  }
 
   ngOnInit(): void {
+    this.task = this.data;
+    this.getTaskTimeDetails();
+    //this.getTaskTimeByTask();
   }
 
-  openDialogAddHours(task?:TaskHour){
-    this.dialog.open(DialogAddHoursComponent, {
-      data: task
+  getTaskTimeDetails(){
+    this.practiceService.getTasksTime(this.task.subscription).subscribe((data:TimeTask[]) => {
+      this.tasksTime = data.filter(x => x.task.uuid === this.task.uuid);
+    })
+  }
+
+  getTaskTimeByTask(){
+    this.practiceService.getTasksTimeByTask(this.task).subscribe((data:TimeTask[]) => {
+      console.log(data);
+    })
+  }
+
+  openDialogAddHours(taskTime?:TimeTask){
+
+    const dialogRef = this.dialog.open(DialogAddHoursComponent, {
+      data: {
+        task: this.task,
+        taskTime: taskTime
+      }
     });
+
+    dialogRef.afterClosed().subscribe((result:TimeTask) => {
+
+      if(result.uuid){
+        const caseFileFiltered = this.tasksTime.filter(x => x.uuid === result.uuid);
+        if(caseFileFiltered){
+          this.tasksTime = this.tasksTime.filter(x => x.uuid !== result.uuid);
+          this.tasksTime.push(result);
+        }
+        else{
+          this.tasksTime.push(result);
+        }
+      }
+    });
+
   }
 
-  constructor(public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data:any) {
-    console.log(data);
+  deleteHour(taskTime:TimeTask){
+
+    this.helperService.showConfirmationDeleteDialog().then(result => {
+      if(result.isConfirmed){
+        this.practiceService.deleteTaskTime(taskTime.subscription,taskTime.uuid || '').subscribe(data => {
+          this.helperService.showMessageDeleted();
+          this.tasksTime = this.tasksTime.filter(x => x.uuid !== taskTime.uuid);
+        })
+      }
+    })
+
   }
+
 
   get totalHours(){
-    return this.hours.reduce((acc, curr) => acc + curr.quotedHours, 0);
+    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time, 0) : 0;
   }
 
   get totalAmount(){
-    return this.hours.reduce((acc, curr) => acc + curr.quotedHours * curr.pricePerHour, 0);
+    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time * curr.total_amt, 0) : 0;
   }
 }

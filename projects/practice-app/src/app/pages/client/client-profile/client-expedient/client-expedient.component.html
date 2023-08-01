@@ -4,7 +4,9 @@
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.all' | translate}}
             </ng-template>
-            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+
+            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
                     <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
@@ -14,7 +16,6 @@
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
-                    <!-- Checkbox Column -->
                     <ng-container matColumnDef="select">
                         <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
                             <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
@@ -102,13 +103,16 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
                     </tr>
                 </table>
-            </div>
+            </div> -->
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.open' | translate}}
             </ng-template>
-            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+
+            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+
+            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
                     <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
@@ -118,7 +122,6 @@
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
-                    <!-- Checkbox Column -->
                     <ng-container matColumnDef="select">
                         <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
                             <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
@@ -206,14 +209,16 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
                     </tr>
                 </table>
-            </div>
+            </div> -->
         </mat-tab>
         <mat-tab>
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.closed' | translate}}
-
             </ng-template>
-            <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+
+            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+
+            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
                 <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
                 <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
                     <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
@@ -223,7 +228,6 @@
             </div>
             <div class="u-table-responsive">
                 <table mat-table [dataSource]="dataSource" class="c-table">
-                    <!-- Checkbox Column -->
                     <ng-container matColumnDef="select">
                         <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
                             <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
@@ -311,7 +315,7 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
                     </tr>
                 </table>
-            </div>
+            </div> -->
         </mat-tab>
     </mat-tab-group>
     <!-- <div class="c-tabs-actions__controls">

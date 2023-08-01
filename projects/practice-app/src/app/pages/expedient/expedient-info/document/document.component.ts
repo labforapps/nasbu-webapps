@@ -11,8 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { DialogDocumentViewerComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-document-viewer/dialog-document-viewer.component';
+import { DialogImageViewerComponent } from '../../../../components/dialogs/dialog-image-viewer/dialog-image-viewer.component';
 
 @Component({
   selector: 'app-document',
@@ -76,11 +76,33 @@ export class DocumentComponent implements OnInit {
   }
 
   downloadFile(caseFileDocument:CaseFileDocument): void {
-    this.practiceService.downloadCaseFileDocument(caseFileDocument).subscribe(data => {})
+    this.practiceService.downloadCaseFileDocument(caseFileDocument).subscribe((data) => {
+      saveAs(data, caseFileDocument.document_name);
+    })
+  }
+
+  previewCaseFileDocument(caseFileDocument:CaseFileDocument){
+
+    if(caseFileDocument.document_type === 'png'){
+      this.previewImage(caseFileDocument)
+    }
+    else{
+      this.previewDocument(caseFileDocument);
+    }
+
   }
 
   previewDocument(document:CaseFileDocument){
-    const dialogRef = this.dialog.open(DialogDocumentViewerComponent,{
+    this.dialog.open(DialogDocumentViewerComponent,{
+      data: {
+        url: document.document
+      },
+      panelClass: 'fullscreen',
+    });
+  }
+
+  previewImage(document:CaseFileDocument){
+    this.dialog.open(DialogImageViewerComponent,{
       data: {
         url: document.document
       },

@@ -28,6 +28,7 @@ import localeEn from '@angular/common/locales/en';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
 import { ComponentsModule } from './components/components.module';
+import { AngularImageViewerModule } from "@hreimer/angular-image-viewer";
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -65,7 +66,9 @@ registerLocaleData(localeEn, 'en');
     TextMaskModule,
     PagesModule,
     ComponentsModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    AngularImageViewerModule
+
   ],
   bootstrap: [AppComponent],
 })

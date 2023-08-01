@@ -63,13 +63,15 @@
                           <mat-label>{{'dockets.status' | translate}}</mat-label>
                           <mat-select [(ngModel)]="filters.status">
                             <mat-option [value]="''">
-                                All
+                                {{'dockets.all' | translate}}
                             </mat-option>
                             <mat-option [value]="caseFileStatus.OPEN">
-                                Open
+                              {{'dockets.open' | translate}}
+
                             </mat-option>
                             <mat-option [value]="caseFileStatus.CLOSED">
-                                Closed
+                              {{'dockets.closed' | translate}}
+
                             </mat-option>
                           </mat-select>
                       </mat-form-field>
@@ -101,6 +103,9 @@
               </div>
           </mat-menu>
       </div>
+
+      <button class="c-btn-function" mat-button *ngIf="module && module !== moduleEnum.CASE_FILES" (click)="openDialogNewExpedient()">{{'clients.files.table_header.create_new' | translate}}<span class="icon-plus ml-2 "></span></button>
+
   </div>
 
   <div class="u-table-responsive" *ngIf="dataSourceCaseFiles">
@@ -169,13 +174,13 @@
               <th mat-header-cell *matHeaderCellDef>{{'dockets.shared_with' | translate}} </th>
               <td mat-cell *matCellDef="let element">
                   <div class="u-textLightColor" *ngIf="element.case_file_user_access?.length === 0">
-                      Sin Asignar
+                      {{'dockets.without_assign' | translate}}
                   </div>
                   <div class="u-link" *ngIf="element.case_file_user_access?.length === 1 && securityUsers" (click)="openDialogUserShareExpedient(element)">
                     {{returnSharedUserName(element.case_file_user_access)}}
                   </div>
                   <div class="u-link" *ngIf="element.case_file_user_access?.length > 1" (click)="openDialogUserShareExpedient(element)">
-                    Ver todos los usuarios
+                    {{'dockets.see_all_the_users' | translate}}
                   </div>
 
               </td>

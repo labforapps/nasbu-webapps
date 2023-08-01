@@ -3,8 +3,8 @@
       <div class="align-items-center d-flex u-gap-1">
           <span class="icon-user u-icon-white mr-3"></span>
           <div>
-              <div>Listado de Usuarios</div>
-              <div class="u-smallSize u-fontRegular mt-1">Tienes {{this.securityUsers.length}} registrados</div>
+              <div>{{'dockets.users_list' | translate}}</div>
+              <div class="u-smallSize u-fontRegular mt-1">{{'dockets.you_have_users_registered' | translate: { usersQuantity: this.securityUsers.length } }}</div>
           </div>
 
       </div>
@@ -28,19 +28,19 @@
               <button mat-button
                       class="c-btn c-btn--small c-btn--outline-primary"
                       *ngIf="!isUserSelected(securityUser)"
-                      (click)="onSelectUser(securityUser)">Seleccionar</button>
+                      (click)="onSelectUser(securityUser)">{{'dockets.select' | translate}}</button>
 
               <button mat-button
                       class="c-btn c-btn--small c-btn--outline-primary btn-Disabled"
                       *ngIf="isUserSelected(securityUser)"
-                      (click)="onRemoveUser(securityUser)">Quitar</button>
+                      (click)="onRemoveUser(securityUser)">{{'dockets.remove' | translate}}</button>
           </div>
 
          </div>
      </div>
   </mat-dialog-content>
   <mat-dialog-actions class="c-dialog-header__footer">
-      <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-      <button mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">Añadir</button>
+      <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.close_window' | translate}}</button>
+      <button mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">{{'dockets.add_user' | translate}}</button>
   </mat-dialog-actions>
 </div>

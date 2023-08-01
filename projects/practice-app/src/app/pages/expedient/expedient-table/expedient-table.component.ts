@@ -2,7 +2,7 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseFile,CaseFileAccess,CaseFileStatus,Customer, CustomerCaseFile, SecurityUser, TypeCustomer, UserCaseFile } from 'core-models';
+import { CaseFile,CaseFileAccess,CaseFileStatus,Customer, CustomerCaseFile, SecurityUser, TypeCustomer, UserCaseFile, modules } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import * as moment from 'moment';
 import { PracticeService } from 'core-services';
@@ -18,6 +18,10 @@ import { DialogUsersShareExpedientComponent } from '../../../components/dialogs/
 })
 export class ExpedientTableComponent implements OnInit {
 
+  @Input() public module!:modules;
+  @Input() customer!:Customer;
+  @Input() securityUser!:SecurityUser;
+  moduleEnum = modules;
   displayedColumns: string[] = [];
   dataSourceCaseFiles!:MatTableDataSource<CaseFile>;
   selection = new SelectionModel<CaseFile>(true, []);
@@ -275,9 +279,9 @@ export class ExpedientTableComponent implements OnInit {
     this.ngAfterViewInit();
   }
 
-  openDialogNewExpedient(caseFile:CaseFile){
+  openDialogNewExpedient(caseFile?:CaseFile){
 
-    const dialogRef = this.dialog.open(DialogNewExpedientComponent,{data:{caseFile}});
+    const dialogRef = this.dialog.open(DialogNewExpedientComponent,{data:{caseFile: caseFile, customer: this.customer, securityUser: this.securityUser}});
 
     dialogRef.afterClosed().subscribe((result:CaseFile) => {
 
@@ -285,6 +289,10 @@ export class ExpedientTableComponent implements OnInit {
         const caseFileFiltered = this.caseFiles.filter(x => x.uuid === result.uuid);
         if(caseFileFiltered){
           this.caseFiles = this.caseFiles.filter(x => x.uuid !== result.uuid);
+          this.caseFiles.push(result);
+          this.ngAfterViewInit();
+        }
+        else{
           this.caseFiles.push(result);
           this.ngAfterViewInit();
         }

@@ -32,14 +32,14 @@
                   {{'collaborator.profile.dockets' | translate}}
                     <span class="icon-expedient"></span>
                 </ng-template>
-                <app-client-expedient></app-client-expedient>
+                <app-collaborator-expedient [securityUser]="securityUser"></app-collaborator-expedient>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
                   {{'collaborator.profile.pending_tasks' | translate}}
                     <span class="icon-task"></span>
                 </ng-template>
-                <app-client-pending></app-client-pending>
+                <app-collaborator-pending-issues [securityUser]="securityUser"></app-collaborator-pending-issues>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>

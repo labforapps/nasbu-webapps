@@ -1,0 +1,50 @@
+<div [ngSwitch]="pageStep">
+  <div *ngSwitchCase="1">
+    <ng-container *ngTemplateOutlet="step1"></ng-container>
+  </div>
+  <div *ngSwitchCase="2">
+    <ng-container *ngTemplateOutlet="step2"></ng-container>
+  </div>
+
+</div>
+
+
+<ng-template #step1>
+
+    <div class="c-dialog-recovery">
+      <mat-dialog-content class="d-flex flex-column justify-center">
+        <h4 class="mb-5 u-textBold "><b>Aviso</b></h4>
+
+        <p class="u-textColor text-center mb-5">
+          Estas Seguro de cerrar esta tarea ?
+        </p>
+        <br>
+        <img class="mb-5" src="../../../../assets/images/senal-de-advertencia.svg" alt="">
+
+      </mat-dialog-content>
+      <mat-dialog-actions class="mt-auto">
+        <button mat-button  class="c-btn c-btn--primary w-100 u-smallSize" (click)="closeExpedient()">Listo</button>
+        <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+      </mat-dialog-actions>
+    </div>
+
+
+</ng-template>
+
+
+<ng-template #step2>
+  <div class="c-dialog-recovery">
+    <mat-dialog-content class="d-flex flex-column justify-center">
+      <h4 class="mb-5 u-textBold "><b>Muy bien!!</b></h4>
+
+      <p class="u-textColor text-center mb-5">
+        La tarea ha sido cerrada con éxito
+      </p>
+      <br>
+      <img class="mb-5" src="../../../../assets/images/check.svg" alt="">
+    </mat-dialog-content>
+    <mat-dialog-actions class="mt-auto">
+      <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>

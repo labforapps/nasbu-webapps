@@ -26,7 +26,7 @@
                 <label class="u-title-label">{{'dockets.form.client' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label>{{'dockets.form.client_name' | translate}}</mat-label>
-                    <mat-select formControlName="customer">
+                    <mat-select formControlName="customer" [disabled]="dataDialog && dataDialog.customer !== undefined">
                         <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
                             <span *ngIf="customer.type === typeCustomer.person">{{customer.first_name + ' ' + customer.last_name }}</span>
                             <span *ngIf="customer.type === typeCustomer.business">{{customer.company_name }}</span>
@@ -41,7 +41,7 @@
                 <label class="u-title-label">{{'dockets.form.assigned_docket_to' | translate}}  </label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label>{{'dockets.form.user' | translate}}</mat-label>
-                    <mat-select formControlName="assigned_to" (selectionChange)="onChangeAssignto($event.value)">
+                    <mat-select formControlName="assigned_to" (selectionChange)="onChangeAssignto($event.value)" [disabled]="dataDialog && dataDialog.securityUser !== undefined">
                         <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
                             {{securityUser.user.first_name + ' ' + securityUser.user.last_name }}
                         </mat-option>

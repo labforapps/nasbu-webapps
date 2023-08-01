@@ -1,20 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, of, switchMap } from 'rxjs';
-import { Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest } from 'core-models';
+import { Observable, map, of, switchMap } from 'rxjs';
+import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType } from 'core-models';
+import { CommonService } from '../common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomersService {
+
+  typeCustomer = TypeCustomer
+
   constructor(
     @Inject('config') private config: any,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private commonService:CommonService,
   ) {}
 
   getCustomers(subscription: string): Observable<Customer[]> {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/?subscription=${subscription}`;
-    return this.httpClient.get<Customer[]>(serverUrl);
+    return this.httpClient.get<Customer[]>(serverUrl).pipe(
+      map((customers:Customer[]) => {
+        return customers.sort((a, b) => {
+          const companyNameA = a.company_name || '';
+          const companyNameB = b.company_name || '';
+
+          const nameA = a.type === this.typeCustomer.person && companyNameA === '' ? a.first_name.toLowerCase() : companyNameA.toLowerCase();
+          const nameB = b.type === this.typeCustomer.person && companyNameB === '' ? b.first_name.toLowerCase() : companyNameB.toLowerCase();
+
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      })
+    );
   }
 
   getCustomerById(subscription: string, uuid: string): Observable<Customer> {
@@ -41,7 +64,6 @@ export class CustomersService {
   createCustomerIntakeRequest(
     body: CustomerIntakeRequest
   ): Observable<CustomerIntakeRequest> {
-    console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/`;
     return this.httpClient.post<CustomerIntakeRequest>(serverUrl, body);
   }
@@ -90,12 +112,26 @@ export class CustomersService {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('subscription', subscription);
-    console.log('Form Data',formData);
     return this.httpClient.put<any>(serverUrl, formData);
   }
 
-  getCaseFiles(subscription: string, uuid: string): Observable<Customer[]> {
-    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/case_files/?subscription=${subscription}`;
-    return this.httpClient.get<Customer[]>(serverUrl);
+  getCaseFilesByCustomer(subscription:string,uuid:string):Observable<CaseFile[]>{
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/case_files?subscription=${subscription}`;
+    return this.httpClient.get<CaseFile[]>(serverUrl);
   }
+
+  getTasksByCustomer(subscription:string,uuid:string):Observable<Task[]>{
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/tasks?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl).pipe(
+      switchMap((tasks: Task[]) => {
+            return of(tasks.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+
 }

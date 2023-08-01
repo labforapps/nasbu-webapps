@@ -9,34 +9,65 @@
         <div class="l-page__controls">
             <button class="c-btn-function" mat-button [matMenuTriggerFor]="menu">{{ 'tasks.newTask' | translate | titlecase }}<span class="icon-plus ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
-                <button mat-menu-item (click)="openDialogNewTask()"><span class="icon-phone"></span>Llamada</button>
-                <button mat-menu-item><span class="icon-task-list"></span>Coordinar cita</button>
-                <button mat-menu-item><span class="icon-email"></span>Enviar correo</button>
-                <button mat-menu-item><span class="icon-chat"></span>Ofrecer consulta</button>
-                <button mat-menu-item><span class="icon-document-color"></span>Redactar documento</button>
-                <button mat-menu-item><span class="icon-swap"></span>Radicación</button>
-                <button mat-menu-item><span class="icon-law"></span>Comparecer a vista</button>
-                <button mat-menu-item><span class="icon-meeting"></span>Reunión</button>
-                <button mat-menu-item><span class="icon-sunglasses" style="font-size: 10px;"></span>Investigación</button>
-                <button mat-menu-item><span class="icon-open-book"></span>Lectura</button>
-                <button mat-menu-item (click)="openDialogNewReason()"><span class="icon-more"></span>Otros</button>
+
+              <button *ngFor="let taskType of tasksTypes" mat-menu-item (click)="openDialog(taskType)"><span [ngClass]="returnTaskTypeIcon(taskType)"></span>{{taskType.name}}</button>
+
             </mat-menu>
 
         </div>
     </div>
     <div class="l-page__body">
-        <mat-tab-group class="c-tabs" (selectedIndexChange)="onTabChange($event)">
-            <mat-tab *ngFor="let tab of tabs">
-                <ng-template mat-tab-label>
-                    {{ tab.title | translate | titlecase }}
-                    <div class="c-tabs__badge">
-                        {{ tab.badge }}
-                    </div>
-                </ng-template>
-                
-                <app-task-table [tasks]="_tasks">
-                </app-task-table>
-            </mat-tab>
+        <mat-tab-group class="c-tabs" (selectedIndexChange)="onTabChange($event)" *ngIf="allTasks">
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                  {{ 'tasks.tabs.all' | translate | titlecase }}
+                  <div class="c-tabs__badge">
+                      {{ allTasks.length }}
+                  </div>
+              </ng-template>
+
+              <app-task-table [tasks]="allTasks">
+              </app-task-table>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+                {{ 'tasks.tabs.completed' | translate | titlecase }}
+                <div class="c-tabs__badge">
+                    {{ completedTasks.length }}
+                </div>
+            </ng-template>
+
+            <app-task-table [tasks]="completedTasks">
+            </app-task-table>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+              {{ 'tasks.tabs.pending' | translate | titlecase }}
+              <div class="c-tabs__badge">
+                  {{ pendingTasks.length }}
+              </div>
+          </ng-template>
+
+          <app-task-table [tasks]="pendingTasks">
+          </app-task-table>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+            {{ 'tasks.tabs.overdue' | translate | titlecase }}
+            <div class="c-tabs__badge">
+                {{ overdueTasks.length }}
+            </div>
+        </ng-template>
+
+        <app-task-table [tasks]="overdueTasks">
+        </app-task-table>
+    </mat-tab>
+
+
         </mat-tab-group>
     </div>
 </div>

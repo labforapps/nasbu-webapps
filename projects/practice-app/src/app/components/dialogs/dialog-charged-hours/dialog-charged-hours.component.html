@@ -1,42 +1,42 @@
 <div class="c-dialog-chargedHours c-dialog-header">
     <div class="c-dialog-header__header">
-        <span class="icon-clock u-icon-white mr-2"></span> {{ 'hoursModal.title' |translate }} - Item ({{ hours.length }})
+        <span class="icon-clock u-icon-white mr-2"></span> {{ 'hoursModal.title' |translate }} - Item ({{ tasksTime ? tasksTime.length : 0 }})
     </div>
     <mat-dialog-content>
         <div class="row">
             <div class="col-md-12">
-                <div class="c-hour-count" *ngFor="let hour of hours">
-                    <div class="c-hour-count__name">
-                        LE
+                <div class="c-hour-count" *ngFor="let taskTime of tasksTime">
+                    <div class="c-hour-count__name" *ngIf="taskTime.user">
+                        {{taskTime.user.user.first_name| slice:0:1 | uppercase }} {{taskTime.user.user.last_name | slice:0:1 | uppercase }}
                     </div>
                     <div class="c-hour-count__info">
-                        <div class="c-hour-count__date">{{ hour.createdAt | date: 'dd/MM/yyyy' }}</div>
-                        <div class="c-hour-count__title">{{ hour.description }}</div>
+                        <div class="c-hour-count__date">{{ taskTime.created_at | date: 'dd/MM/yyyy' }}</div>
+                        <div class="c-hour-count__title">{{ taskTime.description }}</div>
                         <div class="c-hour-count__data">
                             <span>
-                                <span class="icon-clock mr-1"></span> {{ hour.quotedHours }} hr.
+                                <span class="icon-clock mr-1"></span> {{ taskTime.total_time }} hr.
                             </span>
                             <span>
-                                {{ hour.pricePerHour | currency:'USD':true }}
+                                {{ taskTime.total_amt| currency:'USD':true }}
                             </span>
-                            <span>
-                                <!-- TODO: enums pipe for this value -->
-                                {{ hour.state }}
+                            <span *ngIf="taskTime.not_billable">
+                              Sin Facturar
+                            </span>
+                            <span *ngIf="!taskTime.not_billable">
+                              Facturar
                             </span>
                         </div>
 
                     </div>
                     <div class="c-hour-count__actions">
                         <mat-button-toggle-group class="c-btn-table">
-                            <mat-button-toggle  (click)="openDialogAddHours(hour)">{{ 'hoursModal.edit' |translate }}</mat-button-toggle>
+                            <mat-button-toggle  (click)="openDialogAddHours(taskTime)">{{ 'hoursModal.edit' |translate }}</mat-button-toggle>
                             <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                                 <span class="icon-arrow-down"></span>
                             </mat-button-toggle>
                         </mat-button-toggle-group>
                         <mat-menu #dropdownMenuOne="matMenu">
-                            <button mat-menu-item>One</button>
-                            <button mat-menu-item>Two</button>
-                            <button mat-menu-item>Three</button>
+                            <button mat-menu-item (click)="deleteHour(taskTime)">Delete</button>
                         </mat-menu>
                     </div>
                 </div>

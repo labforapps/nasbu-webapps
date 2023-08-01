@@ -12,6 +12,7 @@ import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeEs from '@angular/common/locales/es';
 import localeEn from '@angular/common/locales/en';
+import { CustomerFullNamePipe } from './pipes/customer-full-name.pipe';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,7 +27,8 @@ registerLocaleData(localeEn, 'en');
       SpinnerComponent,
       ValidationsPipe,
       FilterPipe,
-      LocalizedDatePipe
+      LocalizedDatePipe,
+      CustomerFullNamePipe
     ],
     imports: [
       MatProgressSpinnerModule,
@@ -46,7 +48,8 @@ registerLocaleData(localeEn, 'en');
       FilterPipe,
       LocalizedDatePipe,
       NgxIntlTelInputModule,
-      TranslateModule
+      TranslateModule,
+      CustomerFullNamePipe
     ],
 })
 export class SharedModule { }

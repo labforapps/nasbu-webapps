@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class DialogDocumentViewerComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<DialogDocumentViewerComponent>,
-   @Inject(MAT_DIALOG_DATA) public data: {url: string},) { }
+   @Inject(MAT_DIALOG_DATA) public data: {url: string}) { }
 
   ngOnInit(): void {
   }

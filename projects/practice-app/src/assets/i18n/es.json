@@ -155,7 +155,7 @@
          "pricePerHour": "Precio por hora",
          "hours": "Horas cotizadas",
          "close": "Cerrar ventana",
-         "save": "Crear nueva tareatarea"
+         "save": "Crear nueva tarea"
       },
       "filterModal":{
          "title": "Criterios de filtrado",
@@ -178,7 +178,7 @@
       "quotedHours": "Horas cotizadas",
       "realTimeClock": "Reloj en iempo real",
       "noBillable": "No facturable",
-      "expedient": "Expediente al cual aplicará el cargo",
+      "task": "Tarea al cual aplicará el cargo",
       "description": "Descripción o detalle",
       "user": "film's user",
       "save":"Save hours",
@@ -917,7 +917,7 @@
       "closed":"Cerrados",
       "search_by_name":"Buscar por nombre",
       "filter_by":"Filtrar por",
-      "you_have_a_total_of_dockets":"<b>Tienes {{docketsQuantity}} expedientes</b> en total con Manuel Cabral",
+      "you_have_a_total_of_dockets":"<b>Tienes {{docketsQuantity}} expedientes</b> en total",
       "type":"Tipo",
       "type_of_task":"Descripción asunto",
       "assigned_to":"Caso asignado a",
@@ -945,6 +945,15 @@
       "clean_dates":"Limpiar fechas",
       "creation_date":"Fecha de creación",
       "username_already_exists":"Ya existe ese usuario",
+      "see_all_the_users":"Ver todos los usuarios",
+      "without_assign":"Sin asignar",
+      "users_list":"Listado de usuarios",
+      "remove":"Quitar",
+      "select":"Seleccionar",
+      "add_user":"Añadir Usuario",
+      "close_docket":"Cerrar expediente",
+      "close_window":"Cerrar Ventana",
+      "you_have_users_registered":"Tienes {{usersQuantity}} usuarios registrados",
       "form":{
         "new_docket":"Nuevo expediente",
         "docket_name":"Nombre de Expediente",
