@@ -45,6 +45,8 @@ import { DialogSuccessMessageComponent } from './dialogs/dialog-success-message/
 import { DialogImageViewerComponent } from './dialogs/dialog-image-viewer/dialog-image-viewer.component';
 import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
 import { DialogCloseTaskComponent } from './dialogs/dialog-close-task/dialog-close-task.component';
+import { NgxTimerModule } from 'ngx-timer';
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -93,6 +95,7 @@ import { DialogCloseTaskComponent } from './dialogs/dialog-close-task/dialog-clo
     AvatarModule,
     NgxPermissionsModule,
     NgxDocViewerModule,
+    NgxTimerModule,
     AngularImageViewerModule
   ],
   exports: [

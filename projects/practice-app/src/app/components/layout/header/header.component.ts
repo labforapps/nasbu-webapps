@@ -5,6 +5,10 @@ import { AllowedLangs } from '../../../common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LangService } from '../../../services/lang.service';
 import { Router } from '@angular/router';
+import { TaskTimeService } from '../../../services/application/task-time.service';
+import { CurrentTaskTimeInfo } from '../../../models/task';
+import { countUpTimerConfigModel, CountupTimerService, timerTexts } from 'ngx-timer';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-header',
@@ -12,22 +16,84 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  timerConfig!: countUpTimerConfigModel;
+  timerData: any;
+
+  currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
+
   public allowLangs = AllowedLangs;
   public currentLang: string = 'languages.';
   public user$!: Observable<CurrentUserInfo>;
   public currentFlag!: string;
+
   public langFlags: any =  {
     [AllowedLangs.English]: '../../../../assets/images/english-flag.jpg',
     [AllowedLangs.Spanish]: '../../../../assets/images/spanish-flag.jpg'
   };
-  constructor(private langService: LangService,
+
+  constructor(private countUp: CountupTimerService,
+              private langService: LangService,
               private authService: AuthService,
+              private taskTimeService: TaskTimeService,
               private router:Router) { }
 
   ngOnInit(): void {
-    this,this.loadUser();
+    this.loadUser();
     this.currentLang += this.langService.currentLang;
-    this.currentFlag = this.langFlags[this.langService.currentLang]
+    this.currentFlag = this.langFlags[this.langService.currentLang];
+    this.configTimer();
+    this.currentTaskTimeInfo = this.taskTimeService.getCurrentTaskTimeInfo();
+    if (this.currentTaskTimeInfo) {
+        this.initTimer();
+    }
+
+    //this.countUp.intervalSubscription.subscribe((a: any) => console.log(a));
+  }
+
+  listenToClockChanges() {
+      this.taskTimeService
+          .currentTaskTime$
+          .subscribe((currentTaskTimeInfo: CurrentTaskTimeInfo | null) => {
+                this.currentTaskTimeInfo = currentTaskTimeInfo;
+                this.initTimer();
+          });
+  }
+
+  startOrPauseTimer() {
+      if (this.countUp.isTimerStart) {
+          this.countUp.pauseTimer();
+      } else {
+          const currentTaskTimeInfo: CurrentTaskTimeInfo = {
+              startAt: new Date(),
+              expiredAt: moment(new Date()).add(1, 'd').toDate()
+          };
+          this.taskTimeService.storeCurrentTaskTimeInfo(currentTaskTimeInfo);
+          this.countUp.startTimer();
+      }
+  }
+
+  initTimer() {
+      this.configTimer();
+      if (this.currentTaskTimeInfo) {
+          this.countUp.startTimer(this.currentTaskTimeInfo.startAt);
+      } else {
+          this.countUp.startTimer();
+      }
+  }
+
+  configTimer(){
+
+      this.timerData = JSON.parse(localStorage.getItem("add_hours_timer") || '{}');
+      this.timerConfig = new countUpTimerConfigModel();
+      //custom class
+      this.timerConfig.timerClass  = 'inline-timer';
+
+      //timer text values
+      this.timerConfig.timerTexts = new timerTexts();
+      this.timerConfig.timerTexts.hourText = ':';
+      this.timerConfig.timerTexts.minuteText = ":";
+
   }
 
   changeLanguaje(lang: AllowedLangs): void {

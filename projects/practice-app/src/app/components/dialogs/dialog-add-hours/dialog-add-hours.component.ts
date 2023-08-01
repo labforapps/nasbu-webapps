@@ -6,6 +6,8 @@ import { AuthService, SecurityService,PracticeService } from 'core-services';
 import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
 import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment'
+import { CurrentTaskTimeInfo } from '../../../models/task';
+import { TaskTimeService } from '../../../services/application/task-time.service';
 
 
 @Component({
@@ -27,6 +29,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   startTime!:Date;
   endTime!:Date;
 
+  currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
+
   constructor(private countUp:CountupTimerService,
              @Inject(MAT_DIALOG_DATA) public dataDialog:{task:Task,taskTime:TimeTask},
              public  dialogRef: MatDialogRef<DialogAddHoursComponent>,
@@ -34,7 +38,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
              private practiceService:PracticeService,
              private authService:AuthService,
              private securityService:SecurityService,
-             private helperService:HelpersService) { }
+             private helperService:HelpersService,
+             private taskTimeService: TaskTimeService) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -43,6 +48,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     this.initForm();
     this.getTasks();
     this.getSecurityUsers();
+    this.currentTaskTimeInfo = this.taskTimeService.getCurrentTaskTimeInfo();
 
     if(this.dataDialog.taskTime) this.taskTime = this.dataDialog.taskTime;
 
@@ -52,7 +58,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if(this.isTimerStart){
-      this.countUp.pauseTimer();
+      //this.countUp.pauseTimer();
     }
   }
 
@@ -105,6 +111,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   startTimer(){
     if(!this.countUp.isTimerStart){
       this.startTime = new Date();
+      this.storeTaskTimeInfo();
       this.countUp.startTimer();
     }
     else{
@@ -178,6 +185,18 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
       this.dialogRef.close(data);
     })
 
+  }
+
+  storeTaskTimeInfo() {
+      const payload: CurrentTaskTimeInfo = {
+          expiredAt: this.currentTaskTimeInfo?.expiredAt || moment(new Date()).add(1, 'd').toDate(),
+          startAt: this.currentTaskTimeInfo?.startAt || this.startTime,
+          description:    this.taskTimeForm.value.description,
+          task:           this.taskTimeForm.value.task,
+          executedBy:    this.taskTimeForm.value.executed_by,
+          notBillable:   this.taskTimeForm.value.description,
+      };
+      //this.taskTimeService.storeCurrentTaskTimeInfo(payload);
   }
 
 }

@@ -5,10 +5,11 @@
 
         <div class="c-timer-count c-timer-count--small is-active mr-2">
             <div>
-                <div class="c-timer-count__number">00:00:00</div>
+                <!-- <div class="c-timer-count__number">00:00:00</div> -->
+                <countup-timer  [countUpTimerConfig]="timerConfig"></countup-timer>
                 <div class="c-timer-count__title">{{'header.timer' | translate}}</div>
             </div>
-            <button mat-button class="c-timer-count__button">
+            <button mat-button class="c-timer-count__button" (click)="startOrPauseTimer()">
                <span class="icon-play"></span>
            </button>
         </div>
