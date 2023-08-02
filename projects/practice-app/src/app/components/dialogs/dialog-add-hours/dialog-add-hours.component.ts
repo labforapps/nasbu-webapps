@@ -78,8 +78,9 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     if(this.taskTime){
       this.taskTimeForm.patchValue({
         ...this.taskTime,
-        task: this.taskTime.task.uuid
-      })
+        task: this.taskTime.task.uuid,
+        quoted_hours: this.taskTime.fixed_time ? this.taskTime.total_time / 60 : 0,
+      });
     }
   }
 
@@ -150,10 +151,10 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   submitForm(){
 
-    // if(!this.taskTimeForm.valid){
-    //   this.helperService.showMessageRequiredFields();
-    //   return;
-    // }
+    if(!this.taskTimeForm.valid){
+      this.helperService.showMessageRequiredFields();
+      return;
+    }
 
     const taskTimeFormValue = this.taskTimeForm.value;
 

@@ -82,9 +82,14 @@ export class TaskTableComponent  implements OnChanges {
   }
 
   openDialogChargedHours(task?:Task){
-    this.dialog.open(DialogChargedHoursComponent, {
+    const dialogRef = this.dialog.open(DialogChargedHoursComponent, {
       data: task ?? this.selectedTask
     });
+
+    dialogRef.afterClosed().subscribe((result:Task) => {
+      this.onExecuteTask.emit({})
+    });
+
   }
 
   openDialogNewTask(task?:Task, action:string = "new"){
