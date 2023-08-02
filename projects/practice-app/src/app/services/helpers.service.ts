@@ -77,7 +77,7 @@ export class HelpersService {
   }
 
   showMessageUpdated(){
-    this.showCustomMessage('Ok','¡Cambios guardados!','Ha sido exitosa tu transacción.');
+    this.showCustomMessage('Ok','Ha sido exitosa tu transacción.','¡Cambios guardados!');
   }
 
   showMessageDeleted(){

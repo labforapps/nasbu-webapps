@@ -76,7 +76,9 @@
       <ng-container matColumnDef="priority">
         <th mat-header-cell *matHeaderCellDef> Prioridad </th>
         <td mat-cell *matCellDef="let element">
-            {{ element.priority }}
+            <span *ngIf="element.priority === taskPriority.High">Alta</span>
+            <span *ngIf="element.priority === taskPriority.Medium">Intermedia</span>
+            <span *ngIf="element.priority === taskPriority.Low">Normal</span>
         </td>
       </ng-container>
 

@@ -192,6 +192,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
     this.practiceService.saveTaskTime(timeTaskPayload).subscribe(data => {
 
+      this.resetTimer();
+
       if(timeTaskPayload.uuid){
         this.helperService.showMessageUpdated();
       }

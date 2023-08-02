@@ -79,7 +79,6 @@ export class TaskpageComponent implements OnInit {
         this.currentTab = 0;
       }
     });
-
   }
 
   openDialogNewReason(){

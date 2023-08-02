@@ -35,6 +35,7 @@ export class TaskTableComponent  implements OnChanges {
   selectedTask!: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   taskTypeEnum = TaskTypeEnum;
+  public taskPriority = PriorityTask;
 
 
   constructor(public dialog: MatDialog,

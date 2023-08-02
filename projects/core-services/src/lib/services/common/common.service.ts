@@ -43,4 +43,9 @@ export class CommonService {
     return this.httpClient.post<TaskType>(serverUrl,payload);
   }
 
+  deleteTaskType(payload:TaskType):Observable<TaskType>{
+    const serverUrl: string = `${this.config.serverUrl}/common/task_types/${payload.uuid}`;
+    return this.httpClient.delete<TaskType>(serverUrl);
+  }
+
 }
