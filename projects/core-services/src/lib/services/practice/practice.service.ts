@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload,
-         CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,TaskType, SecurityUser } from 'core-models';
+         CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,TaskType, SecurityUser, TaskStatus } from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { CommonService } from '../common';
@@ -14,7 +14,8 @@ import * as moment from 'moment';
 })
 export class PracticeService {
 
-  private caseFileWalletDetailType = CaseFileWalletDetailType
+  private caseFileWalletDetailType = CaseFileWalletDetailType;
+  taskStatus = TaskStatus;
 
   constructor(@Inject('config') private config: any,
   private httpClient: HttpClient,
@@ -207,8 +208,10 @@ export class PracticeService {
     return this.httpClient.get<Task[]>(serverUrl).pipe(
       switchMap((tasks: Task[]) => {
           tasks.forEach((task: Task) => {
-            const endDate = new Date(task.end_date + 'T00:00:00');
-            task.overdue = endDate.setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
+            if(task.status === this.taskStatus.OPEN){
+              const endDate = new Date(task.end_date + 'T00:00:00');
+              task.overdue = endDate.setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
+            }
           });
 
             return of(tasks.sort((a, b) => {

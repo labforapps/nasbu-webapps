@@ -100,6 +100,10 @@ export class TaskpageComponent implements OnInit {
     this.currentTab = event;
   }
 
+  onExecuteTaskEvent(){
+    this.getTasks();
+  }
+
 
 
 }

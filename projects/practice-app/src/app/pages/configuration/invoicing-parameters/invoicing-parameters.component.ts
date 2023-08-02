@@ -50,9 +50,16 @@ export class InvoicingParametersComponent implements OnInit {
   submitForm(){
     console.log(this.invoicingParameterForm.value);
 
-    this.subscriptionService.updateSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.subscriptionBillingFee[0].uuid || '',this.invoicingParameterForm.value).subscribe(data => {
-      this.toastr.success('Ok','Billing Fee Saved Changes')
-    })
+    if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid){
+      this.subscriptionService.updateSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.subscriptionBillingFee[0].uuid || '',this.invoicingParameterForm.value).subscribe(data => {
+        this.toastr.success('Ok','Billing Fee Saved Changes')
+      })
+    }
+    else{
+      this.subscriptionService.createSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.invoicingParameterForm.value).subscribe(data => {
+        this.toastr.success('Ok','Billing Fee Saved Changes')
+      })
+    }
 
 
   }

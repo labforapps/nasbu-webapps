@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewTaskComponent } from '../../../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import { MatTableDataSource } from '@angular/material/table';
@@ -24,6 +24,8 @@ export class TaskTableComponent  implements OnChanges {
   @Input() customer!:Customer;
   @Input() securityUser!:SecurityUser;
   @Input() caseFile!:CaseFile;
+  @Output() onExecuteTask = new EventEmitter<any>();
+
 
   moduleEnum = modules;
   taskStatus = TaskStatus;
@@ -33,6 +35,7 @@ export class TaskTableComponent  implements OnChanges {
   selectedTask!: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   taskTypeEnum = TaskTypeEnum;
+
 
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
@@ -46,6 +49,10 @@ export class TaskTableComponent  implements OnChanges {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  onExecuteTaskEvent(){
+    this.onExecuteTask.emit({})
   }
 
   searchByName(filterValue: any) {
@@ -104,19 +111,9 @@ export class TaskTableComponent  implements OnChanges {
           this.tasks.push(result);
           this.dataSource.data = this.tasks;
         }
+        this.onExecuteTaskEvent();
       }
     });
-  }
-
-  openDialogCloseTask(task:Task){
-   if(task.status === this.taskStatus.OPEN){
-    task.status = this.taskStatus.CLOSED
-    task.overdue = false;
-   }
-   else{
-    task.status = this.taskStatus.OPEN
-    task.overdue = moment(task.end_date).isBefore(moment(), 'day');
-   }
   }
 
 
@@ -127,6 +124,7 @@ export class TaskTableComponent  implements OnChanges {
           this.helperService.showMessageDeleted();
           this.tasks = this.tasks.filter(x => x.uuid !== task.uuid);
           this.dataSource.data = this.tasks;
+          this.onExecuteTaskEvent();
         })
       }
     })
@@ -170,7 +168,7 @@ export class TaskTableComponent  implements OnChanges {
       task.overdue = moment(task.end_date).isBefore(moment(), 'day');
      }
 
-
+     this.onExecuteTaskEvent();
   }
 
 

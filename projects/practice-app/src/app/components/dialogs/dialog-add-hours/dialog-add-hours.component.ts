@@ -124,6 +124,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   resetTimer(){
     this.countUp.stopTimer();
+    this.taskTimeService.removeCurrentTaskTimeInfo();
   }
 
   saveTimer(){

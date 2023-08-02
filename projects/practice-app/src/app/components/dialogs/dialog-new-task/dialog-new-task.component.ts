@@ -50,7 +50,7 @@ export class DialogNewTaskComponent implements OnInit {
 
       this.taskForm = this.formBuilder.group({
           type: ['',Validators.required],
-          priority: ['',Validators.required],
+          priority: [this.priorityTask.Low,Validators.required],
           customer: ['',Validators.required],
           case_file: ['',Validators.required],
           description: ['',Validators.required],

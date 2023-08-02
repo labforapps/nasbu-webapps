@@ -13,9 +13,10 @@
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
 
                                   <input class="c-form-group__input"
-                                              matInput
-                                              placeholder="Ej: Crear contrato de servicio"
-                                              formControlName="total_amt">
+                                         matInput
+                                         placeholder="Ej: Crear contrato de servicio"
+                                         formControlName="total_amt"
+                                         [readonly]="true">
 
                                 </mat-form-field>
                                 <mat-error>
