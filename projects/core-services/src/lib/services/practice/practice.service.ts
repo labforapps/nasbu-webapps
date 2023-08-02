@@ -7,6 +7,7 @@ import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { CommonService } from '../common';
 import { SecurityService } from '../security/security.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -201,8 +202,15 @@ export class PracticeService {
 
   getTasks(subscription:string):Observable<Task[]>{
     const serverUrl = `${this.config.serverUrl}/practice/tasks/?subscription=${subscription}`;
+    const currentDate = new Date();
+
     return this.httpClient.get<Task[]>(serverUrl).pipe(
       switchMap((tasks: Task[]) => {
+          tasks.forEach((task: Task) => {
+            const endDate = new Date(task.end_date + 'T00:00:00');
+            task.overdue = endDate.setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
+          });
+
             return of(tasks.sort((a, b) => {
               let dateA = new Date(a.created_at || '').getTime();
               let dateB = new Date(b.created_at || '').getTime();
@@ -211,6 +219,7 @@ export class PracticeService {
       })
     );
   }
+
 
   getTaskById(subscription:string,uuid:string):Observable<Task[]>{
     const serverUrl = `${this.config.serverUrl}/practice/tasks/${uuid}?subscription=${subscription}`;
@@ -312,6 +321,11 @@ export class PracticeService {
           }));
       })
     );
+  }
+
+  completeTask(task:Task):Observable<Task>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${task.uuid}/complete_task/?subscription=${task.subscription}`;
+    return this.httpClient.get<Task>(serverUrl);
   }
 
 
