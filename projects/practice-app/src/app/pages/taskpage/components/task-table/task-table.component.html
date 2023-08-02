@@ -40,8 +40,10 @@
       <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{ 'tasks.table.type' | translate }} </th>
           <td mat-cell *matCellDef="let element" class="text-center">
-            <div class="circle">
-              <img class="c-table__icon" src="assets/images/table-icons/phone.svg" alt="">
+            <div class="circle" [ngClass]="{'iconBgGreen': isCompletedTask(element),'iconBgYellow':isPendingTask(element),'iconBgRed':isOverdueTask(element)}">
+              <img class="c-table__icon"
+                   [ngClass]="{'iconColorGreen': isCompletedTask(element),'iconColorYellow':isPendingTask(element),'iconColorRed':isOverdueTask(element)}"
+                   [src]="'assets/images/table-icons/' + returnTaskTypeIconSVG(element.type.type) + '.svg'" alt="">
             </div>
             <!-- <span class="circle"   [ngClass]="returnTaskTypeIcon(element.type.type)"></span> -->
           </td>
@@ -68,6 +70,13 @@
         <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.expedient' | translate }} </th>
         <td mat-cell *matCellDef="let element">
             <div class="u-link c-table__truncate" [routerLink]="'/expedient-info/' + element.case_file.uuid">{{ element.case_file.name }}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef> Priority </th>
+        <td mat-cell *matCellDef="let element">
+            {{ element.priority }}
         </td>
       </ng-container>
 
@@ -101,7 +110,7 @@
           <td mat-cell *matCellDef="let element" class="text-center">
 
               <mat-button-toggle-group class="c-btn-table">
-                  <mat-button-toggle (click)="openDialogCloseTask(element)">{{ (element.status === taskStatus.OPEN ? "tasks.table.buttons.complete" : "tasks.table.buttons.uncomplete") | translate }}</mat-button-toggle>
+                  <mat-button-toggle (click)="completeTask(element)">{{ (element.status === taskStatus.OPEN ? "tasks.table.buttons.complete" : "tasks.table.buttons.uncomplete") | translate }}</mat-button-toggle>
                   <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                       <span class="icon-arrow-down"></span>
                   </mat-button-toggle>

@@ -67,7 +67,19 @@ export class TaskFilterComponent {
 
   getTaskTypes(){
     this.commonService.getTaskTypes().subscribe((data:TaskType[]) => {
-      this.taskTypes = data;
+      this.taskTypes = data.sort((a, b) => {
+
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+
+        if (nameA < nameB) {
+          return -1;
+        } else if (nameA > nameB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });;
     })
   }
 

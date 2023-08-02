@@ -9,6 +9,8 @@ import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modu
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 import { PracticeService } from 'core-services';
 import { DialogCloseTaskComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-close-task/dialog-close-task.component';
+import { TaskTypeIconSVG } from 'projects/core-models/src/public-api';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-task-table',
@@ -25,7 +27,7 @@ export class TaskTableComponent  implements OnChanges {
 
   moduleEnum = modules;
   taskStatus = TaskStatus;
-  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient', 'hours','creationDate', 'date', 'action'];
+  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient','priority', 'hours','creationDate', 'date', 'action'];
   dataSource = new MatTableDataSource<Task>(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   selectedTask!: any;
@@ -52,8 +54,24 @@ export class TaskTableComponent  implements OnChanges {
     this.dataSource.filter = filterValue;
   }
 
+  isCompletedTask(task:Task){
+    return task.status === this.taskStatus.CLOSED;
+  }
+
+  isPendingTask(task:Task){
+    return task.status === this.taskStatus.OPEN;
+  }
+
+  isOverdueTask(task:Task){
+    return task.overdue === true;
+  }
+
   returnTaskTypeIcon(taskType:string){
     return TaskTypeiIconClassMap.get(taskType) || '';
+  }
+
+  returnTaskTypeIconSVG(taskType:string){
+    return TaskTypeIconSVG.get(taskType) || '';
   }
 
   openDialogChargedHours(task?:Task){
@@ -91,11 +109,14 @@ export class TaskTableComponent  implements OnChanges {
   }
 
   openDialogCloseTask(task:Task){
-   this.dialog.open(DialogCloseTaskComponent,{
-    data: {
-      task
-    }
-   });
+   if(task.status === this.taskStatus.OPEN){
+    task.status = this.taskStatus.CLOSED
+    task.overdue = false;
+   }
+   else{
+    task.status = this.taskStatus.OPEN
+    task.overdue = moment(task.end_date).isBefore(moment(), 'day');
+   }
   }
 
 
@@ -123,15 +144,35 @@ export class TaskTableComponent  implements OnChanges {
       return;
     }
 
-    if(filter.priority) this.dataSource.data = this.tasks.filter(x => x.priority === filter.priority);
-    if(filter.status === this.taskStatus.OPEN) this.dataSource.data = this.tasks.filter(x => x.status === this.taskStatus.OPEN);
-    if(filter.status === this.taskStatus.CLOSED) this.dataSource.data = this.tasks.filter(x => x.status === this.taskStatus.CLOSED);
-    if(filter.status === this.taskStatus.OVERDUE) this.dataSource.data = this.tasks.filter(x => x.end_date && new Date(x.end_date) <= new Date());
+    let filteredTasks: Task[] = this.tasks;
 
-    if(filter.assigned_to) this.dataSource.data = this.tasks.filter(x => x.assigned_to.uuid === filter.assigned_to);
-    if(filter.type) this.dataSource.data = this.tasks.filter(x => x.type === filter.type)
+    if(filter.priority) filteredTasks = filteredTasks.filter(x => x.priority === filter.priority);
+    if(filter.status === this.taskStatus.OPEN) filteredTasks = filteredTasks.filter(x => x.status === this.taskStatus.OPEN && x.overdue === false);
+    if(filter.status === this.taskStatus.CLOSED) filteredTasks = filteredTasks.filter(x => x.status === this.taskStatus.CLOSED);
+    if(filter.status === this.taskStatus.OVERDUE) filteredTasks = filteredTasks.filter(x => x.overdue === true);
+
+    if(filter.assigned_to) filteredTasks = filteredTasks.filter(x => x.assigned_to.uuid === filter.assigned_to);
+    if(filter.type) filteredTasks = filteredTasks.filter(x => x.type.uuid === filter.type)
+
+    this.dataSource.data = filteredTasks;
+  }
+
+  completeTask(task:Task){
+
+    if(task.status === this.taskStatus.OPEN){
+      this.practiceService.completeTask(task).subscribe(data => {
+        task.status = this.taskStatus.CLOSED;
+      })
+      task.overdue = false;
+     }
+     else{
+      task.status = this.taskStatus.OPEN
+      task.overdue = moment(task.end_date).isBefore(moment(), 'day');
+     }
+
 
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

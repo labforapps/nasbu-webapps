@@ -9,6 +9,9 @@ import { TaskTimeService } from '../../../services/application/task-time.service
 import { CurrentTaskTimeInfo } from '../../../models/task';
 import { countUpTimerConfigModel, CountupTimerService, timerTexts } from 'ngx-timer';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogNewTaskComponent } from '../../dialogs/dialog-new-task/dialog-new-task.component';
+import { DialogAddHoursComponent } from '../../dialogs/dialog-add-hours/dialog-add-hours.component';
 
 @Component({
   selector: 'app-header',
@@ -36,7 +39,8 @@ export class HeaderComponent implements OnInit {
               private langService: LangService,
               private authService: AuthService,
               private taskTimeService: TaskTimeService,
-              private router:Router) { }
+              private router:Router,
+              public  dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.loadUser();
@@ -51,6 +55,10 @@ export class HeaderComponent implements OnInit {
     //this.countUp.intervalSubscription.subscribe((a: any) => console.log(a));
   }
 
+  get isTimerStart(){
+    return this.countUp.isTimerStart;
+  }
+
   listenToClockChanges() {
       this.taskTimeService
           .currentTaskTime$
@@ -63,6 +71,7 @@ export class HeaderComponent implements OnInit {
   startOrPauseTimer() {
       if (this.countUp.isTimerStart) {
           this.countUp.pauseTimer();
+          this.dialog.open(DialogAddHoursComponent);
       } else {
           const currentTaskTimeInfo: CurrentTaskTimeInfo = {
               startAt: new Date(),

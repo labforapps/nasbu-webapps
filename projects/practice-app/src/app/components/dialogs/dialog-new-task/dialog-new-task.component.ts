@@ -79,6 +79,7 @@ export class DialogNewTaskComponent implements OnInit {
 
       this.taskForm.patchValue({
         ...this.task,
+        type: this.task.type.uuid,
         case_file: this.task.case_file.uuid,
         customer: this.task.customer.uuid,
         assigned_to: this.task.assigned_to.uuid,
@@ -160,6 +161,11 @@ export class DialogNewTaskComponent implements OnInit {
 
     if(!taskFormValue.hourly_rate && !taskFormValue.increment_of_time && !taskFormValue.flat_fee && !taskFormValue.not_billable){
       this.helperService.showCustomMessage('Error','Error','Debes elegir algun metodo de facturacion');
+      return;
+    }
+
+    if(taskFormValue.has_due_date && (taskFormValue.start_date === null || taskFormValue.end_date === null)){
+      this.helperService.showCustomMessage('Error','Error','Debes definir fin e inicio de la tarea');
       return;
     }
 

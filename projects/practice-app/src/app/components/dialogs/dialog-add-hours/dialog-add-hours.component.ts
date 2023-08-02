@@ -20,7 +20,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   taskTimeForm!:FormGroup;
   timerConfig!: countUpTimerConfigModel;
   timerData: any;
-  task!:Task;
+  task!:Task | null;
   tasks!:Task[];
   selectedSubscription!:any;
   securityUsers!:SecurityUser[];
@@ -43,7 +43,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    this.task = this.dataDialog.task;
+    console.log(this.dataDialog);
+    this.task = this.dataDialog  && this.dataDialog.task !== undefined ? this.dataDialog.task : null;
     this.configTimer();
     this.initForm();
     this.getTasks();
@@ -85,7 +86,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   getTasks(){
     this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
       this.tasks = data;
-      if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid})
+     if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid})
     })
   }
 
@@ -161,7 +162,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     //const total_time = Math.round((this.endTime.getTime() - this.startTime.getTime()) / 1000) / 60;
 
     const timeTaskPayload: TimeTask = {
-      subscription: this.task.subscription,
+      subscription: this.task ?  this.task.subscription : '',
       ...taskTimeFormValue,
       title: taskTimeFormValue.description,
       total_time_str: totalTime,//Enviar la hora del reloj

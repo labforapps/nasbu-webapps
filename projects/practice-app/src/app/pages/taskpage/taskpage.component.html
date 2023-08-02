@@ -10,14 +10,14 @@
             <button class="c-btn-function" mat-button [matMenuTriggerFor]="menu">{{ 'tasks.newTask' | translate | titlecase }}<span class="icon-plus ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
 
-              <button *ngFor="let taskType of tasksTypes" mat-menu-item (click)="openDialog(taskType)"><span [ngClass]="returnTaskTypeIcon(taskType)"></span>{{taskType.name}}</button>
+              <button *ngFor="let taskType of tasksTypes" mat-menu-item (click)="openDialogNewTask(taskType)"><span [ngClass]="returnTaskTypeIcon(taskType)"></span>{{taskType.name}}</button>
 
             </mat-menu>
 
         </div>
     </div>
     <div class="l-page__body">
-        <mat-tab-group class="c-tabs" (selectedIndexChange)="onTabChange($event)" *ngIf="allTasks">
+        <mat-tab-group class="c-tabs" [(selectedIndex)]="currentTab" *ngIf="allTasks">
 
             <mat-tab>
               <ng-template mat-tab-label>
@@ -33,6 +33,18 @@
 
           <mat-tab>
             <ng-template mat-tab-label>
+                {{ 'tasks.tabs.pending' | translate | titlecase }}
+                <div class="c-tabs__badge">
+                    {{ pendingTasks.length }}
+                </div>
+            </ng-template>
+
+            <app-task-table [tasks]="pendingTasks">
+            </app-task-table>
+        </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
                 {{ 'tasks.tabs.completed' | translate | titlecase }}
                 <div class="c-tabs__badge">
                     {{ completedTasks.length }}
@@ -42,18 +54,6 @@
             <app-task-table [tasks]="completedTasks">
             </app-task-table>
         </mat-tab>
-
-        <mat-tab>
-          <ng-template mat-tab-label>
-              {{ 'tasks.tabs.pending' | translate | titlecase }}
-              <div class="c-tabs__badge">
-                  {{ pendingTasks.length }}
-              </div>
-          </ng-template>
-
-          <app-task-table [tasks]="pendingTasks">
-          </app-task-table>
-      </mat-tab>
 
       <mat-tab>
         <ng-template mat-tab-label>

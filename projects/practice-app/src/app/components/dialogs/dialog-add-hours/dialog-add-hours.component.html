@@ -67,6 +67,7 @@
 
                         <label class="u-title-label">{{ 'addHoursModal.task' |translate }}</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="task" [disabled]="this.task !== null">
                                 <mat-option *ngFor="let task of tasks" [value]="task.uuid">
                                     {{task.name}}
@@ -95,6 +96,7 @@
 
                         <label class="u-title-label">{{ 'addHoursModal.user' |translate }}</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="executed_by">
                                 <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid" (onSelectionChange)="setSecurityUserSelected(securityUser)">
                                     {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}

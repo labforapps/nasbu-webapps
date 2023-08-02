@@ -82,3 +82,19 @@ export const TaskTypeiIconClassMap: Map<string, string> = new Map([
   [TaskTypeEnum.OTHER, "icon-more"],
 ]);
 
+export const TaskTypeIconSVG: Map<string, string> = new Map([
+  [TaskTypeEnum.CALL, "phone-call"],
+  [TaskTypeEnum.APPOINTMENT, "appoinment"],
+  [TaskTypeEnum.SEND_EMAIL, "send_email"],
+  [TaskTypeEnum.GIVE_CONSULTATION, "consultation"],
+  [TaskTypeEnum.WRITE_DOCUMENT, "write_document"],
+  [TaskTypeEnum.FILING, "radication"],
+  [TaskTypeEnum.APPEAR_ON_SIGHT, "appear_on_sight"],
+  [TaskTypeEnum.MEETING, "meeting"],
+  [TaskTypeEnum.RESEARCH, "research"],
+  [TaskTypeEnum.LECTURE, "lecture"],
+  [TaskTypeEnum.OTHER, "others"],
+]);
+
+
+

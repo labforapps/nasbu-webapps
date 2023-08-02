@@ -1,7 +1,8 @@
 <div class="c-dialog-newTask c-dialog-header">
 
     <div class="c-dialog-header__header">
-        {{ 'tasks.newTask' | translate }}
+       <span *ngIf="!task"> {{ 'tasks.newTask' | translate }}</span>
+       <span *ngIf="task"> Edit Task</span>
     </div>
 
     <form [formGroup]="taskForm" (submit)="submitForm()">
@@ -11,6 +12,7 @@
                     <div class="col-md-6">
                         <label class="u-title-label">{{ 'tasks.newTaskModal.type' | translate }}</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="type">
                                 <mat-option *ngFor="let type of taskTypes" [value]="type.uuid">
                                     {{type.name}}
@@ -25,6 +27,7 @@
                         <label class="u-title-label">{{'dockets.profile.tasks.priority' | translate}}</label>
                         <mat-form-field appearance="fill"
                                         class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="priority">
                                 <mat-option [value]="priorityTask.High">
                                   Alta
@@ -48,6 +51,7 @@
                         <label class="u-title-label">{{ 'tasks.newTaskModal.personName' | translate }}</label>
 
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="customer" [disabled]="this.dataDialog && this.dataDialog.customer !== undefined">
                                 <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
                                     {{customer | customerFullName}}
@@ -80,6 +84,7 @@
                         <label class="u-title-label">{{ 'tasks.newTaskModal.assignTo' | translate }}</label>
 
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
                           <mat-select formControlName="assigned_to" [disabled]="this.dataDialog && this.dataDialog.securityUser !== undefined">
                              <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
                                 {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}
@@ -97,6 +102,7 @@
                         <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
                         <mat-form-field appearance="fill"
                                         class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event.value)" [disabled]="this.dataDialog && this.dataDialog.caseFile !== undefined">
                                 <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
                                     {{caseFile.name}}
@@ -216,7 +222,8 @@
                 {{ 'tasks.newTaskModal.close' | translate }}
             </button>
             <button mat-button class="c-btn c-btn--primary c-btn--small">
-                {{ 'tasks.newTaskModal.save' | translate }}
+                <span *ngIf="!task">{{ 'tasks.newTaskModal.save' | translate }}</span>
+                <span *ngIf="task">Save Changes</span>
             </button>
         </mat-dialog-actions>
 

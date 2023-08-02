@@ -181,14 +181,15 @@ export interface Task {
   name:                string;
   description:         string;
   has_due_date:        boolean;
-  total_hours:          number;
+  total_hours:         number;
   start_date:          null;
   end_date:            null;
   created_by:          string;
   updated_by:          null;
   subscription:        string;
   type:                TaskType;
-  typeName?:            string;
+  typeName?:           string;
+  overdue?:            Boolean;
 }
 
 
