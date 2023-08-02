@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
           this.dialog.open(DialogAddHoursComponent);
       } else {
           const currentTaskTimeInfo: CurrentTaskTimeInfo = {
-              startAt: new Date(),
+              startAt: moment(new Date()).toDate(),
               expiredAt: moment(new Date()).add(1, 'd').toDate()
           };
           this.taskTimeService.storeCurrentTaskTimeInfo(currentTaskTimeInfo);

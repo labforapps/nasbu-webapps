@@ -26,8 +26,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   securityUsers!:SecurityUser[];
   securityUserSelected!:SecurityUser;
   taskTime!:TimeTask;
-  startTime!:Date;
-  endTime!:Date;
+  startTime!:any;
+  endTime!:any;
 
   currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
 
@@ -51,7 +51,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     this.getSecurityUsers();
     this.currentTaskTimeInfo = this.taskTimeService.getCurrentTaskTimeInfo();
 
-    if(this.dataDialog.taskTime) this.taskTime = this.dataDialog.taskTime;
+    if(this.dataDialog && this.dataDialog.taskTime !== undefined) this.taskTime = this.dataDialog.taskTime;
 
     this.setForm();
 
@@ -68,8 +68,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
       description:    ['',Validators.required],
       task:           ['',Validators.required],
       executed_by:    ['',Validators.required],
-      total_time:     [''],
-      total_amt:      ['',Validators.required],
+      quoted_hours:   [0],
+      price_per_hour: [''],
       not_billable:   [false,Validators.required],
     });
   }
@@ -86,7 +86,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   getTasks(){
     this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
       this.tasks = data;
-     if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid})
+     if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid,price_per_hour: this.task.bt_price_per_hour})
     })
   }
 
@@ -111,7 +111,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   startTimer(){
     if(!this.countUp.isTimerStart){
-      this.startTime = new Date();
+      this.startTime = moment(new Date()).format();
       this.storeTaskTimeInfo();
       this.countUp.startTimer();
     }
@@ -150,30 +150,44 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   submitForm(){
 
-    if(!this.taskTimeForm.valid){
-      this.helperService.showMessageRequiredFields();
-    }
+    // if(!this.taskTimeForm.valid){
+    //   this.helperService.showMessageRequiredFields();
+    //   return;
+    // }
 
     const taskTimeFormValue = this.taskTimeForm.value;
 
-    const startDate = moment(new Date());
-    const endDate   = startDate.add(3,'h');
-    const totalTime = endDate.diff(startDate,'minute');
+    let startDate = this.startTime;
+    let endDate   = new Date().toISOString();
+    let totalTime = moment(new Date()).diff(startDate,'minute');
 
-    //const total_time = Math.round((this.endTime.getTime() - this.startTime.getTime()) / 1000) / 60;
+    let currentTaskTimeInfo: CurrentTaskTimeInfo | null = this.taskTimeService.getCurrentTaskTimeInfo();
+
+    if(currentTaskTimeInfo != null) startDate = currentTaskTimeInfo.startAt;
+
+    let fixed_time = false;
+
+    if(Number(taskTimeFormValue.quoted_hours) > 0){
+      fixed_time = true;
+      totalTime = Number(taskTimeFormValue.quoted_hours) * 60;
+    }
 
     const timeTaskPayload: TimeTask = {
-      subscription: this.task ?  this.task.subscription : '',
+      subscription: this.selectedSubscription?.ssid.uuid,
       ...taskTimeFormValue,
       title: taskTimeFormValue.description,
       total_time_str: totalTime,//Enviar la hora del reloj
       total_time: totalTime,
-      start_at: this.startTime.toISOString(),
+      start_at: startDate,
       total_amt: 0,
-      end_at: this.endTime.toISOString(),
+      end_at: endDate,
+      fixed_time
     };
 
     if(this.taskTime) timeTaskPayload.uuid = this.taskTime.uuid;
+
+
+    console.log(timeTaskPayload);
 
     this.practiceService.saveTaskTime(timeTaskPayload).subscribe(data => {
 

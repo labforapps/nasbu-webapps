@@ -14,8 +14,8 @@
 
                                   <input class="c-form-group__input"
                                          matInput
-                                         placeholder="Ej: Crear contrato de servicio"
-                                         formControlName="total_amt"
+                                         placeholder="Ej: 25"
+                                         formControlName="price_per_hour"
                                          [readonly]="true">
 
                                 </mat-form-field>
@@ -30,8 +30,8 @@
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                     <input class="c-form-group__input"
                                     matInput
-                                    placeholder="Ej: Crear contrato de servicio"
-                                    formControlName="total_time">
+                                    placeholder="Ej: 1,2"
+                                    formControlName="quoted_hours">
                                   </mat-form-field>
                                 <mat-error>
                                     {{

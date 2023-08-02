@@ -14,7 +14,7 @@
                         <div class="c-hour-count__title">{{ taskTime.description }}</div>
                         <div class="c-hour-count__data">
                             <span>
-                                <span class="icon-clock mr-1"></span> {{ taskTime.total_time }} hr.
+                                <span class="icon-clock mr-1"></span> {{ taskTime.total_time / 60 }} hr.
                             </span>
                             <span>
                                 {{ taskTime.total_amt| currency:'USD':true }}

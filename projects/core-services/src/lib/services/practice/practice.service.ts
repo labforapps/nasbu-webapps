@@ -327,8 +327,8 @@ export class PracticeService {
   }
 
   completeTask(task:Task):Observable<Task>{
-    const serverUrl = `${this.config.serverUrl}/practice/tasks/${task.uuid}/complete_task/?subscription=${task.subscription}`;
-    return this.httpClient.get<Task>(serverUrl);
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/${task.uuid}/change_status/?subscription=${task.subscription}`;
+    return this.httpClient.put<Task>(serverUrl,task);
   }
 
 

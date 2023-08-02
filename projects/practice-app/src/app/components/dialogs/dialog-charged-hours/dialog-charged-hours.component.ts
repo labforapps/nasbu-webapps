@@ -50,7 +50,7 @@ export class DialogChargedHoursComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result:TimeTask) => {
 
-      if(result.uuid){
+      if(result && result.uuid){
         const caseFileFiltered = this.tasksTime.filter(x => x.uuid === result.uuid);
         if(caseFileFiltered){
           this.tasksTime = this.tasksTime.filter(x => x.uuid !== result.uuid);
@@ -79,10 +79,10 @@ export class DialogChargedHoursComponent implements OnInit {
 
 
   get totalHours(){
-    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time, 0) : 0;
+    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time, 0) / 60 : 0;
   }
 
   get totalAmount(){
-    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time * curr.total_amt, 0) : 0;
+    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc +  Number(curr.total_amt), 0) : 0;
   }
 }

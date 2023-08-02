@@ -219,6 +219,7 @@ export interface TimeTask {
   end_at:         Date;
   not_billable:   boolean;
   created_at:     string;
+  fixed_time?:    Boolean;
 }
 
 
