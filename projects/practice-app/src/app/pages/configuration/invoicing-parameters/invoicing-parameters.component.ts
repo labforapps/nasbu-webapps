@@ -34,9 +34,8 @@ export class InvoicingParametersComponent implements OnInit {
 
   initForm(){
     this.invoicingParameterForm = this.formBuilder.group({
-      subscription: [this.selectedSubscription],
       price_per_hour:      [''],
-      increment_factor:    ['Minuto'],
+      increment_factor:    [0],
       price_per_increment: [''],
       allow_retainers:     [false],
       allow_flat_fee:      [false]
@@ -48,7 +47,8 @@ export class InvoicingParametersComponent implements OnInit {
   }
 
   submitForm(){
-    console.log(this.invoicingParameterForm.value);
+
+    this.invoicingParameterForm.value.subscription = this.selectedSubscription?.ssid.uuid;
 
     if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid){
       this.subscriptionService.updateSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.subscriptionBillingFee[0].uuid || '',this.invoicingParameterForm.value).subscribe(data => {
