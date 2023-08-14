@@ -6,71 +6,83 @@
         </div>
 
         <div class="text-right">
-            <p class="u-fontBold">USD 75</p>
+            <p class="u-fontBold">USD {{invoice?.net_amt || 0}}</p>
             <p class="u-smallerSize">Total facturado</p>
         </div>
-        
+
     </div>
-    <mat-dialog-content>
 
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
-                    <div>
-                        <div class="u-textLightColor mb-1">01/16/2022</div>
-                        <div class="u-textColor mb-1">NB0001 - Moya y asociados </div>
-                        <div class="u-textColor">Factura #1</div>
+    <form action="" [formGroup]="paymentForm" (submit)="onSubmit()">
+
+          <mat-dialog-content>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
+                        <div>
+                            <div class="u-textLightColor mb-1">{{currentDate}}</div>
+                            <div class="u-textColor mb-1">{{invoice?.case_file?.code}} - {{invoice?.customer | customerFullName}} </div>
+                            <div class="u-textColor">Factura #{{invoice?.code}}</div>
+                        </div>
+                        <ngx-avatar [name]="customer | customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
                     </div>
-                    <ngx-avatar name="Moya Asociados" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
                 </div>
             </div>
-        </div>
 
-        <div class="row mb-2">
-            <div class="col-md-12">
-                <label class="u-title-label">Monto a registrar</label>
-                <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Monto</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="$0.00">
-                </mat-form-field>
+            <div class="row mb-2">
+                <div class="col-md-12">
 
-                <label class="u-title-label">Método de pago </label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Método</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                  <label class="u-title-label">A cuál factura le aplicarás un pago?</label>
+                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                      <mat-label>Seleccionar Factura</mat-label>
+                      <mat-select formControlName="invoice" (selectionChange)="onInvoiceChange($event)">
+                          <mat-option *ngFor="let invoice of invoices" [value]="invoice.uuid">
+                              {{'Factura #' + invoice.code + ' - ' }} {{invoice.customer | customerFullName}}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
 
-                <div class="d-flex align-items-center mt-2 mb-5">
-                    <span class="icon-email mr-4" style="font-size: 25px;"></span>
-                    <p class="u-textColor">Al aplicar el pago se envía un recibo automático <b>¿A cuál se lo enviamos?</b></p>
+                    <label class="u-title-label">Monto a registrar</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Monto</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="$0.00" formControlName="total_amt">
+                    </mat-form-field>
+
+                    <label class="u-title-label">Método de pago </label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>Método</mat-label>
+                        <mat-select formControlName="payment_method">
+                            <mat-option [value]="paymentMethod.CASH">
+                                CASH
+                            </mat-option>
+                            <mat-option [value]="paymentMethod.TRANSFER">
+                                TRANSFER
+                            </mat-option>
+                            <mat-option [value]="paymentMethod.CREDIT_CARD">
+                                CREDIT CARD
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="d-flex align-items-center mt-2 mb-5">
+                        <span class="icon-email mr-4" style="font-size: 25px;"></span>
+                        <p class="u-textColor">Al aplicar el pago se envía un recibo automático <b>¿A cuál se lo enviamos?</b></p>
+                    </div>
+
+                    <div class="d-flex flex-column" *ngIf="customer">
+                        <mat-checkbox class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.email">
+                            <span class="ml-2">{{contact.contact_value}}</span>
+                        </mat-checkbox>
+                    </div>
+
                 </div>
-
-                <div class="d-flex flex-column">
-                    <mat-checkbox class="c-checkbox mb-2 u-normalSize u-link">
-                        <span class="ml-2">Manuel@fugus.com</span>
-                    </mat-checkbox>
-                    <mat-checkbox class="c-checkbox mb-2 u-normalSize u-link">
-                        <span class="ml-2">Estiloscontabilidad@fugus.com</span>
-                    </mat-checkbox>
-                    
-
-                </div>
-
             </div>
-        </div>
-    </mat-dialog-content>
-    <mat-dialog-actions class="c-dialog-header__footer flex-column">
-        <button mat-button class="c-btn-function w-50">Aplicar pago </button>
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-    </mat-dialog-actions>
+        </mat-dialog-content>
+        <mat-dialog-actions class="c-dialog-header__footer flex-column">
+            <button mat-button class="c-btn-function w-50">Aplicar pago </button>
+            <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        </mat-dialog-actions>
+
+    </form>
+
 </div>

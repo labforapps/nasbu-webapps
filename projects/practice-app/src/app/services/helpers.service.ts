@@ -52,6 +52,26 @@ export class HelpersService {
 
   }
 
+  showConfirmationExitInvoice(){
+
+    return Swal.fire({
+      title: '¿Desea abandonar esta factura?',
+      text: this.translateService.instant(
+        'clients.table.buttons.actions_cannot_be_reversed'
+      ),
+      iconHtml: '<img src="assets/images/Signo_advertencia.svg">',
+      confirmButtonText: 'Estoy Seguro',
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+      customClass: {
+        popup: 'c-alert-exit',
+      },
+    }).then((result) => {
+      return result;
+    });
+
+  }
+
   showConfirmationDeleteDialog(): Promise<any> {
     return Swal.fire({
       title: this.translateService.instant(
@@ -65,7 +85,7 @@ export class HelpersService {
       showCancelButton: true,
       cancelButtonText: 'Cancel', // Customize as needed
       customClass: {
-        popup: 'c-alert c-alert--delete',
+        popup: 'c-alert',
       },
     }).then((result) => {
       return result;

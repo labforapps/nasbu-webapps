@@ -35,6 +35,7 @@ import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-
 import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
 import { SignInFirstPasswordComponent } from './pages/sign-in-first-password/sign-in-first-password.component';
 import { DialogUploadComponent } from './components/dialogs/dialog-upload/dialog-upload.component';
+import { CanComponenteDeactivateGuard } from './shared/guards/can-componente-deactivate.guard';
 
 const routes: Routes = [
   {
@@ -121,6 +122,8 @@ const routes: Routes = [
       {
         path: 'invoicing/new-invoice',
         component: NewInvoiceComponent,
+        canDeactivate: [CanComponenteDeactivateGuard],
+
       },
       {
         path: 'task',

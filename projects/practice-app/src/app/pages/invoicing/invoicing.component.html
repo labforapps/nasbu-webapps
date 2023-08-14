@@ -7,7 +7,7 @@
             <div class="l-page__title">Facturación</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn c-btn--outline c-btn--small" mat-button [routerLink]="'create-client'">Registrar pago<span class="icon-plus ml-2 "></span></button>
+            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">Registrar pago<span class="icon-plus ml-2 "></span></button>
             <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">Nueva Factura<span class="icon-plus ml-3 "></span></button>
 
         </div>
@@ -15,52 +15,63 @@
     <div class="l-page__body">
         <mat-tab-group class="c-tabs">
             <mat-tab>
-                <ng-template mat-tab-label>
-                    Todas
-                    <div class="c-tabs__badge">0</div>
-                </ng-template>
-                <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center u-h-50-vh">
-                    <img class="mb-5" src="../../../assets/images/invoice-blank.svg" alt="">
-                    <p class="u-textLightColor">Aún no tienes facturas Generadas o listas para se cobradas</p>
-                    <button mat-button class="u-link mt-1">+ Generar nueva factura</button>
-                </div>
+
+              <ng-template mat-tab-label>
+                Todas
+                <div class="c-tabs__badge">{{allInvoices.length}}</div>
+              </ng-template>
+
+              <app-no-invoices *ngIf="invoices && invoices.length === 0"></app-no-invoices>
+
+              <app-invoicing-table [invoices]="allInvoices" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+
             </mat-tab>
             <mat-tab>
+
                 <ng-template mat-tab-label>
                     Pendiente aprobación
-                    <div class="c-tabs__badge">6</div>
+                    <div class="c-tabs__badge">{{notApprovedInvoices.length}}</div>
                 </ng-template>
-                <app-invoicing-pending></app-invoicing-pending>
+
+                <app-invoicing-table [invoices]="notApprovedInvoices"
+                                     [inputInvoiceStatus]="invoiceStatus.NOT_APPROVED"
+                                     *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
+
                 <ng-template mat-tab-label>
                     En espera de pago
-                    <div class="c-tabs__badge">8</div>
+                    <div class="c-tabs__badge">{{pendingInvoices.length}}</div>
                 </ng-template>
-                <app-invoicing-waiting></app-invoicing-waiting>
 
-
+                <app-invoicing-table [invoices]="pendingInvoices"
+                                     *ngIf="invoices && invoices.length > 0"
+                                     [inputInvoiceStatus]="invoiceStatus.PENDING"></app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
+
                 <ng-template mat-tab-label>
                     Pagadas
-                    <div class="c-tabs__badge">4</div>
+                    <div class="c-tabs__badge">{{payedInvoices.length}}</div>
                 </ng-template>
-                <app-invoicing-paid></app-invoicing-paid>
 
-
+                <app-invoicing-table [invoices]="payedInvoices"
+                                     *ngIf="invoices && invoices.length > 0"
+                                     [inputInvoiceStatus]="invoiceStatus.PAYED"></app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
+
                 <ng-template mat-tab-label>
                     Vencidas
-                    <div class="c-tabs__badge">5</div>
+                    <div class="c-tabs__badge">{{expiredInvoices.length}}</div>
                 </ng-template>
-               <app-invoicing-expired></app-invoicing-expired>
 
-
+                <app-invoicing-table [invoices]="expiredInvoices"
+                                     *ngIf="invoices && invoices.length > 0"
+                                     [inputInvoiceStatus]="invoiceStatus.EXPIRED"></app-invoicing-table>
 
             </mat-tab>
         </mat-tab-group>

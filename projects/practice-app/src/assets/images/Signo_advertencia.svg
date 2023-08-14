@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="106" height="106" viewBox="0 0 106 106">
+  <g id="Grupo_2247" data-name="Grupo 2247" transform="translate(-438 -403)">
+    <circle id="Elipse_322" data-name="Elipse 322" cx="53" cy="53" r="53" transform="translate(438 403)" fill="#f7cc7d"/>
+    <g id="senal-de-precaucion" transform="translate(465.005 411.086)">
+      <g id="Grupo_2246" data-name="Grupo 2246" transform="translate(0.001 15.344)">
+        <path id="Trazado_2594" data-name="Trazado 2594" d="M51.766,60.247,27.571,16.276a1.8,1.8,0,0,0-3.153,0L.223,60.247A1.8,1.8,0,0,0,1.8,62.914H50.189a1.8,1.8,0,0,0,1.577-2.667ZM4.844,59.315l21.15-38.439,21.15,38.439Z" transform="translate(-0.001 -15.344)" fill="#957a48"/>
+        <path id="Trazado_2595" data-name="Trazado 2595" d="M164.894,129.675v13.007a2.255,2.255,0,1,0,4.51,0V129.675a2.255,2.255,0,1,0-4.51,0Z" transform="translate(-141.155 -111.285)" fill="#957a48"/>
+        <path id="Trazado_2596" data-name="Trazado 2596" d="M166.434,265.364a2.375,2.375,0,1,0,2.375,2.375A2.378,2.378,0,0,0,166.434,265.364Z" transform="translate(-140.44 -229.37)" fill="#957a48"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -27,7 +27,7 @@ export class FormService {
     (form.get(formArray) as FormArray).removeAt(index);
   }
 
-  filterFormArray(form:FormGroup,formArray:string,field:string,value:string)
+  filterFormArray(form:FormGroup,formArray:string,field:string,value:any)
   {
     return (form.get(formArray) as FormArray).controls.filter((control) => {
       return control.get(field)?.value === value;
