@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
+import { Customer, Invoice, InvoiceStatus, Payment, PaymentMethod, TypeContact } from 'core-models';
+import { AccountingService, AuthService, CustomersService } from 'core-services';
+import * as moment from 'moment';
+import { HelpersService } from '../../../services/helpers.service';
 
 @Component({
   selector: 'app-dialog-payment-register',
@@ -7,9 +14,89 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogPaymentRegisterComponent implements OnInit {
 
-  constructor() { }
+  paymentForm!:FormGroup;
+  payment!:Payment;
+  paymentMethod = PaymentMethod;
+  selectedSubscription!:any;
+  invoices!:Invoice[];
+  invoice!:Invoice | undefined;
+  customer!:Customer;
+  typeContact = TypeContact;
+  invoiceStatus = InvoiceStatus;
+
+  constructor(private formBuilder:FormBuilder,
+              private accountService:AccountingService,
+              private authService: AuthService,
+              private customerService:CustomersService,
+              public  dialogRef: MatDialogRef<DialogPaymentRegisterComponent>,
+              private helperService:HelpersService,
+              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice}) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getInvoices();
+    this.initForm();
+
+    if(this.dataDialog && this.dataDialog.invoice){
+      this.invoice = this.dataDialog.invoice;
+      this.paymentForm.patchValue({invoice: this.invoice.uuid})
+    }
+  }
+
+
+  get currentDate() {
+    return moment().format('MM/DD/YYYY');
+  }
+
+  initForm(){
+
+    this.paymentForm = this.formBuilder.group({
+      payment_method: ['',Validators.required],
+      total_amt:      ['',Validators.required],
+      invoice:        ['',Validators.required]
+    })
+
+  }
+
+  getInvoices(){
+    this.accountService.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.invoices = data.filter(x => x.status === this.invoiceStatus.PENDING || x.status === this.invoiceStatus.EXPIRED);
+    })
+  }
+
+  onInvoiceChange(select:MatSelectChange){
+    const invoiceUUID = select.value;
+    this.invoice = this.invoices.find(x => x.uuid === invoiceUUID );
+
+    this.customerService.getCustomerById(this.selectedSubscription?.ssid.uuid,this.invoice?.customer.uuid || '').subscribe(data => {
+      this.customer = data;
+    })
+  }
+
+  onSubmit(){
+
+    console.log(this.paymentForm.value);
+
+    if(!this.paymentForm.valid){
+      this.helperService.showMessageRequiredFields();
+      return;
+    }
+
+    const myDate = moment();
+
+    const payment:Payment = {
+      payment_date:   '2023-08-13',
+      subscription:   this.selectedSubscription?.ssid.uuid,
+      customer:       this.invoice?.customer.uuid,
+      ...this.paymentForm.value
+    }
+
+    this.accountService.createPayment(this.selectedSubscription?.ssid.uuid,payment).subscribe(data => {
+      this.helperService.showMessageCreated();
+      this.dialogRef.close({});
+    })
+
+
   }
 
 }

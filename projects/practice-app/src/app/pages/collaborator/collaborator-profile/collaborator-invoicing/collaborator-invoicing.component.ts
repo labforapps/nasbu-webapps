@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Invoice, InvoiceStatus, SecurityUser } from 'core-models';
+import { AccountingService } from 'core-services';
 
 @Component({
   selector: 'app-collaborator-invoicing',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CollaboratorInvoicingComponent implements OnInit {
 
-  constructor() { }
+  @Input() securityUser!:SecurityUser;
+  invoices!:Invoice[];
+  invoiceStatus = InvoiceStatus;
+
+  constructor(private accountinService:AccountingService) { }
 
   ngOnInit(): void {
+    this.getInvoicesBySecurityUser();
+  }
+
+  getInvoicesBySecurityUser(){
+    this.accountinService.getInvoices(this.securityUser.subscription).subscribe(data => {
+      console.log(data);
+      this.invoices = data.filter(x => x.created_by === this.securityUser.uuid);
+      console.log(this.invoices);
+    })
   }
 
 }

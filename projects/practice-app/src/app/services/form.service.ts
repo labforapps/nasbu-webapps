@@ -27,7 +27,7 @@ export class FormService {
     (form.get(formArray) as FormArray).removeAt(index);
   }
 
-  filterFormArray(form:FormGroup,formArray:string,field:string,value:string)
+  filterFormArray(form:FormGroup,formArray:string,field:string,value:any)
   {
     return (form.get(formArray) as FormArray).controls.filter((control) => {
       return control.get(field)?.value === value;
@@ -51,6 +51,18 @@ export class FormService {
     });
 
     const index = (form.get('contacts') as FormArray).controls.indexOf(contactArray[0]);
+
+    return index;
+  }
+
+  returnIndexFormArrayInvoiceDetail(form:FormGroup, invoice_detail:any)
+  {
+    const invoiceDetailArray = (form.get('details') as FormArray).controls.filter((control) => {
+      return control.get('description')?.value === invoice_detail.description &&
+      control.get('is_legal_charge')?.value === invoice_detail.is_legal_charge
+    });
+
+    const index = (form.get('details') as FormArray).controls.indexOf(invoiceDetailArray[0]);
 
     return index;
   }

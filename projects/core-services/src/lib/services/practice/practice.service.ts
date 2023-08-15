@@ -314,7 +314,7 @@ export class PracticeService {
   }
 
   getTasksByCaseFile(subscription:string,uuid:string):Observable<Task[]>{
-    const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/tasks?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/tasks/?subscription=${subscription}`;
     return this.httpClient.get<Task[]>(serverUrl).pipe(
       switchMap((tasks: Task[]) => {
             return of(tasks.sort((a, b) => {

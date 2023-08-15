@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { CaseFile, CaseFileStatus, TypeCustomer, modules } from 'core-models';
 import { AuthService, PracticeService } from 'core-services';
 import * as moment from 'moment';
-import { ToastrService } from 'ngx-toastr';
 import { DialogCloseExpedientComponent } from '../../../components/dialogs/dialog-close-expedient/dialog-close-expedient.component';
 
 @Component({

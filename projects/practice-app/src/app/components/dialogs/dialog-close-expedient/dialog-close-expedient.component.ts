@@ -26,10 +26,9 @@ export class DialogCloseExpedientComponent implements OnInit {
   }
 
   closeExpedient(){
-
+    this.caseFile.status = this.caseFileStatus.CLOSED;
     this.practiceService.updateCaseFileChangeStatus(this.caseFile).subscribe(data => {
       this.pageStep = 2;
-      this.caseFile.status = this.caseFileStatus.CLOSED;
     })
   }
 

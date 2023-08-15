@@ -85,6 +85,8 @@ import { ExpedientWalletIncomesComponent } from './expedient/expedient-info/expe
 import { ExpedientWalletTableComponent } from './expedient/expedient-info/expedient-wallet/expedient-wallet-table/expedient-wallet-table.component';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
+import { InvoicingTableComponent } from './invoicing/components/invoicing-table/invoicing-table.component';
+import { NoInvoicesComponent } from './invoicing/components/no-invoices/no-invoices.component';
 
 
 @NgModule({
@@ -160,6 +162,8 @@ import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
     ExpedientWalletExpensesComponent,
     ExpedientWalletIncomesComponent,
     ExpedientWalletTableComponent,
+    InvoicingTableComponent,
+    NoInvoicesComponent,
   ],
   imports: [
     CommonModule,

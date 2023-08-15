@@ -8,7 +8,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile } from 'core-models';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 import { PracticeService } from 'core-services';
-import { DialogCloseTaskComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-close-task/dialog-close-task.component';
 import { TaskTypeIconSVG } from 'projects/core-models/src/public-api';
 import * as moment from 'moment';
 

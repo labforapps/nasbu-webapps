@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType } from 'core-models';
+import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType, Invoice, InvoiceStatus } from 'core-models';
 import { CommonService } from '../common';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { CommonService } from '../common';
 export class CustomersService {
 
   typeCustomer = TypeCustomer
+  InvoiceStatus = InvoiceStatus;
 
   constructor(
     @Inject('config') private config: any,
@@ -129,6 +130,28 @@ export class CustomersService {
               let dateB = new Date(b.created_at || '').getTime();
               return dateB - dateA;
           }));
+      })
+    );
+  }
+
+  getInvoicesByCustomer(customer:Customer){
+    const serverUrl = `${this.config.serverUrl}/catalog/customers/${customer.uuid}/invoices?subscription=${customer.subscription}`;
+    return this.httpClient.get<Invoice[]>(serverUrl).pipe(
+      switchMap((invoices:Invoice[]) => {
+
+        invoices.forEach(x => {
+          if(x.status === this.InvoiceStatus.PENDING){
+            const expiredDate = new Date(x.inv_exp_date + 'T00:00:00').getTime();
+            const currentDate = new Date().getTime();
+            x.status = expiredDate < currentDate ? this.InvoiceStatus.EXPIRED : this.InvoiceStatus.PENDING;
+          }
+        })
+
+        return of(invoices.sort((a, b) => {
+          let dateA = new Date(a.created_at || '').getTime();
+          let dateB = new Date(b.created_at || '').getTime();
+          return dateB - dateA;
+      }))
       })
     );
   }

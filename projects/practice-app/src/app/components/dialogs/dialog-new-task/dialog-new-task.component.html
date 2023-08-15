@@ -64,6 +64,25 @@
                         </mat-error>
                     </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                      <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
+                      <mat-form-field appearance="fill"
+                                      class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar</mat-label>
+                          <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event.value)" [disabled]="this.dataDialog && this.dataDialog.caseFile !== undefined">
+                              <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
+                                  {{caseFile.name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <mat-error>
+                          {{ taskForm.get('case_file') | validations }}
+                      </mat-error>
+                  </div>
+              </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <label class="u-title-label">{{ 'tasks.newTaskModal.description' | translate }}</label>
@@ -97,23 +116,7 @@
                         </mat-error>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>
-                        <mat-form-field appearance="fill"
-                                        class="c-form-group c-form-group__select c-form-group--small">
-                            <mat-label>Seleccionar</mat-label>
-                            <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event.value)" [disabled]="this.dataDialog && this.dataDialog.caseFile !== undefined">
-                                <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
-                                    {{caseFile.name}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-error>
-                            {{ taskForm.get('case_file') | validations }}
-                        </mat-error>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <label class="u-title-label d-block mt-3">{{ 'tasks.newTaskModal.whenReady' | translate }}</label>

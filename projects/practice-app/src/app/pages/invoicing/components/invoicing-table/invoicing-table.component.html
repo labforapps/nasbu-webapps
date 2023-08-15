@@ -1,0 +1,136 @@
+<div class="u-smallSize mb-3 d-flex align-items-center u-gap-1 flex-wrap">
+  <p>
+      <b>Tienes <span >{{invoices ? invoices.length : 0}}</span> Facturas</b> Para enviar al cliente
+  </p>
+  <p class="u-textColor ml-auto mr-2">
+      Organizado por fecha de creación
+  </p>
+  <div class="c-form-group--search bordered u-smallSize mt-1">
+      <input matInput type="mail" placeholder="Buscar por nombre" (keyup)="searchByName($event)">
+      <span class="icon-search"></span>
+  </div>
+</div>
+
+<div class="u-table-responsive">
+  <table mat-table [dataSource]="dataSource" class="c-table">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+              <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+              <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+          </td>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <img *ngIf="element.status === invoiceStatus.NOT_APPROVED" class="c-table__icon" src="../../../../assets/images/table-icons/invoice-approved.svg" alt="">
+            <img *ngIf="element.status === invoiceStatus.EXPIRED" class="c-table__icon" src="../../../../assets/images/table-icons/invoice-expired.svg" alt="">
+            <img *ngIf="element.status === invoiceStatus.PAYED" class="c-table__icon" src="../../../../assets/images/table-icons/invoice-paid.svg" alt="">
+            <img *ngIf="element.status === invoiceStatus.PENDING" class="c-table__icon" src="../../../../assets/images/table-icons/invoice-pending.svg" alt="">
+          </td>
+      </ng-container>
+
+      <ng-container matColumnDef="number" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> #No. Fact. </th>
+          <td mat-cell *matCellDef="let element">
+              {{element.code}}
+          </td>
+      </ng-container>
+      <!-- task Column -->
+      <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef > Estatus </th>
+          <td mat-cell *matCellDef="let element" >
+              <span class="u-fontBold"
+              [ngClass]="{'u-textLightBlue': element.status === invoiceStatus.NOT_APPROVED,
+                          'u-dangerColor':element.status === invoiceStatus.EXPIRED,
+                          'u-primaryColor':element.status === invoiceStatus.PAYED,
+                          'u-yellowColor':element.status === invoiceStatus.PENDING}">
+                {{element.status}}
+              </span>
+          </td>
+      </ng-container>
+
+      <!-- Estatus Column -->
+      <ng-container matColumnDef="expedient">
+          <th mat-header-cell *matHeaderCellDef> Expediente </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="u-link c-table__truncate" *ngIf="element.case_file" [routerLink]="'/expedient-info/' + element.case_file.uuid">
+              {{element.case_file.name}}
+            </span>
+            <span class="u-textLightColor" *ngIf="!element.case_file">
+              Sin expediente
+            </span>
+          </td>
+      </ng-container>
+
+      <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef> Cliente </th>
+          <td mat-cell *matCellDef="let element" class="u-link" [routerLink]="'/client-profile/' + element.customer.uuid">
+            {{element.customer.first_name + ' ' + element.customer.last_name}}
+          </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.inv_date | date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="payments">
+        <th mat-header-cell *matHeaderCellDef>Pagos </th>
+        <td mat-cell *matCellDef="let element" class="u-link" (click)="openDialogPaymentHistory(element)"> Ver pagos </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="delay">
+      <th mat-header-cell *matHeaderCellDef>Atraso </th>
+      <td mat-cell *matCellDef="let element" class="u-dangerColor"> {{element.days_late | number}} </td>
+    </ng-container>
+
+      <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef> Monto factura </th>
+          <td mat-cell *matCellDef="let element"> {{element.net_amt}} </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+
+              <mat-button-toggle-group class="c-btn-table">
+                  <mat-button-toggle (click)="openDialogSendInvoice()">Enviar</mat-button-toggle>
+                  <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                      <span class="icon-arrow-down"></span>
+                  </mat-button-toggle>
+              </mat-button-toggle-group>
+
+              <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
+                  <button mat-menu-item class="matMenu-yellow" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">Editar<span class="icon-pen"></span></button>
+                  <button mat-menu-item class="matMenu-red" (click)="deleteInvoice(element)">Eliminar <span class="icon-trash"></span></button>
+                  <button mat-menu-item class="matMenu-blue"*ngIf="element.status !== invoiceStatus.PAYED" (click)="openDialogRegisterPayment(element)">Aplicar pago<span class="icon-payment"></span></button>
+                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">Ver factura<span class="icon-invoice"></span></button>
+                  <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
+              </mat-menu>
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+  </table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
