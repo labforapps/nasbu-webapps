@@ -1,65 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-export interface PeriodicElement {
-  position: number;
-  state: string;
-  expedient: string;
-  date: string;
-  balance: string;
-  
+import { Component, Input, OnInit } from '@angular/core';
+import { CaseFile, Invoice, InvoiceStatus } from 'core-models';
+import { AccountingService } from 'core-services';
 
-}
-      
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 2,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 3,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 4,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 5,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 6,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  {position: 7,state:'Pendiente de pago',  expedient: 'NB0001-Acta de divorcio', date: '12/9/2021', balance: '500 USD'},
-  
-  
-
-];
 @Component({
   selector: 'app-expedient-invoicing',
   templateUrl: './expedient-invoicing.component.html',
   styleUrls: ['./expedient-invoicing.component.scss']
 })
 export class ExpedientInvoicingComponent implements OnInit {
-  displayedColumns: string[] = ['select','type','state','expedient', 'date', 'balance', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  @Input() caseFile!:CaseFile;
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  invoices!:Invoice[];
+  invoiceStatus = InvoiceStatus;
 
-    this.selection.select(...this.dataSource.data);
-  }
+  constructor(private accountinService:AccountingService) { }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  constructor() { }
   ngOnInit(): void {
+    this.getInvoicesByCaseFile();
+  }
+
+  getInvoicesByCaseFile(){
+    this.accountinService.getInvoices(this.caseFile.subscription).subscribe(data => {
+      console.log(data);
+      this.invoices = data.filter(x => x.case_file && x.case_file.uuid === this.caseFile.uuid);
+      console.log(this.invoices);
+    })
   }
 
 }

@@ -21,10 +21,10 @@
                     <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
                         <div>
                             <div class="u-textLightColor mb-1">{{currentDate}}</div>
-                            <div class="u-textColor mb-1">{{invoice?.case_file?.code}} - {{invoice?.customer | customerFullName}} </div>
+                            <div class="u-textColor mb-1">{{invoice?.case_file?.case_no}} - {{invoice?.customer | customerFullName}} </div>
                             <div class="u-textColor">Factura #{{invoice?.code}}</div>
                         </div>
-                        <ngx-avatar [name]="customer | customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
+                        <ngx-avatar [name]="invoice?.customer| customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
                     </div>
                 </div>
             </div>

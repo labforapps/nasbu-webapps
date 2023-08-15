@@ -23,7 +23,10 @@
 
               <app-no-invoices *ngIf="invoices && invoices.length === 0"></app-no-invoices>
 
-              <app-invoicing-table [invoices]="allInvoices" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+              <app-invoicing-table [invoices]="invoices"
+                                   *ngIf="invoices && invoices.length > 0"
+                                   (onExecuteInvoice)="onExecuteInvoice()">
+              </app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
@@ -33,9 +36,11 @@
                     <div class="c-tabs__badge">{{notApprovedInvoices.length}}</div>
                 </ng-template>
 
-                <app-invoicing-table [invoices]="notApprovedInvoices"
+                <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.NOT_APPROVED"
                                      [inputInvoiceStatus]="invoiceStatus.NOT_APPROVED"
-                                     *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+                                     *ngIf="invoices && invoices.length > 0"
+                                     (onExecuteInvoice)="onExecuteInvoice()">
+                </app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
@@ -45,9 +50,11 @@
                     <div class="c-tabs__badge">{{pendingInvoices.length}}</div>
                 </ng-template>
 
-                <app-invoicing-table [invoices]="pendingInvoices"
+                <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING"
                                      *ngIf="invoices && invoices.length > 0"
-                                     [inputInvoiceStatus]="invoiceStatus.PENDING"></app-invoicing-table>
+                                     [inputInvoiceStatus]="invoiceStatus.PENDING"
+                                     (onExecuteInvoice)="onExecuteInvoice()">
+                </app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
@@ -57,9 +64,11 @@
                     <div class="c-tabs__badge">{{payedInvoices.length}}</div>
                 </ng-template>
 
-                <app-invoicing-table [invoices]="payedInvoices"
+                <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED"
                                      *ngIf="invoices && invoices.length > 0"
-                                     [inputInvoiceStatus]="invoiceStatus.PAYED"></app-invoicing-table>
+                                     [inputInvoiceStatus]="invoiceStatus.PAYED"
+                                     (onExecuteInvoice)="onExecuteInvoice()">
+                </app-invoicing-table>
 
             </mat-tab>
             <mat-tab>
@@ -69,9 +78,11 @@
                     <div class="c-tabs__badge">{{expiredInvoices.length}}</div>
                 </ng-template>
 
-                <app-invoicing-table [invoices]="expiredInvoices"
+                <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.EXPIRED"
                                      *ngIf="invoices && invoices.length > 0"
-                                     [inputInvoiceStatus]="invoiceStatus.EXPIRED"></app-invoicing-table>
+                                     [inputInvoiceStatus]="invoiceStatus.EXPIRED"
+                                     (onExecuteInvoice)="onExecuteInvoice()">
+                </app-invoicing-table>
 
             </mat-tab>
         </mat-tab-group>

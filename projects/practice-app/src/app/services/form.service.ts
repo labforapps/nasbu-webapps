@@ -55,6 +55,18 @@ export class FormService {
     return index;
   }
 
+  returnIndexFormArrayInvoiceDetail(form:FormGroup, invoice_detail:any)
+  {
+    const invoiceDetailArray = (form.get('details') as FormArray).controls.filter((control) => {
+      return control.get('description')?.value === invoice_detail.description &&
+      control.get('is_legal_charge')?.value === invoice_detail.is_legal_charge
+    });
+
+    const index = (form.get('details') as FormArray).controls.indexOf(invoiceDetailArray[0]);
+
+    return index;
+  }
+
   returnFormArrayFields(form:FormGroup,formArray: string, index: number, field: string) {
     return (form.get(formArray) as FormArray)
       ?.at(index)

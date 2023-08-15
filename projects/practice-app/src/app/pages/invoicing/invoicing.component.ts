@@ -31,50 +31,6 @@ export class InvoicingComponent implements OnInit {
     })
   }
 
-  // setData(){
-
-  //   const getRandomStatus = (): InvoiceStatus => {
-  //     const statuses = Object.values(InvoiceStatus);
-  //     return statuses[Math.floor(Math.random() * statuses.length)];
-  //   };
-
-  //     for (let i = 0; i < 10; i++) {
-  //       const invoice: Invoice = {
-  //           uuid: `uuid-${i}`,
-  //           active: true,
-  //           created_at: new Date(),
-  //           updated_at: new Date(),
-  //           status: getRandomStatus(),
-  //           gross_amt: `100${i}`,
-  //           tax_amt: `10${i}`,
-  //           discount_amt: `5${i}`,
-  //           legal_charges_amt: `15${i}`,
-  //           net_amt: `80${i}`,
-  //           inv_date: new Date(),
-  //           inv_exp_date: new Date(new Date().setDate(new Date().getDate() + 30)),
-  //           send_by: "email",
-  //           to_origin_value: "USD",
-  //           created_by: "admin",
-  //           updated_by: "admin",
-  //           subscription: `sub-${i}`,
-  //           customer: {
-  //               subscription: `sub-${i}`,
-  //               type: "individual",
-  //               first_name: `John-${i}`,
-  //               last_name: `Doe-${i}`,
-  //               company_name: null,
-  //           },
-  //           case_file: {
-
-  //               name: `Case ${i}`,
-
-  //           }
-  //       };
-  //       this.invoices.push(invoice);
-  //     }
-
-  // }
-
   get allInvoices() {
     return this.invoices;
   }
@@ -95,8 +51,16 @@ export class InvoicingComponent implements OnInit {
     return this.invoices.filter(x => x.status === this.invoiceStatus.EXPIRED);
   }
 
+  onExecuteInvoice(){
+    this.getInvoices();
+  }
+
   openDialogPaymentRegister(){
-    this.dialog.open(DialogPaymentRegisterComponent);
+    const dialogRef = this.dialog.open(DialogPaymentRegisterComponent);
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      this.getInvoices();
+    });
   }
 
 }

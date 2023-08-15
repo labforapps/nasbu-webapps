@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
-import { Customer, Invoice, Payment, PaymentMethod, TypeContact } from 'core-models';
+import { Customer, Invoice, InvoiceStatus, Payment, PaymentMethod, TypeContact } from 'core-models';
 import { AccountingService, AuthService, CustomersService } from 'core-services';
 import * as moment from 'moment';
 import { HelpersService } from '../../../services/helpers.service';
@@ -22,18 +22,25 @@ export class DialogPaymentRegisterComponent implements OnInit {
   invoice!:Invoice | undefined;
   customer!:Customer;
   typeContact = TypeContact;
+  invoiceStatus = InvoiceStatus;
 
   constructor(private formBuilder:FormBuilder,
               private accountService:AccountingService,
               private authService: AuthService,
               private customerService:CustomersService,
               public  dialogRef: MatDialogRef<DialogPaymentRegisterComponent>,
-              private helperService:HelpersService) { }
+              private helperService:HelpersService,
+              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice}) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.getInvoices();
     this.initForm();
+
+    if(this.dataDialog && this.dataDialog.invoice){
+      this.invoice = this.dataDialog.invoice;
+      this.paymentForm.patchValue({invoice: this.invoice.uuid})
+    }
   }
 
 
@@ -44,16 +51,16 @@ export class DialogPaymentRegisterComponent implements OnInit {
   initForm(){
 
     this.paymentForm = this.formBuilder.group({
-      payment_method: [''],
-      total_amt:      [''],
-      invoice:        ['']
+      payment_method: ['',Validators.required],
+      total_amt:      ['',Validators.required],
+      invoice:        ['',Validators.required]
     })
 
   }
 
   getInvoices(){
     this.accountService.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.invoices = data;
+      this.invoices = data.filter(x => x.status === this.invoiceStatus.PENDING || x.status === this.invoiceStatus.EXPIRED);
     })
   }
 
@@ -70,8 +77,12 @@ export class DialogPaymentRegisterComponent implements OnInit {
 
     console.log(this.paymentForm.value);
 
-    const myDate = moment();
+    if(!this.paymentForm.valid){
+      this.helperService.showMessageRequiredFields();
+      return;
+    }
 
+    const myDate = moment();
 
     const payment:Payment = {
       payment_date:   '2023-08-13',

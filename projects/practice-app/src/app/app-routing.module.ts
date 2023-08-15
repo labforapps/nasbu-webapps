@@ -126,6 +126,10 @@ const routes: Routes = [
 
       },
       {
+        path: 'invoicing/edit-invoice/:id',
+        component: NewInvoiceComponent,
+      },
+      {
         path: 'task',
         component: TaskpageComponent,
       },

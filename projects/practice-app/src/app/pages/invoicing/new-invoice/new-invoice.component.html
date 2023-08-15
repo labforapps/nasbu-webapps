@@ -69,11 +69,11 @@
                       <div class="d-flex flex-column u-gap-1 mt-4">
                           <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
                               <mat-label>Fecha de factura</mat-label>
-                              <input matInput type="datetime-local" placeholder="start date" formControlName="inv_date">
+                              <input matInput type="date" placeholder="start date" formControlName="inv_date">
                           </mat-form-field>
                           <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
                               <mat-label>Fecha de vencimiento</mat-label>
-                              <input matInput type="datetime-local" placeholder="start date" formControlName="inv_exp_date">
+                              <input matInput type="date" placeholder="start date" formControlName="inv_exp_date">
                           </mat-form-field>
                       </div>
 
@@ -100,7 +100,7 @@
                               <tr *ngFor="let invoice_detail of filterFormArray('details','is_legal_charge',false); let i = index" [formGroupName]="i">
 
                                 <td>
-                                  <span class="icon-times mr-2" (click)="removeItemFormArray('details',i)"></span>
+                                  <span class="icon-times mr-2" (click)="removeItemFormArray('details',invoice_detail.value)"></span>
                                 </td>
                                   <td data-label="Item">
                                       <div class="d-flex align-items-center u-fontBold">
@@ -151,7 +151,7 @@
                                           <input class="c-form-group__input" matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_amt"
-                                                 (blur)="onChangeInvoiceDetail('invoice_detail',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>
@@ -189,7 +189,7 @@
                           <tbody formArrayName="details">
                               <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="i">
                                   <td>
-                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',i)"></span>
+                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',legal_expense.value)"></span>
                                   </td>
                                   <td data-label="Item">
                                       <div class="d-flex align-items-center u-fontBold">

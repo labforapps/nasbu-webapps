@@ -65,12 +65,21 @@
       <!-- Estatus Column -->
       <ng-container matColumnDef="expedient">
           <th mat-header-cell *matHeaderCellDef> Expediente </th>
-          <td mat-cell *matCellDef="let element" class="u-link c-table__truncate"> {{element.case_file.name}} </td>
+          <td mat-cell *matCellDef="let element">
+            <span class="u-link c-table__truncate" *ngIf="element.case_file" [routerLink]="'/expedient-info/' + element.case_file.uuid">
+              {{element.case_file.name}}
+            </span>
+            <span class="u-textLightColor" *ngIf="!element.case_file">
+              Sin expediente
+            </span>
+          </td>
       </ng-container>
 
       <ng-container matColumnDef="client">
           <th mat-header-cell *matHeaderCellDef> Cliente </th>
-          <td mat-cell *matCellDef="let element" class="u-link"> {{element.customer.first_name + ' ' + element.customer.last_name}} </td>
+          <td mat-cell *matCellDef="let element" class="u-link" [routerLink]="'/client-profile/' + element.customer.uuid">
+            {{element.customer.first_name + ' ' + element.customer.last_name}}
+          </td>
       </ng-container>
 
       <!-- Date Column -->
@@ -87,7 +96,7 @@
 
     <ng-container matColumnDef="delay">
       <th mat-header-cell *matHeaderCellDef>Atraso </th>
-      <td mat-cell *matCellDef="let element" class="u-dangerColor"> 5 </td>
+      <td mat-cell *matCellDef="let element" class="u-dangerColor"> {{element.days_late | number}} </td>
     </ng-container>
 
       <ng-container matColumnDef="amount">
@@ -108,10 +117,10 @@
               </mat-button-toggle-group>
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                  <button mat-menu-item class="matMenu-yellow">Editar<span class="icon-pen"></span></button>
+                  <button mat-menu-item class="matMenu-yellow" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">Editar<span class="icon-pen"></span></button>
                   <button mat-menu-item class="matMenu-red" (click)="deleteInvoice(element)">Eliminar <span class="icon-trash"></span></button>
-                  <button mat-menu-item class="matMenu-blue"*ngIf="element.status !== invoiceStatus.PAYED">Aplicar pago<span class="icon-payment"></span></button>
-                  <button mat-menu-item class="matMenu-green">Ver factura<span class="icon-invoice"></span></button>
+                  <button mat-menu-item class="matMenu-blue"*ngIf="element.status !== invoiceStatus.PAYED" (click)="openDialogRegisterPayment(element)">Aplicar pago<span class="icon-payment"></span></button>
+                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">Ver factura<span class="icon-invoice"></span></button>
                   <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
               </mat-menu>
           </td>

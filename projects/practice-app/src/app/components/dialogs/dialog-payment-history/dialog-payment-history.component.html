@@ -4,7 +4,7 @@
             <span class="icon-clock u-icon-white"></span>
             <div>
                 <div>Historial de pagos </div>
-                <div class="u-smallSize u-fontRegular">Expediente {{invoice.case_file.code}} - {{invoice.case_file.name}}</div>
+                <div *ngIf="invoice.case_file" class="u-smallSize u-fontRegular">Expediente {{invoice.case_file.case_no}} - {{invoice.case_file.name}}</div>
             </div>
         </div>
     </div>
@@ -35,11 +35,11 @@
         <div class="d-flex mt-5">
             <div class="u-textColor mr-4">
                 <div class="u-smallSize mb-1">Pendiente de pago</div>
-                <div class="u-bigSize2 align-items-center d-flex u-primaryColor"><span class="icon-income mr-2 u-normalSize"></span>{{pendingPayment | number}} USD</div>
+                <div class="u-bigSize2 align-items-center d-flex u-dangerColor"><span class="icon-outcome mr-2 u-normalSize"></span>{{pendingPayment | number}} USD</div>
             </div>
             <div class="u-textColor">
                 <div class="u-smallSize mb-1">Abonado</div>
-                <div class="u-bigSize2 align-items-center d-flex u-dangerColor"><span class="icon-outcome mr-2 u-normalSize"></span>{{totalPayment | number}} USD</div>
+                <div class="u-bigSize2 align-items-center d-flex u-primaryColor"><span class="icon-income mr-2 u-normalSize"></span>{{totalPayment | number}} USD</div>
             </div>
         </div>
     </mat-dialog-content>

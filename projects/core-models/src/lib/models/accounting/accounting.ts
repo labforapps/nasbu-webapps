@@ -22,6 +22,7 @@ export interface Invoice {
   customer:          CustomerInvoice;
   case_file:         CaseFile;
   code: string;
+  days_late: number;
 }
 
 
@@ -68,6 +69,7 @@ export interface InvoiceDetail {
 }
 
 export interface InvoicePayload {
+  uuid?:             string;
   subscription:      string;
   customer:          string;
   case_file:         string;

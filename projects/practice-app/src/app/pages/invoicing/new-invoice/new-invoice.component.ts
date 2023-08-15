@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { BillingCharge, BillingType, CaseFile, Country, Customer, InvoicePayload, Subscription, Task } from 'core-models';
-import { AuthService, CustomersService, PracticeService, SubscriptionService,CommonService, AccountingService } from 'core-services';
+import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoiceDetail, InvoicePayload, Subscription, Task } from 'core-models';
+import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
 import * as moment from 'moment';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-invoice',
@@ -24,16 +25,20 @@ export class NewInvoiceComponent implements OnInit {
   invoiceForm!:FormGroup;
   billingType = BillingType;
   billingCharges!:BillingCharge[];
+  invoiceId!:string;
+  invoice!:Invoice;
+  exitInvoice:boolean = false;
 
   constructor(private customerService:CustomersService,
-              private practiceService:PracticeService,
               private authService: AuthService,
               private subscriptionService:SubscriptionService,
               private CommonService:CommonService,
               private formBuilder:FormBuilder,
               private HelpersService:HelpersService,
               private formService:FormService,
-              private accountingService:AccountingService
+              private accountingService:AccountingService,
+              private activatedRoute:ActivatedRoute,
+              private router:Router
               ) { }
 
   ngOnInit(): void {
@@ -60,8 +65,8 @@ export class NewInvoiceComponent implements OnInit {
         this.formBuilder.group({
           description: ['',Validators.required],
           billing_type: ['',Validators.required],
-          total_hours: [''],
-          bt_price_per_hour: [''],
+          total_hours: [0],
+          bt_price_per_hour: [0],
           total_amt: [0],
           related_charge: [''],
           bt_amt: 0,
@@ -74,8 +79,52 @@ export class NewInvoiceComponent implements OnInit {
 
   }
 
-  setForm(){
+  setDataInForm(){
+    if(this.invoice){
+      console.log(this.invoice);
+      this.invoiceForm.patchValue({
+        customer: this.invoice.customer.uuid,
+        case_file: this.invoice.case_file ?  this.invoice.case_file.uuid : null,
+        inv_date: this.invoice.inv_date,
+        inv_exp_date: this.invoice.inv_exp_date,
+        gross_amt: this.invoice.gross_amt,
+        tax_amt: this.invoice.tax_amt,
+        discount_amt: this.invoice.discount_amt,
+        legal_charges_amt: this.invoice.legal_charges_amt,
+        net_amt: this.invoice.net_amt
+      })
 
+      this.invoice.details?.forEach(x => this.formService.addItemFormArray(this.invoiceForm,'details',{
+        description: x.description,
+        billing_type: x.billing_type,
+        total_hours: x.total_hours,
+        bt_price_per_hour: x.bt_price_per_hour,
+        total_amt: x.total_amt,
+        related_charge: x.related_charge,
+        bt_amt: x.total_amt,
+        is_legal_charge: x.is_legal_charge
+      }));
+    }
+  }
+
+  getInvoiceById() {
+    this.invoiceId = this.activatedRoute.snapshot.paramMap.get('id') || '';
+
+    if (this.invoiceId != '') {
+
+      this.accountingService
+      .getInvoiceById(this.selectedSubscription?.ssid.uuid, this.invoiceId || '')
+      .subscribe((data) => {
+        this.invoice = data;
+        this.customerSelected = this.customers.find( x => x.uuid === this.invoice.customer.uuid);
+
+        this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,this.customerSelected?.uuid || '').subscribe((data:CaseFile[]) => {
+          this.caseFiles = data;
+          this.setDataInForm();
+        })
+
+      });
+    }
   }
 
   get totalInvoiceAmount(){
@@ -109,7 +158,7 @@ export class NewInvoiceComponent implements OnInit {
     const item = {
           description: ['',Validators.required],
           billing_type: ['',Validators.required],
-          total_hours: [''],
+          total_hours: [0],
           bt_price_per_hour: [0],
           total_amt: [0],
           related_charge: [''],
@@ -119,7 +168,11 @@ export class NewInvoiceComponent implements OnInit {
     this.formService.addItemFormArray(this.invoiceForm,formArray,item);
   }
 
-  removeItemFormArray(formArray:string,index:number){
+  removeItemFormArray(formArray:string,detail:any){
+
+    console.log(detail);
+    const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
+
     this.formService.removeItemFormArray(this.invoiceForm,formArray,index);
   }
 
@@ -130,6 +183,7 @@ export class NewInvoiceComponent implements OnInit {
   getCustomers(){
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe((data:Customer[]) => {
       this.customers = data;
+      this.getInvoiceById();
     })
   }
 
@@ -168,7 +222,7 @@ export class NewInvoiceComponent implements OnInit {
     this.accountingService.getPendingBillingCharges(this.selectedSubscription?.ssid.uuid).subscribe((data:BillingCharge[]) => {
       this.billingCharges = data.filter(x => this.caseFileSelected && x.case_file.uuid === this.caseFileSelected.uuid);
       this.billingCharges.forEach(x => this.formService.addItemFormArray(this.invoiceForm,'details',{
-          description: x.description,
+          description: x.task.name,
           billing_type: x.billing_type,
           total_hours: x.total_hours,
           bt_price_per_hour: x.bt_price_per_hour,
@@ -182,18 +236,29 @@ export class NewInvoiceComponent implements OnInit {
 
   onChangeInvoiceDetail(formArray:string,index:number){
 
+    console.log(index);
+
     const invoice = this.invoiceForm.value.details[index];
+
+    console.log(invoice);
 
     let total = 0;
 
     if(invoice.billing_type === this.billingType.PER_HOUR) total = invoice.bt_price_per_hour * invoice.total_hours;
     if(invoice.billing_type === this.billingType.FLAT_FEE) total = invoice.bt_amt;
 
-    (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({total});
+    (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({total_amt: total});
+
+    console.log(this.invoiceForm.value.details[index]);
   }
 
   submitForm(){
     console.log(this.invoiceForm.value);
+
+    if(!this.invoiceForm.valid){
+      this.HelpersService.showMessageRequiredFields();
+      return;
+    }
 
     const invoiceForm = this.invoiceForm.value;
 
@@ -206,21 +271,33 @@ export class NewInvoiceComponent implements OnInit {
 
     console.log(invoice);
 
-    this.accountingService.createInvoice(invoice).subscribe(data => {
-      this.HelpersService.showMessageCreated();
+    if(this.invoiceId) invoice.uuid = this.invoiceId;
+
+    this.accountingService.saveInvoice(invoice).subscribe(data => {
+
+      if(invoice.uuid){
+        this.HelpersService.showMessageUpdated();
+      }
+      else{
+        this.HelpersService.showMessageCreated();
+        this.exitInvoice = true;
+        this.router.navigate([`/invoicing/edit-invoice/${data.uuid}`])
+      }
+
     })
 
   }
 
   canDeactivate(): Promise<boolean> {
-    return this.HelpersService.showConfirmationExitInvoice().then(result => {
-      if (result.isConfirmed) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    if(!this.exitInvoice) {
+      return this.HelpersService.showConfirmationExitInvoice().then(result => {
+        return result.isConfirmed;
+      });
+    } else {
+      return Promise.resolve(true);
+    }
   }
+
 
 
 }

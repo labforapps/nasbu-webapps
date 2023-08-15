@@ -1,11 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Invoice, InvoiceStatus } from 'core-models';
 import { AccountingService } from 'core-services';
 import { DialogPaymentHistoryComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-history/dialog-payment-history.component';
+import { DialogPaymentRegisterComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-register/dialog-payment-register.component';
 import { DialogSendInvoiceComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 
@@ -23,6 +24,7 @@ export class InvoicingTableComponent implements OnInit {
   dataSource = new MatTableDataSource<Invoice>(this.invoices);
   selection = new SelectionModel<Invoice>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() onExecuteInvoice = new EventEmitter<any>();
 
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
@@ -34,6 +36,25 @@ export class InvoicingTableComponent implements OnInit {
     if(this.inputInvoiceStatus !== this.invoiceStatus.EXPIRED) this.hideDelaysColumn();
     if(this.inputInvoiceStatus !== this.invoiceStatus.PENDING && this.inputInvoiceStatus !== this.invoiceStatus.PAYED) this.hidePaymentsColumn();
 
+    this.dataSource.filterPredicate = (data: Invoice, filter: string): boolean => {
+      let searchableString = '';
+
+      if (data.customer) {
+        searchableString += data.customer.first_name ? data.customer.first_name : '';
+        searchableString += data.customer.last_name ? data.customer.last_name : '';
+        searchableString += data.customer.company_name ? data.customer.company_name : '';
+      }
+
+      return searchableString.toLowerCase().includes(filter);
+    };
+
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['invoices'] && changes['invoices'].currentValue) {
+      this.dataSource.data = this.invoices;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -54,15 +75,32 @@ export class InvoicingTableComponent implements OnInit {
     this.displayedColumns = this.displayedColumns.filter(x => x != 'delay')
   }
 
+  openDialogRegisterPayment(invoice:Invoice){
+    const dialogRef = this.dialog.open(DialogPaymentRegisterComponent,{
+      data: {
+        invoice
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      this.onExecuteInvoice.emit({})
+    });
+
+  }
+
   openDialogSendInvoice() {
     this.dialog.open(DialogSendInvoiceComponent);
   }
 
   openDialogPaymentHistory(invoice:Invoice){
-    this.dialog.open(DialogPaymentHistoryComponent,{
+    const dialogRef = this.dialog.open(DialogPaymentHistoryComponent,{
       data: {
         invoice
       }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      this.onExecuteInvoice.emit({})
     });
   }
 
@@ -70,6 +108,7 @@ export class InvoicingTableComponent implements OnInit {
     this.helperService.showConfirmationDeleteDialog().then( (result) => {
       if(result.isConfirmed){
         this.accountingService.deleteInvoice(invoice.subscription,invoice.uuid || '').subscribe(data => {
+          this.onExecuteInvoice.emit({})
           this.helperService.showMessageDeleted();
         })
       }

@@ -48,6 +48,7 @@ export class DialogPaymentHistoryComponent implements OnInit {
     this.helperService.showConfirmationDeleteDialog().then( (result) => {
       if(result.isConfirmed){
         this.accountingService.deletePayment(this.selectedSubscription?.ssid.uuid,payment.uuid || '').subscribe(data => {
+          this.getInvoicePayments();
           this.helperService.showMessageDeleted();
         })
       }
