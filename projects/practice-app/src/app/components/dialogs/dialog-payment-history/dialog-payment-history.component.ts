@@ -2,7 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Invoice, Payment } from 'core-models';
 import { HelpersService } from '../../../services/helpers.service';
 import { AccountingService, AuthService } from 'core-services';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { DialogSendPaymentComponent } from '../dialog-send-payment/dialog-send-payment.component';
 
 @Component({
   selector: 'app-dialog-payment-history',
@@ -18,7 +19,8 @@ export class DialogPaymentHistoryComponent implements OnInit {
   constructor(private helperService:HelpersService,
               private accountingService:AccountingService,
               private authService: AuthService,
-              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice}) { }
+              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice},
+              private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -53,6 +55,14 @@ export class DialogPaymentHistoryComponent implements OnInit {
         })
       }
     })
+  }
+
+  openDialogSendPayment(payment:Payment){
+    this.dialog.open(DialogSendPaymentComponent,{
+      data: {
+        payment
+      }
+    });
   }
 
 }

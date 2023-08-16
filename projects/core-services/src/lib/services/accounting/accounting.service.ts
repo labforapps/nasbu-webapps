@@ -1,6 +1,6 @@
 import { Injectable,Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BillingCharge, Invoice,InvoicePayload, Payment,InvoiceStatus } from 'core-models';
+import { BillingCharge, Invoice,InvoicePayload, Payment,InvoiceStatus, sendDocument } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -91,6 +91,16 @@ export class AccountingService {
   getPendingBillingCharges(subscription:string):Observable<BillingCharge[]>{
     const serverUrl = `${this.config.serverUrl}/accounting/billing_charges/pendings/?subscription=${subscription}`;
     return this.httpClient.get<BillingCharge[]>(serverUrl);
+  }
+
+  sendInvoice(document:sendDocument):Observable<sendDocument>{
+    const serverUrl = `${this.config.serverUrl}/accounting/invoices/${document.uuid}/resend_invoice/?subscription=${document.subscription}`;
+    return this.httpClient.put<sendDocument>(serverUrl,document);
+  }
+
+  sendPayment(document:sendDocument):Observable<sendDocument>{
+    const serverUrl = `${this.config.serverUrl}/accounting/payments/${document.uuid}/resend_payment/?subscription=${document.subscription}`;
+    return this.httpClient.put<sendDocument>(serverUrl,document);
   }
 
 }

@@ -1,35 +1,35 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Customer, Invoice, TypeContact, sendDocument } from 'core-models';
+import { Customer, Invoice, Payment, TypeContact, sendDocument } from 'core-models';
 import { AccountingService, CustomersService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'app-dialog-send-invoice',
-  templateUrl: './dialog-send-invoice.component.html',
-  styleUrls: ['./dialog-send-invoice.component.scss']
+  selector: 'app-dialog-send-payment',
+  templateUrl: './dialog-send-payment.component.html',
+  styleUrls: ['./dialog-send-payment.component.scss']
 })
-export class DialogSendInvoiceComponent implements OnInit {
+export class DialogSendPaymentComponent implements OnInit {
 
-  invoice!:Invoice;
   customer!:Customer;
   typeContact = TypeContact;
   emails:string[] = [];
+  payment!:Payment;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice},
-              public  dialogRef: MatDialogRef<DialogSendInvoiceComponent>,
+  constructor(@Inject(MAT_DIALOG_DATA) public dataDialog:{payment:Payment},
+              public  dialogRef: MatDialogRef<DialogSendPaymentComponent>,
               private customerService:CustomersService,
               private accountingService:AccountingService,
               private helperService:HelpersService) { }
 
   ngOnInit(): void {
-    this.invoice = this.dataDialog.invoice;
+    this.payment = this.dataDialog.payment;
     this.getCustomerById();
   }
 
   getCustomerById(){
-    this.customerService.getCustomerById(this.invoice.subscription,this.invoice.customer.uuid || '').subscribe(data => {
+    this.customerService.getCustomerById(this.payment.subscription,this.payment.customer.uuid || '').subscribe(data => {
       this.customer = data;
     } )
   }
@@ -55,17 +55,18 @@ export class DialogSendInvoiceComponent implements OnInit {
     const emails = this.emails.join(", ");
 
     const document:sendDocument = {
-      uuid: this.invoice.uuid || '',
-      subscription: this.invoice.subscription,
+      uuid: this.payment.uuid || '',
+      subscription: this.payment.subscription,
       send_by: 'email',
       to_origin_value: emails
     }
 
-    this.accountingService.sendInvoice(document).subscribe(data => {
+    this.accountingService.sendPayment(document).subscribe(data => {
       this.helperService.showCustomMessage('Ok','Ok','Correo Enviado');
       this.dialogRef.close({})
     })
 
   }
+
 
 }

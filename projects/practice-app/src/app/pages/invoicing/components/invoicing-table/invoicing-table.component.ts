@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Invoice, InvoiceStatus } from 'core-models';
+import { Invoice, InvoiceStatus, invoiceStatusDescription } from 'core-models';
 import { AccountingService } from 'core-services';
 import { DialogPaymentHistoryComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-history/dialog-payment-history.component';
 import { DialogPaymentRegisterComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-register/dialog-payment-register.component';
@@ -25,6 +25,7 @@ export class InvoicingTableComponent implements OnInit {
   selection = new SelectionModel<Invoice>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() onExecuteInvoice = new EventEmitter<any>();
+  invoiceStatusDescription = invoiceStatusDescription;
 
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
@@ -88,8 +89,12 @@ export class InvoicingTableComponent implements OnInit {
 
   }
 
-  openDialogSendInvoice() {
-    this.dialog.open(DialogSendInvoiceComponent);
+  openDialogSendInvoice(invoice:Invoice) {
+    this.dialog.open(DialogSendInvoiceComponent,{
+      data: {
+        invoice
+      }
+    });
   }
 
   openDialogPaymentHistory(invoice:Invoice){
@@ -113,6 +118,10 @@ export class InvoicingTableComponent implements OnInit {
         })
       }
     })
+  }
+
+  returnInvoiceStatusDescription(value:string){
+    return this.invoiceStatusDescription.get(value);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

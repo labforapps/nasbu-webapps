@@ -57,7 +57,7 @@
                           'u-dangerColor':element.status === invoiceStatus.EXPIRED,
                           'u-primaryColor':element.status === invoiceStatus.PAYED,
                           'u-yellowColor':element.status === invoiceStatus.PENDING}">
-                {{element.status}}
+                {{returnInvoiceStatusDescription(element.status)}}
               </span>
           </td>
       </ng-container>
@@ -110,7 +110,7 @@
           <td mat-cell *matCellDef="let element" class="text-center">
 
               <mat-button-toggle-group class="c-btn-table">
-                  <mat-button-toggle (click)="openDialogSendInvoice()">Enviar</mat-button-toggle>
+                  <mat-button-toggle (click)="openDialogSendInvoice(element)">Enviar</mat-button-toggle>
                   <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                       <span class="icon-arrow-down"></span>
                   </mat-button-toggle>
