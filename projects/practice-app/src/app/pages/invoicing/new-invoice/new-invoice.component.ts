@@ -7,6 +7,8 @@ import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-invoice',
@@ -38,7 +40,8 @@ export class NewInvoiceComponent implements OnInit {
               private formService:FormService,
               private accountingService:AccountingService,
               private activatedRoute:ActivatedRoute,
-              private router:Router
+              private router:Router,
+              private dialog:MatDialog
               ) { }
 
   ngOnInit(): void {
@@ -74,6 +77,14 @@ export class NewInvoiceComponent implements OnInit {
         })
       ])
     })
+
+    if (!this.invoice) {
+      this.invoiceForm.patchValue({
+        inv_date: moment().format('YYYY-MM-DD'),
+        inv_exp_date: moment().add(30, 'days').format('YYYY-MM-DD')
+      });
+    }
+
 
     this.formService.removeItemFormArray(this.invoiceForm,'details',0);
 
@@ -286,6 +297,14 @@ export class NewInvoiceComponent implements OnInit {
 
     })
 
+  }
+
+  openDialogSendInvoice() {
+    this.dialog.open(DialogSendInvoiceComponent,{
+      data: {
+        invoice:this.invoice
+      }
+    });
   }
 
   canDeactivate(): Promise<boolean> {

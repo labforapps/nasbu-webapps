@@ -46,6 +46,7 @@ import { DialogImageViewerComponent } from './dialogs/dialog-image-viewer/dialog
 import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
 import { DialogCloseTaskComponent } from './dialogs/dialog-close-task/dialog-close-task.component';
 import { NgxTimerModule } from 'ngx-timer';
+import { DialogSendPaymentComponent } from './dialogs/dialog-send-payment/dialog-send-payment.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { NgxTimerModule } from 'ngx-timer';
     DialogSuccessMessageComponent,
     DialogImageViewerComponent,
     DialogCloseTaskComponent,
+    DialogSendPaymentComponent,
   ],
   imports: [
     CommonModule,

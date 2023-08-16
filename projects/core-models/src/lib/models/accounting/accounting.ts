@@ -100,7 +100,7 @@ export interface DetailPayload {
 
 
 
-export interface Payment {
+export interface PaymentPayload {
   uuid?:           string;
   active?:         boolean;
   created_at?:     Date;
@@ -113,6 +113,24 @@ export interface Payment {
   subscription:   string;
   customer:       string;
   invoice:        string;
+}
+
+export interface Payment {
+  uuid:            string;
+  customer:        CustomerInvoice;
+  invoice:         Invoice;
+  active:          boolean;
+  created_at:      Date;
+  updated_at:      Date;
+  code:            string;
+  payment_method:  string;
+  total_amt:       string;
+  payment_date:    Date;
+  send_by:         string;
+  to_origin_value: null;
+  created_by:      string;
+  updated_by:      null;
+  subscription:    string;
 }
 
 export interface BillingCharge {
@@ -155,4 +173,18 @@ export enum InvoiceStatus {
   PAYED = 'payed',
   NOT_APPROVED = 'not_approved',
   EXPIRED = 'expired'
+}
+
+export const invoiceStatusDescription = new Map<string, string>([
+  [InvoiceStatus.PENDING, 'En espera de pago'],
+  [InvoiceStatus.PAYED, 'Pagada'],
+  [InvoiceStatus.NOT_APPROVED, 'Pendiente de aprobacion'],
+  [InvoiceStatus.EXPIRED,'Vencida']
+]);
+
+export interface sendDocument{
+  uuid: string;
+  subscription: string;
+  send_by: string;
+  to_origin_value: string;
 }

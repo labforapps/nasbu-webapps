@@ -30,9 +30,9 @@
                     Sin expediente
                 </mat-checkbox>
             </div>
-            <div class="align-items-center col-md-2 col-sm-3 d-flex">
+            <div class="align-items-center col-md-2 col-sm-3 d-flex" *ngIf="invoice">
                 <mat-button-toggle-group class="c-btn-table">
-                    <mat-button-toggle>Enviar</mat-button-toggle>
+                    <mat-button-toggle (click)="openDialogSendInvoice()">Enviar</mat-button-toggle>
                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                         <span class="icon-arrow-down"></span>
                     </mat-button-toggle>

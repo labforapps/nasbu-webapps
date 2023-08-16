@@ -2,10 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
-import { Customer, Invoice, InvoiceStatus, Payment, PaymentMethod, TypeContact } from 'core-models';
+import { Customer, Invoice, InvoiceStatus, Payment, PaymentMethod, TypeContact, sendDocument } from 'core-models';
 import { AccountingService, AuthService, CustomersService } from 'core-services';
 import * as moment from 'moment';
 import { HelpersService } from '../../../services/helpers.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-dialog-payment-register',
@@ -23,6 +24,7 @@ export class DialogPaymentRegisterComponent implements OnInit {
   customer!:Customer;
   typeContact = TypeContact;
   invoiceStatus = InvoiceStatus;
+  emails:string[] = [];
 
   constructor(private formBuilder:FormBuilder,
               private accountService:AccountingService,
@@ -93,10 +95,39 @@ export class DialogPaymentRegisterComponent implements OnInit {
 
     this.accountService.createPayment(this.selectedSubscription?.ssid.uuid,payment).subscribe(data => {
       this.helperService.showMessageCreated();
+      this.payment = data;
+      if(this.emails.length > 0) this.sendPayment();
       this.dialogRef.close({});
     })
 
 
+  }
+
+  addEmail(event: MatCheckboxChange,email:string){
+
+    if(event.checked){
+      this.emails.push(email);
+    }
+    else{
+      this.emails = this.emails.filter(x => x !== email);
+    }
+
+  }
+
+  sendPayment(){
+    const emails = this.emails.join(", ");
+
+    const document:sendDocument = {
+      uuid: this.payment?.uuid || '',
+      subscription: this.invoice?.subscription || '',
+      send_by: 'email',
+      to_origin_value: emails
+    }
+
+    this.accountService.sendPayment(document).subscribe(data => {
+      this.helperService.showCustomMessage('Ok','Ok','Correo Enviado');
+      this.dialogRef.close({})
+    })
   }
 
 }

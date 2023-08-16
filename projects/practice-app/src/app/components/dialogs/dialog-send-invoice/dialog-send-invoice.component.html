@@ -1,4 +1,4 @@
-<div class="c-dialog-sendInvoice c-dialog-header">
+<div class="c-dialog-sendInvoice c-dialog-header" *ngIf="customer">
     <div class="c-dialog-header__header d-flex align-items-center justify-content-center">
         <span class="icon-receipt mr-3 u-icon-white "></span>
         Enviar factura
@@ -8,25 +8,22 @@
             <div class="col-md-12">
                 <div class="mb-5 mt-5 text-center">
                     <span class="d-block icon-email mb-5" style="font-size: 6rem"></span>
-                    <p class="u-textColor">¿A cual de estos correos  
+                    <p class="u-textColor">¿A cual de estos correos
                         deseas le re-enviemos la factura? </p>
                 </div>
 
                 <div class="d-flex flex-column mb-5">
-                    <mat-checkbox class="c-checkbox mb-3 u-normalSize u-link">
-                        <span class="ml-2">Manuel@fugus.com</span>
+                    <mat-checkbox class="c-checkbox mb-3 u-normalSize u-link"
+                                  *ngFor="let contact of customer.contacts | filter:'type':typeContact.email"
+                                  (change)="addEmail($event,contact.contact_value)">
+                        <span class="ml-2">{{contact.contact_value}}</span>
                     </mat-checkbox>
-                    <mat-checkbox class="c-checkbox mb-3 u-normalSize u-link">
-                        <span class="ml-2">Estiloscontabilidad@fugus.com</span>
-                    </mat-checkbox>
-                    
-
                 </div>
             </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer flex-column">
-        <button mat-button class="c-btn-function w-75">Enviar</button>
+        <button mat-button class="c-btn-function w-75" (click)="sendInvoice()">Enviar</button>
         <button mat-button mat-dialog-close class="u-link text-center w-75 m-0">Cerrar ventana</button>
     </mat-dialog-actions>
 </div>
