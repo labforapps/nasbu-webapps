@@ -121,7 +121,7 @@
                   <button mat-menu-item class="matMenu-red" (click)="deleteInvoice(element)">Eliminar <span class="icon-trash"></span></button>
                   <button mat-menu-item class="matMenu-blue"*ngIf="element.status !== invoiceStatus.PAYED" (click)="openDialogRegisterPayment(element)">Aplicar pago<span class="icon-payment"></span></button>
                   <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">Ver factura<span class="icon-invoice"></span></button>
-                  <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
+                  <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentHistory(element)">Enviar recibo<span class="icon-receipt"></span></button>
               </mat-menu>
           </td>
       </ng-container>
