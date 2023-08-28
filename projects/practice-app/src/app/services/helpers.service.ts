@@ -55,14 +55,14 @@ export class HelpersService {
   showConfirmationExitInvoice(){
 
     return Swal.fire({
-      title: '¿Desea abandonar esta factura?',
+      title: this.translateService.instant('invoicing.invoice.do_you_want_to_abandone_this_invoice'),
       text: this.translateService.instant(
         'clients.table.buttons.actions_cannot_be_reversed'
       ),
       iconHtml: '<img src="assets/images/Signo_advertencia.svg">',
-      confirmButtonText: 'Estoy Seguro',
+      confirmButtonText: this.translateService.instant('invoicing.invoice.im_sure'),
       showCancelButton: true,
-      cancelButtonText: 'Cancel',
+      cancelButtonText: this.translateService.instant('invoicing.invoice.cancel'),
       customClass: {
         popup: 'c-alert-exit',
       },
