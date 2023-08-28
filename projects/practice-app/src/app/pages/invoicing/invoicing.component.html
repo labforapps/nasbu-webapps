@@ -4,11 +4,11 @@
             <div class="l-page__icon">
                 <span class="icon-invoice"></span>
             </div>
-            <div class="l-page__title">Facturación</div>
+            <div class="l-page__title">{{'invoicing.title' | translate}}</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">Registrar pago<span class="icon-plus ml-2 "></span></button>
-            <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">Nueva Factura<span class="icon-plus ml-3 "></span></button>
+            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">{{'invoicing.apply_payment' | translate}}<span class="icon-plus ml-2 "></span></button>
+            <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">{{'invoicing.new_invoice' | translate}}<span class="icon-plus ml-3 "></span></button>
 
         </div>
     </div>
@@ -17,7 +17,7 @@
             <mat-tab>
 
               <ng-template mat-tab-label>
-                Todas
+                {{'invoicing.all' | translate}}
                 <div class="c-tabs__badge">{{allInvoices.length}}</div>
               </ng-template>
 
@@ -32,8 +32,8 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Pendiente aprobación
-                    <div class="c-tabs__badge">{{notApprovedInvoices.length}}</div>
+                  {{'invoicing.pending_approval' | translate}}
+                  <div class="c-tabs__badge">{{notApprovedInvoices.length}}</div>
                 </ng-template>
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.NOT_APPROVED"
@@ -46,7 +46,7 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    En espera de pago
+                  {{'invoicing.awaiting_payment' | translate}}
                     <div class="c-tabs__badge">{{pendingInvoices.length}}</div>
                 </ng-template>
 
@@ -60,7 +60,7 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Pagadas
+                  {{'invoicing.paid' | translate}}
                     <div class="c-tabs__badge">{{payedInvoices.length}}</div>
                 </ng-template>
 
@@ -74,7 +74,7 @@
             <mat-tab>
 
                 <ng-template mat-tab-label>
-                    Vencidas
+                  {{'invoicing.past_due' | translate}}
                     <div class="c-tabs__badge">{{expiredInvoices.length}}</div>
                 </ng-template>
 
