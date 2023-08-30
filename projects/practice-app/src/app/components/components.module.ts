@@ -102,7 +102,9 @@ import { DialogSendPaymentComponent } from './dialogs/dialog-send-payment/dialog
   ],
   exports: [
     HeaderComponent,
-    UploadImageComponent
+    UploadImageComponent,
+    DocumentViewerComponent,
+
   ]
 })
 export class ComponentsModule { }

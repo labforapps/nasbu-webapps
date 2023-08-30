@@ -44,7 +44,7 @@ import { PaymentMethodComponent } from './configuration/profile-sign/payment-met
 import { SubscriptionComponent } from './configuration/profile-sign/subscription/subscription.component';
 import { NotificationComponent } from './configuration/notification/notification.component';
 import { PlansComponent } from './configuration/plans/plans.component';
-import { TemplatesComponent } from './templates/templates.component';
+import { TemplatesComponent } from './documents-templates/templates/templates.component';
 import { NewInvoiceComponent } from './invoicing/new-invoice/new-invoice.component';
 import { ExpedientComponent } from './expedient/expedient.component';
 import { ExpedientInfoComponent } from './expedient/expedient-info/expedient-info.component';
@@ -87,6 +87,9 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { AngularImageViewerModule } from '@hreimer/angular-image-viewer';
 import { InvoicingTableComponent } from './invoicing/components/invoicing-table/invoicing-table.component';
 import { NoInvoicesComponent } from './invoicing/components/no-invoices/no-invoices.component';
+import { DocumentsTemplatesComponent } from './documents-templates/documents-templates.component';
+import { NoDocumentTemplateComponent } from './documents-templates/components/no-document-template/no-document-template.component';
+import { DocumentsComponent } from './documents-templates/documents/documents.component';
 
 
 @NgModule({
@@ -164,6 +167,9 @@ import { NoInvoicesComponent } from './invoicing/components/no-invoices/no-invoi
     ExpedientWalletTableComponent,
     InvoicingTableComponent,
     NoInvoicesComponent,
+    DocumentsTemplatesComponent,
+    NoDocumentTemplateComponent,
+    DocumentsComponent,
   ],
   imports: [
     CommonModule,

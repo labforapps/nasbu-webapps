@@ -236,4 +236,52 @@ export enum PriorityTask {
   Low    = 'low'
 }
 
+export interface DocumentTemplate {
+  uuid:          string;
+  active:        boolean;
+  created_at:    Date;
+  updated_at:    Date;
+  name:          string;
+  document:      string;
+  created_by:    string;
+  updated_by:    string;
+  subscription:  string;
+  template_type: string;
+}
+
+export interface DocumentTemplatePayload{
+  uuid?:string;
+  subscription:string;
+  template_type:string;
+  name:string;
+  file:string;
+}
+
+export interface DocumentGeneration {
+  uuid:              string;
+  active:            boolean;
+  created_at:        Date;
+  updated_at:        Date;
+  name:              string;
+  document:          null | string;
+  expiration_date:   Date;
+  created_by:        string;
+  updated_by:        null;
+  subscription:      string;
+  document_template: string;
+  customer:          string;
+  case_file:         string;
+  representative:    string;
+}
+export interface DocumentGenerationPayload {
+  uuid?:             string;
+  subscription:      string;
+  document_template: string;
+  customer:          string;
+  case_file:         string;
+  representative:    string;
+  name:              string;
+  expiration_date:   Date;
+}
+
 

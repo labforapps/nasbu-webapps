@@ -3,28 +3,23 @@
         Creando nueva plantilla
         <span class="u-smallSize u-fontRegular">A partir de una existen, sigue estos pasos 1-4</span>
     </div>
-    <mat-dialog-content>
+    <form [formGroup]="templateForm" (submit)="submitForm()">
+      <mat-dialog-content>
         <div class="row mb-2">
             <div class="col-md-12">
 
                 <label class="u-title-label u-normalSize mb-5">1-Nombre tu plantilla y escoge el tipo</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label>Contratos</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
+                    <mat-select formControlName="template_type" (selectionChange)="onChangeDocumentTemplateType($event)">
+                        <mat-option *ngFor="let templateType of documentTemplateTypes" [value]="templateType.uuid">
+                            {{templateType.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>Nombre plantilla </mat-label>
-                    <input class="c-form-group__input" matInput>
+                    <input class="c-form-group__input" matInput formControlName="name">
                 </mat-form-field>
 
                 <hr class="u-divider">
@@ -62,38 +57,12 @@
                                     </tr>
 
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
+                                <tbody *ngIf="documentTemplateType">
+                                    <tr *ngFor="let variable of documentTemplateType.variables">
+                                        <td>{{variable.name}} </td>
+                                        <td>{{variable.value_path}}</td>
+                                        <td><button type="button" mat-button (click)="copyToClipboard(variable.name)"><span class="icon-copy"></span></button></td>
                                     </tr>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre </td>
-                                        <td>-NombreCliente-</td>
-                                        <td><button mat-button><span class="icon-copy"></span></button></td>
-                                    </tr>
-
 
                                 </tbody>
 
@@ -115,24 +84,30 @@
                 </p>
             </div>
             <div class="col-md-6">
-                <div class="c-uploadPicture">
-                    <div class="c-uploadPicture__img">
-                        <img src="../../../../assets/images/upload-document.svg" alt="">
-                        <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
-                    </div>
-                    <div class="c-uploadPicture__controls">
-                        <div class="c-uploadPicture__text">
-                            Nota: <br> Subir imagen máximo 2MB
-                        </div>
-                        <div class="u-link mt-1">Eliminar</div>
-                    </div>
-                </div>
+                <label for="inputTypeFile">
+                    <div class="c-uploadPicture">
+                      <div class="c-uploadPicture__img">
+                          <img *ngIf="!imgTemp && !imgUrl" src="../../../../assets/images/upload-document.svg" alt="">
+                          <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
+                          <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
+                      </div>
+                      <div class="c-uploadPicture__controls">
+                          <div class="c-uploadPicture__text">
+                              Nota: <br> Subir imagen máximo 2MB
+                          </div>
+                          <div class="u-link mt-1">Eliminar</div>
+                      </div>
+                  </div>
+                </label>
+                <input id="inputTypeFile" type="file" (change)="changeImage($event)">
+
             </div>
         </div>
 
-    </mat-dialog-content>
-    <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cancelar</button>
-        <button mat-button class="c-btn-function">Generar documento</button>
-    </mat-dialog-actions>
+      </mat-dialog-content>
+      <mat-dialog-actions class="c-dialog-header__footer">
+          <button mat-button mat-dialog-close class="u-link text-center">Cancelar</button>
+          <button mat-button class="c-btn-function">Generar documento</button>
+      </mat-dialog-actions>
+    </form>
 </div>
