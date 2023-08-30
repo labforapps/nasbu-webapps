@@ -1,4 +1,3 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -20,7 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
 import { registerLocaleData } from '@angular/common';
 import { TextMaskModule } from 'angular2-text-mask';
-import { NgxDocViewerComponent, NgxDocViewerModule } from 'ngx-doc-viewer';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 // importar locales
 import localeEs from '@angular/common/locales/es';

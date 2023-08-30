@@ -15,7 +15,7 @@ import { PermissionComponent } from './pages/configuration/permission/permission
 import { ProfileSignComponent } from './pages/configuration/profile-sign/profile-sign.component';
 import { NotificationComponent } from './pages/configuration/notification/notification.component';
 import { PlansComponent } from './pages/configuration/plans/plans.component';
-import { TemplatesComponent } from './pages/templates/templates.component';
+import { DocumentsTemplatesComponent } from './pages/documents-templates/documents-templates.component';
 import { TaskpageComponent } from './pages/taskpage/taskpage.component';
 import { NewInvoiceComponent } from './pages/invoicing/new-invoice/new-invoice.component';
 import { ExpedientComponent } from './pages/expedient/expedient.component';
@@ -143,7 +143,7 @@ const routes: Routes = [
       },
       {
         path: 'templates',
-        component: TemplatesComponent,
+        component: DocumentsTemplatesComponent,
       },
       {
         path: 'configuration',

@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload,
-         CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,TaskType, SecurityUser, TaskStatus } from 'core-models';
+         CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,SecurityUser, TaskStatus, DocumentTemplate,
+         DocumentGeneration, DocumentGenerationPayload, DocumentTemplatePayload } from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { CommonService } from '../common';
@@ -331,5 +332,107 @@ export class PracticeService {
     return this.httpClient.put<Task>(serverUrl,task);
   }
 
+  getDocumentTemplates(subscription:string):Observable<DocumentTemplate[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/?subscription=${subscription}`;
+    return this.httpClient.get<DocumentTemplate[]>(serverUrl).pipe(
+      switchMap((documentTemplate: DocumentTemplate[]) => {
+            return of(documentTemplate.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+  createDocumentTemplate(payload:DocumentTemplatePayload):Observable<DocumentTemplate>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/?subscription=${payload.subscription}`;
+    return this.httpClient.post<DocumentTemplate>(serverUrl,payload);
+  }
+
+  updateDocumentTemplate(payload:DocumentTemplatePayload):Observable<DocumentTemplate>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${payload.uuid}?subscription=${payload.subscription}`;
+    return this.httpClient.put<DocumentTemplate>(serverUrl,payload);
+  }
+
+  saveDocumentTemplate(documentGeneration: DocumentTemplatePayload): Observable<DocumentTemplate> {
+    let saveOperation$: Observable<DocumentTemplate>;
+    const payload: DocumentTemplatePayload = { ...documentGeneration };
+    if (documentGeneration.uuid != null && documentGeneration.uuid !== '') {
+      saveOperation$ = this.updateDocumentTemplate(payload);
+    } else {
+      saveOperation$ = this.createDocumentTemplate( payload);
+    }
+    return saveOperation$.pipe(
+      switchMap((item: DocumentTemplate) => {
+        if (documentGeneration.file) {
+          return this.uploadDocumentTemplate(payload.subscription || '',item.uuid || '', documentGeneration.file);
+        }
+        return of(item);
+      })
+    );
+  }
+
+  uploadDocumentTemplate(subscription: string, uuid: string, file: any) {
+    const serverUrl: string = `${this.config.serverUrl}/practice/document_templates/${uuid}/upload_document/?subscription=${subscription}`;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('subscription', subscription);
+    return this.httpClient.put<any>(serverUrl, formData);
+  }
+
+  deleteDocumentTemplate(documentTemplate:DocumentTemplate):Observable<DocumentTemplate>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${documentTemplate.uuid}?subscription=${documentTemplate.subscription}`;
+    return this.httpClient.delete<DocumentTemplate>(serverUrl);
+  }
+
+  downloadDocumentTemplate(documentTemplate:DocumentTemplate):Observable<any>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${documentTemplate.uuid}/download?subscription=${documentTemplate.subscription}`;
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
+
+  getDocumentGenerations(subscription:string):Observable<DocumentGeneration[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/?subscription=${subscription}`;
+    return this.httpClient.get<DocumentGeneration[]>(serverUrl).pipe(
+      switchMap((documentGeneration: DocumentGeneration[]) => {
+            return of(documentGeneration.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+  createDocumentGenerations(payload:DocumentGenerationPayload):Observable<DocumentGeneration>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/?subscription=${payload.subscription}`;
+    return this.httpClient.post<DocumentGeneration>(serverUrl,payload);
+  }
+
+  updateDocumentGenerations(payload:DocumentGenerationPayload):Observable<DocumentGeneration>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/${payload.uuid}/?subscription=${payload.subscription}`;
+    return this.httpClient.put<DocumentGeneration>(serverUrl,payload);
+  }
+
+  saveDocumentGeneration(documentGeneration: DocumentGenerationPayload): Observable<DocumentGeneration> {
+    let saveOperation$: Observable<DocumentGeneration>;
+    const payload: DocumentGenerationPayload = { ...documentGeneration };
+    if (documentGeneration.uuid != null && documentGeneration.uuid !== '') {
+      saveOperation$ = this.updateDocumentGenerations(payload);
+    } else {
+      saveOperation$ = this.createDocumentGenerations( payload);
+    }
+    return saveOperation$;
+  }
+
+  deleteDocumentGeneration(document:DocumentGeneration):Observable<DocumentGeneration[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/${document.uuid}?subscription=${document.subscription}`;
+    return this.httpClient.delete<DocumentGeneration[]>(serverUrl);
+  }
+
+  downloadDocumentGenerations(documentGeneration:DocumentGeneration):Observable<any>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/${documentGeneration.uuid}/download?subscription=${documentGeneration.subscription}`;
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
 
 }
