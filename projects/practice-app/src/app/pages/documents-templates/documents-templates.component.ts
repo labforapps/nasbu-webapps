@@ -15,6 +15,7 @@ export class DocumentsTemplatesComponent implements OnInit {
   selectedSubscription!:any;
   documentTemplates!:DocumentTemplate[];
   documentGenerations!:DocumentGeneration[];
+  selectedTabIndex:number = 0;
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -42,7 +43,10 @@ export class DocumentsTemplatesComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogNewDocumentComponent);
 
     dialogRef.afterClosed().subscribe(data => {
-      if(data.uuid) this.getDocumentGenerations();
+      if(data.uuid) {
+        this.getDocumentGenerations();
+        this.selectedTabIndex = 1;
+      }
     })
   }
 

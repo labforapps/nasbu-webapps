@@ -72,6 +72,19 @@ export class DialogNewTemplateComponent implements OnInit {
   changeImage(event: any) {
     const file = event.target.files[0];
 
+    if (file) {
+      const validTypes = [
+          'application/msword',
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+
+      if (!validTypes.includes(file.type)) {
+          this.helperService.showCustomMessage('Error','Error','Por favor, sube un documento Word válido.')
+          event.target.value = ''; // Resetear la selección del archivo
+          return;
+      }
+  }
+
     this.imagenSubir = file;
 
     if (!file) return (this.imgTemp = null);
@@ -88,7 +101,7 @@ export class DialogNewTemplateComponent implements OnInit {
 
   copyToClipboard(value: string): void {
     const el = document.createElement('textarea');
-    el.value = value;
+    el.value = `{${value}}`;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
@@ -98,9 +111,8 @@ export class DialogNewTemplateComponent implements OnInit {
   }
 
   submitForm(){
-    console.log(this.templateForm.value);
 
-    if(!this.templateForm.valid){
+    if(!this.templateForm.valid || !this.imagenSubir){
       this.helperService.showMessageRequiredFields();
       return;
     }
