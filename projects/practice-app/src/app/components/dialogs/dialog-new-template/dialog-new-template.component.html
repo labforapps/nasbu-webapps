@@ -42,7 +42,7 @@
                             Listado de variables
                         </div>
                         <div class="c-form-group--search bordered u-smallSize">
-                            <input matInput type="mail" placeholder="Buscar por nombre">
+                            <input matInput type="mail" placeholder="Buscar por nombre" [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}">
                             <span class="icon-search"></span>
                         </div>
                     </div>
@@ -58,9 +58,9 @@
 
                                 </thead>
                                 <tbody *ngIf="documentTemplateType">
-                                    <tr *ngFor="let variable of documentTemplateType.variables">
-                                        <td>{{variable.name}} </td>
-                                        <td>{{variable.value_path}}</td>
+                                    <tr *ngFor="let variable of filteredVariables">
+                                        <td>{{variable.description}} </td>
+                                        <td>{{variable.name}}</td>
                                         <td><button type="button" mat-button (click)="copyToClipboard(variable.name)"><span class="icon-copy"></span></button></td>
                                     </tr>
 
@@ -84,21 +84,21 @@
                 </p>
             </div>
             <div class="col-md-6">
-                <label for="inputTypeFile">
                     <div class="c-uploadPicture">
+                      <label for="inputTypeFile">
                       <div class="c-uploadPicture__img">
                           <img *ngIf="!imgTemp && !imgUrl" src="../../../../assets/images/upload-document.svg" alt="">
                           <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
                           <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
                       </div>
+                    </label>
                       <div class="c-uploadPicture__controls">
                           <div class="c-uploadPicture__text">
                               Nota: <br> Subir imagen máximo 2MB
                           </div>
-                          <div class="u-link mt-1">Eliminar</div>
+                          <div class="u-link mt-1" (click)="deleteImage()">Eliminar</div>
                       </div>
                   </div>
-                </label>
                 <input id="inputTypeFile" type="file" (change)="changeImage($event)">
 
             </div>
