@@ -18,10 +18,10 @@ export class DialogNewTemplateComponent implements OnInit {
   documentTemplateType!:DocumentTemplateType | undefined;
   imgTemp!:any;
   imgUrl!:any;
-  imagenSubir!:File;
+  imagenSubir!:File | null;
   selectedSubscription!:any;
   documentTemplate!:DocumentTemplate;
-
+  searchTerm: string = '';
 
   constructor(private formBuilder:FormBuilder,
               private coreServices:CoreService,
@@ -37,6 +37,17 @@ export class DialogNewTemplateComponent implements OnInit {
     this.getDocumentTemplateTypes();
     this.setForm();
   }
+
+  get filteredVariables() {
+    if (!this.searchTerm) {
+        return this.documentTemplateType?.variables;
+    }
+
+    return this.documentTemplateType?.variables.filter(
+        variable => variable.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        variable.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+}
 
   initForm(){
     this.templateForm = this.formBuilder.group({
@@ -97,6 +108,11 @@ export class DialogNewTemplateComponent implements OnInit {
     };
 
     return this.imgTemp;
+  }
+
+  deleteImage(){
+    this.imgTemp = null;
+    this.imagenSubir = null;
   }
 
   copyToClipboard(value: string): void {

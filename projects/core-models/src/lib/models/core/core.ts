@@ -37,5 +37,6 @@ export interface VariableDocumentTemplate {
   uuid:          string;
   template_type: string;
   name:          string;
+  description:   string;
   value_path:    string;
 }
