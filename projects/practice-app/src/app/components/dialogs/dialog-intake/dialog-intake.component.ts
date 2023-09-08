@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CurrentUserInfo } from 'core-models';
 
 @Component({
   selector: 'app-dialog-intake',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogIntakeComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: {currentUserInfo:CurrentUserInfo}) { }
 
   ngOnInit(): void {
   }

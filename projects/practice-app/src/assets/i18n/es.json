@@ -246,7 +246,7 @@
          "reactionDate": "Fech. reacción",
          "customer": "Cliente",
          "date": "Fecha",
-         "Payments": "Pagos",
+         "payments": "Pagos",
          "invoiceAmount": "Monto factura",
          "billNumber": "#NO. Fact."
       },

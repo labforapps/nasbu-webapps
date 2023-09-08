@@ -90,6 +90,7 @@ import { NoInvoicesComponent } from './invoicing/components/no-invoices/no-invoi
 import { DocumentsTemplatesComponent } from './documents-templates/documents-templates.component';
 import { NoDocumentTemplateComponent } from './documents-templates/components/no-document-template/no-document-template.component';
 import { DocumentsComponent } from './documents-templates/documents/documents.component';
+import { DashboardNotesComponent } from './dashboard/dashboard-notes/dashboard-notes.component';
 
 
 @NgModule({
@@ -170,6 +171,7 @@ import { DocumentsComponent } from './documents-templates/documents/documents.co
     DocumentsTemplatesComponent,
     NoDocumentTemplateComponent,
     DocumentsComponent,
+    DashboardNotesComponent,
   ],
   imports: [
     CommonModule,

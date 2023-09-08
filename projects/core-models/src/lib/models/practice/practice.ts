@@ -183,7 +183,7 @@ export interface Task {
   has_due_date:        boolean;
   total_hours:         number;
   start_date:          null;
-  end_date:            null;
+  end_date:            Date | null;
   created_by:          string;
   updated_by:          null;
   subscription:        string;

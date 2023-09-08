@@ -1,11 +1,11 @@
-<ng-container *ngIf="dashboardInfo; else empty">
+<ng-container *ngIf="!emptyIndicators; else empty">
     <div class="c-indicators">
         <div class="c-indicators__column">
             <div class="c-indicators__title">{{'dashboard.statistics.dossier.title'| translate}}</div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/box-open.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{dashboardInfo.dossier.opened | number}}</div>
+                    <div class="c-indicators__ammount">{{openCaseFiles}}</div>
                     <div class="c-indicators__label">{{'dashboard.statistics.dossier.opened'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.untilToday'| translate}}</div>
                 </div>
@@ -13,7 +13,7 @@
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/box-closed.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{dashboardInfo.dossier.closed | number}}</div>
+                    <div class="c-indicators__ammount">{{closedCaseFiles}}</div>
                     <div class="c-indicators__label">{{'dashboard.statistics.dossier.closed'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.untilToday'| translate}}</div>
                 </div>
@@ -24,7 +24,7 @@
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/ammount-invoice.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{dashboardInfo.billed.billedAmount | currency}}</div>
+                    <div class="c-indicators__ammount">{{totalBilled | currency}}</div>
                     <div class="c-indicators__label">{{'dashboard.statistics.billed.billed'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.thisMonth'| translate}}</div>
                 </div>
@@ -32,7 +32,7 @@
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/ammount-pay.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{dashboardInfo.billed.collected | currency}}</div>
+                    <div class="c-indicators__ammount">{{totalAmountCollected | currency}}</div>
                     <div class="c-indicators__label">{{'dashboard.statistics.billed.collected'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.thisMonth'| translate}}</div>
                 </div>
@@ -46,7 +46,7 @@
             <div class="d-flex mb-4">
                 <img src="../../../../assets/images/completed.svg" alt="">
                 <div class="d-flex">
-                    <div class="c-indicators__number">{{dashboardInfo.task.done | number}}</div>
+                    <div class="c-indicators__number">{{completedTasks}}</div>
                     <div class="d-flex flex-column justify-content-center">
                         <div class="c-indicators__label"> {{'dashboard.statistics.task.done'| translate}} </div>
                         <div class="c-indicators__sublabel">{{'dashboard.common.thisMonth'| translate}}</div>
@@ -56,7 +56,7 @@
             <div class="d-flex mb-4">
                 <img src="../../../../assets/images/pending.svg" alt="">
                 <div class="d-flex">
-                    <div class="c-indicators__number">{{dashboardInfo.task.pending | number}}</div>
+                    <div class="c-indicators__number">{{pendingTasks}}</div>
                     <div class="d-flex flex-column justify-content-center">
                         <div class="c-indicators__label"> {{'dashboard.statistics.task.pending'| translate}}</div>
                         <div class="c-indicators__sublabel">{{'dashboard.common.thisMonth'| translate}}</div>
@@ -66,7 +66,7 @@
             <div class="d-flex mb-4">
                 <img src="../../../../assets/images/expired.svg" alt="">
                 <div class="d-flex">
-                    <div class="c-indicators__number">{{dashboardInfo.task.overdue | number}}</div>
+                    <div class="c-indicators__number">{{overdueTasks}}</div>
                     <div class="d-flex flex-column justify-content-center">
                         <div class="c-indicators__label"> {{'dashboard.statistics.task.overdue'| translate}}</div>
                         <div class="c-indicators__sublabel">{{'dashboard.common.thisMonth'| translate}}</div>
@@ -78,8 +78,8 @@
 </ng-container>
 
 <ng-template #empty>
-    <app-empty-dashboard 
-      imageSrc="../../../assets/images/analysis-blank.svg" 
+    <app-empty-dashboard
+      imageSrc="../../../assets/images/analysis-blank.svg"
       title="dashboard.statistics.empty.title"
       subTitle="dashboard.statistics.empty.subTitle"></app-empty-dashboard>
 </ng-template>

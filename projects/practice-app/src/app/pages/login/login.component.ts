@@ -62,6 +62,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['/signin-first-password'],{state});
         }
         else{
+
+          if(!localStorage.getItem(`first_login_${username}`)){
+            localStorage.setItem(`first_login_${username}`,'true')
+          }
+
           this.router.navigate(['/dashboard']);
         }
 

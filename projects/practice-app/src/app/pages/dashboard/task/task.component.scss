@@ -1,0 +1,40 @@
+.circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center !important;
+  margin: 0 auto;
+}
+
+.circle img{
+  position: relative;
+  top: -3px;
+  width: 15px;
+}
+
+.iconBgGreen{
+  background-color: #EDFEF3;
+}
+
+.iconBgYellow{
+  background-color: #F7CC7D;
+}
+
+.iconBgRed{
+  background-color: #FF888199;
+}
+
+.iconColorGreen{
+  filter: invert(50%) sepia(9%) saturate(3137%) hue-rotate(86deg) brightness(97%) contrast(79%);
+}
+
+.iconColorYellow{
+  filter: invert(48%) sepia(76%) saturate(276%) hue-rotate(1deg) brightness(86%) contrast(84%);
+}
+
+.iconColorRed{
+  filter: invert(14%) sepia(92%) saturate(4589%) hue-rotate(359deg) brightness(82%) contrast(107%);
+}
+

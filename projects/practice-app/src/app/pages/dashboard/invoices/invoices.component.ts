@@ -1,26 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-
-export interface PeriodicElement {
-  position: number;
-  billNumber: number;
-  status: string;
-  expedient: string;
-  date: Date;
-  customer: string;
-  amount: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, billNumber: 5656, customer: 'Manuel', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 2, billNumber: 5656, customer: 'Manuel', status: 'Vencida',   expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 3, billNumber: 5656, customer: 'Manuel', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 4, billNumber: 5656, customer: 'Manuel', status: 'Terminada', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 5, billNumber: 5656, customer: 'Manuel', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 6, billNumber: 5656, customer: 'Manuel', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-  {position: 7, billNumber: 5656, customer: 'Manuel', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: new Date(), amount: 50000},
-];
+import { Invoice, InvoiceStatus } from 'core-models';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPaymentHistoryComponent } from '../../../components/dialogs/dialog-payment-history/dialog-payment-history.component';
+import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 
 @Component({
   selector: 'app-invoices',
@@ -28,11 +13,45 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class InvoicesComponent implements OnInit {
+
   public totalInvoices: number = 10;
   public totalAmountPending: number = 50000.00;
+  private invoiceStatus = InvoiceStatus;
+  @Input() invoices!:Invoice[];
   displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'customer', 'date', 'payments', 'amount','action' ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<Invoice>(this.invoices);
+  selection = new SelectionModel<Invoice>(true, []);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private matDialog:MatDialog) { }
+
+  ngOnInit(): void {
+    this.dataSource.data = this.invoices.filter(x => x.status === this.invoiceStatus.PENDING).slice(0,10).sort((a, b) => {
+      let dateA = new Date(a.inv_date || '').getTime();
+      let dateB = new Date(b.inv_date || '').getTime();
+      return dateA - dateB;
+  });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  openDialogPaymentHistory(invoice:Invoice){
+    this.matDialog.open(DialogPaymentHistoryComponent,{
+      data: {
+        invoice
+      }
+    })
+  }
+
+  openDialogSendInvoice(invoice:Invoice) {
+    this.matDialog.open(DialogSendInvoiceComponent,{
+      data: {
+        invoice
+      }
+    });
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -52,16 +71,11 @@ export class InvoicesComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  constructor() { }
-
-  ngOnInit(): void {
   }
 
 }
