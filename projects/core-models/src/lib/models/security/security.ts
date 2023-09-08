@@ -54,7 +54,7 @@ export interface ForgotPasswordSubmit {
 
 export interface CurrentUserInfo {
   username: string;
-  attributes: UserAtribetes;
+  attributes: any | UserAtribetes;
 }
 
 export interface ChangeFirstPasswordPayload {

@@ -119,6 +119,11 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileDocument>(serverUrl);
   }
 
+  getAllCaseFileNotes(subscription:string):Observable<CaseFileNote[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_notes/?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileNote[]>(serverUrl);
+  }
+
   getCaseFileNotes(subscription:string,uuid:string):Observable<CaseFileNote[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/notes/?subscription=${subscription}`;
     return this.httpClient.get<CaseFileNote[]>(serverUrl);

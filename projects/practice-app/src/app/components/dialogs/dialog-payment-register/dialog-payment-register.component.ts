@@ -87,7 +87,7 @@ export class DialogPaymentRegisterComponent implements OnInit {
     const myDate = moment();
 
     const payment:Payment = {
-      payment_date:   '2023-08-13',
+      payment_date:   moment().format('YYYY-MM-DD'),
       subscription:   this.selectedSubscription?.ssid.uuid,
       customer:       this.invoice?.customer.uuid,
       ...this.paymentForm.value

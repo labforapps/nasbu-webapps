@@ -78,6 +78,11 @@ export class AccountingService {
     return this.httpClient.get<Payment[]>(serverUrl);
   }
 
+  getPayments(subscription:string):Observable<Payment[]>{
+    const serverUrl = `${this.config.serverUrl}/accounting/payments/?subscription=${subscription}`;
+    return this.httpClient.get<Payment[]>(serverUrl);
+  }
+
   createPayment(subscription:string,payload:Payment):Observable<Payment>{
     const serverUrl = `${this.config.serverUrl}/accounting/payments/?subscription=${subscription}`;
     return this.httpClient.post<Payment>(serverUrl,payload);

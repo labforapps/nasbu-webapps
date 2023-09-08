@@ -1,29 +1,37 @@
 
 <button mat-button [matMenuTriggerFor]="menu" class="c-onboarding"><span class="icon-gear u-icon-white"></span></button>
 <mat-menu #menu="matMenu"class="c-onboarding__menu">
-    
+
         <div class="c-onboarding__header">
-            Sigue estos pasos 0/4
+            Sigue estos pasos {{stepsCompleted}}/4
         </div>
         <div class="c-onboarding__body">
-            <button mat-menu-item class="c-onboarding__item">
-                <mat-checkbox class="c-checkbox">
+            <button mat-menu-item class="c-onboarding__item" routerLink="/configuration/profile-sign">
+                <mat-checkbox class="c-checkbox" [(ngModel)]="checkProfile">
                     <div>
                         <h3>1-Configurar el perfil de tu firma</h3>
                         <p>Ahí colocaras, Horarios, Logo ó fotos, suscripción, etc.</p>
                     </div>
                 </mat-checkbox>
             </button>
-            <button mat-menu-item class="c-onboarding__item" (click)="openDialogIntake()">
-                <mat-checkbox class="c-checkbox">
+            <button mat-menu-item class="c-onboarding__item" routerLink="/user/create">
+                <mat-checkbox class="c-checkbox" [(ngModel)]="checkSecurityUsers">
                     <div>
                         <h3>2-Configurar mi equipo</h3>
                         <p>Añade a las personas que trabajan contigo.</p>
                     </div>
                 </mat-checkbox>
             </button>
-            <button mat-menu-item class="c-onboarding__item">
-                <mat-checkbox class="c-checkbox">
+            <button mat-menu-item class="c-onboarding__item" routerLink="/customers/create-client">
+              <mat-checkbox class="c-checkbox" [(ngModel)]="checkCustomers">
+                  <div>
+                      <h3>3-Agregar clientes</h3>
+                      <p>Sino tenemos clientes no tenemos negocio, agreguemos unos cuantos.</p>
+                  </div>
+              </mat-checkbox>
+          </button>
+            <button mat-menu-item class="c-onboarding__item" routerLink="/expedient">
+                <mat-checkbox class="c-checkbox" [(ngModel)]="checkCaseFile">
                     <div>
                         <h3>4-Crear expediente</h3>
                         <p>Crea tu primer expediente y con esto ya completas el ciclo</p>

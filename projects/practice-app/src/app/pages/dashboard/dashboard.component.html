@@ -19,12 +19,12 @@
             <button class="c-btn-function mt-1" mat-button [matMenuTriggerFor]="menu">{{'dashboard.menu.shortcuts.label' | translate }}<span class="icon-bell ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
                 <button mat-menu-item (click)="openDialogNewCostumer()"><span class="icon-add-user"></span>{{'dashboard.menu.shortcuts.createCustomer' | translate }}</button>
-                <button mat-menu-item><span class="icon-task-list"></span>{{'dashboard.menu.shortcuts.createTask' | translate }}</button>
-                <button mat-menu-item><span class="icon-businessman-color"></span>{{'dashboard.menu.shortcuts.addCollaborator' | translate }}</button>
-                <button mat-menu-item><span class="icon-timer"></span>{{'dashboard.menu.shortcuts.timer' | translate }} </button>
-                <button mat-menu-item><span class="icon-document-color"></span>{{'dashboard.menu.shortcuts.generateDocument' | translate }}</button>
-                <button mat-menu-item><span class="icon-invoice-color"></span>{{'dashboard.menu.shortcuts.generateInvoice' | translate }}</button>
-                <button mat-menu-item><span class="icon-note-pen"></span>{{'dashboard.menu.shortcuts.createNote' | translate }}</button>
+                <button mat-menu-item (click)="openDialogNewTask()"><span class="icon-task-list"></span>{{'dashboard.menu.shortcuts.createTask' | translate }}</button>
+                <button mat-menu-item (click)="navigateToCreateCollaborator()"><span class="icon-businessman-color"></span>{{'dashboard.menu.shortcuts.addCollaborator' | translate }}</button>
+                <button mat-menu-item (click)="openDialogAddHours()"><span class="icon-timer"></span>{{'dashboard.menu.shortcuts.timer' | translate }} </button>
+                <button mat-menu-item (click)="openDialogGenerateDocument()"><span class="icon-document-color"></span>{{'dashboard.menu.shortcuts.generateDocument' | translate }}</button>
+                <button mat-menu-item (click)="navigateToNewInvoice()"><span class="icon-invoice-color"></span>{{'dashboard.menu.shortcuts.generateInvoice' | translate }}</button>
+                <button mat-menu-item (click)="openDialogNewNote()"><span class="icon-note-pen"></span>{{'dashboard.menu.shortcuts.createNote' | translate }}</button>
             </mat-menu>
         </div>
     </div>
@@ -39,20 +39,24 @@
 
         <div class="c-dashboard-tab__body">
             <div class="c-dashboard-tab__content" #stats>
-                <app-indicators></app-indicators>
+                <app-indicators [invoices]="invoices" [caseFiles]="caseFiles" [tasks]="tasks" [payments]="payments">
+                </app-indicators>
             </div>
             <div class="c-dashboard-tab__content" #task>
-                <app-task></app-task>
+                <app-task *ngIf="tasks" [tasks]="tasks"></app-task>
             </div>
             <div class="c-dashboard-tab__content" #invoice>
-                <app-invoices></app-invoices>
+                <app-invoices *ngIf="invoices" [invoices]="invoices"></app-invoices>
             </div>
             <div class="c-dashboard-tab__content" #notes>
-                <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center">
+
+                <app-dashboard-notes *ngIf="caseFileNotes" [caseFileNotes]="caseFileNotes"></app-dashboard-notes>
+
+                <!-- <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center">
                     <img class="mb-5" src="../../../assets/images/notes-blank.svg" alt="">
                     <h4 class="u-textLightColor">Ten a la mano tus últimas notas</h4>
                     <p class="u-textLightColor">Siempre es bueno ver lo último que se anotó</p>
-                </div>
+                </div> -->
             </div>
 
         </div>

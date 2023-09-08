@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CaseFile, CaseFileStatus, Invoice, Payment,Task, TaskStatus } from 'core-models';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-indicators',
@@ -6,24 +8,70 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./indicators.component.scss']
 })
 export class IndicatorsComponent implements OnInit {
-  dashboardInfo = { 
-    dossier:{
-      closed: 50,
-      opened: 35
-    },
-    billed: {
-      billedAmount: 50000,
-      collected: 45000.00
-    },
-    task:{
-      done: 50,
-      pending: 35,
-      overdue: 2
-    }
-  };
+
+  dashboardInfo = {};
+
+  @Input() caseFiles!:CaseFile[];
+  caseFileStatus = CaseFileStatus;
+  @Input() invoices!:Invoice[];
+  @Input() payments!:Payment[];
+  @Input() tasks!:Task[];
+  taskStatus = TaskStatus;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  get emptyIndicators() {
+    return (!this.caseFiles || this.caseFiles.length == 0) && (!this.invoices || this.invoices.length == 0)
+    && (!this.payments || this.payments.length == 0)  && (!this.tasks || this.tasks.length == 0)
+  }
+
+  get openCaseFiles(){
+    return this.caseFiles.filter(x => x.status === this.caseFileStatus.OPEN).length;
+  }
+
+  get closedCaseFiles(){
+    return this.caseFiles.filter(x => x.status === this.caseFileStatus.CLOSED).length;
+  }
+
+  get totalBilled(){
+    return this.invoices.filter(item => {
+      const invoiceDate = moment(item.inv_date);
+      return invoiceDate.isSame(moment(), 'month');
+  })
+  .reduce((accumulator, current) => accumulator + parseFloat(current.net_amt), 0);
+
+  }
+
+  get totalAmountCollected(){
+      return this.payments.filter(item => {
+        const invoiceDate = moment(item.payment_date);
+        return invoiceDate.isSame(moment(), 'month');
+    })
+    .reduce((accumulator, current) => accumulator + parseFloat(current.total_amt), 0);
+  }
+
+  get completedTasks() {
+    return this.tasks.filter(x => {
+      const taskDate = moment(x.created_at)
+      return x.status === this.taskStatus.CLOSED && taskDate.isSame(moment(), 'month')
+    }).length;
+  }
+
+  get pendingTasks() {
+    return this.tasks.filter(x => {
+      const taskDate = moment(x.created_at)
+      return x.status === this.taskStatus.OPEN && taskDate.isSame(moment(), 'month')
+    }).length;
+  }
+
+  get overdueTasks() {
+    return this.tasks.filter(x => {
+      const taskDate = moment(x.created_at)
+      return x.overdue === true && taskDate.isSame(moment(), 'month')
+    }).length;
   }
 
 }
