@@ -14,7 +14,7 @@
         & .mat-form-field-flex {
             border: 2px solid #389856;;
         }
-        
+
     }
     & .mat-form-field-underline {
         display: none;
@@ -73,7 +73,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                
+
             }
 
         }
@@ -83,7 +83,7 @@
             .mat-form-field-flex {
                 background: #D9FFE6;
             }
-            
+
         }
         & .mat-form-field-flex {
             background: #F3F3F3;
@@ -175,4 +175,18 @@
         margin-top: 2rem;
         text-align: center;
     }
+}
+
+.c-searchList {
+  &__input {
+      padding: 2rem;
+  }
+
+  &__content {
+      font-size: 12px;
+      max-height: 160px;
+      overflow-y: auto;
+      font-weight: 500;
+  }
+
 }

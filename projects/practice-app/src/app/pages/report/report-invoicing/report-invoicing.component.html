@@ -1,0 +1,237 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-invoice"></span>
+            </div>
+            <div class="l-page__title">Reporte facturación</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>
+                Volver atrás</button>
+        </div>
+
+    </div>
+    <div class="l-page__body p-5">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="c-ribborn-info">
+                    <div class="c-ribborn-info__info">
+                        <span class="icon-info icon-info u-bigSize2 u-primaryColor"></span>
+                    </div>
+                    <div class="c-ribborn-info__text">Utiliza <b>estos filtro para generar el reporte de facturación</b>
+                        deseado de manera personalizada.</div>
+                    <div class="c-ribborn-info__button">
+                        <button mat-button class="c-btn--outline-primary u-smallSize">Entendido</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                <button mat-button class="u-smallSize u-primaryColor">Limpiar todos los filtros</button>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-10 mt-2">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar cliente</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Selecionar
+                                    específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Selecionar cliente</mat-label>
+                                <mat-select>
+                                    <div class="c-searchList">
+                                        <div class="p-3">
+                                            <input matInput placeholder="Escribir nombre" class="c-searchList__input">
+                                        </div>
+                                        <div class="c-searchList__content">
+                                            <mat-option>
+                                                Armando Morrobel
+                                            </mat-option>
+                                            <mat-option>
+                                                Aura López
+                                            </mat-option>
+                                            <mat-option>
+                                                Audrey Mortalini
+                                            </mat-option>
+                                            <mat-option>
+                                                Ariel Pesqueria.
+                                            </mat-option>
+                                            <mat-option>
+                                                Betsaida Carrillo
+                                            </mat-option>
+                                        </div>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccione un abogado</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">Abogado
+                                    específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Selecionar abogado </mat-label>
+                                <mat-select>
+                                    <div class="c-searchList">
+                                        <div class="p-3">
+                                            <input matInput placeholder="Escribir nombre" class="c-searchList__input">
+                                        </div>
+                                        <div class="c-searchList__content">
+                                            <mat-option>
+                                                Armando Morrobel
+                                            </mat-option>
+                                            <mat-option>
+                                                Aura López
+                                            </mat-option>
+                                            <mat-option>
+                                                Audrey Mortalini
+                                            </mat-option>
+                                            <mat-option>
+                                                Ariel Pesqueria.
+                                            </mat-option>
+                                            <mat-option>
+                                                Betsaida Carrillo
+                                            </mat-option>
+                                        </div>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar rango de fecha</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Selecionar específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Seleccionar período</mat-label>
+                                <mat-select>
+                                    <mat-option>
+                                        Último 7 días
+                                    </mat-option>
+                                    <mat-option>
+                                        Este mes
+                                    </mat-option>
+                                    <mat-option>
+                                        Hace 3 meses
+                                    </mat-option>
+                                    <mat-option>
+                                        Hace 6 meses
+                                    </mat-option>
+                                    <mat-option>
+                                        Último año
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="d-flex u-gap-1 mt-2">
+                                <mat-form-field appearance="fill" style="width: 13rem;"
+                                    class="c-form-group  c-form-group--small flex-1">
+                                    <mat-label>Date range</mat-label>
+                                    <input matInput [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" style="width: 13rem;"
+                                    class="c-form-group  c-form-group--small flex-1">
+                                    <mat-label>Date range</mat-label>
+                                    <input matInput [matDatepicker]="pickers">
+                                    <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickers></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Modelo de facturación</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Selecionar específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Seleccionar período</mat-label>
+                                <mat-select>
+                                    <mat-option>
+                                        Facturación
+                                    </mat-option>
+                                    <mat-option>
+                                        Antigüedad
+                                    </mat-option>
+                                    <mat-option>
+                                        Cantidad de Expedientes
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Filtrar por status</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Selecionar específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Seleccionar modelos</mat-label>
+                                <mat-select>
+                                    <mat-option>
+                                        Abiertos
+                                    </mat-option>
+                                    <mat-option>
+                                        Cerrados
+                                    </mat-option>
+                                    <mat-option>
+                                        Nuevos
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">PDF Exportación</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Descargar
+                                </mat-radio-button>
+                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">Abrir en
+                                    otra pestaña
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <a routerLink="export" target="_blank">
+                                <button mat-button class="c-btn-function w-100">Exportar
+                                    <span class="icon-plus ml-2"></span>
+                                </button>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

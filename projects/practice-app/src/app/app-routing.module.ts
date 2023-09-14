@@ -36,6 +36,14 @@ import { AccountConfirmationComponent } from './pages/account-confirmation/accou
 import { SignInFirstPasswordComponent } from './pages/sign-in-first-password/sign-in-first-password.component';
 import { DialogUploadComponent } from './components/dialogs/dialog-upload/dialog-upload.component';
 import { CanComponenteDeactivateGuard } from './shared/guards/can-componente-deactivate.guard';
+import { ReportComponent } from './pages/report/report.component';
+import { ReportInvoicingComponent } from './pages/report/report-invoicing/report-invoicing.component';
+import { ReportCasesComponent } from './pages/report/report-cases/report-cases.component';
+import { ReportClientComponent } from './pages/report/report-client/report-client.component';
+import { ReportIncomeComponent } from './pages/report/report-income/report-income.component';
+import { GeneralMetricsComponent } from './pages/report/general-metrics/general-metrics.component';
+import { ReportInvoicingExportComponent } from './pages/report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
+
 
 const routes: Routes = [
   {
@@ -173,6 +181,30 @@ const routes: Routes = [
         path: 'user-profile/:id',
         component: CollaboratorProfileComponent,
       },
+      {
+        path: 'report',
+        component: ReportComponent,
+      },
+      {
+        path: 'report/report-invoicing',
+        component: ReportInvoicingComponent,
+      },
+      {
+        path: 'report/report-cases',
+        component: ReportCasesComponent,
+      },
+      {
+        path: 'report/report-client',
+        component: ReportClientComponent,
+      },
+      {
+        path: 'report/report-income',
+        component: ReportIncomeComponent,
+      },
+      {
+        path: 'report/general-metrics',
+        component: GeneralMetricsComponent,
+      },
     ],
   },
   {
@@ -223,7 +255,13 @@ const routes: Routes = [
   {
     path:'dialog-upload',
     component:DialogUploadComponent
-  }
+  },
+  {
+    path: 'report/report-invoicing/export',
+    component: ReportInvoicingExportComponent,
+  },
+
+
 ];
 
 @NgModule({

@@ -91,6 +91,13 @@ import { DocumentsTemplatesComponent } from './documents-templates/documents-tem
 import { NoDocumentTemplateComponent } from './documents-templates/components/no-document-template/no-document-template.component';
 import { DocumentsComponent } from './documents-templates/documents/documents.component';
 import { DashboardNotesComponent } from './dashboard/dashboard-notes/dashboard-notes.component';
+import { ReportComponent } from './report/report.component';
+import { ReportInvoicingComponent } from './report/report-invoicing/report-invoicing.component';
+import { ReportCasesComponent } from './report/report-cases/report-cases.component';
+import { ReportClientComponent } from './report/report-client/report-client.component';
+import { ReportIncomeComponent } from './report/report-income/report-income.component';
+import { GeneralMetricsComponent } from './report/general-metrics/general-metrics.component';
+import { ReportInvoicingExportComponent } from './report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
 
 
 @NgModule({
@@ -172,6 +179,13 @@ import { DashboardNotesComponent } from './dashboard/dashboard-notes/dashboard-n
     NoDocumentTemplateComponent,
     DocumentsComponent,
     DashboardNotesComponent,
+    ReportComponent,
+    ReportInvoicingComponent,
+    ReportCasesComponent,
+    ReportClientComponent,
+    ReportIncomeComponent,
+    GeneralMetricsComponent,
+    ReportInvoicingExportComponent,
   ],
   imports: [
     CommonModule,
