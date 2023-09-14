@@ -1,31 +1,53 @@
 .c-ribbon {
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    border-radius: 1rem 1rem 0 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    align-items: center;
-    padding: 2.5rem 10rem;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 2rem;
-    z-index: 1;
-    @include respond(450){
-        padding: 2.5rem 2rem;
-        justify-content: center;
-    }
-    &__actions {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-        @include respond(450){
-            flex-direction: column;
-            width: 100%;
-        }
-    }
-    &__text {
-        font-size: 15px;
-    }
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  border-radius: 1rem 1rem 0 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  align-items: center;
+  padding: 2.5rem 10rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+  z-index: 1;
+  @include respond(450){
+      padding: 2.5rem 2rem;
+      justify-content: center;
+  }
+  &__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      @include respond(450){
+          flex-direction: column;
+          width: 100%;
+      }
+  }
+  &__text {
+      font-size: 15px;
+  }
+}
+.c-ribborn-info {
+  background: #d9ffe6;
+  padding: 2.5rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+
+  @include respond(450) {
+      flex-direction: column;
+      text-align: center;
+      gap: 1rem;
+      padding: 2rem;
+  }
+
+  &__text {
+      color: var(--primary-color);
+      line-height: 20px;
+      flex: 1;
+  }
 }

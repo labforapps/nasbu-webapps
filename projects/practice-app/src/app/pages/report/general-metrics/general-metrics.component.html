@@ -1,0 +1,118 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-user"></span>
+            </div>
+            <div class="l-page__title">Métricas generales</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>
+                Volver atrás</button>
+        </div>
+    </div>
+    <div class="l-page__body p-5 pt-3">
+        <div class="d-flex u-gap-1 align-items-center flex-wrap">
+            <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small mb-0"
+                style="max-width: 20rem;">
+                <mat-label>Seleccionar período</mat-label>
+                <mat-select>
+                    <mat-option>
+                        Último 7 días
+                    </mat-option>
+                    <mat-option>
+                        Este mes
+                    </mat-option>
+                    <mat-option>
+                        Hace 3 meses
+                    </mat-option>
+                    <mat-option>
+                        Hace 6 meses
+                    </mat-option>
+                    <mat-option>
+                        Último año
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="d-flex u-gap-1 mt-2">
+                <mat-form-field appearance="fill" style="width: 13rem;"
+                    class="c-form-group  c-form-group--small flex-1">
+                    <mat-label>Date range</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" style="width: 13rem;"
+                    class="c-form-group  c-form-group--small flex-1">
+                    <mat-label>Date range</mat-label>
+                    <input matInput [matDatepicker]="pickers">
+                    <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                    <mat-datepicker #pickers></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <button mat-button class="u-primaryColor u-smallSize">Limpiar filtro</button>
+            <label class="ml-auto u-smallSize u-textLightColor">Último año por default</label>
+        </div>
+        <div class="c-indicators c-indicators--list mt-5">
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-sign.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">1,200</div>
+                    <div class="c-indicators__label">Documentos firmados</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-invoice.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">56</div>
+                    <div class="c-indicators__label">Facturas emitidas</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-box.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">234</div>
+                    <div class="c-indicators__label">Expedientes trabajados</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-members.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">15</div>
+                    <div class="c-indicators__label">Miembro en tu firma</div>
+                    <div class="c-indicators__sublabel">¡Son Geniales!</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/ammount-pay.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">23,500 USD</div>
+                    <div class="c-indicators__label">Monto cobrado</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-list.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">3,000</div>
+                    <div class="c-indicators__label">Tareas realizadas</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-saving.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">1,500 hr.</div>
+                    <div class="c-indicators__label">Es el tiempo que
+                        NASBU te ha ahorrado.</div>
+                </div>
+            </div>
+            <div class="c-indicators__item">
+                <img class="c-indicators__img" src="../../../../assets/images/circle-time.svg" alt="">
+                <div>
+                    <div class="c-indicators__ammount">80%</div>
+                    <div class="c-indicators__label">De tus clientes pagan
+                        a tiempo </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

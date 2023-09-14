@@ -1,0 +1,85 @@
+.c-report {
+
+  &__header {
+      display: flex;
+      border-bottom: 1px solid #DDDDDD;
+      padding-bottom: 1rem;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      &__title {
+          font-size: 30px;
+          font-family: 'helveticabold';
+          margin-bottom: 1.5rem;
+
+          @include respond(600) {
+              font-size: 22px;
+          }
+      }
+
+      &__item-group {
+          margin-left: auto;
+          display: flex;
+      }
+
+      &__item {
+          font-size: 12px;
+          text-align: right;
+          text-transform: capitalize;
+
+          & div:last-child {
+              font-weight: bold;
+          }
+
+          &:not(:last-child) {
+              padding-right: 2rem;
+              margin-right: 2rem;
+              border-right: 1px solid #DDDDDD;
+          }
+      }
+  }
+
+  &__subheader {
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem 0rem;
+  }
+
+  &__footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      border-top: 1px solid #DDDDDD;
+      padding-top: 1rem;
+      flex-wrap: wrap;
+
+      &__amount {
+          display: flex;
+          gap: 3rem;
+          align-items: baseline;
+
+          & div:last-child {
+              font-size: 20px;
+              font-weight: bold;
+          }
+      }
+
+      &__method {
+          display: flex;
+          gap: 2rem;
+
+          & b {
+              width: 3rem;
+              display: inline-block;
+              text-align: center;
+          }
+
+          @include respond(600) {
+              flex-wrap: wrap;
+              flex-direction: column;
+              gap: 1rem;
+          }
+      }
+  }
+}

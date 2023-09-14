@@ -1,0 +1,76 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-report"></span>
+            </div>
+            <div class="l-page__title">Reportes</div>
+        </div>
+    </div>
+    <div class="l-page__body">
+        <div class="l-configuration">
+            <div class="c-configuration-menu">
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-invoicing'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-invoice"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Reportes de facturación</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Podrás ver el histórico de
+                            tu facturación.
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-cases'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-expedient"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Reporte de casos</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Podrás ver el histórico de
+                            Tus casos.
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-client'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-user"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Reporte de clientes</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Podrás ver sus balances y
+                            transacciones.
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-income'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-bell"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Reporte de Ingresos</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Podrás ver tu progreso.
+                        </p>
+                    </div>
+                </button>
+                <button mat-button class="c-configuration-menu__item" [routerLink]="'general-metrics'">
+                    <div class="c-configuration-menu__icon">
+                        <span class="icon-pricing"></span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="c-configuration-menu__title">Métricas generales</div>
+                        <p class="c-configuration-menu__paragraph">
+                            Podrás ver el progreso total de acciones
+                            realizadas.
+                        </p>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
