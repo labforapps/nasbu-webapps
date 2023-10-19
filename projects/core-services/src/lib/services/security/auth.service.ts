@@ -94,7 +94,7 @@ export class AuthService {
                 updated_at: new Date().getTime().toString(),
                 email: payload.email,          // optional
                 phone_number: payload.phoneNumber,   // optional - E.164 number convention
-                'custom:firstLogin': true                // other custom attributes
+               // 'custom:firstLogin': true                // other custom attributes
             },
         });
 
