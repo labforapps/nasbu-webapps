@@ -37,7 +37,7 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
   initForm(){
     this.invoicingParameterForm = this.formBuilder.group({
       price_per_hour:      [0],
-      increment_factor:    ['Minuto'],
+      increment_factor:    [0],
       price_per_increment: [0],
       allow_retainers:     [false],
       allow_flat_fee:      [false]
