@@ -734,10 +734,10 @@
             <mat-step>
               <div class="c-stepper__success">
                 <div class="c-stepper__success__img">
-                  <img src="../../../assets/images/moya-logo.jpg" alt="">
+                  <img [src]="customerIntake.subscription_logo" alt="">
                 </div>
                 <div class="c-stepper__success__text">
-                  <div [innerHTML]="'clients.client_intake.form_create.thanks_for_sharing_data' | translate : {business:'Moya & associates'} "></div>
+                  <div [innerHTML]="'clients.client_intake.form_create.thanks_for_sharing_data' | translate : {business:customerIntake.subscription_name} "></div>
                 </div>
                 <div class="c-stepper__success__icon">
                   <span class="icon-check"></span>

@@ -29,49 +29,49 @@ export class IndicatorsComponent implements OnInit {
   }
 
   get openCaseFiles(){
-    return this.caseFiles.filter(x => x.status === this.caseFileStatus.OPEN).length;
+    return this.caseFiles ? this.caseFiles.filter(x => x.status === this.caseFileStatus.OPEN).length : 0;
   }
 
   get closedCaseFiles(){
-    return this.caseFiles.filter(x => x.status === this.caseFileStatus.CLOSED).length;
+    return this.caseFiles ? this.caseFiles.filter(x => x.status === this.caseFileStatus.CLOSED).length : 0;
   }
 
   get totalBilled(){
-    return this.invoices.filter(item => {
+    return this.invoices ?  this.invoices.filter(item => {
       const invoiceDate = moment(item.inv_date);
       return invoiceDate.isSame(moment(), 'month');
   })
-  .reduce((accumulator, current) => accumulator + parseFloat(current.net_amt), 0);
+  .reduce((accumulator, current) => accumulator + parseFloat(current.net_amt), 0) : 0;
 
   }
 
   get totalAmountCollected(){
-      return this.payments.filter(item => {
+      return this.payments ?  this.payments.filter(item => {
         const invoiceDate = moment(item.payment_date);
         return invoiceDate.isSame(moment(), 'month');
     })
-    .reduce((accumulator, current) => accumulator + parseFloat(current.total_amt), 0);
+    .reduce((accumulator, current) => accumulator + parseFloat(current.total_amt), 0) : 0;
   }
 
   get completedTasks() {
-    return this.tasks.filter(x => {
+    return this.tasks ? this.tasks.filter(x => {
       const taskDate = moment(x.created_at)
       return x.status === this.taskStatus.CLOSED && taskDate.isSame(moment(), 'month')
-    }).length;
+    }).length : 0;
   }
 
   get pendingTasks() {
-    return this.tasks.filter(x => {
+    return this.tasks ? this.tasks.filter(x => {
       const taskDate = moment(x.created_at)
       return x.status === this.taskStatus.OPEN && taskDate.isSame(moment(), 'month')
-    }).length;
+    }).length : 0;
   }
 
   get overdueTasks() {
-    return this.tasks.filter(x => {
+    return this.tasks ? this.tasks.filter(x => {
       const taskDate = moment(x.created_at)
       return x.overdue === true && taskDate.isSame(moment(), 'month')
-    }).length;
+    }).length : 0;
   }
 
 }
