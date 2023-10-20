@@ -8,7 +8,7 @@
         </div>
       </mat-select-trigger>
       <mat-option>
-        <ngx-mat-select-search (keyup)="availableCountriesSearch($event)">
+        <ngx-mat-select-search (keyup)="availableCountriesSearch($event)" placeholderLabel="Buscar por país...">
         </ngx-mat-select-search>
       </mat-option>
       <mat-option *ngFor="let item of  countriesAvailables" [value]="item.iso2">

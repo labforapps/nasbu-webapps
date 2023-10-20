@@ -40,7 +40,7 @@ export class AccountConfirmationComponent implements OnInit {
   }
 
   navigateToSignin() {
-      this.navigateToSignin();
+      this.router.navigate(['/signin']);
   }
 
 }

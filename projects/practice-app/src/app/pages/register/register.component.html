@@ -51,6 +51,11 @@
                     </mat-form-field>
                     <label [ngClass]="passwordMatch ? 'u-primaryColor' : 'u-dangerColor'" class="u-smallSize d-block">{{matchMessage}}</label>
                 </form>
+                <div class="mb-1 mt-1 u-textColor"><b>Tu contraseña debe tener:</b>
+              <br><br>1. Mayúscula<br>
+                  <span>2. Carácter especial: %$#</span><br>
+                  3. Carácter numérico: 12837
+                </div>
             </div>
             <div class="c-register__right">
                 <mat-slide-toggle class="c-switch mb-3" (change)="onSelectSubscriptionPeriod($event)">

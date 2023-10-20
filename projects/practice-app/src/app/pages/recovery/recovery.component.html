@@ -10,12 +10,12 @@
                 {{'recovery.subTitle' | translate}}
             </p>
 
-            <div class="w-75">
+            <!-- <div class="w-75">
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>{{'recovery.code' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput type="text" disabled  [ngModel]="recoveryCode">
                 </mat-form-field>
-            </div>
+            </div> -->
             <div class="w-75">
                 <mat-form-field appearance="fill" class="c-form-group">
                     <mat-label>{{'register.email' | translate}}</mat-label>
@@ -30,14 +30,21 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--has-info">
                     <mat-label>{{'register.confirmPassword' | translate}}</mat-label>
-                    <input 
-                      matInput 
-                      class="c-form-group__input" 
-                      type="password" 
+                    <input
+                      matInput
+                      class="c-form-group__input"
+                      type="password"
                       placeholder="*******"
                       formControlName="confirmPassword"
                     >
                 </mat-form-field>
+
+                <div class="mb-1 mt-1 u-textColor"><b>Tu contraseña debe tener:</b>
+                  <br><br>1. Mayúscula<br>
+                      <span>2. Carácter especial: %$#</span><br>
+                      3. Carácter numérico: 12837
+                </div>
+
                 <label [ngClass]="passwordMatch ? 'u-primaryColor' : 'u-dangerColor'" class="u-smallSize d-block mb-3">{{matchMessage}}</label>
                 <button mat-button [ngClass]="{'c-btn--disable': !isValidForm}" class="c-btn c-btn--primary w-100 u-smallSize">{{'recovery.savePassword' | translate}}</button>
                 <p *ngIf="errorMessage" class="u-dangerColor mt-3">{{errorMessage | errorMessageTranslate}}</p>

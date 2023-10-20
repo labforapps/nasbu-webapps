@@ -171,7 +171,11 @@ export class RegisterComponent implements OnInit {
   }
 
   navigateToLogin() {
-      this.router.navigate(['/signin']);
+      this.router.navigate(['/signin'],{
+        queryParams: {
+          firstLogin: true
+        }
+      });
   }
 
   formChange(): void {
