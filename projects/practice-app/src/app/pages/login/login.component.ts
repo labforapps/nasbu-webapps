@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserInfo } from 'core-models';
 import { CognitoUser } from 'amazon-cognito-identity-js';
+import { DialogNewSubscriptionComponent } from '../../components/dialogs/dialog-new-subscription/dialog-new-subscription.component';
 
 @Component({
   selector: 'app-login',
@@ -19,17 +20,31 @@ export class LoginComponent implements OnInit, OnDestroy {
   public signinForm!: FormGroup;
   public errorMessage!: string;
   public currentFocus: string = 'username';
+  public focusEmailField: boolean = false;
+  @ViewChild('campoFoco') campoFoco!: ElementRef;
+
 
   constructor(public dialog: MatDialog,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activatedRoute:ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
     this.buildForm();
     this.formChange();
+
+    const firstLogin =  this.activatedRoute.snapshot.queryParams['firstLogin'];
+
+    if(firstLogin) {
+      const dialofRef = this.dialog.open(DialogNewSubscriptionComponent);
+
+      dialofRef.afterClosed().subscribe(data => {
+        this.campoFoco.nativeElement.focus();
+      })
+    }
   }
 
   buildForm(): void {

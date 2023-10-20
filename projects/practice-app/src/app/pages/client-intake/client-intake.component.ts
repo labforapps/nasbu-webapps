@@ -59,7 +59,6 @@ export class ClientIntakeComponent implements OnInit {
   validateRequest(){
 
     this.customerService.validateRequest(this.token).subscribe((data:CustomerIntakeValidateRequest) => {
-      console.log(data);
       this.selectedSubscription = data.subscription;
       this.customerIntake = data;
     })
