@@ -15,23 +15,33 @@
 
         <span class="icon-user c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item"  [routerLink]="'users'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item"
+            [routerLink]="'users'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_user', 'view_user', 'change_user', 'delete_user']">
         {{'menu.users' | translate}}
         <span class="icon-businessman c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'expedient'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item"
+            [routerLink]="'expedient'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_case_file', 'view_case_file', 'change_case_file', 'delete_case_file']">
         {{'menu.dockets' | translate}}
         <span class="icon-expedient c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'task'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item"
+            [routerLink]="'task'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_task', 'view_task', 'change_task', 'delete_task']">
         {{'menu.my_tasks' | translate}}
         <span class="icon-task c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'templates'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item"
+            [routerLink]="'templates'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_documenttemplate', 'view_documenttemplate', 'change_documenttemplate', 'delete_documenttemplate']">
        {{'menu.documents_templates' | translate}}
         <span class="icon-document-color c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'invoicing'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item"
+            [routerLink]="'invoicing'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_invoice', 'view_invoice', 'change_invoice', 'delete_invoice']">
         {{'menu.invoicing' | translate}}
         <span class="icon-invoice c-menu__icon"></span>
     </button>
@@ -39,7 +49,9 @@
         {{'menu.reports' | translate}}
         <span class="icon-report c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'configuration'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item" [routerLink]="'configuration'"
+            routerLinkActive="is-active"
+            *ngxPermissionsOnly="['add_subscription', 'view_subscription', 'change_subscription', 'delete_subscription']">
         {{'menu.settings' | translate}}
         <span class="icon-gear c-menu__icon"></span>
     </button>

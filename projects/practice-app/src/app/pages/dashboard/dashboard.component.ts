@@ -68,7 +68,6 @@ export class DashboardComponent implements OnInit {
 
   getPayments(){
     this.accountingService.getPayments(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      console.log(data);
       this.payments = data;
     })
   }
