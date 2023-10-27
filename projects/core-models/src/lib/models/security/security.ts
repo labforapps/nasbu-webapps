@@ -102,6 +102,7 @@ export enum modules{
   TASKS = 'tasks',
   CONFIG = 'config',
   USERS = 'users',
+  DOCUMENT_TEMPLATE = 'document_template',
   ALL = 'all'
 }
 
@@ -112,7 +113,9 @@ export const modulesDescription = new Map<string, string>([
   [modules.REPORTS, 'Reports'],
   [modules.TASKS, 'Tasks'],
   [modules.CONFIG, 'Settings'],
-  [modules.USERS, 'Users']
+  [modules.USERS, 'Users'],
+  [modules.ALL, 'All'],
+  [modules.DOCUMENT_TEMPLATE, 'Documents and Templates'],
 
 ]);
 

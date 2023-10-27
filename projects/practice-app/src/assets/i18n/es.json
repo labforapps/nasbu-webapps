@@ -562,7 +562,7 @@
         "company_address":"Dirección de la empresa",
         "representative_data":"Datos representante",
         "summary_information":"Resumen información",
-        "thanks_for_sharing_data":"Gracias por completar tus datos <br><b>Moya & asociados <br>estará revisando tu información.</b>"
+        "thanks_for_sharing_data":"Gracias por completar tus datos <br><b>{{business}} <br>estará revisando tu información.</b>"
       }
     }
    },
