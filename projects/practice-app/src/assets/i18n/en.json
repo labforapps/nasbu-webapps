@@ -562,7 +562,7 @@
         "company_address":"Company address",
         "representative_data":"Representative data",
         "summary_information":"Summary Information",
-        "thanks_for_sharing_data":"Thank you for completing your information <br><b>Moya & associates <br>will be reviewing your information.</b>"
+        "thanks_for_sharing_data":"Thank you for completing your information <br><b>{{business}} <br>will be reviewing your information.</b>"
       }
     }
 

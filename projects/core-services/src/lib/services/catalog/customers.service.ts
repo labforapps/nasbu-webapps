@@ -70,8 +70,12 @@ export class CustomersService {
   }
 
   createCustomerIntake(body: Customer): Observable<Customer[]> {
-    console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/complete_request/`;
+    return this.httpClient.post<Customer[]>(serverUrl, body);
+  }
+
+  completeCompanyRequest(body: any,subscription:string): Observable<Customer[]> {
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/complete_company_request/?subscription=${subscription}`;
     return this.httpClient.post<Customer[]>(serverUrl, body);
   }
 

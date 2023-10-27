@@ -467,38 +467,30 @@ export class ClientIntakeComponent implements OnInit {
   }
 
   createCustomerTypeBusiness(stepper: any) {
-    this.customerService
-      .createCustomerIntake({...this.createClientForm.value,token:this.token,subscription: this.selectedSubscription})
-      .subscribe((data: any) => {
-        const body = {
-          ...this.createRepresentative.value,
-          linked_customer: data.uuid,
-          token: this.token
-        };
 
-        this.customerService.createCustomerIntake({...body,subscription: this.selectedSubscription}).subscribe(
-          (data) => {
-            this.toastr.success(
-              'Ok',
-              this.translateService.instant(
-                'successMessages.created_succesfully'
-              )
-            );
-            stepper.next();
-          },
-          (error: any) => {
-            this.toastr.error(
-              'Error',
-              this.translateService.instant('errorMessages.unexpectedError')
-            );
-          }
+    const companyRequestPayload = {
+      token: this.token,
+      representative: {...this.createRepresentative.value,subscription: this.selectedSubscription},
+      company: {...this.createClientForm.value,subscription: this.selectedSubscription},
+      subscription: this.selectedSubscription
+    }
+
+    this.customerService.completeCompanyRequest(companyRequestPayload,this.selectedSubscription).subscribe(
+      (data) => {
+        this.toastr.success(
+          'Ok',
+          this.translateService.instant(
+            'successMessages.created_succesfully'
+          )
         );
-      }),
+        stepper.next();
+      },
       (error: any) => {
         this.toastr.error(
           'Error',
           this.translateService.instant('errorMessages.unexpectedError')
         );
-      };
+      }
+    );
   }
 }
