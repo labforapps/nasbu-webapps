@@ -69,7 +69,7 @@ export class ClientIntakeComponent implements OnInit {
   initReactiveForms() {
     this.createClientForm = this._formBuilder.group({
       subscription: [this.selectedSubscription],
-      intake_request: ['I'],
+      intake_request: [null],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
       document_no: ['ad cupidatat nu'],
@@ -110,7 +110,7 @@ export class ClientIntakeComponent implements OnInit {
 
     this.createRepresentative = this._formBuilder.group({
       subscription: [''],
-      intake_request: ['I'],
+      intake_request: [null],
       type: [this.customerType, Validators.required],
       document_type: ['I'],
       document_no: ['ad cupidatat nu'],
