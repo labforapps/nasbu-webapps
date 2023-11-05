@@ -22,9 +22,7 @@ export class ExpedientInvoicingComponent implements OnInit {
 
   getInvoicesByCaseFile(){
     this.accountinService.getInvoices(this.caseFile.subscription).subscribe(data => {
-      console.log(data);
       this.invoices = data.filter(x => x.case_file && x.case_file.uuid === this.caseFile.uuid);
-      console.log(this.invoices);
     })
   }
 

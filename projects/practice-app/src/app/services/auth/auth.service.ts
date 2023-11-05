@@ -55,11 +55,13 @@ export class AuthService {
    * is executed in the general dashboard route, updating the permissions
    * @memberof AuthService
    */
-  addPermissions(): void {
+  addPermissions(): SelectedSubscription | null {
     const user = this.getUserInfoFromLocalStorage();
     const allPermissions: string[] = user?.permissions ?? [];
     this.permissionsService.flushPermissions();
     this.permissionsService.addPermission(allPermissions);
+
+    return user;
   }
 
   getUserInfoFromLocalStorage(): SelectedSubscription | null {

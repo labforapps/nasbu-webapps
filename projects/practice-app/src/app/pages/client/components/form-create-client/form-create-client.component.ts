@@ -191,8 +191,6 @@ export class FormCreateClientComponent implements OnInit {
       image: this.imagenSubir,
     };
 
-    console.log('Imagen Subir: ', createClient.image);
-
     if (this.createClientForm.valid) {
       this.customerService.saveCustomer(createClient).subscribe((data) => {
         this.toastr.success(

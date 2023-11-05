@@ -69,6 +69,11 @@ export class ProfileScheduleComponent implements OnInit {
           end_time:    '00:00',
         })
       }
+
+      this.formService.removeItemFormArray(this.scheduleForm,'schedules',0);
+      this.formService.setDataFormArray(this.scheduleForm,'schedules',this.subscription.schedules);
+      this.subscriptionSchedule.emit(this.subscription.schedules);
+      return;
     }
 
     const weekdays = [2, 3, 4, 5, 6, 7, 1];

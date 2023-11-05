@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CaseFile, Group,SecurityUser,Task,TaskType } from 'core-models';
+import { CaseFile, SecurityGroup,SecurityUser,Task,TaskType } from 'core-models';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { CommonService } from '../common';
 
@@ -14,29 +14,46 @@ export class SecurityService {
               private commonService:CommonService,
               ) { }
 
-  getSecurityGroups(subscription:string):Observable<Group[]>{
+  getSecurityGroups(subscription:string):Observable<SecurityGroup[]>{
     const serverUrl = `${this.config.serverUrl}/security/groups/?subscription=${subscription}`;
-    return this.httpClient.get<Group[]>(serverUrl);
+    return this.httpClient.get<SecurityGroup[]>(serverUrl).pipe(
+      map((securityGroups:SecurityGroup[]) => {
+        return securityGroups.sort( (a,b) => {
+
+          const nameA = a.name;
+          const nameB = b.name;
+
+          if(nameA < nameB){
+            return -1;
+          } else if(nameA > nameB){
+            return 1;
+          } else {
+            return 0;
+          }
+
+        })
+      })
+    )
   }
 
-  createSecurityGroup(subscriptionPayload:Group,subscription:string):Observable<Group>{
+  createSecurityGroup(subscriptionPayload:SecurityGroup,subscription:string):Observable<SecurityGroup>{
     const serverUrl = `${this.config.serverUrl}/security/groups/?subscription=${subscription}`;
-    return this.httpClient.post<Group>(serverUrl,subscriptionPayload);
+    return this.httpClient.post<SecurityGroup>(serverUrl,subscriptionPayload);
   }
 
-  getSecurityGroupById(uuid:string,subscription :string):Observable<Group>{
+  getSecurityGroupById(uuid:string,subscription :string):Observable<SecurityGroup>{
     const serverUrl = `${this.config.serverUrl}/security/groups/${uuid}/?subscription=${subscription}`;
-    return this.httpClient.get<Group>(serverUrl);
+    return this.httpClient.get<SecurityGroup>(serverUrl);
   }
 
-  updateSecurityGroup(groupPayload:Group,uuid:string,subscription:string):Observable<Group>{
+  updateSecurityGroup(groupPayload:SecurityGroup,uuid:string,subscription:string):Observable<SecurityGroup>{
     const serverUrl = `${this.config.serverUrl}/security/groups/${uuid}/?subscription=${subscription}`;
-    return this.httpClient.put<Group>(serverUrl,groupPayload);
+    return this.httpClient.put<SecurityGroup>(serverUrl,groupPayload);
   }
 
-  deleteSecurityGroup(uuid:string,subscription:string):Observable<Group>{
+  deleteSecurityGroup(uuid:string,subscription:string):Observable<SecurityGroup>{
     const serverUrl = `${this.config.serverUrl}/security/groups/${uuid}/?subscription=${subscription}`;
-    return this.httpClient.delete<Group>(serverUrl);
+    return this.httpClient.delete<SecurityGroup>(serverUrl);
   }
 
   getSecurityUsers(subscription:string):Observable<SecurityUser[]>{
@@ -44,6 +61,13 @@ export class SecurityService {
     return this.httpClient.get<SecurityUser[]>(serverUrl).pipe(
       map( (securityUsers:SecurityUser[]) => {
         return securityUsers.sort((a, b) => {
+
+          if (a.subscription_member_type === 'O' && b.subscription_member_type !== 'O') {
+            return -1;
+          }
+          if (b.subscription_member_type === 'O' && a.subscription_member_type !== 'O') {
+            return 1;
+          }
 
           const nameA = a.user.first_name.toLowerCase();
           const nameB = b.user.first_name.toLowerCase();

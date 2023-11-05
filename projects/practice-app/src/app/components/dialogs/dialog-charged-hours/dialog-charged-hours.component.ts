@@ -35,7 +35,6 @@ export class DialogChargedHoursComponent implements OnInit {
 
   getTaskTimeByTask(){
     this.practiceService.getTasksTimeByTask(this.task).subscribe((data:TimeTask[]) => {
-      console.log(data);
     })
   }
 

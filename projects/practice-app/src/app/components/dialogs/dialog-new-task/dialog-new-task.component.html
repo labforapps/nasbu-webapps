@@ -52,7 +52,9 @@
 
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
                           <mat-label>Seleccionar</mat-label>
-                            <mat-select formControlName="customer" [disabled]="this.dataDialog && this.dataDialog.customer !== undefined">
+                            <mat-select formControlName="customer"
+                                        [disabled]="this.dataDialog && this.dataDialog.customer !== undefined"
+                                        (selectionChange)="onChangeCustomer($event)">
                                 <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
                                     {{customer | customerFullName}}
                                 </mat-option>

@@ -47,7 +47,6 @@ export class CustomersService {
   }
 
   createCustomer(body: Customer): Observable<Customer> {
-    console.log(body);
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/`;
     return this.httpClient.post<Customer>(serverUrl, body);
   }

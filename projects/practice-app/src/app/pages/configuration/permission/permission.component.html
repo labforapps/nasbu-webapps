@@ -90,7 +90,9 @@
                           </tr>
                           <tr *ngFor="let module of modules; let i = index;">
                             <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor" [checked]="isModuleChecked(group, module)" (change)="checkOrUncheckModule(group, module)">
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor"
+                                            [checked]="isModuleChecked(group, module)"
+                                            (change)=" module === modulesEnum.ALL ? checkOrUnCheckAllSections($event,group)  : checkOrUncheckModule(group, module)">
                                 {{'settings.permissions.access_to' | translate}} <b>{{ returnModuleDescription(module) || '' | translate }}</b>
                               </mat-checkbox>
                             </td>
@@ -129,40 +131,6 @@
                               <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
                             </td>
                           </tr>
-                          <!-- <tr *ngFor="let module_access of group.modules_access; let i = index">
-                            <td>
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor" [(ngModel)]="module_access.active">
-                                {{'settings.permissions.i' | translate}} <b>{{ returnModuleDescription(module_access.module) || '' | translate }}</b>
-                              </mat-checkbox>
-                            </td>
-                            <td>
-                              <mat-radio-group    [(ngModel)]="module_access.type" [name]="'admin_' + group.name + '_' + i">
-                                <mat-radio-button [value]="typeAccess.ADMINISTRATOR"
-                                                  [checked]="module_access.type === typeAccess.ADMINISTRATOR"
-                                                  class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
-                              </mat-radio-group>
-                            </td>
-                            <td>
-                              <mat-radio-group    [(ngModel)]="module_access.type" [name]="'write_' + group.name + '_' + i">
-                                <mat-radio-button [value]="typeAccess.WRITE"
-                                                  [checked]="module_access.type === typeAccess.WRITE"
-                                                  class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
-                              </mat-radio-group>
-                            </td>
-                            <td>
-                              <mat-radio-group    [(ngModel)]="module_access.type" [name]="'read_' + group.name + '_' + i">
-                                <mat-radio-button [value]="typeAccess.READ"
-                                                  [checked]="module_access.type === typeAccess.READ"
-                                                  class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"></mat-radio-button>
-                              </mat-radio-group>
-                            </td>
-                            <td *ngIf="i === 0">
-                              <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
-                            </td>
-                          </tr> -->
                         </table>
                       </div>
                     </div>

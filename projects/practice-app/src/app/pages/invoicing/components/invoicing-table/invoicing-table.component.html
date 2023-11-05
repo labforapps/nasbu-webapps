@@ -78,7 +78,7 @@
       <ng-container matColumnDef="client">
           <th mat-header-cell *matHeaderCellDef> {{'invoicing.client' | translate}} </th>
           <td mat-cell *matCellDef="let element" class="u-link" [routerLink]="'/client-profile/' + element.customer.uuid">
-            {{element.customer.first_name + ' ' + element.customer.last_name}}
+            {{element.customer | customerFullName}}
           </td>
       </ng-container>
 
@@ -101,7 +101,7 @@
 
       <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef> {{'invoicing.invoice_total' | translate}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.net_amt}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.net_amt | currency}} </td>
       </ng-container>
 
       <!-- Date Column -->

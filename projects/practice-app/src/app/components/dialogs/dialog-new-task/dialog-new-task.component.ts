@@ -5,6 +5,7 @@ import { Task, Customer, SecurityUser, CaseFile, BillingType,TaskType, PriorityT
 import { AuthService, CommonService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-dialog-new-task',
   templateUrl: './dialog-new-task.component.html',
@@ -19,6 +20,7 @@ export class DialogNewTaskComponent implements OnInit {
   customers!:Customer[];
   securityUsers!:SecurityUser[];
   caseFiles!:CaseFile[];
+  caseFilesCopy!:CaseFile[];
   billingType = BillingType;
   taskTypes!:TaskType[];
   priorityTask = PriorityTask
@@ -110,7 +112,21 @@ export class DialogNewTaskComponent implements OnInit {
 
   getCaseFiles(){
     this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe((data:CaseFile[]) => {
-      this.caseFiles = data;
+      this.caseFiles = data.sort( (a,b) => {
+
+        const nameA = a.name;
+        const nameB = b.name;
+
+        if(nameA < nameB){
+          return -1;
+        } else if(nameA > nameB){
+          return 1;
+        } else {
+          return 0;
+        }
+
+      })
+      this.caseFilesCopy = data;
       if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
     })
   }
@@ -120,6 +136,11 @@ export class DialogNewTaskComponent implements OnInit {
       this.taskTypes = data;
       if(this.dataDialog && this.dataDialog.taskType) this.taskForm.patchValue({type: this.dataDialog.taskType.uuid})
     })
+  }
+
+  onChangeCustomer(event:MatSelectChange){
+    this.caseFiles = this.caseFilesCopy
+    this.caseFiles = this.caseFiles.filter(x => x.customer.uuid === event.value)
   }
 
   dateRadioChange(event: any){

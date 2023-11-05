@@ -115,26 +115,7 @@
 
                           <div class="d-flex u-gap-1">
 
-                            <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
-                              <mat-select>
-                                <mat-option>
-                                  Option 1
-                                </mat-option>
-                                <mat-option>
-                                  Option 2
-                                </mat-option>
-                                <mat-option>
-                                  Option 3
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
-
-                            <mat-form-field appearance="fill" class="c-form-group">
-                              <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                              <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
-                            </mat-form-field> -->
                             <ngx-intl-tel-input (numberChange)="setPhoneField($event,'cliente')"></ngx-intl-tel-input>
-
 
                           </div>
                           <div class="d-flex u-gap-1">
@@ -276,22 +257,8 @@
                                 {{'clients.form_create.physical_postal_address_share_info' | translate}}
                       </mat-checkbox>
 
-                    <div class="col-sm-6">
                       <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
-                      <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                        <mat-label>Seleccionar país </mat-label>
-                        <mat-select>
-                          <mat-option>
-                            Option 1
-                          </mat-option>
-                          <mat-option>
-                            Option 2
-                          </mat-option>
-                          <mat-option>
-                            Option 3
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field> -->
+
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                         <input class="c-form-group__input" [formControlName]="'postal_city'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
@@ -309,19 +276,15 @@
                         {{'errorMessages.field_required' | translate}}
                       </mat-error>
 
-                      <div class="col-sm-6 pl-0">
-                        <mat-form-field appearance="fill" class="c-form-group">
-                          <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                          <input class="c-form-group__input" [formControlName]="'postal_postal_code'" matInput placeholder="Código">
-                        </mat-form-field>
-                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
-                          {{'errorMessages.field_required' | translate}}
-                        </mat-error>
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                        <input class="c-form-group__input" [formControlName]="'postal_postal_code'" matInput placeholder="Código">
+                      </mat-form-field>
+                      <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
 
-                      </div>
                     </div>
-                      </div>
-
 
                     </div>
                   </div>
@@ -391,9 +354,9 @@
                       </div>
 
                       <div [formGroupName]="'1'">
-                        <label class="u-title-label">{{'clients.form_create.telephone_number' | translate}}</label>
+                        <label class="u-title-label">{{'clients.form_create.cellphone_number' | translate}}</label>
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                          <mat-label>Personal</mat-label>
+                          <mat-label>{{'clients.form_create.telephone_number' | translate}}</mat-label>
                           <mat-select formControlName="sub_type">
                             <mat-option [value]="subtypeContact.cellphone_number">
                               {{'clients.form_create.cellphone_number' | translate}}
@@ -412,27 +375,7 @@
 
                         <div class="d-flex u-gap-1">
 
-                          <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
-                            <mat-select>
-                              <mat-option>
-                                Option 1
-                              </mat-option>
-                              <mat-option>
-                                Option 2
-                              </mat-option>
-                              <mat-option>
-                                Option 3
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-
-                          <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                            <input [textMask]="{mask: mask_telephone_number}" formControlName="contact_value" class="c-form-group__input" matInput placeholder="Teléfono">
-                          </mat-form-field> -->
-
                           <ngx-intl-tel-input (numberChange)="setPhoneField($event,'representative')"></ngx-intl-tel-input>
-
 
                         </div>
                         <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">
@@ -448,9 +391,7 @@
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'clients.form_create.born_date' | translate}}</mat-label>
                         <input formControlName="born_date" matInput type="date">
-                        <!-- <input formControlName="born_date" matInput [matDatepicker]="pickers">
-                        <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                        <mat-datepicker #pickers></mat-datepicker> -->
+
                       </mat-form-field>
                       <mat-error *ngIf="createRepresentative.controls['born_date'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
 

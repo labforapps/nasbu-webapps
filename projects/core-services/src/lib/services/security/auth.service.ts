@@ -26,9 +26,8 @@ export class AuthService {
                 if(cognitoUser.challengeName === 'NEW_PASSWORD_REQUIRED' ){
                   return of(cognitoUser);
                 }
-                else{
-                  return this.fetchUserInfo();
-                }
+
+                return this.fetchUserInfo();
               })
         );
     }

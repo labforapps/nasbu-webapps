@@ -4,9 +4,10 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../../../services/form.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Country, Group, SecurityUser, SubscriptionBillingFee, SubtypeContact, TypeContact } from 'core-models';
-import { AuthService, CommonService, SecurityService } from 'core-services';
+import { Country, SubscriptionMemberType, SecurityGroup, SecurityUser, SubscriptionBillingFee, SubtypeContact, TypeContact, Subscription } from 'core-models';
+import { AuthService, CommonService, SecurityService, SubscriptionService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
+import { DialogAddRoleComponent } from '../../../components/dialogs/dialog-add-role/dialog-add-role.component';
 
 @Component({
   selector: 'app-create-collaborator',
@@ -22,11 +23,13 @@ export class CreateCollaboratorComponent implements OnInit {
   logoFile!:any;
   image_url!:string;
   countries!:Country[];
-  securityGroups!:Group[];
+  securityGroups!:SecurityGroup[];
   securityUserId!:string;
   securityUser!:SecurityUser;
   billingFee!:SubscriptionBillingFee;
   dialogRef: MatDialogRef<CreateCollaboratorComponent>;
+  subscriptionMemberType = SubscriptionMemberType
+  subscriptionInformation!:Subscription
 
   constructor(public  dialog: MatDialog,
               private formBuilder:FormBuilder,
@@ -38,6 +41,7 @@ export class CreateCollaboratorComponent implements OnInit {
               private translateService:TranslateService,
               private securityService:SecurityService,
               private activatedRoute:ActivatedRoute,
+              private subscriptionService:SubscriptionService,
               @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
               @Optional() dialogRef: MatDialogRef<CreateCollaboratorComponent>) {
                 this.dialogRef = dialogRef;
@@ -49,6 +53,8 @@ export class CreateCollaboratorComponent implements OnInit {
     this.fetchCountries();
     this.getSecurityGroups();
     this.getSecurityUserById();
+
+    if(this.securityUserId === '') this.getSubscriptionInformation();
   }
 
   initForm(){
@@ -94,10 +100,21 @@ export class CreateCollaboratorComponent implements OnInit {
 
   }
 
+  getSubscriptionInformation(){
+    this.subscriptionService.getSubscription(this.selectedSubscription?.ssid.uuid).subscribe((data:Subscription) => {
+      this.subscriptionInformation = data;
+      this.removeItemFormArray('contacts',0);
+      this.removeItemFormArray('contacts',0);
+      this.removeItemFormArray('addresses',0);
+      this.formService.setDataFormArray(this.collaboratorForm,'contacts',this.subscriptionInformation.contacts.filter(x => x.contact_value != ''));
+      this.formService.setDataFormArray(this.collaboratorForm,'addresses',this.subscriptionInformation.addresses);
+    })
+  }
+
   getSecurityUserById() {
     this.securityUserId = this.activatedRoute.snapshot.paramMap.get('id') || '';
 
-    if (this.securityUserId != '') {
+    if (this.securityUserId !== '') {
       this.securityService
         .getSecurityUserById(this.selectedSubscription?.ssid.uuid, this.securityUserId)
         .subscribe((data) => {
@@ -132,21 +149,7 @@ export class CreateCollaboratorComponent implements OnInit {
 
   getSecurityGroups(){
     this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.securityGroups = data.sort((a, b) => {
-
-        const nameA = a.name;
-        const nameB = b.name;
-
-        if (nameA < nameB) {
-          return -1;
-        } else if (nameA > nameB) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });;
-
-
+      this.securityGroups = data
     })
   }
 
@@ -169,6 +172,10 @@ export class CreateCollaboratorComponent implements OnInit {
 
   setSubscriptionBillingFee(billingFee:SubscriptionBillingFee){
     this.billingFee = billingFee;
+  }
+
+  hideSecurityGroupField(){
+    return this.securityUser && this.securityUser.subscription_member_type === this.subscriptionMemberType.OWNER ? false : true;
   }
 
   addContactItem(formArray:string,item:any){
@@ -266,6 +273,11 @@ export class CreateCollaboratorComponent implements OnInit {
      if(!this.securityUserId) this.toastr.error('Error', this.translateService.instant('dockets.username_already_exists'));
     })
 
+  }
+
+  openDialogAddRole(){
+    const dialogRef = this.dialog.open(DialogAddRoleComponent)
+    dialogRef.afterClosed().subscribe(data => {this.getSecurityGroups()})
   }
 
 }

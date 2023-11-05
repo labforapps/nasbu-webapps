@@ -129,7 +129,6 @@ export class CreateClientComponent implements OnInit {
       this.customerService
         .getCustomerById(this.selectedSubscription?.ssid.uuid, this.customerId)
         .subscribe((data) => {
-          console.log(data);
           this.customer = data;
           this.setDataInForm();
         });

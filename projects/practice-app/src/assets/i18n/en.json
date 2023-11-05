@@ -77,7 +77,7 @@
    },
    "errorMessages": {
       "unexpectedError": "Opps unexpected error...",
-      "Incorrect username or password.": "Inavalid credentials",
+      "Incorrect username or password.": "Invalid credentials",
       "Password attempts exceeded": "Password attempts exceeded",
       "Invalid phone number format.": "Invalid phone number format, try phone area code.",
       "Invalid email address format.": "Invalid email address format.",
@@ -877,6 +877,7 @@
   "Tasks":"Tasks",
   "Settings":"Settings",
   "Users":"Users",
+  "All":"All Sections",
   "cellphone_number":"Cellular Phone Number",
   "landline_number":"Home Telephone Number",
   "phone_office_number":"Work Telephone Number",
