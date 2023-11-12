@@ -12,4 +12,9 @@ export class ReportInvoicingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  export(){
+    const newTab = window.open();
+    if(newTab) newTab.document.body.innerHTML = '<h1>Hola Mundo</h1>';
+  }
+
 }

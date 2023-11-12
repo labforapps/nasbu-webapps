@@ -100,7 +100,7 @@
                               <mat-radio-group [name]="'admin_' + group.name + '_' + i">
                                 <mat-radio-button
                                                   [value]="typeAccess.ADMINISTRATOR"
-                                                  (change)="selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.ADMINISTRATOR) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.ADMINISTRATOR)"
                                                   class="c-radioButton"
                                                   (change)="updateSubscriptionGroups(group)"
@@ -110,7 +110,7 @@
                             <td>
                               <mat-radio-group [name]="'write_' + group.name + '_' + i">
                                 <mat-radio-button [value]="typeAccess.WRITE"
-                                                  (change)="selectModulePerm(group, module, typeAccess.WRITE)"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.WRITE) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.WRITE)"
                                                   class="c-radioButton"
                                                   (change)="updateSubscriptionGroups(group)"
@@ -120,7 +120,7 @@
                             <td>
                               <mat-radio-group [name]="'read_' + group.name + '_' + i">
                                 <mat-radio-button [value]="typeAccess.READ"
-                                                  (change)="selectModulePerm(group, module, typeAccess.READ)"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.READ) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.READ)"
                                                   class="c-radioButton"
                                                   (change)="updateSubscriptionGroups(group)"

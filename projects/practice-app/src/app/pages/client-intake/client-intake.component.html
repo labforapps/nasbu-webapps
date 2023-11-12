@@ -689,7 +689,7 @@
             <mat-step>
               <div class="c-stepper__success">
                 <div class="c-stepper__success__img">
-                  <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                  <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="" style="object-fit: cover; width: 100%; height: 100%">
                   <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
                 </div>
                 <div class="c-stepper__success__text">

@@ -43,6 +43,9 @@ export class ValidationsPipe implements PipeTransform {
             case "max":
                 return error['max'];
 
+            case "required":
+              return error['required']
+
             default:
                 return null;
         }

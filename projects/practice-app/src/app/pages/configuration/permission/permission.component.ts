@@ -116,12 +116,21 @@ export class PermissionComponent implements OnInit {
 
   checkOrUnCheckAllSections(event:MatCheckboxChange,group:SecurityGroup){
 
+    group.modules_access = [];
+
     if(event.checked){
+      this.modules.forEach( module => {
+        const newModuleAccess: ModulesAccess = {
+          module,
+          type: this.typeAccess.ADMINISTRATOR,
+          active: true
+        };
+        group.modules_access.push(newModuleAccess)
 
-      group.modules_access.forEach(module_access => {
-      });
-
+      })
     }
+
+    this.updateSubscriptionGroups(group);
 
   }
 
@@ -138,6 +147,23 @@ export class PermissionComponent implements OnInit {
           this.updateSubscriptionGroups(group);
         }
     }
+  }
+
+  selectAllModulePerm(group:SecurityGroup,perm:string){
+    group.modules_access = []
+
+    this.modules.forEach( module => {
+      const newModuleAccess: ModulesAccess = {
+        module,
+        type: perm,
+        active: true
+      };
+      group.modules_access.push(newModuleAccess)
+
+    })
+
+    this.updateSubscriptionGroups(group);
+
   }
 
 }

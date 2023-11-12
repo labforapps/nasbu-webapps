@@ -47,11 +47,6 @@ import { ReportInvoicingExportComponent } from './pages/report/report-invoicing/
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'signin',
-    pathMatch: 'full'
-  },
-  {
     path: 'signin',
     component: LoginComponent,
   },

@@ -128,7 +128,7 @@ export class CreateProfileComponent implements OnInit {
 
     if(!this.validateSchedule()) return;
 
-    this.subscriptionPayload = {...this.subscriptionForm.value, schedules: []}
+    this.subscriptionPayload = {...this.subscriptionForm.value, schedules: this.subscriptionSchedule}
      this.subscriptionPayload.logoFile = this.logoFile ? this.logoFile : null;
 
     if(this.subscriptionForm.valid){
