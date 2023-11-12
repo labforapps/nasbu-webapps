@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoiceDetail, InvoicePayload, Subscription, Task } from 'core-models';
+import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription } from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-new-invoice',
@@ -92,7 +93,6 @@ export class NewInvoiceComponent implements OnInit {
 
   setDataInForm(){
     if(this.invoice){
-      console.log(this.invoice);
       this.invoiceForm.patchValue({
         customer: this.invoice.customer.uuid,
         case_file: this.invoice.case_file ?  this.invoice.case_file.uuid : null,
@@ -116,6 +116,10 @@ export class NewInvoiceComponent implements OnInit {
         is_legal_charge: x.is_legal_charge
       }));
     }
+  }
+
+  disableCaseFileField(event:MatCheckboxChange){
+   event.checked ? this.invoiceForm.get('case_file')?.disable() : this.invoiceForm.get('case_file')?.enable()
   }
 
   getInvoiceById() {
@@ -151,11 +155,14 @@ export class NewInvoiceComponent implements OnInit {
     return subTotal;
   }
 
-  get totalTaxInvoiceAmount(){
+  get totalTaxInvoiceAmount() {
     const tax_amt = this.subTotalInvoiceAmount * (this.taxInvoice / 100);
-    this.invoiceForm.patchValue({tax_amt: tax_amt  })
-    return tax_amt;
+    const roundedTaxAmt = parseFloat(tax_amt.toFixed(2));
+
+    this.invoiceForm.patchValue({ tax_amt: roundedTaxAmt })
+    return roundedTaxAmt;
   }
+
 
   get taxInvoice(){
     return 13;
@@ -180,10 +187,7 @@ export class NewInvoiceComponent implements OnInit {
   }
 
   removeItemFormArray(formArray:string,detail:any){
-
-    console.log(detail);
     const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
-
     this.formService.removeItemFormArray(this.invoiceForm,formArray,index);
   }
 
@@ -247,24 +251,18 @@ export class NewInvoiceComponent implements OnInit {
 
   onChangeInvoiceDetail(formArray:string,index:number){
 
-    console.log(index);
-
     const invoice = this.invoiceForm.value.details[index];
-
-    console.log(invoice);
 
     let total = 0;
 
     if(invoice.billing_type === this.billingType.PER_HOUR) total = invoice.bt_price_per_hour * invoice.total_hours;
     if(invoice.billing_type === this.billingType.FLAT_FEE) total = invoice.bt_amt;
 
-    (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({total_amt: total});
+    (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({total_amt: total.toFixed(2)});
 
-    console.log(this.invoiceForm.value.details[index]);
   }
 
   submitForm(){
-    console.log(this.invoiceForm.value);
 
     if(!this.invoiceForm.valid){
       this.HelpersService.showMessageRequiredFields();
@@ -279,8 +277,6 @@ export class NewInvoiceComponent implements OnInit {
       inv_date : moment(invoiceForm.inv_date).format("YYYY-MM-DD"),
       inv_exp_date: moment(invoiceForm.inv_exp_date).format("YYYY-MM-DD")
     };
-
-    console.log(invoice);
 
     if(this.invoiceId) invoice.uuid = this.invoiceId;
 

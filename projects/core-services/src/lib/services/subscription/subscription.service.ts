@@ -39,7 +39,6 @@ export class SubscriptionService {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('subscription', subscription);
-    console.log('Form Data',formData);
     return this.httpClient.put<any>(serverUrl,formData);
   }
 

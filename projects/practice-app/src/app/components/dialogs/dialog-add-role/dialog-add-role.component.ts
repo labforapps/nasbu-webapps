@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService,SecurityService } from 'core-services';
 import { FormService } from '../../../services/form.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Group, ModulesAccess, modules, modulesDescription, typeAccess } from 'core-models';
+import { SecurityGroup, ModulesAccess, modules, modulesDescription, typeAccess } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-dialog-add-role',
@@ -18,8 +20,12 @@ export class DialogAddRoleComponent implements OnInit {
   modules = modules;
   modulesDescription = modulesDescription;
   typeAccess = typeAccess;
-  groupPayload!:Group;
+  groupPayload!:SecurityGroup;
   selectedSubscription:any;
+  allSections:Boolean = false;
+  allSectionsType:string = '';
+  modulesList!:modules[];
+  formArrayName:string = 'modules_access'
 
   constructor(private authService:AuthService,
               private formService:FormService,
@@ -33,6 +39,7 @@ export class DialogAddRoleComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.initForm();
+    this.modulesList = Object.values(this.modules)
     this.setFormData();
   }
 
@@ -51,15 +58,13 @@ export class DialogAddRoleComponent implements OnInit {
 
   setFormData(){
 
-    this.formService.removeItemFormArray(this.groupForm,'modules_access',0);
+    this.formService.removeItemFormArray(this.groupForm,this.formArrayName,0);
 
-    const modules = Object.values(this.modules);
+    for(let i=0; i < this.modulesList.length - 1; i++){
 
-    for(let i=0; i < modules.length - 1; i++){
-
-      (this.groupForm.get('modules_access') as FormArray).push(
+      (this.groupForm.get(this.formArrayName) as FormArray).push(
         this._formBuilder.group({
-          module: modules[i],
+          module: this.modulesList[i],
           type: [''],
           active: false
         })
@@ -69,15 +74,44 @@ export class DialogAddRoleComponent implements OnInit {
 
   }
 
-  setTypeModuleAccess(event:any,index:number){
-    (this.groupForm.get('modules_access') as FormArray)?.at(index).patchValue({
+  setTypeModuleAccess(event:MatRadioChange,index:number){
+    (this.groupForm.get(this.formArrayName) as FormArray)?.at(index).patchValue({
       type: event.value,
+      active: true
     });
+  }
 
-    (this.groupForm.get('modules_access') as FormArray)?.at(index).patchValue({
-      active: true,
+  checkUnCheckModuleAccess(active:Boolean,index:number){
+    (this.groupForm.get(this.formArrayName) as FormArray)?.at(index).patchValue({
+      type: active ? this.typeAccess.ADMINISTRATOR : ''
     });
+  }
 
+  checkUnCheckAllSections(checkbox:MatCheckboxChange){
+
+    this.allSectionsType = '';
+    let active = false
+
+    if(checkbox.checked){
+      this.allSectionsType = this.typeAccess.ADMINISTRATOR
+      active = true
+    }
+
+    for(let i = 0; i < this.modulesList.length - 1; i++){
+      (this.groupForm.get(this.formArrayName) as FormArray)?.at(i).patchValue({type: this.allSectionsType,active});
+    }
+
+  }
+
+  setTypeAccessAllModule(event:MatRadioChange){
+    for(let i = 0; i < this.modulesList.length - 1; i++){
+      (this.groupForm.get(this.formArrayName) as FormArray)?.at(i).patchValue({type: event.value});
+    }
+  }
+
+  isModuleChecked(group: SecurityGroup, module: string): boolean {
+    return group.modules_access
+                .findIndex((ma: ModulesAccess) => ma.module === module) > -1;
   }
 
   returnFormArray(formArray: string) {
@@ -97,8 +131,6 @@ export class DialogAddRoleComponent implements OnInit {
       name: this.groupForm.value.name,
       modules_access: modulesActived
     }
-
-    console.log(this.groupPayload);
 
     if(this.groupForm.valid){
       this.securityService.createSecurityGroup(this.groupPayload,this.selectedSubscription?.ssid.uuid).subscribe(data => {

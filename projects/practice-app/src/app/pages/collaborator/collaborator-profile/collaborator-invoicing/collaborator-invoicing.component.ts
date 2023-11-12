@@ -21,9 +21,7 @@ export class CollaboratorInvoicingComponent implements OnInit {
 
   getInvoicesBySecurityUser(){
     this.accountinService.getInvoices(this.securityUser.subscription).subscribe(data => {
-      console.log(data);
       this.invoices = data.filter(x => x.created_by === this.securityUser.uuid);
-      console.log(this.invoices);
     })
   }
 

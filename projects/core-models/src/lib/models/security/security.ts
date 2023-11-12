@@ -77,7 +77,7 @@ export interface UserAtribetes {
     updated_at: string;
 }
 
-export interface Group {
+export interface SecurityGroup {
   uuid?: string;
   subscription:   string;
   name:           string;
@@ -116,7 +116,6 @@ export const modulesDescription = new Map<string, string>([
   [modules.USERS, 'Users'],
   [modules.ALL, 'All'],
   [modules.DOCUMENT_TEMPLATE, 'Documents and Templates'],
-
 ]);
 
 
@@ -140,6 +139,13 @@ export interface SecurityUser {
   active?:        boolean;
   created_at?:    Date;
   birthdate?: Date;
+  subscription_member_type?: SubscriptionMemberType;
+}
+
+export enum SubscriptionMemberType {
+  OWNER = 'O',
+  USER = 'U',
+  COLLABORATOR = 'C'
 }
 
 export interface User {

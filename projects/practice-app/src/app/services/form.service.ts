@@ -10,6 +10,16 @@ export class FormService {
 
   constructor(private _formBuilder:FormBuilder) { }
 
+  setFormControlValidations(form:FormGroup,formControlName:string,isRequired:boolean,defaultValue:any){
+    if(isRequired){
+      form.controls[formControlName].setErrors({incorrect: true})
+    }
+    else{
+      form.controls[formControlName].setErrors(null)
+      form.controls[formControlName].setValue(defaultValue)
+    }
+  }
+
   returnFormArrayControls(form: FormGroup,formArray:string) {
     return (form.get(formArray) as FormArray).controls;
   }

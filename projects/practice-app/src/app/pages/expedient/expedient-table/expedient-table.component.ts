@@ -302,8 +302,7 @@ export class ExpedientTableComponent implements OnInit {
   }
 
   openDialogUserShareExpedient(caseFile:CaseFile){
-    console.log(this.securityUsers);
-    const dialogRef = this.dialog.open(DialogUsersShareExpedientComponent,{
+    this.dialog.open(DialogUsersShareExpedientComponent,{
       data: {
           users: this.securityUsers,
           caseFile:caseFile

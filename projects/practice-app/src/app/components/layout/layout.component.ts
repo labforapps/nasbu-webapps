@@ -5,7 +5,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogIntakeComponent } from '../dialogs/dialog-intake/dialog-intake.component';
-import { CurrentUserInfo } from 'core-models';
+import { CurrentUserInfo, SelectedSubscription, SubscriptionMemberType } from 'core-models';
 
 @Component({
   selector: 'app-layout',
@@ -18,17 +18,21 @@ export class LayoutComponent {
   sidenav!: MatDrawer;
   currentUser!:CurrentUserInfo;
   public openMenu!:boolean;
+  selectedSubscription!:SelectedSubscription | null
+  subscriptionMemberType = SubscriptionMemberType
 
   constructor(
     private observer: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private authService: AuthService,
     private dialog:MatDialog
-  ) {  this.authService.addPermissions(); }
+  ) {
+  }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.selectedSubscription = this.authService.addPermissions();
 
     this.authService.getCurrentUserInfo().subscribe(data => {
       this.currentUser = data;

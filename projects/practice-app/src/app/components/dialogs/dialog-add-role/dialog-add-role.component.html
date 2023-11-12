@@ -28,26 +28,84 @@
                       </tr>
 
                        <tr *ngFor="let module of returnFormArray('modules_access'); let i = index" [formGroupName]="i">
-
                           <td>
 
-                              <mat-checkbox class="c-checkbox mb-2 u-textColor" formControlName="active">
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor" formControlName="active" (click)="checkUnCheckModuleAccess(!module.value.active,i)">
                                 {{'settings.permissions.access_to' | translate}} <b>{{returnModuleDescription(module.value.module) || '' | translate}}</b>
                               </mat-checkbox>
                           </td>
                           <td>
                             <mat-radio-group formControlName="type">
-                              <mat-radio-button [value]="typeAccess.ADMINISTRATOR" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                              <mat-radio-button [value]="typeAccess.ADMINISTRATOR"
+                                                (change)="setTypeModuleAccess($event,i)"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="!module.value.active">
+                              </mat-radio-button>
                             </mat-radio-group>
                           </td>
                           <td>
                             <mat-radio-group formControlName="type">
-                              <mat-radio-button [value]="typeAccess.WRITE" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                              <mat-radio-button [value]="typeAccess.WRITE"
+                                                (change)="setTypeModuleAccess($event,i)"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="!module.value.active">
+                              </mat-radio-button>
                             </mat-radio-group>
                           </td>
                           <td>
                             <mat-radio-group formControlName="type">
-                              <mat-radio-button [value]="typeAccess.READ" (change)="setTypeModuleAccess($event,i)"  name="escalationTeam" class="c-radioButton"></mat-radio-button>
+                              <mat-radio-button [value]="typeAccess.READ"
+                                                (change)="setTypeModuleAccess($event,i)"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="!module.value.active">
+                              </mat-radio-button>
+                            </mat-radio-group>
+                          </td>
+
+                        </tr>
+
+                        <tr>
+                          <td>
+
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor"
+                                            [(ngModel)]="allSections"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="checkUnCheckAllSections($event)">
+                                {{'settings.permissions.access_to' | translate}} <b>All Sections</b>
+                              </mat-checkbox>
+                          </td>
+                          <td>
+                            <mat-radio-group [(ngModel)]="allSectionsType" [ngModelOptions]="{standalone: true}">
+                              <mat-radio-button [value]="typeAccess.ADMINISTRATOR"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="allSections ? false : true"
+                                                (change)="setTypeAccessAllModule($event)"
+                                                >
+                              </mat-radio-button>
+                            </mat-radio-group>
+                          </td>
+                          <td>
+                            <mat-radio-group [(ngModel)]="allSectionsType" [ngModelOptions]="{standalone: true}">
+                              <mat-radio-button [value]="typeAccess.WRITE"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="allSections ? false : true"
+                                                (change)="setTypeAccessAllModule($event)">
+                              </mat-radio-button>
+                            </mat-radio-group>
+                          </td>
+                          <td>
+                            <mat-radio-group [(ngModel)]="allSectionsType" [ngModelOptions]="{standalone: true}">
+                              <mat-radio-button [value]="typeAccess.READ"
+                                                name="escalationTeam"
+                                                class="c-radioButton"
+                                                [disabled]="allSections ? false : true"
+                                                (change)="setTypeAccessAllModule($event)">
+                              </mat-radio-button>
                             </mat-radio-group>
                           </td>
 

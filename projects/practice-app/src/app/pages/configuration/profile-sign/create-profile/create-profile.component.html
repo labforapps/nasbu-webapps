@@ -53,7 +53,7 @@
                                     {{'clients.form_create.phone_office_number' | translate}}
                                   </mat-option>
                                 </mat-select>
-                                <div class="c-form-group__action" (click)="deleteContact(contactPhone.value)">
+                                <div class="c-form-group__action" (click)=" i > 0 ? deleteContact(contactPhone.value) : ''">
                                   <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                                 </div>
                             </mat-form-field>
@@ -86,7 +86,7 @@
                                       {{'clients.form_create.business_email' | translate}}
                                     </mat-option>
                                   </mat-select>
-                                  <div class="c-form-group__action" (click)="deleteContact(contactEmail.value)">
+                                  <div class="c-form-group__action" (click)="i > 0 ? deleteContact(contactEmail.value) : ''">
                                     <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                                   </div>
                               </mat-form-field>
@@ -119,7 +119,7 @@
                               </mat-select>
 
                               <div class="c-form-group__action">
-                                <button mat-button type='button' (click)="removeItemFormArray('addresses',i)" ><span class="icon-times"></span></button>
+                                <button mat-button type='button' (click)=" i > 0 ? removeItemFormArray('addresses',i) : ''" ><span class="icon-times"></span></button>
                               </div>
 
                             </mat-form-field>

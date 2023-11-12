@@ -87,7 +87,6 @@ export class DialogSendRegisterComponent implements OnInit {
 
           this.openDialogReSendRegister();
 
-          console.log(data);
         },
         (error: any) => {
           this.toastr.error(

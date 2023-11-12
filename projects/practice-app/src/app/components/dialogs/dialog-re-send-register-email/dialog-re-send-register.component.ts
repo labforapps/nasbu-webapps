@@ -41,7 +41,6 @@ export class DialogReSendRegisterComponent implements OnInit {
 
           this.pageStep = 3;
 
-          console.log(data);
         },
         (error: any) => {
           this.toastr.error(

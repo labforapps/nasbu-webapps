@@ -43,7 +43,6 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    console.log(this.dataDialog);
     this.task = this.dataDialog  && this.dataDialog.task !== undefined ? this.dataDialog.task : null;
     this.configTimer();
     this.initForm();
@@ -65,7 +64,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   initForm(){
     this.taskTimeForm = this.formBuilder.group({
-      description:    ['',Validators.required],
+      description:    [null],
       task:           ['',Validators.required],
       executed_by:    ['',Validators.required],
       quoted_hours:   [0],
@@ -187,8 +186,6 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
     if(this.taskTime) timeTaskPayload.uuid = this.taskTime.uuid;
 
-
-    console.log(timeTaskPayload);
 
     this.practiceService.saveTaskTime(timeTaskPayload).subscribe(data => {
 

@@ -23,7 +23,6 @@ export class ProfileSignComponent implements OnInit {
 
   getSubscriptionInformation(){
     this.subscriptionService.getSubscription(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      console.log(data);
       this.subscription = data;
     })
   }

@@ -77,7 +77,6 @@ export class DialogPaymentRegisterComponent implements OnInit {
 
   onSubmit(){
 
-    console.log(this.paymentForm.value);
 
     if(!this.paymentForm.valid){
       this.helperService.showMessageRequiredFields();

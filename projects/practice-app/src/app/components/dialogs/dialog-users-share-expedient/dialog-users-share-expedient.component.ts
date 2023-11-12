@@ -76,8 +76,6 @@ export class DialogUsersShareExpedientComponent implements OnInit {
   onRemoveUser(securityUser: SecurityUser) {
     const caseFileAccess: CaseFileAccess | undefined = this.caseFile.case_file_user_access?.find(x => x.subscription_user === securityUser.uuid);
 
-    console.log(caseFileAccess);
-
     if (caseFileAccess) {
       this.practiceService.deleteCaseFileAccess(caseFileAccess).subscribe(data => {
         this.caseFile.case_file_user_access = this.caseFile.case_file_user_access?.filter(x => x.uuid != caseFileAccess.uuid);

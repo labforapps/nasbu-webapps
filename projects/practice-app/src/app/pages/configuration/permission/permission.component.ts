@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddRoleComponent } from '../../../components/dialogs/dialog-add-role/dialog-add-role.component';
 import { AuthService, SecurityService } from 'core-services';
-import { Group, modules, ModulesAccess, modulesDescription, typeAccess } from 'core-models';
+import { SecurityGroup, modules, ModulesAccess, modulesDescription, typeAccess } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
-import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { HelpersService } from '../../../services/helpers.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-permission',
@@ -14,18 +15,19 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class PermissionComponent implements OnInit {
 
-
   selectedSubscription!:any;
-  groups!:Group[];
+  groups!:SecurityGroup[];
   modulesDescription = modulesDescription;
   typeAccess = typeAccess;
   modules = Object.values(modules);
+  modulesEnum = modules;
 
   constructor(private dialog: MatDialog,
               private securityService: SecurityService,
               private authService:AuthService,
               private translateService:TranslateService,
               private toastr: ToastrService,
+              private helperService:HelpersService
               ) { }
 
   ngOnInit(): void {
@@ -34,8 +36,8 @@ export class PermissionComponent implements OnInit {
   }
 
   getSubscriptionGroups(){
-    this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe((data:Group[]) => {
-      this.groups = data.sort((a, b) => (b.group && a.group) ? b.group - a.group : 0);
+    this.securityService.getSecurityGroups(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityGroup[]) => {
+      this.groups = data;
     })
   }
 
@@ -48,42 +50,21 @@ export class PermissionComponent implements OnInit {
 
   }
 
-
   returnModuleDescription(module: string) {
     return this.modulesDescription.get(module);
   }
 
-  updateSubscriptionGroups(group:Group){
+  updateSubscriptionGroups(group:SecurityGroup){
     this.securityService.updateSecurityGroup(group,group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {})
   }
 
-  deleteSecurityGroup(group: Group) {
-    Swal.fire({
-      title: this.translateService.instant(
-        'clients.table.buttons.confirm_question_delete'
-      ),
-      text: this.translateService.instant(
-        'clients.table.buttons.actions_cannot_be_reversed'
-      ),
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: this.translateService.instant(
-        'clients.table.buttons.delete'
-      ),
-      showCancelButton: true,
-      cancelButtonText: this.translateService.instant(
-        'clients.client_intake.close_window'
-      ),
-      customClass: {
-        popup: 'c-alert c-alert--delete',
-      },
-    }).then((result:any) => {
-      if (result.isConfirmed) {
-        this.executeDeletionSecurityGroup(group)
-      }
-    });
+  deleteSecurityGroup(group: SecurityGroup) {
+   this.helperService.showConfirmationDeleteDialog().then( (result) => {
+    if(result.isConfirmed) this.executeDeletionSecurityGroup(group)
+   })
   }
 
-  executeDeletionSecurityGroup(group:Group){
+  executeDeletionSecurityGroup(group:SecurityGroup){
 
     this.securityService.deleteSecurityGroup(group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.getSubscriptionGroups();
@@ -97,12 +78,12 @@ export class PermissionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => result && this.getSubscriptionGroups());
   }
 
-  isModuleChecked(group: Group, module: string): boolean {
+  isModuleChecked(group: SecurityGroup, module: string): boolean {
       return group.modules_access
                   .findIndex((ma: ModulesAccess) => ma.module === module) > -1;
   }
 
-  isModulePermChecked(group: Group, module: string, perm: string): boolean {
+  isModulePermChecked(group: SecurityGroup, module: string, perm: string): boolean {
       if (this.isModuleChecked(group, module)) {
           const moduleAccess: ModulesAccess | undefined = group.modules_access.find((ma: ModulesAccess) => ma.module === module);
           if (moduleAccess) {
@@ -113,7 +94,7 @@ export class PermissionComponent implements OnInit {
       return false;
   }
 
-  checkOrUncheckModule(group: Group, module: string) {
+  checkOrUncheckModule(group: SecurityGroup, module: string) {
       let isNewGroup: boolean = false;
       if (this.isModuleChecked(group, module)) {
           const moduleAccessIndex: number = group.modules_access.findIndex((ma: ModulesAccess) => ma.module === module);
@@ -122,7 +103,7 @@ export class PermissionComponent implements OnInit {
           isNewGroup = true;
           const newModuleAccess: ModulesAccess = {
             module,
-            type: '',
+            type: this.typeAccess.ADMINISTRATOR,
             active: true
           };
           group.modules_access.push(newModuleAccess);
@@ -133,7 +114,27 @@ export class PermissionComponent implements OnInit {
       }
   }
 
-  selectModulePerm(group: Group, module: string, perm: string) {
+  checkOrUnCheckAllSections(event:MatCheckboxChange,group:SecurityGroup){
+
+    group.modules_access = [];
+
+    if(event.checked){
+      this.modules.forEach( module => {
+        const newModuleAccess: ModulesAccess = {
+          module,
+          type: this.typeAccess.ADMINISTRATOR,
+          active: true
+        };
+        group.modules_access.push(newModuleAccess)
+
+      })
+    }
+
+    this.updateSubscriptionGroups(group);
+
+  }
+
+  selectModulePerm(group: SecurityGroup, module: string, perm: string) {
     if (this.isModuleChecked(group, module)) {
         const moduleAccessIndex: number = group.modules_access.findIndex((ma: ModulesAccess) => ma.module === module);
         if (moduleAccessIndex > -1) {
@@ -146,6 +147,23 @@ export class PermissionComponent implements OnInit {
           this.updateSubscriptionGroups(group);
         }
     }
+  }
+
+  selectAllModulePerm(group:SecurityGroup,perm:string){
+    group.modules_access = []
+
+    this.modules.forEach( module => {
+      const newModuleAccess: ModulesAccess = {
+        module,
+        type: perm,
+        active: true
+      };
+      group.modules_access.push(newModuleAccess)
+
+    })
+
+    this.updateSubscriptionGroups(group);
+
   }
 
 }

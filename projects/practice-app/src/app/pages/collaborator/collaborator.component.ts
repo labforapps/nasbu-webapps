@@ -3,11 +3,10 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService,SecurityService } from 'core-services';
-import { Group, SecurityUser, TypeContact } from 'core-models';
+import { SecurityGroup, SecurityUser, SubscriptionMemberType, TypeContact } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
   selector: 'app-collaborator',
@@ -23,14 +22,15 @@ export class CollaboratorComponent implements OnInit {
   securityUsers!:SecurityUser[];
   dataSourceSecurityUsers!: any;
   typeContact = TypeContact;
-  securityGroups!:Group[];
+  securityGroups!:SecurityGroup[];
   searchQuery!: string;
+  subscriptionMemberType = SubscriptionMemberType
 
   constructor(private router:Router,
-              private translateService:TranslateService,
               private securityService:SecurityService,
               private authService: AuthService,
-              private toastr: ToastrService,) { }
+              private toastr: ToastrService,
+              private helperService:HelpersService) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -56,7 +56,7 @@ export class CollaboratorComponent implements OnInit {
         };
     });
 
-      this.dataSourceSecurityUsers = new MatTableDataSource<SecurityUser>(this.securityUsers);
+      this.dataSourceSecurityUsers.data = this.securityUsers;
       this.dataSourceSecurityUsers.paginator = this.paginator;
     })
   }
@@ -67,8 +67,8 @@ export class CollaboratorComponent implements OnInit {
   }
 
   getSecurityGroupNameByNumber(group:number){
-    const securityGroup = this.securityGroups.filter( x => x.group === group);
-    return securityGroup[0]?.name || '';
+    const securityGroup = this.securityGroups && this.securityGroups.length > 0 ?  this.securityGroups.filter( x => x.group === group) : [];
+    return securityGroup.length > 0  ? securityGroup[0]?.name || '' : '';
   }
 
   getSecurityGroups(){
@@ -86,32 +86,14 @@ export class CollaboratorComponent implements OnInit {
   }
 
   deleteCollaborator(uuid:string) {
-    Swal.fire({
-      title: this.translateService.instant(
-        'clients.table.buttons.confirm_question_delete'
-      ),
-      text: this.translateService.instant(
-        'clients.table.buttons.actions_cannot_be_reversed'
-      ),
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: this.translateService.instant(
-        'clients.table.buttons.delete'
-      ),
-      showCancelButton: true,
-      cancelButtonText: this.translateService.instant(
-        'clients.client_intake.close_window'
-      ),
-      customClass: {
-        popup: 'c-alert c-alert--delete',
-      },
-    }).then((result:any) => {
-      if (result.isConfirmed) {
+    this.helperService.showConfirmationDeleteDialog().then((result) => {
+      if(result.isConfirmed){
         this.securityService.deleteSecurityUser(this.selectedSubscription?.ssid.uuid,uuid).subscribe( data => {
-            this.toastr.success("Ok","Deleted Successfully");
-            this.getSecurityUsers();
-        })
+          this.toastr.success("Ok","Deleted Successfully");
+          this.getSecurityUsers();
+      })
       }
-    });
+    })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

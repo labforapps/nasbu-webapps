@@ -108,7 +108,6 @@ export class DialogNewDocumentComponent implements OnInit {
   }
 
   submitForm(){
-    console.log(this.documentForm.value);
 
     if(!this.documentForm.valid){
       this.helperService.showMessageRequiredFields();

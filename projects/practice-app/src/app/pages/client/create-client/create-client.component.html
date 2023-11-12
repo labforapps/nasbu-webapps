@@ -20,14 +20,14 @@
                         </div>
                         <div class="col-sm-4 ml-auto">
                             <div class="c-toggleOptions">
-                                <div class="c-toggleOptions__item " [ngClass]="{'client-is-active' : customer_type === 'P'}">
-                                    <div class="c-toggleOptions__icon" (click)="setCustomerType('P')">
+                                <div class="c-toggleOptions__item " [ngClass]="{'client-is-active' : customer_type === typeCustomer.person}">
+                                    <div class="c-toggleOptions__icon" (click)="setCustomerType(typeCustomer.person)">
                                         <span class="icon-user"></span>
                                     </div>
                                     <div class="c-toggleOptions__title">{{'clients.common.person' | translate}}</div>
                                 </div>
-                                <div class="c-toggleOptions__item" [ngClass]="{'company-is-active' : customer_type === 'B'}">
-                                    <div class="c-toggleOptions__icon" (click)="setCustomerType('B')">
+                                <div class="c-toggleOptions__item" [ngClass]="{'company-is-active' : customer_type === typeCustomer.business}">
+                                    <div class="c-toggleOptions__icon" (click)="setCustomerType(typeCustomer.business)">
                                         <span class="icon-company"></span>
                                     </div>
                                     <div class="c-toggleOptions__title">{{'clients.common.business' | translate}}</div>
@@ -43,17 +43,17 @@
 
                       <div class="row">
 
-                        <div class="col-sm-6" *ngIf="customer_type === 'B'">
+                        <div class="col-sm-6" *ngIf="customer_type === typeCustomer.business">
                           <label class="u-title-label"> {{'clients.form_create.company_name' | translate}}<span
                               class="u-dangerColor">*</span></label>
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.name' | translate}} </mat-label>
                             <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="company_name">
                           </mat-form-field>
-                          <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                          <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
                         </div>
 
-                        <div class="col-sm-6" *ngIf="customer_type === 'P'">
+                        <div class="col-sm-6" *ngIf="customer_type === typeCustomer.person">
 
                           <label class="u-title-label">{{'clients.form_create.name_of_the_person' | translate}}<span class="u-dangerColor">*</span></label>
 
@@ -79,27 +79,7 @@
 
 
                         <div class="col-sm-6">
-                          <label class="u-title-label">{{'clients.form_create.photo_or_logo' | translate}}</label>
-
-                            <div class="c-uploadPicture mb-4">
-                              <label for="inputTypeFile">
-                                <div class="c-uploadPicture__img">
-                                  <img *ngIf="!imgTemp && !customer?.image" src="../../../../assets/images/upload-camera.svg" alt="">
-                                  <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
-                                  <img id="imgUpload" *ngIf="customer?.image && !imgTemp" [src]="customer.image" alt="">
-                                  <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none"> -->
-                                </div>
-                            </label>
-
-                              <div class="c-uploadPicture__controls">
-                                <div class="c-uploadPicture__text">
-                                  {{'clients.common.note' | translate}}: <br> {{'clients.form_create.upload_image_max_2' | translate}}
-                                </div>
-                                <div (click)="removeImage()" class="u-link mt-1">{{'clients.common.delete' | translate}}</div>
-                              </div>
-
-                            </div>
-                         <input id="inputTypeFile" type="file" (change)="changeImage($event)">
+                          <app-upload-image [imgUrl]="image_url || ''" (imgUpload)="setLogoFile($event)"></app-upload-image>
                         </div>
                       </div>
 
@@ -130,57 +110,44 @@
 
                       <hr class="u-divider--marginBig">
 
-                      <div formArrayName="contacts">
-
-                        <div class="row">
-                          <div *ngFor="let contact of returnFormArray('contacts'); let i = index" class="col-sm-6" [formGroupName]="i">
-
-                            <div *ngIf="contact.value.type === 'P'">
-
-                                <label class="u-title-label">{{'clients.form_create.contact' | translate}} <span
-                                    class="u-dangerColor">*</span></label>
+                      <div class="row" formArrayName="contacts">
+                        <div class="col-sm-6">
+                           <div *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)">
+                            <br>
+                                <label class="u-title-label">Contacto <span class="u-dangerColor">*</span></label>
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                  <mat-label>{{'clients.form_create.cellphone_number' | translate}}</mat-label>
-                                  <mat-select formControlName="sub_type">
-                                    <mat-option [value]="subtypeContact.cellphone_number">
-                                      {{'clients.form_create.cellphone_number' | translate}}
-                                    </mat-option>
-                                    <mat-option [value]="subtypeContact.currentphone_number">
-                                      {{'clients.form_create.landline_number' | translate}}
-                                    </mat-option>
-                                    <mat-option [value]="subtypeContact.phoneoffice_number">
-                                      {{'clients.form_create.phone_office_number' | translate}}
-                                    </mat-option>
-                                  </mat-select>
-
-                                  <div class="c-form-group__action" (click)="removeItem('contacts',i)">
-                                    <button mat-button type='button'><span class="icon-times"></span></button>
-                                  </div>
-
+                                    <mat-label>{{'collaborator.form_create.cellphone_number' | translate}}</mat-label>
+                                    <mat-select formControlName="sub_type">
+                                      <mat-option [value]="subtypeContact.cellphone_number">
+                                        {{'clients.form_create.cellphone_number' | translate}}
+                                      </mat-option>
+                                      <mat-option [value]="subtypeContact.currentphone_number">
+                                        {{'clients.form_create.landline_number' | translate}}
+                                      </mat-option>
+                                      <mat-option [value]="subtypeContact.phoneoffice_number">
+                                        {{'clients.form_create.phone_office_number' | translate}}
+                                      </mat-option>
+                                    </mat-select>
+                                    <div class="c-form-group__action" (click)=" i > 0 ? deleteContact(contactPhone.value) : ''">
+                                      <button type="button" mat-button type='button'><span class="icon-times"></span></button>
+                                    </div>
                                 </mat-form-field>
 
-                                <!-- <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>{{'clients.form_create.telephone_number' | translate}} </mat-label>
-                                  <input [textMask]="{mask: mask_telephone_number}"  class="c-form-group__input" matInput formControlName="contact_value" required>
-                                </mat-form-field> -->
+                                <ngx-intl-tel-input (numberChange)="setPhoneField(contactPhone.value,$event)" [value]="contactPhone.value.contact_value" ></ngx-intl-tel-input>
+                                <mat-error *ngIf="returnContactFormArrayFields('contacts','contact_value',0,contactPhone.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                                 <ngx-intl-tel-input (numberChange)="setPhoneField($event,i)" [value]="returnValueFormField(i)"></ngx-intl-tel-input>
 
-                                <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <button type="button" mat-button class="c-btn-add" (click)="addContactItem('contacts',contactPhone.value)">+ {{'collaborator.form_create.add_another_telephone_number' | translate}}</button>
+                           </div>
 
-                                <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','P')">+
-                                  {{'clients.form_create.add_another_telephone_number' | translate}}</button>
-
-                            </div>
-
-                            <div  *ngIf="contact.value.type === 'E'">
-
-                                <label class="u-title-label">{{'clients.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
-
-                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select" required>
-                                  <mat-label *ngIf="customer_type === 'P'">Personal</mat-label>
-                                  <mat-label *ngIf="customer_type === 'B'">{{'clients.common.business' | translate}}</mat-label>
-                                  <mat-select formControlName="sub_type" required>
+                        </div>
+                        <div class="col-sm-6">
+                          <div  *ngFor="let contactEmail of filterFormArray('contacts','type',typeContact.email); let i = index" [formGroupName]="returnIndexFormArrayContact(contactEmail.value)">
+                            <br>
+                            <label class="u-title-label">{{'collaborator.form_create.email' | translate}} <span class="u-dangerColor">*</span></label>
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                  <mat-label>{{'collaborator.form_create.personal_email' | translate}}</mat-label>
+                                  <mat-select formControlName="sub_type">
                                     <mat-option [value]="subtypeContact.personal_email">
                                       {{'clients.form_create.personal_email' | translate}}
                                     </mat-option>
@@ -188,120 +155,102 @@
                                       {{'clients.form_create.business_email' | translate}}
                                     </mat-option>
                                   </mat-select>
-                                  <div class="c-form-group__action">
-                                    <button mat-button type='button' (click)="removeItem('contacts',i)"><span
-                                        class="icon-times"></span></button>
+                                  <div class="c-form-group__action" (click)=" i > 0 ? deleteContact(contactEmail.value) : ''">
+                                    <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                                   </div>
-                                </mat-form-field>
+                              </mat-form-field>
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
+                                  <input formControlName="contact_value" class="c-form-group__input" matInput>
+                              </mat-form-field>
+                              <mat-error *ngIf="returnContactFormArrayFields('contacts','contact_value',0,contactEmail.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                                <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>{{'clients.form_create.email' | translate}}</mat-label>
-                                  <input class="c-form-group__input" matInput formControlName="contact_value" required>
-                                </mat-form-field>
-                                <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-                               <mat-error *ngIf="returnFormArrayFields('contacts',i,'contact_value')?.status === 'INVALID' && form.submitted">{{'errorMessages.InvalidEmailFormat' | translate}}</mat-error>
-
-                                <button mat-button class="c-btn-add mb-4" type="button" (click)="addItem('contacts','E')">+
-                                  {{'clients.form_create.add_another_email' | translate}}</button>
-
-
+                              <button type="button" mat-button class="c-btn-add" (click)="addContactItem('contacts',contactEmail.value)">+ {{'collaborator.form_create.add_another_email' | translate}}</button>
                             </div>
-
-
-                          </div>
                         </div>
-
-                        </div>
+                    </div>
 
                       <hr class="u-divider--marginBig">
 
                       <div formArrayName="addresses">
-                        <div *ngFor="let address of returnFormArray('addresses'); let i = index">
-                          <div class="row" [formGroupName]="i">
+                        <div *ngFor="let address of returnFormArray('addresses'); let i = index" [formGroupName]="i">
+                          <br>
+                          <div class="row">
                             <div class="col-sm-6">
 
-                              <label class="u-title-label">{{'clients.form_create.physical_address' | translate}}
-                                <span class="u-dangerColor">*</span></label>
-                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
-                                <mat-select formControlName="physical_country" required>
-                                  <mat-option *ngFor="let country of countries" [value]="country.uuid">
-                                    {{country.name}}
-                                  </mat-option>
-                                </mat-select>
-
-                                <div class="c-form-group__action">
-                                  <button mat-button type='button' (click)="removeItem('addresses',i)"><span class="icon-times"></span></button>
-                                </div>
-
-                              </mat-form-field>
-                               <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_country')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-
-                                <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}" required>
-
-                              </mat-form-field>
-                              <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-                              <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-
-                                <input class="c-form-group__input" matInput formControlName="physical_address" placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}" required>
-
-                              </mat-form-field>
-                              <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-
-
-                              <div class="col-sm-6 p-0">
-                                <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                                  <input class="c-form-group__input" matInput formControlName="physical_postal_code" required>
+                                <label class="u-title-label">{{'collaborator.form_create.physical_address' | translate}}</label>
+                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                    <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
+                                    <mat-select formControlName="physical_country">
+                                        <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                            {{country.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div class="c-form-group__action" (click)=" i > 0 ? removeItemFormArray('addresses',i) : ''">
+                                      <button type="button" mat-button type='button'><span class="icon-times"></span></button>
+                                    </div>
                                 </mat-form-field>
-                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
-                              </div>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_country',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                              <mat-checkbox class="c-checkbox mt-1 mb-4" [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}" (change)="changeValueCheckboxAddress($event,i)">
-                                {{'clients.form_create.physical_postal_address_share_info' | translate}}
-                              </mat-checkbox>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                    <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="physical_city">
+                                </mat-form-field>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                    <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Calle, número, Apart." formControlName="physical_address">
+                                </mat-form-field>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <div class="col-sm-5 p-0">
+
+                                    <mat-form-field appearance="fill" class="c-form-group">
+                                        <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
+                                        <input class="c-form-group__input" matInput formControlName="physical_postal_code">
+                                    </mat-form-field>
+                                    <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                </div>
+                                <div class="col-sm-12">
+                                    <mat-checkbox class="c-checkbox mt-1 mb-4" (change)="changeValueCheckboxAddress($event,i)">
+                                      {{'collaborator.form_create.physical_postal_address_share_info' | translate}}
+                                    </mat-checkbox>
+                                </div>
 
                             </div>
                             <div class="col-sm-6">
 
-                                <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}
-                                  <span class="u-dangerColor">*</span>
-                                </label>
+                                <label class="u-title-label">{{'collaborator.form_create.mailing_address' | translate}}</label>
                                 <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
-                                  <input class="c-form-group__input" matInput formControlName="postal_city" placeholder="Ej: Miami, Florida" required>
+                                    <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="postal_city">
                                 </mat-form-field>
-                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_city')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                                 <mat-form-field appearance="fill" class="c-form-group">
-                                  <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
-                                  <input class="c-form-group__input" matInput formControlName="postal_address" placeholder="Calle, número, Apart." required="">
+                                    <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Calle, número, Apart." formControlName="postal_address">
                                 </mat-form-field>
-                                <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_address')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_address',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
-                                <div class="col-sm-6 p-0">
-                                  <mat-form-field appearance="fill" class="c-form-group">
-                                    <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
-                                    <input class="c-form-group__input" matInput formControlName="postal_postal_code" required>
-                                  </mat-form-field>
-                                  <mat-error *ngIf="returnFormArrayFields('addresses',i,'postal_postal_code')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <div class="col-sm-5 p-0">
+                                    <mat-form-field appearance="fill" class="c-form-group">
+                                        <mat-label>{{'collaborator.form_create.postal_code' | translate}}</mat-label>
+                                        <input class="c-form-group__input" matInput formControlName="postal_postal_code">
+                                    </mat-form-field>
                                 </div>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_postal_code',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                             </div>
 
-                          </div>
+                            <div class="col-sm-12 mt-1">
+                                <button type="button" mat-button class="c-btn-add" (click)="addAddressItem('addresses',address.value)">+ {{'collaborator.form_create.add_another_address' | translate}}</button>
+                            </div>
                         </div>
-                      </div>
-
-
-                      <div class="col-sm-12 mt-1">
-                        <button mat-button class="c-btn-add" type="button" (click)="addItem('addresses')">+
-                          {{'clients.form_create.add_another_address' | translate}}</button>
+                        </div>
                       </div>
 
                       <hr class="u-divider--marginBig">

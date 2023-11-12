@@ -17,7 +17,7 @@
                         <div class="c-create__subtitle">{{'collaborator.form_create.what_function_or_role_does_it_play' | translate}} <span class="u-dangerColor">*</span></div>
                         <div class="c-create__text">{{'collaborator.form_create.choose_option' | translate }}</div>
                     </div>
-                    <div class="col-sm-6 mb-2">
+                    <div class="col-sm-6 mb-2" *ngIf="hideSecurityGroupField()">
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select mb-0" >
                             <mat-label>{{'collaborator.form_create.choose_option' | translate}}</mat-label>
                             <mat-select formControlName="group">
@@ -31,9 +31,9 @@
 
                     </div>
 
-                    <!-- <div class="col-sm-6 align-items-center d-flex">
-                        <button type="button" mat-button class="u-link" (click)="openDialogNewRole()">Añadir nuevo rol ó función</button>
-                    </div> -->
+                    <div class="col-sm-6 align-items-center d-flex" *ngIf="hideSecurityGroupField()">
+                        <button type="button" mat-button class="u-link" (click)="openDialogAddRole()">Añadir nuevo rol ó función</button>
+                    </div>
                 </div>
             </div>
             <hr class="u-divider--marginBig">
@@ -128,6 +128,7 @@
 
 
                 <hr class="u-divider--marginBig">
+
                 <div class="row" formArrayName="contacts">
                     <div class="col-sm-6">
                        <div *ngFor="let contactPhone of filterFormArray('contacts','type',typeContact.phone_number); let i = index" [formGroupName]="returnIndexFormArrayContact(contactPhone.value)">
@@ -146,14 +147,11 @@
                                     {{'clients.form_create.phone_office_number' | translate}}
                                   </mat-option>
                                 </mat-select>
-                                <div class="c-form-group__action" (click)="deleteContact(contactPhone.value)">
+                                <div class="c-form-group__action" (click)=" i > 0 ? deleteContact(contactPhone.value) : ''">
                                   <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                                 </div>
                             </mat-form-field>
-                            <!-- <mat-form-field appearance="fill" class="c-form-group">
-                                <mat-label>{{'clients.form_create.cellphone_number' | translate}} </mat-label>
-                                <input class="c-form-group__input" matInput>
-                            </mat-form-field> -->
+
                             <ngx-intl-tel-input (numberChange)="setPhoneField(contactPhone.value,$event)" [value]="contactPhone.value.contact_value" ></ngx-intl-tel-input>
                             <mat-error *ngIf="returnFormArrayFields('contacts','contact_value',0,contactPhone.value)?.value === '' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
@@ -176,7 +174,7 @@
                                   {{'clients.form_create.business_email' | translate}}
                                 </mat-option>
                               </mat-select>
-                              <div class="c-form-group__action" (click)="deleteContact(contactEmail.value)">
+                              <div class="c-form-group__action" (click)=" i > 0 ? deleteContact(contactEmail.value) : ''">
                                 <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                               </div>
                           </mat-form-field>
@@ -190,7 +188,9 @@
                         </div>
                     </div>
                 </div>
+
                 <hr class="u-divider--marginBig">
+
                 <div formArrayName="addresses">
                   <div *ngFor="let address of returnFormArray('addresses'); let i = index" [formGroupName]="i">
                     <br>
@@ -205,7 +205,7 @@
                                       {{country.name}}
                                   </mat-option>
                               </mat-select>
-                              <div class="c-form-group__action" (click)="removeItemFormArray('addresses',i)">
+                              <div class="c-form-group__action" (click)=" i > 0 ? removeItemFormArray('addresses',i) : ''">
                                 <button type="button" mat-button type='button'><span class="icon-times"></span></button>
                               </div>
                           </mat-form-field>
