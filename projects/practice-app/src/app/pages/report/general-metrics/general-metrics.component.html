@@ -53,35 +53,35 @@
                     <mat-datepicker #pickers></mat-datepicker>
                 </mat-form-field>
             </div>
-            <button mat-button class="u-primaryColor u-smallSize">Limpiar filtro</button>
+            <button mat-button class="u-primaryColor u-smallSize" (click)="setReportPayload()">Limpiar filtro</button>
             <label class="ml-auto u-smallSize u-textLightColor">Último año por default</label>
         </div>
         <div class="c-indicators c-indicators--list mt-5">
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-sign.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_documents_count}}</div>
+                    <div class="c-indicators__ammount" *ngIf="responseGeneralReport">{{responseGeneralReport.total_documents_count}}</div>
                     <div class="c-indicators__label">Documentos firmados</div>
                 </div>
             </div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-invoice.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_invoices_count}}</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_invoices_count}}</div>
                     <div class="c-indicators__label">Facturas emitidas</div>
                 </div>
             </div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-box.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_case_files_count}}</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_case_files_count}}</div>
                     <div class="c-indicators__label">Expedientes trabajados</div>
                 </div>
             </div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-members.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_users}}</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_users}}</div>
                     <div class="c-indicators__label">Miembro en tu firma</div>
                     <div class="c-indicators__sublabel">¡Son Geniales!</div>
                 </div>
@@ -89,21 +89,21 @@
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/ammount-pay.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_payments_amt}} USD</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_payments_amt}} USD</div>
                     <div class="c-indicators__label">Monto cobrado</div>
                 </div>
             </div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-list.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_tasks}}</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_tasks}}</div>
                     <div class="c-indicators__label">Tareas realizadas</div>
                 </div>
             </div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-saving.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_hours_saved}} hr.</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_hours_saved}} hr.</div>
                     <div class="c-indicators__label">Es el tiempo que
                         NASBU te ha ahorrado.</div>
                 </div>
@@ -111,7 +111,7 @@
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/circle-time.svg" alt="">
                 <div>
-                    <div class="c-indicators__ammount">{{responseGeneralReport.total_customer_percentage}}%</div>
+                    <div class="c-indicators__ammount"  *ngIf="responseGeneralReport">{{responseGeneralReport.total_customer_percentage}}%</div>
                     <div class="c-indicators__label">De tus clientes pagan
                         a tiempo </div>
                 </div>

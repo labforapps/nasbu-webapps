@@ -15,19 +15,19 @@
     <div class="l-page__body p-5">
         <div class="row">
             <div class="col-md-9">
-                <div class="c-ribborn-info">
+                <div class="c-ribborn-info" *ngIf="showHeaderMessage">
                     <div class="c-ribborn-info__info">
                         <span class="icon-info icon-info u-bigSize2 u-primaryColor"></span>
                     </div>
                     <div class="c-ribborn-info__text">Utiliza <b>estos filtro para generar el reporte de facturación</b>
                         deseado de manera personalizada.</div>
                     <div class="c-ribborn-info__button">
-                        <button mat-button class="c-btn--outline-primary u-smallSize">Entendido</button>
+                        <button mat-button class="c-btn--outline-primary u-smallSize" (click)="hideHeaderMessage()">Entendido</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 d-flex justify-content-center align-items-center">
-                <button mat-button class="u-smallSize u-primaryColor">Limpiar todos los filtros</button>
+                <button mat-button class="u-smallSize u-primaryColor" (click)="setReportPayload()">Limpiar todos los filtros</button>
             </div>
         </div>
         <div class="row mt-5">
@@ -100,7 +100,7 @@
                           <mat-form-field appearance="fill"
                               class="c-form-group c-form-group__select c-form-group--small">
                               <mat-label>Seleccionar período</mat-label>
-                              <mat-select [(ngModel)]="reportPayload.period">
+                              <mat-select [(ngModel)]="reportPayload.period" (selectionChange)="onSelectDateRange($event)">
                                 <mat-option *ngFor="let dayPeriod of daysPeriod" [value]="dayPeriod.code">
                                   {{dayPeriod.name}}
                                 </mat-option>

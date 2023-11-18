@@ -83,6 +83,7 @@
                                             <input matInput placeholder="Escribir nombre" class="c-searchList__input">
                                         </div> -->
                                         <div class="c-searchList__content">
+                                            <mat-radio-button [value]="null">Seleccionar Abogado</mat-radio-button>
                                             <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
                                                 {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}
                                             </mat-option>
@@ -125,9 +126,9 @@
                         <div class="mb-5">
                             <label class="u-title-label u-normalSize w-100 mb-4">Modelo de facturación</label>
                             <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1">
-                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4">Todos
+                                <mat-radio-button value="1" class="c-radioButton u-normalSize mr-4" [checked]="true">Todos
                                 </mat-radio-button>
-                                <mat-radio-button value="2" [checked]="true" class="c-radioButton u-normalSize">
+                                <mat-radio-button value="2" class="c-radioButton u-normalSize">
                                     Selecionar específico
                                 </mat-radio-button>
                             </mat-radio-group>

@@ -3,6 +3,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { CustomersService, ReportsService, SecurityService } from 'core-services';
 import { Customer, SecurityUser,ReportInvoicingPayload,ReportFormat, BillingType, InvoiceStatus,DaysPeriod,invoiceStatusDescription, ReportPaymentsPayload } from 'core-models';
 import { HelpersService } from '../../../services/helpers.service';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-report-income',
   templateUrl: './report-income.component.html',
@@ -62,7 +63,16 @@ export class ReportIncomeComponent implements OnInit {
     })
   }
 
+  onSelectDateRange(event:MatSelectChange){
+    const dateRange = this.HelpersService.getDateRange(event.value)
+    this.reportPayload.start_date = dateRange.startDate
+    this.reportPayload.end_date = dateRange.endDate
+  }
+
   exportReport(){
+
+    this.reportPayload.start_date = this.reportPayload.start_date ? this.HelpersService.returnDateFormatted(this.reportPayload.start_date || '','YYYY-MM-DD') : null
+    this.reportPayload.end_date = this.reportPayload.end_date ? this.HelpersService.returnDateFormatted(this.reportPayload.end_date || '','YYYY-MM-DD') : null
 
     this.reportService.getReportPayments(this.reportPayload).subscribe(data => {
 

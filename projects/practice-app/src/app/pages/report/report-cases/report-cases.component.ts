@@ -3,6 +3,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { CustomersService, PracticeService, ReportsService, SecurityService } from 'core-services';
 import { Customer, SecurityUser,ReportFormat,DaysPeriod,invoiceStatusDescription, CaseFile, ReportCaseFilePayload, CaseFileStatus } from 'core-models';
 import { HelpersService } from '../../../services/helpers.service';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-report-cases',
   templateUrl: './report-cases.component.html',
@@ -70,7 +71,17 @@ export class ReportCasesComponent implements OnInit {
     })
   }
 
+  onSelectDateRange(event:MatSelectChange){
+    const dateRange = this.HelpersService.getDateRange(event.value)
+    this.reportPayload.start_date = dateRange.startDate
+    this.reportPayload.end_date = dateRange.endDate
+  }
+
   exportReport(){
+
+    this.reportPayload.start_date = this.reportPayload.start_date ? this.HelpersService.returnDateFormatted(this.reportPayload.start_date || '','YYYY-MM-DD') : null
+    this.reportPayload.end_date = this.reportPayload.end_date ? this.HelpersService.returnDateFormatted(this.reportPayload.end_date || '','YYYY-MM-DD') : null
+
 
     this.reportService.getReportCaseFiles(this.reportPayload).subscribe(data => {
 

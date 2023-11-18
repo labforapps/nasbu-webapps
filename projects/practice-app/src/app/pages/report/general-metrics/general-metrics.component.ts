@@ -27,6 +27,12 @@ export class GeneralMetricsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.setReportPayload();
+
+    const dateRange = this.HelpersService.getDateRange(this.daysPeriod[4].code);
+    this.reportPayload.start_date = dateRange.startDate
+    this.reportPayload.end_date = dateRange.endDate
+
+    this.getGeneralReport()
   }
 
   setReportPayload(){
@@ -38,12 +44,6 @@ export class GeneralMetricsComponent implements OnInit {
       start_date:   null,
       end_date:     null,
     }
-
-    const dateRange = this.HelpersService.getDateRange(this.daysPeriod[4].code);
-    this.reportPayload.start_date = dateRange.startDate
-    this.reportPayload.end_date = dateRange.endDate
-
-    this.getGeneralReport()
   }
 
   onSelectDateRange(event:MatSelectChange){
@@ -54,6 +54,10 @@ export class GeneralMetricsComponent implements OnInit {
   }
 
   getGeneralReport(){
+
+    this.reportPayload.start_date = this.reportPayload.start_date ? this.HelpersService.returnDateFormatted(this.reportPayload.start_date || '','YYYY-MM-DD') : null
+    this.reportPayload.end_date = this.reportPayload.end_date ? this.HelpersService.returnDateFormatted(this.reportPayload.end_date || '','YYYY-MM-DD') : null
+
     this.reportService.getReportGeneral(this.reportPayload).subscribe(data => {
       this.responseGeneralReport = data;
     })
