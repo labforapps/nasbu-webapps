@@ -3,6 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Customer, SecurityUser, TypeCustomer } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { saveAs } from 'file-saver';
+import * as moment from 'moment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +16,53 @@ export class HelpersService {
 
   constructor(private translateService:TranslateService,
               private toastr: ToastrService) { }
+
+  getDateRange(periodCode: string) {
+
+    let startDate, endDate;
+
+    endDate = moment().format('YYYY-MM-DD'); // Fecha actual
+
+    switch (periodCode) {
+      case 'last_seven_days':
+        startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+        break;
+      case 'this_month':
+        startDate = moment().startOf('month').format('YYYY-MM-DD');
+        break;
+      case 'last_three_months':
+        startDate = moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD');
+        break;
+      case 'last_six_months':
+        startDate = moment().subtract(6, 'months').startOf('month').format('YYYY-MM-DD');
+        break;
+      case 'last_year':
+        startDate = moment().subtract(1, 'year').startOf('month').format('YYYY-MM-DD');
+        break;
+      default:
+        throw new Error('Código de período no válido');
+    }
+
+    return {startDate, endDate};
+  }
+
+  returnDateFormatted(date:string,format:string){
+    return moment(date).format(format) ?? ''
+  }
+
+  openNewTabWithHtml(data:any){
+    const newTab = window.open();
+    if(newTab) newTab.document.body.innerHTML = data;
+  }
+
+  downloadDocument(data:any,document_name = null){
+   if(document_name) {
+     saveAs(data,document_name);
+   }
+   else{
+    saveAs(data)
+   }
+  }
 
   returnCustomerListSorted(customers:Customer[]):Customer[] {
 

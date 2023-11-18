@@ -6,3 +6,4 @@ export * from './catalog';
 export * from './shared';
 export * from './practice';
 export * from './accounting';
+export * from './reports';
