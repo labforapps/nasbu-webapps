@@ -63,5 +63,10 @@ export class GeneralMetricsComponent implements OnInit {
     })
   }
 
+  cleanFilters(){
+    this.setReportPayload();
+    this.getGeneralReport();
+  }
+
 
 }

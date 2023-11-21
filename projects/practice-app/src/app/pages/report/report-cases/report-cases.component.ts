@@ -20,7 +20,9 @@ export class ReportCasesComponent implements OnInit {
   daysPeriod = DaysPeriod
   reportPayload!:ReportCaseFilePayload;
   showHeaderMessage:boolean = true;
-
+  clientOption:number = 2;
+  lawyerOption:number = 2;
+  caseFileStatusOption:number = 2;
 
   constructor(private authService:AuthService,
               private customerService:CustomersService,
@@ -82,7 +84,6 @@ export class ReportCasesComponent implements OnInit {
     this.reportPayload.start_date = this.reportPayload.start_date ? this.HelpersService.returnDateFormatted(this.reportPayload.start_date || '','YYYY-MM-DD') : null
     this.reportPayload.end_date = this.reportPayload.end_date ? this.HelpersService.returnDateFormatted(this.reportPayload.end_date || '','YYYY-MM-DD') : null
 
-
     this.reportService.getReportCaseFiles(this.reportPayload).subscribe(data => {
 
       if(this.reportPayload.format === this.reportFormatEnum.HTML){
@@ -105,6 +106,10 @@ export class ReportCasesComponent implements OnInit {
 
   cleanFilters(){
     this.setReportPayload();
+
+    this.clientOption = 2;
+    this.lawyerOption = 2;
+    this.caseFileStatusOption = 2;
   }
 
 }

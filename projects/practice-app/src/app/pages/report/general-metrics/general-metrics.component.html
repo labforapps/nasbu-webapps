@@ -17,43 +17,35 @@
                 style="max-width: 20rem;">
                 <mat-label>Seleccionar período</mat-label>
                 <mat-select [(ngModel)]="reportPayload.period" (selectionChange)="onSelectDateRange($event)">
+                  <mat-option [value]="null">Seleccionar período</mat-option>
                   <mat-option *ngFor="let dayPeriod of daysPeriod" [value]="dayPeriod.code">
                     {{dayPeriod.name}}
                   </mat-option>
-                  <!-- <mat-option>
-                      Último 7 días
-                  </mat-option>
-                  <mat-option>
-                      Este mes
-                  </mat-option>
-                  <mat-option>
-                      Hace 3 meses
-                  </mat-option>
-                  <mat-option>
-                      Hace 6 meses
-                  </mat-option>
-                  <mat-option>
-                      Último año
-                  </mat-option> -->
               </mat-select>
             </mat-form-field>
             <div class="d-flex u-gap-1 mt-2">
                 <mat-form-field appearance="fill" style="width: 13rem;"
                     class="c-form-group  c-form-group--small flex-1">
                     <mat-label>Date range</mat-label>
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="reportPayload.start_date">
+                    <input matInput [matDatepicker]="picker"
+                                    [(ngModel)]="reportPayload.start_date"
+                                    [disabled]="reportPayload.period !== null"
+                                    (dateChange)="getGeneralReport()">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field appearance="fill" style="width: 13rem;"
                     class="c-form-group  c-form-group--small flex-1">
                     <mat-label>Date range</mat-label>
-                    <input matInput [matDatepicker]="pickers" [(ngModel)]="reportPayload.end_date">
+                    <input matInput [matDatepicker]="pickers"
+                                    [(ngModel)]="reportPayload.end_date"
+                                    [disabled]="reportPayload.period !== null"
+                                    (dateChange)="getGeneralReport()">
                     <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                     <mat-datepicker #pickers></mat-datepicker>
                 </mat-form-field>
             </div>
-            <button mat-button class="u-primaryColor u-smallSize" (click)="setReportPayload()">Limpiar filtro</button>
+            <button mat-button class="u-primaryColor u-smallSize" (click)="cleanFilters()">Limpiar filtro</button>
             <label class="ml-auto u-smallSize u-textLightColor">Último año por default</label>
         </div>
         <div class="c-indicators c-indicators--list mt-5">

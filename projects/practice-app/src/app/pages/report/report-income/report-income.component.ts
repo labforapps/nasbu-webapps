@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { CustomersService, ReportsService, SecurityService } from 'core-services';
-import { Customer, SecurityUser,ReportInvoicingPayload,ReportFormat, BillingType, InvoiceStatus,DaysPeriod,invoiceStatusDescription, ReportPaymentsPayload } from 'core-models';
+import { Customer, SecurityUser,ReportFormat, BillingType, InvoiceStatus,DaysPeriod,
+         invoiceStatusDescription, ReportPaymentsPayload } from 'core-models';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatSelectChange } from '@angular/material/select';
 @Component({
@@ -17,11 +18,11 @@ export class ReportIncomeComponent implements OnInit {
   reportFormatEnum = ReportFormat;
   billingTypeEnum = BillingType;
   invoiceStatusEnum = InvoiceStatus;
-  daysPeriod = DaysPeriod
-
+  daysPeriod = DaysPeriod;
   reportPayload!:ReportPaymentsPayload;
-
   showHeaderMessage:boolean = true;
+  clientOption:number = 2;
+  billingTypeOption:number = 1;
 
   constructor(private authService:AuthService,
               private customerService:CustomersService,
@@ -96,6 +97,7 @@ export class ReportIncomeComponent implements OnInit {
 
   cleanFilters(){
     this.setReportPayload();
+    this.exportReport();
   }
 
 

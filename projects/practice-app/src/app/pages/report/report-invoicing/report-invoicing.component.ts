@@ -22,10 +22,10 @@ export class ReportInvoicingComponent implements OnInit {
   daysPeriod = DaysPeriod
   reportPayload!:ReportInvoicingPayload;
   showHeaderMessage:boolean = true;
-  clientOption!:number;
-  lawyerOption!:number;
-  billingTypeOption!:number;
-  invoiceStatusOption!:number;
+  clientOption:number = 2;
+  lawyerOption:number = 2;
+  billingTypeOption:number = 1;
+  invoiceStatusOption:number = 2;
 
   constructor(private authService:AuthService,
               private customerService:CustomersService,
@@ -101,6 +101,11 @@ export class ReportInvoicingComponent implements OnInit {
 
   cleanFilters(){
     this.setReportPayload();
+
+    this.clientOption = 2;
+    this.lawyerOption = 2;
+    this.billingTypeOption = 1;
+    this.invoiceStatusOption = 2;
   }
 
   getRadioGroupValue(radioGroup: MatRadioGroup): string {
