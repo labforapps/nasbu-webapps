@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -11,12 +11,18 @@ export class SubscriptionService {
   constructor(@Inject('config') private config: any,
               private httpClient: HttpClient) { }
 
+  getOnboardingPmTokenSession(uuid: string): Observable<OnboardingTokenizationSessionResult> {
+    const serverUrl = `${this.config.serverUrl}/subscription/onboarding/tokenization_session/`;
+    const payload = {uuid};
+    return this.httpClient.post<OnboardingTokenizationSessionResult>(serverUrl, payload);
+  }
+
   getSubscription(uuid:string): Observable<Subscription> {
     const serverUrl = `${this.config.serverUrl}/subscription/me/${uuid}/`;
     return this.httpClient.get<Subscription>(serverUrl);
   }
 
-  createSubscriptionOnboarding(payload: SubscriptionOnboarding): Observable<Subscription> {
+  createSubscriptionOnboarding(payload: any): Observable<Subscription> {
       const serverUrl: string = `${this.config.serverUrl}/subscription/onboarding/`;
       return this.httpClient.post<Subscription>(serverUrl, payload);
   }
@@ -66,5 +72,17 @@ export class SubscriptionService {
     const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.delete<SubscriptionBillingFee>(serverUrl);
   }
+
+  getSubscriptionPaymentMethods(subscription: string): Observable<SubscriptionPaymentMethod[]> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod[]>(serverUrl);
+  }
+
+  createPaymentMethodTokenizationSession(): Observable<OnboardingTokenizationSessionResult> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/tokenization_session/`;
+    return this.httpClient.get<OnboardingTokenizationSessionResult>(serverUrl);
+  }
+
+
 
 }

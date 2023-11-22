@@ -8,6 +8,7 @@ export interface SubscriptionOnboarding {
     period: SubscriptionPeriod;
     free_trial: boolean;
     total_users: number;
+    pm_request_id?: string;
 }
 
 export interface Subscription extends SubscriptionPayload {
@@ -76,3 +77,30 @@ export interface SubscriptionBillingFee {
   updated_at?:          Date;
 }
 
+export interface OnboardingTokenizationSessionResult {
+   status: any
+   requestId: string;
+   processUrl: string;
+   message: string;
+}
+
+
+export interface SubscriptionPaymentMethod {
+    uuid: string;
+    subscription: string;
+    franchise_name: string;
+    issuer: string;
+    last_four_digits: string;
+    expiration_date: string;
+    is_default: boolean;
+    active: boolean;
+    created_by: string;
+    created_at: string;
+    updated_by: string;
+    updated_at: string;
+}
+
+export interface SubscriptionPaymentMethodPayload {
+    subscription: string;
+    request_id: string;
+}

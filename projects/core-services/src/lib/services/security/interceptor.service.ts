@@ -106,6 +106,8 @@ export class AuthInterceptor implements HttpInterceptor {
       req.url.toString().indexOf('/api/subscription/onboarding/') < 0 &&
       req.url.toString().indexOf('/api/common/occupations/') < 0 &&
       req.url.toString().indexOf('/api/common/countries/') < 0 &&
+      req.url.toString().indexOf('/api/external/pg_checkout_requests/validate_cr_token/') < 0 &&
+      req.url.toString().indexOf('/api/external/pg_checkout_requests/') < 0 &&
       req.url.toString().indexOf('/api/catalog/customers_intake_requests/validate_request/') < 0 &&
       req.url.toString().indexOf('/api/catalog/customers_intake_requests/complete_request/') < 0 &&
 

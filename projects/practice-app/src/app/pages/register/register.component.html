@@ -93,13 +93,13 @@
                   </div>
                 </ng-container>
 
-                <div class="d-flex u-gap-1" style="max-width: 280px; ">
-                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(true)">
+                <div class="d-flex u-gap-1">
+                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="initRequestForTokenizationSession(true)">
                        {{'register.getFreeTrialButton'| translate}}
                     </button>
-                    <!-- <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="signupAndCreateSubscription(false)">
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="initRequestForTokenizationSession(false)">
                         {{'register.buyNowButton'| translate}}
-                    </button> -->
+                    </button>
                 </div>
                 <p *ngIf="errorMessage" class="u-dangerColor mt-3">{{errorMessage | errorMessageTranslate}}</p>
 

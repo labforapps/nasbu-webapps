@@ -43,9 +43,14 @@ import { ReportClientComponent } from './pages/report/report-client/report-clien
 import { ReportIncomeComponent } from './pages/report/report-income/report-income.component';
 import { GeneralMetricsComponent } from './pages/report/general-metrics/general-metrics.component';
 import { ReportInvoicingExportComponent } from './pages/report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
+import { CheckoutRequestLadingComponent } from './pages/external/payment/checkout-request-lading/checkout-request-lading.component';
 
 
 const routes: Routes = [
+  {
+    path: 'pg/checkoutRequest',
+    component: CheckoutRequestLadingComponent,
+  },
   {
     path: 'signin',
     component: LoginComponent,

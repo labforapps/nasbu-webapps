@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Plan, Subscription, UserSignupPayload } from 'core-models';
+import { OnboardingTokenizationSessionResult, Plan, Subscription, UserSignupPayload } from 'core-models';
 import { Observable, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
 import { PlaceToPayStatus } from '../../common';
 import { AuthService } from '../../services/auth/auth.service';
@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  signupAndCreateSubscription(isFreeTrial: boolean): void {
+  signupAndCreateSubscription(isFreeTrial: boolean, requestId: string): void {
     const { password, confirmPassword } = this.signupForm.value;
     if (password !== confirmPassword) {
       this.errorMessage = 'passwordsDoNotMatch';
@@ -139,28 +139,36 @@ export class RegisterComponent implements OnInit {
         period: this.anualSubscription ? 'Y' : 'M',
         free_trial: isFreeTrial,
         total_users: +this.totalUsers,
+        pm_request_id: requestId
       }
     };
 
     this.onboardingService
       .createUserAndAccount(userSignupPayload)
       .subscribe((subscription: Subscription) => {
-        const { username, password } = userSignupPayload;
-        if (isFreeTrial) {
           this.navigateToLogin();
-        } else {
-          this.initPaymentModal(subscription.first_checkout_url);
-        }
       }, (error: any) => {
         this.errorMessage = (error.name == 'InvalidParameterException') ? error.message : error.name;
       });
   }
 
-  initPaymentModal(processUrl: string): void {
+  initRequestForTokenizationSession(isFreeTrial: boolean) {
+        this.onboardingService
+            .generateNewTokenizationSession('131423')
+            .subscribe((result: OnboardingTokenizationSessionResult) => {
+                  if (result.status && result.status['status'].toLowerCase() == 'ok') {
+                      this.initPaymentModal(result.processUrl, isFreeTrial);
+                  }
+            });
+  }
+
+  initPaymentModal(processUrl: string, isFreeTrial: boolean): void {
     P.init(processUrl);
-    P.on('response', () => {
-      const { email, password } = this.signupForm.value;
-      this.enterIntoApp(email, password);
+    P.on('response', (response: OnboardingTokenizationSessionResult) => {
+        console.log('PM Response: ', response);
+        if (response.status && response.status['status'].toLowerCase() == 'approved') {
+          this.signupAndCreateSubscription(isFreeTrial, response.requestId);
+        }
     });
   }
 

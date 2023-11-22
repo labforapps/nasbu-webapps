@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Plan, SubscriptionOnboarding, UserSignupPayload } from 'core-models';
+import { OnboardingTokenizationSessionResult, Plan, SubscriptionOnboarding, UserSignupPayload } from 'core-models';
 import { CoreService, SubscriptionService } from 'core-services';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Observable, switchMap } from 'rxjs';
@@ -13,6 +13,10 @@ export class OnboardingService {
   constructor(private coreService: CoreService,
               private authService: AuthService,
               private subscriptionService: SubscriptionService) { }
+
+  generateNewTokenizationSession(uuid: string): Observable<OnboardingTokenizationSessionResult> {
+      return this.subscriptionService.getOnboardingPmTokenSession(uuid);
+  }
 
   getPlans(): Observable<Plan[]> {
     return this.coreService.getPlans();
@@ -31,8 +35,9 @@ export class OnboardingService {
                            uuid: cognitoUser.userSub,
                            total_users: userSignupPayload.subscriptionInfo.total_users
                        };
+                       const payload = {uuid: cognitoUser.userSub};
                        console.log('subscriptionOnboardingPayload: ', subscriptionOnboardingPayload);
-                       return this.subscriptionService.createSubscriptionOnboarding(subscriptionOnboardingPayload);
+                       return this.subscriptionService.createSubscriptionOnboarding(payload);
                    })
                );
 }

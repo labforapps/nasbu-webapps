@@ -1,4 +1,4 @@
-<div class="align-items-center d-flex flex-column justify-content-center u-h-50-vh">
+<div class="align-items-center d-flex flex-column justify-content-center u-h-50-vh" *ngIf="paymentMethods && paymentMethods?.length === 0">
     <img class="mb-3" src="../../../../../assets/images/credit-card.svg" alt="">
     <p class="u-textLightColor">
         {{'firm.profile.do_not_have_any_payment_methods_added' | translate}}
@@ -26,7 +26,7 @@
     <!-- Position Column -->
     <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <td mat-cell *matCellDef="let element"> 1 </td>
     </ng-container>
 
     <!-- Type Column -->
@@ -36,13 +36,13 @@
             <div class="c-creditCard">
                 <div class="c-creditCard__header">
                     <span class="icon-bell"></span>
-                    <div class="c-creditCard__type">American Express</div>
+                    <div class="c-creditCard__type">{{element.franchise_name}}</div>
                     <div class="c-creditCard__ccv">CCV / CVV ***</div>
                 </div>
                 <div class="c-creditCard__strip"></div>
                 <div class="c-creditCard__body">
-                    <div class="c-creditCard__date">Fecha venc.09 / 22</div>
-                    <div class="c-creditCard__number">XXXX-XXXX-XXXX-<b>8746</b></div>
+                    <div class="c-creditCard__date">Fecha venc: {{element.expiration_date}}</div>
+                    <div class="c-creditCard__number">XXXX-XXXX-XXXX-<b>{{element.last_four_digits}}</b></div>
                 </div>
             </div>
 
@@ -53,14 +53,14 @@
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Fech. de inclusión </th>
         <td mat-cell *matCellDef="let element">
-            {{element.date}}
+            {{element.created_at}}
         </td>
     </ng-container>
 
     <!-- Estatus Column -->
     <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Estatus </th>
-        <td mat-cell *matCellDef="let element" class="u-dangerColor"> {{element.status}} </td>
+        <td mat-cell *matCellDef="let element" class="u-dangerColor"> Disponible </td>
     </ng-container>
 
     <!-- Expedient Column -->

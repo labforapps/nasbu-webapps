@@ -98,6 +98,8 @@ import { ReportClientComponent } from './report/report-client/report-client.comp
 import { ReportIncomeComponent } from './report/report-income/report-income.component';
 import { GeneralMetricsComponent } from './report/general-metrics/general-metrics.component';
 import { ReportInvoicingExportComponent } from './report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
+import { ClientPaymentSuccessComponent } from './external/payment/client-payment-success/client-payment-success.component';
+import { CheckoutRequestLadingComponent } from './external/payment/checkout-request-lading/checkout-request-lading.component';
 
 
 @NgModule({
@@ -186,6 +188,8 @@ import { ReportInvoicingExportComponent } from './report/report-invoicing/report
     ReportIncomeComponent,
     GeneralMetricsComponent,
     ReportInvoicingExportComponent,
+    ClientPaymentSuccessComponent,
+    CheckoutRequestLadingComponent,
   ],
   imports: [
     CommonModule,

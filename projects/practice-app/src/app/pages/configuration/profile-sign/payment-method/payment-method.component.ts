@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddCreditcardComponent } from '../../../../components/dialogs/dialog-add-creditcard/dialog-add-creditcard.component';
+import { Observable } from 'rxjs';
+import { Subscription, SubscriptionPaymentMethod } from 'core-models';
+import { SubscriptionService } from 'core-services';
 
 export interface PeriodicElement {
   position: number;
@@ -32,8 +35,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class PaymentMethodComponent implements OnInit {
 
   displayedColumns: string[] = ['select', 'method','date', 'status', 'priority', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<SubscriptionPaymentMethod>([]);
+  selection = new SelectionModel<SubscriptionPaymentMethod>(true, []);
+
+  @Input()
+  subscription!: Subscription;
+
+  paymentMethods$!: Observable<SubscriptionPaymentMethod[]>;
+  paymentMethods!: SubscriptionPaymentMethod[];
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -57,15 +66,30 @@ export class PaymentMethodComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return '';
   }
 
   openDialogAddCreditcard(){
     this.dialog.open( DialogAddCreditcardComponent);
   }
-  constructor(public dialog: MatDialog) { }
+
+  constructor(public dialog: MatDialog,
+              private subscriptionService: SubscriptionService) { }
 
   ngOnInit(): void {
+      this.fetchPaymentMethods();
+  }
+
+  fetchPaymentMethods() {
+      if (this.subscription) {
+        this.subscriptionService
+        .getSubscriptionPaymentMethods(this.subscription.uuid)
+        .subscribe((paymentMethods: SubscriptionPaymentMethod[]) => {
+              this.paymentMethods = paymentMethods;
+              this.dataSource.data = paymentMethods;
+        });
+      }
+
   }
 
 }
