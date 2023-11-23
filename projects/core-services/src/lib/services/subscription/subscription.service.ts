@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -78,11 +78,19 @@ export class SubscriptionService {
     return this.httpClient.get<SubscriptionPaymentMethod[]>(serverUrl);
   }
 
-  createPaymentMethodTokenizationSession(): Observable<OnboardingTokenizationSessionResult> {
-    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/tokenization_session/`;
+  createPaymentMethodTokenizationSession(subscriptionId: string): Observable<OnboardingTokenizationSessionResult> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/tokenization_session/?subscription=${subscriptionId}`;
     return this.httpClient.get<OnboardingTokenizationSessionResult>(serverUrl);
   }
 
+  createSubscriptionPaymentMethod(payload: SubscriptionPaymentMethodPayload): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/`;
+    return this.httpClient.post<SubscriptionPaymentMethod>(serverUrl, payload);
+  }
 
+  setSubscriptionPaymentMethodAsDefault(subscription: string, paymentMethodId: string): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/${paymentMethodId}/set_as_default/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
+  }
 
 }

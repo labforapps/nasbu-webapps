@@ -4,8 +4,10 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddCreditcardComponent } from '../../../../components/dialogs/dialog-add-creditcard/dialog-add-creditcard.component';
 import { Observable } from 'rxjs';
-import { Subscription, SubscriptionPaymentMethod } from 'core-models';
+import { OnboardingTokenizationSessionResult, Subscription, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload } from 'core-models';
 import { SubscriptionService } from 'core-services';
+
+declare var P: any;
 
 export interface PeriodicElement {
   position: number;
@@ -90,6 +92,56 @@ export class PaymentMethodComponent implements OnInit {
         });
       }
 
+  }
+
+  addNewPaymentMethod() {
+      this.subscriptionService
+          .createPaymentMethodTokenizationSession(this.subscription.uuid)
+          .subscribe((result: OnboardingTokenizationSessionResult) => {
+              if (result.status && result.status['status'].toLowerCase() == 'ok') {
+                  this.initTokenizationForm(result.processUrl);
+              } else {
+                 //TODO: translate error message
+              }
+          }, (error) => {
+              //TODO: translate error message
+          })
+  }
+
+  initTokenizationForm(processUrl: string) {
+      P.init(processUrl);
+      P.on('response', (response: OnboardingTokenizationSessionResult) => {
+          console.log('PM Response: ', response);
+          if (response.status && response.status['status'].toLowerCase() == 'approved') {
+            this.createNePaymentMethod(response);
+          } else {
+              //TODO: translate error message
+          }
+      });
+  }
+
+  setPaymentMethodAsDefault(paymentMethod: SubscriptionPaymentMethod) {
+      this.subscriptionService
+          .setSubscriptionPaymentMethodAsDefault(this.subscription.uuid, paymentMethod.uuid)
+          .subscribe((response) => {
+              //TODO: translate success message and update payment methods list
+          }, (error) => {
+              //TODO: translate error message
+          });
+  }
+
+  createNePaymentMethod(result: OnboardingTokenizationSessionResult) {
+      const payload: SubscriptionPaymentMethodPayload = {
+         subscription: this.subscription.uuid,
+         request_id: result.requestId
+      };
+      this.subscriptionService
+          .createSubscriptionPaymentMethod(payload)
+          .subscribe((res: any) => {
+              //TODO: translate success message and update payment methods list
+          }, (error) => {
+              //TODO: translate error message
+          });
   }
 
 }
