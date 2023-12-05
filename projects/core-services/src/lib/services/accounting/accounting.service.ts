@@ -13,6 +13,16 @@ export class AccountingService {
   constructor(@Inject('config') private config: any,
   private httpClient: HttpClient) { }
 
+  validatePaymentCheckoutRequest(token: string): Observable<any> {
+      const url: string = `${this.config.serverUrl}/external/pg_checkout_requests/validate_cr_token/?token=${token}`;
+      return this.httpClient.get<any>(url)
+  }
+
+  updatePaymentCheckoutRequest(token: string): Observable<any> {
+    const url: string = `${this.config.serverUrl}/external/pg_checkout_requests/`;
+    return this.httpClient.post<any>(url, {token})
+  }
+
   getInvoices(subscription:string):Observable<Invoice[]>{
     const serverUrl = `${this.config.serverUrl}/accounting/invoices/?subscription=${subscription}`;
     return this.httpClient.get<Invoice[]>(serverUrl).pipe(

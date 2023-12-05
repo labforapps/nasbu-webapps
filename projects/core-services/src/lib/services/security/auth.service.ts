@@ -77,6 +77,12 @@ export class AuthService {
     }
 
     signup(payload: UserSignupPayload): Observable<ISignUpResult> {
+      // period = [r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_period'][0]['Value']
+      // free_trial = int([r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_free_trial'][0]['Value'])
+      // total_users = int([r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_total_users'][0]['Value'])
+      // plan = [r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_plan'][0]['Value']
+      // pm_request_id = [r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_pm_request_id'][0]['Value']
+      // onboarding_in_progress = int([r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_in_progress'][0]['Value'])
         const signup$ = Auth.signUp({
             username: payload.email,
             password: payload.password,
@@ -93,7 +99,12 @@ export class AuthService {
                 updated_at: new Date().getTime().toString(),
                 email: payload.email,          // optional
                 phone_number: payload.phoneNumber,   // optional - E.164 number convention
-               // 'custom:firstLogin': true                // other custom attributes
+               'custom:onb_period': payload.subscriptionInfo.period,
+               'custom:onb_free_trial': (payload.subscriptionInfo.free_trial ? 1 : 0).toString(),
+               'custom:onb_total_users': payload.subscriptionInfo.total_users.toString(),
+               'custom:onb_plan': payload.subscriptionInfo.plan,
+               'custom:onb_pm_request_id': payload.subscriptionInfo.pm_request_id?.toString(),
+               'custom:onb_in_progress': '1',                // other custom attributes
             },
         });
 
