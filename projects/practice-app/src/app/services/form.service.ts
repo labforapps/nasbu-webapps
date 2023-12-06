@@ -12,7 +12,9 @@ export class FormService {
 
   setFormControlValidations(form:FormGroup,formControlName:string,isRequired:boolean,defaultValue:any){
     if(isRequired){
-      form.controls[formControlName].setErrors({incorrect: true})
+      if(form.controls[formControlName].value === null || form.controls[formControlName].value === '' ){
+        form.controls[formControlName].setErrors({incorrect: true})
+      }
     }
     else{
       form.controls[formControlName].setErrors(null)

@@ -66,7 +66,7 @@ export class CreateClientComponent implements OnInit {
     this.createClientForm = this._formBuilder.group({
       subscription: [''],
       intake_request: [''],
-      type: ['', Validators.required],
+      type: [this.customer_type, Validators.required],
       document_type: ['I'],
       document_no: ['ad cupidatat nu'],
       company_name: [null],
