@@ -65,12 +65,11 @@ export class CreateCollaboratorComponent implements OnInit {
       last_name: ['',Validators.required],
       origin_country: ['',Validators.required],
       email: ['',Validators.required],
-      password: ['',Validators.required],
       licenses: this.formBuilder.array([
         this.formBuilder.group({
           license_country:['81635e71-a6b6-44dc-9d82-b9ee0aad8660',Validators.required],
-          license_no:['',Validators.required],
-          license_country_state: ['']
+          license_no:[null,Validators.required],
+          license_country_state: [null,Validators.required]
         })
       ]),
       contacts: this.formBuilder.array([
@@ -254,6 +253,11 @@ export class CreateCollaboratorComponent implements OnInit {
       billing_fees: [this.billingFee],
       birthdate: new Date()
      }
+
+     if(this.collaboratorForm.invalid){
+      this.toastr.error('Error','Completar campos obligatorios');
+      return;
+    }
 
     this.securityService.saveSecurityUser(securityUserPayload).subscribe(data => {
 

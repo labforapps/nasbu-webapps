@@ -175,7 +175,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     const timeTaskPayload: TimeTask = {
       subscription: this.selectedSubscription?.ssid.uuid,
       ...taskTimeFormValue,
-      title: taskTimeFormValue.description,
+      title: taskTimeFormValue.description || 'title',
       total_time_str: totalTime,//Enviar la hora del reloj
       total_time: totalTime,
       start_at: startDate,
