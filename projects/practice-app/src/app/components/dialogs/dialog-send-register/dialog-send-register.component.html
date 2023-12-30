@@ -25,7 +25,7 @@
             <label class="u-title-label">{{'clients.client_intake.customer_name' | translate}}</label>
             <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
               <mat-label>{{'clients.client_intake.name' | translate}}</mat-label>
-              <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="customer_intake_request.name">
+              <input class="c-form-group__input" matInput placeholder="Ej: Juan Pérez" [(ngModel)]="customer_intake_request.name">
             </mat-form-field>
             <mat-error *ngIf=" formSubmitted && customer_intake_request.name === ''">{{'errorMessages.field_required' | translate}}</mat-error>
           </div>

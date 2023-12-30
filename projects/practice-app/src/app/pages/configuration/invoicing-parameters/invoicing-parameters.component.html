@@ -103,6 +103,44 @@
 
             </mat-tab>
 
+            <mat-tab label="Impuesto">
+
+              <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                  <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                    <div class="l-configuration__title">
+                        <span class="icon-lock mr-2 u-icon-yellow"></span> Impuesto
+                    </div>
+                </div>
+                <div class="l-page__controls">
+                  <button class="c-btn-function" mat-button >{{'invoice_parameter.save_changes' | translate}} <span class="icon-plus ml-2 "></span></button>
+                </div>
+
+              </div>
+
+              <hr class="u-divider">
+
+              <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                      Porcentaje impuestos
+                    </mat-checkbox>
+                    <p class="u-smallSize u-textColor pl-4 mb-1">
+                        Es importante que definas este valor para que al momento
+                        de la facturacion se tome el porcentaje correcto
+                    </p>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label class="u-title-label">Valor % impuesto </label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Ej: 18</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_hour">
+                    </mat-form-field>
+                </div>
+            </div>
+
+              <hr class="u-divider">
+
+            </mat-tab>
 
         </mat-tab-group>
     </div>

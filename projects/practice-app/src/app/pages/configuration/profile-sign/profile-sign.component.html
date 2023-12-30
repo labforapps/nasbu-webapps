@@ -14,14 +14,14 @@
 
     </div>
     <div class="l-page__body">
-        <mat-tab-group class="c-tabs c-tabs--scroll">
+        <mat-tab-group class="c-tabs c-tabs--scroll" *ngIf="subscription">
             <mat-tab>
 
                 <ng-template mat-tab-label>
                     {{'firm.profile.general_details' | translate}}
                     <span class="icon-contacts"></span>
                 </ng-template>
-                <app-profile-general-info *ngIf="subscription" [subscription]="subscription"></app-profile-general-info>
+                <app-profile-general-info [subscription]="subscription"></app-profile-general-info>
 
             </mat-tab>
             <mat-tab>
@@ -31,7 +31,7 @@
                   <span class="icon-credit-card"></span>
                 </ng-template>
 
-                <app-payment-method *ngIf="subscription" [subscription]="subscription"></app-payment-method>
+                <app-payment-method  [subscription]="subscription"></app-payment-method>
 
             </mat-tab>
             <mat-tab>
@@ -41,7 +41,7 @@
                   <span class="icon-invoice"></span>
                 </ng-template>
 
-                <app-subscription></app-subscription>
+                <app-subscription [subscription]="subscription"></app-subscription>
 
             </mat-tab>
         </mat-tab-group>

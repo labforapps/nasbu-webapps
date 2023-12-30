@@ -807,13 +807,13 @@
         "current_plan":"Current plan",
         "change_plan":"Change plan",
         "monthly_subscription":"Monthly subscription",
-        "account_premium":"Account premium",
+        "account_premium":"Account",
         "cancel_subscription":"Cancel subscription",
         "billing":"Billing",
         "your_last_payment_was_made_on":"Your last payment was made on ",
         "view_billing_history":"View billing history",
         "these_payments_will_be_generated_automatically":"These payments will be generated automatically on a monthly basis.",
-        "your_next_payment_will_be_charged_on":"Your next payment payment of <b>38</b> USD, will be charged on"
+        "your_next_payment_will_be_charged_on":"Your next payment payment of <b>{{amount}}</b> USD, will be charged on"
       },
       "form_create":{
         "name_of_the_firm":"Name of the firm",

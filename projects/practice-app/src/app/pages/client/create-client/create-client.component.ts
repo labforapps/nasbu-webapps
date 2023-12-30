@@ -33,8 +33,6 @@ export class CreateClientComponent implements OnInit {
   dialogRef: MatDialogRef<CreateClientComponent>;
   image_url!:string;
 
-
-
   constructor(
     public _formBuilder: FormBuilder,
     private customerService: CustomersService,
