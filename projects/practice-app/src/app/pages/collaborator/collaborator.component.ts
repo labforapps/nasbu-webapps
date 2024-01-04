@@ -66,9 +66,14 @@ export class CollaboratorComponent implements OnInit {
     return contactSecurityUser[0]?.contact_value ? contactSecurityUser[0].contact_value : '' ;
   }
 
-  getSecurityGroupNameByNumber(group:number){
-    const securityGroup = this.securityGroups && this.securityGroups.length > 0 ?  this.securityGroups.filter( x => x.group === group) : [];
-    return securityGroup.length > 0  ? securityGroup[0]?.name || '' : '';
+  getSecurityGroupNameByNumber(securityUser:SecurityUser){
+    if(securityUser.subscription_member_type === this.subscriptionMemberType.OWNER){
+      return 'Admin'
+    }
+    else{
+      const securityGroup = this.securityGroups && this.securityGroups.length > 0 ?  this.securityGroups.filter( x => x.group === securityUser.group) : [];
+     return securityGroup.length > 0  ? securityGroup[0]?.name || '' : '';
+    }
   }
 
   getSecurityGroups(){

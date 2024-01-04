@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { DialogAddTaxComponent } from '../../../components/dialogs/dialog-add-tax/dialog-add-tax.component';
 
 @Component({
   selector: 'app-new-invoice',
@@ -163,9 +164,12 @@ export class NewInvoiceComponent implements OnInit {
     return roundedTaxAmt;
   }
 
+  openDialogAddTax(){
+    this.dialog.open(DialogAddTaxComponent)
+  }
 
   get taxInvoice(){
-    return 13;
+    return 0;
   }
 
   returnFormArray(formArray: string) {

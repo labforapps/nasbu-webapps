@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogNewTaskComponent } from '../../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import { PracticeService } from 'core-services';
 import * as moment from 'moment';
+import { HelpersService } from '../../../services/helpers.service';
 
 @Component({
   selector: 'app-task',
@@ -25,7 +26,8 @@ export class TaskComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private dialog:MatDialog,
-              private practiceService:PracticeService) { }
+              private practiceService:PracticeService,
+              private helperService:HelpersService) { }
 
   ngOnInit(): void {
 
@@ -41,9 +43,9 @@ export class TaskComponent implements OnInit {
         .slice(0, 15 - overdueTasks.length);
 
     // Juntar las dos listas y tomar las primeras 15
-    const combinedTasks = [...overdueTasks, ...upcomingTasks].slice(0, 15);
+    this.tasks = [...overdueTasks, ...upcomingTasks].slice(0, 15);
 
-    this.dataSource.data = combinedTasks;
+    this.dataSource.data = this.tasks;
 
   }
 
@@ -57,7 +59,15 @@ export class TaskComponent implements OnInit {
 
   completeTask(task:Task){
 
-    this.tasks = this.tasks.filter(x => x.uuid !== task.uuid);
+    task.status = this.taskStatus.CLOSED
+
+    this.practiceService.completeTask(task).subscribe(data => {
+
+      this.helperService.showCustomMessage("Ok","Ok","Tarea completada exitosamente")
+      this.tasks = this.tasks.filter(x => x.uuid !== task.uuid)
+      this.dataSource.data = this.tasks;
+
+    });
   }
 
   ngAfterViewInit(): void {

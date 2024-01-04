@@ -80,7 +80,7 @@
                         <!-- Date Column -->
                         <ng-container matColumnDef="rol">
                             <th mat-header-cell *matHeaderCellDef> {{'collaborator.table.function_or_role' | translate}} </th>
-                            <td mat-cell *matCellDef="let element"> {{getSecurityGroupNameByNumber(element.group)}} </td>
+                            <td mat-cell *matCellDef="let element"> {{getSecurityGroupNameByNumber(element)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="license">

@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { AuthService, CoreService, SubscriptionService } from 'core-services';
 import { Plan, Subscription } from 'core-models';
 import * as moment from 'moment'
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   position: number;
@@ -37,7 +38,7 @@ export class SubscriptionComponent implements OnInit {
   showSubscriptionBillingHistory:boolean = false
   selectedPlan!:Plan | undefined
 
-  constructor(private coreService:CoreService) { }
+  constructor(private coreService:CoreService,private router:Router) { }
 
   ngOnInit(): void {
     this.getPlans()

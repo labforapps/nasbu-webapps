@@ -48,6 +48,7 @@ import { DialogCloseTaskComponent } from './dialogs/dialog-close-task/dialog-clo
 import { NgxTimerModule } from 'ngx-timer';
 import { DialogSendPaymentComponent } from './dialogs/dialog-send-payment/dialog-send-payment.component';
 import { DialogNewSubscriptionComponent } from './dialogs/dialog-new-subscription/dialog-new-subscription.component';
+import { DialogAddTaxComponent } from './dialogs/dialog-add-tax/dialog-add-tax.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { DialogNewSubscriptionComponent } from './dialogs/dialog-new-subscriptio
     DialogCloseTaskComponent,
     DialogSendPaymentComponent,
     DialogNewSubscriptionComponent,
+    DialogAddTaxComponent,
   ],
   imports: [
     CommonModule,

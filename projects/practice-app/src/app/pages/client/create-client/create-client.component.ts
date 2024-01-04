@@ -110,7 +110,6 @@ export class CreateClientComponent implements OnInit {
     this.formService.setFormControlValidations(this.createClientForm,'last_name',isPerson,null)
     this.formService.setFormControlValidations(this.createClientForm,'occupation',isPerson,null)
     this.formService.setFormControlValidations(this.createClientForm,'marital_status',isPerson,null)
-    this.formService.setFormControlValidations(this.createClientForm,'born_date',isPerson,null)
 
     this.formService.setFormControlValidations(this.createClientForm,'company_name',isBussiness,null)
   }
@@ -294,6 +293,7 @@ export class CreateClientComponent implements OnInit {
 
     const createClient: Customer = {
       ...this.createClientForm.value,
+      born_date: this.createClientForm.value.born_date === '' ? null : this.createClientForm.value.born_date,
       subscription: this.selectedSubscription?.ssid.uuid,
       uuid: this.customerId,
       image: this.imagenSubir
@@ -313,7 +313,7 @@ export class CreateClientComponent implements OnInit {
         if (this.linked_customer) {
           this.linkToCustomer(data);
         } else {
-          this.router.navigate(['customers/edit', data.uuid]);
+          this.router.navigate(['customers']);
         }
       }
     });

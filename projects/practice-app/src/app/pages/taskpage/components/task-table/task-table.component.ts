@@ -97,7 +97,7 @@ export class TaskTableComponent  implements OnChanges {
       data: {
         task: task,
         action: action,
-        customer: this.customer,
+        customer: task?.customer,
         securityUser: this.securityUser,
         caseFile: this.caseFile
       },

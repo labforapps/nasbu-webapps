@@ -75,14 +75,19 @@
                       {{ 'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate }}
                     </p>
 
-                    <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time" (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)" [disabled]="securityUserSelected ? securityUserSelected.billing_fees[0].price_per_increment === '0.00' ? true : false : true">
+                    <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time"
+                      (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)"
+                      [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? securityUserSelected.billing_fees[0].price_per_increment === '0.00' ? true : false : true">
+
                       {{ 'invoice_parameter.by_increment_of_time' | translate }}
                     </mat-checkbox>
                     <p class="u-smallerSize ml-5 mt-1">
                       {{ 'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate }}
                     </p>
 
-                    <mat-checkbox value="4" class="c-checkbox u-smallSize u-fontBold" formControlName="flat_fee" (change)="onCheckBillingTypes(billingType.FLAT_FEE,$event)" [disabled]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_flat_fee : true">
+                    <mat-checkbox value="4" class="c-checkbox u-smallSize u-fontBold" formControlName="flat_fee"
+                                  (change)="onCheckBillingTypes(billingType.FLAT_FEE,$event)"
+                                  [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? !securityUserSelected.billing_fees[0].allow_flat_fee : true">
                       Flat fee
                     </mat-checkbox>
                     <p class="u-smallerSize ml-5 mt-1">

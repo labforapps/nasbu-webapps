@@ -142,7 +142,7 @@
       "newTaskModal":{
          "title": "Nueva tarea",
          "type": "Tipo de la tarea",
-         "personName": "Nombre de la persona",
+         "personName": "Nombre del cliente",
          "periodicity": "periodicidad",
          "description":"Descripción o detalle",
          "assignTo": "Asignar a",
@@ -212,7 +212,7 @@
          }
       },
       "statistics": {
-         "dossier": {
+         "dockets": {
             "title": "Expedientes info.",
             "opened": "Expedientes abiertos",
             "closed": "Expedientes cerrados"
@@ -972,7 +972,7 @@
       "profile":{
         "goBack":"Volver atrás",
         "client":"Cliente",
-        "delegated_to":"Designado a",
+        "delegated_to":"Asignado a",
         "creation_date":"Fecha de creación",
         "organized_by_creation_date":"Organizado por fecha de creación",
         "documents":{

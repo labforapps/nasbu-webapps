@@ -148,7 +148,7 @@
           <ng-container matColumnDef="assigned_to">
               <th mat-header-cell *matHeaderCellDef>{{'dockets.assigned_to' | translate}} </th>
               <td mat-cell *matCellDef="let element">
-                  <div class="u-link" [routerLink]="'/user/edit/' + element.assigned_to.uuid">{{element.assigned_to.user.first_name + ' ' +  element.assigned_to.user.last_name}}</div>
+                  <div class="u-link" [routerLink]="'/user-profile/' + element.assigned_to.uuid">{{element.assigned_to.user.first_name + ' ' +  element.assigned_to.user.last_name}}</div>
               </td>
           </ng-container>
 

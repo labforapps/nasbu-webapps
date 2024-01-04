@@ -1,12 +1,12 @@
 <ng-container *ngIf="!emptyIndicators; else empty">
     <div class="c-indicators">
         <div class="c-indicators__column">
-            <div class="c-indicators__title">{{'dashboard.statistics.dossier.title'| translate}}</div>
+            <div class="c-indicators__title">{{'dashboard.statistics.dockets.title'| translate}}</div>
             <div class="c-indicators__item">
                 <img class="c-indicators__img" src="../../../../assets/images/box-open.svg" alt="">
                 <div>
                     <div class="c-indicators__ammount">{{openCaseFiles}}</div>
-                    <div class="c-indicators__label">{{'dashboard.statistics.dossier.opened'| translate}}</div>
+                    <div class="c-indicators__label">{{'dashboard.statistics.dockets.opened'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.untilToday'| translate}}</div>
                 </div>
             </div>
@@ -14,7 +14,7 @@
                 <img class="c-indicators__img" src="../../../../assets/images/box-closed.svg" alt="">
                 <div>
                     <div class="c-indicators__ammount">{{closedCaseFiles}}</div>
-                    <div class="c-indicators__label">{{'dashboard.statistics.dossier.closed'| translate}}</div>
+                    <div class="c-indicators__label">{{'dashboard.statistics.dockets.closed'| translate}}</div>
                     <div class="c-indicators__sublabel">{{'dashboard.common.untilToday'| translate}}</div>
                 </div>
             </div>

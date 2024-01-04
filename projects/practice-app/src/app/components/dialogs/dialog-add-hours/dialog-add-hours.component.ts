@@ -93,6 +93,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityUser[]) => {
       this.securityUsers = data;
+      if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({executed_by: this.task.assigned_to.uuid})
     })
   }
 

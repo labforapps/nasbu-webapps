@@ -279,7 +279,7 @@
                   </div>
                   <hr class="u-divider">
                   <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
-                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2">
+                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2" (click)="openDialogAddTax()">
                         {{'invoicing.invoice.apply_tax' | translate}}
                       </mat-checkbox>
                       <button mat-button class="c-btn-function">{{'invoicing.invoice.save_invoice' | translate}}</button>

@@ -64,7 +64,7 @@ export class DialogNewTaskComponent implements OnInit {
           end_date: [null],
           billing_type: [''],
           bt_price_per_hour: [0],
-          bt_increment_factor:[''],
+          bt_increment_factor:[0],
           bt_amt: [0],
           hourly_rate: [false],
           increment_of_time: [false],

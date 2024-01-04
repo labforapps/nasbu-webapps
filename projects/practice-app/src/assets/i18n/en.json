@@ -211,10 +211,10 @@
          }
       },
       "statistics": {
-         "dossier": {
-            "title": "Dossier information",
-            "opened": "Dossier oppened",
-            "closed": "Dossier closed"
+         "dockets": {
+            "title": "Dockets information",
+            "opened": "Dockets oppened",
+            "closed": "Dockets closed"
          },
          "billed": {
             "title": "Billing information",

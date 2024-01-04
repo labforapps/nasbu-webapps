@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
-import { Subscription } from 'core-models';
+import { Subscription, SubscriptionMemberType } from 'core-models';
 import { AuthService, PracticeService, SecurityService, SubscriptionService } from 'core-services';
 import { CustomersService } from 'projects/core-services/src/public-api';
 @Component({
@@ -20,6 +20,7 @@ export class OnboardingComponent {
   selectedSubscription!:any;
   subscriptionProfile!:Subscription;
   stepsCompleted:number = 0;
+  subscriptionMemberType = SubscriptionMemberType
 
   constructor(public dialog: MatDialog,
               private authService:AuthService,
@@ -48,8 +49,11 @@ export class OnboardingComponent {
 
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.checkSecurityUsers = data.length > 0 ? true : false;
-      if(data.length > 0) this.stepsCompleted++;
+
+      const securityUsersQuantity = data.filter(x => x.subscription_member_type !== this.subscriptionMemberType.OWNER).length
+
+      this.checkSecurityUsers = securityUsersQuantity ? true : false;
+      if(securityUsersQuantity > 0) this.stepsCompleted++;
     })
   }
 

@@ -103,7 +103,7 @@ export class DialogNewExpedientComponent implements OnInit {
   }
 
   doesReceiveRetainer(){
-    if(this.securityUserSelected) return !this.securityUserSelected.billing_fees[0].allow_retainers && !this.caseFileForm.value.flat_fee;
+    if(this.securityUserSelected && this.securityUserSelected.billing_fees.length > 0) return !this.securityUserSelected.billing_fees[0].allow_retainers && !this.caseFileForm.value.flat_fee;
     if(this.caseFile) return  !this.caseFile.receive_retainer;
 
     return true;
@@ -126,10 +126,12 @@ export class DialogNewExpedientComponent implements OnInit {
   onChangeAssignto(uuid:string){
     this.securityUserSelected = this.securityUsers.find(x => x.uuid === uuid);
 
-    this.caseFileForm.patchValue({
-      bt_price_per_hour: this.securityUserSelected?.billing_fees[0].price_per_hour,
-      bt_increment_factor: this.securityUserSelected?.billing_fees[0].increment_factor
-    })
+   if(this.securityUserSelected?.billing_fees && this.securityUserSelected?.billing_fees.length > 0){
+      this.caseFileForm.patchValue({
+        bt_price_per_hour: this.securityUserSelected?.billing_fees[0].price_per_hour,
+        bt_increment_factor: this.securityUserSelected?.billing_fees[0].increment_factor
+      })
+   }
 
   }
 
