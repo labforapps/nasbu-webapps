@@ -22,6 +22,7 @@ export class CreateClientComponent implements OnInit {
   typeContact = TypeContact;
   subtypeContact = SubtypeContact;
   countries!: Country[];
+  countriesCopy!:Country[]
   occupations!: Occupation[];
   imagenSubir!: File;
   imgTemp!: any;
@@ -274,6 +275,7 @@ export class CreateClientComponent implements OnInit {
   fetchCountries() {
     this.commonService.getCountries().subscribe((data) => {
       this.countries = data;
+      this.countriesCopy = data
     });
   }
 
@@ -281,6 +283,21 @@ export class CreateClientComponent implements OnInit {
     this.commonService.getOccupations().subscribe((data) => {
       this.occupations = data;
     });
+  }
+
+  onKey(event: KeyboardEvent) {
+     const value = event.key
+     this.countries = this.searchCountry(value);
+  }
+
+  searchCountry(value: string) {
+    let filter = value.toLowerCase();
+    const countriesFiltered = this.countries.filter(option => option.name.toLowerCase().startsWith(filter));
+
+    if(countriesFiltered.length === 0) return this.countriesCopy
+
+    return countriesFiltered
+
   }
 
   submitForm(create_another = false) {

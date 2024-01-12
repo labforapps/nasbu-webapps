@@ -13,6 +13,8 @@ export class InvoicingParametersComponent implements OnInit {
   invoicingParameterForm!:FormGroup;
   selectedSubscription!: any;
   subscriptionBillingFee!:SubscriptionBillingFee[];
+  addHourlyRate:boolean = false
+  perIncrementOfTime:boolean = false
 
   constructor(private formBuilder:FormBuilder,
               private subscriptionService:SubscriptionService,
@@ -34,11 +36,12 @@ export class InvoicingParametersComponent implements OnInit {
 
   initForm(){
     this.invoicingParameterForm = this.formBuilder.group({
-      price_per_hour:      [''],
+      price_per_hour:      [0],
       increment_factor:    [0],
-      price_per_increment: [''],
+      price_per_increment: [0],
       allow_retainers:     [false],
-      allow_flat_fee:      [false]
+      allow_flat_fee:      [false],
+      tax_pct: 0
     })
   }
 
@@ -48,19 +51,16 @@ export class InvoicingParametersComponent implements OnInit {
 
   submitForm(){
 
-    this.invoicingParameterForm.value.subscription = this.selectedSubscription?.ssid.uuid;
-
-    if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid){
-      this.subscriptionService.updateSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.subscriptionBillingFee[0].uuid || '',this.invoicingParameterForm.value).subscribe(data => {
-        this.toastr.success('Ok','Billing Fee Saved Changes')
-      })
-    }
-    else{
-      this.subscriptionService.createSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid,this.invoicingParameterForm.value).subscribe(data => {
-        this.toastr.success('Ok','Billing Fee Saved Changes')
-      })
+    const subscriptionBillingFeePayload = {
+      ...this.invoicingParameterForm.value,
+      subscription: this.selectedSubscription?.ssid.uuid
     }
 
+    if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid) subscriptionBillingFeePayload.uuid = this.subscriptionBillingFee[0].uuid
+
+    this.subscriptionService.saveSubscriptionBillingFee(subscriptionBillingFeePayload).subscribe( data => {
+      this.toastr.success('Ok','Billing Fee Saved Changes')
+    })
 
   }
 

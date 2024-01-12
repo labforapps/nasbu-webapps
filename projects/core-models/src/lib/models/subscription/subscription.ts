@@ -63,11 +63,12 @@ export interface Schedule {
 
 export interface SubscriptionBillingFee {
   uuid?:                string;
-  subscription?:        string;
+  subscription:        string;
   billing_fee_id:      string;
   price_per_hour:      number;
   increment_factor:    string;
   price_per_increment: number | string;
+  tax_pct: string
   allow_retainers:     boolean;
   allow_flat_fee:      boolean;
   active?:              boolean;

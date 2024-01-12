@@ -28,7 +28,7 @@ export class TaskTableComponent  implements OnChanges {
 
   moduleEnum = modules;
   taskStatus = TaskStatus;
-  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient','priority', 'hours','creationDate', 'date', 'action'];
+  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient','priority', 'billing_type','hours','total','creationDate', 'date', 'action'];
   dataSource = new MatTableDataSource<Task>(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   selectedTask!: any;
@@ -97,8 +97,8 @@ export class TaskTableComponent  implements OnChanges {
       data: {
         task: task,
         action: action,
-        customer: task?.customer,
-        securityUser: this.securityUser,
+        customer: task?.customer || this.caseFile?.customer,
+        securityUser: this.securityUser || this.caseFile?.assigned_to,
         caseFile: this.caseFile
       },
     });

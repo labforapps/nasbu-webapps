@@ -5,16 +5,16 @@
       <p class="u-textColor text-center mb-5">
           Coloca aquí el valor del impuesto <br> que quieres utilizar en tus facturas
       </p>
-      <form class="w-100">
+      <div class="w-100">
           <mat-form-field appearance="fill" class="c-form-group">
               <input class="c-form-group__input" matInput type="mail" placeholder="Ej: 18" autocomplete="off"
-                  formControlName="username">
+                  [(ngModel)]="tax_pct">
           </mat-form-field>
 
-      </form>
+        </div>
   </mat-dialog-content>
   <mat-dialog-actions class="mt-auto">
-      <button mat-button class="c-btn c-btn--primary w-100 u-smallSize">Guardar</button>
+      <button mat-button class="c-btn c-btn--primary w-100 u-smallSize" (click)="saveSubscriptionBillingFee()">Guardar</button>
       <button mat-button mat-dialog-close
           class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
   </mat-dialog-actions>

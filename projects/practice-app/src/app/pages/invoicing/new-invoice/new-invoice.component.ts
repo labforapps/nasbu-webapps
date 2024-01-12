@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription } from 'core-models';
+import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
@@ -32,6 +32,8 @@ export class NewInvoiceComponent implements OnInit {
   invoiceId!:string;
   invoice!:Invoice;
   exitInvoice:boolean = false;
+  subscriptionBillingFee!:SubscriptionBillingFee[];
+  applyTax:boolean = false
 
   constructor(private customerService:CustomersService,
               private authService: AuthService,
@@ -52,6 +54,7 @@ export class NewInvoiceComponent implements OnInit {
     this.getSubscriptionInformation();
     this.getCountries();
     this.initForm();
+    this.getSubscriptionBillingFee()
   }
 
   initForm(){
@@ -143,11 +146,19 @@ export class NewInvoiceComponent implements OnInit {
     }
   }
 
-  get totalInvoiceAmount(){
-   const total = Math.round(this.subTotalInvoiceAmount * (1 + (this.taxInvoice / 100)))
-   this.invoiceForm.patchValue({net_amt: total  })
-   return total;
+  getSubscriptionBillingFee(){
+    this.subscriptionService.getSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.subscriptionBillingFee = data;
+    })
   }
+
+  get totalInvoiceAmount(){
+    const total = this.subTotalInvoiceAmount * (1 + (this.taxInvoice / 100));
+    const totalWithTwoDecimals = parseFloat(total.toFixed(2));
+    this.invoiceForm.patchValue({net_amt: totalWithTwoDecimals})
+    return totalWithTwoDecimals;
+  }
+
 
   get subTotalInvoiceAmount(){
     const sumTotals = (arr: { total_amt: number }[]) => arr.reduce((acc: number, item) => acc + Number(item.total_amt), 0);
@@ -164,12 +175,31 @@ export class NewInvoiceComponent implements OnInit {
     return roundedTaxAmt;
   }
 
-  openDialogAddTax(){
-    this.dialog.open(DialogAddTaxComponent)
+  get taxInvoice(){
+    return this.applyTax ?  Number(this.subscriptionBillingFee[0].tax_pct) : 0;
   }
 
-  get taxInvoice(){
-    return 0;
+  openDialogAddTax(){
+
+    if(this.subscriptionBillingFee.length === 0 || this.subscriptionBillingFee[0].tax_pct === "0.00"){
+
+      const dialogRef = this.dialog.open(DialogAddTaxComponent, {
+        data: {
+          subscriptionBillingFee: this.subscriptionBillingFee
+        }
+      })
+
+      dialogRef.afterClosed().subscribe(data => {
+        if(data){
+          this.subscriptionBillingFee = data
+        }
+        else{
+          this.applyTax = false
+        }
+      })
+
+    }
+
   }
 
   returnFormArray(formArray: string) {

@@ -270,7 +270,7 @@
               <div class="c-invoice__footer">
                   <div class="align-items-end d-flex flex-column flex-wrap mb-2 u-gap-1 u-smallSize u-text-color">
                       <p><b class="mr-2">Subtotal</b>USD {{subTotalInvoiceAmount | currency}}</p>
-                      <p><b class="mr-2">{{'invoicing.invoice.tax' | translate}} ( {{taxInvoice}}%)</b>USD {{totalTaxInvoiceAmount | currency}}</p>
+                      <p *ngIf="applyTax"><b class="mr-2">{{'invoicing.invoice.tax' | translate}} ( {{taxInvoice}}%)</b>USD {{totalTaxInvoiceAmount | currency}}</p>
 
                   </div>
                   <div class="d-flex justify-content-between u-gap-1 flex-wrap">
@@ -279,7 +279,10 @@
                   </div>
                   <hr class="u-divider">
                   <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
-                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2" (click)="openDialogAddTax()">
+                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2"
+                                    [(ngModel)]="applyTax"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (click)="openDialogAddTax()">
                         {{'invoicing.invoice.apply_tax' | translate}}
                       </mat-checkbox>
                       <button mat-button class="c-btn-function">{{'invoicing.invoice.save_invoice' | translate}}</button>

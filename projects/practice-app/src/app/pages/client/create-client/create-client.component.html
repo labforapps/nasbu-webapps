@@ -182,6 +182,8 @@
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                     <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
                                     <mat-select formControlName="physical_country">
+                                        <input type="text" class="c-form-group__input" matInput style="height: 30px;"
+                                               (keyup)="onKey($event)">
                                         <mat-option *ngFor="let country of countries" [value]="country.uuid">
                                             {{country.name}}
                                         </mat-option>

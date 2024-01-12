@@ -64,7 +64,7 @@ export class HelpersService {
    }
   }
 
-  returnCustomerListSorted(customers:Customer[]):Customer[] {
+  returnCustomerListSorted(customers:Customer[],type: 'ascendant' | 'descendant'):Customer[] {
 
       return customers.sort((a, b) => {
         const companyNameA = a.company_name || '';
@@ -73,13 +73,24 @@ export class HelpersService {
         const nameA = a.type === this.typeCustomer.person && companyNameA === '' ? a.first_name.toLowerCase() : companyNameA.toLowerCase();
         const nameB = b.type === this.typeCustomer.person && companyNameB === '' ? b.first_name.toLowerCase() : companyNameB.toLowerCase();
 
-        if (nameA < nameB) {
-          return -1;
-        } else if (nameA > nameB) {
-          return 1;
-        } else {
-          return 0;
-        }
+       if(type === 'ascendant'){
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1;
+          } else {
+            return 0;
+          }
+       }
+       else{
+          if (a.first_name > b.first_name) {
+            return -1;
+          } else if (a.first_name < b.first_name) {
+            return 1;
+          } else {
+            return 0;
+          }
+       }
       });
 
   }

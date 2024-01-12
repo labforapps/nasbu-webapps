@@ -53,19 +53,32 @@ export class SubscriptionService {
     return this.httpClient.get<SubscriptionBillingFee[]>(serverUrl);
   }
 
-  createSubscriptionBillingFee(subscription:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
-    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
-    return this.httpClient.post<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
-  }
-
   getSubscriptionBillingFeeById(subscription:string,uuid:string):Observable<SubscriptionBillingFee>{
     const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionBillingFee>(serverUrl);
   }
 
+  createSubscriptionBillingFee(subscription:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
+    const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/?subscription=${subscription}`;
+    return this.httpClient.post<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
+  }
+
   updateSubscriptionBillingFee(subscription:string,uuid:string,subscriptionBillingFeePayload:SubscriptionBillingFee):Observable<SubscriptionBillingFee>{
     const serverUrl = `${this.config.serverUrl}/subscription/billing_fees/${uuid}/?subscription=${subscription}`;
     return this.httpClient.put<SubscriptionBillingFee>(serverUrl,subscriptionBillingFeePayload);
+  }
+
+  saveSubscriptionBillingFee(subscriptionBillingFee:SubscriptionBillingFee){
+
+    let saveOperation$: Observable<SubscriptionBillingFee>;
+    const payload: SubscriptionBillingFee = { ...subscriptionBillingFee };
+    if (subscriptionBillingFee.uuid != null && subscriptionBillingFee.uuid !== '') {
+      saveOperation$ = this.updateSubscriptionBillingFee(subscriptionBillingFee.subscription,subscriptionBillingFee.uuid,payload);
+    } else {
+      saveOperation$ = this.createSubscriptionBillingFee(payload.subscription, payload);
+    }
+    return saveOperation$;
+
   }
 
   deleteSubscriptionBillingFee(subscription:string,uuid:string){

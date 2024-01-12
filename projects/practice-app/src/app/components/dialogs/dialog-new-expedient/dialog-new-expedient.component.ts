@@ -49,7 +49,7 @@ export class DialogNewExpedientComponent implements OnInit {
 
     this.caseFileForm = this.formBuilder.group({
       name: ['',Validators.required],
-      case_no: ['',Validators.required],
+      case_no: [null],
       customer: ['',Validators.required],
       assigned_to: ['',Validators.required],
       bt_price_per_hour: [''],
