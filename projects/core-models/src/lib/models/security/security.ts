@@ -32,6 +32,7 @@ export interface SelectedSubscription {
     //ssid: SSID;
     ssid:any
     mt: string;
+    twc?: boolean;
     permissions: string[];
 }
 

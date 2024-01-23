@@ -41,10 +41,9 @@ export class LayoutComponent {
          this.openDialogIntake();
       }
 
-    })
+    });
 
   }
-
 
   ngAfterViewInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
@@ -72,6 +71,14 @@ export class LayoutComponent {
         this.openMenu = true;
      }
     })
+  }
+
+  get showTourGear(): boolean {
+      if (this.selectedSubscription) {
+
+      }
+
+      return false;
   }
 
 }

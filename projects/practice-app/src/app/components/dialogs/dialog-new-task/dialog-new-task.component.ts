@@ -49,7 +49,6 @@ export class DialogNewTaskComponent implements OnInit {
   }
 
   initForm(){
-
       this.taskForm = this.formBuilder.group({
           type: ['',Validators.required],
           priority: [this.priorityTask.Low,Validators.required],
@@ -75,24 +74,45 @@ export class DialogNewTaskComponent implements OnInit {
   }
 
   setForm(){
-    if(this.dataDialog && this.dataDialog.task){
+    console.log('setForm...');
+    if(this.dataDialog){
+      console.log('this.dataDialog && this.dataDialog.task: ', (this.dataDialog && this.dataDialog.task));
 
-      this.task = this.dataDialog.task;
+      if (this.dataDialog.task) {
 
-      this.taskForm.patchValue({
-        ...this.task,
-        type: this.task.type.uuid,
-        case_file: this.task.case_file.uuid,
-        customer: this.task.customer.uuid,
-        assigned_to: this.task.assigned_to.uuid,
-        hourly_rate: this.task.billing_type === this.billingType.PER_HOUR,
-        increment_of_time: this.task.billing_type === this.billingType.BY_TIME_INCREMENT,
-        flat_fee: this.task.billing_type === this.billingType.FLAT_FEE,
-        flat_fee_amt: this.task.billing_type === this.billingType.FLAT_FEE ? this.task.bt_amt : 0,
-        price_per_increment: this.task.billing_type === this.billingType.BY_TIME_INCREMENT ? this.task.bt_amt : 0
-      })
+          console.log('this.dataDialog.task...');
+          this.task = this.dataDialog.task;
 
-      this.showDate = this.task.has_due_date;
+          this.taskForm.patchValue({
+            ...this.task,
+            type: this.task.type.uuid,
+            case_file: this.task.case_file.uuid,
+            customer: this.task.customer.uuid,
+            assigned_to: this.task.assigned_to.uuid,
+            hourly_rate: this.task.billing_type === this.billingType.PER_HOUR,
+            increment_of_time: this.task.billing_type === this.billingType.BY_TIME_INCREMENT,
+            flat_fee: this.task.billing_type === this.billingType.FLAT_FEE,
+            flat_fee_amt: this.task.billing_type === this.billingType.FLAT_FEE ? this.task.bt_amt : 0,
+            price_per_increment: this.task.billing_type === this.billingType.BY_TIME_INCREMENT ? this.task.bt_amt : 0
+          });
+
+          this.showDate = this.task.has_due_date;
+      } else if (this.dataDialog.caseFile) {
+          console.log('this.dataDialog.caseFile...');
+          this.taskForm.patchValue({
+            case_file: this.dataDialog.caseFile.uuid,
+            customer: this.dataDialog.caseFile.customer.uuid,
+            hourly_rate: this.dataDialog.caseFile.billing_type === this.billingType.PER_HOUR,
+            increment_of_time: this.dataDialog.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT,
+            flat_fee: this.dataDialog.caseFile.billing_type === this.billingType.FLAT_FEE,
+            bt_price_per_hour: this.dataDialog.caseFile.bt_price_per_hour,
+            bt_increment_factor: this.dataDialog.caseFile.bt_increment_factor,
+            flat_fee_amt: this.dataDialog.caseFile.billing_type === this.billingType.FLAT_FEE ? this.dataDialog.caseFile.bt_amt : 0,
+            price_per_increment: this.dataDialog.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT ? this.dataDialog.caseFile.bt_amt : 0
+          });
+      }
+
+      console.log(this.taskForm.value);
     }
   }
 

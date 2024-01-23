@@ -33,6 +33,7 @@ export interface Subscription extends SubscriptionPayload {
   effective_date: Date;
   expiration_date?: any;
   first_checkout_url?: any;
+  tutorial_was_completed?: boolean;
   created_by: string;
   updated_by?: any;
   plan: string;
