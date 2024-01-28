@@ -20,6 +20,11 @@ export enum WeekDays {
   Sunday = 1
  }
 
+ export enum SendingMethod {
+  Email = 'email',
+  SMS = 'sms'
+ }
+
  export const WeekDaysDescription = new Map<number, string>([
    [WeekDays.Monday, 'Monday'],
    [WeekDays.Tuesday, 'Tuesday'],

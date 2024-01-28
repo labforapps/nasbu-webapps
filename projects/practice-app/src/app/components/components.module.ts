@@ -49,6 +49,7 @@ import { NgxTimerModule } from 'ngx-timer';
 import { DialogSendPaymentComponent } from './dialogs/dialog-send-payment/dialog-send-payment.component';
 import { DialogNewSubscriptionComponent } from './dialogs/dialog-new-subscription/dialog-new-subscription.component';
 import { DialogAddTaxComponent } from './dialogs/dialog-add-tax/dialog-add-tax.component';
+import { DialogPaymentRequestComponent } from './dialogs/dialog-payment-request/dialog-payment-request.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { DialogAddTaxComponent } from './dialogs/dialog-add-tax/dialog-add-tax.c
     DialogSendPaymentComponent,
     DialogNewSubscriptionComponent,
     DialogAddTaxComponent,
+    DialogPaymentRequestComponent,
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,7 @@ import { Invoice, InvoiceStatus, invoiceStatusDescription } from 'core-models';
 import { AccountingService } from 'core-services';
 import { DialogPaymentHistoryComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-history/dialog-payment-history.component';
 import { DialogPaymentRegisterComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-register/dialog-payment-register.component';
+import { DialogPaymentRequestComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-request/dialog-payment-request.component';
 import { DialogSendInvoiceComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-send-invoice/dialog-send-invoice.component';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 
@@ -118,6 +119,17 @@ export class InvoicingTableComponent implements OnInit {
         })
       }
     })
+  }
+
+  openDialogRequestPayment(invoice:Invoice){
+    const dialogRef = this.dialog.open(DialogPaymentRequestComponent,{
+      data: {
+        invoice
+      }
+    });
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      this.onExecuteInvoice.emit({})
+    });
   }
 
   returnInvoiceStatusDescription(value:string){

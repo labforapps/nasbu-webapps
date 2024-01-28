@@ -93,6 +93,13 @@
       "InvalidForm":"Invalid Form",
       "InvalidEmailFormat":"Invalid Email Format"
    },
+   "checkoutRequest":{
+    "titlePaymentSuccess":"Online Payment Successful",
+    "subtitlePaymentSuccess":"Your payment has been processed successfully.",
+    "titlePaymentError":"Online Payment Rejected",
+    "subtitlePaymentError":"Your payment could not be processed. Please check your details and try again.",
+    "thisPageWillClose":"This page will close in 20 seconds"
+   },
    "successMessages":{
       "created_succesfully":"Created Successfully",
       "updated_successfully":"Updated Successfully",
@@ -1138,6 +1145,7 @@
     "you_have_paid_invoices":"You have 1 paid invoice(s)",
     "you_have_invoice_past_due":"You have 1 invoice past due",
     "reimbursement":"Reimbursement",
+    "sendPaymentLink":"Send payment link",
     "invoice":{
       "client":"Client",
       "choose_client":"Choose client",

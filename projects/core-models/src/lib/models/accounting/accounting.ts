@@ -188,3 +188,13 @@ export interface sendDocument{
   send_by: string;
   to_origin_value: string;
 }
+
+export interface PaymentCheckoutRequest {
+  subscription:                  string;
+  customer:                      string;
+  invoice:                       string;
+  request_invoice_remaining_amt: boolean;
+  payment_amt:                   string;
+  send_by:                       string;
+  to_origin_value:               string;
+}
