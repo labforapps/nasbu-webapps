@@ -27,6 +27,10 @@ export class CheckoutRequestLadingComponent implements OnInit {
               this.token = params['token'];
               this.validateCheckoutRequestToken();
           })
+
+          setTimeout(() => {
+            window.close();
+          }, 20000);
   }
 
   ngOnDestroy(): void {

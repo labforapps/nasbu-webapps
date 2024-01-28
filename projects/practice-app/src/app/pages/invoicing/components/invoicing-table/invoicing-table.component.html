@@ -119,8 +119,10 @@
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
                   <button mat-menu-item class="matMenu-yellow" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.edit' | translate}}<span class="icon-pen"></span></button>
                   <button mat-menu-item class="matMenu-red" (click)="deleteInvoice(element)">{{'invoicing.delete' | translate}} <span class="icon-trash"></span></button>
-                  <button mat-menu-item class="matMenu-blue"*ngIf="element.status !== invoiceStatus.PAYED" (click)="openDialogRegisterPayment(element)">{{'invoicing.apply_payment' | translate}}<span class="icon-payment"></span></button>
-                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
+                  <ng-container *ngIf="element.status !== invoiceStatus.PAYED">
+                    <button mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment(element)">{{'invoicing.apply_payment' | translate}}<span class="icon-payment"></span></button>
+                    <button mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment(element)">{{'invoicing.sendPaymentLink' | translate}}<span class="icon-payment"></span></button>
+                  </ng-container>                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentHistory(element)">{{'invoicing.send_payment' | translate}}<span class="icon-receipt"></span></button>
               </mat-menu>
           </td>

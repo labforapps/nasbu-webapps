@@ -91,7 +91,13 @@
       "field_required":"Este campo es requerido",
       "InvalidForm":"Formulario Invalido",
       "InvalidEmailFormat":"Formato de Email Invalido"
-
+   },
+   "checkoutRequest":{
+    "titlePaymentSuccess":"Pago en Línea Realizado",
+    "subtitlePaymentSuccess":"Tu pago se ha procesado exitosamente.",
+    "titlePaymentError":"Pago en Línea Rechazado",
+    "subtitlePaymentError":"Tu pago no pudo ser procesado. Por favor, verifica tus datos e inténtalo de nuevo.",
+    "thisPageWillClose":"Esta página cerrará en 20 segundos"
    },
    "successMessages":{
       "created_succesfully":"Creado Exitosamente!!",
@@ -1137,6 +1143,7 @@
       "you_have_paid_invoices":"You have 1 paid invoice(s)",
       "you_have_invoice_past_due":"You have 1 invoice past due",
       "reimbursement":"Reembolso de gastos",
+      "sendPaymentLink":"Enviar link de pago",
       "invoice":{
         "client":"Cliente",
         "choose_client":"Selecionar cliente",

@@ -1,0 +1,92 @@
+<div class="c-dialog-paymentRegister c-dialog-header">
+  <div class="c-dialog-header__header d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+          <span class="icon-receipt mr-3 u-icon-white "></span>
+          Enviar link de pago
+      </div>
+      <div class="text-right">
+          <p class="u-fontBold">USD {{invoice?.net_amt || 0}}</p>
+          <p class="u-smallerSize">{{'invoicing.register_payment.total_billed' | translate}}</p>
+      </div>
+  </div>
+  <form action="" [formGroup]="paymentForm" (submit)="onSubmit()">
+        <mat-dialog-content>
+          <div class="row mt-3">
+              <div class="col-md-12">
+                  <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
+                      <div>
+                          <div class="u-textLightColor mb-1">{{currentDate}}</div>
+                          <div class="u-textColor mb-1">{{invoice?.case_file?.case_no}} - {{invoice?.customer | customerFullName}} </div>
+                          <div class="u-textColor">{{'invoicing.register_payment.invoice' | translate}} #{{invoice?.code}}</div>
+                      </div>
+                      <ngx-avatar [name]="invoice?.customer| customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
+                  </div>
+              </div>
+          </div>
+          <div class="row mb-2">
+              <div class="col-md-12">
+
+                <label class="u-title-label">{{'invoicing.register_payment.to_which_invoice_does_a_payment_apply' | translate}}</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                    <mat-label>{{'invoicing.register_payment.choose_invoice' | translate}}</mat-label>
+                    <mat-select formControlName="invoice" (selectionChange)="onInvoiceChange($event)" [disabled]="invoice != null">
+                        <mat-option *ngFor="let invoice of invoices" [value]="invoice.uuid">
+                            {{'Factura #' + invoice.code + ' - ' }} {{invoice.customer | customerFullName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <label class="u-title-label d-block mt-3">Tipo de pago</label>
+                <mat-radio-group aria-label="Select an option" formControlName="request_invoice_remaining_amt">
+                  <mat-radio-button checked class="c-radioButton mr-3" [value]="true" (change)="onChangePaymentType($event)">Pago total</mat-radio-button>
+                  <mat-radio-button class="c-radioButton" [value]="false" (change)="onChangePaymentType($event)">Pago parcial</mat-radio-button>
+                </mat-radio-group>
+
+                <br><br>
+                <div *ngIf="!paymentType">
+                  <label class="u-title-label">{{'invoicing.register_payment.amount_to_register' | translate}}</label>
+                  <mat-form-field appearance="fill" class="c-form-group">
+                      <mat-label>{{'invoicing.register_payment.amount' | translate}}</mat-label>
+                      <input class="c-form-group__input" matInput placeholder="$0.00" formControlName="payment_amt">
+                  </mat-form-field>
+                </div>
+
+              </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col-md-12">
+                <label class="u-title-label d-block mt-3">{{'clients.client_intake.What_sending_method_will_you_use' | translate}}</label>
+                <mat-radio-group aria-label="Select an option" formControlName="send_by">
+                  <mat-radio-button checked class="c-radioButton mr-3" value="email" (change)="onChangeSendingMethod($event)">{{'clients.client_intake.email' | translate}}</mat-radio-button>
+                  <mat-radio-button class="c-radioButton" value="sms" (change)="onChangeSendingMethod($event)">SMS</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row" *ngIf="sendingMethod === 'email'">
+          <div class="col-md-12">
+              <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
+              <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+                  <mat-label>{{'clients.client_intake.email' | translate}}</mat-label>
+                  <input type="email" class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
+          </div>
+      </div>
+      <div class="row" *ngIf="sendingMethod === 'sms'">
+          <div class="col-md-12">
+              <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
+              <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+                  <mat-label>{{'clients.client_intake.phone_number' | translate}} </mat-label>
+                  <input class="c-form-group__input" matInput [(ngModel)]="phoneNumberField">
+              </mat-form-field> -->
+              <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
+              <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
+          </div>
+      </div>
+      </mat-dialog-content>
+      <mat-dialog-actions class="c-dialog-header__footer flex-column">
+          <button mat-button class="c-btn-function w-50"> {{'invoicing.register_payment.apply_payment' | translate}} </button>
+          <button mat-button mat-dialog-close class="u-link text-center"> {{'invoicing.register_payment.close_window' | translate}}</button>
+      </mat-dialog-actions>
+  </form>
+</div>
