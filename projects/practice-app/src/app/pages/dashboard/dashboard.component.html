@@ -39,8 +39,7 @@
 
         <div class="c-dashboard-tab__body">
             <div class="c-dashboard-tab__content" #stats>
-                <app-indicators [invoices]="invoices" [caseFiles]="caseFiles" [tasks]="tasks" [payments]="payments">
-                </app-indicators>
+                <app-indicators [invoices]="invoices" [caseFiles]="caseFiles" [tasks]="tasks" [payments]="payments"></app-indicators>
             </div>
             <div class="c-dashboard-tab__content" #task>
                 <app-task *ngIf="tasks" [tasks]="tasks"></app-task>
@@ -49,14 +48,7 @@
                 <app-invoices *ngIf="invoices" [invoices]="invoices"></app-invoices>
             </div>
             <div class="c-dashboard-tab__content" #notes>
-
                 <app-dashboard-notes *ngIf="caseFileNotes" [caseFileNotes]="caseFileNotes"></app-dashboard-notes>
-
-                <!-- <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center">
-                    <img class="mb-5" src="../../../assets/images/notes-blank.svg" alt="">
-                    <h4 class="u-textLightColor">Ten a la mano tus últimas notas</h4>
-                    <p class="u-textLightColor">Siempre es bueno ver lo último que se anotó</p>
-                </div> -->
             </div>
 
         </div>

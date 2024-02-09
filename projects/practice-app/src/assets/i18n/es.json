@@ -193,7 +193,9 @@
       "placeholder":{
          "price": "Precio",
          "description": "Ej: Este contrato es para poder vender unas máquinas de vapor etc…"
-      }
+      },
+      "the_task_you_are_looking_for_does_not_exist":"¿La tarea que buscas no existe?",
+      "create_new_task":"Crear nueva tarea"
    },
    "dashboard": {
       "menu": {

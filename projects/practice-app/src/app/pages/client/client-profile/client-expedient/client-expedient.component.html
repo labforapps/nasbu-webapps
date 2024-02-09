@@ -1,332 +1,36 @@
 <div class="c-tabs-actions">
+
     <mat-tab-group class="c-tabs c-tabs--green c-tabs--sub">
+
         <mat-tab>
+
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.all' | translate}}
             </ng-template>
 
             <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
-            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
-                <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
-                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
-                    <span class="icon-search"></span>
-                </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">{{'clients.files.table_header.create_new' | translate}}<span class="icon-plus ml-2 "></span></button>
-            </div>
-            <div class="u-table-responsive">
-                <table mat-table [dataSource]="dataSource" class="c-table">
-                    <ng-container matColumnDef="select">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
-                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                            </mat-checkbox>
-                        </th>
-                        <td mat-cell *matCellDef="let row">
-                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                            </mat-checkbox>
-                        </td>
-                    </ng-container>
 
-
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.files.table_columns.type' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.files.table_columns.subject_description' | translate}}</th>
-                        <td mat-cell *matCellDef="let element" class="w-20">
-                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.case_assigned_to' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.case}}</div>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="client">
-                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.client}}</div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="update">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.last_update' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.update}}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="share">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.shared_with' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-textLightColor">
-                                {{element.share}}
-                            </div>
-
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'clients.files.table_columns.actions' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-
-                            <mat-button-toggle-group class="c-btn-table">
-                                <mat-button-toggle>{{'clients.common.watch' | translate}}</mat-button-toggle>
-                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                                    <span class="icon-arrow-down"></span>
-                                </mat-button-toggle>
-                            </mat-button-toggle-group>
-
-                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item class="matMenu-yellow">{{'clients.files.buttons.edit' | translate}} <span class="icon-pen"></span></button>
-                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">{{'clients.files.buttons.delete' | translate}} <span class="icon-trash"></span></button>
-                                <button mat-menu-item class="matMenu-green"> {{'clients.files.buttons.share' | translate}} <span class="icon-people"></span></button>
-                                <button mat-menu-item class="matMenu-blue">{{'clients.files.buttons.send_file_to_client' | translate}} <span class="icon-send"></span></button>
-                            </mat-menu>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-                    </tr>
-                </table>
-            </div> -->
         </mat-tab>
+
         <mat-tab>
+
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.open' | translate}}
             </ng-template>
 
             <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
 
-            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
-                <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
-                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
-                    <span class="icon-search"></span>
-                </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">{{'clients.files.table_header.create_new' | translate}}<span class="icon-plus ml-2 "></span></button>
-            </div>
-            <div class="u-table-responsive">
-                <table mat-table [dataSource]="dataSource" class="c-table">
-                    <ng-container matColumnDef="select">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
-                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                            </mat-checkbox>
-                        </th>
-                        <td mat-cell *matCellDef="let row">
-                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                            </mat-checkbox>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.files.table_columns.type' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt=""> </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.files.table_columns.subject_description' | translate}}</th>
-                        <td mat-cell *matCellDef="let element" class="w-20">
-                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.case_assigned_to' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.case}}</div>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="client">
-                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.client}}</div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="update">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.last_update' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.update}}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="share">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.shared_with' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-textLightColor">
-                                {{element.share}}
-                            </div>
-
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'clients.files.table_columns.actions' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-
-                            <mat-button-toggle-group class="c-btn-table">
-                                <mat-button-toggle>{{'clients.common.watch' | translate}}</mat-button-toggle>
-                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                                    <span class="icon-arrow-down"></span>
-                                </mat-button-toggle>
-                            </mat-button-toggle-group>
-
-                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item class="matMenu-yellow">{{'clients.files.buttons.edit' | translate}} <span class="icon-pen"></span></button>
-                                <button mat-menu-item class="matMenu-red" (click)="openAlertDelete()">{{'clients.files.buttons.delete' | translate}} <span class="icon-trash"></span></button>
-                                <button mat-menu-item class="matMenu-green">{{'clients.files.buttons.share' | translate}} <span class="icon-people"></span></button>
-                                <button mat-menu-item class="matMenu-blue">{{'clients.files.buttons.send_file_to_client' | translate}} <span class="icon-send"></span></button>
-                            </mat-menu>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-                    </tr>
-                </table>
-            </div> -->
         </mat-tab>
+
         <mat-tab>
+
             <ng-template mat-tab-label>
                 {{'clients.files.tabs.closed' | translate}}
             </ng-template>
 
             <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
 
-            <!-- <div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
-                <p> <b>{{'clients.common.have' | translate}} 5  </b> {{'clients.common.records_in_total_with' | translate}} Manuel Cabral </p>
-                <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
-                    <input matInput type="mail" placeholder="{{'clients.files.table_header.search_for_name' | translate}}">
-                    <span class="icon-search"></span>
-                </div>
-                <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">{{'clients.files.table_header.create_new' | translate}}<span class="icon-plus ml-2 "></span></button>
-            </div>
-            <div class="u-table-responsive">
-                <table mat-table [dataSource]="dataSource" class="c-table">
-                    <ng-container matColumnDef="select">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
-                            <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                            </mat-checkbox>
-                        </th>
-                        <td mat-cell *matCellDef="let row">
-                            <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                            </mat-checkbox>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="position">
-                        <th mat-header-cell *matHeaderCellDef> No. </th>
-                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'clients.files.table_columns.type' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon" src="../../../../assets/images/table-icons/box-disable.svg" alt=""> </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef style="min-width: 15rem;">{{'clients.files.table_columns.subject_description' | translate}}</th>
-                        <td mat-cell *matCellDef="let element" class="w-20">
-                            <div class="u-link" routerLink="/expedient-info">{{element.description}} </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="case">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.case_assigned_to' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.case}}</div>
-                        </td>
-                    </ng-container>
-
-
-                    <ng-container matColumnDef="client">
-                        <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-link">{{element.client}}</div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="update">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.last_update' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{element.update}}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="share">
-                        <th mat-header-cell *matHeaderCellDef>{{'clients.files.table_columns.shared_with' | translate}}</th>
-                        <td mat-cell *matCellDef="let element">
-                            <div class="u-textLightColor">
-                                {{element.share}}
-                            </div>
-
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="action">
-                        <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'clients.files.table_columns.actions' | translate}} </th>
-                        <td mat-cell *matCellDef="let element" class="text-center">
-
-                            <mat-button-toggle-group class="c-btn-table">
-                                <mat-button-toggle>{{'clients.common.watch' | translate}}</mat-button-toggle>
-                                <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                                    <span class="icon-arrow-down"></span>
-                                </mat-button-toggle>
-                            </mat-button-toggle-group>
-
-                            <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                                <button mat-menu-item>{{'clients.files.buttons.edit' | translate}} <span class="icon-pen"></span></button>
-                                <button mat-menu-item (click)="openAlertDelete()">{{'clients.files.buttons.delete' | translate}} <span class="icon-trash"></span></button>
-                                <button mat-menu-item>{{'clients.files.buttons.share' | translate}} <span class="icon-people"></span></button>
-                                <button mat-menu-item>{{'clients.files.buttons.send_file_to_client' | translate}} <span class="icon-send"></span></button>
-                            </mat-menu>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
-                    </tr>
-                </table>
-            </div> -->
         </mat-tab>
     </mat-tab-group>
-    <!-- <div class="c-tabs-actions__controls">
 
-
-
-        <div class="c-form-group--search">
-            <input matInput type="mail" placeholder="Buscar por nombre">
-            <span class="icon-search"></span>
-        </div>
-
-        <button class="c-btn-function" mat-button>Crear nuevo<span class="icon-plus ml-2 "></span></button>
-    </div> -->
 </div>

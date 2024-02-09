@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogChargedHoursComponent } from '../../../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile } from 'core-models';
+import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile, BillingType } from 'core-models';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 import { PracticeService } from 'core-services';
 import { TaskTypeIconSVG } from 'projects/core-models/src/public-api';
@@ -24,8 +24,6 @@ export class TaskTableComponent  implements OnChanges {
   @Input() securityUser!:SecurityUser;
   @Input() caseFile!:CaseFile;
   @Output() onExecuteTask = new EventEmitter<any>();
-
-
   moduleEnum = modules;
   taskStatus = TaskStatus;
   displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient','priority', 'billing_type','hours','total','creationDate', 'date', 'action'];
@@ -35,6 +33,7 @@ export class TaskTableComponent  implements OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   taskTypeEnum = TaskTypeEnum;
   public taskPriority = PriorityTask;
+  billingType = BillingType
 
 
   constructor(public dialog: MatDialog,
@@ -97,7 +96,7 @@ export class TaskTableComponent  implements OnChanges {
       data: {
         task: task,
         action: action,
-        customer: task?.customer || this.caseFile?.customer,
+        customer: task?.customer || this.caseFile?.customer || this.customer,
         securityUser: this.securityUser || this.caseFile?.assigned_to,
         caseFile: this.caseFile
       },

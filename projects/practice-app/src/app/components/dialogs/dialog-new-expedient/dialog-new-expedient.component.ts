@@ -24,6 +24,7 @@ export class DialogNewExpedientComponent implements OnInit {
   caseFile!:CaseFile
   billingType = BillingType;
   caseFileStatus = CaseFileStatus;
+  customerFromDialog!:Customer
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -74,7 +75,10 @@ export class DialogNewExpedientComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe((result:Customer) => {
-        if(result) this.customers.push(result);
+        if(result){
+          this.customerFromDialog = result
+          this.getCustomers()
+        }
       });
   }
 
@@ -113,6 +117,7 @@ export class DialogNewExpedientComponent implements OnInit {
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.customers = data;
       if(this.dataDialog && this.dataDialog.customer) this.caseFileForm.patchValue({customer: this.dataDialog.customer.uuid})
+      if(this.customerFromDialog) this.caseFileForm.patchValue({customer: this.customerFromDialog.uuid})
     })
   }
 

@@ -10,7 +10,6 @@ import { DialogAddHoursComponent } from '../../components/dialogs/dialog-add-hou
 import { DialogNewDocumentComponent } from '../../components/dialogs/dialog-new-document/dialog-new-document.component';
 import { DialogNewNoteComponent } from '../../components/dialogs/dialog-new-note/dialog-new-note.component';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -109,7 +108,12 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialogNewNote(){
-    this.dialog.open(DialogNewNoteComponent)
+    this.dialog.open(DialogNewNoteComponent, {
+      data: {
+        caseFiles: this.caseFiles,
+        subscription: this.selectedSubscription?.ssid.uuid
+      }
+    })
   }
 
 }
