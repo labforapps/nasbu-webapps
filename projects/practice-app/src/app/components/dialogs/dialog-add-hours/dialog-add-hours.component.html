@@ -81,6 +81,11 @@
                             }}
                         </mat-error>
 
+                        <div *ngIf="!dataDialog?.task">
+                          <p  class="u-textColor mt-2 text-right mb-3">{{'addHoursModal.the_task_you_are_looking_for_does_not_exist' | translate}}
+                          <b class="u-link u-fontBold" (click)="openDialogNewTask()">{{'addHoursModal.create_new_task' | translate}} +</b></p>
+                        </div>
+
                         <label class="u-title-label">{{ 'addHoursModal.description' |translate }}</label>
                         <div class="c-form-group">
                             <textarea matInput class="c-form-group__textarea"

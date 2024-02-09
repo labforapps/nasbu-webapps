@@ -74,13 +74,10 @@ export class DialogNewTaskComponent implements OnInit {
   }
 
   setForm(){
-    console.log('setForm...');
     if(this.dataDialog){
-      console.log('this.dataDialog && this.dataDialog.task: ', (this.dataDialog && this.dataDialog.task));
 
       if (this.dataDialog.task) {
 
-          console.log('this.dataDialog.task...');
           this.task = this.dataDialog.task;
 
           this.taskForm.patchValue({
@@ -98,7 +95,6 @@ export class DialogNewTaskComponent implements OnInit {
 
           this.showDate = this.task.has_due_date;
       } else if (this.dataDialog.caseFile) {
-          console.log('this.dataDialog.caseFile...');
           this.taskForm.patchValue({
             case_file: this.dataDialog.caseFile.uuid,
             customer: this.dataDialog.caseFile.customer.uuid,
@@ -112,7 +108,6 @@ export class DialogNewTaskComponent implements OnInit {
           });
       }
 
-      console.log(this.taskForm.value);
     }
   }
 
@@ -131,24 +126,24 @@ export class DialogNewTaskComponent implements OnInit {
   }
 
   getCaseFiles(){
-    this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe((data:CaseFile[]) => {
-      this.caseFiles = data.sort( (a,b) => {
 
-        const nameA = a.name;
-        const nameB = b.name;
+    if(this.dataDialog && this.dataDialog.customer){
 
-        if(nameA < nameB){
-          return -1;
-        } else if(nameA > nameB){
-          return 1;
-        } else {
-          return 0;
-        }
-
+      this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,this.dataDialog.customer.uuid || '').subscribe((data:CaseFile[]) => {
+        this.caseFiles = data
+        this.caseFilesCopy = data;
+        if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
       })
-      this.caseFilesCopy = data;
-      if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
-    })
+
+    }
+    else{
+      this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe((data:CaseFile[]) => {
+        this.caseFiles = data
+        this.caseFilesCopy = data;
+        if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
+      })
+    }
+
   }
 
   getTaskTypes(){

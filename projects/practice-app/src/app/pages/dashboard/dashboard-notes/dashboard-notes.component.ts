@@ -3,6 +3,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { CaseFileNote } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogNewNoteComponent } from '../../../components/dialogs/dialog-new-note/dialog-new-note.component';
 
 @Component({
   selector: 'app-dashboard-notes',
@@ -19,7 +21,7 @@ export class DashboardNotesComponent implements OnInit {
   selection = new SelectionModel<CaseFileNote>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor() { }
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource.data = this.caseFileNotes.sort((a, b) => {
@@ -31,6 +33,14 @@ export class DashboardNotesComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  openDialogNewCaseFileNote(caseFileNote:CaseFileNote){
+    this.dialog.open(DialogNewNoteComponent,{
+      data: {
+        caseFileNote
+      }
+    })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

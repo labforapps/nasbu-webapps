@@ -1,100 +1,21 @@
 <mat-tab-group class="c-tabs c-tabs--green">
+
     <mat-tab label="{{'clients.billing.tabs.all' | translate}}">
 
       <app-invoicing-table [invoices]="invoices" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
 
-        <!-- <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-            <p><b>{{'clients.common.have' | translate}} 20 </b> {{'clients.billing.table_header.billings_listed' | translate}}</p>
-
-            <div class="col-md-4">
-                <div class="d-flex u-gap-1 mt-2">
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="pickers">
-                        <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                        <mat-datepicker #pickers></mat-datepicker>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="c-form-group--search bordered ml-auto">
-                <input matInput type="text" placeholder="{{'clients.billing.table_header.search_for_name' | translate}}">
-                <span class="icon-search"></span>
-            </div>
-            <button class="c-btn-function" mat-button>{{'clients.billing.table_header.new_bill' | translate}}<span class="icon-plus ml-2 "></span></button>
-        </div> -->
-
     </mat-tab>
+
     <mat-tab label="{{'clients.billing.tabs.pending_charge' | translate}}">
 
-        <!-- <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-            <p><b>{{'clients.common.have' | translate}} 20 </b> {{'clients.billing.table_header.billings_listed' | translate}}</p>
-
-            <div class="col-md-4">
-                <div class="d-flex u-gap-1 mt-2">
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="pickerz">
-                        <mat-datepicker-toggle matSuffix [for]="pickerz"></mat-datepicker-toggle>
-                        <mat-datepicker #pickerz></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="pickersz">
-                        <mat-datepicker-toggle matSuffix [for]="pickersz"></mat-datepicker-toggle>
-                        <mat-datepicker #pickersz></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-            </div>
-
-            <p class="u-textColor ml-auto">{{'clients.billing.table_header.organized_by_creation_date' | translate}} </p>
-
-            <div class="c-form-group--search bordered">
-                <input matInput type="text" placeholder="{{'clients.billing.table_header.search_for_name' | translate}}">
-                <span class="icon-search"></span>
-            </div>
-        </div> -->
       <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
 
     </mat-tab>
+
     <mat-tab label="{{'clients.billing.tabs.charged' | translate}}">
 
-        <!-- <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
-            <p><b>{{'clients.common.have' | translate}} 20 </b> {{'clients.billing.table_header.billings_listed' | translate}}</p>
-
-            <div class="col-md-4">
-                <div class="d-flex u-gap-1 mt-2">
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="pickerx">
-                        <mat-datepicker-toggle matSuffix [for]="pickerx"></mat-datepicker-toggle>
-                        <mat-datepicker #pickerx></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group  c-form-group--small">
-                        <mat-label>{{'clients.billing.table_header.date_range' | translate}}</mat-label>
-                        <input matInput [matDatepicker]="pickersx">
-                        <mat-datepicker-toggle matSuffix [for]="pickersx"></mat-datepicker-toggle>
-                        <mat-datepicker #pickersx></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-            </div>
-
-            <p class="u-textColor ml-auto">{{'clients.billing.table_header.organized_by_creation_date' | translate}} </p>
-
-            <div class="c-form-group--search bordered">
-                <input matInput type="text" placeholder="{{'clients.billing.table_header.search_for_name' | translate}}">
-                <span class="icon-search"></span>
-            </div>
-        </div> -->
         <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
 
     </mat-tab>
+
 </mat-tab-group>

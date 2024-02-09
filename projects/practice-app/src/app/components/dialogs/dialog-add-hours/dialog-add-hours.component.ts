@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TimeTask,Task, SecurityUser } from 'core-models';
 import { AuthService, SecurityService,PracticeService } from 'core-services';
 import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
@@ -8,6 +8,7 @@ import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment'
 import { CurrentTaskTimeInfo } from '../../../models/task';
 import { TaskTimeService } from '../../../services/application/task-time.service';
+import { DialogNewTaskComponent } from '../dialog-new-task/dialog-new-task.component';
 
 
 @Component({
@@ -28,8 +29,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   taskTime!:TimeTask;
   startTime!:any;
   endTime!:any;
-
   currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
+  taskCreatedFromDialog!:Task
 
   constructor(private countUp:CountupTimerService,
              @Inject(MAT_DIALOG_DATA) public dataDialog:{task:Task,taskTime:TimeTask},
@@ -39,7 +40,8 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
              private authService:AuthService,
              private securityService:SecurityService,
              private helperService:HelpersService,
-             private taskTimeService: TaskTimeService) { }
+             private taskTimeService: TaskTimeService,
+             private matDialog:MatDialog) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -85,8 +87,9 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   getTasks(){
     this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
-      this.tasks = data;
+     this.tasks = data;
      if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid,price_per_hour: this.task.bt_price_per_hour})
+     if(this.taskCreatedFromDialog) this.taskTimeForm.patchValue({task: this.taskCreatedFromDialog.uuid})
     })
   }
 
@@ -214,6 +217,17 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
           notBillable:   this.taskTimeForm.value.description,
       };
       //this.taskTimeService.storeCurrentTaskTimeInfo(payload);
+  }
+
+  openDialogNewTask(){
+   const dialogRef = this.matDialog.open(DialogNewTaskComponent)
+
+   dialogRef.afterClosed().subscribe(data => {
+    if(data){
+      this.taskCreatedFromDialog = data
+      this.getTasks()
+    }
+   })
   }
 
 }

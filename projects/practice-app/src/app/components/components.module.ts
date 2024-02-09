@@ -50,6 +50,7 @@ import { DialogSendPaymentComponent } from './dialogs/dialog-send-payment/dialog
 import { DialogNewSubscriptionComponent } from './dialogs/dialog-new-subscription/dialog-new-subscription.component';
 import { DialogAddTaxComponent } from './dialogs/dialog-add-tax/dialog-add-tax.component';
 import { DialogPaymentRequestComponent } from './dialogs/dialog-payment-request/dialog-payment-request.component';
+import { DialogExternalDocSignatureComponent } from './dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { DialogPaymentRequestComponent } from './dialogs/dialog-payment-request/
     DialogNewSubscriptionComponent,
     DialogAddTaxComponent,
     DialogPaymentRequestComponent,
+    DialogExternalDocSignatureComponent,
   ],
   imports: [
     CommonModule,
