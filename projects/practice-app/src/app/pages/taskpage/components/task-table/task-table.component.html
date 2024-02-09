@@ -101,8 +101,11 @@
       <ng-container matColumnDef="hours">
           <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.hours' | translate }} </th>
           <td mat-cell *matCellDef="let element">
-            <div class="u-link" (click)="openDialogChargedHours(element)">
+            <div *ngIf="element.billing_type === billingType.PER_HOUR || element.billing_type === billingType.BY_TIME_INCREMENT  " class="u-link" (click)="openDialogChargedHours(element)">
                 <span class="icon-clock-outline mr-1"></span> {{ element.total_hours }}  hours
+            </div>
+            <div *ngIf="element.billing_type === billingType.FLAT_FEE" class="text-center">
+              {{'-'}}
             </div>
           </td>
       </ng-container>
