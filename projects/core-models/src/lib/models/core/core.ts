@@ -23,17 +23,17 @@ export interface Plan {
   features: PlanFeature[];
 }
 
-export interface DocumentTemplateType {
+export interface DocumentTemplateTypeTest {
   uuid:       string;
   code:       string;
   name:       string;
-  variables:  VariableDocumentTemplate[];
+  variables:  VariableDocumentTemplateTest[];
   active:     boolean;
   created_by: string;
   created_at: Date;
 }
 
-export interface VariableDocumentTemplate {
+export interface VariableDocumentTemplateTest {
   uuid:          string;
   template_type: string;
   name:          string;

@@ -7,12 +7,24 @@
           <div class="l-page__title">Documentos y Plantillas</div>
       </div>
       <div class="l-page__controls">
-          <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogNewDocument()">Generar nuevo documento<span class="icon-plus ml-2 "></span></button>
-          <button class="c-btn-function" mat-button (click)="openDialogNewTemplate()">Crear plantilla<span class="icon-plus ml-2 "></span></button>
       </div>
   </div>
   <div class="l-page__body">
       <mat-tab-group class="c-tabs" [(selectedIndex)]="selectedTabIndex">
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+                Tipos de Plantillas
+                <div class="c-tabs__badge">{{documentTemplates ? documentTemplates.length : 0}}</div>
+            </ng-template>
+
+            <app-no-document-template *ngIf="documentTemplates && documentTemplates.length === 0"></app-no-document-template>
+
+            <app-templates-types *ngIf="documentTemplates && documentTemplates.length > 0"
+                          [documentTemplates]="documentTemplates"
+                          (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates-types>
+
+        </mat-tab>
 
           <mat-tab>
               <ng-template mat-tab-label>

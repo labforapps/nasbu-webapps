@@ -147,6 +147,10 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+.u-primaryBg{
+  background-color: var(--primary-color);
+}
+
 .u-primaryColor {
     color: var(--primary-color);
     &::before {

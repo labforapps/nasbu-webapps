@@ -22,7 +22,7 @@
             background-color: var(--primary-color-darker);
         }
     }
-   
+
     &--outline-primary{
         background-color: transparent;
         color: var(--primary-color);
@@ -59,6 +59,14 @@
         padding: 0.5rem 2rem !important;
         font-size: var(--small-size);
         height: 40px;
+        & .mat-button-wrapper {
+            height: 100%;
+        }
+    }
+    &--medium {
+      padding: 0.5rem 4rem !important;
+      font-size: var(--small-size);
+      height: 45px;
         & .mat-button-wrapper {
             height: 100%;
         }

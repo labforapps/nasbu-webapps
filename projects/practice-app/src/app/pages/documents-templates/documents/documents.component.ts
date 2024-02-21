@@ -37,6 +37,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.dataSource.data = this.documentGenerations;
   }
 
@@ -45,6 +46,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   previewDocument(document:DocumentGeneration){
+    document.subscription = this.selectedSubscription?.ssid.uuid
     this.dialog.open(DialogDocumentViewerComponent,{
       data: {
         url: document.document
@@ -64,6 +66,15 @@ export class DocumentsComponent implements OnInit {
       if(data.uuid) this.onExecuteDocumentGeneration.emit({})
     })
   }
+
+  openDialogNewDocument1(){
+    const dialogRef = this.dialog.open(DialogNewDocumentComponent);
+
+    dialogRef.afterClosed().subscribe(data => {
+
+    })
+  }
+
 
   deleteDocument(document:DocumentGeneration){
     this.helperService.showConfirmationDeleteDialog().then( (result) => {
@@ -87,6 +98,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   downloadDocument(documentGenerations:DocumentGeneration){
+    documentGenerations.subscription = this.selectedSubscription?.ssid.uuid
     this.practiceService.downloadDocumentGenerations(documentGenerations).subscribe(data => {
       saveAs(data, documentGenerations.name);
     })

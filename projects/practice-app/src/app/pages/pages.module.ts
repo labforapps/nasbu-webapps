@@ -100,6 +100,10 @@ import { GeneralMetricsComponent } from './report/general-metrics/general-metric
 import { ReportInvoicingExportComponent } from './report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
 import { ClientPaymentSuccessComponent } from './external/payment/client-payment-success/client-payment-success.component';
 import { CheckoutRequestLadingComponent } from './external/payment/checkout-request-lading/checkout-request-lading.component';
+import { TemplatesTypesComponent } from './documents-templates/templates-types/templates-types.component';
+import { CreateTemplatesTypesComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types.component';
+import { CreateTemplatesTypesBasicInfoComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types-basic-info/create-templates-types-basic-info.component';
+import { CreateTemplatesTypesVariablesComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types-variables/create-templates-types-variables.component';
 
 
 @NgModule({
@@ -190,6 +194,10 @@ import { CheckoutRequestLadingComponent } from './external/payment/checkout-requ
     ReportInvoicingExportComponent,
     ClientPaymentSuccessComponent,
     CheckoutRequestLadingComponent,
+    TemplatesTypesComponent,
+    CreateTemplatesTypesComponent,
+    CreateTemplatesTypesBasicInfoComponent,
+    CreateTemplatesTypesVariablesComponent,
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { DocumentTemplateType, Plan } from 'core-models';
+import { DocumentTemplateTypeTest, Plan } from 'core-models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,9 +16,9 @@ export class CoreService {
       return this.httpClient.get<Plan[]>(serverUrl);
   }
 
-  getDocumentTemplateTypes(): Observable<DocumentTemplateType[]> {
+  getDocumentTemplateTypes(): Observable<DocumentTemplateTypeTest[]> {
       const serverUrl: string = `${this.config.serverUrl}/core/document_templates_types/`;
-      return this.httpClient.get<DocumentTemplateType[]>(serverUrl);
+      return this.httpClient.get<DocumentTemplateTypeTest[]>(serverUrl);
   }
 
 

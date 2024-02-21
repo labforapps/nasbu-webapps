@@ -282,6 +282,39 @@ export interface DocumentGenerationPayload {
   representative:    string;
   name:              string;
   expiration_date:   Date;
+  custom_variables_data: string;
+}
+
+
+export interface DocumentTemplateType {
+  uuid?:               string;
+  code:               string;
+  name:               string;
+  subscription:       string;
+  require_signature:  boolean;
+  variables?:         VariableDocumentTemplateType[];
+  active?:             boolean;
+  created_by?:         string;
+  created_at?:         Date;
+}
+
+export interface VariableDocumentTemplateType {
+  uuid?:          string;
+  template_type?: string;
+  section:       string;
+  name:           string;
+  description:    string;
+  value_path:     string;
+}
+
+export interface SignatureRequest {
+  subscription:      string;
+  gen_document:      string;
+  esig_signers_list: string;
+  subject:           string;
+  message:           string;
+  send_by:           string;
+  to_origin_value:   string;
 }
 
 

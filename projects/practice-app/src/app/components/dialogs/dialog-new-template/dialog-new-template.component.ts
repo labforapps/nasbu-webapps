@@ -43,10 +43,10 @@ export class DialogNewTemplateComponent implements OnInit {
         return this.documentTemplateType?.variables;
     }
 
-    return this.documentTemplateType?.variables.filter(
+    return this.documentTemplateType?.variables ?  this.documentTemplateType?.variables.filter(
         variable => variable.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         variable.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    ) : [];
 }
 
   initForm(){
@@ -70,7 +70,7 @@ export class DialogNewTemplateComponent implements OnInit {
   }
 
   getDocumentTemplateTypes(){
-    this.coreServices.getDocumentTemplateTypes().subscribe(data => {
+    this.practiceService.getDocumentTemplateTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentTemplateTypes = data;
       this.setForm();
     })

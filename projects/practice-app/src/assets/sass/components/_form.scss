@@ -152,7 +152,11 @@
             font-size: 14px;
         }
     }
-
+    &--noLabel{
+      & .mat-form-field-infix{
+        border-top: 0.44375em solid transparent;
+      }
+    }
 
 }
 

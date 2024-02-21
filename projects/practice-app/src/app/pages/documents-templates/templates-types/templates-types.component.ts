@@ -13,11 +13,11 @@ import { saveAs } from 'file-saver';
 import { DialogExternalDocSignatureComponent } from '../../../components/dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
 
 @Component({
-  selector: 'app-templates',
-  templateUrl: './templates.component.html',
-  styleUrls: ['./templates.component.scss']
+  selector: 'app-templates-types',
+  templateUrl: './templates-types.component.html',
+  styleUrls: ['./templates-types.component.scss']
 })
-export class TemplatesComponent implements OnInit {
+export class TemplatesTypesComponent implements OnInit {
 
   @Input() documentTemplates!:DocumentTemplate[];
   displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
@@ -44,14 +44,6 @@ export class TemplatesComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialogNewDocument(template:DocumentTemplate){
-    this.dialog.open(DialogNewDocumentComponent,{
-      data: {
-        template
-      }
-    })
-  }
-
   openDialogNewTemplate(template:DocumentTemplate){
     const dialogRef = this.dialog.open(DialogNewTemplateComponent,{
       data: {
@@ -63,13 +55,6 @@ export class TemplatesComponent implements OnInit {
       if(data.uuid){
         this.onExecuteDocumentTemplate.emit({})
       }
-    })
-  }
-
-  openDialogNewTemplate1(){
-    const dialogRef = this.dialog.open(DialogNewTemplateComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
     })
   }
 
@@ -135,3 +120,4 @@ export class TemplatesComponent implements OnInit {
   }
 
 }
+

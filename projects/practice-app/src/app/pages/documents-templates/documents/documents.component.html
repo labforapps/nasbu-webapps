@@ -1,13 +1,16 @@
 <div class="u-smallSize mb-3 d-flex align-items-center u-gap-1 flex-wrap">
-  <p>
+  <!-- <p>
       Este expediente contiene <b>{{documentGenerations.length}} Documentos</b>
-  </p>
+  </p> -->
   <p class="u-textColor ml-auto mr-2">
       Organizado por fecha de creación
   </p>
   <div class="c-form-group--search bordered u-smallSize mt-1">
       <input matInput type="mail" placeholder="Buscar por nombre" (keyup)="searchByName($event)">
       <span class="icon-search"></span>
+  </div>
+  <div>
+    <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogNewDocument1()">Generar nuevo documento<span class="icon-plus ml-2 "></span></button>
   </div>
 </div>
 
