@@ -18,9 +18,7 @@
                 <div class="c-tabs__badge">{{documentTemplatesTypes ? documentTemplatesTypes.length : 0}}</div>
             </ng-template>
 
-            <app-no-document-template *ngIf="documentTemplatesTypes && documentTemplatesTypes.length === 0"></app-no-document-template>
-
-            <app-templates-types *ngIf="documentTemplatesTypes && documentTemplatesTypes.length > 0"
+            <app-templates-types *ngIf="documentTemplatesTypes"
                           [documentTemplatesTypes]="documentTemplatesTypes"
                           (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates-types>
 
@@ -32,9 +30,7 @@
                   <div class="c-tabs__badge">{{documentTemplates ? documentTemplates.length : 0}}</div>
               </ng-template>
 
-              <app-no-document-template *ngIf="documentTemplates && documentTemplates.length === 0"></app-no-document-template>
-
-              <app-templates *ngIf="documentTemplates && documentTemplates.length > 0"
+              <app-templates *ngIf="documentTemplates"
                              [documentTemplates]="documentTemplates"
                              (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates>
 
@@ -45,7 +41,7 @@
                   <div class="c-tabs__badge">{{documentGenerations ? documentGenerations.length : 0}}</div>
               </ng-template>
 
-              <app-documents *ngIf="documentGenerations && documentGenerations.length > 0"
+              <app-documents *ngIf="documentGenerations"
                              [documentGenerations]="documentGenerations"
                              (onExecuteDocumentGeneration)="getDocumentGenerations()"></app-documents>
 
