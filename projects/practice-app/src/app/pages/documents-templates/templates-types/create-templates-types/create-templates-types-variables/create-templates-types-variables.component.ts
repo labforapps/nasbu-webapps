@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { VariableDocumentTemplateType } from 'core-models';
+import { DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
 
 @Component({
@@ -10,21 +10,44 @@ import { DialogNewVariableComponent } from 'projects/practice-app/src/app/compon
 })
 export class CreateTemplatesTypesVariablesComponent implements OnInit {
 
+  @Input() documentTemplateType!:DocumentTemplateType
   @Output() templateTypesVariablesOutput = new EventEmitter<VariableDocumentTemplateType[]>()
-  templateTypesVariables:VariableDocumentTemplateType[] = []
+  templateTypesVariables!:VariableDocumentTemplateType[]
 
   constructor(private matDialog:MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  openDialogVariables(){
-    const dialogRef = this.matDialog.open(DialogNewVariableComponent)
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['documentTemplateType'] && changes['documentTemplateType'].currentValue) {
+      this.documentTemplateType = changes['documentTemplateType'].currentValue
+      this.setTemplateTypeVariables()
+    }
+  }
+
+
+  setTemplateTypeVariables(){
+    if(this.documentTemplateType){
+      this.templateTypesVariables = this.documentTemplateType.variables || []
+    }
+  }
+
+  openDialogVariables(variable?:VariableDocumentTemplateType){
+    const dialogRef = this.matDialog.open(DialogNewVariableComponent,{
+      data: {
+        variable
+      }
+    })
 
     dialogRef.afterClosed().subscribe(data => {
       if(data) this.templateTypesVariables.push(data)
     })
 
+  }
+
+  deleteVariable(variable:VariableDocumentTemplateType){
+    this.templateTypesVariables = this.templateTypesVariables.filter(x => x.uuid !== variable.uuid)
   }
 
   submitForm(){

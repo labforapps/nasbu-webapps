@@ -91,17 +91,31 @@
         <mat-tab *ngFor="let section of variablesSections" [label]="section">
 
           <form [formGroup]="variablesForm">
-            <div class="row mb-2">
+           <div>
+              <div class="row mb-2" *ngIf="!documentGeneration">
+                  <div class="col-md-6"  *ngFor="let variable of documentTemplateType.variables | filter:'section': section">
+                    <label class="u-title-label">{{variable.name}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                        <mat-label>{{variable.name}}</mat-label>
+                        <input class="c-form-group__input"
+                              matInput
+                              placeholder="Ej: Crear contrato de servicio"
+                              [formControlName]="variable.value_path">
+                    </mat-form-field>
+                  </div>
+              </div>
 
-              <div class="col-md-6" *ngFor="let variable of documentTemplateType.variables | filter:'section': section">
-                  <label class="u-title-label">{{variable.name}}</label>
-                  <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                      <mat-label>{{variable.name}}</mat-label>
-                      <input class="c-form-group__input"
-                             matInput
-                             placeholder="Ej: Crear contrato de servicio"
-                             [formControlName]="variable.value_path">
-                  </mat-form-field>
+              <div class="row mb-2" *ngIf="documentGeneration">
+                  <div class="col-md-6"  *ngFor="let variable of documentGenerationVariables | filter:'section': section">
+                    <label class="u-title-label">{{variable.name}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                        <mat-label>{{variable.name}}</mat-label>
+                        <input class="c-form-group__input"
+                              matInput
+                              placeholder="Ej: Crear contrato de servicio"
+                              [formControlName]="variable.value_path">
+                    </mat-form-field>
+                  </div>
               </div>
 
             </div>

@@ -1,7 +1,6 @@
-import { Component, OnInit, Output,EventEmitter,Input } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DocumentTemplate } from 'core-models';
-import { PracticeService } from 'core-services';
+import { DocumentTemplate, DocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-create-templates-types-basic-info',
@@ -11,6 +10,7 @@ import { PracticeService } from 'core-services';
 export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
   @Input() documentTemplates!:DocumentTemplate[]
+  @Input() documentTemplateType!:DocumentTemplateType
   @Output() templateTypeBasicInfo:any = new EventEmitter<any>()
   templateTypeBasicInfoForm!:FormGroup
 
@@ -18,6 +18,17 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm()
+    this.setForm()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['documentTemplateType'] && changes['documentTemplateType'].currentValue) {
+      this.setForm()
+    }
+
+    if (changes['documentTemplates'] && changes['documentTemplates'].currentValue) {
+      this.documentTemplates = changes['documentTemplates'].currentValue
+    }
   }
 
   initForm(){
@@ -30,8 +41,26 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
   }
 
+  setForm(){
+    if(this.documentTemplateType){
+      this.templateTypeBasicInfoForm.patchValue({
+        ...this.documentTemplateType
+      })
+    }
+  }
+
   submitForm(){
-    this.templateTypeBasicInfo.emit(this.templateTypeBasicInfoForm.value)
+
+    const documentTemplateType:DocumentTemplateType = {
+      ...this.templateTypeBasicInfoForm.value
+    }
+
+    if(this.documentTemplateType){
+      documentTemplateType.uuid = this.documentTemplateType.uuid
+      documentTemplateType.variables = this.documentTemplateType.variables
+    }
+
+    this.templateTypeBasicInfo.emit(documentTemplateType)
   }
 
 }

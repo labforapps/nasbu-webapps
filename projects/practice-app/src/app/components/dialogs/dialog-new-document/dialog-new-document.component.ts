@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CaseFile, Customer, SecurityUser, DocumentTemplate, DocumentGenerationPayload, DocumentGeneration, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+import { CaseFile, Customer, SecurityUser, DocumentTemplate, DocumentGenerationPayload, DocumentGeneration,
+         DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment';
@@ -26,6 +27,7 @@ export class DialogNewDocumentComponent implements OnInit {
   variablesForm!:FormGroup;
   activeTabIndex = 0;
   totalTabs = 1
+  documentGenerationVariables:VariableDocumentTemplateType[] = []
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -44,7 +46,6 @@ export class DialogNewDocumentComponent implements OnInit {
     this.getCaseFiles();
     this.getSecurityUsers();
     this.getDocumentTemplates();
-    this.setForm();
   }
 
   initForm(){
@@ -73,6 +74,25 @@ export class DialogNewDocumentComponent implements OnInit {
       })
 
       this.documentGeneration = this.dataDialog.document;
+
+      const variables = JSON.parse(this.documentGeneration.custom_variables_data)
+
+      Object.keys(variables).forEach(section => {
+        Object.keys(variables[section]).forEach(name => {
+              this.documentGenerationVariables.push({
+                section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
+                name: name,
+                value_path: `custom.${section}.${name}`,
+            });
+
+            this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
+
+        });
+    });
+
+       this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
+       this.totalTabs = 1 + this.variablesSections.length
+
     }
 
     if(this.dataDialog && this.dataDialog.template){
@@ -103,21 +123,39 @@ export class DialogNewDocumentComponent implements OnInit {
   getDocumentTemplates(){
     this.practiceService.getDocumentTemplates(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentTemplates = data;
+      this.setForm();
     })
   }
 
-  getDocumentTemplateType(selection:MatSelectChange){
+  getDocumentTemplateType(selection?:MatSelectChange){
 
-    const documentTemplate:DocumentTemplate | null = this.documentTemplates.find(x => x.uuid === selection.value) || null
+    let documentTemplate:DocumentTemplate | null = null
+
+    if(this.documentGeneration){
+      documentTemplate = this.documentTemplates.find(x => x.uuid === this.documentGeneration.document_template) || null
+    }
+    else{
+      documentTemplate = this.documentTemplates.find(x => x.uuid === selection?.value) || null
+    }
 
     if(documentTemplate){
       this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,documentTemplate.template_type).subscribe(data => {
-        data.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
         this.documentTemplateType = data;
-        this.variablesSections = [...new Set( data.variables ? data.variables.map(item => item.section) : '')]
-        this.totalTabs = 1 + this.variablesSections.length
+        this.onSetDocumentTemplateType()
       })
     }
+  }
+
+  onSetDocumentTemplateType(){
+
+      this.documentTemplateType.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
+      this.variablesSections = [...new Set( this.documentTemplateType.variables ? this.documentTemplateType.variables.map(item => item.section) : '')]
+      this.totalTabs = 1 + this.variablesSections.length
+
+  }
+
+  returnVariablesSection(){
+
   }
 
   goToNextTab(){

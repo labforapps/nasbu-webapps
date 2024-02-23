@@ -15,13 +15,13 @@
           <mat-tab>
             <ng-template mat-tab-label>
                 Tipos de Plantillas
-                <div class="c-tabs__badge">{{documentTemplates ? documentTemplates.length : 0}}</div>
+                <div class="c-tabs__badge">{{documentTemplatesTypes ? documentTemplatesTypes.length : 0}}</div>
             </ng-template>
 
-            <app-no-document-template *ngIf="documentTemplates && documentTemplates.length === 0"></app-no-document-template>
+            <app-no-document-template *ngIf="documentTemplatesTypes && documentTemplatesTypes.length === 0"></app-no-document-template>
 
-            <app-templates-types *ngIf="documentTemplates && documentTemplates.length > 0"
-                          [documentTemplates]="documentTemplates"
+            <app-templates-types *ngIf="documentTemplatesTypes && documentTemplatesTypes.length > 0"
+                          [documentTemplatesTypes]="documentTemplatesTypes"
                           (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates-types>
 
         </mat-tab>

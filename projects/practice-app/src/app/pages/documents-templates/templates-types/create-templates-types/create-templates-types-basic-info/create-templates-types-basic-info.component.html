@@ -50,14 +50,8 @@
           <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
               <mat-label>Plantilla</mat-label>
               <mat-select>
-                  <mat-option>
-                      Option 1
-                  </mat-option>
-                  <mat-option>
-                      Option 2
-                  </mat-option>
-                  <mat-option>
-                      Option 3
+                  <mat-option *ngFor="let documentTemplate of documentTemplates" [value]="documentTemplate.uuid">
+                      {{documentTemplate.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>

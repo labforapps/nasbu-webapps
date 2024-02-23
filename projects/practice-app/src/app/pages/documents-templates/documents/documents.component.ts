@@ -9,6 +9,7 @@ import { DialogNewDocumentComponent } from '../../../components/dialogs/dialog-n
 import { HelpersService } from '../../../services/helpers.service';
 import { AuthService, PracticeService } from 'core-services';
 import { saveAs } from 'file-saver';
+import { DialogExternalDocSignatureComponent } from '../../../components/dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
 
 @Component({
   selector: 'app-documents',
@@ -55,7 +56,7 @@ export class DocumentsComponent implements OnInit {
     });
   }
 
-  openDialogNewDocument(document:DocumentGeneration){
+  openDialogNewDocument(document?:DocumentGeneration){
    const dialogRef = this.dialog.open(DialogNewDocumentComponent,{
       data: {
         document
@@ -63,20 +64,22 @@ export class DocumentsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      if(data.uuid) this.onExecuteDocumentGeneration.emit({})
+      if(data && data.uuid) this.onExecuteDocumentGeneration.emit({})
     })
   }
 
-  openDialogNewDocument1(){
-    const dialogRef = this.dialog.open(DialogNewDocumentComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
-
+  openDialogExternalDocSignature(document:DocumentGeneration){
+    this.dialog.open(DialogExternalDocSignatureComponent, {
+      data: {
+        document
+      }
     })
   }
-
 
   deleteDocument(document:DocumentGeneration){
+
+    document.subscription = this.selectedSubscription?.ssid.uuid
+
     this.helperService.showConfirmationDeleteDialog().then( (result) => {
       if(result.isConfirmed){
         this.practiceService.deleteDocumentGeneration(document).subscribe(data => {

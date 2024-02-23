@@ -459,4 +459,9 @@ export class PracticeService {
     return this.httpClient.post(serverUrl,payload)
   }
 
+  deleteDocumentTemplateType(subscription:string,uuid:string):Observable<DocumentTemplateType>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<DocumentTemplateType>(serverUrl)
+  }
+
 }

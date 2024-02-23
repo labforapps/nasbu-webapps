@@ -44,7 +44,7 @@ export class DialogNewTemplateComponent implements OnInit {
     }
 
     return this.documentTemplateType?.variables ?  this.documentTemplateType?.variables.filter(
-        variable => variable.description.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        variable => variable.description ? variable.description.toLowerCase().includes(this.searchTerm.toLowerCase()) : '' ||
         variable.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     ) : [];
 }

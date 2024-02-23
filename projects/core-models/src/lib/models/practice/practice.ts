@@ -272,6 +272,8 @@ export interface DocumentGeneration {
   customer:          string;
   case_file:         string;
   representative:    string;
+  custom_variables_data: string;
+
 }
 export interface DocumentGenerationPayload {
   uuid?:             string;
@@ -303,7 +305,7 @@ export interface VariableDocumentTemplateType {
   template_type?: string;
   section:       string;
   name:           string;
-  description:    string;
+  description?:    string;
   value_path:     string;
 }
 

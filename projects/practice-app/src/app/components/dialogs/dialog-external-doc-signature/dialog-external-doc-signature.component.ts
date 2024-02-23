@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService, PracticeService } from 'core-services';
-import { SignatureRequest } from 'core-models';
+import { DocumentGeneration, SignatureRequest } from 'core-models';
 import { HelpersService } from '../../../services/helpers.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-external-doc-signature',
@@ -21,7 +22,9 @@ export class DialogExternalDocSignatureComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private practiceService:PracticeService,
-    private helperService:HelpersService
+    private helperService:HelpersService,
+    private dialogRef: MatDialogRef<DialogExternalDocSignatureComponent>,
+    @Inject(MAT_DIALOG_DATA) public dataDialog: {document:DocumentGeneration}
   ) {}
 
   ngOnInit(): void {
@@ -29,10 +32,10 @@ export class DialogExternalDocSignatureComponent implements OnInit {
 
     this.signatureRequest = {
       subscription: this.selectedSubscription?.ssid.uuid,
-      gen_document: '',
+      gen_document: this.dataDialog.document.uuid,
       esig_signers_list: '',
-      subject: '',
-      message: '',
+      subject: 'Asunto',
+      message: 'Mensaje',
       send_by: this.sendingMethod,
       to_origin_value: '',
     };
@@ -51,6 +54,8 @@ export class DialogExternalDocSignatureComponent implements OnInit {
     this.formSubmitted = true;
 
     this.signatureRequest.to_origin_value = this.sendingMethod === 'email' ? this.emailField : this.phoneNumberField;
+    this.signatureRequest.esig_signers_list = this.sendingMethod === 'email' ? this.emailField : this.phoneNumberField;
+
 
     if (this.signatureRequest.to_origin_value === '') result = false;
 

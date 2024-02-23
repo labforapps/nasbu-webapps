@@ -269,8 +269,11 @@ const routes: Routes = [
   {
     path:'templates-types/create',
     component: CreateTemplatesTypesComponent
+  },
+  {
+    path:'templates-types/:id',
+    component: CreateTemplatesTypesComponent
   }
-
 
 ];
 

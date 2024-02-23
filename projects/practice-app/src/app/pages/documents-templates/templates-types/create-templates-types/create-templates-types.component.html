@@ -3,10 +3,16 @@
 </div>
 <mat-stepper linear class="c-stepper-template" [@.disabled]="true">
   <mat-step>
-    <app-create-templates-types-basic-info (templateTypeBasicInfo)="documentTemplatesTypes = $event"></app-create-templates-types-basic-info>
+    <app-create-templates-types-basic-info (templateTypeBasicInfo)="documentTemplateType = $event"
+                                           [documentTemplateType]="documentTemplateType"
+                                           [documentTemplates]="documentTemplates">
+    </app-create-templates-types-basic-info>
   </mat-step>
   <mat-step>
-    <app-create-templates-types-variables (templateTypesVariablesOutput)="variablesTemplatesTypes = $event; createDocumentTemplateTypes()"></app-create-templates-types-variables>
+    <app-create-templates-types-variables (templateTypesVariablesOutput)="variablesTemplatesTypes = $event;
+                                          createDocumentTemplateTypes()"
+                                          [documentTemplateType]="documentTemplateType">
+    </app-create-templates-types-variables>
   </mat-step>
   <mat-step>
     <div class="d-flex flex-column align-items-center u-gap-2 justify-content-center" style="min-height: 60vh;">

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogNewSectionComponent } from '../dialog-new-section/dialog-new-section.component';
 import { DocumentTemplatesService } from '../../../services/document-templates.service';
+import { CaseFile, Customer, SecurityUser, VariableDocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-dialog-new-variable',
@@ -16,10 +17,17 @@ export class DialogNewVariableComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<DialogNewVariableComponent>,
               private matDialog:MatDialog,
-              private documentTemplateService:DocumentTemplatesService) { }
+              private documentTemplateService:DocumentTemplatesService,
+              @Inject(MAT_DIALOG_DATA) public dataDialog: {variable:VariableDocumentTemplateType}
+              ) { }
 
   ngOnInit(): void {
     this.sections = this.documentTemplateService.sections
+
+    if(this.dataDialog && this.dataDialog.variable){
+      this.section = this.dataDialog.variable.section
+      this.name = this.dataDialog.variable.name
+    }
   }
 
   openDialogNewSection(){

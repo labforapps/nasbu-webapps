@@ -105,10 +105,6 @@ export class TemplatesComponent implements OnInit {
     })
   }
 
-  openDialogExternalDocSignature(){
-    this.dialog.open(DialogExternalDocSignatureComponent)
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
