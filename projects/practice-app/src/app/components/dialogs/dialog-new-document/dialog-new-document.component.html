@@ -1,88 +1,136 @@
 <div class="c-dialog-newDocument c-dialog-header">
     <div class="c-dialog-header__header d-flex flex-column">
         Creando nuevo documento
-        <span class="u-smallSize u-fontRegular">Desde plantilla: Divoricio modelo puerto rico</span>
+        <!-- <span class="u-smallSize u-fontRegular">Desde plantilla: Divorcio modelo puerto rico</span> -->
     </div>
 
-    <form [formGroup]="documentForm" (submit)="submitForm()">
+      <mat-tab-group [selectedIndex]="activeTabIndex">
 
-      <mat-dialog-content>
-          <div class="row mb-2">
-              <div class="col-md-6">
-                  <label class="u-title-label">Nombre del documento</label>
-                  <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                      <mat-label>Nombre del documento</mat-label>
-                      <input class="c-form-group__input"
-                             matInput
-                             placeholder="Ej: Crear contrato de servicio"
-                             formControlName="name">
-                  </mat-form-field>
+        <mat-tab label="Datos Principales" class="mb-1">
+
+          <form [formGroup]="documentForm">
+
+            <mat-dialog-content>
+              <div class="row mb-2">
+                  <div class="col-md-6">
+                      <label class="u-title-label">Nombre del documento</label>
+                      <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                          <mat-label>Nombre del documento</mat-label>
+                          <input class="c-form-group__input"
+                                matInput
+                                placeholder="Ej: Crear contrato de servicio"
+                                formControlName="name">
+                      </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="u-title-label">Fecha en la que se ejecuta este documento</label>
+                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="expiration_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
               </div>
-              <div class="col-md-6">
-                <label class="u-title-label">Fecha en la que se ejecuta este documento</label>
-                <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                    <mat-label>Fecha</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="expiration_date">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
+              <div class="row mb-2">
+                  <div class="col-md-6">
+                      <label class="u-title-label">¿Cuál plantilla utilizarás?</label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                          <mat-label>Seleccionar plantilla</mat-label>
+                          <mat-select formControlName="document_template" (selectionChange)="getDocumentTemplateType($event)">
+                              <mat-option *ngFor="let documentTemplate of documentTemplates" [value]="documentTemplate.uuid">
+                                  {{documentTemplate.name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                      <label class="u-title-label">¿Cuál expediente utilizarás?</label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small" place-holder="Escoger miembro responsable de tu firma">
+                          <mat-label>Seleccionar expediente</mat-label>
+                          <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event)">
+                              <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
+                                  {{caseFile.name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
 
-          </div>
-           <div class="row mb-2">
-              <div class="col-md-6">
-                  <label class="u-title-label">¿Cuál plantilla utilizarás?</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                      <mat-label>Seleccionar plantilla</mat-label>
-                      <mat-select formControlName="document_template">
-                          <mat-option *ngFor="let documentTemplate of documentTemplates" [value]="documentTemplate.uuid">
-                              {{documentTemplate.name}}
+              </div>
+            <div class="row mb-2">
+                  <div class="col-md-6">
+                      <label class="u-title-label">¿Quién es tu cliente?</label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                        <mat-label>Seleccionar Cliente</mat-label>
+                        <mat-select formControlName="customer">
+                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                                {{customer | customerFullName}}
+                            </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="u-title-label">¿Quién es el representante legal del documento?</label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                      <mat-label>Seleccionar Usuario</mat-label>
+                      <mat-select formControlName="representative">
+                          <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
+                              {{securityUser.user.first_name || ' ' || securityUser.user.last_name}}
                           </mat-option>
                       </mat-select>
-                  </mat-form-field>
+                    </mat-form-field>
+                </div>
               </div>
-              <div class="col-md-6">
-                  <label class="u-title-label">¿Cuál expediente utilizarás?</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small" place-holder="Escoger miembro responsable de tu firma">
-                      <mat-label>Seleccionar expediente</mat-label>
-                      <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event)">
-                          <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
-                              {{caseFile.name}}
-                          </mat-option>
-                      </mat-select>
-                  </mat-form-field>
+            </mat-dialog-content>
+
+          </form>
+
+        </mat-tab>
+
+        <mat-tab *ngFor="let section of variablesSections" [label]="section">
+
+          <form [formGroup]="variablesForm">
+           <div>
+              <div class="row mb-2" *ngIf="!documentGeneration">
+                  <div class="col-md-6"  *ngFor="let variable of documentTemplateType.variables | filter:'section': section">
+                    <label class="u-title-label">{{variable.name}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                        <mat-label>{{variable.name}}</mat-label>
+                        <input class="c-form-group__input"
+                              matInput
+                              placeholder="Ej: Crear contrato de servicio"
+                              [formControlName]="variable.value_path">
+                    </mat-form-field>
+                  </div>
               </div>
 
-          </div>
-         <div class="row mb-2">
-              <div class="col-md-6">
-                  <label class="u-title-label">¿Quién es tu cliente?</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Seleccionar Cliente</mat-label>
-                    <mat-select formControlName="customer">
-                        <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
-                            {{customer | customerFullName}}
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+              <div class="row mb-2" *ngIf="documentGeneration">
+                  <div class="col-md-6"  *ngFor="let variable of documentGenerationVariables | filter:'section': section">
+                    <label class="u-title-label">{{variable.name}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                        <mat-label>{{variable.name}}</mat-label>
+                        <input class="c-form-group__input"
+                              matInput
+                              placeholder="Ej: Crear contrato de servicio"
+                              [formControlName]="variable.value_path">
+                    </mat-form-field>
+                  </div>
               </div>
-              <div class="col-md-6">
-                <label class="u-title-label">¿Quién es el representante legal del documento?</label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                  <mat-label>Seleccionar Usuario</mat-label>
-                  <mat-select formControlName="representative">
-                      <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
-                          {{securityUser.user.first_name || ' ' || securityUser.user.last_name}}
-                      </mat-option>
-                  </mat-select>
-                </mat-form-field>
+
             </div>
-          </div>
-      </mat-dialog-content>
+          </form>
+
+        </mat-tab>
+
+      </mat-tab-group>
+
+
       <mat-dialog-actions class="c-dialog-header__footer">
-          <button mat-button mat-dialog-close class="u-link text-center" type="button">Cancelar</button>
-          <button mat-button class="c-btn-function">Generar documento</button>
+          <button mat-button mat-dialog-close class="u-link text-center" type="button" *ngIf="activeTabIndex === 0">Cancelar</button>
+          <button mat-button class="u-link text-center" type="button" (click)="goToPreviousTab()" *ngIf="activeTabIndex > 0">Atras</button>
+          <button mat-button class="c-btn-function" (click)="goToNextTab()" *ngIf="documentTemplateType && (activeTabIndex + 1) < totalTabs">Siguiente</button>
+          <button mat-button class="c-btn-function" (click)="submitForm()" *ngIf="documentTemplateType && (activeTabIndex + 1)  === totalTabs">Generar documento</button>
       </mat-dialog-actions>
 
-    </form>
 </div>

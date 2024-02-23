@@ -3,12 +3,12 @@ import { Inject, Injectable } from '@angular/core';
 import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileWalletDetail,CaseFilePayload, CaseFileDocumentPayload,
          CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,SecurityUser, TaskStatus, DocumentTemplate,
-         DocumentGeneration, DocumentGenerationPayload, DocumentTemplatePayload } from 'core-models';
+         DocumentGeneration, DocumentGenerationPayload, DocumentTemplatePayload,
+         SignatureRequest,
+         DocumentTemplateType} from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
-import { CommonService } from '../common';
 import { SecurityService } from '../security/security.service';
-import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,6 @@ export class PracticeService {
   constructor(@Inject('config') private config: any,
   private httpClient: HttpClient,
   private customerService:CustomersService,
-  private commonService:CommonService,
   private securityService:SecurityService) { }
 
   getCaseFiles(subscription:string):Observable<CaseFile[]>{
@@ -438,6 +437,31 @@ export class PracticeService {
   downloadDocumentGenerations(documentGeneration:DocumentGeneration):Observable<any>{
     const serverUrl = `${this.config.serverUrl}/practice/document_generations/${documentGeneration.uuid}/download?subscription=${documentGeneration.subscription}`;
     return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
+
+  createSignatureRequest(payload:SignatureRequest){
+    const serverUrl = `${this.config.serverUrl}/practice/signature_requests/?subscription=${payload.subscription}`;
+    return this.httpClient.post(serverUrl,payload)
+  }
+
+  getDocumentTemplateTypes(subscription:string):Observable<DocumentTemplateType[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/?subscription=${subscription}`;
+    return this.httpClient.get<DocumentTemplateType[]>(serverUrl)
+  }
+
+  getDocumentTemplateTypesById(subscription:string,uuid:string):Observable<DocumentTemplateType>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.get<DocumentTemplateType>(serverUrl)
+  }
+
+  createDocumentTemplateTypes(payload:DocumentTemplateType){
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/`;
+    return this.httpClient.post(serverUrl,payload)
+  }
+
+  deleteDocumentTemplateType(subscription:string,uuid:string):Observable<DocumentTemplateType>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<DocumentTemplateType>(serverUrl)
   }
 
 }

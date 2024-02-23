@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogNewDocumentComponent } from '../../components/dialogs/dialog-new-document/dialog-new-document.component';
 import { DialogNewTemplateComponent } from '../../components/dialogs/dialog-new-template/dialog-new-template.component';
 import { AuthService, PracticeService } from 'core-services';
-import { DocumentGeneration, DocumentTemplate } from 'core-models';
+import { DocumentGeneration, DocumentTemplate, DocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-documents-templates',
@@ -13,6 +13,7 @@ import { DocumentGeneration, DocumentTemplate } from 'core-models';
 export class DocumentsTemplatesComponent implements OnInit {
 
   selectedSubscription!:any;
+  documentTemplatesTypes!:DocumentTemplateType[]
   documentTemplates!:DocumentTemplate[];
   documentGenerations!:DocumentGeneration[];
   selectedTabIndex:number = 0;
@@ -25,6 +26,7 @@ export class DocumentsTemplatesComponent implements OnInit {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.getDocumentTemplates();
     this.getDocumentGenerations();
+    this.getDocumentTemplateTypes()
   }
 
   getDocumentTemplates(){
@@ -36,6 +38,12 @@ export class DocumentsTemplatesComponent implements OnInit {
   getDocumentGenerations(){
     this.practiceService.getDocumentGenerations(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentGenerations = data;
+    })
+  }
+
+  getDocumentTemplateTypes(){
+    this.practiceService.getDocumentTemplateTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.documentTemplatesTypes = data
     })
   }
 

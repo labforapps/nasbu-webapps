@@ -51,6 +51,8 @@ import { DialogNewSubscriptionComponent } from './dialogs/dialog-new-subscriptio
 import { DialogAddTaxComponent } from './dialogs/dialog-add-tax/dialog-add-tax.component';
 import { DialogPaymentRequestComponent } from './dialogs/dialog-payment-request/dialog-payment-request.component';
 import { DialogExternalDocSignatureComponent } from './dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
+import { DialogNewVariableComponent } from './dialogs/dialog-new-variable/dialog-new-variable.component';
+import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-new-section.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +95,8 @@ import { DialogExternalDocSignatureComponent } from './dialogs/dialog-external-d
     DialogAddTaxComponent,
     DialogPaymentRequestComponent,
     DialogExternalDocSignatureComponent,
+    DialogNewVariableComponent,
+    DialogNewSectionComponent,
   ],
   imports: [
     CommonModule,

@@ -3,8 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { DocumentTemplate } from 'core-models';
-import { DialogNewDocumentComponent } from '../../../components/dialogs/dialog-new-document/dialog-new-document.component';
+import { DocumentTemplate, DocumentTemplateType } from 'core-models';
 import { PracticeService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { DialogDocumentViewerComponent } from '../../../components/dialogs/dialog-document-viewer/dialog-document-viewer.component';
@@ -13,16 +12,16 @@ import { saveAs } from 'file-saver';
 import { DialogExternalDocSignatureComponent } from '../../../components/dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
 
 @Component({
-  selector: 'app-templates',
-  templateUrl: './templates.component.html',
-  styleUrls: ['./templates.component.scss']
+  selector: 'app-templates-types',
+  templateUrl: './templates-types.component.html',
+  styleUrls: ['./templates-types.component.scss']
 })
-export class TemplatesComponent implements OnInit {
+export class TemplatesTypesComponent implements OnInit {
 
-  @Input() documentTemplates!:DocumentTemplate[];
+  @Input() documentTemplatesTypes!:DocumentTemplateType[];
   displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
-  dataSource = new MatTableDataSource<DocumentTemplate>(this.documentTemplates);
-  selection = new SelectionModel<DocumentTemplate>(true, []);
+  dataSource = new MatTableDataSource<DocumentTemplateType>(this.documentTemplatesTypes);
+  selection = new SelectionModel<DocumentTemplateType>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() onExecuteDocumentTemplate = new EventEmitter<DocumentTemplate | any>();
 
@@ -32,24 +31,16 @@ export class TemplatesComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['documentTemplates'] && changes['documentTemplates'].currentValue) {
-      this.dataSource.data = this.documentTemplates;
+      this.dataSource.data = this.documentTemplatesTypes;
     }
   }
 
   ngOnInit(): void {
-    this.dataSource.data = this.documentTemplates;
+    this.dataSource.data = this.documentTemplatesTypes;
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-  }
-
-  openDialogNewDocument(template:DocumentTemplate){
-    this.dialog.open(DialogNewDocumentComponent,{
-      data: {
-        template
-      }
-    })
   }
 
   openDialogNewTemplate(template:DocumentTemplate){
@@ -66,17 +57,10 @@ export class TemplatesComponent implements OnInit {
     })
   }
 
-  openDialogNewTemplate1(){
-    const dialogRef = this.dialog.open(DialogNewTemplateComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
-    })
-  }
-
-  deleteTemplate(documentTemplate:DocumentTemplate){
+  deleteTemplateType(documentTemplateType:DocumentTemplateType){
     this.helperService.showConfirmationDeleteDialog().then( (result) => {
       if(result.isConfirmed){
-        this.practiceService.deleteDocumentTemplate(documentTemplate).subscribe(data => {
+        this.practiceService.deleteDocumentTemplateType(documentTemplateType.subscription,documentTemplateType.uuid || '').subscribe(data => {
           this.helperService.showMessageDeleted();
           this.onExecuteDocumentTemplate.emit({})
         });
@@ -105,6 +89,10 @@ export class TemplatesComponent implements OnInit {
     })
   }
 
+  openDialogExternalDocSignature(){
+    this.dialog.open(DialogExternalDocSignatureComponent)
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -131,3 +119,4 @@ export class TemplatesComponent implements OnInit {
   }
 
 }
+

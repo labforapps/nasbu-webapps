@@ -1,0 +1,80 @@
+<div class="c-stepper-template__header">
+  <img src="./assets/images/template-icon.svg" alt="" class="c-stepper-template__header__icon">
+  <div class="d-flex flex-column justify-content-center">
+    <div class="c-stepper-template__header__title">Creación de tipo de plantilla</div>
+    <div class="c-stepper-template__header__subtitle">Completa el pasos a paso y construye tu plantilla desde cero</div>
+  </div>
+</div>
+<div class="c-stepper-template__steps">
+  <div>
+    <span class="c-stepper-template__steps__title">¿Qué variables necesitará tu plantilla?</span>
+  </div>
+  <span>Paso 2 de 3</span>
+</div>
+<div class="c-stepper-template__body">
+  <div class="row">
+    <div class="col-md-6 br-r">
+      <div class="d-flex u-gap-2 mt-4 min-height flex-wrap">
+        <div>
+          <h4 class="u-smallerSize mb-2">Catálogo de variables existentes</h4>
+          <div class="c-form-group--search bordered u-smallerSize">
+            <input matInput type="mail" placeholder="Buscar por palabra clave">
+            <span class="icon-search"></span>
+          </div>
+        </div>
+        <button mat-button  class="c-btn-function ml-auto u-smallerSize" (click)="openDialogVariables()">Agregar nueva variable<span class="icon-plus ml-2"></span></button>
+      </div>
+      <div class="u-table-responsive">
+        <table class="c-table-variable">
+          <thead>
+              <tr>
+                  <th>Sección </th>
+                  <th>Variable</th>
+                  <th>Acción</th>
+              </tr>
+          </thead>
+          <tbody>
+
+              <tr *ngFor="let variable of templateTypesVariables">
+                  <td>{{variable.section}} </td>
+                  <td>-{{variable.name}}-</td>
+                  <td>
+                    <button mat-button class="u-smalleSize u-link" (click)="openDialogVariables(variable)">Editar</button>
+                    <button mat-button class="u-dangerColor u-fontRegular u-smallSize" (click)="deleteVariable(variable)">Quitar</button>
+                  </td>
+              </tr>
+
+
+          </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="min-height mt-4">
+        <h4 class="u-smallerSize">Variables añadidas para tu plantilla</h4>
+      </div>
+      <div class="u-table-responsive">
+        <table class="c-table-variable">
+            <thead>
+                <tr>
+                    <th>Tipo de variable </th>
+                    <th>Variable</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nombre </td>
+                    <td>-NombreCliente-</td>
+                    <td><button mat-button class="u-dangerColor u-fontRegular u-smallSize">Quitar</button></td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="c-stepper-template__footer">
+  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium">Atrás</button>
+  <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()">Siguiente</button>
+</div>

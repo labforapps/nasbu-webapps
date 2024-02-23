@@ -51,7 +51,7 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Tipo de variable </th>
+                                        <th>Seccion</th>
                                         <th>Variable</th>
                                         <th>Acción</th>
                                     </tr>
@@ -59,7 +59,7 @@
                                 </thead>
                                 <tbody *ngIf="documentTemplateType">
                                     <tr *ngFor="let variable of filteredVariables">
-                                        <td>{{variable.description}} </td>
+                                        <td>{{variable.section}} </td>
                                         <td>{{variable.name}}</td>
                                         <td><button type="button" mat-button (click)="copyToClipboard(variable.name)"><span class="icon-copy"></span></button></td>
                                     </tr>

@@ -45,11 +45,6 @@
             <div class="col-md-12">
                 <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
 
-                <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                    <mat-label>{{'clients.client_intake.phone_number' | translate}} </mat-label>
-                    <input class="c-form-group__input" matInput [(ngModel)]="phoneNumberField">
-                </mat-form-field> -->
-
                 <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
 
                 <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
