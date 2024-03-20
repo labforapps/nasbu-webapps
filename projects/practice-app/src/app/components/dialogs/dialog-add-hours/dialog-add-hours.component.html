@@ -8,7 +8,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-6 p-0 pr-2">
+                            <div class="col-md-4 p-0 pr-2">
                                 <label class="u-title-label">{{ 'addHoursModal.pricePerHour' |translate }}</label>
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
 
@@ -25,8 +25,8 @@
                                     }}
                                 </mat-error>
                             </div>
-                            <div class="col-md-6 p-0">
-                                <label class="u-title-label">{{ 'addHoursModal.quotedHours' |translate }}</label>
+                            <div class="col-md-4 p-0 pr-2" >
+                                <label class="u-title-label">Hours</label>
                                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                     <input class="c-form-group__input"
                                     matInput
@@ -39,6 +39,20 @@
                                     }}
                                 </mat-error>
                             </div>
+                            <div class="col-md-4 p-0 pr-2">
+                              <label class="u-title-label">Minutes</label>
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                  <input class="c-form-group__input"
+                                  matInput
+                                  placeholder="Ej: 1,2"
+                                  formControlName="quoted_minutes">
+                                </mat-form-field>
+                              <mat-error>
+                                  {{
+                                    taskTimeForm.get("total_time") | validations
+                                  }}
+                              </mat-error>
+                          </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -70,7 +84,7 @@
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
                           <mat-label>Seleccionar</mat-label>
                             <mat-select formControlName="task" [disabled]="this.task !== null">
-                                <mat-option *ngFor="let task of tasks" [value]="task.uuid">
+                                <mat-option *ngFor="let task of tasks" [value]="task.uuid" (onSelectionChange)="onSelectTask(task)">
                                     {{task.name}}
                                 </mat-option>
                             </mat-select>

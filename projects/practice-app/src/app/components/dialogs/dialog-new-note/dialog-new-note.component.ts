@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AuthService, PracticeService } from 'core-services';
-import { CaseFile, CaseFileNote } from 'core-models';
+import { AuthService, CustomersService, PracticeService } from 'core-services';
+import { CaseFile, CaseFileNote, Customer } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-dialog-new-note',
@@ -21,6 +22,7 @@ export class DialogNewNoteComponent implements OnInit {
   autosaveTrigger: Subject<void> = new Subject<void>();
   caseFiles!:CaseFile[] | null
   selectedSubscription!: any;
+  customers!:Customer[];
 
   constructor(private formBuilder:FormBuilder,
               public dialogRef: MatDialogRef<DialogNewNoteComponent>,
@@ -29,6 +31,7 @@ export class DialogNewNoteComponent implements OnInit {
               private toastr: ToastrService,
               private translateService:TranslateService,
               private authService: AuthService,
+              private customerService:CustomersService
               ) { }
 
   ngOnInit(): void {
@@ -38,6 +41,7 @@ export class DialogNewNoteComponent implements OnInit {
     this.initForm();
     this.setFormValue();
     this.getCaseFiles();
+    this.getCustomers()
 
     if(this.caseFileNote){
       this.autosaveTrigger.subscribe(() => {
@@ -49,6 +53,7 @@ export class DialogNewNoteComponent implements OnInit {
 
   initForm() {
     this.caseFileNoteForm = this.formBuilder.group({
+      customer:[''],
       case_file: ['',Validators.required],
       title: ['',Validators.required],
       body: ['',Validators.required]
@@ -60,6 +65,14 @@ export class DialogNewNoteComponent implements OnInit {
       this.autosaveTrigger.next();
     });
 
+  }
+
+  getCustomers(){
+    this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe({
+      next: (data) => {
+        this.customers = data
+      }
+    })
   }
 
   setFormValue(){
@@ -82,6 +95,17 @@ export class DialogNewNoteComponent implements OnInit {
   getCaseFiles(){
     this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFiles = data
+    })
+  }
+
+  getCaseFilesByCustomer(matSelectChange:MatSelectChange){
+
+    const customerId = matSelectChange.value
+
+    this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,customerId).subscribe({
+      next: (data) => {
+        this.caseFiles = data
+      }
     })
   }
 

@@ -6,6 +6,20 @@
         </div>
         <mat-dialog-content>
 
+          <div class="row" *ngIf="caseFileNote?.case_file || caseFile ? false : true">
+            <div class="col-md-12">
+                <label class="u-title-label">Cliente</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+                    <mat-label>Seleccionar</mat-label>
+                    <mat-select formControlName="customer" (selectionChange)="getCaseFilesByCustomer($event)">
+                        <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                            {{customer | customerFullName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-12">
                 <label class="u-title-label">{{ 'tasks.newTaskModal.expedient' | translate }}</label>

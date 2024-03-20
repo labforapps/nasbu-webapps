@@ -446,7 +446,15 @@ export class PracticeService {
 
   getDocumentTemplateTypes(subscription:string):Observable<DocumentTemplateType[]>{
     const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/?subscription=${subscription}`;
-    return this.httpClient.get<DocumentTemplateType[]>(serverUrl)
+    return this.httpClient.get<DocumentTemplateType[]>(serverUrl).pipe(
+      switchMap((documentGeneration: DocumentTemplateType[]) => {
+            return of(documentGeneration.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
   }
 
   getDocumentTemplateTypesById(subscription:string,uuid:string):Observable<DocumentTemplateType>{
@@ -454,9 +462,18 @@ export class PracticeService {
     return this.httpClient.get<DocumentTemplateType>(serverUrl)
   }
 
-  createDocumentTemplateTypes(payload:DocumentTemplateType){
+  createDocumentTemplateTypes(payload:DocumentTemplateType):Observable<DocumentTemplateType>{
     const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/`;
-    return this.httpClient.post(serverUrl,payload)
+    return this.httpClient.post<DocumentTemplateType>(serverUrl,payload)
+  }
+
+  updateDocumentTemplateTypes(payload:DocumentTemplateType):Observable<DocumentTemplateType>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${payload.uuid}`;
+    return this.httpClient.put<DocumentTemplateType>(serverUrl,payload)
+  }
+
+  saveDocumentTemplateType(payload:DocumentTemplateType){
+    return payload.uuid ? this.updateDocumentTemplateTypes(payload) : this.createDocumentTemplateTypes(payload)
   }
 
   deleteDocumentTemplateType(subscription:string,uuid:string):Observable<DocumentTemplateType>{

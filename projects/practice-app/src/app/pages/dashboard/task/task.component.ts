@@ -20,7 +20,7 @@ export class TaskComponent implements OnInit {
   public totalTasks: number = 10;
   @Input() tasks!:Task[];
   taskStatus = TaskStatus;
-  displayedColumns: string[] = ['select', 'type','task', 'status', 'expedient', 'date', 'action'];
+  displayedColumns: string[] = ['select', 'type','task', 'status', 'expedient', 'date','created_by', 'action'];
   dataSource = new MatTableDataSource<Task>(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;

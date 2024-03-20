@@ -9,6 +9,7 @@ import * as moment from 'moment'
 import { CurrentTaskTimeInfo } from '../../../models/task';
 import { TaskTimeService } from '../../../services/application/task-time.service';
 import { DialogNewTaskComponent } from '../dialog-new-task/dialog-new-task.component';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 
 @Component({
@@ -70,9 +71,18 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
       task:           ['',Validators.required],
       executed_by:    ['',Validators.required],
       quoted_hours:   [0],
+      quoted_minutes: [0],
       price_per_hour: [''],
       not_billable:   [false,Validators.required],
     });
+  }
+
+  onSelectTask(task:Task){
+
+   this.taskTimeForm.patchValue({
+      price_per_hour: task.bt_price_per_hour,
+      quoted_hours: task.total_hours
+   })
   }
 
   setForm(){
@@ -173,7 +183,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
     if(Number(taskTimeFormValue.quoted_hours) > 0){
       fixed_time = true;
-      totalTime = Number(taskTimeFormValue.quoted_hours) * 60;
+      totalTime = (Number(taskTimeFormValue.quoted_hours) * 60) + Number(taskTimeFormValue.quoted_minutes);
     }
 
     const timeTaskPayload: TimeTask = {
