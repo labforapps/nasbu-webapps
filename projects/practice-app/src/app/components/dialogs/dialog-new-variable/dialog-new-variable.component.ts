@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogNewSectionComponent } from '../dialog-new-section/dialog-new-section.component';
 import { DocumentTemplatesService } from '../../../services/document-templates.service';
-import { CaseFile, Customer, SecurityUser, VariableDocumentTemplateType } from 'core-models';
+import { VariableDocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-dialog-new-variable',

@@ -18,7 +18,7 @@ export class InvoicesComponent implements OnInit {
   public totalAmountPending: number = 50000.00;
   private invoiceStatus = InvoiceStatus;
   @Input() invoices!:Invoice[];
-  displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'customer', 'date', 'payments', 'amount','action' ];
+  displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'customer', 'date', 'payments', 'amount','created_by','action' ];
   dataSource = new MatTableDataSource<Invoice>(this.invoices);
   selection = new SelectionModel<Invoice>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;

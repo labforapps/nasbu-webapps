@@ -40,8 +40,18 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe(data => {
-      if(data) this.templateTypesVariables.push(data)
+    dialogRef.afterClosed().subscribe((data:VariableDocumentTemplateType) => {
+      if(data){
+        const variableFiltered = this.templateTypesVariables.filter(x => x.section === data.section && x.name === data.name)
+
+        if(variableFiltered){
+          this.templateTypesVariables = this.templateTypesVariables.filter(x => x.section !== data.section && x.name !== data.name)
+          this.templateTypesVariables.push(data)
+        }
+        else{
+          this.templateTypesVariables.push(data)
+        }
+      }
     })
 
   }

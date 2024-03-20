@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DocumentTemplate, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, PracticeService } from 'projects/core-services/src/public-api';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
+import { DocumentTemplatesService } from 'projects/practice-app/src/app/services/document-templates.service';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class CreateTemplatesTypesComponent implements OnInit {
               private authService:AuthService,
               private helperService:HelpersService,
               private router:Router,
-              private activatedRoute:ActivatedRoute) {}
+              private activatedRoute:ActivatedRoute,
+              private documentTemplateService:DocumentTemplatesService) {}
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -47,7 +49,16 @@ export class CreateTemplatesTypesComponent implements OnInit {
   getDocumentTemplateTypeById(){
     this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,this.documentTemplateTypeId).subscribe(data => {
       this.documentTemplateType = data
+      this.setDocumentTemplateTypeSections()
     })
+  }
+
+  setDocumentTemplateTypeSections(){
+
+    if(this.documentTemplateType){
+      const sections = new Set(this.documentTemplateType.variables?.map(variable => variable.section))
+      sections?.forEach(section => this.documentTemplateService.sections.push(section))
+    }
   }
 
   createDocumentTemplateTypes(){
