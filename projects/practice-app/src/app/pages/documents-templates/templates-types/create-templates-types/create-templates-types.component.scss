@@ -1,0 +1,17 @@
+::ng-deep{
+  app-template-create{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url(../../../../../assets/images/wall-clock.svg);
+    background-repeat: no-repeat;
+    background-position: right -7rem bottom;
+    background-size: 27rem;
+  }
+}
+.min-height{
+  min-height: 7rem;
+}
+.br-r{
+  border-right: 1px solid #e0e0e0;
+}

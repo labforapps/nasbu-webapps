@@ -3,537 +3,706 @@
         <img src="../../../assets/images/white-logo.svg" alt="">
     </div>
     <div class="l-intake__body">
-          <mat-stepper #stepper [@.disabled]="true" class="c-stepper">
-            <mat-step>
-             <div class="c-stepper__header">
-              <div class="c-stepper__logo">
-                <img src="../../../assets/images/moya-logo.jpg" alt="">
-                <span class="icon-check"></span>
-              </div>
-              <div class="c-stepper__info">
-               <div>
-                ¡Hola!, <b>Moya & asociados</b> <br>
-                te solicita estas informaciones para poder comenzar a trabajar contigo.
-               </div>
-              </div>
-             </div>
-             <div class="c-stepper__subheader">
-              <b>Datos generales</b>
-              <p>Paso 1 de 5</p>
-             </div>
-             <div class="c-stepper__body">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="d-flex flex-wrap u-gap-1">
-                    <label class="u-title-label mr-5 mb-0">¿Qué perfil te identifica mejor?</label>
-                    <mat-radio-group>
-                      <mat-radio-button value="1" class="c-radioButton mr-3 u-normalSize">Persona individual</mat-radio-button>
-                      <mat-radio-button value="2" class="c-radioButton u-normalSize">Empresa</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                </div>
-              </div>
-              <hr class="u-divider u-divider--light">
-              <div class="row">
-                <div class="col-sm-6">
-                  <label class="u-title-label">¿Cuál es tu nombre?</label>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Nombre </mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Nombre">
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Apellido</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Apellido">
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Correo electrónico</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Correo">
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-6">
-                  <label class="u-title-label">Teléfono</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Personal</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <div class="d-flex u-gap-1">
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Num. Teléfono celular</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Teléfono">
-                  </mat-form-field>
-                  </div>
-                  
-                </div>
-              </div>
-              <hr class="u-divider u-divider--light">
-              <div class="row">
-                <div class="col-sm-6">
-                  <label class="u-title-label">¿Cuál es tu nombre?</label>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Nombre de la empresa</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Nombre">
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Correo electrónico de la empresa</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Correo">
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-6">
-                  <label class="u-title-label">Teléfono</label>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Personal</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <div class="d-flex u-gap-1">
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group__select--flag">
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Num. Teléfono celular</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Teléfono">
-                  </mat-form-field>
-                  </div>
-                  
-                </div>
-              </div>
-              <div class="c-stepper__footer">
-                <button mat-button class="c-btn c-btn--primary" matStepperNext>Siguiente</button>
-              </div>
-             </div>
-            </mat-step>
-            <mat-step>
+          <mat-stepper #stepper
+                       [@.disabled]="true"
+                       class="c-stepper"
+                       (selectedIndexChange)="onStepChange($event)">
+
+            <form [formGroup]="createClientForm" #form="ngForm">
+
+              <mat-step>
                 <div class="c-stepper__header">
-                 <div class="c-stepper__logo">
-                   <img src="../../../assets/images/moya-logo.jpg" alt="">
-                   <span class="icon-check"></span>
-                 </div>
-                 <div class="c-stepper__info">
-                  <div>
-                   ¡Hola!, <b>Moya & asociados</b> <br>
-                   te solicita estas informaciones para poder comenzar a trabajar contigo.
+                  <div class="c-stepper__logo" *ngIf="customerIntake">
+                    <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
+                    <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                    <span class="icon-check"></span>
                   </div>
-                 </div>
+                  <div class="c-stepper__info" *ngIf="customerIntake">
+                    <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="!customerIntake">
+                    <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
+                  </div>
                 </div>
                 <div class="c-stepper__subheader">
-                 <b>Datos circunstanciales</b>
-                 <p>Paso 2 de 5</p>
+                  <b>{{'clients.client_intake.form_create.general_data' | translate}}</b>
+                  <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'5' } }}</p>
+                  <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'3' } }}</p>
                 </div>
                 <div class="c-stepper__body">
-                 <div class="row">
-                  <div class="col-sm-6">
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Fecha de nacimiento</mat-label>
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="d-flex flex-wrap u-gap-1">
+                        <label class="u-title-label mr-5 mb-0">{{'clients.client_intake.form_create.what_profile_identifies_you_best' | translate}}</label>
+                        <mat-radio-group>
+                          <mat-radio-button checked value="1" class="c-radioButton mr-3 u-normalSize" (click)="setCustomerType('P')">{{'clients.client_intake.form_create.person' | translate}}</mat-radio-button>
+                          <mat-radio-button value="2" class="c-radioButton u-normalSize" (click)="setCustomerType('B')">{{'clients.client_intake.form_create.business' | translate}}</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
                   </div>
-                 </div>
-                 <div class="row">
-                  <div class="col-sm-6">
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                      <mat-label>Seleccionar <b>Profesión</b></mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                 </div>
-                 <div class="col-sm-6">
-                   <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                     <mat-label>Seleccionar <b>Estado civil</b></mat-label>
-                     <mat-select>
-                         <mat-option>
-                             Option 1
-                         </mat-option>
-                         <mat-option>
-                             Option 2
-                         </mat-option>
-                         <mat-option>
-                             Option 3
-                         </mat-option>
-                     </mat-select>
-                   </mat-form-field>
-                 </div>
-                 </div>
-                 <hr class="u-divider u-divider--light">
-                 <div class="row">
-                   <div class="col-sm-6">
-                     <label class="u-title-label">Dirección de residencia</label>
-                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                      <mat-label>Seleccionar país </mat-label>
-                      <mat-select>
-                          <mat-option>
-                              Option 1
-                          </mat-option>
-                          <mat-option>
-                              Option 2
-                          </mat-option>
-                          <mat-option>
-                              Option 3
-                          </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                     <mat-form-field appearance="fill" class="c-form-group">
-                         <mat-label>Ciudad</mat-label>
-                         <input class="c-form-group__input" matInput placeholder="Ciudad:  Ej: Miami, Florida">
-                     </mat-form-field>
-                     <mat-form-field appearance="fill" class="c-form-group">
-                         <mat-label>Dirección</mat-label>
-                         <input class="c-form-group__input" matInput placeholder="Dirección: Calle, número, Apart.">
-                     </mat-form-field>
-                     <div class="col-sm-6 pl-0">
-                      <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Código Postal</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Código">
+                  <hr class="u-divider u-divider--light">
+                  <div class="row">
+                    <div class="col-sm-6">
+
+                      <div *ngIf="customerType === typeCustomer.business">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.company_name' | translate}}</mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Nombre" formControlName="company_name">
                         </mat-form-field>
-                     </div>
-                     <mat-checkbox class="c-checkbox mt-1">
-                      Dirección Física y Postal comparten la misma información
-                    </mat-checkbox>
-                   </div>
-                   <div class="col-sm-6">
-                    <label class="u-title-label">Dirección postal</label>
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                     <mat-label>Seleccionar país </mat-label>
-                     <mat-select>
-                         <mat-option>
-                             Option 1
-                         </mat-option>
-                         <mat-option>
-                             Option 2
-                         </mat-option>
-                         <mat-option>
-                             Option 3
-                         </mat-option>
-                     </mat-select>
-                   </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Ciudad</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Ciudad:  Ej: Miami, Florida">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Dirección</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Dirección: Calle, número, Apart.">
-                    </mat-form-field>
-                    <div class="col-sm-6 pl-0">
-                     <mat-form-field appearance="fill" class="c-form-group">
-                       <mat-label>Código Postal</mat-label>
-                       <input class="c-form-group__input" matInput placeholder="Código">
-                       </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['company_name'].status === 'INVALID'">{{'errorMessages.field_required' |translate}}</mat-error>
+                      </div>
+
+                      <div *ngIf="customerType === typeCustomer.person">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.firstname' | translate}} </mat-label>
+                          <input class="c-form-group__input" matInput placeholder="{{'clients.form_create.firstname' | translate}}" formControlName="first_name">
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
+
+                      <div *ngIf="customerType === typeCustomer.person">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.lastname' | translate}}</mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Apellido" formControlName="last_name">
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
+
+                      <div formArrayName="contacts">
+                          <div [formGroupName]="'0'">
+                            <mat-form-field appearance="fill" class="c-form-group" >
+                              <mat-label *ngIf="customerType === typeCustomer.person">{{'clients.form_create.email' | translate}}</mat-label>
+                              <mat-label *ngIf="customerType === typeCustomer.business">{{'clients.form_create.business_email' | translate}}</mat-label>
+                              <input formControlName="contact_value" class="c-form-group__input" matInput placeholder="Correo">
+                            </mat-form-field>
+                            <mat-error *ngIf="returnFormArrayFields('client','contacts',0,'contact_value')?.value === '' && matStepperSubmitted">
+                              {{'errorMessages.field_required' | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="returnFormArrayFields('client','contacts',0,'contact_value')?.value !== ''
+                                              && returnFormArrayFields('client','contacts',0,'contact_value')?.status === 'INVALID'
+                                              && matStepperSubmitted">
+                              {{'errorMessages.InvalidEmailFormat' | translate}}
+                            </mat-error>
+                          </div>
+
+                      </div>
+
+                    </div>
+                    <div class="col-sm-6" formArrayName="contacts">
+
+                      <div [formGroupName]="'1'">
+
+                          <label class="u-title-label">{{'clients.form_create.telephone_number' | translate}}</label>
+                          <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                            <mat-label *ngIf="customerType === typeCustomer.person">{{'clients.form_create.cellphone_number' | translate}}</mat-label>
+                            <mat-label *ngIf="customerType === typeCustomer.business">{{'clients.common.business' | translate}}</mat-label>
+                            <mat-select formControlName="sub_type">
+                              <mat-option [value]="subtypeContact.cellphone_number">
+                                {{'clients.form_create.cellphone_number' | translate}}
+                              </mat-option>
+                              <mat-option [value]="subtypeContact.currentphone_number">
+                                {{'clients.form_create.landline_number' | translate}}
+                              </mat-option>
+                              <mat-option [value]="subtypeContact.phoneoffice_number">
+                                {{'clients.form_create.phone_office_number' | translate}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <mat-error *ngIf="returnFormArrayFields('client','contacts',1,'sub_type')?.value === '' && matStepperSubmitted">
+                            {{'errorMessages.field_required' | translate}}
+                          </mat-error>
+
+                          <div class="d-flex u-gap-1">
+
+                            <ngx-intl-tel-input (numberChange)="setPhoneField($event,'cliente')"></ngx-intl-tel-input>
+
+                          </div>
+                          <div class="d-flex u-gap-1">
+                            <div></div>
+                            <div>
+                              <mat-error *ngIf="returnFormArrayFields('client','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">
+                                {{'errorMessages.field_required' | translate}}
+                              </mat-error>
+                            </div>
+                          </div>
+                      </div>
+
                     </div>
                   </div>
-                 </div>
-                 <div class="c-stepper__footer">
-                    <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                    <button mat-button class="c-btn c-btn--primary" matStepperNext>Siguiente</button>
-                 </div>
+
+                  <div class="c-stepper__footer">
+                    <button mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)">{{'clients.client_intake.form_create.next' | translate}}</button>
+                  </div>
                 </div>
-            </mat-step>
-            <mat-step>
+              </mat-step>
+
+              <mat-step>
                 <div class="c-stepper__header">
-                <div class="c-stepper__logo">
-                  <img src="../../../assets/images/moya-logo.jpg" alt="">
-                  <span class="icon-check"></span>
-                </div>
-                <div class="c-stepper__info">
-                 <div>
-                  ¡Hola!, <b>Moya & asociados</b> <br>
-                  te solicita estas informaciones para poder comenzar a trabajar contigo.
-                 </div>
-                </div>
-               </div>
-               <div class="c-stepper__subheader">
-                <b>Datos representante</b>
-                <p>Paso 3 de 5</p>
-               </div>
-               <div class="c-stepper__body">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <label class="u-title-label">¿Cuál es tu nombre?</label>
+                  <div class="c-stepper__logo">
+                    <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
+                    <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                    <span class="icon-check"></span>
                   </div>
-                 <div class="col-sm-6">
-                  
-                  <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Nombre</mat-label>
-                    <input class="c-form-group__input" matInput>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Apellido</mat-label>
-                    <input class="c-form-group__input" matInput>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Correo electrónico personal</mat-label>
-                    <input class="c-form-group__input" matInput>
-                  </mat-form-field>
+                  <div class="c-stepper__info" *ngIf="customerIntake">
+                    <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="!customerIntake">
+                    <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
+                  </div>
                 </div>
-                <div class="col-sm-6">
-                  <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Fecha de nacimiento</mat-label>
-                    <input matInput [matDatepicker]="pickers">
-                    <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                    <mat-datepicker #pickers></mat-datepicker>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Seleccionar <b>Estado civil</b></mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Seleccionar <b>Profesión</b></mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                <div class="c-stepper__subheader">
+                  <b *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.circumstantial_data' | translate}}</b>
+                  <b *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.address_data' | translate}}</b>
+                  <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:5} }}</p>
+                  <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:3} }}</p>
                 </div>
-                </div>
-                <div class="c-stepper__footer">
-                   <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                   <button mat-button class="c-btn c-btn--primary" matStepperNext>Siguiente</button>
-                </div>
-               </div>
-            </mat-step>
+                <div class="c-stepper__body">
+                  <div *ngIf="customerType === 'P'">
 
-            <mat-step>
-              <div class="c-stepper__header">
-                <div class="c-stepper__logo">
-                  <img src="../../../assets/images/moya-logo.jpg" alt="">
-                  <span class="icon-check"></span>
-                </div>
-                <div class="c-stepper__info">
-                 <div>
-                  ¡Hola!, <b>Moya & asociados</b> <br>
-                  te solicita estas informaciones para poder comenzar a trabajar contigo.
-                 </div>
-                </div>
-               </div>
-               <div class="c-stepper__subheader">
-                <b>Datos dirección</b>
-                <p>Paso 4 de 5</p>
-               </div>
-               <div class="c-stepper__body">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <label class="u-title-label">Dirección de residencia</label>
-                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                     <mat-label>Seleccionar país </mat-label>
-                     <mat-select>
-                         <mat-option>
-                             Option 1
-                         </mat-option>
-                         <mat-option>
-                             Option 2
-                         </mat-option>
-                         <mat-option>
-                             Option 3
-                         </mat-option>
-                     </mat-select>
-                   </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Ciudad</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Ciudad:  Ej: Miami, Florida">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Dirección</mat-label>
-                        <input class="c-form-group__input" matInput placeholder="Dirección: Calle, número, Apart.">
-                    </mat-form-field>
-                    <div class="col-sm-6 pl-0">
-                     <mat-form-field appearance="fill" class="c-form-group">
-                       <mat-label>Código Postal</mat-label>
-                       <input class="c-form-group__input" matInput placeholder="Código">
-                       </mat-form-field>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.born_date' | translate}}</mat-label>
+                          <!-- <input matInput [matDatepicker]="picker" formControlName="born_date"> -->
+                          <input matInput type="date" formControlName="born_date">
+                          <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker> -->
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['born_date'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
                     </div>
-                    <mat-checkbox class="c-checkbox mt-1">
-                     Dirección Física y Postal comparten la misma información
-                   </mat-checkbox>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                          <mat-label>{{'clients.form_create.select_occupation' | translate}}</mat-label>
+                          <mat-select formControlName="occupation">
+                            <mat-option [value]="occupation.uuid" *ngFor="let occupation of occupations">
+                              {{occupation.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="createClientForm.controls['occupation'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                          <mat-label>{{'clients.form_create.select_marital_status' | translate}}</mat-label>
+                          <mat-select formControlName="marital_status">
+                            <mat-option [value]="''"></mat-option>
+                            <mat-option [value]="'clients.form_create.single' | translate">{{'clients.form_create.single' | translate}}</mat-option>
+                            <mat-option [value]="'clients.form_create.married' | translate">{{'clients.form_create.married' |
+                              translate}}</mat-option>
+                            <mat-option [value]="'clients.form_create.widowed' | translate">{{'clients.form_create.widowed' |
+                              translate}}</mat-option>
+                            <mat-option [value]="'clients.form_create.divorced' | translate">{{'clients.form_create.divorced' |
+                              translate}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                       <mat-error *ngIf="createClientForm.controls['marital_status'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="col-sm-6">
-                   <label class="u-title-label">Dirección postal</label>
-                   <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Seleccionar país </mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
-                        </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                   <mat-form-field appearance="fill" class="c-form-group">
-                       <mat-label>Ciudad</mat-label>
-                       <input class="c-form-group__input" matInput placeholder="Ciudad:  Ej: Miami, Florida">
-                   </mat-form-field>
-                   <mat-form-field appearance="fill" class="c-form-group">
-                       <mat-label>Dirección</mat-label>
-                       <input class="c-form-group__input" matInput placeholder="Dirección: Calle, número, Apart.">
-                   </mat-form-field>
-                   <div class="col-sm-6 pl-0">
-                    <mat-form-field appearance="fill" class="c-form-group">
-                      <mat-label>Código Postal</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Código">
+                  <hr class="u-divider u-divider--light" *ngIf="customerType === 'P'">
+                  <div class="row">
+                    <div class="col-sm-6" formArrayName="addresses">
+
+
+                      <div [formGroupName]="'0'">
+                        <label class="u-title-label" *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.residence_address' | translate}}</label>
+                        <label class="u-title-label" *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.company_address' | translate}}</label>
+
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                          <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                          <mat-select [formControlName]="'physical_country'">
+                            <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                              {{country.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'physical_country')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+                          <input class="c-form-group__input"  [formControlName]="'physical_city'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('client','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+                          <input class="c-form-group__input" [formControlName]="'physical_address'" matInput placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}">
+                        </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'physical_address')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
+                        <div class="col-sm-6 pl-0">
+                          <mat-form-field appearance="fill" class="c-form-group">
+                            <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                            <input class="c-form-group__input" [formControlName]="'physical_postal_code'" matInput placeholder="Código">
+                          </mat-form-field>
+                          <mat-error
+                            *ngIf="returnFormArrayFields('client','addresses',0,'physical_postal_code')?.value === '' && matStepperSubmitted">
+                            {{'errorMessages.field_required' | translate}}
+                          </mat-error>
+                        </div>
+
+                      <mat-checkbox class="c-checkbox mt-1" (change)="changeValueCheckboxAddressClientForm($event)">
+                                {{'clients.form_create.physical_postal_address_share_info' | translate}}
+                      </mat-checkbox>
+
+                      <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+                        <input class="c-form-group__input" [formControlName]="'postal_city'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
                       </mat-form-field>
-                   </div>
-                 </div>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('client','addresses',0,'postal_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+                        <input class="c-form-group__input" [formControlName]="'postal_address'" matInput placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}">
+                      </mat-form-field>
+                      <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_address')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                        <input class="c-form-group__input" [formControlName]="'postal_postal_code'" matInput placeholder="Código">
+                      </mat-form-field>
+                      <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                    </div>
+
+                    </div>
+                  </div>
+
+                  <div class="c-stepper__footer">
+                    <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>{{'clients.client_intake.form_create.back' | translate}}</button>
+                    <button mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)">{{'clients.client_intake.form_create.next' | translate}}</button>
+                  </div>
                 </div>
-                <div class="c-stepper__footer">
-                   <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                   <button mat-button class="c-btn c-btn--primary" matStepperNext>Siguiente</button>
+              </mat-step>
+
+            </form>
+
+
+
+            <form [formGroup]="createRepresentative" #form="ngForm" *ngIf="customerType === 'B'">
+
+              <mat-step>
+                <div class="c-stepper__header">
+                  <div class="c-stepper__logo">
+                    <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
+                    <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                  <span class="icon-check"></span>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="customerIntake">
+                    <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="!customerIntake">
+                    <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
+                  </div>
                 </div>
-               </div>
-            </mat-step>
+                <div class="c-stepper__subheader">
+                  <b>{{'clients.client_intake.form_create.representative_data' | translate}}</b>
+                  <p>{{'clients.client_intake.form_create.steps_title' | translate: {current:3,next:5} }}</p>
+                </div>
+                <div class="c-stepper__body">
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.name' | translate}}</mat-label>
+                        <input formControlName="first_name" class="c-form-group__input" matInput>
+                      </mat-form-field>
+                     <mat-error *ngIf="createRepresentative.controls['first_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.lastname' | translate}}</mat-label>
+                        <input formControlName="last_name" class="c-form-group__input" matInput>
+                      </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['last_name'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                     <div formArrayName="contacts">
+                      <div [formGroupName]="'0'">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>Correo electrónico personal</mat-label>
+                          <input formControlName="contact_value" class="c-form-group__input" matInput>
+                        </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',0,'contact_value')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',0,'contact_value')?.value !== ''
+                                                                      && returnFormArrayFields('representative','contacts',0,'contact_value')?.status === 'INVALID'
+                                                                      && matStepperSubmitted">
+                          Invalid Email Format
+                        </mat-error>
+                      </div>
+
+                      <div [formGroupName]="'1'">
+                        <label class="u-title-label">{{'clients.form_create.cellphone_number' | translate}}</label>
+                        <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                          <mat-label>{{'clients.form_create.telephone_number' | translate}}</mat-label>
+                          <mat-select formControlName="sub_type">
+                            <mat-option [value]="subtypeContact.cellphone_number">
+                              {{'clients.form_create.cellphone_number' | translate}}
+                            </mat-option>
+                            <mat-option [value]="subtypeContact.currentphone_number">
+                              {{'clients.form_create.landline_number' | translate}}
+                            </mat-option>
+                            <mat-option [value]="subtypeContact.phoneoffice_number">
+                              {{'clients.form_create.phone_office_number' | translate}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'sub_type')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
+                        <div class="d-flex u-gap-1">
+
+                          <ngx-intl-tel-input (numberChange)="setPhoneField($event,'representative')"></ngx-intl-tel-input>
+
+                        </div>
+                        <mat-error *ngIf="returnFormArrayFields('representative','contacts',1,'contact_value')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+                      </div>
+
+                     </div>
+
+                    </div>
+                    <div class="col-sm-6">
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.born_date' | translate}}</mat-label>
+                        <input formControlName="born_date" matInput type="date">
+
+                      </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['born_date'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'clients.form_create.select_marital_status' | translate}}</mat-label>
+                        <mat-select formControlName="marital_status">
+                          <mat-option [value]="''"></mat-option>
+                          <mat-option [value]="'clients.form_create.single' | translate">{{'clients.form_create.single' | translate}}</mat-option>
+                          <mat-option [value]="'clients.form_create.married' | translate">{{'clients.form_create.married' |
+                            translate}}</mat-option>
+                          <mat-option [value]="'clients.form_create.widowed' | translate">{{'clients.form_create.widowed' |
+                            translate}}</mat-option>
+                          <mat-option [value]="'clients.form_create.divorced' | translate">{{'clients.form_create.divorced' |
+                            translate}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-error *ngIf="createRepresentative.controls['marital_status'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'clients.form_create.select_occupation' | translate}}</mat-label>
+                        <mat-select formControlName="occupation">
+                          <mat-option *ngFor="let occupation of occupations" [value]="occupation.uuid">
+                            {{occupation.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                     <mat-error *ngIf="createRepresentative.controls['occupation'].status === 'INVALID'">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                    </div>
+                  </div>
+                  <div class="c-stepper__footer">
+                    <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>{{'clients.client_intake.form_create.back' | translate}}</button>
+                    <button type="button" mat-button class="c-btn c-btn--primary"  (click)="onStepChange(stepper)" >{{'clients.client_intake.form_create.next' | translate}}</button>
+                  </div>
+                </div>
+              </mat-step>
+
+              <mat-step>
+                <div class="c-stepper__header">
+                  <div class="c-stepper__logo">
+                    <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
+                    <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                    <span class="icon-check"></span>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="customerIntake">
+                    <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                  </div>
+                  <div class="c-stepper__info" *ngIf="!customerIntake">
+                    <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
+                  </div>
+                </div>
+                <div class="c-stepper__subheader">
+                  <b>{{'clients.client_intake.form_create.address_data' | translate}}</b>
+                  <p>{{'clients.client_intake.form_create.steps_title' | translate: {current:4,next:5} }}</p>
+                </div>
+                <div class="c-stepper__body">
+                  <div class="row" formArrayName="addresses">
+                    <div [formGroupName]="'0'">
+                    <div class="col-sm-6" >
+
+                      <label class="u-title-label">{{'clients.client_intake.form_create.residence_address' | translate}}</label>
+
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                        <mat-select formControlName="physical_country">
+                          <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                            {{country.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_country')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+                        <input formControlName="physical_city" class="c-form-group__input" matInput
+                          placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+                        <input formControlName="physical_address" class="c-form-group__input" matInput
+                          placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <div class="col-sm-6 pl-0">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                          <input formControlName="physical_postal_code" class="c-form-group__input" matInput placeholder="Código">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('representative','addresses',0,'physical_postal_code')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+                      </div>
+
+                      <mat-checkbox class="c-checkbox mt-1" (change)="changeValueCheckboxAddressRepresentativeForm($event)">
+                            {{'clients.form_create.physical_postal_address_share_info' | translate}}
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-sm-6">
+                      <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
+                        <input formControlName="postal_city" class="c-form-group__input" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','postal_city',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'clients.form_create.address' | translate}}</mat-label>
+                        <input formControlName="postal_address" class="c-form-group__input" matInput placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'postal_address')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <div class="col-sm-6 pl-0">
+                        <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>{{'clients.form_create.postal_code' | translate}}</mat-label>
+                          <input formControlName="postal_postal_code" class="c-form-group__input" matInput placeholder="Código">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('representative','addresses',0,'postal_postal_code')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="c-stepper__footer">
+                    <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>{{'clients.client_intake.form_create.back' | translate}}</button>
+                    <button mat-button class="c-btn c-btn--primary" (click)="onStepChange(stepper)">{{'clients.client_intake.form_create.next' | translate}}</button>
+                  </div>
+                </div>
+              </mat-step>
+
+            </form>
 
             <mat-step>
               <div class="c-stepper__header">
                 <div class="c-stepper__logo">
-                  <img src="../../../assets/images/moya-logo.jpg" alt="">
-                  <span class="icon-check"></span>
+                  <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
+                  <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
+                <span class="icon-check"></span>
                 </div>
-                <div class="c-stepper__info">
-                 <div>
-                  ¡Hola!, <b>Moya & asociados</b> <br>
-                  te solicita estas informaciones para poder comenzar a trabajar contigo.
-                 </div>
+                <div class="c-stepper__info" *ngIf="customerIntake">
+                  <div *ngIf="customerIntake.subscription_name" [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:customerIntake.subscription_name}"></div>
+                </div>
+                <div class="c-stepper__info" *ngIf="!customerIntake">
+                  <div  [innerHTML]="'clients.client_intake.form_create.title' | translate:{business:'Moya & associates'}"></div>
                 </div>
                </div>
                <div class="c-stepper__subheader">
-                <b>Resumen información</b>
-                <p>Paso 5 de 5</p>
+                <b>{{'clients.client_intake.form_create.summary_information' | translate}}</b>
+                <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: {current:5,next:5} }}</p>
+                <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: {current:3,next:3} }}</p>
                </div>
-               <div class="c-stepper__body">
+               <div class="c-stepper__body" *ngIf="customer">
                 <div class="row">
                   <div class="col-sm-6">
-                    <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Nombre </p>
-                      <p><b>Michael Gastillo</b></p>
+
+                    <div class="d-flex u-gap-1 justify-content-between mb-2" *ngIf="customerType === typeCustomer.person">
+                      <p>{{'clients.form_create.name' | translate}} </p>
+                      <p><b>{{customer.first_name}} {{customer.last_name}}</b></p>
                     </div>
-                    <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Correo electrónico</p>
-                      <p><b>Egastiloo@gmail.com</b></p>
+
+                    <div class="d-flex u-gap-1 justify-content-between mb-2" *ngIf="customerType === typeCustomer.business">
+                      <p>{{'clients.form_create.company_name' | translate}}</p>
+                      <p><b>{{customer.company_name}}</b></p>
                     </div>
+
                     <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Teléfono empresa</p>
-                      <p><b>+1 733 488 3483</b></p>
+                      <p *ngIf="customerType === typeCustomer.person">{{'clients.form_create.email' | translate}}</p>
+                      <p *ngIf="customerType === typeCustomer.business">{{'clients.form_create.business_email' | translate}}</p>
+                      <p><b>{{customer.contacts[0].contact_value}}</b></p>
                     </div>
+
                     <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Fecha nacimiento </p>
-                      <p><b>28 Abril 1994</b></p>
+                      <p *ngIf="customerType === typeCustomer.person">{{'clients.form_create.personal_telephone' | translate}}</p>
+                      <p *ngIf="customerType === typeCustomer.business">{{'clients.form_create.business_telephone' | translate}}</p>
+                      <p><b>{{customer.contacts[1].contact_value}}</b></p>
                     </div>
-                    <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Estado civil</p>
-                      <p><b>Soltero</b></p>
-                    </div>
-                    <div class="d-flex u-gap-1 justify-content-between mb-2">
-                      <p>Profesión</p>
-                      <p><b>Ing. Civil</b></p>
+                    <div *ngIf="customerType === typeCustomer.person">
+                      <div class="d-flex u-gap-1 justify-content-between mb-2">
+                        <p>{{'clients.form_create.born_date' | translate}} </p>
+                        <p><b>{{customer.born_date | date}} </b></p>
+                      </div>
+                      <div class="d-flex u-gap-1 justify-content-between mb-2">
+                        <p>{{'clients.form_create.marital_status' | translate}}</p>
+                        <p><b>{{customer.marital_status}}</b></p>
+                      </div>
+                      <div class="d-flex u-gap-1 justify-content-between mb-2">
+                        <p>{{'clients.form_create.occupation' | translate}}</p>
+                        <p><b>{{return_occupation_name(customer.occupation)}}</b></p>
+                      </div>
                     </div>
                   </div>
                   <div class="col-sm-5 col-sm-offset-1">
                     <div class="d-flex justify-content-between flex-column mb-3">
-                      <p class="mb-1">Dirección de residencia</p>
-                      <p><b>Mayagüez, Puerto Rico
-                        Manzaa #3, Casa #453 Esq. Manrique. C.P. 37387</b></p>
+                      <p class="mb-1" *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.residence_address' | translate}}</p>
+                      <p class="mb-1" *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.company_address' | translate}}</p>
+                      <p *ngIf="countries"><b>{{customer.addresses[0].physical_city}}, {{return_country_name(customer.addresses[0].physical_country)}}
+                        {{customer.addresses[0].physical_address}} {{customer.addresses[0].physical_postal_code}}</b></p>
                     </div>
                     <div class="d-flex justify-content-between flex-column mb-3">
-                      <p class="mb-1">Dirección postal</p>
-                      <p><b>Mayagüez, Puerto Rico
-                        Manzaa #3, Casa #453 Esq. Manrique. C.P. 37387</b></p>
+                      <p class="mb-1">{{'clients.form_create.mailing_address' | translate}}</p>
+                      <p *ngIf="countries"><b>{{customer.addresses[0].postal_city}}, {{return_country_name(customer.addresses[0].physical_country)}}
+                        {{customer.addresses[0].postal_address}} {{customer.addresses[0].postal_postal_code}}</b></p>
                     </div>
                   </div>
                 </div>
+
+
+
                 <div class="c-stepper__footer">
-                   <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>Atrás</button>
-                   <button mat-button class="c-btn c-btn--primary" matStepperNext>Siguiente</button>
+                   <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>{{'clients.client_intake.form_create.back' | translate}}</button>
+                   <button mat-button class="c-btn c-btn--primary"  (click)="submitForm(stepper)">{{'clients.client_intake.form_create.next' | translate}}</button>
                 </div>
                </div>
+
+             <div *ngIf="customerType === 'B' && customerRepresentative">
+              <div class="c-stepper__subheader">
+                <b>{{'clients.client_intake.form_create.representative_data' | translate}}</b>
+              </div>
+              <div class="c-stepper__body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.name' | translate}} </p>
+                      <p><b>{{customerRepresentative.first_name}} {{customerRepresentative.last_name}}</b></p>
+                    </div>
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.email' | translate}}</p>
+                      <p><b>{{customerRepresentative.contacts[0].contact_value}}</b></p>
+                    </div>
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.personal_telephone' | translate}}</p>
+                      <p><b>{{customerRepresentative.contacts[1].contact_value}}</b></p>
+                    </div>
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.born_date' | translate}} </p>
+                      <p><b>{{customerRepresentative.born_date}}</b></p>
+                    </div>
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.marital_status' | translate}}</p>
+                      <p><b>{{customerRepresentative.marital_status}}</b></p>
+                    </div>
+                    <div class="d-flex u-gap-1 justify-content-between mb-2">
+                      <p>{{'clients.form_create.occupation' | translate}}</p>
+                      <p><b>{{return_occupation_name(customerRepresentative.occupation)}}</b></p>
+                    </div>
+                  </div>
+                  <div class="col-sm-5 col-sm-offset-1">
+                    <div class="d-flex justify-content-between flex-column mb-3">
+                      <p class="mb-1">{{'clients.client_intake.form_create.residence_address' | translate}}</p>
+                      <p><b>{{customerRepresentative.addresses[0].physical_city}}, {{return_country_name(customerRepresentative.addresses[0].physical_country)}}
+                      {{customerRepresentative.addresses[0].physical_address}} {{customerRepresentative.addresses[0].physical_postal_code}}</b></p>
+                    </div>
+                    <div class="d-flex justify-content-between flex-column mb-3">
+                      <p class="mb-1">{{'clients.form_create.mailing_address' | translate}}</p>
+                      <p><b>{{customerRepresentative.addresses[0].postal_city}}, {{return_country_name(customerRepresentative.addresses[0].physical_country)}}
+                      {{customerRepresentative.addresses[0].postal_address}} {{customerRepresentative.addresses[0].postal_postal_code}}</b></p>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="c-stepper__footer">
+                  <button mat-button class="c-btn c-btn--outline-primary" matStepperPrevious>{{'clients.client_intake.form_create.back' | translate}}</button>
+                  <button mat-button class="c-btn c-btn--primary" (click)="submitForm(stepper)">{{'clients.client_intake.form_create.next' | translate}}</button>
+                </div>
+              </div>
+             </div>
+
+
+
             </mat-step>
+
             <mat-step>
               <div class="c-stepper__success">
                 <div class="c-stepper__success__img">
-                  <img src="../../../assets/images/moya-logo.jpg" alt="">
+                  <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="" style="object-fit: cover; width: 100%; height: 100%">
+                  <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
                 </div>
                 <div class="c-stepper__success__text">
-                  Gracias por completar tus datos <br>
-                  <b>Moya & asociados <br>
-                    estará revisando tu información.</b>
+                  <div [innerHTML]="'clients.client_intake.form_create.thanks_for_sharing_data' | translate : {business:customerIntake.subscription_name} "></div>
                 </div>
                 <div class="c-stepper__success__icon">
                   <span class="icon-check"></span>
                 </div>
               </div>
             </mat-step>
+
           </mat-stepper>
           <img src="../../../assets/images/wall-clock.svg" alt="" class="l-intake__bg">
     </div>
-    
+
 </div>

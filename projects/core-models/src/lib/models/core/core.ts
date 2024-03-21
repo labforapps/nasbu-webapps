@@ -22,3 +22,21 @@ export interface Plan {
   anual_discount_pct?: any;
   features: PlanFeature[];
 }
+
+export interface DocumentTemplateTypeTest {
+  uuid:       string;
+  code:       string;
+  name:       string;
+  variables:  VariableDocumentTemplateTest[];
+  active:     boolean;
+  created_by: string;
+  created_at: Date;
+}
+
+export interface VariableDocumentTemplateTest {
+  uuid:          string;
+  template_type: string;
+  name:          string;
+  description:   string;
+  value_path:    string;
+}

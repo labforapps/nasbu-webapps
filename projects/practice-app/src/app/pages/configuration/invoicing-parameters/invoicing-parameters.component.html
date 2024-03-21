@@ -4,129 +4,150 @@
             <div class="l-page__icon">
                 <span class="icon-invoice"></span>
             </div>
-            <div class="l-page__title">Parámetros de facturación</div>
+            <div class="l-page__title">{{'invoice_parameter.title' | translate}}</div>
         </div>
         <div class="l-page__controls">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{'invoice_parameter.goBack' | translate}}</button>
 
         </div>
 
     </div>
     <div class="l-page__body">
+      <form [formGroup]="invoicingParameterForm" (ngSubmit)="submitForm()" #form="ngForm">
+
         <mat-tab-group class="c-tabs">
-            <mat-tab label="Listado de parámetros">
-
-                <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                    <div class="l-configuration__title">
-                        <span class="icon-lock mr-2 u-icon-yellow"></span> Métodos de facturación permitidos
-                    </div>
-                    <p class="u-smallSize">
-                        Tiene configurado <b class="u-primaryColor">4</b> permisos
-                    </p>
-                </div>
-                <hr class="u-divider">
-                <div class="row">
-                    <div class="col-md-5 col-sm-6">
-                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
-                            Añadir Honorarios por hora
-                        </mat-checkbox>
-                        <p class="u-smallSize u-textColor pl-4 mb-1">
-                            En este modelo defines tu precio por hora y cada hora que inviertas en una tarea en el expediente se multiplicará por el valor de la misma.
-                        </p>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <label class="u-title-label">Precio x Hr. </label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Precio</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <hr class="u-divider">
-                <div class="row">
-                    <div class="col-md-5 col-sm-12">
-                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
-                            Retención de pago
-                        </mat-checkbox>
-                        <p class="u-smallSize u-textColor pl-4 mb-1">
-                            En este modelo retienes un monto acordado con tu cliente del cual se irán cubriendo las horas que vayas ejecutando mientras realizas el trabajo
-                        </p>
-                    </div>
-                    <div class="col-md-2 col-sm-6">
-                        <label class="u-title-label">Precio x Hr. </label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Cantidad</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <label class="u-title-label">Valor del monto a retener  </label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Cantidad</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <hr class="u-divider">
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-12">
-                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
-                            Por incremento de tiempo
-                        </mat-checkbox>
-                        <p class="u-smallSize u-textColor pl-4 mb-1">
-                            En este modelo defines por Hr. / Minuto/ que insertes de como se manejará con Las tareas que ejecutes en este expediente
-                        </p>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-3 u-disable-list">
-                        <label class="u-title-label">¿Cuál será tu parametro 
-                            de incremento?</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Cantidad</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 u-disable-list">
-                        <label class="u-title-label">Factor de incremento</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Cantidad</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-lg-2 col-sm-12 u-disable-list">
-                        <label class="u-title-label">Precio por incremento</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Cantidad</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                </div>
-                <hr class="u-divider">
-                <div class="row">
-                    <div class="col-md-5 col-sm-6">
-                        <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
-                            Flat feed
-                        </mat-checkbox>
-                        <p class="u-smallSize u-textColor pl-4 mb-1">
-                            Este es el valor fijo que represente facturación Total de la ejecución de este expediente
-                        </p>
-                    </div>
-                    <div class="col-md-2 col-sm-4">
-                        <label class="u-title-label">Valor del servicio</label>
-                        <mat-form-field appearance="fill" class="c-form-group">
-                            <mat-label>Valor</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD">
-                        </mat-form-field>
-                    </div>
-                </div>
+            <mat-tab label="{{'invoice_parameter.list_of_parameters' | translate}}">
 
 
+                      <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                              <div class="l-configuration__title">
+                                  <span class="icon-lock mr-2 u-icon-yellow"></span> {{'invoice_parameter.allowed_billing_methods' | translate}}
+                              </div>
+                          </div>
+                          <div class="l-page__controls">
+                            <button class="c-btn-function" mat-button >{{'invoice_parameter.save_changes' | translate}} <span class="icon-plus ml-2 "></span></button>
+                          </div>
+                      </div>
+                    <hr class="u-divider">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-6">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor"
+                                          [(ngModel)]="addHourlyRate" [ngModelOptions]="{standalone: true}">
+                              {{'invoice_parameter.add_hourly_rate' | translate}}
+                            </mat-checkbox>
+                            <p class="u-smallSize u-textColor pl-4 mb-1">
+                                {{'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate}}
+                            </p>
+                        </div>
+                        <div class="col-md-2 col-sm-4">
+                            <label class="u-title-label">{{'invoice_parameter.hourly_rate' | translate}} </label>
+                            <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'invoice_parameter.price' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej: 25 USD"
+                                       formControlName="price_per_hour" [readonly]="!addHourlyRate">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <hr class="u-divider">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-12">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" formControlName="allow_retainers">
+                              {{'invoice_parameter.retainer' | translate}}
+                            </mat-checkbox>
+                            <p class="u-smallSize u-textColor pl-4 mb-1">
+                              {{'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate}}
+                            </p>
+                        </div>
 
+                    </div>
+                    <hr class="u-divider">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor"
+                                          [(ngModel)]="perIncrementOfTime" [ngModelOptions]="{standalone: true}">
+                                {{'invoice_parameter.by_increment_of_time' | translate}}
+                            </mat-checkbox>
+                            <p class="u-smallSize u-textColor pl-4 mb-1">
+                              {{'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate}}
+                            </p>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <label class="u-title-label">{{'invoice_parameter.increment_parameter' | translate}}</label>
+                            <mat-form-field appearance="fill" class="c-form-group">
+                                <input class="c-form-group__input" matInput placeholder="Ej: 25 USD"
+                                       formControlName="increment_factor" [readonly]="!perIncrementOfTime">
+                            </mat-form-field>
+                        </div>
+                        <!-- class=u-disable-list -->
+                        <div class="col-lg-2 col-sm-12">
+                            <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}} (Min)</label>
+                            <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>{{'invoice_parameter.value' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej: 15 MIN"
+                                       formControlName="price_per_increment" [readonly]="!perIncrementOfTime">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <hr class="u-divider">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-6">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" formControlName="allow_flat_fee">
+                                Flat fee
+                            </mat-checkbox>
+                            <p class="u-smallSize u-textColor pl-4 mb-1">
+                                {{'invoice_parameter.this_is_a_set_that_represents_the_total_invoice_amount' | translate}}
+                            </p>
+                        </div>
+
+                    </div>
 
 
 
             </mat-tab>
 
+            <mat-tab label="Impuesto">
+
+              <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                  <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                    <div class="l-configuration__title">
+                        <span class="icon-lock mr-2 u-icon-yellow"></span> Impuesto
+                    </div>
+                </div>
+                <div class="l-page__controls">
+                  <button class="c-btn-function" mat-button >{{'invoice_parameter.save_changes' | translate}} <span class="icon-plus ml-2 "></span></button>
+                </div>
+
+              </div>
+
+              <hr class="u-divider">
+
+              <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor">
+                      Porcentaje impuestos
+                    </mat-checkbox>
+                    <p class="u-smallSize u-textColor pl-4 mb-1">
+                        Es importante que definas este valor para que al momento
+                        de la facturacion se tome el porcentaje correcto
+                    </p>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label class="u-title-label">Valor % impuesto </label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Ej: 18</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="tax_pct">
+                    </mat-form-field>
+                </div>
+            </div>
+
+              <hr class="u-divider">
+
+            </mat-tab>
 
         </mat-tab-group>
+
+      </form>
     </div>
 </div>

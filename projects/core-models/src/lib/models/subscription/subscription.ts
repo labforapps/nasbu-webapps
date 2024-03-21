@@ -1,3 +1,5 @@
+import { Address, Contact } from "../shared";
+
 export type SubscriptionPeriod = 'M' | 'Y';
 
 export interface SubscriptionOnboarding {
@@ -5,9 +7,11 @@ export interface SubscriptionOnboarding {
     plan: string;
     period: SubscriptionPeriod;
     free_trial: boolean;
+    total_users: number;
+    pm_request_id?: string;
 }
 
-export interface Subscription {
+export interface Subscription extends SubscriptionPayload {
   uuid: string;
   active: boolean;
   created_at: Date;
@@ -29,8 +33,76 @@ export interface Subscription {
   effective_date: Date;
   expiration_date?: any;
   first_checkout_url?: any;
+  tutorial_was_completed?: boolean;
   created_by: string;
   updated_by?: any;
   plan: string;
 }
 
+export interface SubscriptionPayload {
+  name: string;
+  contacts: SubscriptionContact[];
+  schedules: Schedule[];
+  addresses: SubscriptionAddress[];
+  logoFile?: any;
+}
+
+export interface SubscriptionContact extends Contact{
+  subscription:string;
+}
+
+export interface SubscriptionAddress extends Address{
+  subscription:string;
+}
+export interface Schedule {
+  schedule_id?: string;
+  week_day:    number;
+  is_closed:   boolean;
+  start_time:  string;
+  end_time:    string;
+}
+
+export interface SubscriptionBillingFee {
+  uuid?:                string;
+  subscription:        string;
+  billing_fee_id:      string;
+  price_per_hour:      number;
+  increment_factor:    string;
+  price_per_increment: number | string;
+  tax_pct: string
+  allow_retainers:     boolean;
+  allow_flat_fee:      boolean;
+  active?:              boolean;
+  created_by?:          null;
+  created_at?:          Date;
+  updated_by?:          null;
+  updated_at?:          Date;
+}
+
+export interface OnboardingTokenizationSessionResult {
+   status: any
+   requestId: string;
+   processUrl: string;
+   message: string;
+}
+
+
+export interface SubscriptionPaymentMethod {
+    uuid: string;
+    subscription: string;
+    franchise_name: string;
+    issuer: string;
+    last_four_digits: string;
+    expiration_date: string;
+    is_default: boolean;
+    active: boolean;
+    created_by: string;
+    created_at: string;
+    updated_by: string;
+    updated_at: string;
+}
+
+export interface SubscriptionPaymentMethodPayload {
+    subscription: string;
+    request_id: string;
+}

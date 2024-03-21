@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Country, Subscription, SubscriptionAddress, SubscriptionContact, SubtypeContact, TypeContact, WeekDaysDescription,SubtypeContactDescripcion, CurrentUserInfo } from 'core-models';
+import { AuthService, CommonService } from 'core-services';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile-general-info',
@@ -7,9 +10,71 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileGeneralInfoComponent implements OnInit {
 
-  constructor() { }
+  @Input() subscription!:Subscription;
+  subscriptionContactPhones!:SubscriptionContact[];
+  subscriptionContactEmail!:SubscriptionContact[];
+  typeContact = TypeContact;
+  subtypeContact = SubtypeContact;
+  public user$!: Observable<CurrentUserInfo>;
+
+  countries!:Country[];
+  weekDays = [2,3,4,5,6,7,1];
+
+  constructor(private commonSevice:CommonService,
+              private authService: AuthService,) { }
 
   ngOnInit(): void {
+    this.setContacts();
+    this.fetchCountries();
+    this.setScheduleProfile();
+    this.loadUser();
   }
+
+  setContacts(){
+    this.subscriptionContactPhones = this.subscription.contacts.filter( x => x.type === this.typeContact.phone_number);
+    this.subscriptionContactEmail = this.subscription.contacts.filter(x => x.type === this.typeContact.email);
+  }
+
+  setScheduleProfile(){
+    if(this.subscription.schedules.length === 0){
+      this.weekDays.forEach(x => {
+        this.subscription.schedules.push({
+            "week_day": x,
+            "is_closed": true,
+            "start_time": "00:00",
+            "end_time": "00:00"
+        })
+      })
+    }
+  }
+
+  fetchCountries(){
+    this.commonSevice.getCountries().subscribe(data => {
+      this.countries = data;
+    })
+  }
+
+  returnCountryName(countryId:string){
+    const countryFiltered:Country[] = this.countries.filter(x => x.uuid === countryId);
+    return countryFiltered[0].name;
+  }
+
+  returnScheduleInformation(weekDay:number){
+    const scheduleFiltered = this.subscription.schedules.filter(x => x.week_day === weekDay && !x.is_closed) || [];
+
+    return {
+      ...scheduleFiltered[0],
+      nameDay: WeekDaysDescription.get(weekDay)
+    }
+  }
+
+  returnContactDescription(subtypeContact:string){
+    return SubtypeContactDescripcion.get(subtypeContact || '');
+  }
+
+  loadUser(): void {
+    this.user$ = this.authService.getCurrentUserInfo();
+  }
+
 
 }

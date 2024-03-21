@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "97657fda-e852-4c97-94a0-ab23c7937c6a"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -20,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": true,
+            "localize": false,
             "outputPath": "dist/lawyers-app",
             "index": "projects/lawyers-app/src/index.html",
             "main": "projects/lawyers-app/src/main.ts",
@@ -40,7 +43,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -79,12 +82,6 @@
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "lawyers-app:build"
-          }
-        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -116,20 +113,11 @@
       "root": "projects/practice-app",
       "sourceRoot": "projects/practice-app/src",
       "prefix": "app",
-      "i18n": {
-        "sourceLocale": "es-PR",
-        "locales": {
-          "en": {
-            "translation": "src/locale/messages.en.json",
-            "baseHref": ""
-          }
-        }
-      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": true,
+            "localize": false,
             "outputPath": "dist/practice-app",
             "index": "projects/practice-app/src/index.html",
             "main": "projects/practice-app/src/main.ts",
@@ -147,15 +135,12 @@
             "scripts": []
           },
           "configurations": {
-            "en": {
-              "localize": ["en"]
-            },
             "qa": {
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -218,12 +203,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "practice-app:build"
-          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

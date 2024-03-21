@@ -3,10 +3,10 @@
         <div class="align-items-center d-flex u-gap-1">
             <span class="icon-plus u-icon-white mr-3"></span>
             <div>
-                <div>Crear nuevo/a cliente</div>
-                <div class="u-smallSize u-fontRegular mt-1">Selecciona una opción</div>
+                <div>{{'clients.client_intake.create_new_client' | translate}}</div>
+                <div class="u-smallSize u-fontRegular mt-1">{{'clients.client_intake.choose_one_option' | translate}}</div>
             </div>
-            
+
         </div>
     </div>
     <mat-dialog-content class="pr-5 pl-5 pt-0">
@@ -15,10 +15,9 @@
                 <span class="icon-send"></span>
             </div>
             <div class="flex-1">
-                <div class="c-dialog-options__title">Enviar formulario al cliente</div>
+                <div class="c-dialog-options__title">{{'clients.client_intake.send_form_to_customer' | translate}}</div>
             <p class="c-dialog-options__text">
-                Con esta función el cliente completa el mismo 
-                sus datos y evitas tener que registrarlo
+                {{'clients.client_intake.client_completes_his_data_himself' | translate}}
             </p>
             </div>
         </div>
@@ -27,16 +26,15 @@
                 <span class="icon-add-user"></span>
             </div>
             <div class="flex-1">
-                <div class="c-dialog-options__title">Crear manualmente</div>
+                <div class="c-dialog-options__title">{{'clients.client_intake.create_manually' | translate}}</div>
             <p class="c-dialog-options__text">
-                Con esta opción completas tu mismo los datos
-                del cliente. 
+                {{'clients.client_intake.you_fill_in_the_customer_data_yourself' | translate}}
             </p>
             </div>
         </div>
 
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer justify-content-center">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'clients.client_intake.close_window' | translate}}</button>
     </mat-dialog-actions>
 </div>

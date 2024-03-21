@@ -1,0 +1,217 @@
+  <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
+      <p [innerHTML]="'dockets.you_have_a_total_of_dockets' | translate: {docketsQuantity: this.caseFiles.length}"></p>
+
+      <div class="col-md-5">
+        <div class="d-flex u-gap-1 mt-2">
+
+          <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
+            <mat-label>{{ 'dockets.date_from' | translate }}</mat-label>
+            <input matInput
+                   [matDatepicker]="picker"
+                   (dateChange)="onSelectDatesFilter($event.value,'S')"
+                   [value]="startDateFilter"
+                   (focus)="onInputFocus('S')"
+                   (blur)="onInputBlur('S')">
+            <mat-datepicker-toggle matSuffix [for]="picker" [ngStyle]="{'color': focusStartDateFilter ? 'green' : ''}"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" style="width: 13rem;" class="c-form-group c-form-group--small">
+            <mat-label>{{ 'dockets.date_to' | translate }}</mat-label>
+            <input matInput
+                   [matDatepicker]="pickers"
+                   (dateChange)="onSelectDatesFilter($event.value,'E')"
+                   [value]="endDateFilter"
+                   (focus)="onInputFocus('E')"
+                   (blur)="onInputBlur('E')">
+            <mat-datepicker-toggle matSuffix [for]="pickers" [ngStyle]="{'color': focusEndDateFilter ? 'green' : ''}"></mat-datepicker-toggle>
+            <mat-datepicker  #pickers></mat-datepicker>
+          </mat-form-field>
+
+          <span class="mt-2" style="color: blue; cursor: pointer;" (click)="cleanDatesFilter()">{{ 'dockets.clean_dates' | translate }}</span>
+        </div>
+      </div>
+
+      <div class="c-form-group--search bordered ml-auto">
+          <input matInput type="text" placeholder="{{'dockets.search_by_name' | translate}}" (keyup)="searchByName($event)">
+          <span class="icon-search"></span>
+      </div>
+      <div class="c-btn-filter">
+          {{'dockets.filter_by' | translate}}
+          <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+          <mat-menu #filterMenu="matMenu">
+              <div class="c-filter" (click)="$event.stopPropagation()">
+                  <div class="c-filter__header">
+                      <span class="icon-filter"></span>
+                      <div class="c-filter__title">
+                        {{'dockets.filter_criteria' | translate}}
+                      </div>
+                  </div>
+                  <div class="c-filter__body">
+                      <label class="u-title-label">{{'dockets.client' | translate}}</label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                          <mat-label>{{'dockets.client' | translate}}</mat-label>
+                          <mat-select [(ngModel)]="filters.customer">
+                              <mat-option *ngFor="let customer of customersWithCaseFile" [value]="customer.uuid">
+                                  <span *ngIf="customer.type === typeCustomer.person">{{customer.first_name + ' ' + customer.last_name}}</span>
+                                  <span *ngIf="customer.type === typeCustomer.business">{{customer.company_name}}</span>
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <label class="u-title-label">{{'dockets.status' | translate}}</label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                          <mat-label>{{'dockets.status' | translate}}</mat-label>
+                          <mat-select [(ngModel)]="filters.status">
+                            <mat-option [value]="''">
+                                {{'dockets.all' | translate}}
+                            </mat-option>
+                            <mat-option [value]="caseFileStatus.OPEN">
+                              {{'dockets.open' | translate}}
+
+                            </mat-option>
+                            <mat-option [value]="caseFileStatus.CLOSED">
+                              {{'dockets.closed' | translate}}
+
+                            </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <label class="u-title-label">{{'dockets.responsible_for_the_task' | translate}} </label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                          <mat-label>{{'dockets.name' | translate}}</mat-label>
+                          <mat-select [(ngModel)]="filters.assignTo">
+                              <mat-option *ngFor="let securityUser of securityUsersWithCaseFile" [value]="securityUser.uuid">
+                                  {{securityUser.first_name + ' ' + securityUser.last_name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <label class="u-title-label">{{'dockets.shared_with' | translate}}: </label>
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+                          <mat-label>{{'dockets.name' | translate}}</mat-label>
+                          <mat-select [(ngModel)]="filters.shared_with">
+                            <mat-option *ngFor="let securityUser of securityUsersWithCaseFileAccess" [value]="securityUser.uuid">
+                              {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}
+                          </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+
+                  </div>
+                  <div class="c-filter__footer">
+                      <button mat-button class="c-btn c-btn--primary c-btn--small w-100" (click)="applyFilters()">{{'dockets.apply_filters' | translate}}</button>
+                      <button mat-button class="u-link w-100 mt-2" (click)="cleanFilters()">{{'dockets.clean_filters' | translate}}</button>
+                  </div>
+
+              </div>
+          </mat-menu>
+      </div>
+
+      <button class="c-btn-function" mat-button *ngIf="module && module !== moduleEnum.CASE_FILES" (click)="openDialogNewExpedient()">{{'clients.files.table_header.create_new' | translate}}<span class="icon-plus ml-2 "></span></button>
+
+  </div>
+
+  <div class="u-table-responsive" *ngIf="dataSourceCaseFiles">
+      <table mat-table [dataSource]="dataSourceCaseFiles" class="c-table">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                  <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                  </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                  <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+              </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{'dockets.type' | translate}} </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <img *ngIf="element.status === caseFileStatus.OPEN" class="c-table__icon" src="../../../../assets/images/table-icons/box.svg" alt="">
+                <img *ngIf="element.status === caseFileStatus.CLOSED" class="c-table__icon" src="../../../../assets/images/table-icons/box-disable.svg" alt="">
+              </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.type_of_task' | translate}} </th>
+              <td mat-cell *matCellDef="let element" class="w-20">
+                  <div class="u-link" [routerLink]="'/expedient-info/' + element.uuid">{{element.name}} </div>
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="assigned_to">
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.assigned_to' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                  <div class="u-link" [routerLink]="'/user-profile/' + element.assigned_to.uuid">{{element.assigned_to.user.first_name + ' ' +  element.assigned_to.user.last_name}}</div>
+              </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="client">
+              <th mat-header-cell *matHeaderCellDef> {{'dockets.client' | translate}}  </th>
+              <td mat-cell *matCellDef="let element">
+                  <div class="u-link" [routerLink]="'/customers/edit/' + element.customer.uuid">
+                    <span *ngIf="element.customer.type === typeCustomer.person">{{element.customer.first_name + ' ' +  element.customer.last_name}}</span>
+                    <span *ngIf="element.customer.type === typeCustomer.business">{{element.customer.company_name}}</span>
+                  </div>
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.creation_date' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                  {{returnDateFormatted(element.created_at)}}
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="share">
+              <th mat-header-cell *matHeaderCellDef>{{'dockets.shared_with' | translate}} </th>
+              <td mat-cell *matCellDef="let element">
+                  <div class="u-textLightColor" *ngIf="element.case_file_user_access?.length === 0">
+                      {{'dockets.without_assign' | translate}}
+                  </div>
+                  <div class="u-link" *ngIf="element.case_file_user_access?.length === 1 && securityUsers" (click)="openDialogUserShareExpedient(element)">
+                    {{returnSharedUserName(element.case_file_user_access)}}
+                  </div>
+                  <div class="u-link" *ngIf="element.case_file_user_access?.length > 1" (click)="openDialogUserShareExpedient(element)">
+                    {{'dockets.see_all_the_users' | translate}}
+                  </div>
+
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{'dockets.actions' | translate}}  </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+
+                  <mat-button-toggle-group class="c-btn-table">
+                      <mat-button-toggle [routerLink]="'/expedient-info/' + element.uuid">{{'dockets.see' | translate}} </mat-button-toggle>
+                      <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                          <span class="icon-arrow-down"></span>
+                      </mat-button-toggle>
+                  </mat-button-toggle-group>
+
+                  <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
+                      <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewExpedient(element)"  >{{'dockets.edit' | translate}} <span class="icon-pen"></span></button>
+                      <button mat-menu-item class="matMenu-red" (click)="deleteCaseFile(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.delete' | translate}} <span class="icon-trash"></span></button>
+                      <button mat-menu-item class="matMenu-green">{{'dockets.generate_invoice' | translate}} <span class="icon-invoice"></span></button>
+                      <button mat-menu-item class="matMenu-green" [routerLink]="'/expedient-info/' + element.uuid" [queryParams]="{ tab: 1 }">{{'dockets.add_note' | translate}}<span class="icon-note-pen"></span></button>
+                      <button mat-menu-item class="matMenu-blue" (click)="openDialogUserShareExpedient(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
+                  </mat-menu>
+              </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+          </tr>
+      </table>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+      </mat-paginator>
+  </div>
+

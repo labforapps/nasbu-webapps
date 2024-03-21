@@ -1,38 +1,84 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogIntakeComponent } from '../dialogs/dialog-intake/dialog-intake.component';
+import { CurrentUserInfo, SelectedSubscription, SubscriptionMemberType } from 'core-models';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
 
   @ViewChild(MatDrawer)
   sidenav!: MatDrawer;
- 
-   constructor(private observer: BreakpointObserver, private cdRef:ChangeDetectorRef) {}
+  currentUser!:CurrentUserInfo;
+  public openMenu!:boolean;
+  selectedSubscription!:SelectedSubscription | null
+  subscriptionMemberType = SubscriptionMemberType
 
- 
-   ngAfterViewInit() {
-   
+  constructor(
+    private observer: BreakpointObserver,
+    private cdRef: ChangeDetectorRef,
+    private authService: AuthService,
+    private dialog:MatDialog
+  ) {
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.selectedSubscription = this.authService.addPermissions();
+
+    this.authService.getCurrentUserInfo().subscribe(data => {
+      this.currentUser = data;
+
+      if(localStorage.getItem(`first_login_${this.currentUser.username}`) === 'true'){
+         this.openDialogIntake();
+      }
+
+    });
+
+  }
+
+  ngAfterViewInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
-      
+
       if (res.matches) {
         this.sidenav.mode = 'over';
         this.sidenav.close();
         this.cdRef.detectChanges();
-        
+
       } else {
         this.sidenav.mode = 'side';
         this.sidenav.open();
       }
     });
-   }
+  }
 
-  ngOnInit(): void {
+  openDialogIntake(): void {
+    const dialogRef = this.dialog.open(DialogIntakeComponent, {
+      panelClass: 'c-dialog-intake',
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if(localStorage.getItem(`first_login_${this.currentUser.username}`) === 'true'){
+        localStorage.setItem(`first_login_${this.currentUser.username}`,'false')
+        this.openMenu = true;
+     }
+    })
+  }
+
+  get showTourGear(): boolean {
+      if (this.selectedSubscription) {
+
+      }
+
+      return false;
   }
 
 }

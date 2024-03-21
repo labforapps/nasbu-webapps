@@ -1,42 +1,45 @@
 <div class="c-generalInfo">
     <div class="c-generalInfo__header">
         <div class="align-items-center d-flex">
-            <img src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <img *ngIf="!customer.image" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <img *ngIf="customer.image" [src]="customer.image" class="c-generalInfo__profilePicture">
+
             <div>
-                <div class=" c-generalInfo__name ">Datos de contacto </div>
-                <div class="c-generalInfo__subname ">Detalles del usuario </div>
+                <div class=" c-generalInfo__name ">{{'clients.details.contact_information' | translate}} </div>
+                <div class="c-generalInfo__subname ">{{'clients.details.user_details' | translate}} </div>
             </div>
         </div>
-        <div class="c-generalInfo__company ">
-            <img src="../../../../../assets/images/company.svg" alt=" "> <b class="mr-1">Compañía </b>Moya & Asociados
-
+        <div class="c-generalInfo__company " *ngIf="customer.type === 'P'">
+            <img src="../../../../../assets/images/company.svg" alt=" ">
+            <span *ngIf="!linkedCustomer"><b class="mr-1">{{'clients.details.business' | translate}} </b> <span style="color:#435B6C">{{'clients.details.not_available' | translate}}</span></span>
+            <span *ngIf="linkedCustomer"><b class="mr-1">{{'clients.details.business' | translate}} </b> <span style="color:#435B6C">{{linkedCustomer.company_name}}</span></span>
         </div>
     </div>
-    <hr class="u-divider ">
-    <div class="c-generalInfo__body">
+    <hr *ngIf="customer.type === 'P'" class="u-divider ">
+    <div class="c-generalInfo__body" *ngIf="customer.type === 'P'">
         <div class="c-generalInfo__title ">
-            Circunstancias personales
+            {{'clients.details.personal_circumstances' | translate}}
         </div>
         <div class="row">
             <div class="align-items-center col-md-4 d-flex u-gap-1 u-textColor mb-2">
                 <span class="icon-birthday" style="font-size: 2rem;"></span>
                 <div>
-                    <p><b>Fecha de nacimiento</b></p>
-                    <p>9 noviembre 1978</p>
+                    <p><b>{{'clients.details.birth_date' | translate}}</b></p>
+                    <p>{{customer.born_date | date}}</p>
                 </div>
             </div>
             <div class="align-items-center col-md-4 d-flex u-gap-1 u-textColor mb-2">
                 <span class="icon-suitcase" style="font-size: 1.8rem;"></span>
                 <div>
-                    <p><b>Profesión u/o oficio</b></p>
-                    <p>Abogado(a)</p>
+                    <p><b>{{'clients.details.profession_and_or_trade' | translate}}</b></p>
+                    <p *ngIf="occupations">{{returnOccupationName(customer.occupation)}}</p>
                 </div>
             </div>
             <div class="align-items-center col-md-4 d-flex u-gap-1 u-textColor mb-2">
                 <span class="icon-marriage" style="font-size: 2rem;"></span>
                 <div>
-                    <p><b>Estado civil </b></p>
-                    <p>Soltero</p>
+                    <p><b>{{'clients.details.civil_status' | translate}} </b></p>
+                    <p>{{customer.marital_status}}</p>
                 </div>
             </div>
         </div>
@@ -44,140 +47,130 @@
     <hr class="u-divider ">
     <div class="c-generalInfo__body ">
         <div class="c-generalInfo__title ">
-            <span class="icon-phone"></span>Contactos
+            <span class="icon-phone"></span>{{'clients.details.contacts' | translate}}
         </div>
         <div class="row ">
-            <div class="col-md-6 ">
-                <div class="information-title ">Teléfonos</div>
 
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-mobile"></span> Núm. Celular
-                    </div>
-                    <div class="info-group__data mr-5">
-                        +1 (734) 938 8394
-                    </div>
-                </div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-company "></span> Núm. Celular
-                    </div>
-                    <div class="info-group__data mr-5">
-                        +1 (734) 938 8394
-                    </div>
-                </div>
-            </div>
             <div class="col-md-6 ">
-                <div class="information-title ">Teléfonos</div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-email"></span> Correo personal
-                    </div>
-                    <div class="info-group__data ">
-                        Manuel@fugus.com
-                    </div>
+
+                <div class="information-title ">{{'clients.details.telephones' | translate}}</div>
+
+                <div class="row" *ngFor="let contact of customer_contacts_phone">
+                  <div class="md-12">
+
+                      <div class="info-group ">
+                        <div class="info-group__info ">
+                          <span class="icon-mobile"></span> {{returnContactDescription(contact.sub_type) || '' | translate}}
+                        </div>
+                        <div class="info-group__data mr-5">
+                          {{contact.contact_value}}
+                        </div>
+                      </div>
+
+                  </div>
                 </div>
-                <div class="info-group ">
-                    <div class="info-group__info ">
-                        <span class="icon-email"></span> Correo empresarial
+
+            </div>
+
+            <div class="col-md-6 ">
+
+                <div class="information-title ">{{'clients.details.emails' | translate}}</div>
+
+
+                <div class="row" *ngFor="let contact of customer_contacts_email">
+                  <div class="col-md-12">
+
+                    <div class="info-group ">
+                      <div class="info-group__info ">
+                        <span class="icon-email"></span> {{returnContactDescription(contact.sub_type) || '' | translate}}
+                      </div>
+                      <div class="info-group__data ">
+                        {{contact.contact_value}}
+                      </div>
                     </div>
-                    <div class="info-group__data ">
-                        Manuel@fugus.com
-                    </div>
+
+                  </div>
                 </div>
+
+
             </div>
         </div>
     </div>
-    <hr class="u-divider ">
 
-    <div class="c-generalInfo__body ">
-        
-        <div class="row mb-5">
-            <div class="col-md-6">
-                <div class="c-generalInfo__title">
-                    <span class="icon-id-card"></span>Datos
-                </div>
-                <div class="mb-4">
-                    <div class="u-smallSize u-textColor u-fontBold mb-1">Licencia # 1 </div>
-                    <p class="u-textLightColor">983792A38</p>
-                </div>
-                <div class="mb-4"> 
-                    <div class="u-smallSize u-textColor u-fontBold mb-1">Gobierno emisor licencia</div>
-                    <p class="u-textLightColor">Estado Unidos, estado de alabama</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="c-generalInfo__title ">
-                    <span class="icon-clock"></span>Honorarios
-                </div>
-                <div class="mb-4"> 
-                    <div class="u-smallSize u-textColor u-fontBold mb-1">Costo por hora</div>
-                    <p class="u-textLightColor u-bigSize-2">25 USD x Hr. </p>
-                </div>
-            </div>
-        </div>
-    </div>
     <hr class="u-divider ">
 
     <div class="c-generalInfo__body ">
         <div class="c-generalInfo__title ">
-            <span class="icon-phone"></span>Dirección física y postal
+            <span class="icon-phone"></span>{{'clients.details.physical_mailing_address' | translate}}
         </div>
-        <div class="row mb-5">
+        <div class="row mb-5" *ngFor="let address of customer.addresses; index as i">
             <div class="col-md-6">
-                <div class="information-title ">Dirección física #1 </div>
+                <div class="information-title ">{{'clients.details.physical_address' | translate}} #{{i + 1}} </div>
 
                 <div class="info-group mb-2 ">
-                    <div class="info-group__info ">País</div>
-                    <div class="info-group__data mr-5">República Dominicana</div>
+                    <div class="info-group__info ">{{'clients.details.country' | translate}}</div>
+                    <div class="info-group__data mr-5" *ngIf="countries">{{returnCountryName(address.physical_country)}}</div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Ciudad, Estado ó provincia</div>
-                    <div class="info-group__data mr-5">Miami, Florida </div>
+                    <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
+                    <div class="info-group__data mr-5">{{address.physical_city}} </div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Código Postal</div>
-                    <div class="info-group__data mr-5">33126</div>
+                    <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
+                    <div class="info-group__data mr-5">{{address.physical_postal_code}}</div>
                 </div>
                 <div class="info-group mb-2">
-                    <div class="info-group__info ">Dirección física</div>
-                    <div class="info-group__data mr-5">1466 NW 78 AVE</div>
+                    <div class="info-group__info ">{{'clients.details.physical_address' | translate}}</div>
+                    <div class="info-group__data mr-5">{{address.physical_address}}</div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="information-title ">Dirección Postal #1</div>
-                <p class="u-textLightColor u-smallSize">
-                    No tiene dirección postal
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="information-title ">Dirección física #2 </div>
+                <div class="information-title ">{{'clients.details.mailing_address' | translate}}</div>
+                <!-- <p class="u-textLightColor u-smallSize">
+                    {{'clients.details.not_have_mailing_address' | translate}}
+                </p> -->
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_city}} </div>
+                </div>
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_postal_code}}</div>
+                </div>
+                <div class="info-group mb-2">
+                  <div class="info-group__info ">{{'clients.details.postal_address' | translate}}</div>
+                  <div class="info-group__data mr-5">{{address.postal_address}}</div>
+                </div>
 
-                <div class="info-group mb-2 ">
-                    <div class="info-group__info ">País</div>
-                    <div class="info-group__data mr-5">República Dominicana</div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Ciudad, Estado ó provincia</div>
-                    <div class="info-group__data mr-5">Miami, Florida </div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Código Postal</div>
-                    <div class="info-group__data mr-5">33126</div>
-                </div>
-                <div class="info-group mb-2">
-                    <div class="info-group__info ">Dirección física</div>
-                    <div class="info-group__data mr-5">1466 NW 78 AVE</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="information-title ">Dirección Postal #2</div>
-                <p class="u-textLightColor u-smallSize">
-                    No tiene dirección postal
-                </p>
             </div>
         </div>
+        <!-- <div class="row">
+            <div class="col-md-6">
+              <div class="information-title ">{{'clients.details.physical_address' | translate}} #2 </div>
+
+              <div class="info-group mb-2 ">
+                <div class="info-group__info ">{{'clients.details.country' | translate}}</div>
+                <div class="info-group__data mr-5">República Dominicana</div>
+              </div>
+              <div class="info-group mb-2">
+                <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
+                <div class="info-group__data mr-5">Miami, Florida </div>
+              </div>
+              <div class="info-group mb-2">
+                <div class="info-group__info ">{{'clients.details.postal_code' | translate}}</div>
+                <div class="info-group__data mr-5">33126</div>
+              </div>
+              <div class="info-group mb-2">
+                <div class="info-group__info ">{{'clients.details.physical_address' | translate}}</div>
+                <div class="info-group__data mr-5">1466 NW 78 AVE</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="information-title ">{{'clients.details.mailing_address' | translate}}</div>
+              <p class="u-textLightColor u-smallSize">
+                {{'clients.details.not_have_mailing_address' | translate}}
+              </p>
+            </div>
+        </div> -->
     </div>
 </div>

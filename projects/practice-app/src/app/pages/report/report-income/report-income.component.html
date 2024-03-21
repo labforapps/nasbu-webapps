@@ -1,0 +1,135 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex">
+            <div class="l-page__icon">
+                <span class="icon-user"></span>
+            </div>
+            <div class="l-page__title">Reporte de ingresos</div>
+        </div>
+        <div class="l-page__controls">
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span>
+                Volver atrás</button>
+        </div>
+
+    </div>
+    <div class="l-page__body p-5">
+        <div class="row mt-5">
+            <div class="col-lg-10 mt-2">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar cliente</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="clientOption">
+                                <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" (click)="reportPayload.customer = null">Todos
+                                </mat-radio-button>
+                                <mat-radio-button [value]="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Selecionar
+                                    específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Selecionar cliente</mat-label>
+                                <mat-select [(ngModel)]="reportPayload.customer" [disabled]="clientOption === 1">
+                                    <div class="c-searchList">
+                                        <!-- <div class="p-3">
+                                            <input matInput placeholder="Escribir nombre" class="c-searchList__input">
+                                        </div> -->
+                                        <div class="c-searchList__content">
+                                            <mat-option [value]="null">Seleccionar Cliente</mat-option>
+                                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                                                {{customer | customerFullName}}
+                                            </mat-option>
+                                        </div>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar rango de fecha</label>
+
+                            <mat-form-field appearance="fill"
+                            class="c-form-group c-form-group__select c-form-group--small">
+                            <mat-label>Seleccionar período</mat-label>
+                            <mat-select [(ngModel)]="reportPayload.period" (selectionChange)="onSelectDateRange($event)">
+                               <mat-option [value]="null">Seleccionar periodo</mat-option>
+                                <mat-option *ngFor="let dayPeriod of daysPeriod" [value]="dayPeriod.code">
+                                  {{dayPeriod.name}}
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+
+
+                            <div class="d-flex u-gap-1 mt-2">
+                                <mat-form-field appearance="fill" style="width: 13rem;"
+                                    class="c-form-group  c-form-group--small flex-1">
+                                    <mat-label>Date range</mat-label>
+                                    <input matInput [matDatepicker]="picker" [(ngModel)]="reportPayload.start_date" [disabled]="reportPayload.period !== null">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" style="width: 13rem;"
+                                    class="c-form-group  c-form-group--small flex-1">
+                                    <mat-label>Date range</mat-label>
+                                    <input matInput [matDatepicker]="pickers" [(ngModel)]="reportPayload.end_date" [disabled]="reportPayload.period !== null">
+                                    <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickers></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Modelo de facturación</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="billingTypeOption">
+                                <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" [checked]="true" (click)="reportPayload.billing_type = null">Todos
+                                </mat-radio-button>
+                                <mat-radio-button [value]="2"  class="c-radioButton u-normalSize">
+                                    Seleccionar específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Seleccionar modelos</mat-label>
+                                <mat-select [(ngModel)]="reportPayload.billing_type" [disabled]="billingTypeOption === 1">
+                                  <mat-option [value]="billingTypeEnum.PER_HOUR">
+                                      Por hora
+                                  </mat-option>
+                                  <mat-option [value]="billingTypeEnum.BY_TIME_INCREMENT">
+                                      Por incremento de tiempo
+                                  </mat-option>
+                                  <mat-option [value]="billingTypeEnum.FLAT_FEE">
+                                      Flat fee
+                                  </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                      <div class="mb-5">
+                        <label class="u-title-label u-normalSize w-100 mb-4">PDF Exportación</label>
+                        <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="reportPayload.format">
+                            <mat-radio-button [value]="reportFormatEnum.PDF" class="c-radioButton u-normalSize mr-4">Descargar
+                            </mat-radio-button>
+                            <mat-radio-button [value]="reportFormatEnum.HTML" [checked]="true" class="c-radioButton u-normalSize">Abrir en
+                                otra pestaña
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <a target="_blank">
+                            <button mat-button class="c-btn-function w-100" (click)="exportReport()">Exportar
+                                <span class="icon-plus ml-2"></span>
+                            </button>
+                        </a>
+
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

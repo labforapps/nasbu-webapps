@@ -1,79 +1,96 @@
-import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import { DialogPaymentRegisterComponent } from '../../../../components/dialogs/dialog-payment-register/dialog-payment-register.component';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAddBalanceComponent } from '../../../../components/dialogs/dialog-add-balance/dialog-add-balance.component';
-export interface PeriodicElement {
-  position: number;
-  expedient: string;
-  task: string;
-  date: string;
-  hours: string;
-  value: string;
-  amount: string
+import { CaseFile, CaseFileStatus, CaseFileWalletDetail,CaseFileWalletDetailType } from 'core-models';
+import { PracticeService } from 'core-services';
+import { DialogAddBalanceComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-add-balance/dialog-add-balance.component';
 
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-  {position: 2, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-  {position: 3, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-  {position: 4, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-  {position: 5, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-  {position: 6, expedient: 'NB0001-Acta de divorcio', task: 'Llamada Manuel Cabral', date: '12/9/2021', hours: '2 Horas', value: '250 USD', amount: '-500 USD'},
-
-
-
-
-];
 @Component({
   selector: 'app-expedient-wallet',
   templateUrl: './expedient-wallet.component.html',
   styleUrls: ['./expedient-wallet.component.scss']
 })
 export class ExpedientWalletComponent implements OnInit {
-  displayedColumns: string[] = ['select','type','expedient','task', 'date', 'hours','value','amount', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+  @Input() caseFile!:CaseFile
+  caseFileWalletDetail!:CaseFileWalletDetail[];
+  caseFileWalletDetailCredit!:CaseFileWalletDetail[];
+  caseFileWalletDetailDebit!:CaseFileWalletDetail[];
+  caseFileWalletDetailType = CaseFileWalletDetailType;
+  caseFileStatus = CaseFileStatus;
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  constructor(private practiceService:PracticeService,
+    public dialog: MatDialog,) { }
 
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  openDialogPaymentRegister(){
-    this.dialog.open(DialogPaymentRegisterComponent);
-  }
-
-
-  openDialogAddBalance(){
-    this.dialog.open(DialogAddBalanceComponent);
-  }
-
-  constructor(public dialog: MatDialog) { }
   ngOnInit(): void {
+    this.getCaseFileWalletDetails();
   }
+
+  getCaseFileWalletDetails(){
+    this.practiceService.getCaseFileWalletDetails(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
+     this.caseFileWalletDetail = data;
+     this.caseFileWalletDetailCredit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.CREDIT);
+     this.caseFileWalletDetailDebit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.DEBIT)
+    })
+   }
+
+
+  openDialogAddBalance(caseFileWalletDetail?:CaseFileWalletDetail){
+    const dialogRef = this.dialog.open(DialogAddBalanceComponent, {
+      data: {
+        caseFile: this.caseFile,
+        caseFileWalletDetail: caseFileWalletDetail
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:CaseFileWalletDetail) => {
+
+      if(result.uuid){
+        const caseFileFiltered = this.caseFileWalletDetail.filter(x => x.uuid === result.uuid);
+
+        if(caseFileFiltered.length > 0){
+          this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== result.uuid);
+          this.caseFileWalletDetail.push(result);
+          this.caseFileWalletDetailCredit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.CREDIT);
+        }
+        else{
+          this.caseFileWalletDetail.push(result);
+          this.caseFileWalletDetailCredit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.CREDIT);
+        }
+      }
+    });
+
+  }
+
+  returnAmountCaseFileWalletDetails(type:CaseFileWalletDetailType){
+
+      let caseFileWalletDetail!:CaseFileWalletDetail[];
+
+      if(type === this.caseFileWalletDetailType.ALL) caseFileWalletDetail = this.caseFileWalletDetail;
+      if(type === this.caseFileWalletDetailType.DEBIT) caseFileWalletDetail = this.caseFileWalletDetailDebit;
+      if(type === this.caseFileWalletDetailType.CREDIT) caseFileWalletDetail = this.caseFileWalletDetailCredit;
+
+      if(this.caseFileWalletDetail && this.caseFileWalletDetail.length > 0){
+        return caseFileWalletDetail.reduce((sum, caseFileWalletDetail) => {
+          return sum + Number(caseFileWalletDetail.amt);
+        }, 0);
+      }
+
+      return 0;
+
+  }
+
+  deleteCaseFileWalletDetail(uuid:string){
+    this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== uuid);
+    this.caseFileWalletDetailCredit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.CREDIT);
+  }
+
+  updateCaseFileWalletDetail(caseFileWalletDetail:CaseFileWalletDetail){
+    this.caseFileWalletDetail = this.caseFileWalletDetail.filter(x => x.uuid !== caseFileWalletDetail.uuid);
+    this.caseFileWalletDetail.push(caseFileWalletDetail);
+    this.caseFileWalletDetailCredit = this.caseFileWalletDetail.filter(x => x.type === this.caseFileWalletDetailType.CREDIT);
+  }
+
+
+
 
 }

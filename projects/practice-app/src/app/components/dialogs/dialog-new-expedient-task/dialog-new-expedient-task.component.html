@@ -1,43 +1,42 @@
 <div class="c-dialog-newTask c-dialog-header">
     <div class="c-dialog-header__header">
-        Nueva tarea
+        {{'dockets.profile.tasks.new_task' | translate}}
     </div>
     <mat-dialog-content>
 
-       
+
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label">Nombre de la tarea</label>
+                <label class="u-title-label">{{'dockets.profile.tasks.name_of_the_task' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                    <mat-label>Nombre</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
+                    <mat-label>{{'dockets.profile.tasks.name' | translate}}</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="{{'dockets.profile.tasks.ex_create_sales_contract' | translate}}">
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label">Descripción o detalle</label>
+                <label class="u-title-label">{{'dockets.profile.tasks.description_or_detail' | translate}}</label>
                 <div class="c-form-group">
-                    <textarea matInput class="c-form-group__textarea" placeholder="Ej: Este contrato es para poder vender unas
-                    máquinas de vapor etc…"></textarea>
+                    <textarea matInput class="c-form-group__textarea" placeholder="{{'dockets.profile.tasks.ex_this_sales_contract_is_used' | translate}}"></textarea>
                 </div>
 
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label">Asignar a </label>
+                <label class="u-title-label">{{'dockets.profile.tasks.assign_to' | translate}} </label>
                 <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
-                    <mat-label>Colaborador</mat-label>
+                    <mat-label>{{'dockets.profile.tasks.choose_user' | translate}}</mat-label>
                     <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio">
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <label class="u-title-label">Prioridad</label>
+                <label class="u-title-label">{{'dockets.profile.tasks.priority' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Importancia</mat-label>
+                    <mat-label>{{'dockets.profile.tasks.choose_priority' | translate}}</mat-label>
                     <mat-select>
                         <mat-option>
                             Option 1
@@ -52,9 +51,9 @@
                 </mat-form-field>
             </div>
             <div class="col-md-6">
-                <label class="u-title-label">Tipo de tarea</label>
+                <label class="u-title-label">{{'dockets.profile.tasks.type_of_task' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Clase</mat-label>
+                    <mat-label>{{'dockets.profile.tasks.choose_type' | translate}}</mat-label>
                     <mat-select>
                         <mat-option>
                             Option 1
@@ -72,30 +71,30 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label class="u-title-label d-block mt-3">¿Cúando debe estar lista? </label>
+                <label class="u-title-label d-block mt-3">{{'dockets.profile.tasks.when_is_the_deadline?' | translate}} </label>
                 <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button class="c-radioButton mr-3" value="1">Sin fecha </mat-radio-button>
-                    <mat-radio-button class="c-radioButton" value="2">Definir una fecha</mat-radio-button>
+                    <mat-radio-button class="c-radioButton mr-3" value="1">{{'dockets.profile.tasks.no_deadline' | translate}} </mat-radio-button>
+                    <mat-radio-button class="c-radioButton" value="2">{{'dockets.profile.tasks.choose_date' | translate}}</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
         <div class="row mt-4">
             <div class="col-md-6">
                 <mat-form-field class="c-form-group c-form-group__datepicker">
-                    <mat-label>Inicio de la tarea</mat-label>
+                    <mat-label>{{'dockets.profile.tasks.start_task' | translate}}</mat-label>
                     <input matInput type="datetime-local" placeholder="start date">
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="c-form-group c-form-group__datepicker">
-                    <mat-label>Final de la tarea</mat-label>
+                    <mat-label>{{'dockets.profile.tasks.end_of_task' | translate}}</mat-label>
                     <input matInput type="datetime-local" placeholder="start date">
                 </mat-form-field>
             </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small">Crea nueva tarea</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.profile.tasks.close_window' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small">{{'dockets.profile.tasks.create_new_task' | translate}}</button>
     </mat-dialog-actions>
 </div>

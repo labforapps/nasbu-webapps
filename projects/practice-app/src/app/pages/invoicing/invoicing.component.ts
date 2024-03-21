@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
- import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
+import { DialogPaymentRegisterComponent } from '../../components/dialogs/dialog-payment-register/dialog-payment-register.component';
+import { Invoice, InvoiceStatus } from 'core-models';
+import { AccountingService } from 'projects/core-services/src/lib/services/accounting/accounting.service';
+import { AuthService } from 'core-services';
 
 @Component({
   selector: 'app-invoicing',
@@ -9,13 +12,55 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class InvoicingComponent implements OnInit {
 
-  openDialogNewTask(){
-    this.dialog.open(DialogNewTaskComponent);
-  }
+  public invoices:Invoice[] = [];
+  invoiceStatus = InvoiceStatus;
+  selectedSubscription!:any;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private accountingServices:AccountingService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getInvoices();
+  }
+
+  getInvoices(){
+    this.accountingServices.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe((data:Invoice[]) => {
+      this.invoices = data;
+    })
+  }
+
+  get allInvoices() {
+    return this.invoices;
+  }
+
+  get notApprovedInvoices() {
+    return this.invoices.filter(x => x.status === this.invoiceStatus.NOT_APPROVED);
+  }
+
+  get pendingInvoices() {
+    return this.invoices.filter(x => x.status === this.invoiceStatus.PENDING);
+  }
+
+  get payedInvoices() {
+    return this.invoices.filter(x => x.status === this.invoiceStatus.PAYED);
+  }
+
+  get expiredInvoices() {
+    return this.invoices.filter(x => x.status === this.invoiceStatus.EXPIRED);
+  }
+
+  onExecuteInvoice(){
+    this.getInvoices();
+  }
+
+  openDialogPaymentRegister(){
+    const dialogRef = this.dialog.open(DialogPaymentRegisterComponent);
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      this.getInvoices();
+    });
   }
 
 }

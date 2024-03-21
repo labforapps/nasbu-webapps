@@ -3,44 +3,56 @@
         <div class="align-items-center d-flex u-gap-1">
             <span class="icon-send u-icon-white mr-3"></span>
             <div>
-                <div>Envío de formulario de registro</div>
-                <div class="u-smallSize u-fontRegular mt-1">Selecciona una opción </div>
+                <div>{{'clients.client_intake.registration_form_submition' | translate}}</div>
+                <div class="u-smallSize u-fontRegular mt-1">{{'clients.client_intake.choose_one_option' | translate}}</div>
             </div>
-            
+
         </div>
     </div>
     <mat-dialog-content class="pr-5 pl-5 pt-0">
         <div class="row mb-5">
             <div class="col-md-12">
-                <label class="u-title-label d-block mt-3">¿Cuál método de envio utilizaras?</label>
+                <label class="u-title-label d-block mt-3">{{'clients.client_intake.What_sending_method_will_you_use' | translate}}</label>
                 <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button class="c-radioButton mr-3" value="1">Correo electrónico</mat-radio-button>
-                    <mat-radio-button class="c-radioButton" value="2">SMS</mat-radio-button>
+                    <mat-radio-button checked class="c-radioButton mr-3" value="email" (change)="onChangeSendingMethod($event)">{{'clients.client_intake.email' | translate}}</mat-radio-button>
+                    <mat-radio-button class="c-radioButton" value="sms" (change)="onChangeSendingMethod($event)">SMS</mat-radio-button>
                 </mat-radio-group>
-                
+
             </div>
         </div>
         <div class="row">
+          <div class="col-md-12">
+            <label class="u-title-label">{{'clients.client_intake.customer_name' | translate}}</label>
+            <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
+              <mat-label>{{'clients.client_intake.name' | translate}}</mat-label>
+              <input class="c-form-group__input" matInput placeholder="Ej: Juan Pérez" [(ngModel)]="customer_intake_request.name">
+            </mat-form-field>
+            <mat-error *ngIf=" formSubmitted && customer_intake_request.name === ''">{{'errorMessages.field_required' | translate}}</mat-error>
+          </div>
+        </div>
+        <div class="row" *ngIf="sendingMethod === 'email'">
             <div class="col-md-12">
-                <label class="u-title-label">Email del cliente</label>
+                <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                    <mat-label>Email</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com">
+                    <mat-label>{{'clients.client_intake.email' | translate}}</mat-label>
+                    <input type="email" class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField">
                 </mat-form-field>
+              <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
+
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="sendingMethod === 'sms'">
             <div class="col-md-12">
-                <label class="u-title-label">Teléfono celular del cliente</label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                    <mat-label>Num. de Teléfono </mat-label>
-                    <input class="c-form-group__input" matInput>
-                </mat-form-field>
+                <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
+
+                <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
+
+                <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error>
             </div>
         </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small pr-5 pl-5" (click)="openDialogRecovery()">Enviar</button>
+        <button mat-button mat-dialog-close class="u-link text-center">{{'clients.client_intake.close_window' | translate}}</button>
+        <button mat-button class="c-btn c-btn--primary c-btn--small pr-5 pl-5" (click)="sendCustomerIntakeRequest()">{{'clients.client_intake.send' | translate}}</button>
     </mat-dialog-actions>
 </div>

@@ -33,6 +33,13 @@
     gap: 1rem;
 }
 
+.u-gap-2 {
+  gap: 2rem;
+}
+.u-gap-3 {
+  gap: 3rem;
+}
+
 .u-link {
     color: #0D6AFF;
     cursor: pointer;
@@ -126,7 +133,7 @@
         }
     }
     &--light{
-        border-top: 1px solid #e2e8f00d; 
+        border-top: 1px solid #e2e8f00d;
     }
 }
 
@@ -138,6 +145,10 @@
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.u-primaryBg{
+  background-color: var(--primary-color);
 }
 
 .u-primaryColor {

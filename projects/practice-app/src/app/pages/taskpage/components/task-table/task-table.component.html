@@ -1,0 +1,162 @@
+
+<div class="d-flex u-gap-1 u-smallSize mb-3 align-items-center flex-wrap">
+  <p><b>{{ 'tasks.table.title' |translate | titlecase }}</b></p>
+  <div class="c-form-group--search bordered u-smallSize ml-auto mt-1 ">
+    <input matInput type="mail" placeholder="{{'clients.pending_issues.table_header.search' | translate}}..." (keyup)="searchByName($event)">
+    <span class="icon-search"></span>
+</div>
+  <div class="c-btn-filter" *ngIf="tasks.length > 0" >
+    {{ 'tasks.table.filterBy' |translate }}
+    <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
+    <mat-menu #filterMenu="matMenu">
+        <app-task-filter (filter)="onFilter($event)" [tasks]="tasks"></app-task-filter>
+    </mat-menu>
+  </div>
+  <button class="c-btn-function" mat-button (click)="openDialogNewTask(undefined,'new')" *ngIf="module && module !== moduleEnum.TASKS">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
+
+
+</div>
+<div class="u-table-responsive">
+  <table mat-table [dataSource]="dataSource" class="c-table" aria-describedby="task table">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+              <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+              <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+          </td>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> {{ 'tasks.table.type' | translate }} </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <div class="circle" [ngClass]="{'iconBgGreen': isCompletedTask(element),'iconBgYellow':isPendingTask(element),'iconBgRed':isOverdueTask(element)}">
+              <img class="c-table__icon"
+                   [ngClass]="{'iconColorGreen': isCompletedTask(element),'iconColorYellow':isPendingTask(element),'iconColorRed':isOverdueTask(element)}"
+                   [src]="'assets/images/table-icons/' + returnTaskTypeIconSVG(element.type.type) + '.svg'" alt="">
+            </div>
+            <!-- <span class="circle"   [ngClass]="returnTaskTypeIcon(element.type.type)"></span> -->
+          </td>
+      </ng-container>
+
+      <!-- task Column -->
+      <ng-container matColumnDef="rason">
+          <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.reason' |translate }} </th>
+          <td mat-cell *matCellDef="let element" >
+              <div class="u-link c-table__truncate" (click)="openDialogNewTask(element, 'view')">{{ element.description }} </div>
+          </td>
+      </ng-container>
+
+      <!-- Estatus Column -->
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.client' | translate }} </th>
+        <td mat-cell *matCellDef="let element" class="c-table__truncate">
+            {{ element.customer | customerFullName }}
+        </td>
+      </ng-container>
+
+      <!-- Expedient Column -->
+      <ng-container matColumnDef="expedient">
+        <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.expedient' | translate }} </th>
+        <td mat-cell *matCellDef="let element">
+            <div class="u-link c-table__truncate" [routerLink]="'/expedient-info/' + element.case_file.uuid">{{ element.case_file.name }}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef> Prioridad </th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.priority === taskPriority.High">Alta</span>
+            <span *ngIf="element.priority === taskPriority.Medium">Intermedia</span>
+            <span *ngIf="element.priority === taskPriority.Low">Normal</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="billing_type">
+        <th mat-header-cell *matHeaderCellDef> Tipo de facturación </th>
+        <td mat-cell *matCellDef="let element" class="c-table__truncate">
+            {{ element.billing_type | billingType }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef> Total </th>
+        <td mat-cell *matCellDef="let element" class="c-table__truncate">
+            {{ (element.billing_type === billingType.PER_HOUR ? element.total_amt : element.bt_amt) | currency }}
+            <!-- {{element.bt_amt}} -->
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="hours">
+          <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.hours' | translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.billing_type === billingType.PER_HOUR || element.billing_type === billingType.BY_TIME_INCREMENT  " class="u-link" (click)="openDialogChargedHours(element)">
+                <span class="icon-clock-outline mr-1"></span> {{ element.total_hours }}  hours
+            </div>
+            <div *ngIf="element.billing_type === billingType.FLAT_FEE" class="text-center">
+              {{'-'}}
+            </div>
+          </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef> Fecha de creación</th>
+        <td mat-cell *matCellDef="let element">
+             {{ element.created_at | date }}
+        </td>
+    </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.dueDate' |translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.end_date | date }} </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="text-center-force"> {{ 'tasks.table.actions' |translate }} </th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+
+              <mat-button-toggle-group class="c-btn-table">
+                  <mat-button-toggle (click)="completeTask(element)">{{ (element.status === taskStatus.OPEN ? "tasks.table.buttons.complete" : "tasks.table.buttons.uncomplete") | translate }}</mat-button-toggle>
+                  <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                      <span class="icon-arrow-down"></span>
+                  </mat-button-toggle>
+              </mat-button-toggle-group>
+
+              <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger" (click)="selectTask(element)">
+                  <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewTask(element, 'edit')">{{ 'tasks.table.buttons.edit' | translate}}<span class="icon-pen"></span></button>
+                  <button mat-menu-item class="matMenu-green" (click)="openDialogNewTask(element, 'view')">{{ 'tasks.table.buttons.view' | translate}} <span class="icon-eye" style="font-size: 11px;"></span></button>
+                  <button mat-menu-item class="matMenu-red" (click)="openAlertDelete(element)" >{{ 'tasks.table.buttons.delete' | translate}}<span class="icon-trash"></span></button>
+                  <button mat-menu-item class="matMenu-blue" (click)="openDialogChargedHours(element)">{{ 'tasks.table.buttons.addHours' | translate}} <span class="icon-timer"></span></button>
+              </mat-menu>
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+          <h3>{{ 'tasks.table.noData' |translate }}</h3>
+        </td>
+      </tr>
+  </table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+  </mat-paginator>
+
+</div>

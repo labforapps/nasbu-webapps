@@ -1,19 +1,22 @@
-<div class="l-page">
+<div class="l-page" *ngIf="customer">
     <div class="l-page__header">
         <div class="d-flex flex-wrap u-gap-1">
-            <button mat-button [routerLink]="'/client'"><span class="icon-arrow-back mr-2" ></span> Volver atras</button>
+            <button mat-button [routerLink]="'/customers'"><span class="icon-arrow-back mr-2" ></span> {{'clients.common.back' | translate}}</button>
             <div class="d-flex">
-                <div class="l-page__icon">
-                    <span class="icon-user"></span>
-                </div>
-                <div class="l-page__title">Manuel Cabral M. </div>
+                   <div class="l-page__icon" *ngIf="customer.type === 'P'">
+                    <span  class="icon-user"></span>
+                  </div>
+                  <img *ngIf="customer.type === 'B'" src="../../../../../assets/images/company.svg" alt=" ">
+
+                <div *ngIf="customer.type === 'P'" class="l-page__title">{{customer.first_name}} {{customer.last_name}} </div>
+                <div *ngIf="customer.type === 'B'" class="l-page__title">{{customer.company_name}}</div>
             </div>
 
         </div>
 
         <div class="l-page__controls">
-            <button class="c-btn c-btn--outline c-btn--small" mat-button>Facturación rápida<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
-            <button class="c-btn c-btn--primary c-btn--small" mat-button>Editar cliente <span class="icon-pen ml-2 "></span></button>
+            <button class="c-btn c-btn--outline c-btn--small" mat-button [routerLink]="'/invoicing/new-invoice/'">{{'clients.details.express_billing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
+            <button class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditClient()" > {{'clients.details.edit_customer' | translate}} <span class="icon-pen ml-2 "></span></button>
 
         </div>
 
@@ -22,31 +25,31 @@
         <mat-tab-group class="c-tabs c-tabs--hasSub no-padder-body" animationDuration="0ms">
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Datos generales
+                    {{'clients.details.general_data' | translate}}
                     <span class="icon-id-card"></span>
                 </ng-template>
-                <app-general-info></app-general-info>
+                <app-general-info *ngIf="customer" [customer]="customer"></app-general-info>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Expedientes
+                    {{'clients.details.files' | translate}}
                     <span class="icon-expedient"></span>
                 </ng-template>
-                <app-client-expedient></app-client-expedient>
+                <app-client-expedient *ngIf="customer" [customer]="customer"></app-client-expedient>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Asuntos pendiente
+                    {{'clients.details.pending_issues' | translate}}
                     <span class="icon-task"></span>
                 </ng-template>
-                <app-client-pending></app-client-pending>
+                <app-client-pending *ngIf="customer" [customer]="customer"></app-client-pending>
             </mat-tab>
             <mat-tab>
                 <ng-template mat-tab-label>
-                    Facturación
+                    {{'clients.details.billing' | translate}}
                     <span class="icon-invoice"></span>
                 </ng-template>
-                <app-client-invoicing></app-client-invoicing>
+                <app-client-invoicing *ngIf="customer" [customer]="customer"></app-client-invoicing>
             </mat-tab>
 
         </mat-tab-group>

@@ -1,0 +1,94 @@
+<ng-container *ngIf="caseFileNotes && caseFileNotes.length > 0; else empty">
+  <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap u-gap-1 u-smallSize">
+      <p>Tienes estas <b>7 notas</b> </p>
+      <p class="u-textColor">Ordenadas por mas recientes</p>
+  </div>
+
+  <div class="u-table-responsive">
+      <table mat-table [dataSource]="dataSource" class="c-table">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef class="c-table__checkbox">
+                  <mat-checkbox class="c-checkbox" (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                  </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                  <mat-checkbox class="c-checkbox" (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+              </td>
+          </ng-container>
+
+          <!-- Type Column -->
+          <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef class="c-table__icontype"> Tipo </th>
+              <td mat-cell *matCellDef="let element" class="text-center"> <img class="c-table__icon"
+                      src="../../../../assets/images/document.svg" alt=""> </td>
+          </ng-container>
+
+          <!-- billNumber Column -->
+          <ng-container matColumnDef="billNumber">
+              <th mat-header-cell *matHeaderCellDef> Título</th>
+              <td mat-cell *matCellDef="let element" class="w-10">
+                  <div class="u-link">{{element.title}} </div>
+              </td>
+          </ng-container>
+
+          <!-- Estatus Column -->
+          <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef> Descripción </th>
+              <td mat-cell *matCellDef="let element"> {{element.body}} </td>
+          </ng-container>
+
+          <!-- Expedient Column -->
+          <ng-container matColumnDef="expedient">
+              <th mat-header-cell *matHeaderCellDef> Fecha creación </th>
+              <td mat-cell *matCellDef="let element">
+                  <div class="u-link c-table__truncate">{{element.created_at | date}}</div>
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_by">
+            <th mat-header-cell *matHeaderCellDef> Created by </th>
+            <td mat-cell *matCellDef="let element">
+                <div class="u-link c-table__truncate"></div>
+            </td>
+        </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                  <mat-button-toggle-group class="c-btn-table">
+                      <mat-button-toggle (click)="openDialogNewCaseFileNote(element)">Ver</mat-button-toggle>
+                      <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
+                          <span class="icon-arrow-down"></span>
+                      </mat-button-toggle>
+                  </mat-button-toggle-group>
+                  <mat-menu #dropdownMenuOne="matMenu">
+                      <button mat-menu-item>One</button>
+                      <button mat-menu-item>Two</button>
+                      <button mat-menu-item>Three</button>
+                  </mat-menu>
+              </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+          </tr>
+      </table>
+      <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+      </mat-paginator>
+  </div>
+</ng-container>
+
+
+<ng-template #empty>
+      <div class="align-items-center d-flex flex-1 flex-column justify-content-center text-center">
+        <img class="mb-5" src="../../../assets/images/notes-blank.svg" alt="">
+        <h4 class="u-textLightColor">Ten a la mano tus últimas notas</h4>
+        <p class="u-textLightColor">Siempre es bueno ver lo último que se anotó</p>
+      </div>
+</ng-template>
