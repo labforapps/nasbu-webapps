@@ -1,6 +1,7 @@
 .c-form-group {
     width: 100%;
     margin-bottom: 1rem;
+    position: relative !important;
     & .mat-form-field-flex {
         background: white;
         border: 1px solid #8594a0;
@@ -13,7 +14,7 @@
         & .mat-form-field-flex {
             border: 2px solid #389856;;
         }
-        
+
     }
     & .mat-form-field-underline {
         display: none;
@@ -29,6 +30,11 @@
     & .mat-form-field-wrapper {
         padding: 0;
     }
+    &.mat-form-field-invalid{
+        & .mat-form-field-flex{
+            border: 1px solid #f44336;
+        }
+    }
     &__input {
         &--checked {
             position: absolute;
@@ -36,12 +42,48 @@
             top: -0.2rem;
         }
     }
+    &__action{
+        position: absolute;
+        left: -4.5rem;
+        top: -1.5rem;
+        @include respond(768){
+            left: -4.2rem;
+            top: -2.4rem;
+        }
+        @include respond(450){
+            left: -3.2rem;
+        }
+        & button{
+            width: 3rem !important;
+            height: 3rem !important;
+            min-width: initial !important;
+            padding: 0 !important;
+            line-height: initial;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            @include respond(768){
+                height: 5.6rem !important;
+            }
+            @include respond(450){
+                width: 2rem !important;
+            }
+            & .mat-button-wrapper{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+            }
+
+        }
+    }
     &__select {
         &.is-valid{
             .mat-form-field-flex {
                 background: #D9FFE6;
             }
-            
+
         }
         & .mat-form-field-flex {
             background: #F3F3F3;
@@ -110,6 +152,12 @@
             font-size: 14px;
         }
     }
+    &--noLabel{
+      & .mat-form-field-infix{
+        border-top: 0.44375em solid transparent;
+      }
+    }
+
 }
 
 .c-filter {
@@ -131,4 +179,18 @@
         margin-top: 2rem;
         text-align: center;
     }
+}
+
+.c-searchList {
+  &__input {
+      padding: 2rem;
+  }
+
+  &__content {
+      font-size: 12px;
+      max-height: 160px;
+      overflow-y: auto;
+      font-weight: 500;
+  }
+
 }

@@ -1,0 +1,20 @@
+option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+}
+.option-selected {
+  height: 12px !important;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: -5px;
+}
+.container .input {
+  height: 18.5px;
+  font-size: 14px;
+  word-spacing: -1px;
+}

@@ -1,0 +1,23 @@
+<div class="c-dialog-addHours c-dialog-header ">
+  <div class="c-dialog-header__header pt-5 pb-5">Crear nueva seccion</div>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <label class="u-title-label mt-3">Seccion</label>
+        <mat-form-field appearance="fill" class="c-form-group  c-form-group--small c-form-group--noLabel">
+            <input class="c-form-group__input" matInput placeholder="Ej: Cabecera " [(ngModel)]="sectionName">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="mt-auto ">
+      <div class="row w-100 mb-3">
+          <div class="col-md-12">
+              <div class="d-flex flex-wrap">
+                  <button mat-button class="c-btn-function flex-1" (click)="submitForm()">Guardar</button>
+              </div>
+              <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
+          </div>
+      </div>
+  </mat-dialog-actions>
+</div>

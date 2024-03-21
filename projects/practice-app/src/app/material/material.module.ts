@@ -18,6 +18,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatStepperModule } from '@angular/material/stepper';
+import {MatIconModule} from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 
 @NgModule({
   declarations: [],
@@ -41,6 +46,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
+    MatIconModule,
+    MatPaginatorModule,
+    NgxMatSelectSearchModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     MatInputModule,
@@ -61,6 +70,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTooltipModule,
     TooltipModule,
     MatStepperModule,
+    MatIconModule,
+    MatPaginatorModule,
+    NgxMatSelectSearchModule,
+    NgxMaterialTimepickerModule
   ],
 })
 export class MaterialModule {}

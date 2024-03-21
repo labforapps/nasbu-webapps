@@ -1,0 +1,35 @@
+.l-report {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__header {
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem 10rem;
+      background: #F3F3F3;
+      align-items: center;
+      flex-wrap: wrap;
+
+      @include respond(900) {
+          padding: 2rem 4rem;
+      }
+
+      @include respond(450) {
+          padding: 2rem;
+      }
+  }
+
+  &__body {
+      flex: 1;
+      padding: 7rem 10rem 5rem 10rem;
+
+      @include respond(900) {
+          padding: 4rem 4rem 5rem 4rem;
+      }
+
+      @include respond(450) {
+          padding: 2rem;
+      }
+  }
+}

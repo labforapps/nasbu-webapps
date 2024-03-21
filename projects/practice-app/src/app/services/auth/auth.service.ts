@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
 import { Observable } from 'rxjs';
-import { ISignUpResult, CognitoUser } from 'amazon-cognito-identity-js';
-import { UserSignupPayload } from 'core-models';
+import { ISignUpResult } from 'amazon-cognito-identity-js';
+import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription, ChangeFirstPasswordPayload } from 'core-models';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 
 @Injectable({
@@ -10,19 +11,60 @@ import { UserSignupPayload } from 'core-models';
 })
 export class AuthService {
 
-  constructor(private coreAuth: CoreAuthService) { }
+  constructor(private coreAuth: CoreAuthService, private permissionsService: NgxPermissionsService) { }
 
   signIn(username: string, password: string): Observable<any> {
-      return this.coreAuth.signin(username, password);
+    return this.coreAuth.signin(username, password);
   }
 
   signUp(userSignupPayload: UserSignupPayload): Observable<ISignUpResult> {
-      return this.coreAuth
-                .signup(userSignupPayload);
+    return this.coreAuth
+      .signup(userSignupPayload);
+  }
+
+  signOut(){
+    return this.coreAuth.signOut();
   }
 
   forgotPassword(username: string): Observable<any> {
     return this.coreAuth.recoverPassword(username);
   }
 
+  forgotPasswordSubmit(forgotPasswordSubmit: ForgotPasswordSubmit): Observable<any> {
+    return this.coreAuth.recoverPasswordSubmit(forgotPasswordSubmit);
+  }
+
+  getCurrentUserInfo(): Observable<CurrentUserInfo> {
+    return this.coreAuth.getCurrentUserInfo();
+  }
+
+  fetchUserInfo(): Observable<UserInfo> {
+    return this.coreAuth.fetchUserInfo();
+  }
+
+  getAllPermisions(user: UserInfo): string[] {
+    return this.coreAuth.getAllPermisions(user);
+  }
+
+  saveFirstUserPassword(payload:ChangeFirstPasswordPayload) {
+    return this.coreAuth.saveFirstUserPassword(payload);
+  }
+
+  /**
+   * Before taking the localStorage data, the permissions resolver
+   * is executed in the general dashboard route, updating the permissions
+   * @memberof AuthService
+   */
+  addPermissions(): SelectedSubscription | null {
+    const user = this.getUserInfoFromLocalStorage();
+    const allPermissions: string[] = user?.permissions ?? [];
+    this.permissionsService.flushPermissions();
+    this.permissionsService.addPermission(allPermissions);
+
+    return user;
+  }
+
+  getUserInfoFromLocalStorage(): SelectedSubscription | null {
+    return this.coreAuth.getUserInfoFromLocalStorage();
+  }
 }

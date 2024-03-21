@@ -1,0 +1,46 @@
+<div class=" c-dialog-header c-dialog-list">
+  <div class="c-dialog-header__header">
+      <div class="align-items-center d-flex u-gap-1">
+          <span class="icon-user u-icon-white mr-3"></span>
+          <div>
+              <div>{{'dockets.users_list' | translate}}</div>
+              <div class="u-smallSize u-fontRegular mt-1">{{'dockets.you_have_users_registered' | translate: { usersQuantity: this.securityUsers.length } }}</div>
+          </div>
+
+      </div>
+  </div>
+  <mat-dialog-content>
+     <div class="c-dialog-list__content">
+      <div class="c-dialog-list__header">
+          <div class="c-form-group--search bordered ml-auto">
+              <input matInput type="text" placeholder="Buscar por nombre" [(ngModel)]="searchTerm" (keyup)="searchSecurityUser()">
+              <span class="icon-search"></span>
+          </div>
+         </div>
+         <div class="c-dialog-list__body">
+
+          <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2" *ngFor="let securityUser of securityUsers">
+              <img *ngIf="!isUserSelected(securityUser)" class="c-table__icon" src="../../../../assets/images/table-icons/user.svg" alt="">
+              <img *ngIf="isUserSelected(securityUser)" class="c-table__icon" src="../../../../assets/images/table-icons/user-disabled.svg" alt="">
+
+              <p class="mr-auto u-textColor">{{securityUser.user.first_name + ' ' + securityUser.user.last_name}}</p>
+
+              <button mat-button
+                      class="c-btn c-btn--small c-btn--outline-primary"
+                      *ngIf="!isUserSelected(securityUser)"
+                      (click)="onSelectUser(securityUser)">{{'dockets.select' | translate}}</button>
+
+              <button mat-button
+                      class="c-btn c-btn--small c-btn--outline-primary btn-Disabled"
+                      *ngIf="isUserSelected(securityUser)"
+                      (click)="onRemoveUser(securityUser)">{{'dockets.remove' | translate}}</button>
+          </div>
+
+         </div>
+     </div>
+  </mat-dialog-content>
+  <mat-dialog-actions class="c-dialog-header__footer">
+      <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.close_window' | translate}}</button>
+      <button mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">{{'dockets.add_user' | translate}}</button>
+  </mat-dialog-actions>
+</div>

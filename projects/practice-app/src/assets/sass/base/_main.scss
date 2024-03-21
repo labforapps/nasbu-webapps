@@ -14,7 +14,9 @@ option,
 button {
     outline: none!important;
 }
-
+hr {
+  opacity: .2;
+}
 a {
     text-decoration: none;
 }
@@ -65,4 +67,19 @@ body {
 
  ::-webkit-scrollbar-thumb:hover {
     background: #435b6c;
+}
+
+.mat-select-panel .mat-optgroup-label,
+.mat-select-panel .mat-option {
+    font-size: 12px !important;
+}
+
+
+
+.mat-error {
+    color: #f44336;
+    font-size: 12px;
+    position: relative;
+    top: -7px;
+    left: 2px;
 }

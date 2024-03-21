@@ -333,6 +333,10 @@
   content: "\e904";
   color: #00c13c;
 }
+.icon-not-check:before {
+  content: "\e904";
+  color: #a6b6ab;
+}
 .icon-key:before {
   content: "\e900";
   color: #fff;

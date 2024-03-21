@@ -27,7 +27,7 @@ export const environment = {
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
         cookieStorage: {
         // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-            domain: 'dev2.nasbulegal.com',
+            domain: 'dev.nasbulegal.com',
         // OPTIONAL - Cookie path
             path: '/',
         // OPTIONAL - Cookie expiration in days

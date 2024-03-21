@@ -2,41 +2,57 @@
     <div class="c-menu__title">Dashboard </div>
 
     <button mat-button class="c-menu__item" [routerLink]="'dashboard'" routerLinkActive="is-active">
-        Resumen de actividades
+        {{'menu.activity_summary' | translate}}
         <span class="icon-dashboard c-menu__icon"></span>
     </button>
-    <div class="c-menu__title mt-5">Menú</div>
+    <div class="c-menu__title mt-5">{{'menu.title' | translate}}</div>
 
-    <button mat-button class="c-menu__item" [routerLink]="'/customers'" routerLinkActive="is-active">
-        Clientes
+    <button
+       mat-button class="c-menu__item"
+       [routerLink]="'/customers'" routerLinkActive="is-active"
+       *ngxPermissionsOnly="[ 'view_customer']">
+          {{'menu.clients' | translate}}
+
         <span class="icon-user c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item"  [routerLink]="'collaborator'" routerLinkActive="is-active">
-        Colaboradores
+    <button mat-button class="c-menu__item"
+            [routerLink]="'users'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_subscriptionuser']">
+        {{'menu.users' | translate}}
         <span class="icon-businessman c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'expedient'" routerLinkActive="is-active">
-        Expedientes
+    <button mat-button class="c-menu__item"
+            [routerLink]="'expedient'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_casefile']">
+        {{'menu.dockets' | translate}}
         <span class="icon-expedient c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'task'" routerLinkActive="is-active">
-        Mis tareas
+    <button mat-button class="c-menu__item"
+            [routerLink]="'task'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_task']">
+        {{'menu.my_tasks' | translate}}
         <span class="icon-task c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'templates'" routerLinkActive="is-active">
-        Documentos y plantillas
+    <button mat-button class="c-menu__item"
+            [routerLink]="'templates'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_documenttemplate']">
+       {{'menu.documents_templates' | translate}}
         <span class="icon-document-color c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'invoicing'" routerLinkActive="is-active">
-        Facturación
+    <button mat-button class="c-menu__item"
+            [routerLink]="'invoicing'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_invoice']">
+        {{'menu.invoicing' | translate}}
         <span class="icon-invoice c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item">
-        Reportes
+    <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active">
+        {{'menu.reports' | translate}}
         <span class="icon-report c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'configuration'" routerLinkActive="is-active">
-        Configuraciones
+    <button mat-button class="c-menu__item" [routerLink]="'configuration'"
+            routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_subscription']">
+        {{'menu.settings' | translate}}
         <span class="icon-gear c-menu__icon"></span>
     </button>
 

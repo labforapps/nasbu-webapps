@@ -1,0 +1,33 @@
+<form [formGroup]="scheduleForm">
+  <div class="row">
+    <div class="col-lg-11">
+        <div class="information-title mb-1 u-bigSize">{{'firm.form_create.hours_of_operation' | translate}}</div>
+        <p class="u-textLightColor mb-5">{{'firm.form_create.when_is_your_law_firm_open' | translate}}</p>
+         <div formArrayName="schedules" >
+          <div *ngFor="let schedule of returnFormArray('schedules'); let i = index;" [formGroupName]="i">
+            <div class="c-hour-sign">
+              <div class="c-hour-sign__label u-primaryColor">{{returnWeekDayDesc(schedule.value.week_day) || '' | translate}}</div>
+
+              <mat-form-field appearance="fill" class="c-form-group is-valid">
+                  <mat-label>{{'firm.form_create.opening_time' | translate}}</mat-label>
+                  <input formControlName="start_time" class="c-form-group__input" matInput [ngxTimepicker]="picker1" [format]="24">
+                  <ngx-material-timepicker #picker1></ngx-material-timepicker>
+              </mat-form-field>
+
+              <div class="c-hour-sign__dash">-</div>
+
+              <mat-form-field appearance="fill" class="c-form-group is-valid">
+                  <mat-label>{{'firm.form_create.closing_time' | translate}}</mat-label>
+                  <input formControlName="end_time" class="c-form-group__input" matInput [ngxTimepicker]="picker2" [format]="24">
+                  <ngx-material-timepicker #picker2  [timepickerClass]="'custome-class'"></ngx-material-timepicker>
+              </mat-form-field>
+
+              <mat-slide-toggle class="c-switch" (change)="setScheduleFieldToggle($event,i)" [checked]="!schedule.value.is_closed">
+              </mat-slide-toggle>
+          </div>
+          </div>
+         </div>
+    </div>
+  </div>
+
+</form>

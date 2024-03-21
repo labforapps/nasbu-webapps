@@ -1,0 +1,53 @@
+<div class="l-page">
+  <div class="l-page__header">
+      <div class="d-flex">
+          <div class="l-page__icon">
+              <span class="icon-document-color"></span>
+          </div>
+          <div class="l-page__title">Documentos y Plantillas</div>
+      </div>
+      <div class="l-page__controls">
+      </div>
+  </div>
+  <div class="l-page__body">
+      <mat-tab-group class="c-tabs" [(selectedIndex)]="selectedTabIndex">
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+                Tipos de Plantillas
+                <div class="c-tabs__badge">{{documentTemplatesTypes ? documentTemplatesTypes.length : 0}}</div>
+            </ng-template>
+
+            <app-templates-types *ngIf="documentTemplatesTypes"
+                          [documentTemplatesTypes]="documentTemplatesTypes"
+                          (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates-types>
+
+        </mat-tab>
+
+          <mat-tab>
+              <ng-template mat-tab-label>
+                  Plantillas
+                  <div class="c-tabs__badge">{{documentTemplates ? documentTemplates.length : 0}}</div>
+              </ng-template>
+
+              <app-templates *ngIf="documentTemplates"
+                             [documentTemplates]="documentTemplates"
+                             (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates>
+
+          </mat-tab>
+          <mat-tab>
+              <ng-template mat-tab-label>
+                  Documentos Generados
+                  <div class="c-tabs__badge">{{documentGenerations ? documentGenerations.length : 0}}</div>
+              </ng-template>
+
+              <app-documents *ngIf="documentGenerations"
+                             [documentGenerations]="documentGenerations"
+                             (onExecuteDocumentGeneration)="getDocumentGenerations()"></app-documents>
+
+
+          </mat-tab>
+
+      </mat-tab-group>
+  </div>
+</div>

@@ -1,31 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewExpedientComponent } from '../../components/dialogs/dialog-new-expedient/dialog-new-expedient.component';
-
-export interface PeriodicElement {
-  position: number;
-  description: string;
-  case: string;
-  client: string;
-  update: string;
-  share: string;
-
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 2, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 3, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 4, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 5, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 6, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-  {position: 7, description: 'NB0001-Acta de divorcio', case: 'Marcos Felix', client: 'Manuel Cabral', update: '12/9/2021 ', share:'Sin compartir'},
-
-];
-
+import { CaseFile } from 'projects/core-models/src/lib/models/practice/practice';
+import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
+import { CaseFileStatus, Customer, SecurityUser } from 'core-models';
 
 @Component({
   selector: 'app-expedient',
@@ -33,42 +11,58 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./expedient.component.scss']
 })
 export class ExpedientComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'type','description','case', 'client', 'update', 'share','action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  caseFiles!:CaseFile[];
+  openCaseFiles!:CaseFile[];
+  closedCaseFiles!:CaseFile[];
+  selectedSubscription!: any;
+  customers!:Customer[];
+  securityUsers!:SecurityUser[];
+  caseFileStatus = CaseFileStatus
+
+  constructor(public dialog: MatDialog,
+              private practiceService:PracticeService,
+              private authService: AuthService,
+              private customerService:CustomersService,
+              private securityService:SecurityService) { }
+
+  ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getCaseFiles();
+    this.getCustomers();
+    this.getSecurityUsers();
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
+  getCaseFiles(){
+    this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.caseFiles = data;
 
-    this.selection.select(...this.dataSource.data);
+    this.openCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.OPEN);
+    this.closedCaseFiles = this.caseFiles.filter((x) => x.status === this.caseFileStatus.CLOSED);;
+    })
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  getCustomers(){
+    this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.customers = data;
+    })
+  }
+
+  getSecurityUsers(){
+    this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.securityUsers = data;
+    })
   }
 
   openDialogNewExpedient(){
-    this.dialog.open(DialogNewExpedientComponent);
+    const dialogRef = this.dialog.open(DialogNewExpedientComponent);
+
+    dialogRef.afterClosed().subscribe((result:CaseFile) => {
+      this.getCaseFiles();
+    });
   }
 
-  constructor(public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-  }
+
 
 }

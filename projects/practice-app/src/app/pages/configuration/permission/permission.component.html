@@ -4,24 +4,24 @@
             <div class="l-page__icon">
                 <span class="icon-key"></span>
             </div>
-            <div class="l-page__title">Permisos </div>
+            <div class="l-page__title">{{'settings.permissions.title' | translate}} </div>
         </div>
         <div class="l-page__controls">
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
-            <button class="c-btn-function" mat-button (click)="openDialogNewRole()">Agregar grupo<span class="icon-plus ml-2 "></span></button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{'settings.permissions.goBack' | translate}}</button>
+            <button class="c-btn-function" mat-button (click)="openDialogNewRole()">{{'settings.permissions.add_group' | translate}}<span class="icon-plus ml-2 "></span></button>
         </div>
 
 
     </div>
     <div class="l-page__body">
         <mat-tab-group class="c-tabs c-tabs--scroll">
-            <mat-tab label="Mis permisos configurados">
+            <mat-tab label="{{'settings.permissions.my_configured_permissions' | translate}}">
 
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="l-configuration__title mb-4">
-                            Niveles de permiso de NASBU
+                          {{'settings.permissions.permission_levels_of_NASBU' | translate}}
                         </div>
                         <br>
                         <div class="d-flex mb-4">
@@ -29,8 +29,8 @@
                                 <span class="icon-user u-icon-yellow"></span>
                             </div>
                             <div class="flex-1">
-                                <div class="u-fontBold u-smallSize u-textColor mb-2">Administrador</div>
-                                <p class="u-smallSize u-textLightColor">En este modelo te permite que puedes crear, eliminar, editar y visualizar cualquier función dentro de la plataforma.
+                                <div class="u-fontBold u-smallSize u-textColor mb-2">{{'settings.permissions.administrator' | translate}}</div>
+                                <p class="u-smallSize u-textLightColor">{{'settings.permissions.this_model_allows_you_crud_function_within_platform' | translate}}
                                 </p>
                             </div>
                         </div>
@@ -40,8 +40,8 @@
                             </div>
 
                             <div class="flex-1">
-                                <div class="u-fontBold u-smallSize u-textColor mb-2">Escritura</div>
-                                <p class="u-smallSize u-textLightColor">En este modelo te permite que puedes crear y editar elementos.
+                                <div class="u-fontBold u-smallSize u-textColor mb-2">{{'settings.permissions.editor' | translate}}</div>
+                                <p class="u-smallSize u-textLightColor">{{'settings.permissions.this_model_allows_you_create_edit_certain_elements' | translate}}
                                 </p>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                             </div>
 
                             <div class="flex-1">
-                                <div class="u-fontBold u-smallSize u-textColor mb-2">Solo lectura</div>
-                                <p class="u-smallSize u-textLightColor">En este modelo te permite que puedas solo visualizar información sin aplicar modificaciones.
+                                <div class="u-fontBold u-smallSize u-textColor mb-2">{{'settings.permissions.read_only' | translate}}</div>
+                                <p class="u-smallSize u-textLightColor">{{'settings.permissions.this_model_allows_you_view_information_applying_modification' | translate}}
                                 </p>
                             </div>
                         </div>
@@ -63,317 +63,87 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex justify-content-between align-items-center mt-5 flex-wrap">
-                            <div class=" l-configuration__title ">Grupo de permisos existentes
+                            <div class=" l-configuration__title ">{{'settings.permissions.existing_permission_group' | translate}}
                             </div>
-                            <p class="u-smallSize ">
-                                Tiene configurado <b class="u-primaryColor ">4</b> permisos
+                            <p class="u-smallSize " *ngIf="groups">
+                                <!-- Tiene configurado <b class="u-primaryColor ">{{groups.length}}</b> permisos -->
+                                <span [innerHTML]="'settings.permissions.you_currently_have_permission_groups' | translate: {permissionsQuantity:groups.length} "></span>
                             </p>
                         </div>
                         <hr class="u-divider ">
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="col-md-9 ">
-                        <div class="u-primaryColor u-bigSize2 ">Permisos para <b>Administrador</b> </div>
-                        <p class="u-textColor u-smallSize ">Esta es la configuración para este rol</p>
-                        <div class="u-table-responsive ">
-                            <table class="c-table-roles ">
-                                <tr>
-                                    <th><span class="icon-lock u-icon-yellow mr-2 "></span>Acceso a la secciones de menú y permisos </th>
-                                    <th>Administrador</th>
-                                    <th>Escritura</th>
-                                    <th>Solo lectura</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>facturación</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>expedientes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>reportes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>clientes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>tareas</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>configuraciones</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>colaboradores</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a <b>todas las secciones</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
 
-
-                            </table>
-                        </div>
-
+                <div *ngFor="let group of groups">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <div class="u-primaryColor u-bigSize2">{{'settings.permissions.permissions_group' | translate}} <b>{{ group.name }}</b></div>
+                      <p class="u-textColor u-smallSize">{{'settings.permissions.the_following_configuration_for_this_role' | translate}}</p>
+                      <div class="u-table-responsive">
+                        <table class="c-table-roles">
+                          <tr>
+                            <th><span class="icon-lock u-icon-yellow mr-2"></span>{{'settings.permissions.access_to_menu_and_permissions' | translate}}</th>
+                            <th>{{'settings.permissions.administrator' | translate}}</th>
+                            <th>{{'settings.permissions.editor' | translate}}</th>
+                            <th>{{'settings.permissions.read_only' | translate}}</th>
+                            <th></th>
+                          </tr>
+                          <tr *ngFor="let module of modules; let i = index;">
+                            <td>
+                              <mat-checkbox class="c-checkbox mb-2 u-textColor"
+                                            [checked]="isModuleChecked(group, module)"
+                                            (change)=" module === modulesEnum.ALL ? checkOrUnCheckAllSections($event,group)  : checkOrUncheckModule(group, module)">
+                                {{'settings.permissions.access_to' | translate}} <b>{{ returnModuleDescription(module) || '' | translate }}</b>
+                              </mat-checkbox>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'admin_' + group.name + '_' + i">
+                                <mat-radio-button
+                                                  [value]="typeAccess.ADMINISTRATOR"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.ADMINISTRATOR) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.ADMINISTRATOR)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'write_' + group.name + '_' + i">
+                                <mat-radio-button [value]="typeAccess.WRITE"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.WRITE) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.WRITE)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td>
+                              <mat-radio-group [name]="'read_' + group.name + '_' + i">
+                                <mat-radio-button [value]="typeAccess.READ"
+                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.READ) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  [checked]="isModulePermChecked(group, module, typeAccess.READ)"
+                                                  class="c-radioButton"
+                                                  (change)="updateSubscriptionGroups(group)"
+                                                  [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
+                              </mat-radio-group>
+                            </td>
+                            <td *ngIf="i === 0">
+                              <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
-                </div>
-                <div class="row ">
-                    <div class="col-md-12 ">
-                        <hr class="u-divider ">
+                    <div class="col-md-2">
                     </div>
-                </div>
-                <div class="row ">
-                    <div class="col-md-9 ">
-                        <div class="u-primaryColor u-bigSize2 ">Permisos para <b>Administrador</b> </div>
-                        <p class="u-textColor u-smallSize ">Esta es la configuración para este rol</p>
-                        <div class="u-table-responsive ">
-                            <table class="c-table-roles ">
-                                <tr>
-                                    <th><span class="icon-lock u-icon-yellow mr-2 "></span>Acceso a la secciones de menú y permisos </th>
-                                    <th>Administrador</th>
-                                    <th>Escritura</th>
-                                    <th>Solo lectura</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>facturación</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>expedientes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>reportes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>clientes</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>tareas</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>configuraciones</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a la sección de <b>colaboradores</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <mat-checkbox class="c-checkbox mb-2 u-textColor ">
-                                            Acceso a <b>todas las secciones</b>
-                                        </mat-checkbox>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="1 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="2 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                    <td>
-                                        <mat-radio-button value="3 " name="escalationTeam " class="c-radioButton "></mat-radio-button>
-                                    </td>
-                                </tr>
+                  </div>
 
-
-                            </table>
-
-                        </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <hr class="u-divider">
                     </div>
+                  </div>
                 </div>
-
-
-
 
             </mat-tab>
         </mat-tab-group>

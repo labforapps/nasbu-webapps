@@ -1,96 +1,108 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
-import {MatTableDataSource} from '@angular/material/table';
-import {SelectionModel} from '@angular/cdk/collections';
-import { DialogChargedHoursComponent } from '../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
+import {TaskType,Task, TaskTypeEnum, TaskTypeiIconClassMap, TaskStatus } from 'core-models';
 import { DialogNewReasonComponent } from '../../components/dialogs/dialog-new-reason/dialog-new-reason.component';
-import Swal from 'sweetalert2';
-
-export interface PeriodicElement {
-  position: number;
-  rason: string;
-  client: string;
-  expedient: string;
-  hours: string;
-  date: string;
-
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 2, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 3, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 4, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 5, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 6, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 7, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-  {position: 8, rason: 'Tomar notas caso choque de arrendamiento', client: 'Manuel Cabral', expedient: 'NB0001-Contrato de servicio para la contratación de', hours:'5 Hr.', date: '23/9/22 '},
-
-];
-
+import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
+import { AuthService, CommonService, PracticeService } from 'core-services';
+import * as moment from 'moment';
 @Component({
   selector: 'app-taskpage',
   templateUrl: './taskpage.component.html',
   styleUrls: ['./taskpage.component.scss']
 })
 export class TaskpageComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'type','rason', 'client', 'expedient', 'hours', 'date', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+  currentTab: number = 0;
+  allTasks !:Task[];
+  pendingTasks!:Task[];
+  completedTasks!:Task[];
+  overdueTasks!:Task[];
+  selectedSubscription!:any;
+  public tasksTypes!:TaskType[];
+  taskTypeEnum = TaskTypeEnum;
+  taskStatus = TaskStatus
+
+  constructor(public dialog: MatDialog,
+             private practiceService:PracticeService,
+             private authService: AuthService,
+             private commonService:CommonService) { }
+
+  ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getTasks();
+    this.getTasksType();
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
+  getTasks() {
+    const currentDate = moment();
+
+    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
+      this.allTasks = data;
+      this.pendingTasks = this.allTasks.filter(x => x.status === this.taskStatus.OPEN && x.overdue === false);
+      this.completedTasks = this.allTasks.filter(x => x.status === this.taskStatus.CLOSED);
+      this.overdueTasks = this.allTasks.filter(x => x.overdue === true).sort((a, b) => {
+          let dateA = new Date(a.end_date || '').getTime();
+          let dateB = new Date(b.end_date || '').getTime();
+          return dateB - dateA;
+      });
+    })
+  }
+
+  getTasksType(){
+    this.commonService.getTaskTypes().subscribe(data => {
+      this.tasksTypes = data;
+    })
+  }
+
+  openDialog(taskType:TaskType){
+
+    if(taskType.type === this.taskTypeEnum.OTHER && taskType.name === 'Otros'){
+      this.openDialogNewReason();
+    }
+    else{
+      this.openDialogNewTask(taskType);
     }
 
-    this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  openDialogNewTask(taskType:TaskType){
+    const dialogRef = this.dialog.open(DialogNewTaskComponent,{
+      data: {
+        taskType: taskType
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Task) => {
+
+      if(result.uuid) {
+        this.getTasks();
+        this.currentTab = 0;
+      }
+    });
   }
 
-  openDialogNewTask(){
-    this.dialog.open(DialogNewTaskComponent);
-  }
   openDialogNewReason(){
-    this.dialog.open(DialogNewReasonComponent);
-  }
-  openDialogChargedHours(){
-    this.dialog.open(DialogChargedHoursComponent);
-  }
-  openAlertDelete(){
-    Swal.fire({
-      title: '¿Deseas eliminar este elemento?',
-      text: 'Esta acción no se podrá revertir',
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: 'Eliminar',
-      showCancelButton: true,
-      cancelButtonText:'Cerrar ventana',
-      customClass:{
-        popup: 'c-alert c-alert--delete'
+    const dialogRef = this.dialog.open(DialogNewReasonComponent);
+
+    dialogRef.afterClosed().subscribe((data:TaskType) => {
+      if(data.uuid){
+        this.tasksTypes.push(data);
       }
     })
   }
 
-  constructor(public dialog: MatDialog) { }
-
-  ngOnInit(): void {
+  returnTaskTypeIcon(taskType:TaskType){
+    return TaskTypeiIconClassMap.get(taskType.type) || '';
   }
+
+  onTabChange(event: number) {
+    this.currentTab = event;
+  }
+
+  onExecuteTaskEvent(){
+    this.getTasks();
+  }
+
+
 
 }

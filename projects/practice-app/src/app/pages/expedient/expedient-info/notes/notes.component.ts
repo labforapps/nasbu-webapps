@@ -1,42 +1,144 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { DialogNewNoteComponent } from '../../../../components/dialogs/dialog-new-note/dialog-new-note.component';
 import { MatDialog } from '@angular/material/dialog';
-
-export interface PeriodicElement {
-  position: number;
-  title: string;
-  description: string;
-  date: string;
-
-
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-  {position: 2, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-  {position: 3, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-  {position: 4, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-  {position: 5, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-  {position: 6, title: 'Manifiesto Pago Maria Claudia', description: 'Durante la primera sesión ana Mendez hizo la observación de que había tomado',  date: '12/9/2021'},
-
-
-];
+import { CaseFile, CaseFileNote, CaseFileStatus } from 'core-models';
+import { MatPaginator } from '@angular/material/paginator';
+import { PracticeService } from '../../../../../../../core-services/src/lib/services/practice/practice.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import * as moment from 'moment';
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
 export class NotesComponent implements OnInit {
-  displayedColumns: string[] = ['select','type','title','description', 'date', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+
+  displayedColumns: string[] = [];
+  dataSourceCaseFileNotes!:any;
+  selection = new SelectionModel<CaseFileNote>(true, []);
+  @ViewChild(MatPaginator) paginator: any;
+  @Input() caseFile!:CaseFile;
+  caseFileNotes!:CaseFileNote[];
+  caseFileStatus = CaseFileStatus;
+
+  constructor(public dialog: MatDialog,
+              private practiceService:PracticeService,
+              private cdr: ChangeDetectorRef,
+              private translateService:TranslateService,
+              private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getCaseFileNotes();
+  }
+
+  ngAfterViewInit(): void {
+    this.displayedColumns = ['select', 'type','title','description','date','action']
+    this.dataSourceCaseFileNotes = new MatTableDataSource<CaseFileNote>(this.caseFileNotes);
+    this.dataSourceCaseFileNotes.paginator = this.paginator;
+  }
+
+  getCaseFileNotes(){
+   this.practiceService.getCaseFileNotes(this.caseFile.subscription,this.caseFile.uuid || '').subscribe(data => {
+    this.caseFileNotes = data.sort((a, b) => {
+      let dateA = new Date(a.created_at || '').getTime();
+      let dateB = new Date(b.created_at || '').getTime();
+      return dateB - dateA;
+  });;;
+    this.ngAfterViewInit();
+   })
+  }
+
+  openDialogNewNote(caseFileNote?:CaseFileNote){
+    const dialogRef = this.dialog.open(DialogNewNoteComponent,{
+      data: {
+        caseFile:this.caseFile,
+        caseFileNote: caseFileNote
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: {caseFileNote:CaseFileNote,createAnother:boolean}) => {
+      if(result.caseFileNote.uuid){
+
+        const caseFileNoteFiltered = this.caseFileNotes.filter(x => x.uuid === result.caseFileNote.uuid);
+
+        if(caseFileNoteFiltered) this.caseFileNotes = this.caseFileNotes.filter(x => x.uuid !== result.caseFileNote.uuid);
+
+        this.caseFileNotes.push(result.caseFileNote);
+        this.ngAfterViewInit();
+
+        if(result.createAnother) this.openDialogNewNote();
+      }
+
+    });
+
+  }
+
+  deleteCaseFileNote(caseFileNote:CaseFileNote) {
+
+    Swal.fire({
+      title: this.translateService.instant(
+        'clients.table.buttons.confirm_question_delete'
+      ),
+      text: this.translateService.instant(
+        'clients.table.buttons.actions_cannot_be_reversed'
+      ),
+      iconHtml: '<img src="assets/images/alert-delete.svg">',
+      confirmButtonText: this.translateService.instant(
+        'clients.table.buttons.delete'
+      ),
+      showCancelButton: true,
+      cancelButtonText: this.translateService.instant(
+        'clients.client_intake.close_window'
+      ),
+      customClass: {
+        popup: 'c-alert c-alert--delete',
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.practiceService
+          .deleteCaseFileNote(caseFileNote.subscription, caseFileNote.uuid || '')
+          .subscribe(
+            (data) => {
+
+              const arrayFiltered = this.caseFileNotes.filter(x => x.uuid !== caseFileNote.uuid);
+              this.caseFileNotes = arrayFiltered;
+              this.dataSourceCaseFileNotes.data = this.caseFileNotes;
+
+              this.toastr.success(
+                'Ok',
+                this.translateService.instant(
+                  'successMessages.deleted_successfully'
+                )
+              );
+            },
+            (error) => {
+              this.toastr.error(
+                'Error',
+                this.translateService.instant('errorMessages.unexpectedError')
+              );
+            }
+          );
+      }
+    });
+
+  }
+
+  returnDateFormatted(dateCaseFileNote: string) {
+    const date = moment(dateCaseFileNote);
+    const formattedDate = date.locale('es').format('D MMM. YYYY');
+
+    return formattedDate;
+  }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSourceCaseFileNotes ? this.dataSourceCaseFileNotes.data.length : 0;
     return numSelected === numRows;
   }
 
@@ -47,23 +149,16 @@ export class NotesComponent implements OnInit {
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSourceCaseFileNotes.data);
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
-  openDialogNewNote(){
-    this.dialog.open(DialogNewNoteComponent);
-  }
 
-  constructor(public dialog: MatDialog) { }
-
-  ngOnInit(): void {
-  }
 
 }

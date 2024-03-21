@@ -3,22 +3,24 @@
         <div class="align-items-center d-flex u-gap-1">
             <span class="icon-company u-icon-white mr-3"></span>
             <div>
-                <div>Listado empresas</div>
-                <div class="u-smallSize u-fontRegular mt-1">Tienes 2 registrados</div>
+                <div>{{'clients.dialogListCustomerLink.companies_list' | translate}}</div>
+                <div class="u-smallSize u-fontRegular mt-1">
+                    {{'clients.dialogListCustomerLink.have' | translate}} <span *ngIf="customers">{{customers.length}}</span>
+                    {{'clients.dialogListCustomerLink.registered' | translate}}</div>
             </div>
-            
+
         </div>
     </div>
     <mat-dialog-content>
        <div class="c-dialog-list__content">
         <div class="c-dialog-list__header">
             <div class="c-form-group--search bordered ml-auto">
-                <input matInput type="text" placeholder="Buscar por nombre">
+                <input matInput type="text" placeholder="Buscar por nombre" [(ngModel)]="searchTerm" (keyup)="searchCustomer()">
                 <span class="icon-search"></span>
             </div>
            </div>
            <div class="c-dialog-list__body">
-            <div class="c-dialog-list__blank">
+            <div class="c-dialog-list__blank" *ngIf="!customers">
                 <div class="c-dialog-list__blank__icon">
                     <span class="icon-company"></span>
                 </div>
@@ -26,27 +28,17 @@
                     Aún no tienes empresar registradas
                 </div>
             </div>
-            <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2">
+            <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2"  *ngFor="let customer of customers">
                 <img src="../../../../assets/images/company.svg" alt="">
-                <p class="mr-auto u-textColor">Moya & Asociados</p>
-                <button mat-button class="c-btn c-btn--small c-btn--outline-primary">Seleccionar</button>
+                <p class="mr-auto u-textColor">{{customer.company_name}}</p>
+                <button (click)="closeModal(customer.uuid)" mat-button class="c-btn c-btn--small c-btn--outline-primary">Seleccionar</button>
             </div>
-            <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2">
-                <img src="../../../../assets/images/company.svg" alt="">
-                <p class="mr-auto u-textColor">Moya & Asociados</p>
-                <button mat-button class="c-btn c-btn--small c-btn--outline-primary">Seleccionar</button>
-            </div>
-            <div class="align-items-center d-flex mb-2 u-gap-1 mt-2 pb-2">
-                <img src="../../../../assets/images/company.svg" alt="">
-                <p class="mr-auto u-textColor">Moya & Asociados</p>
-                <button mat-button class="c-btn c-btn--small c-btn--outline-primary">Seleccionar</button>
-            </div>
-    
            </div>
        </div>
     </mat-dialog-content>
     <mat-dialog-actions class="c-dialog-header__footer">
-        <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button>
+        <!-- <button mat-button mat-dialog-close class="u-link text-center">Cerrar ventana</button> -->
+        <button mat-button class="u-link text-center" (click)="closeModal()">Cerrar ventana</button>
         <button mat-button class="u-link pr-5 pl-5">Añadir</button>
     </mat-dialog-actions>
 </div>

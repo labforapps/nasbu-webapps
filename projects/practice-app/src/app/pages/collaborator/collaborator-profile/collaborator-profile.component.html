@@ -1,0 +1,55 @@
+<div class="l-page" *ngIf="securityUser" >
+    <div class="l-page__header">
+        <div class="d-flex flex-wrap u-gap-1">
+            <button mat-button [routerLink]="'/users'"><span class="icon-arrow-back mr-2" ></span> {{'collaborator.profile.goBack' | translate}}</button>
+            <div class="d-flex">
+                <div class="l-page__icon">
+                    <span class="icon-user"></span>
+                </div>
+                <div class="l-page__title">{{securityUser.user.first_name + ' ' + securityUser.user.last_name }} </div>
+            </div>
+
+        </div>
+
+        <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button>{{'collaborator.profile.fast_invoicing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
+            <button class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditUser(securityUser.uuid || '')">{{'collaborator.profile.edit_collaborator' | translate}} <span class="icon-pen ml-2 "></span></button>
+
+        </div>
+
+    </div>
+    <div class="l-page__body">
+        <mat-tab-group class="c-tabs c-tabs--hasSub no-padder-body" animationDuration="0ms">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  {{'collaborator.profile.general_details' | translate}}
+                    <span class="icon-id-card"></span>
+                </ng-template>
+                <app-collabotator-general-info [securityUser]="securityUser"></app-collabotator-general-info>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  {{'collaborator.profile.dockets' | translate}}
+                    <span class="icon-expedient"></span>
+                </ng-template>
+                <app-collaborator-expedient [securityUser]="securityUser"></app-collaborator-expedient>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  {{'collaborator.profile.pending_tasks' | translate}}
+                    <span class="icon-task"></span>
+                </ng-template>
+                <app-collaborator-pending-issues [securityUser]="securityUser"></app-collaborator-pending-issues>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  {{'collaborator.profile.invoicing' | translate}}
+                    <span class="icon-invoice"></span>
+                </ng-template>
+                <app-collaborator-invoicing [securityUser]="securityUser"></app-collaborator-invoicing>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+</div>

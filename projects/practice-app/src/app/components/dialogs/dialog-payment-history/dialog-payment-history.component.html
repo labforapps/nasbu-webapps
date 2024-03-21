@@ -3,93 +3,44 @@
         <div class="align-items-center d-flex u-gap-1">
             <span class="icon-clock u-icon-white"></span>
             <div>
-                <div>Historial de pagos </div>
-                <div class="u-smallSize u-fontRegular">Expediente NB001 - Caso divorcio</div>
+                <div>{{'invoicing.payment_history.title' | translate}} </div>
+                <div *ngIf="invoice.case_file" class="u-smallSize u-fontRegular">{{'invoicing.payment_history.docket' | translate}}
+                  {{invoice.case_file.case_no}} - {{invoice.case_file.name}}</div>
             </div>
-            
         </div>
     </div>
     <mat-dialog-content class="pr-5 pl-5 pt-0">
-        
+
         <div class="c-payment-history">
-            <div class="c-payment-history__item">
+            <div class="c-payment-history__item" *ngFor="let payment of payments">
                 <img src="../../../../assets/images/history-income.svg" alt="" class="mr-2">
                 <div class="d-flex flex-wrap u-gap-1 align-items-center justify-content-between flex-1">
                     <div class="u-smallSize u-textLightColor">
-                        <div>01/16/2022</div>
-                        <div class="u-textColor mt-1 mb-1">Pago recibido</div>
-                        <div>USD 100 </div>
+                        <div>{{payment.payment_date | date: 'dd/MM/YYYY'}}</div>
+                        <div class="u-textColor mt-1 mb-1">{{'invoicing.payment_history.payment_received' | translate}}</div>
+                        <div>USD {{payment.total_amt}} </div>
                     </div>
                     <mat-button-toggle-group class="c-btn-table">
-                        <mat-button-toggle>Enviar</mat-button-toggle>
+                        <mat-button-toggle (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send' | translate}}</mat-button-toggle>
                         <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                             <span class="icon-arrow-down"></span>
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                     <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                        <button mat-menu-item class="matMenu-yellow">Editar<span class="icon-pen"></span></button>
-                        <button mat-menu-item class="matMenu-red">Eliminar <span class="icon-trash"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Aplicar pago<span class="icon-payment"></span></button>
-                        <button mat-menu-item class="matMenu-green">Ver factura<span class="icon-invoice"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
-                    </mat-menu>
-                </div>
-            </div>
-            <div class="c-payment-history__item">
-                <img src="../../../../assets/images/history-income.svg" alt="" class="mr-2">
-                <div class="d-flex flex-wrap u-gap-1 align-items-center justify-content-between flex-1">
-                    <div class="u-smallSize u-textLightColor">
-                        <div>01/16/2022</div>
-                        <div class="u-textColor mt-1 mb-1">Pago recibido</div>
-                        <div>USD 100 </div>
-                    </div>
-                    <mat-button-toggle-group class="c-btn-table">
-                        <mat-button-toggle>Enviar</mat-button-toggle>
-                        <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                            <span class="icon-arrow-down"></span>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                    <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                        <button mat-menu-item class="matMenu-yellow">Editar<span class="icon-pen"></span></button>
-                        <button mat-menu-item class="matMenu-red">Eliminar <span class="icon-trash"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Aplicar pago<span class="icon-payment"></span></button>
-                        <button mat-menu-item class="matMenu-green">Ver factura<span class="icon-invoice"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
-                    </mat-menu>
-                </div>
-            </div>
-            <div class="c-payment-history__item">
-                <img src="../../../../assets/images/history-income.svg" alt="" class="mr-2">
-                <div class="d-flex flex-wrap u-gap-1 align-items-center justify-content-between flex-1">
-                    <div class="u-smallSize u-textLightColor">
-                        <div>01/16/2022</div>
-                        <div class="u-textColor mt-1 mb-1">Pago recibido</div>
-                        <div>USD 100 </div>
-                    </div>
-                    <mat-button-toggle-group class="c-btn-table">
-                        <mat-button-toggle>Enviar</mat-button-toggle>
-                        <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                            <span class="icon-arrow-down"></span>
-                        </mat-button-toggle>
-                    </mat-button-toggle-group>
-                    <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                        <button mat-menu-item class="matMenu-yellow">Editar<span class="icon-pen"></span></button>
-                        <button mat-menu-item class="matMenu-red">Eliminar <span class="icon-trash"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Aplicar pago<span class="icon-payment"></span></button>
-                        <button mat-menu-item class="matMenu-green">Ver factura<span class="icon-invoice"></span></button>
-                        <button mat-menu-item class="matMenu-blue">Enviar recibo<span class="icon-receipt"></span></button>
+                        <button mat-menu-item class="matMenu-red" (click)="deletePayment(payment)">{{'invoicing.payment_history.delete' | translate}} <span class="icon-trash"></span></button>
+                        <button mat-menu-item class="matMenu-blue" (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send_payment' | translate}}<span class="icon-receipt"></span></button>
                     </mat-menu>
                 </div>
             </div>
         </div>
         <div class="d-flex mt-5">
             <div class="u-textColor mr-4">
-                <div class="u-smallSize mb-1">Pendiente de pago</div>
-                <div class="u-bigSize2 align-items-center d-flex u-primaryColor"><span class="icon-income mr-2 u-normalSize"></span>300 USD</div>
+                <div class="u-smallSize mb-1">{{'invoicing.payment_history.pending_amount' | translate}}</div>
+                <div class="u-bigSize2 align-items-center d-flex u-dangerColor"><span class="icon-outcome mr-2 u-normalSize"></span>{{pendingPayment | number}} USD</div>
             </div>
             <div class="u-textColor">
-                <div class="u-smallSize mb-1">Abonado</div>
-                <div class="u-bigSize2 align-items-center d-flex u-dangerColor"><span class="icon-outcome mr-2 u-normalSize"></span>200 USD</div>
+                <div class="u-smallSize mb-1">{{'invoicing.payment_history.total_paid' | translate}}</div>
+                <div class="u-bigSize2 align-items-center d-flex u-primaryColor"><span class="icon-income mr-2 u-normalSize"></span>{{totalPayment | number}} USD</div>
             </div>
         </div>
     </mat-dialog-content>

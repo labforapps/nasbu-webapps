@@ -87,3 +87,40 @@
     }
     
 }
+
+
+.c-stepper-slider{
+    height: 100%;
+    background: transparent;
+
+    & .mat-horizontal-stepper-header-container{
+        display: none;
+    }
+    & .mat-horizontal-content-container{
+        height: 100%;
+        padding-bottom: 0;
+    }
+    & .mat-horizontal-stepper-content{
+        height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+    &__pagination {
+        display: flex;
+        gap: 5px;
+        margin-top: auto;
+        margin-bottom: 3rem;
+        & span {
+          width: 6px;
+          height: 6px;
+          background: white;
+          border-radius: 50%;
+          opacity: .44;
+    
+          &.is-active{
+            opacity: 1;
+          }
+        }
+      }
+}

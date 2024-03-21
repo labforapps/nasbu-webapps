@@ -1,72 +1,108 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
+import { UserInfo } from 'core-models';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+import { DialogNewSubscriptionComponent } from '../../components/dialogs/dialog-new-subscription/dialog-new-subscription.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-  signinForm!: FormGroup;
-  errorMessage!: string;
-  currentFocus: string = 'username';
+  public formSubscription!: Subscription;
+  public signinForm!: FormGroup;
+  public errorMessage!: string;
+  public currentFocus: string = 'username';
+  public focusEmailField: boolean = false;
+  @ViewChild('campoFoco') campoFoco!: ElementRef;
+
 
   constructor(public dialog: MatDialog,
-              private authService: AuthService,
-              private router: Router) { }
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router,
+    private activatedRoute:ActivatedRoute
+  ) { }
 
-  openDialogRecovery(){
-    const dialogRef = this.dialog.open(DialogRecoveryComponent);
-    dialogRef.afterClosed()
-               .subscribe((username: string) => {
-                      if (username) {
-                          this.forgotPassword(username);
-                      }
-               });
-  }
 
   ngOnInit(): void {
-      this.signinForm = new FormGroup({
-          username: new FormControl(null, Validators.required),
-          password: new FormControl(null, Validators.required)
+    this.buildForm();
+    this.formChange();
+
+    const firstLogin =  this.activatedRoute.snapshot.queryParams['firstLogin'];
+
+    if(firstLogin) {
+      const dialofRef = this.dialog.open(DialogNewSubscriptionComponent);
+
+      dialofRef.afterClosed().subscribe(data => {
+        this.campoFoco.nativeElement.focus();
+      })
+    }
+  }
+
+  buildForm(): void {
+    this.signinForm = this.fb.group({
+      username: ['',Validators.required],
+      password: ['',Validators.required]
+    });
+  }
+
+  formChange(): void {
+    this.formSubscription = this.signinForm.valueChanges.subscribe(() => this.errorMessage = '');
+  }
+
+  openDialogRecovery(): void {
+    const dialogRef = this.dialog.open(DialogRecoveryComponent);
+  }
+
+  signIn(): void {
+    const { username, password } = this.signinForm.value;
+    this.authService
+      .signIn(username, password)
+      .subscribe((data: UserInfo | CognitoUser) => {
+
+        if(data instanceof CognitoUser){
+          const state =  {
+            firstPasswordUsername: username,
+            currentPassword: password
+          };
+
+          this.router.navigate(['/signin-first-password'],{state});
+        }
+        else{
+
+          if(!localStorage.getItem(`first_login_${username}`)){
+            localStorage.setItem(`first_login_${username}`,'true')
+          }
+
+          this.router.navigate(['/dashboard']).then(() => {
+            window.location.reload();
+          });
+        }
+
+      }, (error) => {
+        this.errorMessage = error.message;
+
       });
   }
 
-  signIn() {
-      const username: string = this.signinForm.value.username;
-      const password: string = this.signinForm.value.password;
-      this.authService
-          .signIn(username, password)
-          .subscribe((response) => {
-                console.log('Signin response: ', response);
-                this.router.navigate(['/dashboard']);
-          }, (error) => {
-                console.log('Error: ', error);
-                this.errorMessage = 'Invalid username or password';
-          })
+  changeFocus(focusField: string): void {
+    this.currentFocus = focusField;
   }
 
-  changeFocus(focusField: string) {
-      this.currentFocus = focusField;
+  gotoSignup(): void {
+    this.router.navigate(['/signup']);
   }
 
-  gotoSignup() {
-      this.router.navigate(['/signup']);
-  }
-
-  forgotPassword(username: string) {
-      this.authService
-          .forgotPassword(username)
-          .subscribe(() => {
-              console.log('Forgot password sent...');
-          }, (error) => {
-              console.log('Error: ', error);
-          });
+  ngOnDestroy(): void {
+    this.formSubscription?.unsubscribe();
   }
 
 }

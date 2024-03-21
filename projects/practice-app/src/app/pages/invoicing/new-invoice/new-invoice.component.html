@@ -1,48 +1,38 @@
 <div class="l-invoicing">
-    <div class="l-invoicing__header">
+    <form [formGroup]="invoiceForm" (submit)="submitForm()" #form="ngForm">
+
+      <div class="l-invoicing__header">
         <div class="row">
             <div class="col-md-4 col-sm-6">
-                <label class="u-title-label">Cliente</label>
+                <label class="u-title-label">{{'invoicing.invoice.client' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Nombre de cliente</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
+                    <mat-label>{{'invoicing.invoice.choose_client' | translate}}</mat-label>
+                    <mat-select (selectionChange)="onChangeCustomer($event)" formControlName="customer">
+                        <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                            {{customer | customerFullName}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-md-4 col-sm-6">
-                <label class="u-title-label">Expediente al cual aplicará el cargo</label>
+                <label class="u-title-label">{{'invoicing.invoice.docket_you_would_like_to_invoice' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-                    <mat-label>Nombre expediente</mat-label>
-                    <mat-select>
-                        <mat-option>
-                            Option 1
-                        </mat-option>
-                        <mat-option>
-                            Option 2
-                        </mat-option>
-                        <mat-option>
-                            Option 3
+                    <mat-label>{{'invoicing.invoice.docket_name' | translate}}</mat-label>
+                    <mat-select (selectionChange)="onChangeCaseFile($event)" formControlName="case_file">
+                        <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
+                            {{caseFile.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="align-items-center col-md-2 col-sm-3 d-flex">
-                <mat-checkbox class="c-checkbox u-textColor">
-                    Sin expediente
+                <mat-checkbox class="c-checkbox u-textColor" (change)="disableCaseFileField($event)">
+                    {{'invoicing.invoice.no_docket' | translate}}
                 </mat-checkbox>
             </div>
-            <div class="align-items-center col-md-2 col-sm-3 d-flex">
+            <div class="align-items-center col-md-2 col-sm-3 d-flex" *ngIf="invoice">
                 <mat-button-toggle-group class="c-btn-table">
-                    <mat-button-toggle>Enviar</mat-button-toggle>
+                    <mat-button-toggle (click)="openDialogSendInvoice()">{{'invoicing.invoice.send' | translate}}</mat-button-toggle>
                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                         <span class="icon-arrow-down"></span>
                     </mat-button-toggle>
@@ -54,314 +44,252 @@
                 </mat-menu>
             </div>
         </div>
-    </div>
-    <div class="l-invoicing__body">
-        <div class="c-invoice">
-            <div class="c-invoice__header">
-                <div>
-                    <div class="c-invoice__title mb-5">Factura #1</div>
-                    <div class="c-invoice__subtitle">Keneth Law firma</div>
-                    <ul class="c-invoice__data">
-                        <li>United State of America</li>
-                        <li>Miami, Florida </li>
-                        <li>33126</li>
-                        <li>1466 NW 78 AVE</li>
-                    </ul>
-                </div>
-                <div class="text-right">
-                    <div class="c-invoice__subtitle">Cristobal Cabral</div>
-                    <ul class="c-invoice__data ">
-                        <li>United State of America</li>
-                        <li>Miami, Florida </li>
-                        <li>33126</li>
-                        <li>1466 NW 78 AVE</li>
-                    </ul>
-                    <div class="d-flex flex-column u-gap-1 mt-4">
-                        <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
-                            <mat-label>Fecha de factura</mat-label>
-                            <input matInput type="datetime-local" placeholder="start date">
-                        </mat-form-field>
-                        <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
-                            <mat-label>Fecha de vencimiento</mat-label>
-                            <input matInput type="datetime-local" placeholder="start date">
-                        </mat-form-field>
-                    </div>
+      </div>
+      <div class="l-invoicing__body" *ngIf="subscriptionInfo">
+          <div class="c-invoice">
+              <div class="c-invoice__header">
+                  <div>
+                      <div class="c-invoice__title mb-5">{{'invoicing.invoice.invoice' | translate}}</div>
+                      <div class="c-invoice__subtitle">{{subscriptionInfo.name}}</div>
+                      <ul class="c-invoice__data">
+                          <li *ngIf="countries.length > 0">{{returnCountryName(subscriptionInfo.addresses[0].physical_country)}}</li>
+                          <li>{{subscriptionInfo.addresses[0].physical_city}} </li>
+                          <li>{{subscriptionInfo.addresses[0].physical_postal_code}}</li>
+                          <li>{{subscriptionInfo.addresses[0].physical_address}}</li>
+                      </ul>
+                  </div>
+                  <div class="text-right">
+                      <div class="c-invoice__subtitle">{{customerSelected | customerFullName}}</div>
+                      <ul class="c-invoice__data " *ngIf="customerSelected">
+                          <li *ngIf="countries.length > 0">{{returnCountryName(customerSelected.addresses[0].physical_country)}}</li>
+                          <li>{{customerSelected.addresses[0].physical_city}} </li>
+                          <li>{{customerSelected.addresses[0].physical_postal_code}}</li>
+                          <li>{{customerSelected.addresses[0].physical_address}}</li>
+                      </ul>
+                      <div class="d-flex flex-column u-gap-1 mt-4">
+                          <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
+                              <mat-label>{{'invoicing.invoice.invoice_date' | translate}}</mat-label>
+                              <input matInput type="date" placeholder="start date" formControlName="inv_date">
+                          </mat-form-field>
+                          <mat-form-field class="c-form-group c-form-group--small c-form-group__datepicker">
+                              <mat-label>{{'invoicing.invoice.due_date' | translate}}</mat-label>
+                              <input matInput type="date" placeholder="start date" formControlName="inv_exp_date">
+                          </mat-form-field>
+                      </div>
 
-                </div>
-            </div>
-            <div class="c-invoice__body">
-                <div class="c-invoice__title">Detalles de la factura (2)</div>
-                <hr class="u-divider mb-0">
-                <div class="u-table-responsive">
-                    <table class="c-table-invoice">
-                        <thead>
-                            <tr>
-                                <th scope="col">Item</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Tipo Facturación</th>
-                                <th scope="col">Duración en Hr. </th>
-                                <th scope="col">Precio x Hr. </th>
-                                <th scope="col">Precio fijo</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-label="Item">
-                                    <div class="d-flex align-items-center u-fontBold">
-                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
-                                        <span>1</span>
-                                    </div>
+                  </div>
+              </div>
+              <div class="c-invoice__body">
+                  <div class="c-invoice__title">{{'invoicing.invoice.invoice_details' | translate}} </div>
+                  <hr class="u-divider mb-0">
+                  <div class="u-table-responsive">
+                      <table class="c-table-invoice">
+                          <thead>
+                              <tr>
+                                  <th scope="col"></th>
+                                  <th scope="col">Item</th>
+                                  <th scope="col">{{'invoicing.invoice.description' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.invoice_type' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.task_duration' | translate}}  </th>
+                                  <th scope="col">{{'invoicing.invoice.hourly_rate' | translate}}  </th>
+                                  <th scope="col">{{'invoicing.invoice.flat_fee' | translate}} </th>
+                                  <th scope="col">Total</th>
+                              </tr>
+                          </thead>
+                          <tbody formArrayName="details">
+                              <tr *ngFor="let invoice_detail of filterFormArray('details','is_legal_charge',false); let i = index" [formGroupName]="i">
 
+                                <td>
+                                  <span class="icon-times mr-2" (click)="removeItemFormArray('details',invoice_detail.value)"></span>
                                 </td>
-                                <td data-label="Descripción">
-                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
-                                </td>
-                                <td data-label="Tipo Facturación">
+                                  <td data-label="Item">
+                                      <div class="d-flex align-items-center u-fontBold">
+                                          <span>{{i + 1}}</span>
+                                      </div>
 
-                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                        <mat-label>Precio</mat-label>
-                                        <mat-select>
-                                            <mat-option>
-                                                Option 1
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 2
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 3
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Duración en Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio x Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio fijo">
-                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Total">
-                                    USD 45
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" data-label="Item">
-                                    <div class="d-flex align-items-center u-fontBold">
-                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
-                                        <span>1</span>
-                                    </div>
-
-                                </td>
-                                <td data-label="Descripción">
-                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
-                                </td>
-                                <td data-label="Tipo Facturación">
+                                  </td>
+                                  <td data-label="Descripción">
+                                      <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="{{'invoicing.invoice.insert_details_here' | translate}}" formControlName="description"></textarea>
+                                  </td>
+                                  <td data-label="Tipo Facturación">
 
                                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                        <mat-label>Precio</mat-label>
-                                        <mat-select>
-                                            <mat-option>
-                                                Option 1
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 2
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 3
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Duración en Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio x Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio fijo">
-                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Total">
-                                    USD 45
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="100%"><button mat-button class="c-btn c-btn-add">+ Añadir nueva entrada</button></td>
-                            </tr>
+                                      <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
+                                      <mat-select formControlName="billing_type">
+                                        <mat-option [value]="billingType.PER_HOUR">
+                                          {{'invoicing.invoice.hourly_rate' | translate}}
+                                      </mat-option>
+                                      <mat-option [value]="billingType.FLAT_FEE">
+                                        {{'invoicing.invoice.flat_fee' | translate}}
+                                      </mat-option>
+                                      </mat-select>
+                                  </mat-form-field>
+                                  </td>
+                                  <td data-label="Duración en Hr.">
+                                      <mat-form-field appearance="fill" class="c-form-group input--outlined" >
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input " matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="total_hours"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Precio x Hr.">
+                                      <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input " matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="bt_price_per_hour"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Precio fijo">
+                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input" matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="bt_amt"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="invoice_detail.value.billing_type === billingType.PER_HOUR">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Total">
+                                      USD {{invoice_detail.value.total_amt  | currency}}
+                                  </td>
+                              </tr>
 
-                        </tbody>
+                              <tr>
+                                  <td colspan="100%"><button type="button" mat-button class="c-btn c-btn-add" (click)="addInvoiceDetail('details',false)">+ {{'invoicing.invoice.add_new_item' | translate}} </button></td>
+                              </tr>
 
-
-                    </table>
-                </div>
-
-                <div class="c-invoice__title mt-5">Gastos legales</div>
-                <hr class="u-divider mb-0">
-                <div class="u-table-responsive">
-                    <table class="c-table-invoice">
-                        <thead>
-                            <tr>
-                                <th scope="col">Item</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Tipo Facturación</th>
-                                <th scope="col">Duración en Hr. </th>
-                                <th scope="col">Precio x Hr. </th>
-                                <th scope="col">Precio fijo</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-label="Item">
-                                    <div class="d-flex align-items-center u-fontBold">
-                                        <span class="icon-times mr-2"></span>
-                                        <span>1</span>
-                                    </div>
-
-                                </td>
-                                <td data-label="Descripción">
-                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
-                                </td>
-                                <td data-label="Tipo Facturación">
-
-                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                        <mat-label>Precio</mat-label>
-                                        <mat-select>
-                                            <mat-option>
-                                                Option 1
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 2
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 3
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Duración en Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio x Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio fijo">
-                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Total">
-                                    USD 45
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="row" data-label="Item">
-                                    <div class="d-flex align-items-center u-fontBold">
-                                        <mat-slide-toggle class="c-switch u-smallSize mr-2"></mat-slide-toggle>
-                                        <span>1</span>
-                                    </div>
-
-                                </td>
-                                <td data-label="Descripción">
-                                    <textarea matInput class="c-form-group__textarea text-area--outlined" placeholder="Llamada caso pradera"></textarea>
-                                </td>
-                                <td data-label="Tipo Facturación">
-
-                                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                                        <mat-label>Precio</mat-label>
-                                        <mat-select>
-                                            <mat-option>
-                                                Option 1
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 2
-                                            </mat-option>
-                                            <mat-option>
-                                                Option 3
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Duración en Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio x Hr.">
-                                    <mat-form-field appearance="fill" class="c-form-group input--filled">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input " matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Precio fijo">
-                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
-                                        <mat-label>Número</mat-label>
-                                        <input class="c-form-group__input" matInput placeholder="0000  0000  0000  0000">
-                                    </mat-form-field>
-                                </td>
-                                <td data-label="Total">
-                                    USD 45
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="100%"><button mat-button class="c-btn c-btn-add">+ Añadir nueva entrada</button></td>
-                            </tr>
-
-                        </tbody>
+                          </tbody>
 
 
-                    </table>
-                </div>
+                      </table>
+                  </div>
 
-            </div>
+                  <div class="c-invoice__title mt-5">{{'invoicing.reimbursement' | translate}}</div>
+                  <hr class="u-divider mb-0">
+                  <div class="u-table-responsive">
+                      <table class="c-table-invoice">
+                          <thead>
+                              <tr>
+                                  <th scope="col"></th>
+                                  <th scope="col">Item</th>
+                                  <th scope="col">{{'invoicing.invoice.description' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.invoice_type' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.task_duration' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.hourly_rate' | translate}} </th>
+                                  <th scope="col">{{'invoicing.invoice.flat_fee' | translate}}</th>
+                                  <th scope="col">Total</th>
+                              </tr>
+                          </thead>
+                          <tbody formArrayName="details">
+                              <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="i">
+                                  <td>
+                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',legal_expense.value)"></span>
+                                  </td>
+                                  <td data-label="Item">
+                                      <div class="d-flex align-items-center u-fontBold">
+                                        <span>{{i + 1}}</span>
+                                      </div>
 
-            <div class="c-invoice__footer">
-                <div class="align-items-end d-flex flex-column flex-wrap mb-2 u-gap-1 u-smallSize u-text-color">
-                    <p><b class="mr-2">Subtotal</b>USD 30</p>
-                    <p><b class="mr-2">Impuesto ( 13%)</b>USD 30</p>
+                                  </td>
+                                  <td data-label="Descripción">
+                                      <textarea matInput
+                                                class="c-form-group__textarea text-area--outlined"
+                                                placeholder="{{'invoicing.invoice.insert_details_here' | translate}}"
+                                                formControlName="description"></textarea>
+                                  </td>
+                                  <td data-label="Tipo Facturación">
 
-                </div>
-                <div class="d-flex justify-content-between u-gap-1 flex-wrap">
-                    <div class="c-invoice__title">Total</div>
-                    <div class="c-invoice__totalprice">USD 45</div>
-                </div>
-                <hr class="u-divider">
-                <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
-                    <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2">
-                        No facturable
-                    </mat-checkbox>
-                    <button mat-button class="c-btn-function">Guardar factura</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                          <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
+                                          <mat-select formControlName="billing_type">
+                                            <mat-option [value]="billingType.PER_HOUR">
+                                              {{'invoicing.invoice.hourly_rate' | translate}}
+                                          </mat-option>
+                                          <mat-option [value]="billingType.FLAT_FEE">
+                                            {{'invoicing.invoice.flat_fee' | translate}}
+                                          </mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Duración en Hr.">
+                                      <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input "
+                                                 matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="total_hours"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="legal_expense.value.billing_type === billingType.FLAT_FEE">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Precio x Hr.">
+                                      <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input "
+                                                 matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="bt_price_per_hour"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="legal_expense.value.billing_type === billingType.FLAT_FEE">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Precio fijo">
+                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                          <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                          <input class="c-form-group__input"
+                                                 matInput
+                                                 placeholder="0000  0000  0000  0000"
+                                                 formControlName="bt_amt"
+                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 [readonly]="legal_expense.value.billing_type === billingType.PER_HOUR">
+                                      </mat-form-field>
+                                  </td>
+                                  <td data-label="Total">
+                                      USD {{legal_expense.value.total_amt}}
+                                  </td>
+                              </tr>
+
+                              <tr>
+                                  <td colspan="100%"><button type="button" mat-button class="c-btn c-btn-add" (click)="addInvoiceDetail('details',true)">+ {{'invoicing.invoice.add_new_item' | translate}}</button></td>
+                              </tr>
+
+                          </tbody>
+
+
+                      </table>
+                  </div>
+
+              </div>
+
+              <div class="c-invoice__footer">
+                  <div class="align-items-end d-flex flex-column flex-wrap mb-2 u-gap-1 u-smallSize u-text-color">
+                      <p><b class="mr-2">Subtotal</b>USD {{subTotalInvoiceAmount | currency}}</p>
+                      <p *ngIf="applyTax"><b class="mr-2">{{'invoicing.invoice.tax' | translate}} ( {{taxInvoice}}%)</b>USD {{totalTaxInvoiceAmount | currency}}</p>
+
+                  </div>
+                  <div class="d-flex justify-content-between u-gap-1 flex-wrap">
+                      <div class="c-invoice__title">Total</div>
+                      <div class="c-invoice__totalprice">USD {{totalInvoiceAmount | currency}}</div>
+                  </div>
+                  <hr class="u-divider">
+                  <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
+                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2"
+                                    [(ngModel)]="applyTax"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (click)="openDialogAddTax()">
+                        {{'invoicing.invoice.apply_tax' | translate}}
+                      </mat-checkbox>
+                      <button mat-button class="c-btn-function">{{'invoicing.invoice.save_invoice' | translate}}</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    </form>
 </div>
