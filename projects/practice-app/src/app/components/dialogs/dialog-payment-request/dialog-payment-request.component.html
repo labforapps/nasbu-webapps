@@ -62,27 +62,29 @@
                 </mat-radio-group>
             </div>
         </div>
-        <div class="row" *ngIf="sendingMethod === 'email'">
-          <div class="col-md-12">
-              <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
-              <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                  <mat-label>{{'clients.client_intake.email' | translate}}</mat-label>
-                  <input type="email" class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField" [ngModelOptions]="{standalone: true}">
-              </mat-form-field>
-            <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
-          </div>
+
+      <br>
+
+      <div class="row" *ngIf="sendingMethod === 'email'">
+        <div class="col-md-12">
+          <div class="d-flex flex-column" *ngIf="customer">
+            <mat-checkbox (change)="addEmail($event,contact.contact_value)" class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.email">
+                <span class="ml-2">{{contact.contact_value}}</span>
+            </mat-checkbox>
+         </div>
+        </div>
       </div>
+
       <div class="row" *ngIf="sendingMethod === 'sms'">
-          <div class="col-md-12">
-              <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
-              <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                  <mat-label>{{'clients.client_intake.phone_number' | translate}} </mat-label>
-                  <input class="c-form-group__input" matInput [(ngModel)]="phoneNumberField">
-              </mat-form-field> -->
-              <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
-              <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
-          </div>
+        <div class="col-md-12">
+          <div class="d-flex flex-column" *ngIf="customer">
+            <mat-checkbox (change)="addPhone($event,contact.contact_value)" class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.phone_number">
+                <span class="ml-2">{{contact.contact_value}}</span>
+            </mat-checkbox>
+         </div>
+        </div>
       </div>
+
       </mat-dialog-content>
       <mat-dialog-actions class="c-dialog-header__footer flex-column">
           <button mat-button class="c-btn-function w-50"> {{'invoicing.register_payment.apply_payment' | translate}} </button>

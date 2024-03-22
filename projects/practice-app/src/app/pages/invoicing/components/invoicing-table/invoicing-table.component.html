@@ -112,7 +112,7 @@
               <mat-button-toggle-group class="c-btn-table">
                   <mat-button-toggle (click)="openDialogSendInvoice(element)">{{'invoicing.send' | translate}}</mat-button-toggle>
                   <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
-                      <span class="icon-arrow-down"></span>
+                    <span class="icon-arrow-down"></span>
                   </mat-button-toggle>
               </mat-button-toggle-group>
 
@@ -122,7 +122,8 @@
                   <ng-container *ngIf="element.status !== invoiceStatus.PAYED">
                     <button mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment(element)">{{'invoicing.apply_payment' | translate}}<span class="icon-payment"></span></button>
                     <button mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment(element)">{{'invoicing.sendPaymentLink' | translate}}<span class="icon-payment"></span></button>
-                  </ng-container>                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
+                  </ng-container>
+                  <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/invoice/' + element.uuid + '/view' ">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentHistory(element)">{{'invoicing.send_payment' | translate}}<span class="icon-receipt"></span></button>
               </mat-menu>
           </td>

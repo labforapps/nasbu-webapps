@@ -12,7 +12,7 @@
         <app-task-filter (filter)="onFilter($event)" [tasks]="tasks"></app-task-filter>
     </mat-menu>
   </div>
-  <button class="c-btn-function" mat-button (click)="openDialogNewTask(undefined,'new')" *ngIf="module && module !== moduleEnum.TASKS">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
+  <button class="c-btn-function" mat-button (click)="openDialogNewTask(undefined,actionEnum.CREATE)" *ngIf="module && module !== moduleEnum.TASKS">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
 
 
 </div>
@@ -53,7 +53,7 @@
       <ng-container matColumnDef="rason">
           <th mat-header-cell *matHeaderCellDef> {{ 'tasks.table.reason' |translate }} </th>
           <td mat-cell *matCellDef="let element" >
-              <div class="u-link c-table__truncate" (click)="openDialogNewTask(element, 'view')">{{ element.description }} </div>
+              <div class="u-link c-table__truncate" (click)="openDialogNewTask(element, actionEnum.VIEW)">{{ element.description }} </div>
           </td>
       </ng-container>
 
@@ -137,8 +137,8 @@
               </mat-button-toggle-group>
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger" (click)="selectTask(element)">
-                  <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewTask(element, 'edit')">{{ 'tasks.table.buttons.edit' | translate}}<span class="icon-pen"></span></button>
-                  <button mat-menu-item class="matMenu-green" (click)="openDialogNewTask(element, 'view')">{{ 'tasks.table.buttons.view' | translate}} <span class="icon-eye" style="font-size: 11px;"></span></button>
+                  <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewTask(element, actionEnum.EDIT)">{{ 'tasks.table.buttons.edit' | translate}}<span class="icon-pen"></span></button>
+                  <button mat-menu-item class="matMenu-green" (click)="openDialogNewTask(element, actionEnum.VIEW)">{{ 'tasks.table.buttons.view' | translate}} <span class="icon-eye" style="font-size: 11px;"></span></button>
                   <button mat-menu-item class="matMenu-red" (click)="openAlertDelete(element)" >{{ 'tasks.table.buttons.delete' | translate}}<span class="icon-trash"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openDialogChargedHours(element)">{{ 'tasks.table.buttons.addHours' | translate}} <span class="icon-timer"></span></button>
               </mat-menu>
