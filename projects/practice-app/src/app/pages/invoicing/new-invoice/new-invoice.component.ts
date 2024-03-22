@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
+import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
@@ -34,6 +34,8 @@ export class NewInvoiceComponent implements OnInit {
   exitInvoice:boolean = false;
   subscriptionBillingFee!:SubscriptionBillingFee[];
   applyTax:boolean = false
+  action!:Action | string
+  actionEnum = Action
 
   constructor(private customerService:CustomersService,
               private authService: AuthService,
@@ -55,6 +57,8 @@ export class NewInvoiceComponent implements OnInit {
     this.getCountries();
     this.initForm();
     this.getSubscriptionBillingFee()
+
+    this.action = this.activatedRoute.snapshot.paramMap.get('action') || '';
   }
 
   initForm(){

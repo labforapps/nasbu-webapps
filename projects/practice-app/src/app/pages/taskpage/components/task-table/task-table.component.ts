@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogChargedHoursComponent } from '../../../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile, BillingType } from 'core-models';
+import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile, BillingType, Action } from 'core-models';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 import { PracticeService } from 'core-services';
 import { TaskTypeIconSVG } from 'projects/core-models/src/public-api';
@@ -34,7 +34,7 @@ export class TaskTableComponent  implements OnChanges {
   taskTypeEnum = TaskTypeEnum;
   public taskPriority = PriorityTask;
   billingType = BillingType
-
+  actionEnum = Action
 
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
@@ -91,7 +91,7 @@ export class TaskTableComponent  implements OnChanges {
 
   }
 
-  openDialogNewTask(task?:Task, action:string = "new"){
+  openDialogNewTask(task?:Task, action:Action = this.actionEnum.CREATE){
     const dialogRef = this.dialog.open(DialogNewTaskComponent, {
       data: {
         task: task,

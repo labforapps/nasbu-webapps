@@ -226,7 +226,7 @@
             <button mat-button mat-dialog-close class="u-link text-center">
                 {{ 'tasks.newTaskModal.close' | translate }}
             </button>
-            <button mat-button class="c-btn c-btn--primary c-btn--small">
+            <button mat-button class="c-btn c-btn--primary c-btn--small" *ngIf="dataDialog.action !== actionEnum.VIEW">
                 <span *ngIf="!task">{{ 'tasks.newTaskModal.save' | translate }}</span>
                 <span *ngIf="task">Save Changes</span>
             </button>

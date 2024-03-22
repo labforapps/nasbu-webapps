@@ -144,6 +144,10 @@ const routes: Routes = [
         component: NewInvoiceComponent,
       },
       {
+        path: 'invoicing/invoice/:id/:action',
+        component: NewInvoiceComponent,
+      },
+      {
         path: 'task',
         component: TaskpageComponent,
       },

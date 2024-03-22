@@ -24,6 +24,7 @@ export class DialogPaymentRequestComponent implements OnInit {
   typeContact = TypeContact;
   invoiceStatus = InvoiceStatus;
   emails:string[] = [];
+  phones:string[] = []
   sendingMethod: string = 'email';
   formSubmitted: boolean = false;
   emailField: string = '';
@@ -46,6 +47,8 @@ export class DialogPaymentRequestComponent implements OnInit {
       this.invoice = this.dataDialog.invoice;
       this.paymentForm.patchValue({invoice: this.invoice.uuid})
     }
+
+    this.getCustomerById()
   }
 
   get currentDate() {
@@ -71,6 +74,10 @@ export class DialogPaymentRequestComponent implements OnInit {
   onInvoiceChange(select:MatSelectChange){
     const invoiceUUID = select.value;
     this.invoice = this.invoices.find(x => x.uuid === invoiceUUID );
+    this.getCustomerById()
+  }
+
+  getCustomerById(){
     this.customerService.getCustomerById(this.selectedSubscription?.ssid.uuid,this.invoice?.customer.uuid || '').subscribe(data => {
       this.customer = data;
     })
@@ -82,6 +89,15 @@ export class DialogPaymentRequestComponent implements OnInit {
     }
     else{
       this.emails = this.emails.filter(x => x !== email);
+    }
+  }
+
+  addPhone(event: MatCheckboxChange,phone:string){
+    if(event.checked){
+      this.phones.push(phone);
+    }
+    else{
+      this.phones = this.phones.filter(x => x !== phone);
     }
   }
 
@@ -97,6 +113,9 @@ export class DialogPaymentRequestComponent implements OnInit {
 
   sendPayment(){
 
+    const emails = this.emails.join(", ");
+    const phones = this.phones.join(", ")
+
     const document: PaymentCheckoutRequest = {
       subscription: this.invoice?.subscription || '',
       customer: this.invoice?.customer.uuid || '',
@@ -104,7 +123,7 @@ export class DialogPaymentRequestComponent implements OnInit {
       request_invoice_remaining_amt: this.paymentForm.value.request_invoice_remaining_amt,
       payment_amt: this.paymentForm.value.payment_amt,
       send_by: this.paymentForm.value.send_by,
-      to_origin_value: this.paymentForm.value.send_by === 'email' ? this.emailField : this.phoneNumberField
+      to_origin_value: this.paymentForm.value.send_by === 'email' ? emails : phones
     }
 
     this.accountService.createPaymentCheckoutRequest(document).subscribe(data => {
