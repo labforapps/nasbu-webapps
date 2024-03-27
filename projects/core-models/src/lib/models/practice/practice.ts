@@ -294,6 +294,7 @@ export interface DocumentTemplateType {
   name:               string;
   subscription:       string;
   require_signature:  boolean;
+  copied_from?:  string;
   variables?:         VariableDocumentTemplateType[];
   active?:             boolean;
   created_by?:         string;

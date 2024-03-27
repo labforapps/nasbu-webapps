@@ -9,10 +9,11 @@ import { DocumentTemplate, DocumentTemplateType } from 'core-models';
 })
 export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
-  @Input() documentTemplates!:DocumentTemplate[]
+  @Input() documentTemplatesTypes!:DocumentTemplateType[]
   @Input() documentTemplateType!:DocumentTemplateType
   @Output() templateTypeBasicInfo:any = new EventEmitter<any>()
   templateTypeBasicInfoForm!:FormGroup
+  copied:Boolean = false
 
   constructor(private formBuilder:FormBuilder ) { }
 
@@ -26,17 +27,18 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       this.setForm()
     }
 
-    if (changes['documentTemplates'] && changes['documentTemplates'].currentValue) {
-      this.documentTemplates = changes['documentTemplates'].currentValue
+    if (changes['documentTemplatesTypes'] && changes['documentTemplatesTypes'].currentValue) {
+      this.documentTemplatesTypes = changes['documentTemplatesTypes'].currentValue
     }
   }
 
   initForm(){
 
     this.templateTypeBasicInfoForm = this.formBuilder.group({
-      code: ['',Validators.required],
+      code: ['code',Validators.required],
       name: ['',Validators.required],
-      require_signature: [true,Validators.required]
+      require_signature: [true,Validators.required],
+      copied_from: ['']
     })
 
   }
@@ -46,6 +48,8 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       this.templateTypeBasicInfoForm.patchValue({
         ...this.documentTemplateType
       })
+
+      this.copied = this.documentTemplateType.copied_from !== null
     }
   }
 

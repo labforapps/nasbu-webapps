@@ -182,7 +182,7 @@
       "title": "Agregar horas de cargo",
       "pricePerHour": "Precio x Hr.",
       "quotedHours": "Horas cotizadas",
-      "realTimeClock": "Reloj en iempo real",
+      "realTimeClock": "Reloj en tiempo real",
       "noBillable": "No facturable",
       "task": "Tarea al cual aplicará el cargo",
       "description": "Descripción o detalle",

@@ -52,7 +52,7 @@ export class TemplatesComponent implements OnInit {
     })
   }
 
-  openDialogNewTemplate(template:DocumentTemplate){
+  openDialogNewTemplate(template?:DocumentTemplate){
     const dialogRef = this.dialog.open(DialogNewTemplateComponent,{
       data: {
         template
@@ -63,13 +63,6 @@ export class TemplatesComponent implements OnInit {
       if(data.uuid){
         this.onExecuteDocumentTemplate.emit({})
       }
-    })
-  }
-
-  openDialogNewTemplate1(){
-    const dialogRef = this.dialog.open(DialogNewTemplateComponent);
-
-    dialogRef.afterClosed().subscribe(data => {
     })
   }
 

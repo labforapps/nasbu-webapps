@@ -6,7 +6,7 @@
 
       <mat-tab-group [selectedIndex]="activeTabIndex">
 
-        <mat-tab label="Datos Principales" class="mb-1">
+        <mat-tab label="Datos Principales" class="mb-1" [disabled]="activeTabIndex !== 0">
 
           <form [formGroup]="documentForm">
 
@@ -88,7 +88,7 @@
 
         </mat-tab>
 
-        <mat-tab *ngFor="let section of variablesSections" [label]="section">
+        <mat-tab *ngFor="let section of variablesSections; let i = index" [label]="section" [disabled]="activeTabIndex !== i + 1">
 
           <form [formGroup]="variablesForm">
            <div>

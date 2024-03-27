@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+import { PracticeService } from 'core-services';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
 
 @Component({
@@ -12,9 +13,13 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
 
   @Input() documentTemplateType!:DocumentTemplateType
   @Output() templateTypesVariablesOutput = new EventEmitter<VariableDocumentTemplateType[]>()
-  templateTypesVariables!:VariableDocumentTemplateType[]
+  @Input() selectedSubscription!:any
+  templateTypesVariables:VariableDocumentTemplateType[] = []
+  templateTypesVariablesAdded:VariableDocumentTemplateType[] = []
+  documentTemplateTypeCopied!:DocumentTemplateType
 
-  constructor(private matDialog:MatDialog) { }
+  constructor(private matDialog:MatDialog,
+              private practiceService:PracticeService) { }
 
   ngOnInit(): void {
   }
@@ -23,13 +28,23 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
     if (changes['documentTemplateType'] && changes['documentTemplateType'].currentValue) {
       this.documentTemplateType = changes['documentTemplateType'].currentValue
       this.setTemplateTypeVariables()
+      if(!this.documentTemplateType.uuid && this.documentTemplateType.copied_from !== '') this.getDocumentTemplateType()
     }
   }
 
+  getDocumentTemplateType(){
+    this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,this.documentTemplateType.copied_from || '').subscribe({
+      next: (data) => {
+        this.documentTemplateTypeCopied = data
+        this.templateTypesVariables = data.variables || []
+      }
+    })
+  }
 
   setTemplateTypeVariables(){
     if(this.documentTemplateType){
       this.templateTypesVariables = this.documentTemplateType.variables || []
+      this.templateTypesVariablesAdded = this.documentTemplateType.variables || []
     }
   }
 
@@ -40,28 +55,50 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe((data:VariableDocumentTemplateType) => {
+    dialogRef.afterClosed().subscribe((data:any) => {
       if(data){
-        const variableFiltered = this.templateTypesVariables.filter(x => x.section === data.section && x.name === data.name)
+        const index = this.templateTypesVariables.findIndex(x => x.section === variable?.section && x.name === variable.name)
+        const indexAdded = this.templateTypesVariablesAdded.findIndex(x => x.section === variable?.section && x.name === variable.name)
 
-        if(variableFiltered){
-          this.templateTypesVariables = this.templateTypesVariables.filter(x => x.section !== data.section && x.name !== data.name)
-          this.templateTypesVariables.push(data)
+        if(index > -1){
+          this.templateTypesVariables[index] = data
+          this.templateTypesVariablesAdded[indexAdded] = data
         }
         else{
+          this.templateTypesVariablesAdded.push(data)
           this.templateTypesVariables.push(data)
         }
+
+        if(data.openAnother) this.openDialogVariables({...data,name:''})
       }
     })
 
   }
 
+  isVariableAdded(variable:VariableDocumentTemplateType){
+    return this.templateTypesVariablesAdded.filter(x => x.section === variable.section && x.name === variable.name).length > 0 ? true : false
+  }
+
+  addVariable(variable:VariableDocumentTemplateType){
+    this.templateTypesVariablesAdded.push(variable)
+  }
+
   deleteVariable(variable:VariableDocumentTemplateType){
-    this.templateTypesVariables = this.templateTypesVariables.filter(x => x.uuid !== variable.uuid)
+
+    const index = this.templateTypesVariables.findIndex(x => x.section === variable?.section && x.name === variable.name)
+    if(index > -1 ) this.templateTypesVariables.splice(index,1)
+
+    this.deleteVariableAdded(variable)
+  }
+
+  deleteVariableAdded(variable:VariableDocumentTemplateType){
+
+    const index = this.templateTypesVariablesAdded.findIndex(x => x.section === variable?.section && x.name === variable.name)
+    if(index > -1 ) this.templateTypesVariablesAdded.splice(index,1)
   }
 
   submitForm(){
-    this.templateTypesVariablesOutput.emit(this.templateTypesVariables)
+    this.templateTypesVariablesOutput.emit(this.templateTypesVariablesAdded)
   }
 
 }

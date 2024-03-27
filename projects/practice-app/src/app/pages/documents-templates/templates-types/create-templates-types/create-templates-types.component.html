@@ -5,13 +5,14 @@
   <mat-step>
     <app-create-templates-types-basic-info (templateTypeBasicInfo)="documentTemplateType = $event"
                                            [documentTemplateType]="documentTemplateType"
-                                           [documentTemplates]="documentTemplates">
+                                           [documentTemplatesTypes]="documentTemplatesTypes">
     </app-create-templates-types-basic-info>
   </mat-step>
   <mat-step>
     <app-create-templates-types-variables (templateTypesVariablesOutput)="variablesTemplatesTypes = $event;
                                           createDocumentTemplateTypes()"
-                                          [documentTemplateType]="documentTemplateType">
+                                          [documentTemplateType]="documentTemplateType"
+                                          [selectedSubscription]="selectedSubscription">
     </app-create-templates-types-variables>
   </mat-step>
   <mat-step>
