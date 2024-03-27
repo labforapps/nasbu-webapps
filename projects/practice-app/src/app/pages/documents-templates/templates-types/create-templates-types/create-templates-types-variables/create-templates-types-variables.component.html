@@ -13,7 +13,7 @@
 </div>
 <div class="c-stepper-template__body">
   <div class="row">
-    <div class="col-md-6 br-r">
+    <div class="col-md-7 br-r">
       <div class="d-flex u-gap-2 mt-4 min-height flex-wrap">
         <div>
           <h4 class="u-smallerSize mb-2">Catálogo de variables existentes</h4>
@@ -38,9 +38,23 @@
               <tr *ngFor="let variable of templateTypesVariables">
                   <td>{{variable.section}} </td>
                   <td>-{{variable.name}}-</td>
-                  <td>
-                    <button mat-button class="u-smalleSize u-link" (click)="openDialogVariables(variable)">Editar</button>
-                    <button mat-button class="u-dangerColor u-fontRegular u-smallSize" (click)="deleteVariable(variable)">Quitar</button>
+                  <td class="row">
+                   <div class="col-md-4">
+                    <button mat-button class="u-smalleSize u-link pr-0 pl-0"
+                            (click)="addVariable(variable)"
+                            *ngIf="!isVariableAdded(variable)">
+                      Agregar
+                    </button>
+                   </div>
+                   <div class="col-md-4" *ngIf="!variable.uuid">
+                    <button mat-button class="u-smalleSize u-link pr-0 pl-0"
+                            (click)="openDialogVariables(variable)">
+                      Editar
+                    </button>
+                   </div>
+                   <div class="col-md-4">
+                    <button mat-button class="u-dangerColor u-fontRegular u-smallSize pr-0 pl-0" (click)="deleteVariable(variable)">Eliminar</button>
+                   </div>
                   </td>
               </tr>
 
@@ -49,7 +63,7 @@
       </table>
       </div>
     </div>
-    <div class="col-md-6 ">
+    <div class="col-md-5 ">
       <div class="min-height mt-4">
         <h4 class="u-smallerSize">Variables añadidas para tu plantilla</h4>
       </div>
@@ -63,11 +77,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Nombre </td>
-                    <td>-NombreCliente-</td>
-                    <td><button mat-button class="u-dangerColor u-fontRegular u-smallSize">Quitar</button></td>
-                </tr>
+              <tr *ngFor="let variable of templateTypesVariablesAdded">
+                <td>{{variable.section}} </td>
+                <td>-{{variable.name}}-</td>
+                <td>
+                  <button mat-button class="u-dangerColor u-fontRegular u-smallSize" (click)="deleteVariableAdded(variable)">Quitar</button>
+                </td>
+            </tr>
             </tbody>
         </table>
       </div>
@@ -76,5 +92,5 @@
 </div>
 <div class="c-stepper-template__footer">
   <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium">Atrás</button>
-  <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()">Siguiente</button>
+  <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()">Guardar tipo de plantilla</button>
 </div>

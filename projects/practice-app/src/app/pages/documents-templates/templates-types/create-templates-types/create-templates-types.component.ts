@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentTemplate, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+import { DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, PracticeService } from 'projects/core-services/src/public-api';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
 import { DocumentTemplatesService } from 'projects/practice-app/src/app/services/document-templates.service';
@@ -16,9 +16,9 @@ export class CreateTemplatesTypesComponent implements OnInit {
 
   public documentTemplateType!:DocumentTemplateType
   public variablesTemplatesTypes!:VariableDocumentTemplateType[]
-  private selectedSubscription!:any
+  public selectedSubscription!:any
   private documentTemplateTypeId!:string
-  public documentTemplates!:DocumentTemplate[]
+  public documentTemplatesTypes!:DocumentTemplateType[]
 
   constructor(public  dialog: MatDialog,
               private practiceService:PracticeService,
@@ -35,14 +35,14 @@ export class CreateTemplatesTypesComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
      this.documentTemplateTypeId = params['id']
-     this.getDocumentTemplateTypeById()
+     if(this.documentTemplateTypeId) this.getDocumentTemplateTypeById()
     });
 
   }
 
   getDocumentTemplates(){
-    this.practiceService.getDocumentTemplates(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.documentTemplates = data
+    this.practiceService.getDocumentTemplateTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.documentTemplatesTypes = data
     })
   }
 
@@ -68,12 +68,20 @@ export class CreateTemplatesTypesComponent implements OnInit {
       code: this.documentTemplateType.code,
       name: this.documentTemplateType.name,
       require_signature: this.documentTemplateType.require_signature,
-      variables: this.variablesTemplatesTypes
+      copied_from: this.documentTemplateType.copied_from,
+      variables: this.variablesTemplatesTypes,
     }
 
-    this.practiceService.createDocumentTemplateTypes(documentTemplaTypePayload).subscribe({
+    if(this.documentTemplateTypeId) documentTemplaTypePayload.uuid = this.documentTemplateTypeId
+
+    this.practiceService.saveDocumentTemplateType(documentTemplaTypePayload).subscribe({
       next: (data) => {
+       if(this.documentTemplateTypeId){
+        this.helperService.showMessageUpdated()
+       }
+       else{
         this.helperService.showMessageCreated()
+       }
         this.router.navigate(['/templates'])
       },
       error: (error) => {
