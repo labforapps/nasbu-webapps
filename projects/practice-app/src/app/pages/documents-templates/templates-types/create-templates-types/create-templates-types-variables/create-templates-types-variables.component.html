@@ -35,10 +35,10 @@
           </thead>
           <tbody>
 
-              <tr *ngFor="let variable of templateTypesVariables">
+              <tr *ngFor="let variable of templateTypesVariables" style="overflow: hidden;">
                   <td>{{variable.section}} </td>
                   <td>-{{variable.name}}-</td>
-                  <td class="row">
+                  <td class="row" [ngStyle]="!variable.uuid ? {'margin-left': '-45px'} : {'margin-left': '0px'}">
                    <div class="col-md-4">
                     <button mat-button class="u-smalleSize u-link pr-0 pl-0"
                             (click)="addVariable(variable)"
