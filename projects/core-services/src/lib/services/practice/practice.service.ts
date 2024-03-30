@@ -447,7 +447,7 @@ export class PracticeService {
 
   createSignatureRequest(payload:SignatureRequest){
     const serverUrl = `${this.config.serverUrl}/practice/signature_requests/?subscription=${payload.subscription}`;
-    return this.httpClient.post(serverUrl,payload)
+    return this.httpClient.post<SignatureRequest>(serverUrl,payload)
   }
 
   getDocumentTemplateTypes(subscription:string):Observable<DocumentTemplateType[]>{

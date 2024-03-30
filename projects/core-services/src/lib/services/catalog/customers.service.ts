@@ -61,9 +61,7 @@ export class CustomersService {
     return this.httpClient.delete<Customer>(serverUrl);
   }
 
-  createCustomerIntakeRequest(
-    body: CustomerIntakeRequest
-  ): Observable<CustomerIntakeRequest> {
+  createCustomerIntakeRequest(body: CustomerIntakeRequest): Observable<CustomerIntakeRequest> {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers_intake_requests/`;
     return this.httpClient.post<CustomerIntakeRequest>(serverUrl, body);
   }

@@ -47,6 +47,13 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+
+                  <label class="u-title-label d-block mt-3">Tipo de acceso</label>
+                  <mat-radio-group aria-label="Select an option" formControlName="access_type">
+                      <mat-radio-button checked class="c-radioButton mr-3" [value]="accessType.PUBLIC">Público</mat-radio-button>
+                      <mat-radio-button class="c-radioButton mr-3" [value]="accessType.PRIVATE">Privado</mat-radio-button>
+                  </mat-radio-group>
+
             </div>
         </div>
 

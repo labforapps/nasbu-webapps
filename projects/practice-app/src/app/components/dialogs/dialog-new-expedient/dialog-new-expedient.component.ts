@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus } from 'core-models';
+import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus, AccessType } from 'core-models';
 import { AuthService, CustomersService,PracticeService,SecurityService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -25,6 +25,7 @@ export class DialogNewExpedientComponent implements OnInit {
   billingType = BillingType;
   caseFileStatus = CaseFileStatus;
   customerFromDialog!:Customer
+  accessType = AccessType
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -53,6 +54,7 @@ export class DialogNewExpedientComponent implements OnInit {
       case_no: [null],
       customer: ['',Validators.required],
       assigned_to: ['',Validators.required],
+      access_type: [this.accessType.PUBLIC],
       bt_price_per_hour: [''],
       bt_increment_factor: [0],
       price_per_increment: [0],
@@ -99,7 +101,8 @@ export class DialogNewExpedientComponent implements OnInit {
         hourly_rate: this.caseFile.billing_type === this.billingType.PER_HOUR,
         increment_of_time: this.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT,
         flat_fee:this.caseFile.billing_type === this.billingType.FLAT_FEE,
-        retainer_amt: this.caseFile.retainer_amt
+        retainer_amt: this.caseFile.retainer_amt,
+        access_type: this.caseFile.access_type
       })
 
     }
@@ -196,6 +199,7 @@ export class DialogNewExpedientComponent implements OnInit {
       name: caseFileFormValue.name,
       case_no: caseFileFormValue.case_no,
       receive_retainer: caseFileFormValue.receive_retainer,
+      access_type: caseFileFormValue.access_type,
       subscription: this.selectedSubscription?.ssid.uuid,
     };
 
