@@ -194,7 +194,9 @@ export interface PaymentCheckoutRequest {
   customer:                      string;
   invoice:                       string;
   request_invoice_remaining_amt: boolean;
+  checkout_url?:                 string;
   payment_amt:                   string;
   send_by:                       string;
   to_origin_value:               string;
+
 }

@@ -311,13 +311,18 @@ export interface VariableDocumentTemplateType {
 }
 
 export interface SignatureRequest {
-  subscription:      string;
-  gen_document:      string;
-  esig_signers_list: string;
-  subject:           string;
-  message:           string;
-  send_by:           string;
-  to_origin_value:   string;
+  subscription:            string;
+  gen_document:            string;
+  esig_signers_list:       string;
+  subject:                 string;
+  message:                 string;
+  send_by:                 string;
+  to_origin_value:         string;
+  esignature_request_url?: string;
 }
 
+export enum AccessType {
+  PRIVATE = 'private',
+  PUBLIC = 'public'
+}
 

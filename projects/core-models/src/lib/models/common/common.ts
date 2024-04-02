@@ -21,8 +21,9 @@ export enum WeekDays {
  }
 
  export enum SendingMethod {
-  Email = 'email',
-  SMS = 'sms'
+  EMAIL = 'email',
+  SMS = 'sms',
+  CLIPBOARD='clipboard'
  }
 
  export const WeekDaysDescription = new Map<number, string>([
