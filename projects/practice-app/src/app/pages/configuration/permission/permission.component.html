@@ -100,30 +100,27 @@
                               <mat-radio-group [name]="'admin_' + group.name + '_' + i">
                                 <mat-radio-button
                                                   [value]="typeAccess.ADMINISTRATOR"
-                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.ADMINISTRATOR) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  (change)="handleRadioChange($event, group, module, typeAccess.ADMINISTRATOR)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.ADMINISTRATOR)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"
                                                   [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>
                             <td>
-                              <mat-radio-group [name]="'write_' + group.name + '_' + i">
+                              <mat-radio-group [name]="'write_' + group.name  + '_' + i">
                                 <mat-radio-button [value]="typeAccess.WRITE"
-                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.WRITE) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  (change)="handleRadioChange($event, group, module, typeAccess.WRITE)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.WRITE)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"
                                                   [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>
                             <td>
-                              <mat-radio-group [name]="'read_' + group.name + '_' + i">
+                              <mat-radio-group [name]="'read_' + group.name  + '_' + i">
                                 <mat-radio-button [value]="typeAccess.READ"
-                                                  (change)="module === modulesEnum.ALL ? selectAllModulePerm(group,typeAccess.READ) : selectModulePerm(group, module, typeAccess.ADMINISTRATOR)"
+                                                  (change)="handleRadioChange($event, group, module, typeAccess.READ)"
                                                   [checked]="isModulePermChecked(group, module, typeAccess.READ)"
                                                   class="c-radioButton"
-                                                  (change)="updateSubscriptionGroups(group)"
                                                   [disabled]="!isModuleChecked(group, module)"></mat-radio-button>
                               </mat-radio-group>
                             </td>

@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-permission',
@@ -64,6 +65,16 @@ export class PermissionComponent implements OnInit {
    })
   }
 
+  handleRadioChange(event: MatRadioChange, group: any, module: any, accessType: any) {
+    if (module === this.modulesEnum.ALL) {
+      this.selectAllModulePerm(group, accessType);
+    } else {
+      this.selectModulePerm(group, module, accessType);
+    }
+    this.updateSubscriptionGroups(group);
+  }
+
+
   executeDeletionSecurityGroup(group:SecurityGroup){
 
     this.securityService.deleteSecurityGroup(group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {
@@ -109,9 +120,8 @@ export class PermissionComponent implements OnInit {
           group.modules_access.push(newModuleAccess);
       }
 
-      if (! isNewGroup) {
-          this.updateSubscriptionGroups(group);
-      }
+      this.updateSubscriptionGroups(group);
+
   }
 
   checkOrUnCheckAllSections(event:MatCheckboxChange,group:SecurityGroup){
