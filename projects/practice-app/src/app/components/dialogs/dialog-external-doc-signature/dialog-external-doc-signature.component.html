@@ -22,7 +22,7 @@
           </div>
       </div>
 
-      <div class="row" *ngIf="signatureRequest.send_by === sendingMethod.EMAIL">
+      <div class="row" *ngIf="signatureRequest.send_by === sendingMethod.EMAIL || signatureRequest.send_by === sendingMethod.CLIPBOARD">
         <div class="col-md-12">
           <div class="d-flex flex-column" *ngIf="customer">
             <mat-checkbox (change)="addEmail($event,contact.contact_value)" class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.email">
