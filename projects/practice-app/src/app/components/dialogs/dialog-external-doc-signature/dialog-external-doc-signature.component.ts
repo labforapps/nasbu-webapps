@@ -88,10 +88,17 @@ export class DialogExternalDocSignatureComponent implements OnInit {
     const emails = this.emails.join(", ");
     const phones = this.phones.join(", ")
 
-    const contactsClient = this.signatureRequest.send_by === this.sendingMethod.EMAIL ? emails : phones
+    let contactsClient:string = '';
 
-    this.signatureRequest.to_origin_value = this.signatureRequest.send_by === this.sendingMethod.CLIPBOARD ? this.sendingMethod.CLIPBOARD : contactsClient
-    this.signatureRequest.esig_signers_list = this.signatureRequest.send_by === this.sendingMethod.CLIPBOARD ? this.sendingMethod.CLIPBOARD : contactsClient
+    if(this.signatureRequest.send_by === this.sendingMethod.EMAIL || this.signatureRequest.send_by === this.sendingMethod.CLIPBOARD ) contactsClient = emails
+    if(this.signatureRequest.send_by === this.sendingMethod.SMS) contactsClient = phones
+
+
+    this.signatureRequest.to_origin_value = contactsClient
+
+    if(this.signatureRequest.send_by === this.sendingMethod.EMAIL || this.signatureRequest.send_by === this.sendingMethod.CLIPBOARD ){
+      this.signatureRequest.esig_signers_list = this.customer.contacts.filter(x => x.type === this.typeContact.email)[0].contact_value
+    }
 
     if (this.signatureRequest.to_origin_value === '') result = false;
 
