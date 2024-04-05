@@ -310,6 +310,7 @@ export interface VariableDocumentTemplateType {
   uuid?:          string;
   template_type?: string;
   section:        string;
+  code?:          string;
   name:           string;
   description?:   string;
   value_path:     string;
