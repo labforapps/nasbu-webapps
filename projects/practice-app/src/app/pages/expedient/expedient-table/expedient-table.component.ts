@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +21,7 @@ export class ExpedientTableComponent implements OnInit {
   @Input() public module!:modules;
   @Input() customer!:Customer;
   @Input() securityUser!:SecurityUser;
+  @Output() onExecuteExpedient = new EventEmitter<any>();
   moduleEnum = modules;
   displayedColumns: string[] = [];
   dataSourceCaseFiles!:MatTableDataSource<CaseFile>;
@@ -286,16 +287,8 @@ export class ExpedientTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result:CaseFile) => {
 
       if(result.uuid){
-        const caseFileFiltered = this.caseFiles.filter(x => x.uuid === result.uuid);
-        if(caseFileFiltered){
-          this.caseFiles = this.caseFiles.filter(x => x.uuid !== result.uuid);
-          this.caseFiles.push(result);
+          this.onExecuteExpedient.emit()
           this.ngAfterViewInit();
-        }
-        else{
-          this.caseFiles.push(result);
-          this.ngAfterViewInit();
-        }
       }
     });
 

@@ -61,7 +61,7 @@
                                     <tr *ngFor="let variable of filteredVariables">
                                         <td>{{variable.section}} </td>
                                         <td>{{variable.name}}</td>
-                                        <td><button type="button" mat-button (click)="copyToClipboard(variable.name)"><span class="icon-copy"></span></button></td>
+                                        <td><button type="button" mat-button (click)="copyToClipboard(variable.code || '')"><span class="icon-copy"></span></button></td>
                                     </tr>
 
                                 </tbody>

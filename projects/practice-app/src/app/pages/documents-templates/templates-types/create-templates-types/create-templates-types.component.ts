@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+import { CaseFileType, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, PracticeService } from 'projects/core-services/src/public-api';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
 import { DocumentTemplatesService } from 'projects/practice-app/src/app/services/document-templates.service';
@@ -19,6 +19,7 @@ export class CreateTemplatesTypesComponent implements OnInit {
   public selectedSubscription!:any
   private documentTemplateTypeId!:string
   public documentTemplatesTypes!:DocumentTemplateType[]
+  public caseFileTypes!:CaseFileType[]
 
   constructor(public  dialog: MatDialog,
               private practiceService:PracticeService,
@@ -26,12 +27,15 @@ export class CreateTemplatesTypesComponent implements OnInit {
               private helperService:HelpersService,
               private router:Router,
               private activatedRoute:ActivatedRoute,
-              private documentTemplateService:DocumentTemplatesService) {}
+              private documentTemplateService:DocumentTemplatesService,
+              @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+              @Optional() private dialogRef: MatDialogRef<CreateTemplatesTypesComponent>) {}
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
 
     this.getDocumentTemplates()
+    this.getCaseFileTypes()
 
     this.activatedRoute.params.subscribe(params => {
      this.documentTemplateTypeId = params['id']
@@ -43,6 +47,12 @@ export class CreateTemplatesTypesComponent implements OnInit {
   getDocumentTemplates(){
     this.practiceService.getDocumentTemplateTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentTemplatesTypes = data
+    })
+  }
+
+  getCaseFileTypes(){
+    this.practiceService.getCaseFileTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.caseFileTypes = data
     })
   }
 
@@ -70,19 +80,27 @@ export class CreateTemplatesTypesComponent implements OnInit {
       require_signature: this.documentTemplateType.require_signature,
       copied_from: this.documentTemplateType.copied_from,
       variables: this.variablesTemplatesTypes,
+      casefile_type: this.documentTemplateType.casefile_type
     }
 
     if(this.documentTemplateTypeId) documentTemplaTypePayload.uuid = this.documentTemplateTypeId
 
     this.practiceService.saveDocumentTemplateType(documentTemplaTypePayload).subscribe({
       next: (data) => {
-       if(this.documentTemplateTypeId){
-        this.helperService.showMessageUpdated()
-       }
-       else{
-        this.helperService.showMessageCreated()
-       }
-        this.router.navigate(['/templates'])
+
+          if(this.documentTemplateTypeId){
+            this.helperService.showMessageUpdated()
+           }
+           else{
+            this.helperService.showMessageCreated()
+           }
+
+          if(this.dataDialog) {
+            this.dialogRef.close(data);
+          }
+          else{
+            this.router.navigate(['/templates'])
+          }
       },
       error: (error) => {
         this.helperService.showCustomMessage('Error','Ha ocurrido un error','Este tipo de plantilla no pudo ser creada')

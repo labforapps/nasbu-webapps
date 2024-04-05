@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CaseFile, Customer, SecurityUser, DocumentTemplate, DocumentGenerationPayload, DocumentGeneration,
-         DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+         DocumentTemplateType, VariableDocumentTemplateType,
+         VariableCaseFileType} from 'core-models';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment';
@@ -28,6 +29,8 @@ export class DialogNewDocumentComponent implements OnInit {
   activeTabIndex = 0;
   totalTabs = 1
   documentGenerationVariables:VariableDocumentTemplateType[] = []
+  variables:VariableDocumentTemplateType[] | VariableCaseFileType[] = []
+  caseFile!:CaseFile | undefined
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -141,6 +144,7 @@ export class DialogNewDocumentComponent implements OnInit {
     if(documentTemplate){
       this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,documentTemplate.template_type).subscribe(data => {
         this.documentTemplateType = data;
+        this.variables = this.documentTemplateType.variables  || []
         this.onSetDocumentTemplateType()
       })
     }
@@ -167,23 +171,49 @@ export class DialogNewDocumentComponent implements OnInit {
   }
 
   onChangeCaseFile(selection:MatSelectChange){
-    const caseFile:CaseFile | undefined = this.caseFiles.find(x => x.uuid === selection.value);
+
+    this.caseFile = this.caseFiles?.find(x => x.uuid === selection.value);
 
     this.documentForm.patchValue({
-      customer: caseFile?.customer.uuid,
-      representative: caseFile?.assigned_to.uuid
+      customer: this.caseFile?.customer.uuid,
+      representative: this.caseFile?.assigned_to.uuid
     })
+
+   if(this.caseFile?.custom_variables_data){
+
+    const variables:any = JSON.parse( this.caseFile.custom_variables_data || '')
+
+    this.variables = this.caseFile.casefile_type.variables
+
+    Object.keys(variables).forEach(section => {
+      Object.keys(variables[section]).forEach(name => {
+            this.documentGenerationVariables.push({
+              section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
+              name: name,
+              value_path: `custom.${section}.${name}`,
+          });
+
+          this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
+
+      });
+    });
+
+     this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
+     this.totalTabs = 1 + this.variablesSections.length
+
+   }
+
   }
 
   slugify(str:string) {
     return String(str)
       .normalize('NFKD') // split accented characters into their base characters and diacritical marks
-      .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+      .replace(/[\u0300-\u036f]/g, '') //remove all the accents, which happen to be all in the \u03xx UNICODE block.
       .trim() // trim leading or trailing whitespace
       .toLowerCase() // convert to lowercase
       .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
       .replace(/\s+/g, '-') // replace spaces with hyphens
-      .replace(/-+/g, '-'); // remove consecutive hyphens
+      .replace(/-+/g, '-'); // remove consecutive hyphens`
   }
 
   submitForm(){
@@ -203,7 +233,7 @@ export class DialogNewDocumentComponent implements OnInit {
 
         const obj:{[s: string] : string} = {}
 
-        obj[`${variable.name}`] =  this.variablesForm.value[variable.value_path]
+        obj[`${this.slugify(variable.name)}`] =  this.variablesForm.value[variable.value_path]
 
         return obj
       }).reduce((a,b)  => { return { ...a,...b } },{} )

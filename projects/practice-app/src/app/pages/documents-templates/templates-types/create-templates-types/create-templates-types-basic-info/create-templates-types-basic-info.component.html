@@ -48,10 +48,24 @@
       <div class="col-md-6" #option *ngIf="checkBox.checked">
         <label class="u-title-label">Plantillas</label>
           <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-              <mat-label>Plantilla</mat-label>
+              <mat-label>Seleccionar Plantilla</mat-label>
               <mat-select formControlName="copied_from" [disabled]="documentTemplateType !== undefined">
                   <mat-option *ngFor="let documentTemplate of documentTemplatesTypes" [value]="documentTemplate.uuid">
                       {{documentTemplate.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+      <div class="col-md-6"></div>
+
+      <div class="col-md-6" #option *ngIf="checkBox.checked">
+        <label class="u-title-label">Que tipo de expediente utilizaras? </label> Si aplica
+          <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+              <mat-label>Seleccionar Plantilla</mat-label>
+              <mat-select formControlName="casefile_type">
+                  <mat-option *ngFor="let casefile_type of caseFileTypes" [value]="casefile_type.uuid">
+                      {{casefile_type.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>

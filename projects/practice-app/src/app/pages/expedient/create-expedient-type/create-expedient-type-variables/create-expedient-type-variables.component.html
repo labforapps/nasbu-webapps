@@ -1,7 +1,7 @@
 <div class="c-stepper-template__header">
   <img src="./assets/images/template-icon.svg" alt="" class="c-stepper-template__header__icon">
   <div class="d-flex flex-column justify-content-center">
-    <div class="c-stepper-template__header__title">Creación de tipo de plantilla</div>
+    <div class="c-stepper-template__header__title">Creación de tipo de expediente</div>
     <div class="c-stepper-template__header__subtitle">Completa el pasos a paso y construye tu plantilla desde cero</div>
   </div>
 </div>
@@ -35,7 +35,7 @@
           </thead>
           <tbody>
 
-              <tr *ngFor="let variable of templateTypesVariables" style="overflow: hidden;">
+              <tr *ngFor="let variable of caseFileTypeVariables" style="overflow: hidden;">
                   <td>{{variable.section}} </td>
                   <td>-{{variable.name}}-</td>
                   <td class="row" [ngStyle]="!variable.uuid ? {'margin-left': '-45px'} : {'margin-left': '0px'}">
@@ -68,7 +68,6 @@
         <h4 class="u-smallerSize">Variables añadidas para tu plantilla</h4>
       </div>
       <div class="u-table-responsive">
-
         <table class="c-table-variable">
             <thead>
                 <tr>
@@ -78,14 +77,11 @@
                 </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let variable of templateTypesVariablesAdded">
+              <tr *ngFor="let variable of caseFileTypeVariablesAdded">
                 <td>{{variable.section}} </td>
                 <td>-{{variable.name}}-</td>
                 <td>
-                  <button mat-button
-                          class="u-dangerColor u-fontRegular u-smallSize"
-                          *ngIf="variable.casefile_type === '' || variable.casefile_type === null || !variable.casefile_type"
-                          (click)="deleteVariableAdded(variable)">Quitar</button>
+                  <button mat-button class="u-dangerColor u-fontRegular u-smallSize" (click)="deleteVariableAdded(variable)">Quitar</button>
                 </td>
             </tr>
             </tbody>

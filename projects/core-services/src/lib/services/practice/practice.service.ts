@@ -5,7 +5,8 @@ import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,SecurityUser, TaskStatus, DocumentTemplate,
          DocumentGeneration, DocumentGenerationPayload, DocumentTemplatePayload,
          SignatureRequest,
-         DocumentTemplateType} from 'core-models';
+         DocumentTemplateType,
+         CaseFileType} from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { SecurityService } from '../security/security.service';
@@ -485,6 +486,43 @@ export class PracticeService {
   deleteDocumentTemplateType(subscription:string,uuid:string):Observable<DocumentTemplateType>{
     const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${uuid}?subscription=${subscription}`;
     return this.httpClient.delete<DocumentTemplateType>(serverUrl)
+  }
+
+  getCaseFileTypes(subscription:string):Observable<CaseFileType[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileType[]>(serverUrl).pipe(
+      switchMap((documentGeneration: CaseFileType[]) => {
+            return of(documentGeneration.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+  getCaseFileTypesById(subscription:string,uuid:string):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileType>(serverUrl)
+  }
+
+  createCaseFileTypes(payload:CaseFileType):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/`;
+    return this.httpClient.post<CaseFileType>(serverUrl,payload)
+  }
+
+  updateCaseFileTypes(payload:CaseFileType):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${payload.uuid}/`;
+    return this.httpClient.put<CaseFileType>(serverUrl,payload)
+  }
+
+  saveCaseFileType(payload:CaseFileType){
+    return payload.uuid ? this.updateCaseFileTypes(payload) : this.createCaseFileTypes(payload)
+  }
+
+  deleteCaseFileType(subscription:string,uuid:string):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<CaseFileType>(serverUrl)
   }
 
 }

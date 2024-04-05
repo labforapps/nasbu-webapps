@@ -1,6 +1,6 @@
 import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DocumentTemplate, DocumentTemplateType } from 'core-models';
+import { CaseFileType, DocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-create-templates-types-basic-info',
@@ -9,8 +9,9 @@ import { DocumentTemplate, DocumentTemplateType } from 'core-models';
 })
 export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
-  @Input() documentTemplatesTypes!:DocumentTemplateType[]
-  @Input() documentTemplateType!:DocumentTemplateType
+  @Input()  documentTemplatesTypes!:DocumentTemplateType[]
+  @Input()  documentTemplateType!:DocumentTemplateType
+  @Input()  caseFileTypes!:CaseFileType[]
   @Output() templateTypeBasicInfo:any = new EventEmitter<any>()
   templateTypeBasicInfoForm!:FormGroup
   copied:Boolean = false
@@ -38,7 +39,8 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       code: ['code',Validators.required],
       name: ['',Validators.required],
       require_signature: [true,Validators.required],
-      copied_from: ['']
+      copied_from: [''],
+      casefile_type: ['']
     })
 
   }
