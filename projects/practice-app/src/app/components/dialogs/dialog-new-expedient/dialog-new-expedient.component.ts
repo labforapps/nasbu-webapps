@@ -8,6 +8,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CreateClientComponent } from '../../../pages/client/create-client/create-client.component';
 import { MatSelectChange } from '@angular/material/select';
+import { CreateTemplatesTypesComponent } from '../../../pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
+import { CreateExpedientTypeComponent } from '../../../pages/expedient/create-expedient-type/create-expedient-type.component';
 
 @Component({
   selector: 'app-dialog-new-expedient',
@@ -29,6 +31,7 @@ export class DialogNewExpedientComponent implements OnInit {
   customerFromDialog!:Customer
   accessType = AccessType
   caseFileTypes!:CaseFileType[]
+  caseFileTypeFromDialog!:CaseFileType;
   caseFileTypeSelected!:CaseFileType | undefined;
   variablesSections:string[] = []
   totalTabs:number = 1
@@ -96,6 +99,22 @@ export class DialogNewExpedientComponent implements OnInit {
       });
   }
 
+  openCreateExpedientType(){
+    const dialogRef = this.dialog.open(CreateExpedientTypeComponent,{
+      panelClass: 'fullscreen',
+      data: {
+        modal:true
+      }
+  })
+
+  dialogRef.afterClosed().subscribe((result:CaseFileType) => {
+    if(result){
+      this.caseFileTypeFromDialog = result
+      this.getCaseFileTypes()
+    }
+  });
+}
+
   setCaseFile(){
     if(this.dataDialog){
       this.caseFile = this.dataDialog.caseFile;
@@ -115,27 +134,32 @@ export class DialogNewExpedientComponent implements OnInit {
         flat_fee:this.caseFile.billing_type === this.billingType.FLAT_FEE,
         retainer_amt: this.caseFile.retainer_amt,
         access_type: this.caseFile.access_type,
-        casefile_type: this.caseFile.casefile_type.uuid
+        casefile_type: this.caseFile.casefile_type ? this.caseFile.casefile_type : null
       })
 
-      const variables:any = JSON.parse( this.caseFile.custom_variables_data || '')
+      if(this.caseFile.casefile_type) this.caseFileTypeSelected = this.caseFile.casefile_type
 
-      Object.keys(variables).forEach(section => {
-        Object.keys(variables[section]).forEach(name => {
-              this.documentGenerationVariables.push({
-                section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
-                name: name,
-                value_path: `custom.${section}.${name}`,
-            });
+      if(this.caseFile.casefile_type){
 
-            this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
+        const variables:any = JSON.parse( this.caseFile.custom_variables_data || '')
 
-        });
-    });
+        Object.keys(variables).forEach(section => {
+          Object.keys(variables[section]).forEach(name => {
+                this.documentGenerationVariables.push({
+                  section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
+                  name: name,
+                  value_path: `custom.${section}.${name}`,
+              });
 
-       this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
-       this.totalTabs = 1 + this.variablesSections.length
+              this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
 
+          });
+      });
+
+         this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
+         this.totalTabs = 1 + this.variablesSections.length
+
+      }
     }
 
   }
@@ -168,6 +192,7 @@ export class DialogNewExpedientComponent implements OnInit {
   getCaseFileTypes(){
     this.practiceService.getCaseFileTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFileTypes = data
+      if(this.caseFileTypeFromDialog) this.caseFileForm.patchValue({casefile_type: this.caseFileTypeFromDialog.uuid})
     })
   }
 

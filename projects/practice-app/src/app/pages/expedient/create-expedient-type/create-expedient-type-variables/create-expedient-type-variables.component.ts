@@ -60,6 +60,10 @@ export class CreateExpedientTypeVariablesComponent implements OnInit {
         const index = this.caseFileTypeVariables.findIndex(x => x.section === variable?.section && x.name === variable.name)
         const indexAdded = this.caseFileTypeVariablesAdded.findIndex(x => x.section === variable?.section && x.name === variable.name)
 
+        const dataDialog = data
+
+        delete data.openAnother
+
         if(index > -1){
           this.caseFileTypeVariables[index] = data
           this.caseFileTypeVariablesAdded[indexAdded] = data
@@ -69,7 +73,7 @@ export class CreateExpedientTypeVariablesComponent implements OnInit {
           this.caseFileTypeVariables.push(data)
         }
 
-        if(data.openAnother) this.openDialogVariables({...data,name:''})
+        if(dataDialog.openAnother) this.openDialogVariables({...dataDialog,name:''})
       }
     })
 

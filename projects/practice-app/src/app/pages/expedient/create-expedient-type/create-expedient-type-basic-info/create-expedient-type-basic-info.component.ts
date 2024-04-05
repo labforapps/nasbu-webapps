@@ -1,6 +1,9 @@
-import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges, Optional, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DocumentTemplate, DocumentTemplateType,CaseFileType } from 'core-models';
+import { CreateExpedientTypeComponent } from '../create-expedient-type.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-expedient-type-basic-info',
@@ -15,7 +18,10 @@ export class CreateExpedientTypeBasicInfoComponent implements OnInit {
   caseFileTypeBasicInfoForm!:FormGroup
   copied:Boolean = false
 
-  constructor(private formBuilder:FormBuilder ) { }
+  constructor(private formBuilder:FormBuilder,
+              @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+              @Optional() private dialogRef: MatDialogRef<CreateExpedientTypeComponent>,
+              private router:Router ) { }
 
   ngOnInit(): void {
     this.initForm()
@@ -65,6 +71,15 @@ export class CreateExpedientTypeBasicInfoComponent implements OnInit {
     }
 
     this.caseFileTypeBasicInfo.emit(caseFileType)
+  }
+
+  cancel(){
+    if(this.dataDialog){
+      this.dialogRef.close()
+    }
+    else{
+      this.router.navigate(["/expedient"])
+    }
   }
 
 }

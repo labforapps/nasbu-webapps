@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CaseFileType, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, PracticeService } from 'projects/core-services/src/public-api';
@@ -27,7 +27,9 @@ export class CreateTemplatesTypesComponent implements OnInit {
               private helperService:HelpersService,
               private router:Router,
               private activatedRoute:ActivatedRoute,
-              private documentTemplateService:DocumentTemplatesService) {}
+              private documentTemplateService:DocumentTemplatesService,
+              @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+              @Optional() private dialogRef: MatDialogRef<CreateTemplatesTypesComponent>) {}
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -85,13 +87,20 @@ export class CreateTemplatesTypesComponent implements OnInit {
 
     this.practiceService.saveDocumentTemplateType(documentTemplaTypePayload).subscribe({
       next: (data) => {
-       if(this.documentTemplateTypeId){
-        this.helperService.showMessageUpdated()
-       }
-       else{
-        this.helperService.showMessageCreated()
-       }
-        this.router.navigate(['/templates'])
+
+          if(this.documentTemplateTypeId){
+            this.helperService.showMessageUpdated()
+           }
+           else{
+            this.helperService.showMessageCreated()
+           }
+
+          if(this.dataDialog) {
+            this.dialogRef.close(data);
+          }
+          else{
+            this.router.navigate(['/templates'])
+          }
       },
       error: (error) => {
         this.helperService.showCustomMessage('Error','Ha ocurrido un error','Este tipo de plantilla no pudo ser creada')

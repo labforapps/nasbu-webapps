@@ -49,6 +49,6 @@
 </form>
 
 <div class="c-stepper-template__footer">
-  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium" routerLink="/expedient">Cancelar</button>
+  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium" (click)="cancel()">Cancelar</button>
   <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()" >Siguiente</button>
 </div>
