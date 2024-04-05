@@ -1,0 +1,54 @@
+<div class="c-stepper-template__header">
+  <img src="./assets/images/template-icon.svg" alt="" class="c-stepper-template__header__icon">
+  <div class="d-flex flex-column justify-content-center">
+    <div class="c-stepper-template__header__title">Creación de tipo de expediente</div>
+    <div class="c-stepper-template__header__subtitle">Completa el pasos a paso y construye tu plantilla desde cero</div>
+  </div>
+</div>
+<div class="c-stepper-template__steps">
+  <div>
+    <span class="c-stepper-template__steps__title">Nombre de plantilla</span><a href="#" class="u-link">Ver como funciona</a>
+  </div>
+  <span>Paso 1 de 3</span>
+</div>
+
+<form action="" [formGroup]="caseFileTypeBasicInfoForm">
+
+  <div class="c-stepper-template__body">
+    <div class="mt-5 mb-5">
+      <b class="mr-5">¿Cómo la deseas realizar?</b>
+      <mat-radio-group aria-label="Select an option" [disabled]="caseFileType !== undefined" [(ngModel)]="copied" [ngModelOptions]="{standalone: true}">
+        <mat-radio-button class="c-radioButton mr-3" [value]="true" #checkBox>A partir de existente</mat-radio-button>
+        <mat-radio-button class="c-radioButton" [value]="false">Desde cero</mat-radio-button>
+    </mat-radio-group>
+    </div>
+
+    <hr class="mb-5">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="u-title-label">¿Cómo llamarás tu plántilla?</label>
+        <mat-form-field appearance="fill" class="c-form-group  c-form-group--small c-form-group--noLabel">
+            <input class="c-form-group__input" matInput formControlName="name">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6" #option *ngIf="checkBox.checked">
+        <label class="u-title-label">Plantillas</label>
+          <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+              <mat-label>Plantilla</mat-label>
+              <mat-select formControlName="copied_from" >
+                  <mat-option *ngFor="let caseFileType of caseFileTypes" [value]="caseFileType.uuid">
+                    {{caseFileType.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+    </div>
+  </div>
+
+</form>
+
+<div class="c-stepper-template__footer">
+  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium" routerLink="/expedient">Cancelar</button>
+  <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()" >Siguiente</button>
+</div>

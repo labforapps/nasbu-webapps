@@ -1,0 +1,30 @@
+<div class="align-items-center d-flex justify-content-center p-3 u-primaryBg">
+  <img src="./assets/images/white-logo.svg" alt="">
+</div>
+
+
+<mat-stepper linear class="c-stepper-template" [@.disabled]="true">
+  <mat-step>
+
+    <app-create-expedient-type-basic-info (caseFileTypeBasicInfo)="caseFileType = $event"
+                                          [caseFileType]="caseFileType"
+                                          [caseFileTypes]="caseFileTypes">
+    </app-create-expedient-type-basic-info>
+
+  </mat-step>
+  <mat-step>
+
+    <app-create-expedient-type-variables  (caseFileTypeVariablesOutput)="variablesCaseFilesTypes = $event;
+                                          createCaseFileTypes()"
+                                          [caseFileType]="caseFileType"
+                                          [selectedSubscription]="selectedSubscription">
+    </app-create-expedient-type-variables>
+
+  </mat-step>
+  <mat-step>
+    <div class="d-flex flex-column align-items-center u-gap-2 justify-content-center" style="min-height: 60vh;">
+      <img src="../../../../assets/images/check.svg" alt="">
+      <h4 class="u-fontRegular">Plantilla creada con éxito</h4>
+    </div>
+  </mat-step>
+</mat-stepper>

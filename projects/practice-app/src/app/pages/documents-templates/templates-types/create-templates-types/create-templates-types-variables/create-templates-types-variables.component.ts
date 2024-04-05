@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+import { CaseFileType, DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
 import { PracticeService } from 'core-services';
 import { DialogNewVariableComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-new-variable/dialog-new-variable.component';
 
@@ -11,12 +11,13 @@ import { DialogNewVariableComponent } from 'projects/practice-app/src/app/compon
 })
 export class CreateTemplatesTypesVariablesComponent implements OnInit {
 
-  @Input() documentTemplateType!:DocumentTemplateType
+  @Input()  documentTemplateType!:DocumentTemplateType
   @Output() templateTypesVariablesOutput = new EventEmitter<VariableDocumentTemplateType[]>()
-  @Input() selectedSubscription!:any
+  @Input()  selectedSubscription!:any
   templateTypesVariables:VariableDocumentTemplateType[] = []
   templateTypesVariablesAdded:VariableDocumentTemplateType[] = []
   documentTemplateTypeCopied!:DocumentTemplateType
+  caseFileType!:CaseFileType
 
   constructor(private matDialog:MatDialog,
               private practiceService:PracticeService) { }
@@ -29,6 +30,7 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
       this.documentTemplateType = changes['documentTemplateType'].currentValue
       this.setTemplateTypeVariables()
       if(!this.documentTemplateType.uuid && this.documentTemplateType.copied_from !== '') this.getDocumentTemplateType()
+      if(!this.documentTemplateType.uuid && this.documentTemplateType.casefile_type !== '') this.getCaseFileTypeById()
     }
   }
 
@@ -36,8 +38,15 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
     this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,this.documentTemplateType.copied_from || '').subscribe({
       next: (data) => {
         this.documentTemplateTypeCopied = data
-        this.templateTypesVariables = data.variables || []
+        data.variables?.map( variable => this.templateTypesVariables.push(variable))
       }
+    })
+  }
+
+  getCaseFileTypeById(){
+    this.practiceService.getCaseFileTypesById(this.selectedSubscription?.ssid.uuid,this.documentTemplateType.casefile_type || '').subscribe(data => {
+      this.caseFileType = data
+      data.variables.map(variable => this.templateTypesVariablesAdded.push(variable))
     })
   }
 
@@ -98,7 +107,7 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
   }
 
   submitForm(){
-    this.templateTypesVariablesOutput.emit(this.templateTypesVariablesAdded)
+    this.templateTypesVariablesOutput.emit(this.templateTypesVariablesAdded.filter(x => x.casefile_type === null || x.casefile_type === '' || !x.casefile_type))
   }
 
 }

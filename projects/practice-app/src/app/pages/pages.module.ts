@@ -104,6 +104,10 @@ import { TemplatesTypesComponent } from './documents-templates/templates-types/t
 import { CreateTemplatesTypesComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types.component';
 import { CreateTemplatesTypesBasicInfoComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types-basic-info/create-templates-types-basic-info.component';
 import { CreateTemplatesTypesVariablesComponent } from './documents-templates/templates-types/create-templates-types/create-templates-types-variables/create-templates-types-variables.component';
+import { ExpedientTypeTableComponent } from './expedient/expedient-type-table/expedient-type-table.component';
+import { CreateExpedientTypeComponent } from './expedient/create-expedient-type/create-expedient-type.component';
+import { CreateExpedientTypeBasicInfoComponent } from './expedient/create-expedient-type/create-expedient-type-basic-info/create-expedient-type-basic-info.component';
+import { CreateExpedientTypeVariablesComponent } from './expedient/create-expedient-type/create-expedient-type-variables/create-expedient-type-variables.component';
 
 
 @NgModule({
@@ -198,6 +202,10 @@ import { CreateTemplatesTypesVariablesComponent } from './documents-templates/te
     CreateTemplatesTypesComponent,
     CreateTemplatesTypesBasicInfoComponent,
     CreateTemplatesTypesVariablesComponent,
+    ExpedientTypeTableComponent,
+    CreateExpedientTypeComponent,
+    CreateExpedientTypeBasicInfoComponent,
+    CreateExpedientTypeVariablesComponent,
   ],
   imports: [
     CommonModule,

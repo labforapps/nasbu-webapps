@@ -45,6 +45,7 @@ import { GeneralMetricsComponent } from './pages/report/general-metrics/general-
 import { ReportInvoicingExportComponent } from './pages/report/report-invoicing/report-invoicing-export/report-invoicing-export.component';
 import { CheckoutRequestLadingComponent } from './pages/external/payment/checkout-request-lading/checkout-request-lading.component';
 import { CreateTemplatesTypesComponent } from './pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
+import { CreateExpedientTypeComponent } from './pages/expedient/create-expedient-type/create-expedient-type.component';
 
 
 const routes: Routes = [
@@ -277,6 +278,14 @@ const routes: Routes = [
   {
     path:'templates-types/:id',
     component: CreateTemplatesTypesComponent
+  },
+  {
+    path:'expedient-type',
+    component: CreateExpedientTypeComponent
+  },
+  {
+    path:'expedient-type/:id',
+    component: CreateExpedientTypeComponent
   }
 
 ];

@@ -21,6 +21,9 @@
             <mat-tab label="{{'dockets.closed' | translate}}">
                 <app-expedient-table *ngIf="caseFiles" [caseFiles]="closedCaseFiles" [securityUsers]="securityUsers" [customers]="customers"></app-expedient-table>
             </mat-tab>
+            <mat-tab label="Tipo de expediente">
+              <app-expedient-type-table></app-expedient-type-table>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </div>

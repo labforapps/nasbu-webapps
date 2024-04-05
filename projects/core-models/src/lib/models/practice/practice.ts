@@ -9,7 +9,8 @@ export interface CaseFile {
   created_at?:            string;
   updated_at?:            Date;
   billing_type:           BillingType;
-  case_file_user_access?: CaseFileAccess[]
+  case_file_user_access?: CaseFileAccess[];
+  casefile_type:          CaseFileType;
   bt_price_per_hour:      number;
   bt_increment_factor:    number;
   bt_amt:                 number;
@@ -23,12 +24,14 @@ export interface CaseFile {
   created_by?:            string;
   updated_by?:            null;
   subscription:           string;
+  custom_variables_data?: string;
 }
 
 export interface CaseFilePayload {
   uuid?:                string;
   customer:             string;
   assigned_to:          string;
+  casefile_type:        string;
   billing_type:         string;
   bt_price_per_hour:    number;
   bt_increment_factor:  number;
@@ -40,7 +43,8 @@ export interface CaseFilePayload {
   receive_retainer:     boolean;
   retainer_amt:         number;
   subscription:         string;
-  status?: CaseFileStatus;
+  status?:              CaseFileStatus;
+  custom_variables_data: string;
 }
 
 export interface AssignedTo {
@@ -289,26 +293,48 @@ export interface DocumentGenerationPayload {
 
 
 export interface DocumentTemplateType {
-  uuid?:               string;
+  uuid?:              string;
   code:               string;
   name:               string;
   subscription:       string;
+  casefile_type?:     string;
   require_signature:  boolean;
-  copied_from?:  string;
+  copied_from?:       string;
   variables?:         VariableDocumentTemplateType[];
-  active?:             boolean;
-  created_by?:         string;
-  created_at?:         Date;
+  active?:            boolean;
+  created_by?:        string;
+  created_at?:        Date;
 }
 
 export interface VariableDocumentTemplateType {
   uuid?:          string;
   template_type?: string;
-  section:       string;
+  section:        string;
   name:           string;
-  description?:    string;
+  description?:   string;
   value_path:     string;
+  casefile_type?: string;
 }
+
+export interface CaseFileType {
+  subscription: string;
+  uuid?:        string;
+  copied_from:  string;
+  code:         string;
+  name:         string;
+  variables:    VariableCaseFileType[];
+  created_at?:  Date
+}
+
+export interface VariableCaseFileType {
+  uuid?:         string;
+  variable_id:   string;
+  section:       string;
+  name:          string;
+  description:   string;
+  value_path:    string;
+}
+
 
 export interface SignatureRequest {
   subscription:            string;
