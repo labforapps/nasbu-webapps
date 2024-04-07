@@ -329,10 +329,10 @@ export interface CaseFileType {
 
 export interface VariableCaseFileType {
   uuid?:         string;
-  variable_id:   string;
+  variable_id?:   string;
   section:       string;
   name:          string;
-  description:   string;
+  description?:   string;
   value_path:    string;
 }
 

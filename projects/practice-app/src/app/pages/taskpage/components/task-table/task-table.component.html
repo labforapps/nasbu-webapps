@@ -5,7 +5,7 @@
     <input matInput type="mail" placeholder="{{'clients.pending_issues.table_header.search' | translate}}..." (keyup)="searchByName($event)">
     <span class="icon-search"></span>
 </div>
-  <div class="c-btn-filter" *ngIf="tasks.length > 0" >
+  <div class="c-btn-filter" *ngIf="tasks && tasks.length > 0" >
     {{ 'tasks.table.filterBy' |translate }}
     <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
     <mat-menu #filterMenu="matMenu">
