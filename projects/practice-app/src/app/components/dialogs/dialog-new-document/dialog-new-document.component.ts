@@ -170,41 +170,6 @@ export class DialogNewDocumentComponent implements OnInit {
     this.activeTabIndex -= 1
   }
 
-  onChangeCaseFile(selection:MatSelectChange){
-
-    this.caseFile = this.caseFiles?.find(x => x.uuid === selection.value);
-
-    this.documentForm.patchValue({
-      customer: this.caseFile?.customer.uuid,
-      representative: this.caseFile?.assigned_to.uuid
-    })
-
-   if(this.caseFile?.custom_variables_data){
-
-    const variables:any = JSON.parse( this.caseFile.custom_variables_data || '')
-
-    this.variables = this.caseFile.casefile_type.variables
-
-    Object.keys(variables).forEach(section => {
-      Object.keys(variables[section]).forEach(name => {
-            this.documentGenerationVariables.push({
-              section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
-              name: name,
-              value_path: `custom.${section}.${name}`,
-          });
-
-          this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
-
-      });
-    });
-
-     this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
-     this.totalTabs = 1 + this.variablesSections.length
-
-   }
-
-  }
-
   slugify(str:string) {
     return String(str)
       .normalize('NFKD') // split accented characters into their base characters and diacritical marks

@@ -1,0 +1,30 @@
+<form [formGroup]="variablesForm">
+
+  <div class="l-notification">
+
+    <div *ngFor="let section of variablesSections; let i = index">
+      <div class="c-notification-cog__title">{{section}}</div>
+      <div class="l-notification__content">
+          <div class="c-notification-cog">
+              <div class="c-notification-cog__info">
+                  <div class="row mb-2" *ngFor="let variable of caseFileVariablesType| filter:'section': section">
+                    <div class="col-md-12">
+                      <label class="u-title-label">{{variable.name}}</label>
+                      <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                          <mat-label></mat-label>
+                          <input class="c-form-group__input"
+                                matInput
+                                placeholder="Ej: Crear contrato de servicio"
+                                [formControlName]="variable.value_path">
+                      </mat-form-field>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</form>

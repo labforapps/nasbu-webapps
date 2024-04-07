@@ -134,7 +134,7 @@ export class DialogNewExpedientComponent implements OnInit {
         flat_fee:this.caseFile.billing_type === this.billingType.FLAT_FEE,
         retainer_amt: this.caseFile.retainer_amt,
         access_type: this.caseFile.access_type,
-        casefile_type: this.caseFile.casefile_type ? this.caseFile.casefile_type : null
+        casefile_type: this.caseFile.casefile_type ? this.caseFile.casefile_type.uuid : null
       })
 
       if(this.caseFile.casefile_type) this.caseFileTypeSelected = this.caseFile.casefile_type

@@ -108,6 +108,7 @@ import { ExpedientTypeTableComponent } from './expedient/expedient-type-table/ex
 import { CreateExpedientTypeComponent } from './expedient/create-expedient-type/create-expedient-type.component';
 import { CreateExpedientTypeBasicInfoComponent } from './expedient/create-expedient-type/create-expedient-type-basic-info/create-expedient-type-basic-info.component';
 import { CreateExpedientTypeVariablesComponent } from './expedient/create-expedient-type/create-expedient-type-variables/create-expedient-type-variables.component';
+import { ExpedientVariablesInfoComponent } from './expedient/expedient-info/expedient-variables-info/expedient-variables-info.component';
 
 
 @NgModule({
@@ -206,6 +207,7 @@ import { CreateExpedientTypeVariablesComponent } from './expedient/create-expedi
     CreateExpedientTypeComponent,
     CreateExpedientTypeBasicInfoComponent,
     CreateExpedientTypeVariablesComponent,
+    ExpedientVariablesInfoComponent,
   ],
   imports: [
     CommonModule,
