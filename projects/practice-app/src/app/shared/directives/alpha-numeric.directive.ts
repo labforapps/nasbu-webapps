@@ -9,7 +9,7 @@ export class AlphaNumericDirective {
   @HostListener('input', ['$event']) onInputChange(event: InputEvent) {
     const initialValue = this.el.nativeElement.value;
 
-    this.el.nativeElement.value = initialValue.replace(/[^a-zA-Z0-9]/g, '');
+    this.el.nativeElement.value = initialValue.replace(/[^a-zA-Z0-9 _]/g, '');
     if (initialValue !== this.el.nativeElement.value) {
       event.stopPropagation();
     }
