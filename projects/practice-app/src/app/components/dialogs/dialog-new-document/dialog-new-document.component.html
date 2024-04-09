@@ -129,8 +129,8 @@
       <mat-dialog-actions class="c-dialog-header__footer">
           <button mat-button mat-dialog-close class="u-link text-center" type="button" *ngIf="activeTabIndex === 0">Cancelar</button>
           <button mat-button class="u-link text-center" type="button" (click)="goToPreviousTab()" *ngIf="activeTabIndex > 0">Atras</button>
-          <button mat-button class="c-btn-function" (click)="goToNextTab()" *ngIf="(documentTemplateType || caseFile?.custom_variables_data) && (activeTabIndex + 1) < totalTabs">Siguiente</button>
-          <button mat-button class="c-btn-function" (click)="submitForm()" *ngIf="(documentTemplateType || caseFile?.custom_variables_data) && (activeTabIndex + 1)  === totalTabs">Generar documento</button>
+          <button mat-button class="c-btn-function" (click)="goToNextTab()" *ngIf="documentTemplateType && (activeTabIndex + 1) < totalTabs">Siguiente</button>
+          <button mat-button class="c-btn-function" (click)="submitForm()" *ngIf="documentTemplateType && (activeTabIndex + 1)  === totalTabs">Generar documento</button>
       </mat-dialog-actions>
 
 </div>

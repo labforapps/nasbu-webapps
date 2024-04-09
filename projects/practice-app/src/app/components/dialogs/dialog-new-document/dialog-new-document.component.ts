@@ -127,6 +127,7 @@ export class DialogNewDocumentComponent implements OnInit {
     this.practiceService.getDocumentTemplates(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentTemplates = data;
       this.setForm();
+      this.getDocumentTemplateType()
     })
   }
 
