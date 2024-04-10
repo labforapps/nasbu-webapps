@@ -191,8 +191,6 @@ export class DialogNewDocumentComponent implements OnInit {
 
     const customVariableData:any = {};
 
-    console.log('this.variablesForm.value: ', this.variablesForm.value);
-
     this.variablesSections.forEach((x:string) => {
 
       const variables = this.documentTemplateType.variables?.filter((y:VariableDocumentTemplateType) => y.section === x);
@@ -203,10 +201,6 @@ export class DialogNewDocumentComponent implements OnInit {
         const obj:{[s: string] : string} = {}
         const varCode: string = this.slugify(variable.code || '');
         const valuePath: string = `custom.dt.${x.toLowerCase()}.${variable.code}`;
-
-        console.log(variable);
-        console.log(varCode);
-        console.log(valuePath);
 
         obj[`${variable.code}`] =  this.variablesForm.value[valuePath];
 
