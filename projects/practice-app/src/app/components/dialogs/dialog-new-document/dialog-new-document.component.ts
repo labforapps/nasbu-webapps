@@ -194,12 +194,15 @@ export class DialogNewDocumentComponent implements OnInit {
     this.variablesSections.forEach((x:string) => {
 
       const variables = this.documentTemplateType.variables?.filter((y:VariableDocumentTemplateType) => y.section === x);
+      const section: string = this.slugify(x);
+      customVariableData[section] = variables?.map(variable => {
 
-      customVariableData[this.slugify(x)] = variables?.map(variable => {
-
+        const finalSection: string = x.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         const obj:{[s: string] : string} = {}
+        const varCode: string = this.slugify(variable.code || '');
+        const valuePath: string = `custom.dt.${x.toLowerCase()}.${variable.code}`;
 
-        obj[`${this.slugify(variable.name)}`] =  this.variablesForm.value[variable.value_path]
+        obj[`${variable.code}`] =  this.variablesForm.value[valuePath];
 
         return obj
       }).reduce((a,b)  => { return { ...a,...b } },{} )
