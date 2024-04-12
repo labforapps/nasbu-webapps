@@ -51,7 +51,7 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
         ...this.documentTemplateType
       })
 
-      this.copied = this.documentTemplateType.copied_from !== null
+      this.copied = this.documentTemplateType.copied_from !== null || this.documentTemplateType.casefile_type !== null
     }
   }
 

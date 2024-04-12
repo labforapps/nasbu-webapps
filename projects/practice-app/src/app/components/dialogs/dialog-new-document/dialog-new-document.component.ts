@@ -144,9 +144,17 @@ export class DialogNewDocumentComponent implements OnInit {
 
     if(documentTemplate){
       this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,documentTemplate.template_type).subscribe(data => {
+
         this.documentTemplateType = data;
-        this.variables = this.documentTemplateType.variables  || []
-        this.onSetDocumentTemplateType()
+        this.variables = this.documentTemplateType.variables?.filter(x => x.system_default === false)  || []
+
+        if(this.variables.length > 0){
+          this.onSetDocumentTemplateType()
+        }
+        else{
+          this.variablesSections = []
+        }
+
       })
     }
   }
