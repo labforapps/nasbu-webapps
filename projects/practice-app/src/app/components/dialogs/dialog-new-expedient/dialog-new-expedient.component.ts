@@ -148,6 +148,7 @@ export class DialogNewExpedientComponent implements OnInit {
                 this.documentGenerationVariables.push({
                   section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
                   name: name,
+                  description: name.replace('cf_','').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
                   value_path: `custom.${section}.${name}`,
               });
 
@@ -289,12 +290,9 @@ export class DialogNewExpedientComponent implements OnInit {
       const section: string = this.slugify(x);
       customVariableData[section] = variables?.map(variable => {
 
-        const finalSection: string = x.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
         const obj:{[s: string] : string} = {}
-        const varCode: string = this.slugify(variable.code || '');
-        const valuePath: string = `custom.cf.${x.toLowerCase()}.${variable.code}`;
 
-        obj[`${variable.code}`] =  this.variablesForm.value[valuePath];
+        obj[`${variable.code}`] =  this.variablesForm.value[variable.value_path];
 
         return obj
       }).reduce((a,b)  => { return { ...a,...b } },{} )
@@ -327,8 +325,8 @@ export class DialogNewExpedientComponent implements OnInit {
         this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
       }
 
-    this.dialogRef.close(data);
-  })
+      this.dialogRef.close(data);
+    })
 
 
   }

@@ -307,14 +307,15 @@ export interface DocumentTemplateType {
 }
 
 export interface VariableDocumentTemplateType {
-  uuid?:          string;
-  template_type?: string;
-  section:        string;
-  code?:          string;
-  name:           string;
-  description?:   string;
-  value_path:     string;
-  casefile_type?: string;
+  uuid?:           string;
+  template_type?:  string;
+  section:         string;
+  code?:           string;
+  name:            string;
+  description?:    string;
+  value_path:      string;
+  casefile_type?:  string;
+  system_default?: boolean;
 }
 
 export interface CaseFileType {

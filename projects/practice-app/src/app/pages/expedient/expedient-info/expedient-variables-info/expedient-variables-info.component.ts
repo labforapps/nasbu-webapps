@@ -31,6 +31,7 @@ export class ExpedientVariablesInfoComponent implements OnInit {
       Object.keys(variables[section]).forEach(name => {
             this.caseFileVariablesType.push({
               section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
+              description: name.replace('cf_','').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
               name: name,
               value_path: `custom.${section}.${name}`,
           });

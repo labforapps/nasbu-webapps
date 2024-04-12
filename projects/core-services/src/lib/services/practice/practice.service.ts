@@ -351,7 +351,7 @@ export class PracticeService {
   }
 
   getDocumentTemplateById(subscription:string,uuid:string):Observable<DocumentTemplate>{
-    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${uuid}?subscription=${subscription}`;
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${uuid}/?subscription=${subscription}`;
     return this.httpClient.get<DocumentTemplate>(serverUrl)
   }
 
@@ -362,7 +362,7 @@ export class PracticeService {
   }
 
   updateDocumentTemplate(payload:DocumentTemplatePayload):Observable<DocumentTemplate>{
-    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${payload.uuid}?subscription=${payload.subscription}`;
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${payload.uuid}/?subscription=${payload.subscription}`;
     return this.httpClient.put<DocumentTemplate>(serverUrl,payload);
   }
 
