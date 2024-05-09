@@ -178,3 +178,19 @@ export interface License {
   updated_by:        null;
   updated_at:        Date;
 }
+
+export interface Summary {
+  section:    string;
+  has_access: boolean;
+  detail:     SummaryDetail;
+}
+
+export interface SummaryDetail {
+  total_open?:      number;
+  total_closed?:    number;
+  total?:           number;
+  total_pending?:   number;
+  total_completed?: number;
+  total_delayed?:   number;
+}
+

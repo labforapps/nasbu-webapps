@@ -83,6 +83,11 @@ export class AccountingService {
     return this.httpClient.delete<Invoice[]>(serverUrl);
   }
 
+  getInvoicesLatestPending(subscription:string):Observable<Invoice[]>{
+    const serverUrl = `${this.config.serverUrl}/accounting/invoices/latest_pending/?subscription=${subscription}`;
+    return this.httpClient.get<Invoice[]>(serverUrl);
+  }
+
   getInvoicePayments(subscription:string,uuid:string):Observable<Payment[]>{
     const serverUrl = `${this.config.serverUrl}/accounting/invoices/${uuid}/payments/?subscription=${subscription}`;
     return this.httpClient.get<Payment[]>(serverUrl);

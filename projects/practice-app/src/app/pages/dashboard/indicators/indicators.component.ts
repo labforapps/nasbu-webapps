@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CaseFile, CaseFileStatus, Invoice, Payment,Task, TaskStatus } from 'core-models';
-import * as moment from 'moment';
+import { Summary, SummaryDetail } from 'core-models';
 
 @Component({
   selector: 'app-indicators',
@@ -10,13 +9,7 @@ import * as moment from 'moment';
 export class IndicatorsComponent implements OnInit {
 
   dashboardInfo = {};
-
-  @Input() caseFiles!:CaseFile[];
-  caseFileStatus = CaseFileStatus;
-  @Input() invoices!:Invoice[];
-  @Input() payments!:Payment[];
-  @Input() tasks!:Task[];
-  taskStatus = TaskStatus;
+  @Input() accountSummary!:Summary[];
 
   constructor() { }
 
@@ -24,54 +17,23 @@ export class IndicatorsComponent implements OnInit {
   }
 
   get emptyIndicators() {
-    return (!this.caseFiles || this.caseFiles.length == 0) && (!this.invoices || this.invoices.length == 0)
-    && (!this.payments || this.payments.length == 0)  && (!this.tasks || this.tasks.length == 0)
+    return this.accountSummary.length === 0;
   }
 
-  get openCaseFiles(){
-    return this.caseFiles ? this.caseFiles.filter(x => x.status === this.caseFileStatus.OPEN).length : 0;
+  get sectionPracticeCaseFiles():SummaryDetail {
+    return this.accountSummary[0].detail;
   }
 
-  get closedCaseFiles(){
-    return this.caseFiles ? this.caseFiles.filter(x => x.status === this.caseFileStatus.CLOSED).length : 0;
+  get sectionAccountingInvoices():SummaryDetail {
+    return this.accountSummary[1].detail;
   }
 
-  get totalBilled(){
-    return this.invoices ?  this.invoices.filter(item => {
-      const invoiceDate = moment(item.inv_date);
-      return invoiceDate.isSame(moment(), 'month');
-  })
-  .reduce((accumulator, current) => accumulator + parseFloat(current.net_amt), 0) : 0;
-
+  get sectionAccountingPayments():SummaryDetail {
+    return this.accountSummary[2].detail;
   }
 
-  get totalAmountCollected(){
-      return this.payments ?  this.payments.filter(item => {
-        const invoiceDate = moment(item.payment_date);
-        return invoiceDate.isSame(moment(), 'month');
-    })
-    .reduce((accumulator, current) => accumulator + parseFloat(current.total_amt), 0) : 0;
-  }
-
-  get completedTasks() {
-    return this.tasks ? this.tasks.filter(x => {
-      const taskDate = moment(x.created_at)
-      return x.status === this.taskStatus.CLOSED && taskDate.isSame(moment(), 'month')
-    }).length : 0;
-  }
-
-  get pendingTasks() {
-    return this.tasks ? this.tasks.filter(x => {
-      const taskDate = moment(x.created_at)
-      return x.status === this.taskStatus.OPEN && taskDate.isSame(moment(), 'month')
-    }).length : 0;
-  }
-
-  get overdueTasks() {
-    return this.tasks ? this.tasks.filter(x => {
-      const taskDate = moment(x.created_at)
-      return x.overdue === true && taskDate.isSame(moment(), 'month')
-    }).length : 0;
+  get sectionPracticeTasks():SummaryDetail {
+    return this.accountSummary[3].detail;
   }
 
 }

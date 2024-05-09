@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
-import { AccountingService, PracticeService } from 'core-services';
-import { CaseFile, CaseFileStatus, Invoice, Payment, TaskStatus,Task, CaseFileNote } from 'core-models';
+import { AccountingService, PracticeService, SecurityService } from 'core-services';
+import { Invoice, Payment, TaskStatus,Task, CaseFileNote, Summary } from 'core-models';
 import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import { DialogAddHoursComponent } from '../../components/dialogs/dialog-add-hours/dialog-add-hours.component';
 import { DialogNewDocumentComponent } from '../../components/dialogs/dialog-new-document/dialog-new-document.component';
@@ -20,20 +20,20 @@ export class DashboardComponent implements OnInit {
   public userName!: string;
   public today: Date;
 
-  caseFiles!:CaseFile[];
   selectedSubscription!:any;
-  caseFileStatus = CaseFileStatus;
   invoices!:Invoice[];
   payments!:Payment[];
   tasks!:Task[];
   taskStatus = TaskStatus;
   caseFileNotes!:CaseFileNote[];
+  accountSummary:Summary[] = []
 
   constructor(private route: ActivatedRoute,
               public dialog: MatDialog,
               private authService:AuthService,
               private practiceService:PracticeService,
               private accountingService:AccountingService,
+              private securityService:SecurityService,
               private router:Router) {
     this.today = new Date();
   }
@@ -42,10 +42,9 @@ export class DashboardComponent implements OnInit {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.userName = this.route.snapshot.data['user']['attributes']['name'];
 
-    this.getCaseFiles();
-    this.getInvoices();
-    this.getPayments();
-    this.getTasks();
+    this.getAccountSummary()
+    this.getInvoicesLatestPending();
+    this.getTasksLatestsOverdue();
     this.getCaseFileNotes();
   }
 
@@ -53,32 +52,28 @@ export class DashboardComponent implements OnInit {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 
-  getCaseFiles(){
-    this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.caseFiles = data;
+  getAccountSummary(){
+    this.securityService.getAccountSummary(this.selectedSubscription?.ssid.uuid).subscribe({
+      next: (data) => {
+        this.accountSummary = data
+      }
     })
   }
 
-  getInvoices(){
-    this.accountingService.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+  getInvoicesLatestPending(){
+    this.accountingService.getInvoicesLatestPending(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.invoices = data;
     })
   }
 
-  getPayments(){
-    this.accountingService.getPayments(this.selectedSubscription?.ssid.uuid).subscribe(data => {
-      this.payments = data;
-    })
-  }
-
-  getTasks(){
-    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+  getTasksLatestsOverdue(){
+    this.practiceService.getTasksLatestsOverdue(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.tasks = data;
     })
   }
 
   getCaseFileNotes(){
-    this.practiceService.getAllCaseFileNotes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+    this.practiceService.getCaseFileNotesLatest(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFileNotes = data;
     })
   }
@@ -110,7 +105,6 @@ export class DashboardComponent implements OnInit {
   openDialogNewNote(){
     this.dialog.open(DialogNewNoteComponent, {
       data: {
-        caseFiles: this.caseFiles,
         subscription: this.selectedSubscription?.ssid.uuid
       }
     })
