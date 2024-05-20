@@ -21,8 +21,9 @@ export interface Invoice {
   subscription:      string;
   customer:          CustomerInvoice;
   case_file:         CaseFile;
-  code: string;
-  days_late: number;
+  code:              string;
+  days_late:         number;
+  total_remaining_amt: number;
 }
 
 

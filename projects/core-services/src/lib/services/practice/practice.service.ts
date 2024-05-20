@@ -160,6 +160,11 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileNote>(serverUrl);
   }
 
+  getCaseFileNotesLatest(subscription:string):Observable<CaseFileNote[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_notes/latests/?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileNote[]>(serverUrl);
+  }
+
   getCaseFileWalletDetails(subscription:string,uuid:string):Observable<CaseFileWalletDetail[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/wallet_details/?subscription=${subscription}`;
     return this.httpClient.get<CaseFileWalletDetail[]>(serverUrl);
@@ -259,6 +264,11 @@ export class PracticeService {
   deleteTask(subscription:string,uuid:string):Observable<Task>{
     const serverUrl = `${this.config.serverUrl}/practice/tasks/${uuid}?subscription=${subscription}`;
     return this.httpClient.delete<Task>(serverUrl);
+  }
+
+  getTasksLatestsOverdue(subscription:string):Observable<Task[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/latests_overdue/?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl);
   }
 
   getTasksTime(subscription:string):Observable<TimeTask[]>{

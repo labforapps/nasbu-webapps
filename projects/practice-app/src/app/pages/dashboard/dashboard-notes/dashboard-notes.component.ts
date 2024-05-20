@@ -13,8 +13,7 @@ import { DialogNewNoteComponent } from '../../../components/dialogs/dialog-new-n
 })
 export class DashboardNotesComponent implements OnInit {
 
-  public totalInvoices: number = 10;
-  public totalAmountPending: number = 50000.00;
+  totalCaseFileNotes!:number;
   @Input() caseFileNotes!:CaseFileNote[];
   displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'created_by','action' ];
   dataSource = new MatTableDataSource<CaseFileNote>(this.caseFileNotes);
@@ -24,11 +23,8 @@ export class DashboardNotesComponent implements OnInit {
   constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.caseFileNotes.sort((a, b) => {
-      const dateA = new Date(a.created_at || 0).getTime();
-      const dateB = new Date(b.created_at || 0).getTime();
-      return dateB - dateA;
-    }).slice(0, 10);
+    this.dataSource.data = this.caseFileNotes
+    this.totalCaseFileNotes = this.caseFileNotes.length
   }
 
   ngAfterViewInit(): void {
