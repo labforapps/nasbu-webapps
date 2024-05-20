@@ -29,6 +29,10 @@ export class InvoicesComponent implements OnInit {
     this.totalInvoices = this.invoices.length
   }
 
+  get totalRemainingAmount() {
+    return this.invoices.reduce( (total,invoice) => total + invoice.total_remaining_amt,0 );
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }

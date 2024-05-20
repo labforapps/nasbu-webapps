@@ -1,7 +1,7 @@
 <ng-container *ngIf="invoices && invoices.length > 0; else empty">
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap u-gap-1 u-smallSize">
         <p [innerHTML]="'dashboard.pendingInvoices.title' | translate: { count: totalInvoices | number}"> </p>
-        <p class="u-textColor">{{'dashboard.pendingInvoices.subTitle' | translate}} <b>{{totalAmountPending | currency}}</b></p>
+        <p class="u-textColor">{{'dashboard.pendingInvoices.subTitle' | translate}} <b>{{totalRemainingAmount | currency}}</b></p>
     </div>
 
     <div class="u-table-responsive">
