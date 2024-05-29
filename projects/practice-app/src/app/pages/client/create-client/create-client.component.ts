@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormService } from '../../../services/form.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { HelpersService } from '../../../services/helpers.service';
 @Component({
   selector: 'app-create-client',
   templateUrl: './create-client.component.html',
@@ -45,7 +46,8 @@ export class CreateClientComponent implements OnInit {
     private translateService: TranslateService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     @Optional() dialogRef: MatDialogRef<CreateClientComponent>,
-    private formService:FormService
+    private formService:FormService,
+    private helperService:HelpersService
   ) {
     this.dialogRef = dialogRef;
   }
@@ -330,7 +332,7 @@ export class CreateClientComponent implements OnInit {
         if (this.linked_customer) {
           this.linkToCustomer(data);
         } else {
-          this.router.navigate(['customers']);
+          if(createClient.uuid === null || createClient.uuid === '') this.router.navigate(['customers']);
         }
       }
     });

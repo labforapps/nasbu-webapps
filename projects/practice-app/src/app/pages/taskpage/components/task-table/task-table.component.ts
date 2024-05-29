@@ -109,11 +109,11 @@ export class TaskTableComponent  implements OnChanges {
         if(caseFileFiltered){
           this.tasks = this.tasks.filter(x => x.uuid !== result.uuid);
           this.tasks.push(result);
-          this.dataSource.data = this.tasks;
+          this.dataSource.data = this.helperService.sortByDate(this.tasks,'created_at','desc');
         }
         else{
           this.tasks.push(result);
-          this.dataSource.data = this.tasks;
+          this.dataSource.data = this.helperService.sortByDate(this.tasks,'created_at','desc');
         }
         this.onExecuteTaskEvent();
       }

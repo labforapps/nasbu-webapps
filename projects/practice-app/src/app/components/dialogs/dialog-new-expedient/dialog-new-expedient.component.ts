@@ -116,7 +116,7 @@ export class DialogNewExpedientComponent implements OnInit {
 }
 
   setCaseFile(){
-    if(this.dataDialog){
+    if(this.dataDialog.caseFile){
       this.caseFile = this.dataDialog.caseFile;
 
       this.caseFileForm.patchValue({

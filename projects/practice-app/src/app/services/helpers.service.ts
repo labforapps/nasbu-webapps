@@ -64,6 +64,14 @@ export class HelpersService {
    }
   }
 
+  sortByDate<T>(array: T[], dateField: keyof T, order: 'asc' | 'desc' = 'asc'): T[] {
+    return array.sort((a, b) => {
+      let dateA = new Date(a[dateField] as unknown as string).getTime();
+      let dateB = new Date(b[dateField] as unknown as string).getTime();
+      return order === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
   returnCustomerListSorted(customers:Customer[],type: 'ascendant' | 'descendant'):Customer[] {
 
       return customers.sort((a, b) => {

@@ -8,7 +8,11 @@
                 {{'clients.pending_issues.tabs.all' | translate}}
             </ng-template>
 
-            <app-task-table *ngIf="tasks" [tasks]="tasks" [module]="module.CUSTOMERS" [customer]="customer"></app-task-table>
+            <app-task-table *ngIf="tasks"
+                            [tasks]="tasks"
+                            [module]="module.CUSTOMERS"
+                            [customer]="customer"
+                            (onExecuteTask)="getTasksByCustomer()"></app-task-table>
 
         </mat-tab>
 
@@ -18,7 +22,11 @@
                 {{'clients.pending_issues.tabs.pending' | translate}}
             </ng-template>
 
-            <app-task-table *ngIf="tasks"  [tasks]="tasks" [module]="module.CUSTOMERS" [customer]="customer"></app-task-table>
+            <app-task-table *ngIf="tasks"
+                            [tasks]="tasks"
+                            [module]="module.CUSTOMERS"
+                            [customer]="customer"
+                            (onExecuteTask)="getTasksByCustomer()"></app-task-table>
 
         </mat-tab>
 
@@ -28,7 +36,11 @@
               {{'clients.pending_issues.tabs.completed' | translate}}
             </ng-template>
 
-            <app-task-table *ngIf="tasks"  [tasks]="tasks" [module]="module.CUSTOMERS" [customer]="customer"></app-task-table>
+            <app-task-table *ngIf="tasks"
+                           [tasks]="tasks"
+                           [module]="module.CUSTOMERS"
+                           [customer]="customer"
+                           (onExecuteTask)="getTasksByCustomer()"></app-task-table>
 
         </mat-tab>
 

@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewCostumerComponent } from '../../components/dialogs/dialog-new-costumer/dialog-new-costumer.component';
 import { AccountingService, PracticeService, SecurityService } from 'core-services';
-import { Invoice, Payment, TaskStatus,Task, CaseFileNote, Summary } from 'core-models';
+import { Invoice, Payment, TaskStatus,Task, CaseFileNote, Summary, Action } from 'core-models';
 import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import { DialogAddHoursComponent } from '../../components/dialogs/dialog-add-hours/dialog-add-hours.component';
 import { DialogNewDocumentComponent } from '../../components/dialogs/dialog-new-document/dialog-new-document.component';
@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
   taskStatus = TaskStatus;
   caseFileNotes!:CaseFileNote[];
   accountSummary:Summary[] = []
+  action = Action
 
   constructor(private route: ActivatedRoute,
               public dialog: MatDialog,
@@ -83,7 +84,11 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialogNewTask(){
-    this.dialog.open(DialogNewTaskComponent)
+    this.dialog.open(DialogNewTaskComponent,{
+      data: {
+        action: this.action.CREATE
+      }
+    })
   }
 
   navigateToCreateCollaborator(){
