@@ -15,6 +15,7 @@ import localeEn from '@angular/common/locales/en';
 import { CustomerFullNamePipe } from './pipes/customer-full-name.pipe';
 import { BillingTypePipe } from './pipes/billing-type.pipe';
 import { AutofocusDirective } from './directives/autofocus.directive';
+import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -32,7 +33,8 @@ registerLocaleData(localeEn, 'en');
       LocalizedDatePipe,
       CustomerFullNamePipe,
       BillingTypePipe,
-      AutofocusDirective
+      AutofocusDirective,
+      AlphaNumericDirective
     ],
     imports: [
       MatProgressSpinnerModule,
@@ -54,7 +56,8 @@ registerLocaleData(localeEn, 'en');
       NgxIntlTelInputModule,
       TranslateModule,
       CustomerFullNamePipe,
-      BillingTypePipe
+      BillingTypePipe,
+      AlphaNumericDirective
     ],
 })
 export class SharedModule { }

@@ -81,6 +81,15 @@
 
 
             </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                  Información
+              </ng-template>
+
+              <app-expedient-variables-info *ngIf="caseFile"  [caseFile]="caseFile"></app-expedient-variables-info>
+
+          </mat-tab>
+
 
 
         </mat-tab-group>

@@ -5,11 +5,11 @@
           Enviar link de pago
       </div>
       <div class="text-right">
-          <p class="u-fontBold">USD {{invoice?.net_amt || 0}}</p>
+          <p class="u-fontBold">USD {{invoice?.net_amt || 0 | currency }}</p>
           <p class="u-smallerSize">{{'invoicing.register_payment.total_billed' | translate}}</p>
       </div>
   </div>
-  <form action="" [formGroup]="paymentForm" (submit)="onSubmit()">
+  <form action="" [formGroup]="paymentForm" (submit)="onSubmit()" #form="ngForm">
         <mat-dialog-content>
           <div class="row mt-3">
               <div class="col-md-12">
@@ -57,35 +57,38 @@
             <div class="col-md-12">
                 <label class="u-title-label d-block mt-3">{{'clients.client_intake.What_sending_method_will_you_use' | translate}}</label>
                 <mat-radio-group aria-label="Select an option" formControlName="send_by">
-                  <mat-radio-button checked class="c-radioButton mr-3" value="email" (change)="onChangeSendingMethod($event)">{{'clients.client_intake.email' | translate}}</mat-radio-button>
-                  <mat-radio-button class="c-radioButton" value="sms" (change)="onChangeSendingMethod($event)">SMS</mat-radio-button>
+                  <mat-radio-button checked class="c-radioButton mr-3" [value]="sendingMethod.EMAIL" >{{'clients.client_intake.email' | translate}}</mat-radio-button>
+                  <mat-radio-button class="c-radioButton mr-3" [value]="sendingMethod.SMS">SMS</mat-radio-button>
+                  <mat-radio-button class="c-radioButton" [value]="sendingMethod.CLIPBOARD">Copiar link</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
-        <div class="row" *ngIf="sendingMethod === 'email'">
-          <div class="col-md-12">
-              <label class="u-title-label">{{'clients.client_intake.customer_email' | translate}}</label>
-              <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                  <mat-label>{{'clients.client_intake.email' | translate}}</mat-label>
-                  <input type="email" class="c-form-group__input" matInput placeholder="Ej:  juan@nasbu.com" [(ngModel)]="emailField" [ngModelOptions]="{standalone: true}">
-              </mat-form-field>
-            <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
-          </div>
+
+      <br>
+
+      <div class="row" *ngIf="form.value.send_by === sendingMethod.EMAIL">
+        <div class="col-md-12">
+          <div class="d-flex flex-column" *ngIf="customer">
+            <mat-checkbox (change)="addEmail($event,contact.contact_value)" class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.email">
+                <span class="ml-2">{{contact.contact_value}}</span>
+            </mat-checkbox>
+         </div>
+        </div>
       </div>
-      <div class="row" *ngIf="sendingMethod === 'sms'">
-          <div class="col-md-12">
-              <label class="u-title-label">{{'clients.client_intake.customer_cellphone' | translate}}</label>
-              <!-- <mat-form-field appearance="fill" class="c-form-group c-form-group--small">
-                  <mat-label>{{'clients.client_intake.phone_number' | translate}} </mat-label>
-                  <input class="c-form-group__input" matInput [(ngModel)]="phoneNumberField">
-              </mat-form-field> -->
-              <ngx-intl-tel-input (numberChange)="setPhoneField($event)"></ngx-intl-tel-input>
-              <!-- <mat-error *ngIf="formSubmitted && customer_intake_request.to_origin_value === ''">{{'errorMessages.field_required' | translate}}</mat-error> -->
-          </div>
+
+      <div class="row" *ngIf="form.value.send_by === sendingMethod.SMS">
+        <div class="col-md-12">
+          <div class="d-flex flex-column" *ngIf="customer">
+            <mat-checkbox (change)="addPhone($event,contact.contact_value)" class="c-checkbox mb-2 u-normalSize u-link" *ngFor="let contact of customer.contacts | filter:'type':typeContact.phone_number">
+                <span class="ml-2">{{contact.contact_value}}</span>
+            </mat-checkbox>
+         </div>
+        </div>
       </div>
+
       </mat-dialog-content>
       <mat-dialog-actions class="c-dialog-header__footer flex-column">
-          <button mat-button class="c-btn-function w-50"> {{'invoicing.register_payment.apply_payment' | translate}} </button>
+          <button mat-button class="c-btn-function w-50"> {{form.value.send_by === sendingMethod.CLIPBOARD ? 'Copiar link de pago' : 'Enviar link de pago'}}  </button>
           <button mat-button mat-dialog-close class="u-link text-center"> {{'invoicing.register_payment.close_window' | translate}}</button>
       </mat-dialog-actions>
   </form>

@@ -40,11 +40,12 @@ export class DialogNewVariableComponent implements OnInit {
 
   }
 
-  submitForm(){
+  submitForm(openAnother=false){
 
     this.dialogRef.close({
       section: this.section,
-      name: this.name
+      name: this.name,
+      openAnother
     })
 
   }

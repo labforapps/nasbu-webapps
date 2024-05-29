@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
-import { Customer, Invoice, InvoiceStatus, Payment, PaymentCheckoutRequest, PaymentMethod, TypeContact, sendDocument } from 'core-models';
+import { Customer, Invoice, InvoiceStatus, PaymentCheckoutRequest, PaymentMethod, SendingMethod, TypeContact, sendDocument } from 'core-models';
 import { AccountingService, AuthService, CustomersService } from 'core-services';
 import * as moment from 'moment';
 import { HelpersService } from '../../../services/helpers.service';
@@ -15,7 +15,6 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class DialogPaymentRequestComponent implements OnInit {
   paymentForm!:FormGroup;
-  payment!:Payment;
   paymentMethod = PaymentMethod;
   selectedSubscription!:any;
   invoices!:Invoice[];
@@ -24,7 +23,8 @@ export class DialogPaymentRequestComponent implements OnInit {
   typeContact = TypeContact;
   invoiceStatus = InvoiceStatus;
   emails:string[] = [];
-  sendingMethod: string = 'email';
+  phones:string[] = []
+  sendingMethod = SendingMethod
   formSubmitted: boolean = false;
   emailField: string = '';
   phoneNumberField: string = '';
@@ -46,6 +46,8 @@ export class DialogPaymentRequestComponent implements OnInit {
       this.invoice = this.dataDialog.invoice;
       this.paymentForm.patchValue({invoice: this.invoice.uuid})
     }
+
+    this.getCustomerById()
   }
 
   get currentDate() {
@@ -57,8 +59,7 @@ export class DialogPaymentRequestComponent implements OnInit {
       invoice: ['',Validators.required],
       request_invoice_remaining_amt: [true,Validators.required],
       payment_amt: ['0',Validators.required],
-      send_by: ['email',Validators.required],
-      to_origin_value: ['',Validators.required]
+      send_by: [this.sendingMethod.EMAIL,Validators.required],
     })
   }
 
@@ -71,6 +72,10 @@ export class DialogPaymentRequestComponent implements OnInit {
   onInvoiceChange(select:MatSelectChange){
     const invoiceUUID = select.value;
     this.invoice = this.invoices.find(x => x.uuid === invoiceUUID );
+    this.getCustomerById()
+  }
+
+  getCustomerById(){
     this.customerService.getCustomerById(this.selectedSubscription?.ssid.uuid,this.invoice?.customer.uuid || '').subscribe(data => {
       this.customer = data;
     })
@@ -85,11 +90,20 @@ export class DialogPaymentRequestComponent implements OnInit {
     }
   }
 
+  addPhone(event: MatCheckboxChange,phone:string){
+    if(event.checked){
+      this.phones.push(phone);
+    }
+    else{
+      this.phones = this.phones.filter(x => x !== phone);
+    }
+  }
+
   onSubmit(){
-    // if(!this.paymentForm.valid){
-    //   this.helperService.showMessageRequiredFields();
-    //   return;
-    // }
+    if(!this.paymentForm.valid){
+      this.helperService.showMessageRequiredFields();
+      return;
+    }
 
     this.sendPayment()
 
@@ -97,24 +111,34 @@ export class DialogPaymentRequestComponent implements OnInit {
 
   sendPayment(){
 
-    const document: PaymentCheckoutRequest = {
+    const emails = this.emails.join(", ");
+    const phones = this.phones.join(", ")
+
+    const contactsClient = this.paymentForm.value.send_by === this.sendingMethod.EMAIL ? emails : phones
+
+    const paymentCheckoutRequest: PaymentCheckoutRequest = {
       subscription: this.invoice?.subscription || '',
       customer: this.invoice?.customer.uuid || '',
       invoice: this.invoice?.uuid || '',
       request_invoice_remaining_amt: this.paymentForm.value.request_invoice_remaining_amt,
       payment_amt: this.paymentForm.value.payment_amt,
       send_by: this.paymentForm.value.send_by,
-      to_origin_value: this.paymentForm.value.send_by === 'email' ? this.emailField : this.phoneNumberField
+      to_origin_value: this.paymentForm.value.send_by === this.sendingMethod.CLIPBOARD ? this.sendingMethod.CLIPBOARD : contactsClient
     }
 
-    this.accountService.createPaymentCheckoutRequest(document).subscribe(data => {
-      this.helperService.showCustomMessage('Ok','Ok','Link de pago enviado');
-      this.dialogRef.close({})
-    })
-  }
+    this.accountService.createPaymentCheckoutRequest(paymentCheckoutRequest).subscribe(data => {
 
-  onChangeSendingMethod(event: any) {
-    this.sendingMethod = event.value;
+      if(paymentCheckoutRequest.send_by === this.sendingMethod.CLIPBOARD){
+        this.helperService.copyToClipboard(data.checkout_url || '')
+        this.helperService.showCustomMessage('Ok','Ok','Link de pago copiado');
+      }
+      else{
+        this.helperService.showCustomMessage('Ok','Ok','Link de pago enviado');
+      }
+
+      this.dialogRef.close({})
+
+    })
   }
 
   onChangePaymentType(event:any){

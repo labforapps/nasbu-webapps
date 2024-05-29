@@ -17,7 +17,7 @@
 
         <label class="u-title-label mt-3">Nombre de la variable</label>
         <mat-form-field appearance="fill" class="c-form-group  c-form-group--small c-form-group--noLabel">
-            <input class="c-form-group__input" matInput placeholder="Ej: Modelo vehículo" [(ngModel)]="name">
+            <input class="c-form-group__input" matInput placeholder="Ej: Modelo vehículo" [(ngModel)]="name" appAlphaNumeric>
         </mat-form-field>
 
         <div class="d-flex flex-column mb-5 mt-3 u-smallSize u-textColor">
@@ -34,7 +34,7 @@
           <div class="col-md-12">
               <div class="d-flex flex-wrap">
                   <button mat-button class="c-btn-function flex-1" (click)="submitForm()">Guardar</button>
-                  <button mat-button class="c-btn-function flex-1">Guardar y añadir otra</button>
+                  <button mat-button class="c-btn-function flex-1" (click)="submitForm(true)">Guardar y añadir otra</button>
               </div>
               <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">Cerrar ventana</button>
           </div>

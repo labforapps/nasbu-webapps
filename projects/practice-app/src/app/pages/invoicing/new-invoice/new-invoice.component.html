@@ -278,7 +278,7 @@
                       <div class="c-invoice__totalprice">USD {{totalInvoiceAmount | currency}}</div>
                   </div>
                   <hr class="u-divider">
-                  <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5">
+                  <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5" *ngIf="action !== actionEnum.VIEW">
                       <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2"
                                     [(ngModel)]="applyTax"
                                     [ngModelOptions]="{standalone: true}"

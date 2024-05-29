@@ -21,8 +21,9 @@ export enum WeekDays {
  }
 
  export enum SendingMethod {
-  Email = 'email',
-  SMS = 'sms'
+  EMAIL = 'email',
+  SMS = 'sms',
+  CLIPBOARD='clipboard'
  }
 
  export const WeekDaysDescription = new Map<number, string>([
@@ -101,5 +102,11 @@ export const TaskTypeIconSVG: Map<string, string> = new Map([
   [TaskTypeEnum.OTHER, "others"],
 ]);
 
+export enum Action {
+  CREATE = 'create',
+  VIEW = 'view',
+  EDIT = 'edit',
+  DELETE = 'delete'
+}
 
 

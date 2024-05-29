@@ -5,7 +5,8 @@ import { CaseFile, CaseFileDocument, CaseFileNote,
          CaseFileAccess, CaseFileWalletDetailType, Customer, Task, TimeTask, TaskPayload,SecurityUser, TaskStatus, DocumentTemplate,
          DocumentGeneration, DocumentGenerationPayload, DocumentTemplatePayload,
          SignatureRequest,
-         DocumentTemplateType} from 'core-models';
+         DocumentTemplateType,
+         CaseFileType} from 'core-models';
 import { CustomersService } from '../catalog/customers.service';
 import { Observable, map, of, switchMap, tap } from 'rxjs';
 import { SecurityService } from '../security/security.service';
@@ -159,6 +160,11 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileNote>(serverUrl);
   }
 
+  getCaseFileNotesLatest(subscription:string):Observable<CaseFileNote[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_notes/latests/?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileNote[]>(serverUrl);
+  }
+
   getCaseFileWalletDetails(subscription:string,uuid:string):Observable<CaseFileWalletDetail[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/wallet_details/?subscription=${subscription}`;
     return this.httpClient.get<CaseFileWalletDetail[]>(serverUrl);
@@ -260,6 +266,11 @@ export class PracticeService {
     return this.httpClient.delete<Task>(serverUrl);
   }
 
+  getTasksLatestsOverdue(subscription:string):Observable<Task[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/tasks/latests_overdue/?subscription=${subscription}`;
+    return this.httpClient.get<Task[]>(serverUrl);
+  }
+
   getTasksTime(subscription:string):Observable<TimeTask[]>{
     const serverUrl = `${this.config.serverUrl}/practice/tasks_time_details/?subscription=${subscription}`;
     return this.httpClient.get<TimeTask[]>(serverUrl).pipe(
@@ -349,13 +360,19 @@ export class PracticeService {
     );
   }
 
+  getDocumentTemplateById(subscription:string,uuid:string):Observable<DocumentTemplate>{
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${uuid}/?subscription=${subscription}`;
+    return this.httpClient.get<DocumentTemplate>(serverUrl)
+  }
+
+
   createDocumentTemplate(payload:DocumentTemplatePayload):Observable<DocumentTemplate>{
     const serverUrl = `${this.config.serverUrl}/practice/document_templates/?subscription=${payload.subscription}`;
     return this.httpClient.post<DocumentTemplate>(serverUrl,payload);
   }
 
   updateDocumentTemplate(payload:DocumentTemplatePayload):Observable<DocumentTemplate>{
-    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${payload.uuid}?subscription=${payload.subscription}`;
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates/${payload.uuid}/?subscription=${payload.subscription}`;
     return this.httpClient.put<DocumentTemplate>(serverUrl,payload);
   }
 
@@ -441,7 +458,7 @@ export class PracticeService {
 
   createSignatureRequest(payload:SignatureRequest){
     const serverUrl = `${this.config.serverUrl}/practice/signature_requests/?subscription=${payload.subscription}`;
-    return this.httpClient.post(serverUrl,payload)
+    return this.httpClient.post<SignatureRequest>(serverUrl,payload)
   }
 
   getDocumentTemplateTypes(subscription:string):Observable<DocumentTemplateType[]>{
@@ -468,7 +485,7 @@ export class PracticeService {
   }
 
   updateDocumentTemplateTypes(payload:DocumentTemplateType):Observable<DocumentTemplateType>{
-    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${payload.uuid}`;
+    const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${payload.uuid}/`;
     return this.httpClient.put<DocumentTemplateType>(serverUrl,payload)
   }
 
@@ -479,6 +496,43 @@ export class PracticeService {
   deleteDocumentTemplateType(subscription:string,uuid:string):Observable<DocumentTemplateType>{
     const serverUrl = `${this.config.serverUrl}/practice/document_templates_types/${uuid}?subscription=${subscription}`;
     return this.httpClient.delete<DocumentTemplateType>(serverUrl)
+  }
+
+  getCaseFileTypes(subscription:string):Observable<CaseFileType[]>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileType[]>(serverUrl).pipe(
+      switchMap((documentGeneration: CaseFileType[]) => {
+            return of(documentGeneration.sort((a, b) => {
+              let dateA = new Date(a.created_at || '').getTime();
+              let dateB = new Date(b.created_at || '').getTime();
+              return dateB - dateA;
+          }));
+      })
+    );
+  }
+
+  getCaseFileTypesById(subscription:string,uuid:string):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.get<CaseFileType>(serverUrl)
+  }
+
+  createCaseFileTypes(payload:CaseFileType):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/`;
+    return this.httpClient.post<CaseFileType>(serverUrl,payload)
+  }
+
+  updateCaseFileTypes(payload:CaseFileType):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${payload.uuid}/`;
+    return this.httpClient.put<CaseFileType>(serverUrl,payload)
+  }
+
+  saveCaseFileType(payload:CaseFileType){
+    return payload.uuid ? this.updateCaseFileTypes(payload) : this.createCaseFileTypes(payload)
+  }
+
+  deleteCaseFileType(subscription:string,uuid:string):Observable<CaseFileType>{
+    const serverUrl = `${this.config.serverUrl}/practice/case_files_types/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<CaseFileType>(serverUrl)
   }
 
 }

@@ -6,7 +6,7 @@
 
       <mat-tab-group [selectedIndex]="activeTabIndex">
 
-        <mat-tab label="Datos Principales" class="mb-1">
+        <mat-tab label="Datos Principales" class="mb-1" [disabled]="activeTabIndex !== 0">
 
           <form [formGroup]="documentForm">
 
@@ -49,7 +49,7 @@
                       <label class="u-title-label">¿Cuál expediente utilizarás?</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small" place-holder="Escoger miembro responsable de tu firma">
                           <mat-label>Seleccionar expediente</mat-label>
-                          <mat-select formControlName="case_file" (selectionChange)="onChangeCaseFile($event)">
+                          <mat-select formControlName="case_file">
                               <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
                                   {{caseFile.name}}
                               </mat-option>
@@ -88,12 +88,12 @@
 
         </mat-tab>
 
-        <mat-tab *ngFor="let section of variablesSections" [label]="section">
+        <mat-tab *ngFor="let section of variablesSections; let i = index" [label]="section" [disabled]="activeTabIndex !== i + 1">
 
           <form [formGroup]="variablesForm">
            <div>
               <div class="row mb-2" *ngIf="!documentGeneration">
-                  <div class="col-md-6"  *ngFor="let variable of documentTemplateType.variables | filter:'section': section">
+                  <div class="col-md-6"  *ngFor="let variable of variables | filter:'section': section">
                     <label class="u-title-label">{{variable.name}}</label>
                     <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
                         <mat-label>{{variable.name}}</mat-label>

@@ -17,7 +17,7 @@ import { HelpersService } from '../../../services/helpers.service';
 
 export class TaskComponent implements OnInit {
 
-  public totalTasks: number = 10;
+  totalTasks!:number;
   @Input() tasks!:Task[];
   taskStatus = TaskStatus;
   displayedColumns: string[] = ['select', 'type','task', 'status', 'expedient', 'date','created_by', 'action'];
@@ -30,22 +30,8 @@ export class TaskComponent implements OnInit {
               private helperService:HelpersService) { }
 
   ngOnInit(): void {
-
-    const overdueTasks = this.tasks
-    .filter(task => task.overdue)
-    .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-    .slice(0, 8);
-
-    // Filtrar y ordenar tareas próximas a vencer
-    const upcomingTasks = this.tasks
-        .filter(task => !task.overdue && task.status === this.taskStatus.OPEN && task.end_date)
-        .sort((a, b) => new Date(a.end_date || '').getTime() - new Date(b.end_date || '').getTime())
-        .slice(0, 15 - overdueTasks.length);
-
-    // Juntar las dos listas y tomar las primeras 15
-    this.tasks = [...overdueTasks, ...upcomingTasks].slice(0, 15);
-
     this.dataSource.data = this.tasks;
+    this.totalTasks = this.tasks.length
 
   }
 

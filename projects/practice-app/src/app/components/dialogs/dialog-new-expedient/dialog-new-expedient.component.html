@@ -1,153 +1,236 @@
 <div class="c-dialog-newTask c-dialog-header">
+
     <div class="c-dialog-header__header">
       <span *ngIf="!caseFile">{{'dockets.form.new_docket' | translate}}</span>
       <span *ngIf="caseFile">Edit Docket</span>
     </div>
 
 
-    <form [formGroup]="caseFileForm" (ngSubmit)="submitForm()" #form="ngForm">
-
-      <mat-dialog-content>
-
-        <div class="row">
-            <div class="col-md-12">
-                <label class="u-title-label">{{'dockets.form.docket_name' | translate}}</label>
-                <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>{{'dockets.form.docket' | translate}}</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio" formControlName="name">
-                </mat-form-field>
-
-                <label class="u-title-label">No. de caso o identificador</label>
-                <mat-form-field appearance="fill" class="c-form-group">
-                    <mat-label>Identificador</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej: #87429" formControlName="case_no">
-                </mat-form-field>
-
-                <label class="u-title-label">{{'dockets.form.client' | translate}}</label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>{{'dockets.form.client_name' | translate}}</mat-label>
-                    <mat-select formControlName="customer" [disabled]="dataDialog && dataDialog.customer !== undefined">
-                        <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
-                            <span *ngIf="customer.type === typeCustomer.person">{{customer.first_name + ' ' + customer.last_name }}</span>
-                            <span *ngIf="customer.type === typeCustomer.business">{{customer.company_name }}</span>
-                        </mat-option>
-
-                    </mat-select>
-                </mat-form-field>
-
-                <p  class="u-textColor mt-2 text-right mb-3">{{'dockets.form.the_client_you_are_looking_for_does_not_exist?' | translate}}
-                  <b class="u-link u-fontBold" (click)="openCustomerDialog()">{{'dockets.form.create_new_client' | translate}} +</b></p>
-
-                <label class="u-title-label">{{'dockets.form.assigned_docket_to' | translate}}  </label>
-                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>{{'dockets.form.user' | translate}}</mat-label>
-                    <mat-select formControlName="assigned_to" (selectionChange)="onChangeAssignto($event.value)" [disabled]="dataDialog && dataDialog.securityUser !== undefined">
-                        <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
-                            {{securityUser.user.first_name + ' ' + securityUser.user.last_name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
 
 
-        <div class="row mt-5">
-            <div class="col-md-6">
-                <label class="u-title-label mb-5">{{'dockets.form.how_will_this_docket_be_billed' | translate}} </label>
+    <mat-tab-group [selectedIndex]="activeTabIndex">
 
+      <mat-tab label="Datos Principales" class="mb-2" [disabled]="activeTabIndex !== 0">
 
-                    <mat-checkbox value="1" class="c-checkbox u-smallSize u-fontBold"  formControlName="hourly_rate" (change)="onCheckBillingTypes(billingType.PER_HOUR,$event)">
-                      {{ 'invoice_parameter.hourly_rate' | translate }}
-                    </mat-checkbox >
-                    <p class="u-smallerSize ml-5 mt-1">
-                      {{ 'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate }}
-                    </p>
+        <form [formGroup]="caseFileForm" #form="ngForm">
 
-                    <!-- <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
-                    [disabled]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true || caseFile !== undefined ? !caseFile.receive_retainer : true">
-                      {{ 'invoice_parameter.retainer' | translate }}
-                    </mat-checkbox> -->
-                    <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
-                    [disabled]="doesReceiveRetainer()">
-                      {{ 'invoice_parameter.retainer' | translate }}
-                    </mat-checkbox>
-                    <p class="u-smallerSize ml-5 mt-1">
-                      {{ 'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate }}
-                    </p>
+          <mat-dialog-content>
 
-                    <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time"
-                      (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)"
-                      [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? securityUserSelected.billing_fees[0].price_per_increment === '0.00' ? true : false : true">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="u-title-label">{{'dockets.form.docket_name' | translate}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>{{'dockets.form.docket' | translate}}</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Ej: Crear contrato de servicio" formControlName="name">
+                    </mat-form-field>
 
-                      {{ 'invoice_parameter.by_increment_of_time' | translate }}
-                    </mat-checkbox>
-                    <p class="u-smallerSize ml-5 mt-1">
-                      {{ 'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate }}
-                    </p>
+                    <label class="u-title-label">No. de caso o identificador</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Identificador</mat-label>
+                        <input class="c-form-group__input" matInput placeholder="Ej: #87429" formControlName="case_no">
+                    </mat-form-field>
 
-                    <mat-checkbox value="4" class="c-checkbox u-smallSize u-fontBold" formControlName="flat_fee"
-                                  (change)="onCheckBillingTypes(billingType.FLAT_FEE,$event)"
-                                  [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? !securityUserSelected.billing_fees[0].allow_flat_fee : true">
-                      Flat fee
-                    </mat-checkbox>
-                    <p class="u-smallerSize ml-5 mt-1">
-                      {{ 'invoice_parameter.this_is_a_set_that_represents_the_total_invoice_amount' | translate }}
-                    </p>
+                    <label class="u-title-label">Tipo de expediente</label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>Seleccionar tipo</mat-label>
+                        <mat-select formControlName="casefile_type" (selectionChange)="onSetDocumentTemplateType($event)">
+                            <mat-option *ngFor="let caseFileType of caseFileTypes" [value]="caseFileType.uuid">
+                              {{caseFileType.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <p  class="u-textColor mt-2 text-right mb-3" (click)="openCreateExpedientType()">No tienes tipo registrados?
+                      <b class="u-link u-fontBold">Crear tipo de expediente</b></p>
 
-            </div>
-            <div class="col-md-6 d-flex justify-content-center align-content-center flex-wrap">
-                <div class="mb-2 text-center">
-                        <label class="u-title-label">{{'invoice_parameter.hourly_rate' | translate}} </label>
-                        <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="bt_price_per_hour" [readonly]="!caseFileForm.value.hourly_rate">
-                        </mat-form-field>
-                </div>
-                <div class="mb-2 text-center" *ngIf="caseFileForm.value.receive_retainer">
-                        <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
-                        <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true">
-                        </mat-form-field>
-                </div>
-                <div class="mb-2 text-center" *ngIf="caseFileForm.value.increment_of_time">
-                        <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}}</label>
-                        <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Minuto" formControlName="bt_increment_factor">
-                        </mat-form-field>
-                </div>
-                <div class="mb-2 text-center" *ngIf="caseFileForm.value.increment_of_time">
-                        <label class="u-title-label">{{'invoice_parameter.price_per_increment' | translate}}</label>
-                        <mat-form-field appearance="fill" class="c-form-group  col-md-9">
-                            <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                            <input class="c-form-group__input" matInput placeholder="Ej:25 USD" formControlName="price_per_increment">
-                        </mat-form-field>
-                </div>
-                <div class="mb-2 text-center" *ngIf="caseFileForm.value.flat_fee">
-                  <label class="u-title-label">Flat Fee (Monto Fijo)</label>
-                  <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                      <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                      <input class="c-form-group__input" matInput placeholder="Minuto" formControlName="flat_fee_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_flat_fee : false">
-                  </mat-form-field>
+                    <label class="u-title-label">{{'dockets.form.client' | translate}}</label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'dockets.form.client_name' | translate}}</mat-label>
+                        <mat-select formControlName="customer" [disabled]="dataDialog && dataDialog.customer !== undefined">
+                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                                <span *ngIf="customer.type === typeCustomer.person">{{customer.first_name + ' ' + customer.last_name }}</span>
+                                <span *ngIf="customer.type === typeCustomer.business">{{customer.company_name }}</span>
+                            </mat-option>
+
+                        </mat-select>
+                    </mat-form-field>
+
+                    <p  class="u-textColor mt-2 text-right mb-3">{{'dockets.form.the_client_you_are_looking_for_does_not_exist?' | translate}}
+                      <b class="u-link u-fontBold" (click)="openCustomerDialog()">{{'dockets.form.create_new_client' | translate}} +</b></p>
+
+                    <label class="u-title-label">{{'dockets.form.assigned_docket_to' | translate}}  </label>
+                    <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'dockets.form.user' | translate}}</mat-label>
+                        <mat-select formControlName="assigned_to" (selectionChange)="onChangeAssignto($event.value)" [disabled]="dataDialog && dataDialog.securityUser !== undefined">
+                            <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
+                                {{securityUser.user.first_name + ' ' + securityUser.user.last_name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                      <label class="u-title-label d-block mt-3">Tipo de acceso</label>
+                      <mat-radio-group aria-label="Select an option" formControlName="access_type">
+                          <mat-radio-button class="c-radioButton mr-3" [value]="accessType.PUBLIC">Público</mat-radio-button>
+                          <mat-radio-button class="c-radioButton mr-3" [value]="accessType.PRIVATE">Privado</mat-radio-button>
+                      </mat-radio-group>
+
                 </div>
             </div>
-        </div>
-    </mat-dialog-content>
+
+
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <label class="u-title-label mb-5">{{'dockets.form.how_will_this_docket_be_billed' | translate}} </label>
+
+
+                        <mat-checkbox value="1" class="c-checkbox u-smallSize u-fontBold"  formControlName="hourly_rate" (change)="onCheckBillingTypes(billingType.PER_HOUR,$event)">
+                          {{ 'invoice_parameter.hourly_rate' | translate }}
+                        </mat-checkbox >
+                        <p class="u-smallerSize ml-5 mt-1">
+                          {{ 'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate }}
+                        </p>
+
+                        <!-- <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
+                        [disabled]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true || caseFile !== undefined ? !caseFile.receive_retainer : true">
+                          {{ 'invoice_parameter.retainer' | translate }}
+                        </mat-checkbox> -->
+                        <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
+                        [disabled]="doesReceiveRetainer()">
+                          {{ 'invoice_parameter.retainer' | translate }}
+                        </mat-checkbox>
+                        <p class="u-smallerSize ml-5 mt-1">
+                          {{ 'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate }}
+                        </p>
+
+                        <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time"
+                          (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)"
+                          [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? securityUserSelected.billing_fees[0].price_per_increment === '0.00' ? true : false : true">
+
+                          {{ 'invoice_parameter.by_increment_of_time' | translate }}
+                        </mat-checkbox>
+                        <p class="u-smallerSize ml-5 mt-1">
+                          {{ 'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate }}
+                        </p>
+
+                        <mat-checkbox value="4" class="c-checkbox u-smallSize u-fontBold" formControlName="flat_fee"
+                                      (change)="onCheckBillingTypes(billingType.FLAT_FEE,$event)"
+                                      [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? !securityUserSelected.billing_fees[0].allow_flat_fee : true">
+                          Flat fee
+                        </mat-checkbox>
+                        <p class="u-smallerSize ml-5 mt-1">
+                          {{ 'invoice_parameter.this_is_a_set_that_represents_the_total_invoice_amount' | translate }}
+                        </p>
+
+                </div>
+                <div class="col-md-6 d-flex justify-content-center align-content-center flex-wrap">
+                    <div class="mb-2 text-center">
+                            <label class="u-title-label">{{'invoice_parameter.hourly_rate' | translate}} </label>
+                            <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="bt_price_per_hour" [readonly]="!caseFileForm.value.hourly_rate">
+                            </mat-form-field>
+                    </div>
+                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.receive_retainer">
+                            <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
+                            <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true">
+                            </mat-form-field>
+                    </div>
+                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.increment_of_time">
+                            <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}}</label>
+                            <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Minuto" formControlName="bt_increment_factor">
+                            </mat-form-field>
+                    </div>
+                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.increment_of_time">
+                            <label class="u-title-label">{{'invoice_parameter.price_per_increment' | translate}}</label>
+                            <mat-form-field appearance="fill" class="c-form-group  col-md-9">
+                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                                <input class="c-form-group__input" matInput placeholder="Ej:25 USD" formControlName="price_per_increment">
+                            </mat-form-field>
+                    </div>
+                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.flat_fee">
+                      <label class="u-title-label">Flat Fee (Monto Fijo)</label>
+                      <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                          <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                          <input class="c-form-group__input" matInput placeholder="Minuto" formControlName="flat_fee_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_flat_fee : false">
+                      </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+          </mat-dialog-content>
+
+        </form>
+
+      </mat-tab>
+
+      <mat-tab *ngFor="let section of variablesSections; let i = index" [label]="section" [disabled]="activeTabIndex !== i + 1">
+
+        <form [formGroup]="variablesForm">
+          <div>
+             <div class="row mb-2" *ngIf="!caseFile">
+                 <div class="col-md-6"  *ngFor="let variable of caseFileTypeSelected?.variables | filter:'section': section">
+                   <label class="u-title-label">{{variable.name}}</label>
+                   <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                       <mat-label>{{variable.name}}</mat-label>
+                       <input class="c-form-group__input"
+                             matInput
+                             placeholder="Ej: Crear contrato de servicio"
+                             [formControlName]="variable.value_path">
+                   </mat-form-field>
+                 </div>
+             </div>
+
+             <div class="row mb-2" *ngIf="caseFile">
+                 <div class="col-md-6"  *ngFor="let variable of documentGenerationVariables | filter:'section': section">
+                   <label class="u-title-label">{{variable.description}}</label>
+                   <mat-form-field appearance="fill" class="c-form-group  c-form-group--small">
+                       <mat-label>{{variable.description}}</mat-label>
+                       <input class="c-form-group__input"
+                             matInput
+                             placeholder="Ej: Crear contrato de servicio"
+                             [formControlName]="variable.value_path">
+                   </mat-form-field>
+                 </div>
+             </div>
+
+           </div>
+         </form>
+
+      </mat-tab>
+
+    </mat-tab-group>
+
     <mat-dialog-actions class="c-dialog-header__footer">
 
-        <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.form.close_window' | translate}}</button>
+      <button mat-button mat-dialog-close class="u-link text-center" type="button" *ngIf="activeTabIndex === 0">Cancelar</button>
+      <button mat-button class="u-link text-center" type="button" (click)="goToPreviousTab()" *ngIf="activeTabIndex > 0">Atras</button>
+      <button mat-button class="c-btn-function" (click)="goToNextTab()" *ngIf="caseFileTypeSelected && (activeTabIndex + 1) < totalTabs">Siguiente</button>
 
-        <button mat-button class="c-btn c-btn--primary c-btn--small" *ngIf="!caseFile">
-          <span>{{'dockets.form.create_docket' | translate}}</span>
-        </button>
-        <button mat-button class="c-btn c-btn--primary c-btn--small" *ngIf="caseFile && caseFile.status === caseFileStatus.OPEN">
-          <span>Save Changes</span>
-        </button>
+      <button mat-button class="c-btn-function" (click)="submitForm()" *ngIf=" !caseFile && caseFileTypeSelected && (activeTabIndex + 1)  === totalTabs">
+       <span>Crear Expediente</span>
+      </button>
+
+      <button mat-button class="c-btn-function" (click)="submitForm()" *ngIf=" !caseFile && !caseFileTypeSelected">
+        <span>Crear Expediente</span>
+       </button>
+
+      <button mat-button class="c-btn c-btn--primary c-btn--small"
+              *ngIf="caseFile && caseFile.status === caseFileStatus.OPEN && caseFileTypeSelected && (activeTabIndex + 1)  === totalTabs"
+              (click)="submitForm()">
+        <span>Save Changes</span>
+      </button>
+
+      <button mat-button class="c-btn c-btn--primary c-btn--small"
+              *ngIf="caseFile && caseFile.status === caseFileStatus.OPEN && !caseFileTypeSelected"
+              (click)="submitForm()">
+        <span>Save Changes</span>
+      </button>
 
     </mat-dialog-actions>
 
-    </form>
 
 
 </div>

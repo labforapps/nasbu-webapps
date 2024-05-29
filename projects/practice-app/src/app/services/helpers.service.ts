@@ -64,6 +64,14 @@ export class HelpersService {
    }
   }
 
+  sortByDate<T>(array: T[], dateField: keyof T, order: 'asc' | 'desc' = 'asc'): T[] {
+    return array.sort((a, b) => {
+      let dateA = new Date(a[dateField] as unknown as string).getTime();
+      let dateB = new Date(b[dateField] as unknown as string).getTime();
+      return order === 'desc' ? dateB - dateA : dateA - dateB;
+    });
+  }
+
   returnCustomerListSorted(customers:Customer[],type: 'ascendant' | 'descendant'):Customer[] {
 
       return customers.sort((a, b) => {
@@ -176,6 +184,17 @@ export class HelpersService {
     else{
       this.toastr.error(title, this.translateService.instant(message));
     }
+  }
+
+  copyToClipboard(value:string){
+
+    const el = document.createElement('textarea');
+    el.value = `${value}`;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
   }
 
 }

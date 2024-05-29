@@ -1,6 +1,6 @@
 import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DocumentTemplate, DocumentTemplateType } from 'core-models';
+import { CaseFileType, DocumentTemplateType } from 'core-models';
 
 @Component({
   selector: 'app-create-templates-types-basic-info',
@@ -9,10 +9,12 @@ import { DocumentTemplate, DocumentTemplateType } from 'core-models';
 })
 export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
 
-  @Input() documentTemplates!:DocumentTemplate[]
-  @Input() documentTemplateType!:DocumentTemplateType
+  @Input()  documentTemplatesTypes!:DocumentTemplateType[]
+  @Input()  documentTemplateType!:DocumentTemplateType
+  @Input()  caseFileTypes!:CaseFileType[]
   @Output() templateTypeBasicInfo:any = new EventEmitter<any>()
   templateTypeBasicInfoForm!:FormGroup
+  copied:Boolean = false
 
   constructor(private formBuilder:FormBuilder ) { }
 
@@ -26,17 +28,19 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       this.setForm()
     }
 
-    if (changes['documentTemplates'] && changes['documentTemplates'].currentValue) {
-      this.documentTemplates = changes['documentTemplates'].currentValue
+    if (changes['documentTemplatesTypes'] && changes['documentTemplatesTypes'].currentValue) {
+      this.documentTemplatesTypes = changes['documentTemplatesTypes'].currentValue
     }
   }
 
   initForm(){
 
     this.templateTypeBasicInfoForm = this.formBuilder.group({
-      code: ['',Validators.required],
+      code: ['code',Validators.required],
       name: ['',Validators.required],
-      require_signature: [true,Validators.required]
+      require_signature: [true,Validators.required],
+      copied_from: [''],
+      casefile_type: ['']
     })
 
   }
@@ -46,6 +50,8 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       this.templateTypeBasicInfoForm.patchValue({
         ...this.documentTemplateType
       })
+
+      this.copied = this.documentTemplateType.copied_from !== null || this.documentTemplateType.casefile_type !== null
     }
   }
 

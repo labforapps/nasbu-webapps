@@ -56,7 +56,10 @@ export class InvoicingParametersComponent implements OnInit {
       subscription: this.selectedSubscription?.ssid.uuid
     }
 
-    if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid) subscriptionBillingFeePayload.uuid = this.subscriptionBillingFee[0].uuid
+    if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid) {
+      subscriptionBillingFeePayload.uuid = this.subscriptionBillingFee[0].uuid
+      subscriptionBillingFeePayload.billing_fee_id = this.subscriptionBillingFee[0].billing_fee_id
+    }
 
     this.subscriptionService.saveSubscriptionBillingFee(subscriptionBillingFeePayload).subscribe( data => {
       this.toastr.success('Ok','Billing Fee Saved Changes')
