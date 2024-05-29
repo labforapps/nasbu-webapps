@@ -1,15 +1,16 @@
 export const environment = {
   production: true,
+  serverUrl: 'https://api.nasbulegal.com/api',
   awsConfig: {
     Auth: {
         // REQUIRED - Amazon Cognito Region
         region: 'us-east-1',
 
         // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: 'us-east-1_4BzxyeDAL',
+        userPoolId: 'us-east-1_y0A2UwzZU',
 
         // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-        userPoolWebClientId: '1nfl63eh8t1b0hq5pnjhko9tms',
+        userPoolWebClientId: '4q4vaqoqdl7qpqvn8tdrnjmqt0',
 
         // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
         mandatorySignIn: false,
@@ -22,7 +23,7 @@ export const environment = {
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
         cookieStorage: {
         // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-            domain: 'localhost',
+            domain: 'app.nasbulegal.com',
         // OPTIONAL - Cookie path
             path: '/',
         // OPTIONAL - Cookie expiration in days
