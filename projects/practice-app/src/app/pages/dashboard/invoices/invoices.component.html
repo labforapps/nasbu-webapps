@@ -1,7 +1,7 @@
 <ng-container *ngIf="invoices && invoices.length > 0; else empty">
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap u-gap-1 u-smallSize">
         <p [innerHTML]="'dashboard.pendingInvoices.title' | translate: { count: totalInvoices | number}"> </p>
-        <p class="u-textColor">{{'dashboard.pendingInvoices.subTitle' | translate}} <b>{{totalAmountPending | currency}}</b></p>
+        <p class="u-textColor">{{'dashboard.pendingInvoices.subTitle' | translate}} <b>{{totalRemainingAmount | currency}}</b></p>
     </div>
 
     <div class="u-table-responsive">
@@ -85,9 +85,9 @@
             <ng-container matColumnDef="created_by">
               <th mat-header-cell *matHeaderCellDef> Created By </th>
               <td mat-cell *matCellDef="let element">
-                  <div class="c-table__truncate"></div>
+                  <div class="c-table__truncate">{{element.created_by_name}}</div>
               </td>
-          </ng-container>
+           </ng-container>
 
             <!-- Actions Column -->
             <ng-container matColumnDef="action">

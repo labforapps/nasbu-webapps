@@ -32,10 +32,10 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-md-5 col-sm-6">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor"
-                                          [(ngModel)]="addHourlyRate" [ngModelOptions]="{standalone: true}">
+
+                            <p class="c-checkbox ml-4 mb-2 u-fontBold u-textColor">
                               {{'invoice_parameter.add_hourly_rate' | translate}}
-                            </mat-checkbox>
+                            </p>
                             <p class="u-smallSize u-textColor pl-4 mb-1">
                                 {{'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate}}
                             </p>
@@ -45,7 +45,7 @@
                             <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'invoice_parameter.price' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput placeholder="Ej: 25 USD"
-                                       formControlName="price_per_hour" [readonly]="!addHourlyRate">
+                                       formControlName="price_per_hour">
                             </mat-form-field>
                         </div>
                     </div>
@@ -64,10 +64,10 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-lg-5 col-md-5 col-sm-12">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor"
-                                          [(ngModel)]="perIncrementOfTime" [ngModelOptions]="{standalone: true}">
-                                {{'invoice_parameter.by_increment_of_time' | translate}}
-                            </mat-checkbox>
+
+                            <p class="c-checkbox ml-4 mb-2 u-fontBold u-textColor">
+                              {{'invoice_parameter.by_increment_of_time' | translate}}
+                            </p>
                             <p class="u-smallSize u-textColor pl-4 mb-1">
                               {{'invoice_parameter.this_model_defines_your_pay_by_hour_minute' | translate}}
                             </p>
@@ -77,7 +77,7 @@
                             <label class="u-title-label">{{'invoice_parameter.increment_parameter' | translate}}</label>
                             <mat-form-field appearance="fill" class="c-form-group">
                                 <input class="c-form-group__input" matInput placeholder="Ej: 25 USD"
-                                       formControlName="increment_factor" [readonly]="!perIncrementOfTime">
+                                       formControlName="increment_factor">
                             </mat-form-field>
                         </div>
                         <!-- class=u-disable-list -->
@@ -86,7 +86,7 @@
                             <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'invoice_parameter.value' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput placeholder="Ej: 15 MIN"
-                                       formControlName="price_per_increment" [readonly]="!perIncrementOfTime">
+                                       formControlName="price_per_increment">
                             </mat-form-field>
                         </div>
                     </div>

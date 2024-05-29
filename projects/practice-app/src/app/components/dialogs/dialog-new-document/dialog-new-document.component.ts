@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CaseFile, Customer, SecurityUser, DocumentTemplate, DocumentGenerationPayload, DocumentGeneration,
-         DocumentTemplateType, VariableDocumentTemplateType } from 'core-models';
+         DocumentTemplateType, VariableDocumentTemplateType,
+         VariableCaseFileType} from 'core-models';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment';
@@ -28,6 +29,8 @@ export class DialogNewDocumentComponent implements OnInit {
   activeTabIndex = 0;
   totalTabs = 1
   documentGenerationVariables:VariableDocumentTemplateType[] = []
+  variables:VariableDocumentTemplateType[] | VariableCaseFileType[] = []
+  caseFile!:CaseFile | undefined
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -124,6 +127,7 @@ export class DialogNewDocumentComponent implements OnInit {
     this.practiceService.getDocumentTemplates(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.documentTemplates = data;
       this.setForm();
+      this.getDocumentTemplateType()
     })
   }
 
@@ -140,8 +144,17 @@ export class DialogNewDocumentComponent implements OnInit {
 
     if(documentTemplate){
       this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,documentTemplate.template_type).subscribe(data => {
+
         this.documentTemplateType = data;
-        this.onSetDocumentTemplateType()
+        this.variables = this.documentTemplateType.variables?.filter(x => x.system_default === false)  || []
+
+        if(this.variables.length > 0){
+          this.onSetDocumentTemplateType()
+        }
+        else{
+          this.variablesSections = []
+        }
+
       })
     }
   }
@@ -166,24 +179,15 @@ export class DialogNewDocumentComponent implements OnInit {
     this.activeTabIndex -= 1
   }
 
-  onChangeCaseFile(selection:MatSelectChange){
-    const caseFile:CaseFile | undefined = this.caseFiles.find(x => x.uuid === selection.value);
-
-    this.documentForm.patchValue({
-      customer: caseFile?.customer.uuid,
-      representative: caseFile?.assigned_to.uuid
-    })
-  }
-
   slugify(str:string) {
     return String(str)
       .normalize('NFKD') // split accented characters into their base characters and diacritical marks
-      .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+      .replace(/[\u0300-\u036f]/g, '') //remove all the accents, which happen to be all in the \u03xx UNICODE block.
       .trim() // trim leading or trailing whitespace
       .toLowerCase() // convert to lowercase
       .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
       .replace(/\s+/g, '-') // replace spaces with hyphens
-      .replace(/-+/g, '-'); // remove consecutive hyphens
+      .replace(/-+/g, '-'); // remove consecutive hyphens`
   }
 
   submitForm(){
@@ -198,12 +202,11 @@ export class DialogNewDocumentComponent implements OnInit {
     this.variablesSections.forEach((x:string) => {
 
       const variables = this.documentTemplateType.variables?.filter((y:VariableDocumentTemplateType) => y.section === x);
-
-      customVariableData[this.slugify(x)] = variables?.map(variable => {
+      const section: string = this.slugify(x);
+      customVariableData[section] = variables?.map(variable => {
 
         const obj:{[s: string] : string} = {}
-
-        obj[`${variable.name}`] =  this.variablesForm.value[variable.value_path]
+        obj[`${variable.code}`] =  this.variablesForm.value[variable.value_path];
 
         return obj
       }).reduce((a,b)  => { return { ...a,...b } },{} )

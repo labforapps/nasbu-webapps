@@ -17,9 +17,9 @@
   <div class="c-stepper-template__body">
     <div class="mt-5 mb-5">
       <b class="mr-5">¿Cómo la deseas realizar?</b>
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button class="c-radioButton mr-3" [checked]="true" (change)="true" value="1" #checkBox>A partir de existente</mat-radio-button>
-        <mat-radio-button class="c-radioButton" value="2">Desde cero</mat-radio-button>
+      <mat-radio-group aria-label="Select an option" [disabled]="documentTemplateType !== undefined" [(ngModel)]="copied" [ngModelOptions]="{standalone: true}">
+        <mat-radio-button class="c-radioButton mr-3" [value]="true" #checkBox>A partir de existente</mat-radio-button>
+        <mat-radio-button class="c-radioButton" [value]="false">Desde cero</mat-radio-button>
     </mat-radio-group>
     </div>
 
@@ -33,7 +33,7 @@
 
     <hr class="mb-5">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6" style="display: none;">
         <label class="u-title-label">Codigo de la plantilla</label>
         <mat-form-field appearance="fill" class="c-form-group  c-form-group--small c-form-group--noLabel">
             <input class="c-form-group__input" matInput formControlName="code">
@@ -48,10 +48,24 @@
       <div class="col-md-6" #option *ngIf="checkBox.checked">
         <label class="u-title-label">Plantillas</label>
           <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-              <mat-label>Plantilla</mat-label>
-              <mat-select>
-                  <mat-option *ngFor="let documentTemplate of documentTemplates" [value]="documentTemplate.uuid">
+              <mat-label>Seleccionar Plantilla</mat-label>
+              <mat-select formControlName="copied_from" [disabled]="documentTemplateType !== undefined">
+                  <mat-option *ngFor="let documentTemplate of documentTemplatesTypes" [value]="documentTemplate.uuid">
                       {{documentTemplate.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+
+      <div class="col-md-6"></div>
+
+      <div class="col-md-6" #option *ngIf="checkBox.checked">
+        <label class="u-title-label">Que tipo de expediente utilizaras? </label> Si aplica
+          <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
+              <mat-label>Seleccionar Plantilla</mat-label>
+              <mat-select formControlName="casefile_type">
+                  <mat-option *ngFor="let casefile_type of caseFileTypes" [value]="casefile_type.uuid">
+                      {{casefile_type.name}}
                   </mat-option>
               </mat-select>
           </mat-form-field>
@@ -63,6 +77,6 @@
 </form>
 
 <div class="c-stepper-template__footer">
-  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium">Cancelar</button>
+  <button mat-button matStepperPrevious class="c-btn c-btn--outline-primary c-btn--medium" routerLink="/templates">Cancelar</button>
   <button mat-button matStepperNext class="c-btn c-btn--primary c-btn--medium" (click)="submitForm()">Siguiente</button>
 </div>

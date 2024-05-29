@@ -32,6 +32,7 @@ export interface CustomerIntakeRequest {
   send_by: string;
   to_origin_value: string;
   token?: string;
+  intake_request_url?: string;
   active?: boolean;
   created_at?: Date;
   updated_by?: null;

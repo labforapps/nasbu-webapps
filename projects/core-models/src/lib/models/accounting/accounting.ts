@@ -21,8 +21,9 @@ export interface Invoice {
   subscription:      string;
   customer:          CustomerInvoice;
   case_file:         CaseFile;
-  code: string;
-  days_late: number;
+  code:              string;
+  days_late:         number;
+  total_remaining_amt: number;
 }
 
 
@@ -194,7 +195,9 @@ export interface PaymentCheckoutRequest {
   customer:                      string;
   invoice:                       string;
   request_invoice_remaining_amt: boolean;
+  checkout_url?:                 string;
   payment_amt:                   string;
   send_by:                       string;
   to_origin_value:               string;
+
 }

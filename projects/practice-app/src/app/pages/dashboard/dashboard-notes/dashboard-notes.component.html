@@ -1,6 +1,6 @@
 <ng-container *ngIf="caseFileNotes && caseFileNotes.length > 0; else empty">
   <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap u-gap-1 u-smallSize">
-      <p>Tienes estas <b>7 notas</b> </p>
+      <p>Tienes estas <b>{{totalCaseFileNotes}} notas</b> </p>
       <p class="u-textColor">Ordenadas por mas recientes</p>
   </div>
 
@@ -54,7 +54,7 @@
           <ng-container matColumnDef="created_by">
             <th mat-header-cell *matHeaderCellDef> Created by </th>
             <td mat-cell *matCellDef="let element">
-                <div class="u-link c-table__truncate"></div>
+                <div class="u-link c-table__truncate">{{element.created_by_name}}</div>
             </td>
         </ng-container>
 

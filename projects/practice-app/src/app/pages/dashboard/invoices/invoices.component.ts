@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import { Invoice, InvoiceStatus } from 'core-models';
+import { Invoice } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentHistoryComponent } from '../../../components/dialogs/dialog-payment-history/dialog-payment-history.component';
@@ -14,9 +14,8 @@ import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-s
 
 export class InvoicesComponent implements OnInit {
 
-  public totalInvoices: number = 10;
-  public totalAmountPending: number = 50000.00;
-  private invoiceStatus = InvoiceStatus;
+  totalInvoices!:number;
+  totalAmountPending: number = 50000.00;
   @Input() invoices!:Invoice[];
   displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'customer', 'date', 'payments', 'amount','created_by','action' ];
   dataSource = new MatTableDataSource<Invoice>(this.invoices);
@@ -26,11 +25,12 @@ export class InvoicesComponent implements OnInit {
   constructor(private matDialog:MatDialog) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.invoices.filter(x => x.status === this.invoiceStatus.PENDING).slice(0,10).sort((a, b) => {
-      let dateA = new Date(a.inv_date || '').getTime();
-      let dateB = new Date(b.inv_date || '').getTime();
-      return dateA - dateB;
-  });
+    this.dataSource.data = this.invoices
+    this.totalInvoices = this.invoices.length
+  }
+
+  get totalRemainingAmount() {
+    return this.invoices.reduce( (total,invoice) => total + invoice.total_remaining_amt,0 );
   }
 
   ngAfterViewInit(): void {

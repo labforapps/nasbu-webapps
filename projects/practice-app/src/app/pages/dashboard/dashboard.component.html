@@ -39,7 +39,7 @@
 
         <div class="c-dashboard-tab__body">
             <div class="c-dashboard-tab__content" #stats>
-                <app-indicators [invoices]="invoices" [caseFiles]="caseFiles" [tasks]="tasks" [payments]="payments"></app-indicators>
+                <app-indicators [accountSummary]="accountSummary"></app-indicators>
             </div>
             <div class="c-dashboard-tab__content" #task>
                 <app-task *ngIf="tasks" [tasks]="tasks"></app-task>

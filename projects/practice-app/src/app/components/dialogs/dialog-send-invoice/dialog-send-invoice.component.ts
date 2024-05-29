@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer, Invoice, TypeContact, sendDocument } from 'core-models';
-import { AccountingService, CustomersService } from 'core-services';
+import { AccountingService, AuthService, CustomersService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -16,20 +16,24 @@ export class DialogSendInvoiceComponent implements OnInit {
   customer!:Customer;
   typeContact = TypeContact;
   emails:string[] = [];
+  selectedSubscription!:any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice},
               public  dialogRef: MatDialogRef<DialogSendInvoiceComponent>,
               private customerService:CustomersService,
               private accountingService:AccountingService,
-              private helperService:HelpersService) { }
+              private helperService:HelpersService,
+              private authService: AuthService,
+            ) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.invoice = this.dataDialog.invoice;
     this.getCustomerById();
   }
 
   getCustomerById(){
-    this.customerService.getCustomerById(this.invoice.subscription,this.invoice.customer.uuid || '').subscribe(data => {
+    this.customerService.getCustomerById(this.selectedSubscription?.ssid.uuid,this.invoice.customer.uuid || '').subscribe(data => {
       this.customer = data;
     } )
   }
@@ -56,7 +60,7 @@ export class DialogSendInvoiceComponent implements OnInit {
 
     const document:sendDocument = {
       uuid: this.invoice.uuid || '',
-      subscription: this.invoice.subscription,
+      subscription: this.selectedSubscription?.ssid.uuid,
       send_by: 'email',
       to_origin_value: emails
     }

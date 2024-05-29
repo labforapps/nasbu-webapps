@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus } from 'core-models';
+import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus, AccessType, CaseFileType, VariableDocumentTemplateType } from 'core-models';
 import { AuthService, CustomersService,PracticeService,SecurityService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CreateClientComponent } from '../../../pages/client/create-client/create-client.component';
+import { MatSelectChange } from '@angular/material/select';
+import { CreateTemplatesTypesComponent } from '../../../pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
+import { CreateExpedientTypeComponent } from '../../../pages/expedient/create-expedient-type/create-expedient-type.component';
 
 @Component({
   selector: 'app-dialog-new-expedient',
@@ -17,6 +20,7 @@ export class DialogNewExpedientComponent implements OnInit {
 
   selectedSubscription!:any;
   caseFileForm!:FormGroup;
+  variablesForm!:FormGroup;
   customers!:Customer[];
   securityUsers!:SecurityUser[];
   securityUserSelected!:SecurityUser | undefined;
@@ -25,6 +29,14 @@ export class DialogNewExpedientComponent implements OnInit {
   billingType = BillingType;
   caseFileStatus = CaseFileStatus;
   customerFromDialog!:Customer
+  accessType = AccessType
+  caseFileTypes!:CaseFileType[]
+  caseFileTypeFromDialog!:CaseFileType;
+  caseFileTypeSelected!:CaseFileType | undefined;
+  variablesSections:string[] = []
+  totalTabs:number = 1
+  activeTabIndex:number = 0
+  documentGenerationVariables:VariableDocumentTemplateType[] = []
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
@@ -44,6 +56,7 @@ export class DialogNewExpedientComponent implements OnInit {
     this.getSecurityUsers();
     this.initForm();
     this.setCaseFile();
+    this.getCaseFileTypes()
   }
 
   initForm(){
@@ -53,6 +66,8 @@ export class DialogNewExpedientComponent implements OnInit {
       case_no: [null],
       customer: ['',Validators.required],
       assigned_to: ['',Validators.required],
+      access_type: [this.accessType.PUBLIC],
+      casefile_type: [''],
       bt_price_per_hour: [''],
       bt_increment_factor: [0],
       price_per_increment: [0],
@@ -63,6 +78,8 @@ export class DialogNewExpedientComponent implements OnInit {
       flat_fee:[false],
       retainer_amt: [0],
     })
+
+    this.variablesForm = this.formBuilder.group({})
 
   }
 
@@ -82,8 +99,24 @@ export class DialogNewExpedientComponent implements OnInit {
       });
   }
 
+  openCreateExpedientType(){
+    const dialogRef = this.dialog.open(CreateExpedientTypeComponent,{
+      panelClass: 'fullscreen',
+      data: {
+        modal:true
+      }
+  })
+
+  dialogRef.afterClosed().subscribe((result:CaseFileType) => {
+    if(result){
+      this.caseFileTypeFromDialog = result
+      this.getCaseFileTypes()
+    }
+  });
+}
+
   setCaseFile(){
-    if(this.dataDialog){
+    if(this.dataDialog.caseFile){
       this.caseFile = this.dataDialog.caseFile;
 
       this.caseFileForm.patchValue({
@@ -99,12 +132,48 @@ export class DialogNewExpedientComponent implements OnInit {
         hourly_rate: this.caseFile.billing_type === this.billingType.PER_HOUR,
         increment_of_time: this.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT,
         flat_fee:this.caseFile.billing_type === this.billingType.FLAT_FEE,
-        retainer_amt: this.caseFile.retainer_amt
+        retainer_amt: this.caseFile.retainer_amt,
+        access_type: this.caseFile.access_type,
+        casefile_type: this.caseFile.casefile_type ? this.caseFile.casefile_type.uuid : null
       })
 
+      if(this.caseFile.casefile_type) this.caseFileTypeSelected = this.caseFile.casefile_type
+
+      if(this.caseFile.casefile_type){
+
+        const variables:any = JSON.parse( this.caseFile.custom_variables_data || '')
+
+        Object.keys(variables).forEach(section => {
+          Object.keys(variables[section]).forEach(name => {
+                this.documentGenerationVariables.push({
+                  section: section.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), // Convertir snake-case a Título
+                  name: name,
+                  description: name.replace('cf_','').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+                  value_path: `custom.${section}.${name}`,
+              });
+
+              this.variablesForm.addControl(`custom.${section}.${name}`,this.formBuilder.control(`${variables[section][name]}`))
+
+          });
+      });
+
+         this.variablesSections = [...new Set( this.documentGenerationVariables ? this.documentGenerationVariables.map((item:any) => item.section) : '')]
+         this.totalTabs = 1 + this.variablesSections.length
+
+      }
     }
 
   }
+
+  onSetDocumentTemplateType(selection:MatSelectChange){
+
+    this.caseFileTypeSelected = this.caseFileTypes.find(x => x.uuid === selection?.value)
+
+    this.caseFileTypeSelected?.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
+    this.variablesSections = [...new Set( this.caseFileTypeSelected?.variables ? this.caseFileTypeSelected.variables.map(item => item.section) : '')]
+    this.totalTabs = 1 + this.variablesSections.length
+
+}
 
   doesReceiveRetainer(){
     if(this.securityUserSelected && this.securityUserSelected.billing_fees.length > 0) return !this.securityUserSelected.billing_fees[0].allow_retainers && !this.caseFileForm.value.flat_fee;
@@ -118,6 +187,13 @@ export class DialogNewExpedientComponent implements OnInit {
       this.customers = data;
       if(this.dataDialog && this.dataDialog.customer) this.caseFileForm.patchValue({customer: this.dataDialog.customer.uuid})
       if(this.customerFromDialog) this.caseFileForm.patchValue({customer: this.customerFromDialog.uuid})
+    })
+  }
+
+  getCaseFileTypes(){
+    this.practiceService.getCaseFileTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.caseFileTypes = data
+      if(this.caseFileTypeFromDialog) this.caseFileForm.patchValue({casefile_type: this.caseFileTypeFromDialog.uuid})
     })
   }
 
@@ -146,6 +222,26 @@ export class DialogNewExpedientComponent implements OnInit {
     if(billingType === this.billingType.BY_TIME_INCREMENT && value.checked) this.caseFileForm.patchValue({hourly_rate: false, flat_fee:false})
     if(billingType === this.billingType.FLAT_FEE && value.checked) this.caseFileForm.patchValue({hourly_rate: false, increment_of_time:false})
 
+  }
+
+
+  goToNextTab(){
+    this.activeTabIndex += 1
+  }
+
+  goToPreviousTab(){
+    this.activeTabIndex -= 1
+  }
+
+  slugify(str:string) {
+    return String(str)
+      .normalize('NFKD') // split accented characters into their base characters and diacritical marks
+      .replace(/[\u0300-\u036f]/g, '') // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+      .trim() // trim leading or trailing whitespace
+      .toLowerCase() // convert to lowercase
+      .replace(/[^a-z0-9 -]/g, '') // remove non-alphanumeric characters
+      .replace(/\s+/g, '-') // replace spaces with hyphens
+      .replace(/-+/g, '-'); // remove consecutive hyphens
   }
 
   submitForm() {
@@ -185,6 +281,23 @@ export class DialogNewExpedientComponent implements OnInit {
       billingTypeAmount = caseFileFormValue.flat_fee_amt
     }
 
+    const customVariableData:any = {};
+
+    this.variablesSections.forEach((x:string) => {
+
+      const variables = this.caseFileTypeSelected?.variables?.filter((y:VariableDocumentTemplateType) => y.section === x);
+
+      const section: string = this.slugify(x);
+      customVariableData[section] = variables?.map(variable => {
+
+        const obj:{[s: string] : string} = {}
+
+        obj[`${variable.code}`] =  this.variablesForm.value[variable.value_path];
+
+        return obj
+      }).reduce((a,b)  => { return { ...a,...b } },{} )
+    })
+
     const caseFilePayload: CaseFilePayload = {
       customer: caseFileFormValue.customer,
       assigned_to: caseFileFormValue.assigned_to,
@@ -196,7 +309,10 @@ export class DialogNewExpedientComponent implements OnInit {
       name: caseFileFormValue.name,
       case_no: caseFileFormValue.case_no,
       receive_retainer: caseFileFormValue.receive_retainer,
+      access_type: caseFileFormValue.access_type,
       subscription: this.selectedSubscription?.ssid.uuid,
+      casefile_type: caseFileFormValue.casefile_type,
+      custom_variables_data: JSON.stringify(customVariableData)
     };
 
     if(this.caseFile) caseFilePayload.uuid = this.caseFile.uuid;
@@ -209,8 +325,8 @@ export class DialogNewExpedientComponent implements OnInit {
         this.toastr.success('Ok', this.translateService.instant('successMessages.created_succesfully'));
       }
 
-    this.dialogRef.close(data);
-  })
+      this.dialogRef.close(data);
+    })
 
 
   }

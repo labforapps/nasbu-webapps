@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Task, Customer, SecurityUser, CaseFile, BillingType,TaskType, PriorityTask, TaskPayload, TaskTypeEnum } from 'core-models';
+import { Task, Customer, SecurityUser, CaseFile, BillingType,TaskType, PriorityTask, TaskPayload, TaskTypeEnum, Action } from 'core-models';
 import { AuthService, CommonService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -24,8 +24,10 @@ export class DialogNewTaskComponent implements OnInit {
   billingType = BillingType;
   taskTypes!:TaskType[];
   priorityTask = PriorityTask
+  actionEnum = Action
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: {task:Task, action: string,taskType:TaskType,customer:Customer,securityUser:SecurityUser,caseFile:CaseFile},
+  constructor(@Inject(MAT_DIALOG_DATA) public dataDialog: {task:Task, action: Action,taskType:TaskType,customer:Customer,
+                                                          securityUser:SecurityUser,caseFile:CaseFile},
               public  dialogRef: MatDialogRef<DialogNewTaskComponent>,
               private formBuilder:FormBuilder,
               private customerService:CustomersService,
