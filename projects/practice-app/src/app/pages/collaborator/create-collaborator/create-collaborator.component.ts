@@ -267,6 +267,8 @@ export class CreateCollaboratorComponent implements OnInit {
       }
 
       if(this.securityUser){
+        if(securityUserPayload.image_url === null) this.securityService.uploadImage(securityUserPayload.subscription || '',securityUserPayload.uuid || '',null).subscribe()
+
         this.toastr.success('Ok', this.translateService.instant('successMessages.updated_successfully'));
       }
       else{

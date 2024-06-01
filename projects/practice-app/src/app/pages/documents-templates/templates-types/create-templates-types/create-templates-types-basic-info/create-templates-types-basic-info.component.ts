@@ -1,6 +1,8 @@
-import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter,Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 import { CaseFileType, DocumentTemplateType } from 'core-models';
+import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 
 @Component({
   selector: 'app-create-templates-types-basic-info',
@@ -15,8 +17,9 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
   @Output() templateTypeBasicInfo:any = new EventEmitter<any>()
   templateTypeBasicInfoForm!:FormGroup
   copied:Boolean = false
+  @Input() stepper!: MatStepper;
 
-  constructor(private formBuilder:FormBuilder ) { }
+  constructor(private formBuilder:FormBuilder,private helperService:HelpersService ) { }
 
   ngOnInit(): void {
     this.initForm()
@@ -39,8 +42,8 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       code: ['code',Validators.required],
       name: ['',Validators.required],
       require_signature: [true,Validators.required],
-      copied_from: [''],
-      casefile_type: ['']
+      copied_from: [null],
+      casefile_type: [null]
     })
 
   }
@@ -66,7 +69,20 @@ export class CreateTemplatesTypesBasicInfoComponent implements OnInit {
       documentTemplateType.variables = this.documentTemplateType.variables
     }
 
+    let requiredFields = false;
+
+    if(documentTemplateType.name === '') requiredFields = true;
+    if(this.copied && (documentTemplateType.copied_from === null && documentTemplateType.casefile_type === null)) requiredFields = true;
+
+    if(requiredFields){
+      this.helperService.showMessageRequiredFields()
+      return;
+    }
+
     this.templateTypeBasicInfo.emit(documentTemplateType)
+
+    this.stepper.next();
+
   }
 
 }

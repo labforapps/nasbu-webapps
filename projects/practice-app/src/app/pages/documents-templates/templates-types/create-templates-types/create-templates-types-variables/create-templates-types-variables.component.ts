@@ -29,8 +29,8 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
     if (changes['documentTemplateType'] && changes['documentTemplateType'].currentValue) {
       this.documentTemplateType = changes['documentTemplateType'].currentValue
       this.setTemplateTypeVariables()
-      if(!this.documentTemplateType.uuid && this.documentTemplateType.copied_from !== '') this.getDocumentTemplateType()
-      if(!this.documentTemplateType.uuid && this.documentTemplateType.casefile_type !== '') this.getCaseFileTypeById()
+      if(!this.documentTemplateType.uuid && this.documentTemplateType.copied_from !== null) this.getDocumentTemplateType()
+      if(!this.documentTemplateType.uuid && this.documentTemplateType.casefile_type !== null) this.getCaseFileTypeById()
     }
   }
 
@@ -52,7 +52,7 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
 
   setTemplateTypeVariables(){
     if(this.documentTemplateType){
-      this.templateTypesVariables = this.documentTemplateType.variables || []
+      this.templateTypesVariables = this.documentTemplateType.variables?.filter(x => x.system_default === false) || []
       this.templateTypesVariablesAdded = this.documentTemplateType.variables || []
     }
   }
@@ -107,7 +107,7 @@ export class CreateTemplatesTypesVariablesComponent implements OnInit {
   }
 
   submitForm(){
-    this.templateTypesVariablesOutput.emit(this.templateTypesVariablesAdded.filter(x => x.casefile_type === null || x.casefile_type === '' || !x.casefile_type))
+    this.templateTypesVariablesOutput.emit(this.templateTypesVariablesAdded.filter(x => x.casefile_type === null || x.casefile_type === '' || !x.casefile_type || x.system_default === false))
   }
 
 }
