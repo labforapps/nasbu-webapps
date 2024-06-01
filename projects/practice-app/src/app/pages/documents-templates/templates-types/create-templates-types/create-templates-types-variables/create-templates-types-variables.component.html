@@ -72,7 +72,7 @@
         <table class="c-table-variable">
             <thead>
                 <tr>
-                    <th>Tipo de variable </th>
+                    <th>Sección </th>
                     <th>Variable</th>
                     <th>Acción</th>
                 </tr>
@@ -84,7 +84,7 @@
                 <td>
                   <button mat-button
                           class="u-dangerColor u-fontRegular u-smallSize"
-                          *ngIf="variable.casefile_type === '' || variable.casefile_type === null || !variable.casefile_type"
+                          *ngIf="variable.system_default === false && (variable.casefile_type === '' || variable.casefile_type === null || !variable.casefile_type)"
                           (click)="deleteVariableAdded(variable)">Quitar</button>
                 </td>
             </tr>

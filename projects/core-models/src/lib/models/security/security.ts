@@ -103,7 +103,7 @@ export enum modules{
   TASKS = 'tasks',
   CONFIG = 'config',
   USERS = 'users',
-  DOCUMENT_TEMPLATE = 'document_template',
+  DOCUMENT_TEMPLATE = 'documents',
   ALL = 'all'
 }
 
