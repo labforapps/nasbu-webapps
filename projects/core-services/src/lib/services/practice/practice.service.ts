@@ -451,8 +451,11 @@ export class PracticeService {
     return this.httpClient.delete<DocumentGeneration[]>(serverUrl);
   }
 
-  downloadDocumentGenerations(documentGeneration:DocumentGeneration):Observable<any>{
-    const serverUrl = `${this.config.serverUrl}/practice/document_generations/${documentGeneration.uuid}/download?subscription=${documentGeneration.subscription}`;
+  downloadDocumentGenerations(documentGeneration:DocumentGeneration, format: string | null = null):Observable<any>{
+    let serverUrl = `${this.config.serverUrl}/practice/document_generations/${documentGeneration.uuid}/download?subscription=${documentGeneration.subscription}`;
+    if (format) {
+        serverUrl += `&format=${format}`;
+    }
     return this.httpClient.get(serverUrl,{ responseType: 'blob' });
   }
 
