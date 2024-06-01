@@ -100,9 +100,9 @@ export class DocumentsComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  downloadDocument(documentGenerations:DocumentGeneration){
+  downloadDocument(documentGenerations:DocumentGeneration, format: string | null){
     documentGenerations.subscription = this.selectedSubscription?.ssid.uuid
-    this.practiceService.downloadDocumentGenerations(documentGenerations).subscribe(data => {
+    this.practiceService.downloadDocumentGenerations(documentGenerations, format).subscribe(data => {
       saveAs(data, documentGenerations.name);
     })
   }

@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
+import {Customer,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormService } from '../../../services/form.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -43,7 +42,6 @@ export class CreateClientComponent implements OnInit {
     private router: Router,
     private ActivatedRoute: ActivatedRoute,
     private toastr: ToastrService,
-    private translateService: TranslateService,
     @Optional() @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     @Optional() dialogRef: MatDialogRef<CreateClientComponent>,
     private formService:FormService,
@@ -319,7 +317,15 @@ export class CreateClientComponent implements OnInit {
     };
 
     this.customerService.saveCustomer(createClient).subscribe((data) => {
-      this.toastr.success('Ok',this.translateService.instant('successMessages.created_succesfully'));
+
+      if(createClient.uuid){
+        if(createClient.image === null) this.customerService.uploadImage(createClient.subscription || '',createClient.uuid,null).subscribe()
+
+        this.helperService.showMessageUpdated()
+      }
+      else{
+        this.helperService.showMessageCreated()
+      }
 
       if(this.dataDialog) {
         this.dialogRef.close(data);
