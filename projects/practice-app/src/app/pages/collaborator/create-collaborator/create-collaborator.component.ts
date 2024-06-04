@@ -67,7 +67,7 @@ export class CreateCollaboratorComponent implements OnInit {
       email: ['',Validators.required],
       licenses: this.formBuilder.array([
         this.formBuilder.group({
-          license_country:['',Validators.required],
+          license_country:[''],
           license_no:[null],
           license_country_state: [null]
         })
