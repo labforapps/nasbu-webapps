@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CaseFile, SecurityGroup,SecurityUser,Summary,Task,TaskType } from 'core-models';
+import { CaseFile, Invoice, SecurityGroup,SecurityUser,Summary,Task } from 'core-models';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { CommonService } from '../common';
 
@@ -153,6 +153,11 @@ export class SecurityService {
   getAccountSummary(subscription:string):Observable<Summary[]>{
     const serverUrl: string = `${this.config.serverUrl}/security/me/${subscription}/summary?subscription=${subscription}`;
     return this.httpClient.get<Summary[]>(serverUrl);
+  }
+
+  getInvoicesBySecurityUser(securityUser:SecurityUser):Observable<Invoice[]>{
+    const serverUrl: string = `${this.config.serverUrl}/security/users/${securityUser.uuid}/invoices?subscription=${securityUser.subscription}`;
+    return this.httpClient.get<Invoice[]>(serverUrl);
   }
 
 

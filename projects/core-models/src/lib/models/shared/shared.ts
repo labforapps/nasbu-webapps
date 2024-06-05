@@ -4,9 +4,12 @@ export interface Address {
   physical_country: string;
   physical_city: string;
   physical_address: string;
+  physical_state: string;
   physical_postal_code: string;
+  postal_country: string;
   postal_city: string;
   postal_address: string;
+  postal_state: string;
   postal_postal_code: string;
   share_same_info?:boolean;
 }

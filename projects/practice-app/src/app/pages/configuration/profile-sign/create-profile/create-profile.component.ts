@@ -60,9 +60,12 @@ export class CreateProfileComponent implements OnInit {
       addresses: this._formBuilder.array([
         this._formBuilder.group({
           physical_country: ['', Validators.required],
+          physical_state: ['', Validators.required],
           physical_city: ['', Validators.required],
           physical_address: ['', Validators.required],
           physical_postal_code: ['', Validators.required],
+          postal_country: ['', Validators.required],
+          postal_state: ['', Validators.required],
           postal_city: ['', Validators.required],
           postal_address: ['', Validators.required],
           postal_postal_code: ['', Validators.required],
