@@ -7,7 +7,7 @@ image: node:16
 
 pipelines:
   branches:
-    '{develop}':
+    develop:
       - step:
           name: Build project
           caches:
@@ -27,5 +27,27 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: 'us-east-1'
                 S3_BUCKET: 'dev.nasbulegal.com'
+                LOCAL_PATH: 'dist/practice-app'
+                ACL: 'public-read'
+    master:
+      - step:
+          name: Build project
+          caches:
+            - node
+          script:
+            - npm install
+            - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --prod
+          artifacts:
+            - dist/practice-app
+      - step:
+          name: Deploy to S3
+          deployment: production
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.3.8
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: 'us-east-1'
+                S3_BUCKET: 'app.nasbulegal.com'
                 LOCAL_PATH: 'dist/practice-app'
                 ACL: 'public-read'
