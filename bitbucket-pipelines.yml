@@ -35,7 +35,7 @@ pipelines:
           caches:
             - node
           script:
-            - npm install --force
+            - npm install --force --legacy-peer-deps
             - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --prod
           artifacts:
             - dist/practice-app
