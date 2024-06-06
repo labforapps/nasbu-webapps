@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MaterialModule } from './material/material.module';
@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PagesModule } from './pages/pages.module';
 
 import { FilePickerModule } from 'ngx-awesome-uploader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AvatarModule } from 'ngx-avatar';
 import { CoreServicesModule } from 'core-services';
 import { environment } from '../environments/environment';
@@ -28,6 +28,8 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { ToastrModule } from 'ngx-toastr';
 import { ComponentsModule } from './components/components.module';
 import { AngularImageViewerModule } from "@hreimer/angular-image-viewer";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerInterceptor } from './shared/interceptors/spinner.interceptor';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -66,9 +68,18 @@ registerLocaleData(localeEn, 'en');
     PagesModule,
     ComponentsModule,
     NgxDocViewerModule,
-    AngularImageViewerModule
+    AngularImageViewerModule,
+    NgxSpinnerModule
 
   ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SpinnerInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

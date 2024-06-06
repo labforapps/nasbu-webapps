@@ -53,6 +53,7 @@ import { DialogPaymentRequestComponent } from './dialogs/dialog-payment-request/
 import { DialogExternalDocSignatureComponent } from './dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component';
 import { DialogNewVariableComponent } from './dialogs/dialog-new-variable/dialog-new-variable.component';
 import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-new-section.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-n
     NgxPermissionsModule,
     NgxDocViewerModule,
     NgxTimerModule,
-    AngularImageViewerModule
+    AngularImageViewerModule,
+    NgxSpinnerModule
   ],
   exports: [
     HeaderComponent,

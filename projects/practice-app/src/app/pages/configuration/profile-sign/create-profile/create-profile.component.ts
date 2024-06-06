@@ -29,7 +29,6 @@ export class CreateProfileComponent implements OnInit {
               private authService: AuthService,
               private formService:FormService,
               private commonService:CommonService,
-              private router: Router,
               private toastr: ToastrService,
               private translateService: TranslateService
     ) { }
@@ -158,6 +157,7 @@ export class CreateProfileComponent implements OnInit {
 
   setLogoFileSubscription(event:any){
     this.logoFile = event;
+    if(event === null) this.subscriptionService.uploadImage(this.subscription.uuid,event).subscribe();
   }
 
   addContactItem(formArray:string,item:any){
