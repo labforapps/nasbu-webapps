@@ -83,7 +83,7 @@
                         </div>
                       </div>
 
-                      <div class="div row" *ngIf="customer_type === 'P'">
+                      <div class="div row" *ngIf="customer_type === typeCustomer.person">
                         <div class="div col-sm-6">
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.select_marital_status' | translate}}</mat-label>
@@ -194,6 +194,11 @@
                                 </mat-form-field>
                                 <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_country',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>State</mat-label>
+                                  <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="physical_state">
+                              </mat-form-field>
+                              <mat-error *ngIf="returnContactFormArrayFields('addresses','physical_state',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                                 <mat-form-field appearance="fill" class="c-form-group">
                                     <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
@@ -226,11 +231,30 @@
                             <div class="col-sm-6">
 
                                 <label class="u-title-label">{{'collaborator.form_create.mailing_address' | translate}}</label>
-                                <mat-form-field appearance="fill" class="c-form-group">
-                                    <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
-                                    <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="postal_city">
+
+                                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                  <mat-label>{{'collaborator.form_create.choose_country' | translate}} </mat-label>
+                                  <mat-select formControlName="postal_country">
+                                      <input type="text" class="c-form-group__input" matInput style="height: 30px;"
+                                             (keyup)="onKey($event)">
+                                      <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                          {{country.name}}
+                                      </mat-option>
+                                  </mat-select>
                                 </mat-form-field>
-                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_country',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                    <mat-label>State</mat-label>
+                                    <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="postal_state">
+                                </mat-form-field>
+                                <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_state',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+                                <mat-form-field appearance="fill" class="c-form-group">
+                                  <mat-label>{{'collaborator.form_create.city' | translate}}</mat-label>
+                                  <input class="c-form-group__input" matInput placeholder="Ej: Miami, Florida" formControlName="postal_city">
+                              </mat-form-field>
+                              <mat-error *ngIf="returnContactFormArrayFields('addresses','postal_city',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
 
                                 <mat-form-field appearance="fill" class="c-form-group">
                                     <mat-label>{{'collaborator.form_create.address' | translate}}</mat-label>
@@ -257,7 +281,7 @@
 
                       <hr class="u-divider--marginBig">
 
-                      <div *ngIf="customer_type === 'P'">
+                      <div *ngIf="customer_type === typeCustomer.person">
                         <app-associate-customers [customerId]="this.customerId" (customerIdSelected)="setLinkedCustomer($event)"></app-associate-customers>
                       </div>
 

@@ -66,8 +66,8 @@ export class CreateClientComponent implements OnInit {
       subscription: [''],
       intake_request: [''],
       type: [this.customer_type, Validators.required],
-      document_type: ['I'],
-      document_no: ['ad cupidatat nu'],
+      document_type: [null],
+      document_no: [null],
       company_name: [null],
       first_name: [null],
       last_name: [null],
@@ -77,7 +77,7 @@ export class CreateClientComponent implements OnInit {
       contacts: this._formBuilder.array([
         this._formBuilder.group({
           type: this.typeContact.phone_number,
-          sub_type: ['P', Validators.required],
+          sub_type: [this.subtypeContact.cellphone_number, Validators.required],
           contact_value: ['', Validators.required],
         }),
         this._formBuilder.group({
@@ -93,9 +93,12 @@ export class CreateClientComponent implements OnInit {
         this._formBuilder.group({
           physical_country: ['', Validators.required],
           physical_city: ['', Validators.required],
+          physical_state: ['',Validators.required],
           physical_address: ['', Validators.required],
           physical_postal_code: ['', Validators.required],
+          postal_country:['',Validators.required],
           postal_city: ['', Validators.required],
+          postal_state:['',Validators.required],
           postal_address: ['', Validators.required],
           postal_postal_code: ['', Validators.required],
         }),
@@ -184,8 +187,8 @@ export class CreateClientComponent implements OnInit {
       last_name: this.customer.last_name,
       type: this.customer.type,
       intake_request: '',
-      document_type: 'I',
-      document_no: 'dgf',
+      document_type: null,
+      document_no: null,
       company_name: this.customer.company_name,
       born_date: this.customer.born_date,
       occupation: this.customer.occupation,
@@ -252,20 +255,20 @@ export class CreateClientComponent implements OnInit {
     const formArrayFields = this.returnFormArray('contacts');
 
     for (let i = 0; i < formArrayFields.length; i++) {
-      if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'E')
+      if (this.returnFormArrayFields('contacts', i, 'type')?.value === this.typeContact.email)
       {
         (this.createClientForm.get('contacts') as FormArray)
           ?.at(i)
           ?.patchValue({
-            sub_type: this.customer_type === 'P' ? 'E' : 'B',
+            sub_type: this.customer_type === this.typeCustomer.person ? this.subtypeContact.personal_email : this.subtypeContact.business_email,
           });
       }
-      if (this.returnFormArrayFields('contacts', i, 'type')?.value === 'P')
+      if (this.returnFormArrayFields('contacts', i, 'type')?.value === this.typeContact.phone_number)
       {
         (this.createClientForm.get('contacts') as FormArray)
           ?.at(i)
           ?.patchValue({
-            sub_type: this.customer_type === 'P' ? 'P' : 'O',
+            sub_type: this.customer_type === this.typeCustomer.person ? this.subtypeContact.currentphone_number : this.subtypeContact.phoneoffice_number,
           });
       }
 
@@ -372,9 +375,9 @@ export class CreateClientComponent implements OnInit {
 
   resetForm() {
     this.createClientForm.reset();
-    this.addContactItem('contacts', 'E');
-    this.addContactItem('contacts', 'P');
-    this.customer_type = 'P';
+    this.addContactItem('contacts', this.typeContact.email);
+    this.addContactItem('contacts', this.typeContact.phone_number);
+    this.customer_type = this.typeCustomer.person;
     this.imgTemp = null;
 
   }

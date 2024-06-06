@@ -98,9 +98,15 @@ export class FormService {
       (form.get('addresses') as FormArray)
         ?.at(index)
         .patchValue({
+          postal_country: (form.get('addresses') as FormArray)
+          ?.at(index)
+          .get('physical_country')?.value,
           postal_city: (form.get('addresses') as FormArray)
             ?.at(index)
             .get('physical_city')?.value,
+          postal_state: (form.get('addresses') as FormArray)
+            ?.at(index)
+            .get('physical_state')?.value,
           postal_address: (form.get('addresses') as FormArray)
             ?.at(index)
             .get('physical_address')?.value,
@@ -114,7 +120,9 @@ export class FormService {
       (form.get('addresses') as FormArray)
         ?.at(index)
         .patchValue({
+          postal_country: '',
           postal_city: '',
+          postal_state: '',
           postal_address: '',
           postal_postal_code: '',
         });

@@ -47,6 +47,7 @@
     "ngx-permissions": "^13.0.1",
     "ngx-timer": "^1.0.6",
     "ngx-toastr": "^14.3.0",
+    "ngx-spinner": "^13.0.0",
     "rimraf": "^3.0.2",
     "rxjs": "~7.5.0",
     "sweetalert2": "^11.4.17",

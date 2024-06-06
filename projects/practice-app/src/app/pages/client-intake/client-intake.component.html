@@ -2,7 +2,7 @@
     <div class="l-intake__header">
         <img src="../../../assets/images/white-logo.svg" alt="">
     </div>
-    <div class="l-intake__body">
+    <div class="l-intake__body" *ngIf="customerIntake">
           <mat-stepper #stepper
                        [@.disabled]="true"
                        class="c-stepper"
@@ -12,7 +12,7 @@
 
               <mat-step>
                 <div class="c-stepper__header">
-                  <div class="c-stepper__logo" *ngIf="customerIntake">
+                  <div class="c-stepper__logo">
                     <img *ngIf="!customerIntake.subscription_logo" src="../../../assets/images/NO LOGO - EmptyState.svg" alt="">
                     <img *ngIf="customerIntake.subscription_logo" [src]="customerIntake.subscription_logo" alt="">
                     <span class="icon-check"></span>
@@ -226,6 +226,15 @@
                         </mat-error>
 
                         <mat-form-field appearance="fill" class="c-form-group">
+                          <mat-label>State</mat-label>
+                          <input class="c-form-group__input"  [formControlName]="'physical_state'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="returnFormArrayFields('client','addresses',0,'physical_state')?.value === '' && matStepperSubmitted">
+                          {{'errorMessages.field_required' | translate}}
+                        </mat-error>
+
+                        <mat-form-field appearance="fill" class="c-form-group">
                           <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                           <input class="c-form-group__input"  [formControlName]="'physical_city'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
                         </mat-form-field>
@@ -258,6 +267,27 @@
                       </mat-checkbox>
 
                       <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
+
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                        <mat-select [formControlName]="'postal_country'">
+                          <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                            {{country.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-error *ngIf="returnFormArrayFields('client','addresses',0,'postal_country')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>State</mat-label>
+                        <input class="c-form-group__input" [formControlName]="'postal_state'" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('client','addresses',0,'postal_state')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
 
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
@@ -468,6 +498,16 @@
                       </mat-error>
 
                       <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>State</mat-label>
+                        <input formControlName="physical_state" class="c-form-group__input" matInput
+                          placeholder="{{'clients.form_create.placeholder_physical_address' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'physical_state')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                         <input formControlName="physical_city" class="c-form-group__input" matInput
                           placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
@@ -503,14 +543,37 @@
                       </mat-checkbox>
                     </div>
                     <div class="col-sm-6">
+
                       <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}</label>
+
+                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                        <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                        <mat-select formControlName="postal_country">
+                          <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                            {{country.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'postal_country')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
+
+                      <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>State</mat-label>
+                        <input formControlName="postal_state" class="c-form-group__input" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
+                      </mat-form-field>
+                      <mat-error
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'postal_state')?.value === '' && matStepperSubmitted">
+                        {{'errorMessages.field_required' | translate}}
+                      </mat-error>
 
                       <mat-form-field appearance="fill" class="c-form-group">
                         <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                         <input formControlName="postal_city" class="c-form-group__input" matInput placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}">
                       </mat-form-field>
                       <mat-error
-                        *ngIf="returnFormArrayFields('representative','postal_city',0,'physical_city')?.value === '' && matStepperSubmitted">
+                        *ngIf="returnFormArrayFields('representative','addresses',0,'postal_city')?.value === '' && matStepperSubmitted">
                         {{'errorMessages.field_required' | translate}}
                       </mat-error>
 

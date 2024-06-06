@@ -126,6 +126,15 @@
                             <!-- <mat-error *ngIf="returnFormArrayFields('addresses',i,'physical_country')?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error> -->
 
                             <mat-form-field appearance="fill" class="c-form-group">
+                              <mat-label>State</mat-label>
+
+                              <input class="c-form-group__input" matInput formControlName="physical_state" placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}" required>
+
+                            </mat-form-field>
+                            <mat-error *ngIf="returnFormArrayFields('addresses','physical_state',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+
+                            <mat-form-field appearance="fill" class="c-form-group">
                               <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
 
                               <input class="c-form-group__input" matInput formControlName="physical_city" placeholder="{{'clients.form_create.placeholder_physical_city' | translate}}" required>
@@ -160,6 +169,28 @@
                               <label class="u-title-label">{{'clients.form_create.mailing_address' | translate}}
                                 <span class="u-dangerColor">*</span>
                               </label>
+
+                              <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                <mat-label>{{'clients.form_create.choose_country' | translate}} </mat-label>
+                                <mat-select formControlName="postal_country" required>
+                                  <mat-option *ngFor="let country of countries" [value]="country.uuid">
+                                    {{country.name}}
+                                  </mat-option>
+                                </mat-select>
+
+                                <div class="c-form-group__action">
+                                  <button mat-button type='button' (click)=" i > 0 ? removeItemFormArray('addresses',i) : ''" ><span class="icon-times"></span></button>
+                                </div>
+
+                              </mat-form-field>
+
+                              <mat-form-field appearance="fill" class="c-form-group">
+                                <mat-label>State</mat-label>
+                                <input class="c-form-group__input" matInput formControlName="postal_state" placeholder="Ej: Miami, Florida" required>
+                              </mat-form-field>
+                              <mat-error *ngIf="returnFormArrayFields('addresses','postal_state',i)?.status === 'INVALID' && form.submitted">{{'errorMessages.field_required' | translate}}</mat-error>
+
+
                               <mat-form-field appearance="fill" class="c-form-group">
                                 <mat-label>{{'clients.form_create.city' | translate}}</mat-label>
                                 <input class="c-form-group__input" matInput formControlName="postal_city" placeholder="Ej: Miami, Florida" required>
