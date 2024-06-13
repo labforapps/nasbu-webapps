@@ -92,7 +92,8 @@ export class DialogNewTaskComponent implements OnInit {
             increment_of_time: this.task.billing_type === this.billingType.BY_TIME_INCREMENT,
             flat_fee: this.task.billing_type === this.billingType.FLAT_FEE,
             flat_fee_amt: this.task.billing_type === this.billingType.FLAT_FEE ? this.task.bt_amt : 0,
-            price_per_increment: this.task.billing_type === this.billingType.BY_TIME_INCREMENT ? this.task.bt_amt : 0
+            price_per_increment: this.task.billing_type === this.billingType.BY_TIME_INCREMENT ? this.task.bt_amt : 0,
+            not_billable: ! this.task.bt_billable
           });
 
           this.showDate = this.task.has_due_date;
@@ -106,7 +107,8 @@ export class DialogNewTaskComponent implements OnInit {
             bt_price_per_hour: this.dataDialog.caseFile.bt_price_per_hour,
             bt_increment_factor: this.dataDialog.caseFile.bt_increment_factor,
             flat_fee_amt: this.dataDialog.caseFile.billing_type === this.billingType.FLAT_FEE ? this.dataDialog.caseFile.bt_amt : 0,
-            price_per_increment: this.dataDialog.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT ? this.dataDialog.caseFile.bt_amt : 0
+            price_per_increment: this.dataDialog.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT ? this.dataDialog.caseFile.bt_amt : 0,
+            not_billable: ! this.task.bt_billable
           });
       }
 
@@ -228,6 +230,7 @@ export class DialogNewTaskComponent implements OnInit {
     const taskPayload: TaskPayload = {
       subscription: this.selectedSubscription?.ssid.uuid,
       ...taskFormValue,
+      bt_billable: ! taskFormValue.not_billable,
       billing_type: billingType,
       bt_amt: billingTypeAmount,
       name: taskFormValue.description,
