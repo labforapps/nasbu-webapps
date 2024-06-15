@@ -1,0 +1,36 @@
+<div class="c-dialog-recovery">
+  <mat-dialog-content class="d-flex flex-column justify-center">
+
+    <h4 class="mb-5 u-textBold "><b>Cuenta sin confirmar</b></h4>
+
+
+    <h4 class="mb-1 u-textBold u-textColor">
+      En tu bandeja de correo hay un
+    </h4>
+
+    <h4 class="mb-3 u-textBold u-textColor">
+      e-mail de confirmación de cuenta
+    </h4>
+
+    <img class="mb-5" src="../../../../assets/images/emailer.svg" alt="">
+
+    <p class="u-textColor text-center mb-1">
+     Si aún no lo recibes puedes
+    </p>
+
+
+    <p class="u-textColor text-center">
+      volverlo a enviar
+     </p>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions class="mt-auto">
+    <button mat-button mat-dialog-close  class="c-btn c-btn--primary w-100 u-smallSize" (click)="sendConfirmationEmail()">
+      Enviar nuevamente
+    </button>
+    <button mat-button mat-dialog-close class="u-link text-center m-0 w-100 mt-2 p-0">
+      {{'recoverPassword.closeWindowsButton' | translate}}
+    </button>
+  </mat-dialog-actions>
+</div>
