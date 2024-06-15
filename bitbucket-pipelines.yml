@@ -38,7 +38,7 @@ pipelines:
             - npm install --force --legacy-peer-deps
             - npm run build-prod
           artifacts:
-            - dist/practice-app
+            - dist/**
       - step:
           name: Deploy to S3
           deployment: production
