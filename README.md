@@ -31,7 +31,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 sudo chmod -R 755 deployment
 
-## Para hacer deploy a QA (Tiene que estar situado en la raiz del proyecto).
+## Para hacer deploy a QA (Tiene que estar situado en la raiz del proyecto)
  
 ./deployment/deploy_dev.sh
 
