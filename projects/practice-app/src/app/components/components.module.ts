@@ -54,6 +54,7 @@ import { DialogExternalDocSignatureComponent } from './dialogs/dialog-external-d
 import { DialogNewVariableComponent } from './dialogs/dialog-new-variable/dialog-new-variable.component';
 import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-new-section.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DialogSendAccountConfirmationComponent } from './dialogs/dialog-send-account-confirmation/dialog-send-account-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     DialogExternalDocSignatureComponent,
     DialogNewVariableComponent,
     DialogNewSectionComponent,
+    DialogSendAccountConfirmationComponent,
   ],
   imports: [
     CommonModule,
