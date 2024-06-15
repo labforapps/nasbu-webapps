@@ -13,10 +13,10 @@ pipelines:
           caches:
             - node
           script:
-            - npm install
-            - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa
+            - npm install --force --legacy-peer-deps
+            - npm run build-qa
           artifacts:
-            - dist/practice-app
+            - dist/**
       - step:
           name: Deploy to S3
           deployment: production
@@ -36,9 +36,9 @@ pipelines:
             - node
           script:
             - npm install --force --legacy-peer-deps
-            - ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --prod
+            - npm run build-prod
           artifacts:
-            - dist/practice-app
+            - dist/**
       - step:
           name: Deploy to S3
           deployment: production

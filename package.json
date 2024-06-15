@@ -10,7 +10,8 @@
     "start:all": "npm run start && npm run build:models && npm run build:services",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build-qa": "ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa"
+    "build-qa": "ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa",
+    "build-prod": "ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --prod"
   },
   "private": true,
   "dependencies": {
