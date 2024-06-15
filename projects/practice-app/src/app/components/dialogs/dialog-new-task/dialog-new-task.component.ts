@@ -209,7 +209,7 @@ export class DialogNewTaskComponent implements OnInit {
       return;
     }
 
-    let billingType!:BillingType;
+    let billingType:BillingType | string = this.billingType.PER_HOUR;
     let billingTypeAmount = 0;
 
     if(taskFormValue.hourly_rate){

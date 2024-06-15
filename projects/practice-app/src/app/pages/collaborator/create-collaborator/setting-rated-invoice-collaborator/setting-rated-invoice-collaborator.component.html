@@ -7,7 +7,7 @@
         <label class="u-title-label mb-4">{{'invoice_parameter.hourly_rate' | translate}}  <span class="u-dangerColor">*</span></label>
         <mat-form-field appearance="fill" class="c-form-group">
             <mat-label>{{'invoice_parameter.price' | translate}}</mat-label>
-            <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_hour">
+            <input type="number" class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="price_per_hour">
         </mat-form-field>
     </div>
     <div class="col-sm-6">
@@ -36,13 +36,13 @@
       <label class="u-title-label mb-4">{{'invoice_parameter.increment_parameter' | translate}} <span class="u-dangerColor">*</span></label>
       <mat-form-field appearance="fill" class="c-form-group">
           <mat-label>{{'invoice_parameter.increment_parameter' | translate}}</mat-label>
-          <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="increment_factor" readonly>
+          <input type="number" class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="increment_factor" [readonly]="!incrementOfTime">
       </mat-form-field>
       <p>
         <label class="u-title-label mb-4">{{'invoice_parameter.increment_factor' | translate}} (Min)  <span class="u-dangerColor">*</span></label>
         <mat-form-field appearance="fill" class="c-form-group">
             <mat-label>{{'invoice_parameter.value' | translate}}</mat-label>
-            <input class="c-form-group__input" matInput placeholder="Ej: 15 Min" formControlName="price_per_increment" [readonly]="!incrementOfTime">
+            <input type="number" class="c-form-group__input" matInput placeholder="Ej: 15 Min" formControlName="price_per_increment" [readonly]="!incrementOfTime">
         </mat-form-field>
       </p>
   </div>

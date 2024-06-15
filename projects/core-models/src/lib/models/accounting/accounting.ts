@@ -160,7 +160,9 @@ export interface BillingCharge {
 export enum PaymentMethod {
   CREDIT_CARD = 'credit_card',
   CASH = 'cash',
-  TRANSFER = 'transfer'
+  TRANSFER = 'transfer',
+  CHECK = 'check',
+  OTHER = 'other'
 }
 
 export enum BillingChargeEnum {

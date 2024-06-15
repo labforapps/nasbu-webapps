@@ -22,6 +22,10 @@ export class AuthService {
       .signup(userSignupPayload);
   }
 
+  resendSignupConfirmationEmail(username:string){
+    return this.coreAuth.resendSignupConfirmationEmail(username)
+  }
+
   signOut(){
     return this.coreAuth.signOut();
   }
