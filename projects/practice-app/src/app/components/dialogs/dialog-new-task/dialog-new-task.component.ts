@@ -108,7 +108,7 @@ export class DialogNewTaskComponent implements OnInit {
             bt_increment_factor: this.dataDialog.caseFile.bt_increment_factor,
             flat_fee_amt: this.dataDialog.caseFile.billing_type === this.billingType.FLAT_FEE ? this.dataDialog.caseFile.bt_amt : 0,
             price_per_increment: this.dataDialog.caseFile.billing_type === this.billingType.BY_TIME_INCREMENT ? this.dataDialog.caseFile.bt_amt : 0,
-            not_billable: ! this.task.bt_billable
+            not_billable: false
           });
       }
 
