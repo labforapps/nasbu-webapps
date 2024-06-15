@@ -109,4 +109,7 @@ export enum Action {
   DELETE = 'delete'
 }
 
+export enum ErrorCodes {
+  UserNotConfirmedException = 'UserNotConfirmedException'
+}
 

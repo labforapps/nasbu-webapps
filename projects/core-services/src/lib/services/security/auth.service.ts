@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
-import { ICredentials } from '@aws-amplify/core';
 import { catchError, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo,ChangeFirstPasswordPayload } from 'core-models';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
@@ -16,6 +15,11 @@ export class AuthService {
         private httpClient: HttpClient) {
         console.log('Config: ', this.config);
         // Amplify.configure(this.config.awsconfig);
+    }
+
+     resendSignupConfirmationEmail(username:string): Observable<any> {
+       const resendSignup$ = Auth.resendSignUp(username);
+       return from(resendSignup$)
     }
 
     signin(username: string, password: string): Observable<UserInfo | CognitoUser> {

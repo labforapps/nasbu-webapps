@@ -61,6 +61,12 @@
                             <mat-option [value]="paymentMethod.CREDIT_CARD">
                               {{'invoicing.register_payment.credit_card' | translate}}
                             </mat-option>
+                            <mat-option [value]="paymentMethod.CHECK">
+                              CHEQUE / GIRO POSTAL
+                            </mat-option>
+                            <mat-option [value]="paymentMethod.OTHER">
+                             OTRO
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
 

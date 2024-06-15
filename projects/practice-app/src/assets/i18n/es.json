@@ -1195,7 +1195,7 @@
         "payment_method":"Método de pago",
         "method":"Método",
         "cash":"EFECTIVO",
-        "transfer":"TRANSFERENCIA",
+        "transfer":"TRANSFERENCIA / DEPÓSITO BANCARIO",
         "credit_card":"TARJETA DE CRÉDITO",
         "when_applying_payment":"Al aplicar el pago se envía un recibo automático <b>¿A cuál se lo enviamos?</b>",
         "apply_payment":"Aplicar pago",
@@ -1203,7 +1203,7 @@
       },
       "send_invoice":{
         "title":"Enviar factura",
-        "to_which_of_this_emails":"¿A cual de estos correos deseas le re-enviemos la factura?",
+        "to_which_of_this_emails":"¿A cual de estos correos deseas le enviemos la factura?",
         "send":"Enviar",
         "close_window":"Cerrar Ventana"
       },

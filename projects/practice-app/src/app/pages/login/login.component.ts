@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
-import { UserInfo } from 'core-models';
+import { ErrorCodes, UserInfo } from 'core-models';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { DialogNewSubscriptionComponent } from '../../components/dialogs/dialog-new-subscription/dialog-new-subscription.component';
+import { DialogSendAccountConfirmationComponent } from '../../components/dialogs/dialog-send-account-confirmation/dialog-send-account-confirmation.component';
 
 @Component({
   selector: 'app-login',
@@ -25,10 +26,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   constructor(public dialog: MatDialog,
-    private authService: AuthService,
-    private fb: FormBuilder,
-    private router: Router,
-    private activatedRoute:ActivatedRoute
+              private authService: AuthService,
+              private fb: FormBuilder,
+              private router: Router,
+              private activatedRoute:ActivatedRoute
   ) { }
 
 
@@ -88,9 +89,24 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
       }, (error) => {
-        this.errorMessage = error.message;
 
+        if(error.code === ErrorCodes.UserNotConfirmedException) {
+          this.openDialogSendConfirmationEmail(username)
+          return;
+        }
+
+        this.errorMessage = error.message;
       });
+  }
+
+  openDialogSendConfirmationEmail(username:string) {
+
+    this.dialog.open(DialogSendAccountConfirmationComponent, {
+      data: {
+        username
+      }
+    })
+
   }
 
   changeFocus(focusField: string): void {
