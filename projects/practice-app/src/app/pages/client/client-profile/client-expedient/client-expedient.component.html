@@ -8,7 +8,10 @@
                 {{'clients.files.tabs.all' | translate}}
             </ng-template>
 
-            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles"
+                                 [module]="module.CUSTOMERS"
+                                 [customer]="customer"
+                                 (onExecuteExpedient)="getCaseFilesByCustomer()"></app-expedient-table>
 
         </mat-tab>
 
@@ -18,7 +21,11 @@
                 {{'clients.files.tabs.open' | translate}}
             </ng-template>
 
-            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+            <app-expedient-table *ngIf="caseFiles"
+                                 [caseFiles]="caseFiles"
+                                 [module]="module.CUSTOMERS"
+                                 [customer]="customer"
+                                 (onExecuteExpedient)="getCaseFilesByCustomer()"></app-expedient-table>
 
         </mat-tab>
 
@@ -28,7 +35,11 @@
                 {{'clients.files.tabs.closed' | translate}}
             </ng-template>
 
-            <app-expedient-table *ngIf="caseFiles" [caseFiles]="caseFiles" [module]="module.CUSTOMERS" [customer]="customer"></app-expedient-table>
+            <app-expedient-table *ngIf="caseFiles"
+                                 [caseFiles]="caseFiles"
+                                 [module]="module.CUSTOMERS"
+                                 [customer]="customer"
+                                 (onExecuteExpedient)="getCaseFilesByCustomer()"></app-expedient-table>
 
         </mat-tab>
     </mat-tab-group>

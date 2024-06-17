@@ -136,6 +136,12 @@ export class InvoicingTableComponent implements OnInit {
     return this.invoiceStatusDescription.get(value);
   }
 
+  downloadInvoice(invoice:Invoice) {
+    this.accountingService.downloadInvoice(invoice).subscribe({
+      next: (data) => { this.helperService.downloadDocument(data) }
+    })
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
