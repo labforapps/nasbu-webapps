@@ -351,6 +351,12 @@ export class NewInvoiceComponent implements OnInit {
     }
   }
 
+  downloadInvoice() {
+    this.accountingService.downloadInvoice(this.invoice).subscribe({
+      next: (data) => { this.HelpersService.downloadDocument(data) }
+    })
+  }
+
 
 
 }
