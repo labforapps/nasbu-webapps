@@ -12,14 +12,26 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable()
 export class SpinnerInterceptor implements HttpInterceptor {
 
+  private excludedUrls: string[] = [
+    '/practice/case_files_notes/'
+  ];
+
   constructor(private spinner: NgxSpinnerService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.spinner.show();
+
+    const shouldSkipSpinner = this.excludedUrls.some(url => req.url.includes(url));
+
+    if (!shouldSkipSpinner) {
+      this.spinner.show();
+    }
+
 
     return next.handle(req).pipe(
       finalize(() => {
-        this.spinner.hide();
+        if (!shouldSkipSpinner) {
+          this.spinner.hide();
+        }
       })
     );
   }
