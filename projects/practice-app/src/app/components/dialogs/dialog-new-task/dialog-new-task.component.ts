@@ -136,7 +136,10 @@ export class DialogNewTaskComponent implements OnInit {
       this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,this.dataDialog.customer.uuid || '').subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
-        if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
+        if(this.dataDialog && this.dataDialog.caseFile) {
+          this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
+          this.onChangeCaseFile(this.dataDialog.caseFile.uuid || '')
+          }
       })
 
     }
@@ -144,7 +147,10 @@ export class DialogNewTaskComponent implements OnInit {
       this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
-        if(this.dataDialog && this.dataDialog.caseFile) this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
+        if(this.dataDialog && this.dataDialog.caseFile) {
+          this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
+          this.onChangeCaseFile(this.dataDialog.caseFile.uuid || '')
+        }
       })
     }
 
