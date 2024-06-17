@@ -128,4 +128,12 @@ export class AccountingService {
     return this.httpClient.post<PaymentCheckoutRequest>(serverUrl,payload);
   }
 
+  downloadInvoice(invoice:Invoice, format: string | null = null):Observable<any>{
+    let serverUrl = `${this.config.serverUrl}/accounting/invoices/${invoice.uuid}/download?subscription=${invoice.subscription}`;
+    if (format) {
+        serverUrl += `&file_format=${format}`;
+    }
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
+
 }
