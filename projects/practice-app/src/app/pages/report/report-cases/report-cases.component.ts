@@ -50,8 +50,8 @@ export class ReportCasesComponent implements OnInit {
       status:       null,
       period:       null,
       format:       this.reportFormatEnum.HTML,
-      start_date:   null,
-      end_date:     null,
+      start_date:   this.HelpersService.getDateRange().startDate,
+      end_date:     this.HelpersService.getDateRange().endDate
     }
   }
 
@@ -83,6 +83,11 @@ export class ReportCasesComponent implements OnInit {
 
     this.reportPayload.start_date = this.reportPayload.start_date ? this.HelpersService.returnDateFormatted(this.reportPayload.start_date || '','YYYY-MM-DD') : null
     this.reportPayload.end_date = this.reportPayload.end_date ? this.HelpersService.returnDateFormatted(this.reportPayload.end_date || '','YYYY-MM-DD') : null
+
+    if(!this.reportPayload.start_date || !this.reportPayload.end_date){
+      this.HelpersService.showMessageRequiredFields()
+      return;
+    }
 
     this.reportService.getReportCaseFiles(this.reportPayload).subscribe(data => {
 

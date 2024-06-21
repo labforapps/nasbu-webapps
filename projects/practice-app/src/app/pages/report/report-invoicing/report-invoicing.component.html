@@ -112,14 +112,19 @@
                                     <mat-label>Desde</mat-label>
                                     <input matInput [matDatepicker]="picker"
                                            [(ngModel)]="reportPayload.start_date"
-                                           [disabled]="reportPayload.period !== null">
+                                           [disabled]="reportPayload.period !== null"
+                                           [required]="true">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
                                 <mat-form-field appearance="fill" style="width: 13rem;"
                                     class="c-form-group  c-form-group--small flex-1">
                                     <mat-label>Hasta</mat-label>
-                                    <input matInput [matDatepicker]="pickers" [(ngModel)]="reportPayload.end_date" [disabled]="reportPayload.period !== null">
+                                    <input matInput
+                                           [matDatepicker]="pickers"
+                                           [(ngModel)]="reportPayload.end_date"
+                                           [disabled]="reportPayload.period !== null"
+                                           [required]="true">
                                     <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                                     <mat-datepicker #pickers></mat-datepicker>
                                 </mat-form-field>

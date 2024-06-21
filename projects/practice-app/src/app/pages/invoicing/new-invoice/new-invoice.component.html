@@ -116,7 +116,7 @@
 
                                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                       <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
-                                      <mat-select formControlName="billing_type">
+                                      <mat-select formControlName="billing_type" (selectionChange)="onChangeInvoiceDetail('details',i)">
                                         <mat-option [value]="billingType.PER_HOUR">
                                           {{'invoicing.invoice.hourly_rate' | translate}}
                                       </mat-option>
