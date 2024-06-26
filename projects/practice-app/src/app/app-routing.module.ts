@@ -121,11 +121,6 @@ const routes: Routes = [
         path: 'users',
         component: CollaboratorComponent,
       },
-
-      {
-        path: 'client-profile',
-        component: ClientProfileComponent,
-      },
       {
         path: 'client-profile/:id',
         component: ClientProfileComponent,

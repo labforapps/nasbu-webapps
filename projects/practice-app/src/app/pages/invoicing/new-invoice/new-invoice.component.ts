@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, Invoice, InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
+import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, Invoice,
+         InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
@@ -213,7 +214,7 @@ export class NewInvoiceComponent implements OnInit {
   addInvoiceDetail(formArray:string,is_legal_charge:boolean){
     const item = {
           description: ['',Validators.required],
-          billing_type: ['',Validators.required],
+          billing_type: [this.billingType.PER_HOUR,Validators.required],
           total_hours: [0],
           bt_price_per_hour: [0],
           total_amt: [0],
@@ -293,10 +294,22 @@ export class NewInvoiceComponent implements OnInit {
 
     let total = 0;
 
-    if(invoice.billing_type === this.billingType.PER_HOUR) total = invoice.bt_price_per_hour * invoice.total_hours;
-    if(invoice.billing_type === this.billingType.FLAT_FEE) total = invoice.bt_amt;
+    if(invoice.billing_type === this.billingType.PER_HOUR) {
+      total = invoice.bt_price_per_hour * invoice.total_hours;
+      (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
+        bt_amt: 0,
+        total_amt: Number(total).toFixed(2)
+      });
+    }
+    if(invoice.billing_type === this.billingType.FLAT_FEE) {
+      total = invoice.bt_amt;
+      (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
+        total_hours: 0,
+        bt_price_per_hour: 0,
+        total_amt: Number(total).toFixed(2)
+      });
+    }
 
-    (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({total_amt: total.toFixed(2)});
 
   }
 

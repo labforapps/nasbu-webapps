@@ -1,10 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { CaseFileNote } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewNoteComponent } from '../../../components/dialogs/dialog-new-note/dialog-new-note.component';
+import { HelpersService } from '../../../services/helpers.service';
+import { PracticeService } from 'core-services';
 
 @Component({
   selector: 'app-dashboard-notes',
@@ -20,7 +22,18 @@ export class DashboardNotesComponent implements OnInit {
   selection = new SelectionModel<CaseFileNote>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private dialog:MatDialog) { }
+  constructor(private dialog:MatDialog,
+              private helperService:HelpersService,
+              private practiceService:PracticeService
+  ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['caseFileNotes'] && changes['caseFileNotes'].currentValue){
+      if(this.dataSource){
+        this.dataSource.data = changes['caseFileNotes'].currentValue;
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.dataSource.data = this.caseFileNotes
@@ -37,6 +50,53 @@ export class DashboardNotesComponent implements OnInit {
         caseFileNote
       }
     })
+  }
+
+  openDialogEditCaseFileNote(caseFileNote?:CaseFileNote){
+    const dialogRef = this.dialog.open(DialogNewNoteComponent,{
+      data: {
+        caseFileNote: caseFileNote
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: {caseFileNote:CaseFileNote,createAnother:boolean}) => {
+      if(result.caseFileNote.uuid){
+
+        const caseFileNoteFiltered = this.caseFileNotes.filter(x => x.uuid === result.caseFileNote.uuid);
+
+        if(caseFileNoteFiltered) this.caseFileNotes = this.caseFileNotes.filter(x => x.uuid !== result.caseFileNote.uuid);
+
+        this.caseFileNotes.push(result.caseFileNote);
+        this.ngAfterViewInit();
+
+        if(result.createAnother) this.openDialogEditCaseFileNote();
+      }
+
+    });
+
+  }
+
+  deleteCaseFileNote(caseFileNote:CaseFileNote) {
+
+    this.helperService.showConfirmationDeleteDialog().then((result) => {
+      if (result.isConfirmed) {
+        this.practiceService.deleteCaseFileNote(caseFileNote.subscription, caseFileNote.uuid || '').subscribe(
+            {
+              next: (data) => {
+                  const arrayFiltered = this.caseFileNotes.filter(x => x.uuid !== caseFileNote.uuid);
+                  this.caseFileNotes = arrayFiltered;
+                  this.dataSource.data = this.caseFileNotes;
+
+                  this.helperService.showMessageDeleted()
+              },
+              error: (err) => {
+                this.helperService.showMessageErrorUnexpected()
+              }
+            }
+        );
+      }
+    });
+
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

@@ -17,7 +17,7 @@ export class HelpersService {
   constructor(private translateService:TranslateService,
               private toastr: ToastrService) { }
 
-  getDateRange(periodCode: string) {
+  getDateRange(periodCode?: string): { startDate: string,endDate: string } {
 
     let startDate, endDate;
 
@@ -40,7 +40,7 @@ export class HelpersService {
         startDate = moment().subtract(1, 'year').startOf('month').format('YYYY-MM-DD');
         break;
       default:
-        throw new Error('Código de período no válido');
+        startDate = moment().format('YYYY-MM-DD')
     }
 
     return {startDate, endDate};
@@ -175,6 +175,10 @@ export class HelpersService {
 
   showMessageRequiredFields(){
     this.showCustomMessage('Error','Error','clients.form_create.remember_fill_required_information')
+  }
+
+  showMessageErrorUnexpected(){
+    this.toastr.error('Error',this.translateService.instant('errorMessages.unexpectedError'))
   }
 
   showCustomMessage(type:'Ok' | 'Error',title:string,message:string){

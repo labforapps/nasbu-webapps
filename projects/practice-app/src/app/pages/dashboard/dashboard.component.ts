@@ -108,11 +108,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialogNewNote(){
-    this.dialog.open(DialogNewNoteComponent, {
+    const dialogRef = this.dialog.open(DialogNewNoteComponent, {
       data: {
         subscription: this.selectedSubscription?.ssid.uuid
       }
     })
+
+    dialogRef.afterClosed().subscribe({ next: (data) => { if(data) this.getCaseFileNotes()  } })
   }
 
 }

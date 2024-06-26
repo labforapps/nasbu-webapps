@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { DialogNewNoteComponent } from '../../../../components/dialogs/dialog-new-note/dialog-new-note.component';
@@ -6,10 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CaseFile, CaseFileNote, CaseFileStatus } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from '../../../../../../../core-services/src/lib/services/practice/practice.service';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
-import Swal from 'sweetalert2';
+
 import * as moment from 'moment';
+import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
@@ -27,9 +26,7 @@ export class NotesComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
-              private cdr: ChangeDetectorRef,
-              private translateService:TranslateService,
-              private toastr: ToastrService) { }
+              private helperService:HelpersService) { }
 
   ngOnInit(): void {
     this.getCaseFileNotes();
@@ -79,49 +76,22 @@ export class NotesComponent implements OnInit {
 
   deleteCaseFileNote(caseFileNote:CaseFileNote) {
 
-    Swal.fire({
-      title: this.translateService.instant(
-        'clients.table.buttons.confirm_question_delete'
-      ),
-      text: this.translateService.instant(
-        'clients.table.buttons.actions_cannot_be_reversed'
-      ),
-      iconHtml: '<img src="assets/images/alert-delete.svg">',
-      confirmButtonText: this.translateService.instant(
-        'clients.table.buttons.delete'
-      ),
-      showCancelButton: true,
-      cancelButtonText: this.translateService.instant(
-        'clients.client_intake.close_window'
-      ),
-      customClass: {
-        popup: 'c-alert c-alert--delete',
-      },
-    }).then((result) => {
+    this.helperService.showConfirmationDeleteDialog().then((result) => {
       if (result.isConfirmed) {
-        this.practiceService
-          .deleteCaseFileNote(caseFileNote.subscription, caseFileNote.uuid || '')
-          .subscribe(
-            (data) => {
+        this.practiceService.deleteCaseFileNote(caseFileNote.subscription, caseFileNote.uuid || '').subscribe(
+            {
+              next: (data) => {
+                  const arrayFiltered = this.caseFileNotes.filter(x => x.uuid !== caseFileNote.uuid);
+                  this.caseFileNotes = arrayFiltered;
+                  this.dataSourceCaseFileNotes.data = this.caseFileNotes;
 
-              const arrayFiltered = this.caseFileNotes.filter(x => x.uuid !== caseFileNote.uuid);
-              this.caseFileNotes = arrayFiltered;
-              this.dataSourceCaseFileNotes.data = this.caseFileNotes;
-
-              this.toastr.success(
-                'Ok',
-                this.translateService.instant(
-                  'successMessages.deleted_successfully'
-                )
-              );
-            },
-            (error) => {
-              this.toastr.error(
-                'Error',
-                this.translateService.instant('errorMessages.unexpectedError')
-              );
+                  this.helperService.showMessageDeleted()
+              },
+              error: (err) => {
+                this.helperService.showMessageErrorUnexpected()
+              }
             }
-          );
+        );
       }
     });
 

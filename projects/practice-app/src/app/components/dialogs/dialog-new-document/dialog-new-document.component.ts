@@ -161,8 +161,8 @@ export class DialogNewDocumentComponent implements OnInit {
 
   onSetDocumentTemplateType(){
 
-      this.documentTemplateType.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
-      this.variablesSections = [...new Set( this.documentTemplateType.variables ? this.documentTemplateType.variables.map(item => item.section) : '')]
+      this.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
+      this.variablesSections = [...new Set( this.variables ? this.variables.map(item => item.section) : '')]
       this.totalTabs = 1 + this.variablesSections.length
 
   }
