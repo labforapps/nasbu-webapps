@@ -225,6 +225,11 @@ export class NewInvoiceComponent implements OnInit {
     this.formService.addItemFormArray(this.invoiceForm,formArray,item);
   }
 
+  returnIndexFormArrayInvoiceDetail(detail:any){
+    const index =  this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
+    return index !== -1 ? index : 0
+  }
+
   removeItemFormArray(formArray:string,detail:any){
     const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
     this.formService.removeItemFormArray(this.invoiceForm,formArray,index);
@@ -288,7 +293,9 @@ export class NewInvoiceComponent implements OnInit {
     })
   }
 
-  onChangeInvoiceDetail(formArray:string,index:number){
+  onChangeInvoiceDetail(formArray:string,detail:any){
+
+    const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail)
 
     const invoice = this.invoiceForm.value.details[index];
 

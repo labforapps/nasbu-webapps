@@ -167,13 +167,19 @@ export class DialogNewExpedientComponent implements OnInit {
 
   onSetDocumentTemplateType(selection:MatSelectChange){
 
-    this.caseFileTypeSelected = this.caseFileTypes.find(x => x.uuid === selection?.value)
+   this.setVariablesSectionCaseFileForm(selection.value)
+
+  }
+
+  setVariablesSectionCaseFileForm(uuid:string) {
+
+    this.caseFileTypeSelected = this.caseFileTypes.find(x => x.uuid === uuid)
 
     this.caseFileTypeSelected?.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
     this.variablesSections = [...new Set( this.caseFileTypeSelected?.variables ? this.caseFileTypeSelected.variables.map(item => item.section) : '')]
     this.totalTabs = 1 + this.variablesSections.length
 
-}
+  }
 
   doesReceiveRetainer(){
     if(this.securityUserSelected && this.securityUserSelected.billing_fees.length > 0) return !this.securityUserSelected.billing_fees[0].allow_retainers && !this.caseFileForm.value.flat_fee;
@@ -193,7 +199,10 @@ export class DialogNewExpedientComponent implements OnInit {
   getCaseFileTypes(){
     this.practiceService.getCaseFileTypes(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFileTypes = data
-      if(this.caseFileTypeFromDialog) this.caseFileForm.patchValue({casefile_type: this.caseFileTypeFromDialog.uuid})
+      if(this.caseFileTypeFromDialog) {
+        this.caseFileForm.patchValue({casefile_type: this.caseFileTypeFromDialog.uuid})
+        this.setVariablesSectionCaseFileForm(this.caseFileTypeFromDialog.uuid || '')
+      }
     })
   }
 

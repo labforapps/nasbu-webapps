@@ -26,8 +26,8 @@
                 </div>
                 <div class="c-stepper__subheader">
                   <b>{{'clients.client_intake.form_create.general_data' | translate}}</b>
-                  <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'5' } }}</p>
-                  <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'3' } }}</p>
+                  <p *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'5' } }}</p>
+                  <p *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.steps_title' | translate: { current:'1', next:'3' } }}</p>
                 </div>
                 <div class="c-stepper__body">
                   <div class="row">
@@ -35,8 +35,8 @@
                       <div class="d-flex flex-wrap u-gap-1">
                         <label class="u-title-label mr-5 mb-0">{{'clients.client_intake.form_create.what_profile_identifies_you_best' | translate}}</label>
                         <mat-radio-group>
-                          <mat-radio-button checked value="1" class="c-radioButton mr-3 u-normalSize" (click)="setCustomerType('P')">{{'clients.client_intake.form_create.person' | translate}}</mat-radio-button>
-                          <mat-radio-button value="2" class="c-radioButton u-normalSize" (click)="setCustomerType('B')">{{'clients.client_intake.form_create.business' | translate}}</mat-radio-button>
+                          <mat-radio-button checked value="1" class="c-radioButton mr-3 u-normalSize" (click)="setCustomerType(typeCustomer.person)">{{'clients.client_intake.form_create.person' | translate}}</mat-radio-button>
+                          <mat-radio-button value="2" class="c-radioButton u-normalSize" (click)="setCustomerType(typeCustomer.business)">{{'clients.client_intake.form_create.business' | translate}}</mat-radio-button>
                         </mat-radio-group>
                       </div>
                     </div>
@@ -152,13 +152,13 @@
                   </div>
                 </div>
                 <div class="c-stepper__subheader">
-                  <b *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.circumstantial_data' | translate}}</b>
-                  <b *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.address_data' | translate}}</b>
-                  <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:5} }}</p>
-                  <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:3} }}</p>
+                  <b *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.circumstantial_data' | translate}}</b>
+                  <b *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.address_data' | translate}}</b>
+                  <p *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:5} }}</p>
+                  <p *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.steps_title' | translate: {current:2,next:3} }}</p>
                 </div>
                 <div class="c-stepper__body">
-                  <div *ngIf="customerType === 'P'">
+                  <div *ngIf="customerType === typeCustomer.person">
 
                     <div class="row">
                       <div class="col-sm-6">
@@ -204,7 +204,7 @@
                     </div>
 
                   </div>
-                  <hr class="u-divider u-divider--light" *ngIf="customerType === 'P'">
+                  <hr class="u-divider u-divider--light" *ngIf="customerType === typeCustomer.person">
                   <div class="row">
                     <div class="col-sm-6" formArrayName="addresses">
 
@@ -330,7 +330,7 @@
 
 
 
-            <form [formGroup]="createRepresentative" #form="ngForm" *ngIf="customerType === 'B'">
+            <form [formGroup]="createRepresentative" #form="ngForm" *ngIf="customerType === typeCustomer.business">
 
               <mat-step>
                 <div class="c-stepper__header">
@@ -624,8 +624,8 @@
                </div>
                <div class="c-stepper__subheader">
                 <b>{{'clients.client_intake.form_create.summary_information' | translate}}</b>
-                <p *ngIf="customerType === 'B'">{{'clients.client_intake.form_create.steps_title' | translate: {current:5,next:5} }}</p>
-                <p *ngIf="customerType === 'P'">{{'clients.client_intake.form_create.steps_title' | translate: {current:3,next:3} }}</p>
+                <p *ngIf="customerType === typeCustomer.business">{{'clients.client_intake.form_create.steps_title' | translate: {current:5,next:5} }}</p>
+                <p *ngIf="customerType === typeCustomer.person">{{'clients.client_intake.form_create.steps_title' | translate: {current:3,next:3} }}</p>
                </div>
                <div class="c-stepper__body" *ngIf="customer">
                 <div class="row">
@@ -690,7 +690,7 @@
                 </div>
                </div>
 
-             <div *ngIf="customerType === 'B' && customerRepresentative">
+             <div *ngIf="customerType === typeCustomer.business && customerRepresentative">
               <div class="c-stepper__subheader">
                 <b>{{'clients.client_intake.form_create.representative_data' | translate}}</b>
               </div>
