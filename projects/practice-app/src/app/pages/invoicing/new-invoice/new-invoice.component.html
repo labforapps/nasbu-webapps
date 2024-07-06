@@ -116,7 +116,7 @@
 
                                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                       <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
-                                      <mat-select formControlName="billing_type" (selectionChange)="onChangeInvoiceDetail('details',i)">
+                                      <mat-select formControlName="billing_type" (selectionChange)="onChangeInvoiceDetail('details',invoice_detail.value)">
                                         <mat-option [value]="billingType.PER_HOUR">
                                           {{'invoicing.invoice.hourly_rate' | translate}}
                                       </mat-option>
@@ -127,32 +127,32 @@
                                   </mat-form-field>
                                   </td>
                                   <td data-label="Duración en Hr.">
-                                      <mat-form-field appearance="fill" class="c-form-group input--outlined" >
+                                      <mat-form-field appearance="fill" class="c-form-group input--outlined" [ngClass]="{'input--disabled': invoice_detail.value.billing_type === billingType.FLAT_FEE}" >
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
-                                          <input class="c-form-group__input " matInput
+                                          <input class="c-form-group__input" matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="total_hours"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE">
                                       </mat-form-field>
                                   </td>
                                   <td data-label="Precio x Hr.">
-                                      <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                      <mat-form-field appearance="fill" class="c-form-group input--filled" [ngClass]="{'input--disabled': invoice_detail.value.billing_type === billingType.FLAT_FEE}">
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
                                           <input class="c-form-group__input " matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_price_per_hour"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE">
                                       </mat-form-field>
                                   </td>
                                   <td data-label="Precio fijo">
-                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined" [ngClass]="{'input--disabled': invoice_detail.value.billing_type === billingType.PER_HOUR}">
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
                                           <input class="c-form-group__input" matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_amt"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>
@@ -188,7 +188,7 @@
                               </tr>
                           </thead>
                           <tbody formArrayName="details">
-                              <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="i">
+                              <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="returnIndexFormArrayInvoiceDetail(legal_expense.value)">
                                   <td>
                                     <span class="icon-times mr-2" (click)="removeItemFormArray('details',legal_expense.value)"></span>
                                   </td>
@@ -206,7 +206,7 @@
                                   </td>
                                   <td data-label="Tipo Facturación">
 
-                                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select" (selectionChange)="onChangeInvoiceDetail('details',legal_expense.value)">
                                           <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
                                           <mat-select formControlName="billing_type">
                                             <mat-option [value]="billingType.PER_HOUR">
@@ -219,35 +219,35 @@
                                       </mat-form-field>
                                   </td>
                                   <td data-label="Duración en Hr.">
-                                      <mat-form-field appearance="fill" class="c-form-group input--outlined">
+                                      <mat-form-field appearance="fill" class="c-form-group input--outlined" [ngClass]="{'input--disabled': legal_expense.value.billing_type === billingType.FLAT_FEE}" >
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
                                           <input class="c-form-group__input "
                                                  matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="total_hours"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',legal_expense.value)"
                                                  [readonly]="legal_expense.value.billing_type === billingType.FLAT_FEE">
                                       </mat-form-field>
                                   </td>
                                   <td data-label="Precio x Hr.">
-                                      <mat-form-field appearance="fill" class="c-form-group input--filled">
+                                      <mat-form-field appearance="fill" class="c-form-group input--filled" [ngClass]="{'input--disabled': legal_expense.value.billing_type === billingType.FLAT_FEE}" >
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
                                           <input class="c-form-group__input "
                                                  matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_price_per_hour"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',legal_expense.value)"
                                                  [readonly]="legal_expense.value.billing_type === billingType.FLAT_FEE">
                                       </mat-form-field>
                                   </td>
                                   <td data-label="Precio fijo">
-                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                      <mat-form-field appearance="fill" class="c-form-group  input--outlined" [ngClass]="{'input--disabled': legal_expense.value.billing_type === billingType.PER_HOUR}" >
                                           <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
                                           <input class="c-form-group__input"
                                                  matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_amt"
-                                                 (blur)="onChangeInvoiceDetail('details',i)"
+                                                 (blur)="onChangeInvoiceDetail('details',legal_expense.value)"
                                                  [readonly]="legal_expense.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>

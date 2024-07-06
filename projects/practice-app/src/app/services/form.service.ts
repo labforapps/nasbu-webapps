@@ -71,6 +71,9 @@ export class FormService {
   {
     const invoiceDetailArray = (form.get('details') as FormArray).controls.filter((control) => {
       return control.get('description')?.value === invoice_detail.description &&
+       control.get('billing_type')?.value === invoice_detail.billing_type &&
+       control.get('total_amt')?.value === invoice_detail.total_amt &&
+       control.get('related_charge')?.value === invoice_detail.related_charge &&
       control.get('is_legal_charge')?.value === invoice_detail.is_legal_charge
     });
 
