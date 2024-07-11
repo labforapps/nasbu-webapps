@@ -245,6 +245,14 @@
                 border: 1px solid #0D6AFF !important;
             }
         }
+        &--disabled {
+          .mat-form-field-flex {
+            background-color: transparent;
+            color: lightgray;
+            border: 1px solid #CBCBCB !important;
+            pointer-events: none;
+          }
+        }
     }
 }
 

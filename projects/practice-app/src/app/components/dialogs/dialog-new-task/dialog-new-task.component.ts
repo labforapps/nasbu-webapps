@@ -173,18 +173,22 @@ export class DialogNewTaskComponent implements OnInit {
   }
 
   onChangeCaseFile(uuid:string){
-    const caseFileSelected: CaseFile | undefined  = this.caseFiles.find(x => x.uuid === uuid);
 
-    this.taskForm.patchValue({
-      hourly_rate: caseFileSelected?.billing_type === this.billingType.PER_HOUR,
-      increment_of_time: caseFileSelected?.billing_type === this.billingType.BY_TIME_INCREMENT,
-      flat_fee: caseFileSelected?.billing_type === this.billingType.FLAT_FEE,
-      price_per_increment: caseFileSelected?.billing_type === this.billingType.BY_TIME_INCREMENT ? caseFileSelected.bt_amt : 0,
-      billing_type: caseFileSelected?.billing_type,
-      bt_price_per_hour: caseFileSelected?.bt_price_per_hour,
-      bt_increment_factor: caseFileSelected?.bt_increment_factor,
-      bt_amt: caseFileSelected?.bt_amt,
-    })
+    if(!this.dataDialog.caseFile)
+    {
+      const caseFileSelected: CaseFile | undefined  = this.caseFiles.find(x => x.uuid === uuid);
+
+      this.taskForm.patchValue({
+        hourly_rate: caseFileSelected?.billing_type === this.billingType.PER_HOUR,
+        increment_of_time: caseFileSelected?.billing_type === this.billingType.BY_TIME_INCREMENT,
+        flat_fee: caseFileSelected?.billing_type === this.billingType.FLAT_FEE,
+        price_per_increment: caseFileSelected?.billing_type === this.billingType.BY_TIME_INCREMENT ? caseFileSelected.bt_amt : 0,
+        billing_type: caseFileSelected?.billing_type,
+        bt_price_per_hour: caseFileSelected?.bt_price_per_hour,
+        bt_increment_factor: caseFileSelected?.bt_increment_factor,
+        bt_amt: caseFileSelected?.bt_amt,
+      })
+    }
 
   }
 

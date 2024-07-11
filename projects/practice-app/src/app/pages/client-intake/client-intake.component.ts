@@ -215,15 +215,11 @@ export class ClientIntakeComponent implements OnInit {
 
     formArray.patchValue([
       {
-        postal_city: checked
-          ? formArray.controls[0].get('physical_city')?.value
-          : '',
-        postal_address: checked
-          ? formArray.controls[0].get('physical_address')?.value
-          : '',
-        postal_postal_code: checked
-          ? formArray.controls[0].get('physical_postal_code')?.value
-          : '',
+        postal_city: checked ? formArray.controls[0].get('physical_city')?.value : '',
+        postal_address: checked ? formArray.controls[0].get('physical_address')?.value : '',
+        postal_postal_code: checked ? formArray.controls[0].get('physical_postal_code')?.value : '',
+        postal_country: checked ? formArray.controls[0].get('physical_country')?.value : '',
+        postal_state: checked ? formArray.controls[0].get('physical_state')?.value : ''
       },
     ]);
   }
@@ -235,15 +231,11 @@ export class ClientIntakeComponent implements OnInit {
 
     formArray.patchValue([
       {
-        postal_city: checked
-          ? formArray.controls[0].get('physical_city')?.value
-          : '',
-        postal_address: checked
-          ? formArray.controls[0].get('physical_address')?.value
-          : '',
-        postal_postal_code: checked
-          ? formArray.controls[0].get('physical_postal_code')?.value
-          : '',
+        postal_city: checked ? formArray.controls[0].get('physical_city')?.value : '',
+        postal_address: checked ? formArray.controls[0].get('physical_address')?.value : '',
+        postal_postal_code: checked ? formArray.controls[0].get('physical_postal_code')?.value : '',
+        postal_country: checked ? formArray.controls[0].get('physical_country')?.value : '',
+        postal_state: checked ? formArray.controls[0].get('physical_state')?.value : ''
       },
     ]);
   }
@@ -289,6 +281,8 @@ export class ClientIntakeComponent implements OnInit {
       'physical_city',
       'physical_address',
       'physical_postal_code',
+      'postal_country',
+      'postal_state',
       'postal_city',
       'postal_address',
       'postal_postal_code',
