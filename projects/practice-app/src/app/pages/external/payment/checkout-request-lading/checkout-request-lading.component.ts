@@ -14,6 +14,7 @@ export class CheckoutRequestLadingComponent implements OnInit {
   token$!: Subscription;
   token!: string;
   completed: boolean = false;
+  loading:boolean = true;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -47,10 +48,20 @@ export class CheckoutRequestLadingComponent implements OnInit {
                    if (response.is_valid) {
                       this.updatePaymentCheckoutRequest();
                    }
+                   else{
+                    this.loading = false
+                    this.completed = false
+                   }
               }, (error) => {
+                  this.loading = false
+                  this.completed = false
                   console.log('Error: ', error);
                   this.toastrService.error('Error validating pg checkout request.');
               });
+      }
+      else{
+        this.loading = false
+        this.completed = false
       }
   }
 
@@ -59,10 +70,13 @@ export class CheckoutRequestLadingComponent implements OnInit {
         .updatePaymentCheckoutRequest(this.token)
         .subscribe((pgCheckoutRequestResponse: any) => {
             this.completed = true;
+            this.loading = false
             setTimeout(() => {
                 window.close();
             }, 20000);
         }, (error) => {
+            this.loading = false
+            this.completed = false
             console.log('Error: ', error);
             this.toastrService.error('Error completing PG Checkout request.')
         })

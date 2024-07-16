@@ -73,6 +73,28 @@
                 </div>
             </div>
 
+            <div class="row">
+
+              <div class="col-md-6">
+                <label class="u-title-label d-block mt-4">Aplicar retención de pago</label>
+                <mat-radio-group aria-label="Select an option" formControlName="receive_retainer">
+                    <mat-radio-button class="c-radioButton mr-3" [value]="true">Si</mat-radio-button>
+                    <mat-radio-button class="c-radioButton mr-3" [value]="false">No</mat-radio-button>
+                </mat-radio-group>
+                <p class="u-smallerSize  mt-2">
+                  {{ 'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate }}
+                </p>
+              </div>
+              <div class="col-md-6 mt-4 text-center" *ngIf="caseFileForm.value.receive_retainer">
+                <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
+                <mat-form-field appearance="fill" class="c-form-group col-md-9">
+                    <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
+                    <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true">
+                </mat-form-field>
+              </div>
+
+            </div>
+
 
             <div class="row mt-5">
                 <div class="col-md-6">
@@ -84,18 +106,6 @@
                         </mat-checkbox >
                         <p class="u-smallerSize ml-5 mt-1">
                           {{ 'invoice_parameter.this_model_your_hourly_rate_time_invested_in_a_task' | translate }}
-                        </p>
-
-                        <!-- <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
-                        [disabled]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true || caseFile !== undefined ? !caseFile.receive_retainer : true">
-                          {{ 'invoice_parameter.retainer' | translate }}
-                        </mat-checkbox> -->
-                        <mat-checkbox value="2" class="c-checkbox u-smallSize u-fontBold" formControlName="receive_retainer"
-                        [disabled]="doesReceiveRetainer()">
-                          {{ 'invoice_parameter.retainer' | translate }}
-                        </mat-checkbox>
-                        <p class="u-smallerSize ml-5 mt-1">
-                          {{ 'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate }}
                         </p>
 
                         <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time"
@@ -126,13 +136,7 @@
                                 <input class="c-form-group__input" matInput placeholder="Ej: 25 USD" formControlName="bt_price_per_hour" [readonly]="!caseFileForm.value.hourly_rate">
                             </mat-form-field>
                     </div>
-                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.receive_retainer">
-                            <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
-                            <mat-form-field appearance="fill" class="c-form-group col-md-9">
-                                <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                                <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true">
-                            </mat-form-field>
-                    </div>
+
                     <div class="mb-2 text-center" *ngIf="caseFileForm.value.increment_of_time">
                             <label class="u-title-label">{{'invoice_parameter.increment_factor' | translate}}</label>
                             <mat-form-field appearance="fill" class="c-form-group col-md-9">
@@ -147,7 +151,7 @@
                                 <input class="c-form-group__input" matInput placeholder="Ej:25 USD" formControlName="price_per_increment">
                             </mat-form-field>
                     </div>
-                    <div class="mb-2 text-center" *ngIf="caseFileForm.value.flat_fee">
+                    <div class="mb-4 text-center" *ngIf="caseFileForm.value.flat_fee">
                       <label class="u-title-label">Flat Fee (Monto Fijo)</label>
                       <mat-form-field appearance="fill" class="c-form-group col-md-9">
                           <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
