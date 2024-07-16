@@ -1,4 +1,26 @@
-<main class="l-blank" *ngIf="completed">
+<main class="l-blank" *ngIf="loading">
+  <header class="l-blank__header">
+    <img src="../../../assets/images/white-logo.svg" alt="">
+  </header>
+<div class="l-blank__content">
+    <div class="c-recovery" [style.backgroundColor]="'white'">
+
+        <div class="mb-5 loading-circle">
+          <mat-spinner color="#389856"></mat-spinner>
+        </div>
+        <h4 class="mb-5 u-textBold u-textColor u-bigSize2">Procesando pago...</h4>
+        <p class="u-textColor text-center mb-5">
+            Espere por favor unos segundos para confirmar la operacion.
+        </p>
+        <p class="u-textColor text-center mb-5">
+         Esperando respuesta
+        </p>
+        <!-- <button mat-button class="c-btn c-btn--primary w-100 u-smallSize" (click)="navigateToSignin()">{{'confirmAccount.gotoLoginButton' | translate}}</button> -->
+    </div>
+</div>
+</main>
+
+<main class="l-blank" *ngIf=" !loading && completed">
   <header class="l-blank__header">
       <img src="../../../assets/images/white-logo.svg" alt="">
   </header>
@@ -17,7 +39,7 @@
   </div>
 </main>
 
-<main class="l-blank" *ngIf="!completed">
+<main class="l-blank" *ngIf="!loading && !completed">
   <header class="l-blank__header">
       <img src="../../../assets/images/white-logo.svg" alt="">
   </header>
@@ -35,3 +57,4 @@
       </div>
   </div>
 </main>
+

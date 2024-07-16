@@ -83,7 +83,8 @@ export class NewInvoiceComponent implements OnInit {
           total_amt: [0],
           related_charge: [''],
           bt_amt: 0,
-          is_legal_charge: [false]
+          is_legal_charge: [false],
+          retainer_amt: [0]
         })
       ])
     })
@@ -220,7 +221,8 @@ export class NewInvoiceComponent implements OnInit {
           total_amt: [0],
           related_charge: [''],
           bt_amt: 0,
-          is_legal_charge: [is_legal_charge]
+          is_legal_charge: [is_legal_charge],
+          retainer_amt: [0]
     }
     this.formService.addItemFormArray(this.invoiceForm,formArray,item);
   }
@@ -302,14 +304,14 @@ export class NewInvoiceComponent implements OnInit {
     let total = 0;
 
     if(invoice.billing_type === this.billingType.PER_HOUR) {
-      total = invoice.bt_price_per_hour * invoice.total_hours;
+      total = (invoice.bt_price_per_hour * invoice.total_hours) - invoice.retainer_amt;
       (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
         bt_amt: 0,
         total_amt: Number(total).toFixed(2)
       });
     }
     if(invoice.billing_type === this.billingType.FLAT_FEE) {
-      total = invoice.bt_amt;
+      total = invoice.bt_amt  - invoice.retainer_amt;
       (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
         total_hours: 0,
         bt_price_per_hour: 0,
