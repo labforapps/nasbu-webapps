@@ -355,3 +355,8 @@ export enum AccessType {
   PUBLIC = 'public'
 }
 
+export enum SortingTaskFilter {
+  NEXT_TO_DUE = 'next_to_due',
+  CREATED_DATE = 'created_date',
+  DUE_DATE = 'due_date'
+}

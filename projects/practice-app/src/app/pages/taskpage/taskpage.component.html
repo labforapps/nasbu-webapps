@@ -27,7 +27,7 @@
                   </div>
               </ng-template>
 
-              <app-task-table [tasks]="allTasks" (onExecuteTask)="onExecuteTaskEvent()">
+              <app-task-table [tasks]="allTasks" [taskStatusInput]="taskStatus.ALL" (onExecuteTask)="onExecuteTaskEvent()">
               </app-task-table>
           </mat-tab>
 
@@ -39,7 +39,7 @@
                 </div>
             </ng-template>
 
-            <app-task-table [tasks]="pendingTasks" (onExecuteTask)="onExecuteTaskEvent()">
+            <app-task-table [tasks]="pendingTasks" [taskStatusInput]="taskStatus.OPEN" (onExecuteTask)="onExecuteTaskEvent()">
             </app-task-table>
         </mat-tab>
 
@@ -51,7 +51,7 @@
                 </div>
             </ng-template>
 
-            <app-task-table [tasks]="completedTasks" (onExecuteTask)="onExecuteTaskEvent()">
+            <app-task-table [tasks]="completedTasks" [taskStatusInput]="taskStatus.CLOSED" (onExecuteTask)="onExecuteTaskEvent()">
             </app-task-table>
         </mat-tab>
 
@@ -63,7 +63,7 @@
             </div>
         </ng-template>
 
-        <app-task-table [tasks]="overdueTasks" (onExecuteTask)="onExecuteTaskEvent()">
+        <app-task-table [tasks]="overdueTasks" [taskStatusInput]="taskStatus.OVERDUE" (onExecuteTask)="onExecuteTaskEvent()">
         </app-task-table>
     </mat-tab>
 

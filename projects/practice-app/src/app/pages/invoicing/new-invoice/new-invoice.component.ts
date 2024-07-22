@@ -123,7 +123,8 @@ export class NewInvoiceComponent implements OnInit {
         total_amt: x.total_amt,
         related_charge: x.related_charge,
         bt_amt: x.total_amt,
-        is_legal_charge: x.is_legal_charge
+        is_legal_charge: x.is_legal_charge,
+        retainer_amt: x.retainer_amt
       }));
     }
   }

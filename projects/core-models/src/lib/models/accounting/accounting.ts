@@ -67,6 +67,7 @@ export interface InvoiceDetail {
   customer?:           string;
   case_file?:          string;
   task?:               string;
+  retainer_amt:        number;
 }
 
 export interface InvoicePayload {

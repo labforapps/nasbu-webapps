@@ -106,3 +106,16 @@ export interface SubscriptionPaymentMethodPayload {
     subscription: string;
     request_id: string;
 }
+
+export interface SubscriptionPaymentGateway {
+    uuid:                 string;
+    active:               boolean;
+    created_at:           Date;
+    updated_at:           Date;
+    payment_gateway_info: string;
+    is_default:           boolean;
+    created_by:           string;
+    updated_by:           string;
+    subscription:         string;
+    payment_gateway:      string;
+}

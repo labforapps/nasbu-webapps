@@ -108,4 +108,25 @@ export class SubscriptionService {
     return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
   }
 
+  getSubscriptionPaymentGateway(subscription: string): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
+  }
+
+  createSubscriptionPaymentGateway(subscription: string): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
+  }
+
+  updateSubscriptionPaymentGateway(subscription: string): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
+  }
+
+  deleteSubscriptionPaymentGateway(subscription: string): Observable<SubscriptionPaymentMethod> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
+  }
+
+
 }

@@ -9,6 +9,23 @@
 
   <div class="c-filter__body">
     <form [formGroup]="filterForm">
+
+      <label class="u-title-label">Ordenar lista por</label>
+      <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
+          <mat-label>Seleccionar opción</mat-label>
+          <mat-select formControlName="sorting_filter">
+            <mat-option [value]="sortingTaskFilter.NEXT_TO_DUE">
+              Próximas a vencer (Más antigua a reciente)
+          </mat-option>
+          <mat-option [value]="sortingTaskFilter.CREATED_DATE">
+              Fecha de creación (Reciente a más antigua)
+          </mat-option>
+          <mat-option [value]="sortingTaskFilter.DUE_DATE" *ngIf="taskStatusInput !== taskStatus.OPEN ">
+              Fecha de vencimiento (Reciente a más antigua)
+          </mat-option>
+          </mat-select>
+      </mat-form-field>
+
       <label class="u-title-label">{{ 'tasks.filterModal.priority' | translate }}</label>
       <mat-form-field appearance="fill" class="c-form-group c-form-group--small c-form-group__select">
           <mat-label>Seleccionar</mat-label>
