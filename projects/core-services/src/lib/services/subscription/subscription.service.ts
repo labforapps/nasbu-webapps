@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -107,5 +107,40 @@ export class SubscriptionService {
     const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/${paymentMethodId}/set_as_default/?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionPaymentMethod>(serverUrl);
   }
+
+  getSubscriptionPaymentGateway(subscription: string): Observable<SubscriptionPaymentGateway[]> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionPaymentGateway[]>(serverUrl);
+  }
+
+  createSubscriptionPaymentGateway(payload:CreateSubscriptionPaymentGateway): Observable<SubscriptionPaymentGateway> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/?subscription=${payload.subscription}`;
+    return this.httpClient.post<SubscriptionPaymentGateway>(serverUrl,payload);
+  }
+
+  updateSubscriptionPaymentGateway(payload:CreateSubscriptionPaymentGateway): Observable<SubscriptionPaymentGateway> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/${payload.uuid}/?subscription=${payload.subscription}`;
+    return this.httpClient.put<SubscriptionPaymentGateway>(serverUrl,payload);
+  }
+
+  saveSubscriptionPaymentGateway(subscriptionPaymentGateway:CreateSubscriptionPaymentGateway){
+
+    let saveOperation$: Observable<SubscriptionPaymentGateway>;
+    const payload: CreateSubscriptionPaymentGateway = { ...subscriptionPaymentGateway };
+    if (subscriptionPaymentGateway.uuid != null && subscriptionPaymentGateway.uuid !== '') {
+      saveOperation$ = this.updateSubscriptionPaymentGateway(payload);
+    } else {
+      saveOperation$ = this.createSubscriptionPaymentGateway(payload);
+    }
+    return saveOperation$;
+
+  }
+
+
+  deleteSubscriptionPaymentGateway(subscription: string,uuid:string): Observable<SubscriptionPaymentGateway> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<SubscriptionPaymentGateway>(serverUrl);
+  }
+
 
 }

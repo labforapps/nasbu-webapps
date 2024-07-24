@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DialogChargedHoursComponent } from '../../../../components/dialogs/dialog-charged-hours/dialog-charged-hours.component';
 import { MatPaginator } from '@angular/material/paginator';
-import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile, BillingType, Action } from 'core-models';
+import { Task, TaskTypeEnum, TaskTypeiIconClassMap,TaskStatus,PriorityTask, modules, Customer, SecurityUser, CaseFile, BillingType, Action, SortingTaskFilter } from 'core-models';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 import { PracticeService } from 'core-services';
 import { TaskTypeIconSVG } from 'projects/core-models/src/public-api';
@@ -23,6 +23,7 @@ export class TaskTableComponent  implements OnChanges {
   @Input() customer!:Customer;
   @Input() securityUser!:SecurityUser;
   @Input() caseFile!:CaseFile;
+  @Input() taskStatusInput:TaskStatus = TaskStatus.ALL
   @Output() onExecuteTask = new EventEmitter<any>();
   moduleEnum = modules;
   taskStatus = TaskStatus;
@@ -35,6 +36,7 @@ export class TaskTableComponent  implements OnChanges {
   public taskPriority = PriorityTask;
   billingType = BillingType
   actionEnum = Action
+  sortingTaskFilter = SortingTaskFilter
 
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
@@ -138,7 +140,7 @@ export class TaskTableComponent  implements OnChanges {
     this.selectedTask = task;
   }
 
-  onFilter(filter:{status?: TaskStatus | null,priority?: PriorityTask | null, assigned_to: null,type: null}){
+  onFilter(filter:{status?: TaskStatus | null,priority?: PriorityTask | null, assigned_to: null,type: null, sorting_filter: SortingTaskFilter}){
     let keys = Object.keys(filter);
 
     if(!keys.length){
@@ -155,6 +157,31 @@ export class TaskTableComponent  implements OnChanges {
 
     if(filter.assigned_to) filteredTasks = filteredTasks.filter(x => x.assigned_to.uuid === filter.assigned_to);
     if(filter.type) filteredTasks = filteredTasks.filter(x => x.type.uuid === filter.type)
+
+    if(filter.sorting_filter){
+
+      switch (filter.sorting_filter) {
+        case this.sortingTaskFilter.NEXT_TO_DUE:
+          filteredTasks =  this.tasks.filter(task => task.status === this.taskStatus.OPEN && task.overdue === false && task.end_date && new Date(task.end_date) >= new Date())
+          .sort((a, b) => new Date(a.end_date!).getTime() - new Date(b.end_date!).getTime());
+          break;
+        case this.sortingTaskFilter.CREATED_DATE:
+          filteredTasks = this.tasks.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+          break;
+        case this.sortingTaskFilter.DUE_DATE:
+          const expiredTasks = this.tasks.filter(task => task.status === this.taskStatus.OPEN  && task.end_date && new Date(task.end_date) < new Date());
+          const dueSoonTasks = this.tasks.filter(task => task.status === this.taskStatus.OPEN  && task.end_date && new Date(task.end_date) >= new Date());
+          const closedTasks = this.tasks.filter(task => task.status !== this.taskStatus.OPEN );
+
+          filteredTasks = [
+            ...expiredTasks.sort((a, b) => new Date(b.end_date!).getTime() - new Date(a.end_date!).getTime()),
+            ...dueSoonTasks.sort((a, b) => new Date(a.end_date!).getTime() - new Date(b.end_date!).getTime()),
+            ...closedTasks
+          ];
+          break;
+      }
+
+    }
 
     this.dataSource.data = filteredTasks;
   }

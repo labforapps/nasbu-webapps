@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { TaskType, TaskStatus, PriorityTask, SecurityUser,Task, AssignedTo } from 'core-models';
-import { CommonService, SecurityService } from 'core-services';
+import { TaskType, TaskStatus, PriorityTask,Task, AssignedTo, SortingTaskFilter } from 'core-models';
+import { CommonService } from 'core-services';
 
 @Component({
   selector: 'app-task-filter',
@@ -12,10 +12,13 @@ export class TaskFilterComponent {
 
   @Output() filter: EventEmitter<any> = new EventEmitter();
   @Input() tasks!:Task[];
+  @Input() taskStatusInput:TaskStatus = TaskStatus.ALL
   filterForm:FormGroup;
   priorityTask = PriorityTask;
   securityUsers!:AssignedTo[];
   taskTypes!:TaskType[];
+  sortingTaskFilter = SortingTaskFilter
+  taskStatus = TaskStatus
 
   constructor(private commonService:CommonService) {
     this.filterForm = this.setForm();
@@ -28,6 +31,7 @@ export class TaskFilterComponent {
 
   setForm() {
     return new FormGroup({
+      sorting_filter: new FormControl(''),
       status: new FormControl(''),
       priority: new FormControl(''),
       assigned_to: new FormControl(''),

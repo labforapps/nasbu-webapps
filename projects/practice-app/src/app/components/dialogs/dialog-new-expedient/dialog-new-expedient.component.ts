@@ -8,7 +8,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CreateClientComponent } from '../../../pages/client/create-client/create-client.component';
 import { MatSelectChange } from '@angular/material/select';
-import { CreateTemplatesTypesComponent } from '../../../pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
 import { CreateExpedientTypeComponent } from '../../../pages/expedient/create-expedient-type/create-expedient-type.component';
 
 @Component({
@@ -65,7 +64,7 @@ export class DialogNewExpedientComponent implements OnInit {
       name: ['',Validators.required],
       case_no: [null],
       customer: ['',Validators.required],
-      assigned_to: ['',Validators.required],
+      assigned_to: [''],
       access_type: [this.accessType.PUBLIC],
       casefile_type: [''],
       bt_price_per_hour: [''],
@@ -269,6 +268,11 @@ export class DialogNewExpedientComponent implements OnInit {
 
     if(!caseFileFormValue.hourly_rate && !caseFileFormValue.increment_of_time && !caseFileFormValue.flat_fee){
       this.toastr.error('Error','Debes elegir algun metodo de facturacion');
+      return;
+    }
+
+    if(caseFileFormValue.access_type === this.accessType.PRIVATE && (caseFileFormValue.assigned_to === '' || caseFileFormValue.assigned_to === null)){
+      this.toastr.error('Error','Debes asignar un usuario a un expediente privado');
       return;
     }
 

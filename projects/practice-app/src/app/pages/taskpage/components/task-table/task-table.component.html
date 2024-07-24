@@ -9,7 +9,7 @@
     {{ 'tasks.table.filterBy' |translate }}
     <button mat-button [matMenuTriggerFor]="filterMenu"><span class="icon-filter"></span></button>
     <mat-menu #filterMenu="matMenu">
-        <app-task-filter (filter)="onFilter($event)" [tasks]="tasks"></app-task-filter>
+        <app-task-filter (filter)="onFilter($event)" [tasks]="tasks" [taskStatusInput]="taskStatusInput"></app-task-filter>
     </mat-menu>
   </div>
   <button class="c-btn-function" mat-button (click)="openDialogNewTask(undefined,actionEnum.CREATE)" *ngIf="module && module !== moduleEnum.TASKS">{{'clients.pending_issues.table_header.create_new_task' | translate}}<span class="icon-plus ml-2 "></span></button>
