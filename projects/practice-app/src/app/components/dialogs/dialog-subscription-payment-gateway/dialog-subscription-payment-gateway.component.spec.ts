@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DialogAddPaymentGatewayComponent } from './dialog-add-payment-gateway.component';
+import { DialogSubscriptionPaymentGateway } from './dialog-subscription-payment-gateway.component';
 
 describe('DialogAddPaymentGatewayComponent', () => {
-  let component: DialogAddPaymentGatewayComponent;
-  let fixture: ComponentFixture<DialogAddPaymentGatewayComponent>;
+  let component: DialogSubscriptionPaymentGateway;
+  let fixture: ComponentFixture<DialogSubscriptionPaymentGateway>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogAddPaymentGatewayComponent ]
+      declarations: [ DialogSubscriptionPaymentGateway ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DialogAddPaymentGatewayComponent);
+    fixture = TestBed.createComponent(DialogSubscriptionPaymentGateway);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

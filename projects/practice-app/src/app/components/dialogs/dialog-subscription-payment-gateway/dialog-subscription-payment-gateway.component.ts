@@ -1,28 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { CreateSubscriptionPaymentGateway, PaymentGateway } from 'core-models';
+import { CreateSubscriptionPaymentGateway, PaymentGateway, SubscriptionPaymentGateway } from 'core-models';
 import { AuthService, CommonService, SubscriptionService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-add-payment-gateway',
-  templateUrl: './dialog-add-payment-gateway.component.html',
-  styleUrls: ['./dialog-add-payment-gateway.component.scss']
+  selector: 'app-dialog-subscription-payment-gateway',
+  templateUrl: './dialog-subscription-payment-gateway.component.html',
+  styleUrls: ['./dialog-subscription-payment-gateway.component.scss']
 })
-export class DialogAddPaymentGatewayComponent implements OnInit {
+export class DialogSubscriptionPaymentGateway implements OnInit {
 
   selectedSubscription!:any;
   paymentGateways!:PaymentGateway[]
   paymentGatewaySelected!:PaymentGateway | undefined;
   totalTabs:number = 0
   paymentGatewayForm!:FormGroup;
+  subscriptionPaymentGateway!:SubscriptionPaymentGateway
 
   constructor(private authService:AuthService,
               private commonService:CommonService,
               private formBuilder:FormBuilder,
               private helperService:HelpersService,
-              private subscriptionService:SubscriptionService) { }
+              private subscriptionService:SubscriptionService,
+              @Inject(MAT_DIALOG_DATA) private dataDialog: {subscriptionPaymentGateway:SubscriptionPaymentGateway}) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -38,10 +41,33 @@ export class DialogAddPaymentGatewayComponent implements OnInit {
 
   }
 
+  setForm(){
+
+    if(this.dataDialog && this.dataDialog.subscriptionPaymentGateway){
+
+      this.subscriptionPaymentGateway = this.dataDialog.subscriptionPaymentGateway
+
+      this.paymentGatewayForm.patchValue({
+        payment_gateway: this.subscriptionPaymentGateway.payment_gateway.uuid
+      })
+
+      this.paymentGatewaySelected = this.dataDialog.subscriptionPaymentGateway.payment_gateway
+
+      const variables:any = JSON.parse(JSON.parse( this.subscriptionPaymentGateway.payment_gateway_info || ''))
+
+      Object.keys(variables).forEach(variable => {
+            this.paymentGatewayForm.addControl(`${variable}`,this.formBuilder.control(`${variables[variable]}`))
+      });
+
+    }
+
+  }
+
   getPaymentGateways(){
     this.commonService.getPaymentGateways().subscribe({
       next: (data) => {
         this.paymentGateways = data
+        this.setForm()
       }
     })
   }
@@ -75,9 +101,16 @@ export class DialogAddPaymentGatewayComponent implements OnInit {
       payment_gateway_info: JSON.stringify(payment_gateway_info)
     }
 
-    this.subscriptionService.createSubscriptionPaymentGateway(payload).subscribe({
+    if(this.subscriptionPaymentGateway) payload.uuid = this.subscriptionPaymentGateway.uuid
+
+    this.subscriptionService.saveSubscriptionPaymentGateway(payload).subscribe({
       next: (data) => {
-        this.helperService.showMessageCreated()
+        if(this.subscriptionPaymentGateway){
+          this.helperService.showMessageUpdated()
+        }
+        else{
+          this.helperService.showMessageCreated()
+        }
       }
     })
 

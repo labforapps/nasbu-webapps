@@ -55,7 +55,7 @@ import { DialogNewVariableComponent } from './dialogs/dialog-new-variable/dialog
 import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-new-section.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DialogSendAccountConfirmationComponent } from './dialogs/dialog-send-account-confirmation/dialog-send-account-confirmation.component';
-import { DialogAddPaymentGatewayComponent } from './dialogs/dialog-add-payment-gateway/dialog-add-payment-gateway.component';
+import { DialogSubscriptionPaymentGateway } from './dialogs/dialog-subscription-payment-gateway/dialog-subscription-payment-gateway.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +101,7 @@ import { DialogAddPaymentGatewayComponent } from './dialogs/dialog-add-payment-g
     DialogNewVariableComponent,
     DialogNewSectionComponent,
     DialogSendAccountConfirmationComponent,
-    DialogAddPaymentGatewayComponent,
+    DialogSubscriptionPaymentGateway,
   ],
   imports: [
     CommonModule,

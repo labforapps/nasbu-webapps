@@ -122,6 +122,7 @@ export interface SubscriptionPaymentGateway {
 }
 
 export interface CreateSubscriptionPaymentGateway {
+  uuid?:                string
   subscription:         string;
   payment_gateway:      string;
   payment_gateway_info: string;

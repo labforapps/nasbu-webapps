@@ -3,9 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { SubscriptionPaymentGateway } from 'core-models';
-import { DialogAddPaymentGatewayComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-add-payment-gateway/dialog-add-payment-gateway.component';
 import { AuthService, SubscriptionService } from 'core-services';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
+import { DialogSubscriptionPaymentGateway } from 'projects/practice-app/src/app/components/dialogs/dialog-subscription-payment-gateway/dialog-subscription-payment-gateway.component';
 
 @Component({
   selector: 'app-subscription-payment-gateway',
@@ -41,7 +41,11 @@ export class SubscriptionPaymentGatewayComponent implements OnInit {
   }
 
   openDialogSubscriptionPaymentGateway(subscriptionPaymentGateway?:SubscriptionPaymentGateway){
-    const dialogRef = this.dialog.open( DialogAddPaymentGatewayComponent);
+    const dialogRef = this.dialog.open( DialogSubscriptionPaymentGateway,{
+      data: {
+        subscriptionPaymentGateway
+      }
+    });
 
     dialogRef.afterClosed().subscribe({
       next: (data) => {
