@@ -1,4 +1,4 @@
-import { PaymentGateway } from "core-models";
+import { PaymentGateway } from "../common";
 import { Address, Contact } from "../shared";
 
 export type SubscriptionPeriod = 'M' | 'Y';
