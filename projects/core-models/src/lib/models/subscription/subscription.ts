@@ -1,3 +1,4 @@
+import { PaymentGateway } from "core-models";
 import { Address, Contact } from "../shared";
 
 export type SubscriptionPeriod = 'M' | 'Y';
@@ -117,5 +118,11 @@ export interface SubscriptionPaymentGateway {
     created_by:           string;
     updated_by:           string;
     subscription:         string;
-    payment_gateway:      string;
+    payment_gateway:      PaymentGateway;
+}
+
+export interface CreateSubscriptionPaymentGateway {
+  subscription:         string;
+  payment_gateway:      string;
+  payment_gateway_info: string;
 }

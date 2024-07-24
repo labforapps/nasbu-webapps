@@ -4,6 +4,9 @@
      <span> Agregar merchant</span>
   </div>
 
+  <form [formGroup]="paymentGatewayForm" (submit)="submitForm()">
+
+
   <mat-dialog-content>
 
     <div class="row">
@@ -11,14 +14,23 @@
           <label class="u-title-label">Proveedor</label>
           <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
             <mat-label>Seleccionar proveedor</mat-label>
-            <mat-select formControlName="casefile_type">
-                <mat-option >
+            <mat-select formControlName="payment_gateway" (selectionChange)="onSelectChange($event)">
+                <mat-option *ngFor="let paymentGateway of paymentGateways" [value]="paymentGateway.uuid">
+                  {{paymentGateway.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
+        <div *ngFor="let variable of paymentGatewaySelected?.variables">
+          <label class="u-title-label">{{variable.name}}</label>
+          <mat-form-field appearance="fill" class="c-form-group">
+              <mat-label>{{variable.name}}</mat-label>
+              <input class="c-form-group__input" matInput placeholder="Ej: #87429" [formControlName]="variable.value_path">
+          </mat-form-field>
+        </div>
+
       </div>
-  </div>
+    </div>
 
   </mat-dialog-content>
 
@@ -29,6 +41,8 @@
     <button mat-button class="c-btn c-btn--primary c-btn--small">
         <span>Guardar</span>
     </button>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+
+  </form>
 
 </div>

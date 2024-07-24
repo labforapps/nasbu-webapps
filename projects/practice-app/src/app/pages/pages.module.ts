@@ -109,7 +109,7 @@ import { CreateExpedientTypeComponent } from './expedient/create-expedient-type/
 import { CreateExpedientTypeBasicInfoComponent } from './expedient/create-expedient-type/create-expedient-type-basic-info/create-expedient-type-basic-info.component';
 import { CreateExpedientTypeVariablesComponent } from './expedient/create-expedient-type/create-expedient-type-variables/create-expedient-type-variables.component';
 import { ExpedientVariablesInfoComponent } from './expedient/expedient-info/expedient-variables-info/expedient-variables-info.component';
-import { PaymentGatewayComponent } from './configuration/invoicing-parameters/payment-gateway/payment-gateway.component';
+import { SubscriptionPaymentGatewayComponent } from './configuration/invoicing-parameters/subscription-payment-gateway/subscription-payment-gateway.component';
 
 
 @NgModule({
@@ -209,7 +209,7 @@ import { PaymentGatewayComponent } from './configuration/invoicing-parameters/pa
     CreateExpedientTypeBasicInfoComponent,
     CreateExpedientTypeVariablesComponent,
     ExpedientVariablesInfoComponent,
-    PaymentGatewayComponent,
+    SubscriptionPaymentGatewayComponent,
   ],
   imports: [
     CommonModule,
