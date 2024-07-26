@@ -30,7 +30,7 @@
           </ng-container>
 
           <!-- billNumber Column -->
-          <ng-container matColumnDef="billNumber">
+          <ng-container matColumnDef="title">
               <th mat-header-cell *matHeaderCellDef> Título</th>
               <td mat-cell *matCellDef="let element" class="w-10">
                   <div class="u-link">{{element.title}} </div>
@@ -38,13 +38,18 @@
           </ng-container>
 
           <!-- Estatus Column -->
-          <ng-container matColumnDef="status">
+          <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef> Descripción </th>
               <td mat-cell *matCellDef="let element"> {{element.body}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef> Cliente </th>
+            <td mat-cell *matCellDef="let element"> {{element.customer_name}} </td>
+        </ng-container>
+
           <!-- Expedient Column -->
-          <ng-container matColumnDef="expedient">
+          <ng-container matColumnDef="created_date">
               <th mat-header-cell *matHeaderCellDef> Fecha creación </th>
               <td mat-cell *matCellDef="let element">
                   <div class="u-link c-table__truncate">{{element.created_at | date}}</div>
@@ -59,7 +64,7 @@
         </ng-container>
 
           <!-- Actions Column -->
-          <ng-container matColumnDef="action">
+          <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef class="text-center-force"> Acciones </th>
               <td mat-cell *matCellDef="let element" class="text-center">
                   <mat-button-toggle-group class="c-btn-table">
