@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     MatIconModule,
     MatPaginatorModule,
     NgxMatSelectSearchModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatInputModule,
@@ -73,7 +75,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     MatIconModule,
     MatPaginatorModule,
     NgxMatSelectSearchModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatProgressSpinnerModule
   ],
 })
 export class MaterialModule {}

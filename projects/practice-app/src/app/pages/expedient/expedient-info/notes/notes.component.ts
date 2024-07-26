@@ -6,9 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CaseFile, CaseFileNote, CaseFileStatus } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { PracticeService } from '../../../../../../../core-services/src/lib/services/practice/practice.service';
-
 import * as moment from 'moment';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
+
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
@@ -33,7 +33,7 @@ export class NotesComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.displayedColumns = ['select', 'type','title','description','date','action']
+    this.displayedColumns = ['select', 'type','title','description','client','date','action']
     this.dataSourceCaseFileNotes = new MatTableDataSource<CaseFileNote>(this.caseFileNotes);
     this.dataSourceCaseFileNotes.paginator = this.paginator;
   }

@@ -94,6 +94,7 @@
                                   <th scope="col">{{'invoicing.invoice.task_duration' | translate}}  </th>
                                   <th scope="col">{{'invoicing.invoice.hourly_rate' | translate}}  </th>
                                   <th scope="col">{{'invoicing.invoice.flat_fee' | translate}} </th>
+                                  <th scope="col">Retención </th>
                                   <th scope="col">Total</th>
                               </tr>
                           </thead>
@@ -122,6 +123,9 @@
                                       </mat-option>
                                       <mat-option [value]="billingType.FLAT_FEE">
                                         {{'invoicing.invoice.flat_fee' | translate}}
+                                      </mat-option>
+                                      <mat-option [value]="billingType.BY_TIME_INCREMENT">
+                                        Precio por incremento
                                       </mat-option>
                                       </mat-select>
                                   </mat-form-field>
@@ -156,6 +160,17 @@
                                                  [readonly]="invoice_detail.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>
+
+                                  <td data-label="Retencion de pago">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                        <input class="c-form-group__input" matInput
+                                               placeholder="0000  0000  0000  0000"
+                                               formControlName="total_retainer_amt"
+                                               (blur)="onChangeInvoiceDetail('details',invoice_detail.value)">
+                                    </mat-form-field>
+                                </td>
+
                                   <td data-label="Total">
                                       USD {{invoice_detail.value.total_amt  | currency}}
                                   </td>
@@ -184,6 +199,7 @@
                                   <th scope="col">{{'invoicing.invoice.task_duration' | translate}} </th>
                                   <th scope="col">{{'invoicing.invoice.hourly_rate' | translate}} </th>
                                   <th scope="col">{{'invoicing.invoice.flat_fee' | translate}}</th>
+                                  <th scope="col">Retención </th>
                                   <th scope="col">Total</th>
                               </tr>
                           </thead>
@@ -214,6 +230,9 @@
                                           </mat-option>
                                           <mat-option [value]="billingType.FLAT_FEE">
                                             {{'invoicing.invoice.flat_fee' | translate}}
+                                          </mat-option>
+                                          <mat-option [value]="billingType.BY_TIME_INCREMENT">
+                                            Precio por incremento
                                           </mat-option>
                                           </mat-select>
                                       </mat-form-field>
@@ -251,6 +270,18 @@
                                                  [readonly]="legal_expense.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>
+
+                                  <td data-label="Retencion de pago">
+                                    <mat-form-field appearance="fill" class="c-form-group  input--outlined">
+                                        <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
+                                        <input class="c-form-group__input" matInput
+                                               placeholder="0000  0000  0000  0000"
+                                               formControlName="total_retainer_amt"
+                                               (blur)="onChangeInvoiceDetail('details',legal_expense.value)">
+                                    </mat-form-field>
+                                </td>
+
+
                                   <td data-label="Total">
                                       USD {{legal_expense.value.total_amt}}
                                   </td>

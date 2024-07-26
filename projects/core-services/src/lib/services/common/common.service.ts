@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Country,Occupation, TaskType } from 'core-models';
+import { Country,Occupation, PaymentGateway, TaskType } from 'core-models';
 import { Observable, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -46,6 +46,11 @@ export class CommonService {
   deleteTaskType(payload:TaskType):Observable<TaskType>{
     const serverUrl: string = `${this.config.serverUrl}/common/task_types/${payload.uuid}`;
     return this.httpClient.delete<TaskType>(serverUrl);
+  }
+
+  getPaymentGateways(): Observable<PaymentGateway[]> {
+    const serverUrl: string = `${this.config.serverUrl}/common/payment_gateways/`;
+    return this.httpClient.get<PaymentGateway[]>(serverUrl);
   }
 
 }

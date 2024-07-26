@@ -10,6 +10,30 @@ export interface Occupation {
   name: string;
 }
 
+export interface PaymentGateway {
+  uuid:        string;
+  variables:   PaymentGatewayVariable[];
+  active:      boolean;
+  created_at:  Date;
+  updated_at:  Date;
+  code:        string;
+  name:        string;
+  description: string;
+  created_by:  string;
+  updated_by:  string;
+}
+
+
+export interface PaymentGatewayVariable {
+  uuid:            string;
+  payment_gateway: string;
+  description:     string;
+  code:            string;
+  name:            string;
+  value_path:      string;
+}
+
+
 export enum WeekDays {
   Monday = 2,
   Tuesday = 3,

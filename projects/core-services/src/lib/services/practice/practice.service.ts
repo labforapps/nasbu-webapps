@@ -331,8 +331,17 @@ export class PracticeService {
 
   getTasksByCaseFile(subscription:string,uuid:string):Observable<Task[]>{
     const serverUrl = `${this.config.serverUrl}/practice/case_files/${uuid}/tasks/?subscription=${subscription}`;
+    const currentDate = new Date();
+
     return this.httpClient.get<Task[]>(serverUrl).pipe(
       switchMap((tasks: Task[]) => {
+          tasks.forEach((task: Task) => {
+            if(task.status === this.taskStatus.OPEN){
+              const endDate = new Date(task.end_date + 'T00:00:00');
+              task.overdue = endDate.setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
+            }
+          });
+
             return of(tasks.sort((a, b) => {
               let dateA = new Date(a.created_at || '').getTime();
               let dateB = new Date(b.created_at || '').getTime();
