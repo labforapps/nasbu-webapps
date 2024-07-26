@@ -278,6 +278,7 @@ export class ClientIntakeComponent implements OnInit {
 
     let fields_array_validate_required: any[] = [
       'physical_country',
+      'physical_state',
       'physical_city',
       'physical_address',
       'physical_postal_code',

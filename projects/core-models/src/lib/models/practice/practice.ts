@@ -194,6 +194,7 @@ export interface Task {
   type:                TaskType;
   typeName?:           string;
   overdue?:            Boolean;
+  total_amt?:           number;
 }
 
 

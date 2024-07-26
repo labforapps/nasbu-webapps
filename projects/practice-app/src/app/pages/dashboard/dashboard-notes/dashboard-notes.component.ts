@@ -17,7 +17,7 @@ export class DashboardNotesComponent implements OnInit {
 
   totalCaseFileNotes!:number;
   @Input() caseFileNotes!:CaseFileNote[];
-  displayedColumns: string[] = ['select', 'type' ,'billNumber', 'status', 'expedient', 'created_by','action' ];
+  displayedColumns: string[] = ['select', 'type' ,'title', 'description','customer', 'created_date', 'created_by','actions' ];
   dataSource = new MatTableDataSource<CaseFileNote>(this.caseFileNotes);
   selection = new SelectionModel<CaseFileNote>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;

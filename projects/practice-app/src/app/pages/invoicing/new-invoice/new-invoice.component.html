@@ -124,6 +124,9 @@
                                       <mat-option [value]="billingType.FLAT_FEE">
                                         {{'invoicing.invoice.flat_fee' | translate}}
                                       </mat-option>
+                                      <mat-option [value]="billingType.BY_TIME_INCREMENT">
+                                        Precio por incremento
+                                      </mat-option>
                                       </mat-select>
                                   </mat-form-field>
                                   </td>
@@ -227,6 +230,9 @@
                                           </mat-option>
                                           <mat-option [value]="billingType.FLAT_FEE">
                                             {{'invoicing.invoice.flat_fee' | translate}}
+                                          </mat-option>
+                                          <mat-option [value]="billingType.BY_TIME_INCREMENT">
+                                            Precio por incremento
                                           </mat-option>
                                           </mat-select>
                                       </mat-form-field>

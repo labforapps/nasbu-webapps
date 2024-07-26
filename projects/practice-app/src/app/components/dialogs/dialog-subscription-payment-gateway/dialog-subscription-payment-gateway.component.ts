@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { CreateSubscriptionPaymentGateway, PaymentGateway, SubscriptionPaymentGateway } from 'core-models';
 import { AuthService, CommonService, SubscriptionService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog-subscription-payment-gateway',
@@ -25,7 +25,8 @@ export class DialogSubscriptionPaymentGateway implements OnInit {
               private formBuilder:FormBuilder,
               private helperService:HelpersService,
               private subscriptionService:SubscriptionService,
-              @Inject(MAT_DIALOG_DATA) private dataDialog: {subscriptionPaymentGateway:SubscriptionPaymentGateway}) { }
+              @Inject(MAT_DIALOG_DATA) private dataDialog: {subscriptionPaymentGateway:SubscriptionPaymentGateway},
+              private dialogRef: MatDialogRef<DialogSubscriptionPaymentGateway>) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -111,6 +112,9 @@ export class DialogSubscriptionPaymentGateway implements OnInit {
         else{
           this.helperService.showMessageCreated()
         }
+
+        this.dialogRef.close()
+
       }
     })
 
