@@ -89,7 +89,7 @@
                 <label class="u-title-label">{{'invoice_parameter.retainer_amount' | translate}}  </label>
                 <mat-form-field appearance="fill" class="c-form-group col-md-9">
                     <mat-label>{{'invoice_parameter.quantity' | translate}}</mat-label>
-                    <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt" [readonly]="securityUserSelected ? !securityUserSelected.billing_fees[0].allow_retainers : true">
+                    <input class="c-form-group__input" matInput placeholder="Ej: 300USD" formControlName="retainer_amt">
                 </mat-form-field>
               </div>
 

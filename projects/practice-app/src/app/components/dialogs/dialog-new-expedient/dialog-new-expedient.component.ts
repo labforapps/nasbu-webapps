@@ -121,7 +121,7 @@ export class DialogNewExpedientComponent implements OnInit {
       this.caseFileForm.patchValue({
         name: this.caseFile.name,
         customer: this.caseFile.customer.uuid,
-        assigned_to: this.caseFile.assigned_to.uuid,
+        assigned_to: this.caseFile.assigned_to ?  this.caseFile.assigned_to.uuid : null,
         case_no: this.caseFile.case_no,
         bt_price_per_hour: this.caseFile.bt_price_per_hour,
         bt_increment_factor: this.caseFile.bt_increment_factor,
