@@ -1,29 +1,30 @@
 import { CaseFile,Task } from "../practice/index";
 
 export interface Invoice {
-  uuid?:             string;
-  details?:          InvoiceDetail[];
-  active:            boolean;
-  created_at:        Date;
-  updated_at:        Date;
-  status:            InvoiceStatus;
-  gross_amt:         string;
-  tax_amt:           string;
-  discount_amt:      string;
-  legal_charges_amt: string;
-  net_amt:           string;
-  inv_date:          Date;
-  inv_exp_date:      Date;
-  send_by:           string;
-  to_origin_value:   string;
-  created_by?:       string;
-  updated_by?:       string;
-  subscription:      string;
-  customer:          CustomerInvoice;
-  case_file:         CaseFile;
-  code:              string;
-  days_late:         number;
+  uuid?:               string;
+  details?:            InvoiceDetail[];
+  active:              boolean;
+  created_at:          Date;
+  updated_at:          Date;
+  status:              InvoiceStatus;
+  gross_amt:           string;
+  tax_amt:             string;
+  discount_amt:        string;
+  legal_charges_amt:   string;
+  net_amt:             string;
+  inv_date:            Date;
+  inv_exp_date:        Date;
+  send_by:             string;
+  to_origin_value:     string;
+  created_by?:         string;
+  updated_by?:         string;
+  subscription:        string;
+  customer:            CustomerInvoice;
+  case_file:           CaseFile;
+  code:                string;
+  days_late:           number;
   total_remaining_amt: number;
+  apply_tax:           boolean;
 }
 
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-import { Invoice } from 'core-models';
+import { Invoice, InvoiceStatus } from 'core-models';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentHistoryComponent } from '../../../components/dialogs/dialog-payment-history/dialog-payment-history.component';
@@ -21,6 +21,7 @@ export class InvoicesComponent implements OnInit {
   dataSource = new MatTableDataSource<Invoice>(this.invoices);
   selection = new SelectionModel<Invoice>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  invoiceStatus = InvoiceStatus
 
   constructor(private matDialog:MatDialog) { }
 

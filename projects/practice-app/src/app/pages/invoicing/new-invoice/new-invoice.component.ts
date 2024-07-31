@@ -337,7 +337,8 @@ export class NewInvoiceComponent implements OnInit {
       subscription: this.selectedSubscription?.ssid.uuid,
       ...invoiceForm,
       inv_date : moment(invoiceForm.inv_date).format("YYYY-MM-DD"),
-      inv_exp_date: moment(invoiceForm.inv_exp_date).format("YYYY-MM-DD")
+      inv_exp_date: moment(invoiceForm.inv_exp_date).format("YYYY-MM-DD"),
+      apply_tax: this.applyTax
     };
 
     if(this.invoiceId) invoice.uuid = this.invoiceId;

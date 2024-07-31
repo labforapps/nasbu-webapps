@@ -9,7 +9,7 @@
                     <div>{{'dockets.profile.client' | translate}}</div>
                     <div class="u-link u-link--underline">{{caseFile.customer | customerFullName}}</div>
                   </div>
-                <div>
+                <div *ngIf="caseFile.assigned_to">
                     <div>{{'dockets.profile.delegated_to' | translate}}:</div>
                     <div class="u-link u-link--underline" (click)="navigateToUser()">{{caseFile.assigned_to.user.first_name + ' ' + caseFile.assigned_to.user.last_name}}</div>
                 </div>
