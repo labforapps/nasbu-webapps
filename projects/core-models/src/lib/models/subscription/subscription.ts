@@ -126,4 +126,5 @@ export interface CreateSubscriptionPaymentGateway {
   subscription:         string;
   payment_gateway:      string;
   payment_gateway_info: string;
+  is_default:           boolean;
 }

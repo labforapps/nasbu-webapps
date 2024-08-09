@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogNewExpedientComponent } from '../../../components/dialogs/dialog-new-expedient/dialog-new-expedient.component';
 import Swal from 'sweetalert2';
 import { DialogUsersShareExpedientComponent } from '../../../components/dialogs/dialog-users-share-expedient/dialog-users-share-expedient.component';
+import { Router } from '@angular/router';
+import { StateService } from '../../../services/state.service';
 @Component({
   selector: 'app-expedient-table',
   templateUrl: './expedient-table.component.html',
@@ -45,9 +47,12 @@ export class ExpedientTableComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
               private translateService:TranslateService,
-              private toastr: ToastrService ) { }
+              private toastr: ToastrService,
+              private router:Router,
+              private stateService:StateService ) { }
 
   ngOnInit(): void {
+
     this.caseFilesCopy = this.caseFiles;
   }
 
@@ -72,7 +77,16 @@ export class ExpedientTableComponent implements OnInit {
   ngAfterViewInit(): void {
     this.displayedColumns = ['select', 'type','description','assigned_to','client', 'update', 'share','action']
     this.dataSourceCaseFiles = new MatTableDataSource<CaseFile>(this.caseFiles);
+
+    const savedState = this.stateService.getPaginatorState();
+
+    if (savedState) {
+      this.paginator.pageIndex = savedState.pageIndex;
+      this.paginator.pageSize = savedState.pageSize;
+    }
+
     this.dataSourceCaseFiles.paginator = this.paginator;
+
   }
 
   returnDateFormatted(dateCaseFile: string) {
@@ -354,6 +368,18 @@ export class ExpedientTableComponent implements OnInit {
           );
       }
     });
+  }
+
+  goToExpedientInfo(caseFile:CaseFile){
+
+    const paginatorState = {
+      pageIndex: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize
+    };
+    this.stateService.setPaginatorState(paginatorState);
+
+    this.router.navigate(['/expedient-info/',caseFile.uuid])
+
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
