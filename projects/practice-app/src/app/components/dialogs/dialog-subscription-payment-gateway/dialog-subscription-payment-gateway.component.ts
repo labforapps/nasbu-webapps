@@ -37,7 +37,8 @@ export class DialogSubscriptionPaymentGateway implements OnInit {
   initForm(){
 
     this.paymentGatewayForm = this.formBuilder.group({
-      payment_gateway: ['',Validators.required]
+      payment_gateway: ['',Validators.required],
+      is_default:[true,Validators.required]
     })
 
   }
@@ -49,12 +50,13 @@ export class DialogSubscriptionPaymentGateway implements OnInit {
       this.subscriptionPaymentGateway = this.dataDialog.subscriptionPaymentGateway
 
       this.paymentGatewayForm.patchValue({
-        payment_gateway: this.subscriptionPaymentGateway.payment_gateway.uuid
+        payment_gateway: this.subscriptionPaymentGateway.payment_gateway.uuid,
+        is_default: this.subscriptionPaymentGateway.is_default
       })
 
       this.paymentGatewaySelected = this.dataDialog.subscriptionPaymentGateway.payment_gateway
 
-      const variables:any = JSON.parse(JSON.parse( this.subscriptionPaymentGateway.payment_gateway_info || ''))
+      const variables:any = JSON.parse(this.subscriptionPaymentGateway.payment_gateway_info || '')
 
       Object.keys(variables).forEach(variable => {
             this.paymentGatewayForm.addControl(`${variable}`,this.formBuilder.control(`${variables[variable]}`))
@@ -99,7 +101,8 @@ export class DialogSubscriptionPaymentGateway implements OnInit {
     const payload:CreateSubscriptionPaymentGateway = {
       subscription: this.selectedSubscription?.ssid.uuid,
       payment_gateway: this.paymentGatewayForm.value.payment_gateway,
-      payment_gateway_info: JSON.stringify(payment_gateway_info)
+      payment_gateway_info: JSON.stringify(payment_gateway_info),
+      is_default: this.paymentGatewayForm.value.is_default
     }
 
     if(this.subscriptionPaymentGateway) payload.uuid = this.subscriptionPaymentGateway.uuid

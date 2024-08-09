@@ -21,7 +21,13 @@
             </mat-select>
         </mat-form-field>
 
-        <div *ngFor="let variable of paymentGatewaySelected?.variables">
+        <label class="u-title-label d-block mt-4">¿Es el proveedor predeterminado?</label>
+        <mat-radio-group aria-label="Select an option" formControlName="is_default">
+            <mat-radio-button class="c-radioButton mr-3" [value]="true">Si</mat-radio-button>
+            <mat-radio-button class="c-radioButton mr-3" [value]="false">No</mat-radio-button>
+        </mat-radio-group>
+
+        <div class="mt-4" *ngFor="let variable of paymentGatewaySelected?.variables">
           <label class="u-title-label">{{variable.name}}</label>
           <mat-form-field appearance="fill" class="c-form-group">
               <mat-label>{{variable.name}}</mat-label>

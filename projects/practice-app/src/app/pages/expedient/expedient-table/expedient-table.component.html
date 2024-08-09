@@ -140,7 +140,7 @@
           <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef>{{'dockets.type_of_task' | translate}} </th>
               <td mat-cell *matCellDef="let element" class="w-20">
-                  <div class="u-link" [routerLink]="'/expedient-info/' + element.uuid">{{element.name}} </div>
+                  <div class="u-link" (click)="goToExpedientInfo(element)">{{element.name}} </div>
               </td>
           </ng-container>
 
