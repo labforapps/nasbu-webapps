@@ -201,4 +201,13 @@ export class HelpersService {
 
   }
 
+  getHoursAndMinutes(value:number): { hours:number,minutes:number } {
+
+    const hours:number = Math.floor(value / 60);
+    const minutes:number = value % 60;
+
+    return {hours, minutes}
+
+  }
+
 }
