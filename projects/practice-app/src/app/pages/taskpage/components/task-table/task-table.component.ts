@@ -202,6 +202,11 @@ export class TaskTableComponent  implements OnChanges {
      }
   }
 
+  getTotalTime(value:number){
+    const total_minutes = Math.floor(value * 60)
+    return this.helperService.getHoursAndMinutes(total_minutes)
+  }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
