@@ -42,7 +42,7 @@
                 <app-indicators [accountSummary]="accountSummary"></app-indicators>
             </div>
             <div class="c-dashboard-tab__content" #task>
-                <app-task *ngIf="tasks" [tasks]="tasks"></app-task>
+                <app-task *ngIf="tasks" [tasks]="tasks" (onExecuteTask)="getTasksLatestsOverdue()"></app-task>
             </div>
             <div class="c-dashboard-tab__content" #invoice>
                 <app-invoices *ngIf="invoices" [invoices]="invoices"></app-invoices>

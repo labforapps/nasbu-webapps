@@ -102,6 +102,11 @@ export class DialogNewDocumentComponent implements OnInit {
       this.documentForm.patchValue({
         document_template: this.dataDialog.template.uuid
       })
+
+      this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,this.dataDialog.template.template_type).subscribe(data => {
+        this.documentTemplateType = data;
+        this.setDynamicForm()
+      })
     }
   }
 
@@ -146,30 +151,25 @@ export class DialogNewDocumentComponent implements OnInit {
       this.practiceService.getDocumentTemplateTypesById(this.selectedSubscription?.ssid.uuid,documentTemplate.template_type).subscribe(data => {
 
         this.documentTemplateType = data;
-        this.variables = this.documentTemplateType.variables?.filter(x => x.system_default === false)  || []
-
-        if(this.variables.length > 0){
-          this.onSetDocumentTemplateType()
-        }
-        else{
-          this.variablesSections = []
-        }
-
+        this.setDynamicForm()
       })
     }
   }
 
-  onSetDocumentTemplateType(){
+  setDynamicForm(){
 
+    this.variables = this.documentTemplateType.variables?.filter(x => x.system_default === false)  || []
+
+    if(this.variables.length > 0){
       this.variables?.forEach(x => this.variablesForm.addControl(`${x.value_path}`,this.formBuilder.control('')))
       this.variablesSections = [...new Set( this.variables ? this.variables.map(item => item.section) : '')]
-      this.totalTabs = 1 + this.variablesSections.length
+      this.totalTabs = 1 + this.variablesSections.length        }
+    else{
+      this.variablesSections = []
+    }
 
   }
 
-  returnVariablesSection(){
-
-  }
 
   goToNextTab(){
     this.activeTabIndex += 1

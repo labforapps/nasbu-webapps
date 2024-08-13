@@ -76,9 +76,14 @@ export class DialogChargedHoursComponent implements OnInit {
 
   }
 
+  getHoursAndMinutes(value:number){
+    return this.helperService.getHoursAndMinutes(value)
+  }
 
-  get totalHours(){
-    return this.tasksTime ?  this.tasksTime.reduce((acc, curr) => acc + curr.total_time, 0) / 60 : 0;
+  get totalTime(){
+    const total_time =  this.tasksTime.reduce((acc, curr) => acc + curr.total_time, 0);
+
+    return this.helperService.getHoursAndMinutes(total_time)
   }
 
   get totalAmount(){

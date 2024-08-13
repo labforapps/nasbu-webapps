@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { Task, TaskStatus, TaskTypeIconSVG } from 'core-models';
@@ -24,10 +24,17 @@ export class TaskComponent implements OnInit {
   dataSource = new MatTableDataSource<Task>(this.tasks);
   selection = new SelectionModel<Task>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() onExecuteTask = new EventEmitter<any>();
 
   constructor(private dialog:MatDialog,
               private practiceService:PracticeService,
               private helperService:HelpersService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['tasks'] && changes['tasks'].currentValue) {
+      this.dataSource.data = this.tasks;
+    }
+  }
 
   ngOnInit(): void {
     this.dataSource.data = this.tasks;
@@ -41,6 +48,12 @@ export class TaskComponent implements OnInit {
         task: task
       },
     });
+
+    dialogRef.afterClosed().subscribe({
+      next: () => {
+        this.onExecuteTask.emit()
+      }
+    })
   }
 
   completeTask(task:Task){

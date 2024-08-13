@@ -79,18 +79,24 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
   onSelectTask(task:Task){
 
+    const { hours, minutes } = this.helperService.getHoursAndMinutes(this.taskTime.total_time)
+
    this.taskTimeForm.patchValue({
       price_per_hour: task.bt_price_per_hour,
-      quoted_hours: task.total_hours
+      quoted_hours: hours
    })
   }
 
   setForm(){
     if(this.taskTime){
+
+      const { hours, minutes } = this.helperService.getHoursAndMinutes(this.taskTime.total_time)
+
       this.taskTimeForm.patchValue({
         ...this.taskTime,
         task: this.taskTime.task.uuid,
-        quoted_hours: this.taskTime.fixed_time ? this.taskTime.total_time / 60 : 0,
+        quoted_hours: hours,
+        quoted_minutes: minutes
       });
     }
   }
