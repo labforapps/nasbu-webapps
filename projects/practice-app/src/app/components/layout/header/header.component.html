@@ -51,6 +51,32 @@
             </div>
         </mat-menu>
 
+        <!-- <mat-menu #langMenu="matMenu" class="c-notification-menu c-notification-menu--language">
+          <div class="c-notification-menu__header">
+              <div class="c-notification-menu__title"> {{'header.selectedLang' | translate}}</div>
+              <div class="c-notification-menu__subtitle"> <b class="u-primaryColor">{{ currentLang | translate}}</b></div>
+          </div>
+          <div class="c-nofitication-menu__body">
+              <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.Spanish)">
+                  <img [src]="langFlags[allowLangs.Spanish]" alt="spanish-flag">
+                  <div class="flex-1">
+                      <div class="c-notification-menu__text"> {{'languages.es' | translate}}</div>
+                  </div>
+              </button>
+              <button mat-button class="c-notification-menu__item cursor-pointer" (click)="changeLanguaje(allowLangs.English)">
+                  <img [src]="langFlags[allowLangs.English]" alt="english-flag">
+                  <div class="flex-1">
+                      <div class="c-notification-menu__text"> {{'languages.en' | translate}}</div>
+                  </div>
+              </button>
+          </div>
+          <div class="c-notification-menu__footer">
+              <button mat-button>
+                  {{'header.closeWindows' | translate}}
+              </button>
+          </div>
+      </mat-menu> -->
+
 
 
         <button mat-button [matMenuTriggerFor]="menu" class="c-notification">

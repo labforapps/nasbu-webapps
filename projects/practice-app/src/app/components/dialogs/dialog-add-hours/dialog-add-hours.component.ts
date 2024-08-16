@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TimeTask,Task, SecurityUser } from 'core-models';
+import { TimeTask,Task, SecurityUser, Action } from 'core-models';
 import { AuthService, SecurityService,PracticeService } from 'core-services';
 import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
 import { HelpersService } from '../../../services/helpers.service';
@@ -32,6 +32,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   endTime!:any;
   currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
   taskCreatedFromDialog!:Task
+  actionEnum = Action
 
   constructor(private countUp:CountupTimerService,
              @Inject(MAT_DIALOG_DATA) public dataDialog:{task:Task,taskTime:TimeTask},
@@ -236,7 +237,11 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   }
 
   openDialogNewTask(){
-   const dialogRef = this.matDialog.open(DialogNewTaskComponent)
+   const dialogRef = this.matDialog.open(DialogNewTaskComponent,{
+    data: {
+      action: this.actionEnum.CREATE
+    }
+   })
 
    dialogRef.afterClosed().subscribe(data => {
     if(data){

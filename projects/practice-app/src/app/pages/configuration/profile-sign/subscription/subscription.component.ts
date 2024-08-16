@@ -2,27 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { AuthService, CoreService, SubscriptionService } from 'core-services';
-import { Plan, Subscription } from 'core-models';
+import { Plan, Subscription, SubscriptionBillingInvoice } from 'core-models';
 import * as moment from 'moment'
 import { Router } from '@angular/router';
-
-export interface PeriodicElement {
-  position: number;
-  task: string;
-  status: string;
-  expedient: string;
-  date: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 2, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 3, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 4, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 5, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 6, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-  {position: 7, task: 'Redacción de contrato de arrendamiento', status: 'Pendiente', expedient: 'NB0001-Contrato de servicio para la contratación de',  date: '23/9/22 '},
-];
+import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
 
 @Component({
   selector: 'app-subscription',
@@ -31,22 +14,36 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SubscriptionComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'type','task', 'status', 'expedient', 'date', 'action'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = ['select', 'period', 'status','start_date','end_date','amount','action'];
+  dataSource = new MatTableDataSource<SubscriptionBillingInvoice>();
+  selection = new SelectionModel<SubscriptionBillingInvoice>(true, []);
   @Input() subscription!:Subscription;
   showSubscriptionBillingHistory:boolean = false
   selectedPlan!:Plan | undefined
+  subscriptionBillingInvoices!:SubscriptionBillingInvoice[]
 
-  constructor(private coreService:CoreService,private router:Router) { }
+  constructor(private coreService:CoreService,
+              private router:Router,
+              private subscriptionService:SubscriptionService,
+              private helperService:HelpersService) { }
 
   ngOnInit(): void {
     this.getPlans()
+    this.getSubscriptionBillingInvoices()
   }
 
   getPlans(){
     this.coreService.getPlans().subscribe(data => {
       this.selectedPlan = data.find(x => x.uuid === this.subscription.plan)
+    })
+  }
+
+  getSubscriptionBillingInvoices(){
+    this.subscriptionService.getSubscriptionBillingInvoice(this.subscription.uuid).subscribe({
+      next: (data) => {
+        this.subscriptionBillingInvoices = data
+        this.dataSource.data = data
+      }
     })
   }
 
@@ -60,6 +57,10 @@ export class SubscriptionComponent implements OnInit {
 
   viewSubscriptionPlan(){
     this.showSubscriptionBillingHistory = false
+  }
+
+  downloadPdf(subscriptionBillingInvoice:SubscriptionBillingInvoice){
+    window.open(subscriptionBillingInvoice.generated_file, '_blank');
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -80,7 +81,7 @@ export class SubscriptionComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

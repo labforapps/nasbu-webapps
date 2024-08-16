@@ -138,7 +138,8 @@ export enum CaseFileWalletDetailType{
 export enum BillingType {
   PER_HOUR = 'H',
   FLAT_FEE = 'F',
-  BY_TIME_INCREMENT = 'T'
+  BY_TIME_INCREMENT = 'T',
+  NO_BILLABLE = 'N'
 }
 
 export enum CaseFileStatus {
@@ -263,22 +264,24 @@ export interface DocumentTemplatePayload{
 }
 
 export interface DocumentGeneration {
-  uuid:              string;
-  active:            boolean;
-  created_at:        Date;
-  updated_at:        Date;
-  name:              string;
-  document:          null | string;
-  expiration_date:   Date;
-  created_by:        string;
-  updated_by:        null;
-  subscription:      string;
-  document_template: string;
-  customer:          string;
-  case_file:         string;
-  representative:    string;
-  custom_variables_data: string;
-
+    uuid:                                string;
+    subscription:                        string;
+    document_template:                   string;
+    customer:                            string;
+    case_file:                           null | string;
+    representative:                      string;
+    name:                                string;
+    document:                            null | string;
+    expiration_date:                     Date;
+    require_signature:                   boolean;
+    sent_for_signature_request:          boolean;
+    last_signature_request_created_at:   Date | null;
+    last_signature_request_expires_at:   Date | null;
+    last_signature_request_status:       null | string;
+    last_signature_request_doc_evidence: string[] | null;
+    custom_variables_data:               string;
+    created_at:                          Date;
+    created_by:                          string;
 }
 export interface DocumentGenerationPayload {
   uuid?:             string;

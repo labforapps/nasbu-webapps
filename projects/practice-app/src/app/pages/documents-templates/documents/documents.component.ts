@@ -19,7 +19,7 @@ import { DialogExternalDocSignatureComponent } from '../../../components/dialogs
 export class DocumentsComponent implements OnInit {
 
   @Input() documentGenerations!:DocumentGeneration[];
-  displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date', 'action'];
+  displayedColumns: string[] = ['select', 'type','description', 'taskType', 'date','signature_status', 'action'];
   dataSource = new MatTableDataSource<DocumentGeneration>(this.documentGenerations);
   selection = new SelectionModel<DocumentGeneration>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
