@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { saveAs } from 'file-saver';
 import * as moment from 'moment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -15,7 +16,8 @@ export class HelpersService {
   typeCustomer = TypeCustomer;
 
   constructor(private translateService:TranslateService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private http:HttpClient) { }
 
   getDateRange(periodCode?: string): { startDate: string,endDate: string } {
 

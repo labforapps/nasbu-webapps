@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrentUserInfo } from 'core-models';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AllowedLangs } from '../../../common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LangService } from '../../../services/lang.service';
@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   public allowLangs = AllowedLangs;
   public currentLang: string = 'languages.';
   public user$!: Observable<CurrentUserInfo>;
+  public user!:CurrentUserInfo
   public currentFlag!: string;
 
   public langFlags: any =  {
@@ -112,7 +113,11 @@ export class HeaderComponent implements OnInit {
   }
 
   loadUser(): void {
-    this.user$ = this.authService.getCurrentUserInfo();
+    this.user$ = this.authService.getCurrentUserInfo().pipe(
+      tap( (data) => {
+        console.log(data)
+      })
+    )
   }
 
   logout(){

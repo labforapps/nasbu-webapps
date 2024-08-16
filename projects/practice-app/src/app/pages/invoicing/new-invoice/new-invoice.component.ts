@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, Invoice,
+import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, CustomerWalletSummary, Invoice,
          InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
@@ -37,6 +37,7 @@ export class NewInvoiceComponent implements OnInit {
   applyTax:boolean = false
   action!:Action | string
   actionEnum = Action
+  customerWalletSummary!:CustomerWalletSummary;
 
   constructor(private customerService:CustomersService,
               private authService: AuthService,
@@ -127,6 +128,14 @@ export class NewInvoiceComponent implements OnInit {
         total_retainer_amt: x.retainer_amt
       }));
     }
+  }
+
+  getCustomerWalletSummary(){
+    this.customerService.getWalletSummaryByCustomerId(this.selectedSubscription?.ssid.uuid,this.customerSelected?.uuid || '').subscribe({
+      next: (data) => {
+        this.customerWalletSummary = data
+      }
+    })
   }
 
   disableCaseFileField(event:MatCheckboxChange){
@@ -275,6 +284,7 @@ export class NewInvoiceComponent implements OnInit {
 
   onChangeCustomer(selectChange:MatSelectChange){
     this.customerSelected = this.customers.find( x => x.uuid === selectChange.value);
+    this.getCustomerWalletSummary()
     this.getCaseFiles();
   }
 

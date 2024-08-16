@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -140,6 +140,11 @@ export class SubscriptionService {
   deleteSubscriptionPaymentGateway(subscription: string,uuid:string): Observable<SubscriptionPaymentGateway> {
     const serverUrl = `${this.config.serverUrl}/subscription/payment_gateways/${uuid}?subscription=${subscription}`;
     return this.httpClient.delete<SubscriptionPaymentGateway>(serverUrl);
+  }
+
+  getSubscriptionBillingInvoice(subscription:string):Observable<SubscriptionBillingInvoice[]>{
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/billing_invoices?subscription=${subscription}`;
+    return this.httpClient.get<SubscriptionBillingInvoice[]>(serverUrl);
   }
 
 

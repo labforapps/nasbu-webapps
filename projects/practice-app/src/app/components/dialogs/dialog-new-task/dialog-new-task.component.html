@@ -106,7 +106,7 @@
 
                         <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
                           <mat-label>Seleccionar</mat-label>
-                          <mat-select formControlName="assigned_to" [disabled]="this.dataDialog && this.dataDialog.securityUser !== undefined">
+                          <mat-select formControlName="assigned_to" [disabled]="this.dataDialog && this.dataDialog.securityUser !== undefined && this.dataDialog.securityUser !== null">
                              <mat-option *ngFor="let securityUser of securityUsers" [value]="securityUser.uuid">
                                 {{securityUser.user.first_name + ' ' + securityUser.user.last_name}}
                              </mat-option>

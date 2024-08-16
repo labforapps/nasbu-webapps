@@ -128,3 +128,28 @@ export interface CreateSubscriptionPaymentGateway {
   payment_gateway_info: string;
   is_default:           boolean;
 }
+
+export interface SubscriptionBillingInvoice {
+    uuid:                 string;
+    active:               boolean;
+    created_at:           string;
+    updated_at:           string;
+    code:                 string;
+    description:          string;
+    gross_amt:            string;
+    tax_amt:              string;
+    discount_amt:         string;
+    sub_total_amt:        string;
+    net_amt:              string;
+    status:               string;
+    collect_at:           string;
+    billing_cycle:        string;
+    bc_start_date:        string;
+    bc_end_date:          string;
+    total_attempts_count: number;
+    generated_file:       string;
+    created_by:           null;
+    updated_by:           null;
+    subscription:         string;
+    plan:                 string;
+}

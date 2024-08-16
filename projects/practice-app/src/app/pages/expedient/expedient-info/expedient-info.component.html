@@ -55,7 +55,7 @@
                     <span class="icon-task"></span>
                 </ng-template>
 
-               <app-expedient-tasks *ngIf="caseFile" [caseFile]="caseFile"></app-expedient-tasks>
+               <app-expedient-tasks *ngIf="caseFile" [caseFile]="caseFile" (onExecuteTask)="getCaseFileById()"></app-expedient-tasks>
 
 
             </mat-tab>

@@ -93,7 +93,7 @@ export class DialogNewTaskComponent implements OnInit {
             flat_fee: this.task.billing_type === this.billingType.FLAT_FEE,
             flat_fee_amt: this.task.billing_type === this.billingType.FLAT_FEE ? this.task.bt_amt : 0,
             price_per_increment: this.task.billing_type === this.billingType.BY_TIME_INCREMENT ? this.task.bt_amt : 0,
-            not_billable: ! this.task.bt_billable
+            not_billable: this.task.billing_type === this.billingType.NO_BILLABLE
           });
 
           this.showDate = this.task.has_due_date;
@@ -259,7 +259,7 @@ export class DialogNewTaskComponent implements OnInit {
       this.dialogRef.close(data);
 
     },(error) => {
-      this.helperService.showCustomMessage('Error','Error','Ha ocurrido un error');
+      this.helperService.showCustomMessage('Error','Error',error.error ? error.error.error : 'Ha ocurrido un error');
     })
 
 
