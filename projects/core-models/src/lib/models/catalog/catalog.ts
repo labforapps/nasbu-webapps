@@ -46,6 +46,13 @@ export interface CustomerIntakeValidateRequest{
   subscription_name: string;
 }
 
+export interface CustomerWalletSummary {
+  customer:  string;
+  case_file: string;
+  total_amt: number;
+}
+
+
 export enum CustomerIntakeSendingMethod{
   email = 'email',
   sms = 'sms'

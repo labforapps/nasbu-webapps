@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType, Invoice, InvoiceStatus } from 'core-models';
+import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType, Invoice, InvoiceStatus, CustomerWalletSummary } from 'core-models';
 import { CommonService } from '../common';
 
 @Injectable({
@@ -155,6 +155,11 @@ export class CustomersService {
       }))
       })
     );
+  }
+
+  getWalletSummaryByCustomerId(subscription:string,uuid:string){
+    const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/wallet_summary?subscription=${subscription}`;
+    return this.httpClient.get<CustomerWalletSummary>(serverUrl);
   }
 
 

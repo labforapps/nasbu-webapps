@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CaseFile, CaseFileStatus, CaseFileWalletDetail,CaseFileWalletDetailType } from 'core-models';
 import { PracticeService } from 'core-services';
@@ -20,6 +20,12 @@ export class ExpedientWalletComponent implements OnInit {
 
   constructor(private practiceService:PracticeService,
     public dialog: MatDialog,) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['caseFile'] && changes['caseFile'].currentValue) {
+      this.getCaseFileWalletDetails()
+    }
+  }
 
   ngOnInit(): void {
     this.getCaseFileWalletDetails();

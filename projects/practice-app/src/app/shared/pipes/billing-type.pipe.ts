@@ -12,6 +12,7 @@ export class BillingTypePipe implements PipeTransform {
     if(value === this.billingType.PER_HOUR) return 'Por Hora'
     if(value === this.billingType.BY_TIME_INCREMENT) return 'Por Incremento de Tiempo'
     if(value === this.billingType.FLAT_FEE) return 'Monto Fijo'
+    if(value === this.billingType.NO_BILLABLE) return 'No Facturable'
 
     return ''
   }

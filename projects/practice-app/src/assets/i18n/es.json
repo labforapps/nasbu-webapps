@@ -817,7 +817,7 @@
         "your_last_payment_was_made_on":"Último pago realizado en ",
         "view_billing_history":"Ver historial de facturación",
         "these_payments_will_be_generated_automatically":"Estos pagos se generará automáticamente de manera mensual.",
-        "your_next_payment_will_be_charged_on":"Tu próximo pago es <b>{{amount}</b> USD, será cargado el día "
+        "your_next_payment_will_be_charged_on":"Tu próximo pago es <b>{{amount}}</b> USD, será cargado el día "
       },
       "form_create":{
         "name_of_the_firm":"Nombre de la empresa",

@@ -30,7 +30,7 @@ export class ExpedientInfoComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.caseFileId = this.activatedRoute.snapshot.paramMap.get('id') || '';
-    this.getCaseFiles();
+    this.getCaseFileById();
     this.getQueryParamByUrl();
   }
 
@@ -40,7 +40,7 @@ export class ExpedientInfoComponent implements OnInit {
     });
   }
 
-  getCaseFiles(){
+  getCaseFileById(){
     this.practiceService.getCaseFileById(this.selectedSubscription?.ssid.uuid,this.caseFileId).subscribe(data => {
       this.caseFile = data;
     })
