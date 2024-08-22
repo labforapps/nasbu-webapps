@@ -153,3 +153,10 @@ export interface SubscriptionBillingInvoice {
     subscription:         string;
     plan:                 string;
 }
+
+export interface ChangePlanRequest {
+  subscription: string;
+  period:       string;
+  to_plan:      string;
+}
+
