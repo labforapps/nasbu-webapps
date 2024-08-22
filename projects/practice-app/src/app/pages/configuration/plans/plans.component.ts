@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OnboardingService } from '../../../services/onboarding/onboarding.service';
 import { Plan, Subscription } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
+import { HelpersService } from '../../../services/helpers.service';
 
 @Component({
   selector: 'app-plans',
@@ -19,6 +20,7 @@ export class PlansComponent implements OnInit {
   constructor(private onboardingService:OnboardingService,
               private subscriptionService:SubscriptionService,
               private authService: AuthService,
+              private helperService:HelpersService
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +52,17 @@ export class PlansComponent implements OnInit {
     else{
       return plan.price
     }
+
+  }
+
+  changePlanRequest(plan:Plan){
+
+    this.helperService.showConfirmationChangePlan().then(data => {
+
+
+
+    })
+
 
   }
 

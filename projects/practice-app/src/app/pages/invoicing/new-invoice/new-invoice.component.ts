@@ -125,7 +125,7 @@ export class NewInvoiceComponent implements OnInit {
         related_charge: x.related_charge,
         bt_amt: x.total_amt,
         is_legal_charge: x.is_legal_charge,
-        total_retainer_amt: x.retainer_amt
+        total_retainer_amt: x.total_retainer_amt
       }));
     }
   }
@@ -299,10 +299,11 @@ export class NewInvoiceComponent implements OnInit {
           billing_type: x.billing_type,
           total_hours: x.total_hours,
           bt_price_per_hour: x.bt_price_per_hour,
-          total_amt: x.total_amt,
+          total_amt: Number(x.total_amt) - x.retainer_amt,
           related_charge: x.uuid,
           bt_amt: x.total_amt,
-          is_legal_charge: x.is_legal_charge
+          is_legal_charge: x.is_legal_charge,
+          total_retainer_amt: x.retainer_amt
       }));
     })
   }

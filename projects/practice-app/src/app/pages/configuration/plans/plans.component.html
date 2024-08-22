@@ -46,7 +46,7 @@
 
                         </div>
                         <button mat-button class="c-plans__button is-selected" *ngIf="plan.uuid === subscription.plan">Este es tu plan actualmente </button>
-                        <button mat-button class="c-plans__button is-active" *ngIf="plan.uuid !== subscription.plan">SELECCIONAR PLAN</button>
+                        <button mat-button class="c-plans__button is-active" *ngIf="plan.uuid !== subscription.plan" (click)="changePlanRequest(plan)">SELECCIONAR PLAN</button>
 
                     </div>
                     <div class="c-plans__body">

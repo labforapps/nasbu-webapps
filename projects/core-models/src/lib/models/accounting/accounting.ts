@@ -68,7 +68,7 @@ export interface InvoiceDetail {
   customer?:           string;
   case_file?:          string;
   task?:               string;
-  retainer_amt:        number;
+  total_retainer_amt:  number;
 }
 
 export interface InvoicePayload {
@@ -157,6 +157,7 @@ export interface BillingCharge {
   subscription:        string;
   related_invoice:     string;
   customer:            string;
+  retainer_amt: number
 }
 
 export enum PaymentMethod {

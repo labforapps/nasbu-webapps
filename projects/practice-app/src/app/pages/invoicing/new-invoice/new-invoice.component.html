@@ -164,10 +164,11 @@
                                   <td data-label="Retencion de pago">
                                     <mat-form-field appearance="fill" class="c-form-group  input--outlined">
                                         <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
-                                        <input class="c-form-group__input" matInput
+                                        <input class="c-form-group__input input--disabled" matInput
                                                placeholder="0000  0000  0000  0000"
                                                formControlName="total_retainer_amt"
-                                               (blur)="onChangeInvoiceDetail('details',invoice_detail.value)">
+                                               (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
+                                               [readonly]="true">
                                     </mat-form-field>
                                 </td>
 
@@ -274,10 +275,12 @@
                                   <td data-label="Retencion de pago">
                                     <mat-form-field appearance="fill" class="c-form-group  input--outlined">
                                         <mat-label>{{'invoicing.invoice.number' | translate}}</mat-label>
-                                        <input class="c-form-group__input" matInput
+                                        <input class="c-form-group__input input--disabled"
+                                               Input
                                                placeholder="0000  0000  0000  0000"
                                                formControlName="total_retainer_amt"
-                                               (blur)="onChangeInvoiceDetail('details',legal_expense.value)">
+                                               (blur)="onChangeInvoiceDetail('details',legal_expense.value)"
+                                               [readonly]="true">
                                     </mat-form-field>
                                 </td>
 
