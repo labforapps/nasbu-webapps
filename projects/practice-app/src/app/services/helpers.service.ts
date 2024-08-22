@@ -143,6 +143,24 @@ export class HelpersService {
 
   }
 
+  showConfirmationChangePlan(){
+
+    return Swal.fire({
+      title: 'Cambiar Plan',
+      text: 'Estas seguro de cambiar el plan de la firma ?',
+      iconHtml: '<img src="assets/images/Signo_advertencia.svg">',
+      confirmButtonText: 'Si',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        popup: 'c-alert-exit',
+      },
+    }).then((result) => {
+      return result;
+    });
+
+  }
+
   showConfirmationDeleteDialog(): Promise<any> {
     return Swal.fire({
       title: this.translateService.instant(

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -145,6 +145,11 @@ export class SubscriptionService {
   getSubscriptionBillingInvoice(subscription:string):Observable<SubscriptionBillingInvoice[]>{
     const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/billing_invoices?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionBillingInvoice[]>(serverUrl);
+  }
+
+  subscriptionChangePlanRequest(payload:ChangePlanRequest){
+    const serverUrl = `${this.config.serverUrl}/subscription/change_plan_request/?subscription=${payload.subscription}`;
+    return this.httpClient.post<ChangePlanRequest>(serverUrl,payload);
   }
 
 
