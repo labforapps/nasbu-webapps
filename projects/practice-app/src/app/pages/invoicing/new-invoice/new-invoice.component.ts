@@ -81,11 +81,12 @@ export class NewInvoiceComponent implements OnInit {
           billing_type: ['',Validators.required],
           total_hours: [0],
           bt_price_per_hour: [0],
+          sub_total_amt: [0],
           total_amt: [0],
           related_charge: [null],
           bt_amt: 0,
           is_legal_charge: [false],
-          total_retainer_amt: [0]
+          total_retainer_amt: [0],
         })
       ])
     })
@@ -120,12 +121,13 @@ export class NewInvoiceComponent implements OnInit {
         description: x.description,
         billing_type: x.billing_type,
         total_hours: x.total_hours,
-        bt_price_per_hour: x.bt_price_per_hour,
+        bt_price_per_hour: x.billing_type === this.billingType.PER_HOUR || x.billing_type === this.billingType.BY_TIME_INCREMENT ? x.bt_price_per_hour : 0,
         total_amt: x.total_amt,
-        related_charge: x.related_charge,
-        bt_amt: x.total_amt,
+        related_charge: x.related_charge?.uuid || null,
+        bt_amt: x.billing_type === this.billingType.FLAT_FEE ? x.total_amt : 0,
         is_legal_charge: x.is_legal_charge,
-        total_retainer_amt: x.total_retainer_amt
+        total_retainer_amt: x.total_retainer_amt,
+        sub_total_amt: x.sub_total_amt
       }));
     }
   }
@@ -225,7 +227,7 @@ export class NewInvoiceComponent implements OnInit {
   addInvoiceDetail(formArray:string,is_legal_charge:boolean){
     const item = {
           description: ['',Validators.required],
-          billing_type: [this.billingType.PER_HOUR,Validators.required],
+          billing_type: [is_legal_charge ? this.billingType.FLAT_FEE : this.billingType.PER_HOUR,Validators.required],
           total_hours: [0],
           bt_price_per_hour: [0],
           total_amt: [0],
@@ -233,7 +235,8 @@ export class NewInvoiceComponent implements OnInit {
           bt_amt: 0,
           is_legal_charge: [is_legal_charge],
           total_retainer_amt: [0],
-          manual_entry: true
+          manual_entry: true,
+          sub_total_amt: [0]
     }
     this.formService.addItemFormArray(this.invoiceForm,formArray,item);
   }
@@ -298,13 +301,14 @@ export class NewInvoiceComponent implements OnInit {
           description: x.task.name,
           billing_type: x.billing_type,
           total_hours: x.total_hours,
-          bt_price_per_hour: x.bt_price_per_hour,
-          total_amt: Number(x.total_amt) - x.retainer_amt,
+          bt_price_per_hour: x.billing_type === this.billingType.PER_HOUR || x.billing_type === this.billingType.BY_TIME_INCREMENT ?  x.total_amt : 0,
           related_charge: x.uuid,
-          bt_amt: x.total_amt,
+          bt_amt: x.billing_type === this.billingType.FLAT_FEE ?  x.total_amt : 0,
           is_legal_charge: x.is_legal_charge,
-          total_retainer_amt: x.retainer_amt
-      }));
+          total_retainer_amt: x.retainer_amt,
+          sub_total_amt: x.total_amt,
+          total_amt: Number(x.total_amt) - x.retainer_amt,
+        }));
     })
   }
 
@@ -320,6 +324,7 @@ export class NewInvoiceComponent implements OnInit {
       total = (invoice.bt_price_per_hour * invoice.total_hours) - invoice.total_retainer_amt;
       (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
         bt_amt: 0,
+        sub_total_amt: Number(total).toFixed(2),
         total_amt: Number(total).toFixed(2)
       });
     }
@@ -328,6 +333,7 @@ export class NewInvoiceComponent implements OnInit {
       (this.invoiceForm.get(formArray) as FormArray)?.at(index).patchValue({
         total_hours: 0,
         bt_price_per_hour: 0,
+        sub_total_amt: Number(total).toFixed(2),
         total_amt: Number(total).toFixed(2)
       });
     }

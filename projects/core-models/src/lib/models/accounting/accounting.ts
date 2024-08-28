@@ -25,6 +25,7 @@ export interface Invoice {
   days_late:           number;
   total_remaining_amt: number;
   apply_tax:           boolean;
+  sub_total_amt:       number;
 }
 
 
@@ -45,7 +46,7 @@ export interface CaseFileInvoice {
 
 export interface InvoiceDetail {
   uuid:                string;
-  related_charge?:     InvoiceDetail;
+  related_charge?:     BillingCharge;
   active:              boolean;
   created_at:          Date;
   updated_at:          Date;
@@ -69,6 +70,7 @@ export interface InvoiceDetail {
   case_file?:          string;
   task?:               string;
   total_retainer_amt:  number;
+  sub_total_amt:       number;
 }
 
 export interface InvoicePayload {

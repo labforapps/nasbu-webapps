@@ -233,6 +233,14 @@
         &--filled {
             border: 1px solid #0D6AFF !important;
         }
+        &--disabled {
+
+            background-color: transparent;
+            color: lightgray;
+            border: 1px solid #CBCBCB !important;
+            pointer-events: none;
+
+        }
     }
     .input {
         &--outlined {
