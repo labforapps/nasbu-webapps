@@ -295,6 +295,9 @@ export class NewInvoiceComponent implements OnInit {
 
     this.caseFileSelected = this.caseFiles.find( x => x.uuid === selectChange.value);
 
+    const detailsArray = this.invoiceForm.get('details') as FormArray;
+    detailsArray.clear();
+
     this.accountingService.getPendingBillingCharges(this.selectedSubscription?.ssid.uuid).subscribe((data:BillingCharge[]) => {
       this.billingCharges = data.filter(x => this.caseFileSelected && x.case_file.uuid === this.caseFileSelected.uuid);
       this.billingCharges.forEach(x => this.formService.addItemFormArray(this.invoiceForm,'details',{

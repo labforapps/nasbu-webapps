@@ -58,7 +58,7 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
 
       this.invoicingParameterForm.patchValue({
         price_per_hour: securityUserBillingFee.price_per_hour ? securityUserBillingFee.price_per_hour : subscriptionBillingFee.price_per_hour,
-        increment_factor: securityUserBillingFee.increment_factor ? securityUserBillingFee.increment_factor : subscriptionBillingFee.increment_factor,
+        increment_factor: securityUserBillingFee.increment_factor >= 0 ? securityUserBillingFee.increment_factor : subscriptionBillingFee.increment_factor,
         price_per_increment: securityUserBillingFee.price_per_increment ? securityUserBillingFee.price_per_increment : subscriptionBillingFee.price_per_increment,
         allow_retainers: securityUserBillingFee.allow_retainers != null ? securityUserBillingFee.allow_retainers : subscriptionBillingFee.allow_retainers,
         allow_flat_fee: securityUserBillingFee.allow_flat_fee != null ? securityUserBillingFee.allow_flat_fee : subscriptionBillingFee.allow_flat_fee,

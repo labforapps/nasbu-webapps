@@ -82,6 +82,7 @@
                   <button mat-menu-item class="matMenu-red" (click)="deleteDocument(element)">Eliminar <span class="icon-trash"></span></button>
                   <button mat-menu-item class="matMenu-green" (click)="downloadDocument(element, null)">Descargar Original<span class="icon-download"></span></button>
                   <button mat-menu-item class="matMenu-green" (click)="downloadDocument(element, 'pdf')">Descargar PDF<span class="icon-download"></span></button>
+                  <button mat-menu-item class="matMenu-green" (click)="downloadSignatureRequestDocEvidence(element)">Documento firmado<span class="icon-download"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openNewTab(element)">Abrir en otra pestaña<span class="icon-new-tab"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openDialogExternalDocSignature(element)">Enviar para firma<span class="icon-send"></span></button>
               </mat-menu>

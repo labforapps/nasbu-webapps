@@ -549,4 +549,9 @@ export class PracticeService {
     return this.httpClient.delete<CaseFileType>(serverUrl)
   }
 
+  downloadSignatureRequestDocEvidence(documentGeneration:DocumentGeneration){
+    const serverUrl = `${this.config.serverUrl}/practice/document_generations/${documentGeneration.uuid}/download_signature_request_doc_evidence/?subscription=${documentGeneration.subscription}`;
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
+
 }

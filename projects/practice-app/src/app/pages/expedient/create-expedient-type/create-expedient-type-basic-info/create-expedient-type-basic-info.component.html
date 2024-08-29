@@ -2,12 +2,12 @@
   <img src="./assets/images/template-icon.svg" alt="" class="c-stepper-template__header__icon">
   <div class="d-flex flex-column justify-content-center">
     <div class="c-stepper-template__header__title">Creación de tipo de expediente</div>
-    <div class="c-stepper-template__header__subtitle">Completa el pasos a paso y construye tu plantilla desde cero</div>
+    <div class="c-stepper-template__header__subtitle">Completa el paso a paso y construye tu tipo de expediente desde cero</div>
   </div>
 </div>
 <div class="c-stepper-template__steps">
   <div>
-    <span class="c-stepper-template__steps__title">Nombre de plantilla</span><a href="#" class="u-link">Ver como funciona</a>
+    <span class="c-stepper-template__steps__title">Nombre de tipo de expediente</span><a href="#" class="u-link">Ver como funciona</a>
   </div>
   <span>Paso 1 de 3</span>
 </div>
@@ -26,15 +26,15 @@
     <hr class="mb-5">
     <div class="row">
       <div class="col-md-6">
-        <label class="u-title-label">¿Cómo llamarás tu plántilla?</label>
+        <label class="u-title-label">¿Cómo llamarás tu tipo de expediente?</label>
         <mat-form-field appearance="fill" class="c-form-group  c-form-group--small c-form-group--noLabel">
             <input class="c-form-group__input" matInput formControlName="name">
         </mat-form-field>
       </div>
       <div class="col-md-6" #option *ngIf="checkBox.checked">
-        <label class="u-title-label">Plantillas</label>
+        <label class="u-title-label">Tipos de expedientes</label>
           <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
-              <mat-label>Plantilla</mat-label>
+              <mat-label>Tipos de expedientes</mat-label>
               <mat-select formControlName="copied_from" >
                   <mat-option *ngFor="let caseFileType of caseFileTypes" [value]="caseFileType.uuid">
                     {{caseFileType.name}}

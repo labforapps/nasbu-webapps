@@ -107,6 +107,12 @@ export class DocumentsComponent implements OnInit {
     })
   }
 
+  downloadSignatureRequestDocEvidence(documentGenerations:DocumentGeneration){
+    this.practiceService.downloadSignatureRequestDocEvidence(documentGenerations).subscribe(data => {
+      saveAs(data, documentGenerations.name);
+    })
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
