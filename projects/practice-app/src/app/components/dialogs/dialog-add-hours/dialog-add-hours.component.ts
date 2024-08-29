@@ -188,7 +188,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
     let fixed_time = false;
 
-    if(Number(taskTimeFormValue.quoted_hours) > 0){
+    if(Number(taskTimeFormValue.quoted_hours) > 0 || Number(taskTimeFormValue.quoted_minutes) > 0){
       fixed_time = true;
       totalTime = (Number(taskTimeFormValue.quoted_hours) * 60) + Number(taskTimeFormValue.quoted_minutes);
     }

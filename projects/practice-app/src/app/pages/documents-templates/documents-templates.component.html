@@ -32,7 +32,8 @@
 
               <app-templates *ngIf="documentTemplates"
                              [documentTemplates]="documentTemplates"
-                             (onExecuteDocumentTemplate)="getDocumentTemplates()"></app-templates>
+                             (onExecuteDocumentTemplate)="getDocumentTemplates()"
+                             (onExecuteDocumentGeneration)="getDocumentGenerations()"></app-templates>
 
           </mat-tab>
           <mat-tab>
