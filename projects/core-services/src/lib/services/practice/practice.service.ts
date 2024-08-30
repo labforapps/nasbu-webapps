@@ -270,7 +270,18 @@ export class PracticeService {
     const serverUrl = `${this.config.serverUrl}/practice/tasks/latests_overdue/?subscription=${subscription}`;
     const currentDate = new Date();
 
-    return this.httpClient.get<Task[]>(serverUrl)
+    return this.httpClient.get<Task[]>(serverUrl).pipe(
+      switchMap((tasks: Task[]) => {
+          tasks.forEach((task: Task) => {
+            if(task.status === this.taskStatus.OPEN){
+              const endDate = new Date(task.end_date + 'T00:00:00');
+              task.overdue = endDate.setHours(0,0,0,0) < currentDate.setHours(0,0,0,0);
+            }
+          });
+
+            return of(tasks);
+      })
+    );
   }
 
   getTasksTime(subscription:string):Observable<TimeTask[]>{

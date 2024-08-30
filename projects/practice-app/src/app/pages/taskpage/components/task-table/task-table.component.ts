@@ -188,18 +188,22 @@ export class TaskTableComponent  implements OnChanges {
 
   completeTask(task:Task){
 
-    if(task.status === this.taskStatus.OPEN){
-      task.status = this.taskStatus.CLOSED;
-      this.practiceService.completeTask(task).subscribe(data => this.onExecuteTaskEvent());
-     }
-     else if(task.status === this.taskStatus.CLOSED){
-      task.status = this.taskStatus.OPEN;
-      this.practiceService.completeTask(task).subscribe(data => this.onExecuteTaskEvent());
-     }
-     else{
-      task.status = this.taskStatus.OPEN;
-      task.overdue = moment(task.end_date).isBefore(moment(), 'day');
-     }
+    let taskStatus = task.status
+
+    if(task.status === this.taskStatus.OPEN)  taskStatus = this.taskStatus.CLOSED;
+     else if(task.status === this.taskStatus.CLOSED) taskStatus = this.taskStatus.OPEN;
+
+
+     this.practiceService.completeTask({...task, status: taskStatus}).subscribe({
+      next: (data) => {
+        task.status = taskStatus
+        this.onExecuteTaskEvent()
+      },
+      error: (data) => {
+        this.helperService.showCustomMessage('Error','No se puede descompletar tareas ya facturadas','Alerta')
+      }
+     });
+
   }
 
   getTotalTime(value:number){

@@ -221,15 +221,28 @@ export class DialogNewDocumentComponent implements OnInit {
 
     if(this.documentGeneration) payload.uuid = this.documentGeneration.uuid;
 
-    this.practiceService.saveDocumentGeneration(payload).subscribe(data => {
-      if(payload.uuid){
-        this.helperService.showMessageUpdated();
-      }
-      else{
-        this.helperService.showMessageCreated();
-      }
 
-      this.dialogRef.close(data);
+
+    this.practiceService.saveDocumentGeneration(payload).subscribe({
+      next: (data) => {
+        if(payload.uuid){
+          this.helperService.showMessageUpdated();
+        }
+        else{
+          this.helperService.showMessageCreated();
+        }
+
+        this.dialogRef.close(data);
+      },
+      error: (error) => {
+        if(error.error.error === 'Unexpected error nasbu-ftr-storage'){
+          this.helperService.showCustomMessage('Error','Esta cuenta no tiene almacenamiento disponible','Error')
+        }
+        else{
+          this.helperService.showCustomMessage('Error','Error','Ha ocurrido un error al generar documentos')
+        }
+
+      }
     })
 
   }
