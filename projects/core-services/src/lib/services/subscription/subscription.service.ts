@@ -152,5 +152,9 @@ export class SubscriptionService {
     return this.httpClient.post<ChangePlanRequest>(serverUrl,payload);
   }
 
+  downloadSubscriptionBillingInvoice(subscriptionBillingInvoice:SubscriptionBillingInvoice){
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscriptionBillingInvoice.subscription}/download_billing_invoice?subscription=${subscriptionBillingInvoice.subscription}&invoice_id=${subscriptionBillingInvoice.uuid}`;
+    return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
 
 }

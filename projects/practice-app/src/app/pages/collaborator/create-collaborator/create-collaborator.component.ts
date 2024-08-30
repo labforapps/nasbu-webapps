@@ -279,7 +279,7 @@ export class CreateCollaboratorComponent implements OnInit {
         this.router.navigate(['user/edit', data.uuid]);
       }
     },(error) => {
-     if(!this.securityUserId) this.toastr.error('Error', this.translateService.instant('dockets.username_already_exists'));
+     if(!this.securityUserId) this.toastr.error('Error', error.error.detail);
     })
 
   }

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { DocumentTemplate } from 'core-models';
+import { DocumentGeneration, DocumentTemplate } from 'core-models';
 import { DialogNewDocumentComponent } from '../../../components/dialogs/dialog-new-document/dialog-new-document.component';
 import { PracticeService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
@@ -25,6 +25,7 @@ export class TemplatesComponent implements OnInit {
   selection = new SelectionModel<DocumentTemplate>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Output() onExecuteDocumentTemplate = new EventEmitter<DocumentTemplate | any>();
+  @Output() onExecuteDocumentGeneration = new EventEmitter<DocumentGeneration | any>();
 
   constructor(public dialog: MatDialog,
               private practiceService:PracticeService,
@@ -45,9 +46,15 @@ export class TemplatesComponent implements OnInit {
   }
 
   openDialogNewDocument(template:DocumentTemplate){
-    this.dialog.open(DialogNewDocumentComponent,{
+    const dialogRef = this.dialog.open(DialogNewDocumentComponent,{
       data: {
         template
+      }
+    })
+
+    dialogRef.afterClosed().subscribe({
+      next: (data) => {
+        if(data) this.onExecuteDocumentGeneration.emit({})
       }
     })
   }

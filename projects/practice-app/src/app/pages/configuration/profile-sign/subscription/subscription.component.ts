@@ -60,7 +60,9 @@ export class SubscriptionComponent implements OnInit {
   }
 
   downloadPdf(subscriptionBillingInvoice:SubscriptionBillingInvoice){
-    window.open(subscriptionBillingInvoice.generated_file, '_blank');
+   this.subscriptionService.downloadSubscriptionBillingInvoice(subscriptionBillingInvoice).subscribe({
+    next: (data) => this.helperService.downloadDocument(data)
+   })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
