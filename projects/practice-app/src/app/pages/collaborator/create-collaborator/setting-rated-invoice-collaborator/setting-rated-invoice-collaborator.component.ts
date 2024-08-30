@@ -71,7 +71,7 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
         ...subscriptionBillingFee
       })
 
-      this.incrementOfTime = subscriptionBillingFee.price_per_increment ? true : false;
+      this.incrementOfTime = Number(subscriptionBillingFee.price_per_increment) > 0 ? true : false;
      }
 
 

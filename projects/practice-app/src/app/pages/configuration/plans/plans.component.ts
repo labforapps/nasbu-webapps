@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnboardingService } from '../../../services/onboarding/onboarding.service';
-import { Plan, Subscription } from 'core-models';
+import { ChangePlanRequest, Plan, Subscription } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 
@@ -59,7 +59,18 @@ export class PlansComponent implements OnInit {
 
     this.helperService.showConfirmationChangePlan().then(data => {
 
+      const payload:ChangePlanRequest = {
+        subscription: this.subscription.uuid,
+        period:       plan.uuid,
+        to_plan:      "M"
+      }
 
+      this.subscriptionService.subscriptionChangePlanRequest(payload).subscribe({
+        next: (data) => {
+          this.helperService.showCustomMessage('Ok',"OK","Plan Cambiado")
+          this.getSubscriptionInformation()
+        }
+      })
 
     })
 
