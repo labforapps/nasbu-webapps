@@ -19,7 +19,10 @@
             <mat-checkbox class="c-checkbox mb-2" formControlName="allow_retainers">
               {{'invoice_parameter.retainer' | translate}}
             </mat-checkbox>
-            <mat-checkbox class="c-checkbox mb-2" [(ngModel)]="incrementOfTime" [ngModelOptions]="{standalone: true}" [checked]="invoicingParameterForm.controls['price_per_increment'].value > 0">
+            <mat-checkbox class="c-checkbox mb-2" [(ngModel)]="incrementOfTime"
+                                                  [ngModelOptions]="{standalone: true}"
+                                                  [checked]="invoicingParameterForm.controls['price_per_increment'].value > 0"
+                                                  (change)="onCheckIncrementOfTime($event)">
               {{'invoice_parameter.by_increment_of_time' | translate}}
             </mat-checkbox>
             <mat-checkbox class="c-checkbox mb-2" formControlName="allow_flat_fee">

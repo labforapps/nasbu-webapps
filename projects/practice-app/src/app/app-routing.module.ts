@@ -46,6 +46,7 @@ import { ReportInvoicingExportComponent } from './pages/report/report-invoicing/
 import { CheckoutRequestLadingComponent } from './pages/external/payment/checkout-request-lading/checkout-request-lading.component';
 import { CreateTemplatesTypesComponent } from './pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
 import { CreateExpedientTypeComponent } from './pages/expedient/create-expedient-type/create-expedient-type.component';
+import { ReportCustomerWalletDetailsComponent } from './pages/report/report-customer-wallet-details/report-customer-wallet-details.component';
 
 
 const routes: Routes = [
@@ -211,6 +212,10 @@ const routes: Routes = [
         path: 'report/general-metrics',
         component: GeneralMetricsComponent,
       },
+      {
+        path:'report/customer-wallet-details',
+        component: ReportCustomerWalletDetailsComponent
+      }
     ],
   },
   {

@@ -834,6 +834,10 @@
         "closing_time":"Closing time",
         "save":"Save changes",
         "remember_to_complete_all_required_fields":"Remember to complete all required fields"
+      },
+      "billingInvoice":{
+        "pending":"Pending",
+        "payed":"Payed"
       }
    },
    "settings":{
