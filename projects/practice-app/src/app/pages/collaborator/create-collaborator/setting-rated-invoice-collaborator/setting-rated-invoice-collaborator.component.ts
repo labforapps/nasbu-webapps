@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { SecurityUser, SubscriptionBillingFee } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
 
@@ -64,7 +65,7 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
         allow_flat_fee: securityUserBillingFee.allow_flat_fee != null ? securityUserBillingFee.allow_flat_fee : subscriptionBillingFee.allow_flat_fee,
       });
 
-      this.incrementOfTime = securityUserBillingFee.price_per_increment ? true : false;
+      this.incrementOfTime = Number(securityUserBillingFee.price_per_increment) ? true : false;
      }
      else{
       this.invoicingParameterForm.patchValue({
@@ -76,6 +77,15 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
 
 
 
+  }
+
+  onCheckIncrementOfTime(event:MatCheckboxChange){
+    if(!event.checked){
+      this.invoicingParameterForm.patchValue({
+        increment_factor:    0,
+        price_per_increment: 0,
+      })
+    }
   }
 
   getSubscriptionBillingFee(){
