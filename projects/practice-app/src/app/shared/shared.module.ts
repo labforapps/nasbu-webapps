@@ -16,6 +16,7 @@ import { CustomerFullNamePipe } from './pipes/customer-full-name.pipe';
 import { BillingTypePipe } from './pipes/billing-type.pipe';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -34,7 +35,8 @@ registerLocaleData(localeEn, 'en');
       CustomerFullNamePipe,
       BillingTypePipe,
       AutofocusDirective,
-      AlphaNumericDirective
+      AlphaNumericDirective,
+      CapitalizePipe
     ],
     imports: [
       MatProgressSpinnerModule,
@@ -57,7 +59,8 @@ registerLocaleData(localeEn, 'en');
       TranslateModule,
       CustomerFullNamePipe,
       BillingTypePipe,
-      AlphaNumericDirective
+      AlphaNumericDirective,
+      CapitalizePipe
     ],
 })
 export class SharedModule { }

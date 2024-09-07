@@ -2,10 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { AuthService, CoreService, SubscriptionService } from 'core-services';
-import { Plan, Subscription, SubscriptionBillingInvoice } from 'core-models';
+import { Plan, Subscription, SubscriptionBillingInvoice, SubscriptionBillingInvoiceStatus } from 'core-models';
 import * as moment from 'moment'
 import { Router } from '@angular/router';
 import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-subscription',
@@ -21,6 +22,7 @@ export class SubscriptionComponent implements OnInit {
   showSubscriptionBillingHistory:boolean = false
   selectedPlan!:Plan | undefined
   subscriptionBillingInvoices!:SubscriptionBillingInvoice[]
+  subscriptionBillingInvoiceStatus = SubscriptionBillingInvoiceStatus
 
   constructor(private coreService:CoreService,
               private router:Router,
@@ -63,6 +65,10 @@ export class SubscriptionComponent implements OnInit {
    this.subscriptionService.downloadSubscriptionBillingInvoice(subscriptionBillingInvoice).subscribe({
     next: (data) => this.helperService.downloadDocument(data)
    })
+  }
+
+  returnMonthDateDescription(date:string){
+    return formatDate(date,'MMMM','es-ES')
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
