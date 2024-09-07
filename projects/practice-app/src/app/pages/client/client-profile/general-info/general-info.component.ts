@@ -1,5 +1,5 @@
 import { Component, OnInit ,Input} from '@angular/core';
-import {Customer,Contact,Country,Occupation,TypeContact,SubtypeContact,SubtypeContactDescripcion} from 'core-models';
+import {Customer,Contact,Country,Occupation,TypeContact,SubtypeContact,SubtypeContactDescripcion, TypeCustomer} from 'core-models';
 import { AuthService, CommonService, CustomersService } from 'core-services';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ export class GeneralInfoComponent implements OnInit {
   countries!: Country[];
   occupations!: Occupation[];
   typeContact = TypeContact
+  typeCustomer = TypeCustomer
 
   constructor(private commonService: CommonService,
               private router:Router,
@@ -58,21 +59,11 @@ export class GeneralInfoComponent implements OnInit {
   }
 
   returnCountryName(countryId: string) {
-    const country_filtered = this.countries.filter((x) => x.uuid === countryId);
-    return country_filtered[0].name;
+    return this.countries.find((x) => x.uuid === countryId)?.name || '';
   }
 
   returnOccupationName(uuid: string) {
-    if (uuid) {
-
-      const occupation_filtered = this.occupations.filter(
-        (x) => x.uuid === uuid
-      );
-
-      return occupation_filtered[0].name;
-    } else {
-      return '';
-    }
+      return this.occupations.find((x) => x.uuid === uuid)?.name || '';
   }
 
   returnContactDescription(subtypeContact:string){
