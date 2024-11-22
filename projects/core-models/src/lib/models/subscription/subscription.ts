@@ -160,3 +160,24 @@ export interface ChangePlanRequest {
   to_plan:      string;
 }
 
+export interface SubscriptionNotificaction {
+  uuid: string
+  active: boolean
+  created_at: string
+  updated_at: string
+  notification_id: string
+  entity_type: string
+  entity_id: string
+  callback_url: string
+  type: string
+  title: string
+  sub_title: string
+  body: string
+  viewed: boolean
+  to_email: string
+  created_by: string
+  updated_by: string
+  subscription: string
+  assigned_to: string
+}
+

@@ -42,13 +42,13 @@ export class AuthService {
         }
         const serverUrl: string = `${this.config.serverUrl}/security/me/`;
         return this.httpClient
-            .get<UserInfo>(serverUrl)
-            .pipe(
-                tap((userInfo: UserInfo) => this.selectedUserInfo = userInfo),
-                tap(() => {
-                    this.storeUserInfoInLocalStorage();
-                })
-            );
+                   .get<UserInfo>(serverUrl)
+                   .pipe(
+                      tap((userInfo: UserInfo) => this.selectedUserInfo = userInfo),
+                      tap(() => {
+                          this.storeUserInfoInLocalStorage();
+                      })
+                   );
     }
 
     storeUserInfoInLocalStorage(): void {
