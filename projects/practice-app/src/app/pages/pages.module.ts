@@ -110,6 +110,7 @@ import { CreateExpedientTypeBasicInfoComponent } from './expedient/create-expedi
 import { CreateExpedientTypeVariablesComponent } from './expedient/create-expedient-type/create-expedient-type-variables/create-expedient-type-variables.component';
 import { ExpedientVariablesInfoComponent } from './expedient/expedient-info/expedient-variables-info/expedient-variables-info.component';
 import { SubscriptionPaymentGatewayComponent } from './configuration/invoicing-parameters/subscription-payment-gateway/subscription-payment-gateway.component';
+import { AvatarModule } from 'ngx-avatar';
 
 
 @NgModule({
@@ -222,7 +223,8 @@ import { SubscriptionPaymentGatewayComponent } from './configuration/invoicing-p
     AppRoutingModule,
     TasksModule,
     NgxDocViewerModule,
-    AngularImageViewerModule
+    AngularImageViewerModule,
+    AvatarModule
 
   ]
 })

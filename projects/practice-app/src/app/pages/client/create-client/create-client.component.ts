@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import {Customer,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
+import {Customer,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer, CustomerPayload,} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -226,7 +226,12 @@ export class CreateClientComponent implements OnInit {
     }
     if(this.customer && this.linked_customer === null)
     {
-      this.customerService.updateCustomer(this.selectedSubscription?.ssid.uuid,this.customerId,{...this.customer,linked_customer:null})
+      const customerLinked: CustomerPayload = {
+        ... this.customer,
+        occupation: this.customer.occupation.uuid,
+        linked_customer: null,
+      };
+      this.customerService.updateCustomer(this.selectedSubscription?.ssid.uuid,this.customerId, customerLinked)
       .subscribe(data => {
       })
     }
@@ -311,7 +316,7 @@ export class CreateClientComponent implements OnInit {
       return;
     }
 
-    const createClient: Customer = {
+    const createClient: CustomerPayload = {
       ...this.createClientForm.value,
       born_date: this.createClientForm.value.born_date === '' ? null : this.createClientForm.value.born_date,
       subscription: this.selectedSubscription?.ssid.uuid,

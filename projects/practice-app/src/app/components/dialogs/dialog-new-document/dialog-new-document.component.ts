@@ -2,7 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CaseFile, Customer, SecurityUser, DocumentTemplate, DocumentGenerationPayload, DocumentGeneration,
          DocumentTemplateType, VariableDocumentTemplateType,
-         VariableCaseFileType} from 'core-models';
+         VariableCaseFileType,
+         CustomerCaseFile} from 'core-models';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import * as moment from 'moment';
@@ -17,8 +18,15 @@ import { MatSelectChange } from '@angular/material/select';
 export class DialogNewDocumentComponent implements OnInit {
 
   documentForm!:FormGroup;
+
+  selectedCustomer!: CustomerCaseFile | null;
   customers!:Customer[];
+  filteredCustomers!: Customer[];
+  
+  selectedCaseFile!: CaseFile | null;
   caseFiles!:CaseFile[];
+  filteredCaseFiles!: CaseFile[];
+
   securityUsers!:SecurityUser[];
   documentTemplates!:DocumentTemplate[];
   selectedSubscription!:any;
@@ -59,7 +67,7 @@ export class DialogNewDocumentComponent implements OnInit {
       document_template: ['',Validators.required],
       case_file: [null],
       customer: ['',Validators.required],
-      representative: ['',Validators.required],
+      representative: [''],
     })
 
     this.documentForm.patchValue({
@@ -119,6 +127,7 @@ export class DialogNewDocumentComponent implements OnInit {
   getCaseFiles(){
     this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFiles = data;
+      this.filteredCaseFiles = this.caseFiles.slice();
     })
   }
 
@@ -154,6 +163,26 @@ export class DialogNewDocumentComponent implements OnInit {
         this.setDynamicForm()
       })
     }
+  }
+
+  onSelectCustomer(customer: Customer | null) {
+      if (customer) {
+        this.filteredCaseFiles = this.caseFiles.filter((cs: CaseFile) => {
+          return cs.customer.uuid === customer.uuid;
+        });
+      } else {
+          this.filteredCaseFiles = this.caseFiles.slice();
+      }
+  }
+
+  onSelectCaseFile(caseFile: CaseFile | null) {
+      this.selectedCaseFile = caseFile;
+      if (this.selectedCaseFile) {
+        this.selectedCustomer = this.selectedCaseFile.customer;
+      } else {
+          this.selectedCustomer = null;
+          this.filteredCaseFiles = this.caseFiles.slice();
+      }
   }
 
   setDynamicForm(){

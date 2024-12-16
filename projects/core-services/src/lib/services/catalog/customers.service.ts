@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, map, of, switchMap } from 'rxjs';
-import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType, Invoice, InvoiceStatus, CustomerWalletSummary } from 'core-models';
+import { CaseFile, Customer,CustomerIntakeRequest,CustomerIntakeValidateRequest, TypeCustomer,Task,TaskType, Invoice, InvoiceStatus, CustomerWalletSummary, CustomerPayload } from 'core-models';
 import { CommonService } from '../common';
 
 @Injectable({
@@ -46,12 +46,12 @@ export class CustomersService {
     return this.httpClient.get<Customer>(serverUrl);
   }
 
-  createCustomer(body: Customer): Observable<Customer> {
+  createCustomer(body: CustomerPayload): Observable<Customer> {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/`;
     return this.httpClient.post<Customer>(serverUrl, body);
   }
 
-  updateCustomer(subscription: string, uuid: string, body: Customer) {
+  updateCustomer(subscription: string, uuid: string, body: CustomerPayload) {
     const serverUrl: string = `${this.config.serverUrl}/catalog/customers/${uuid}/?subscription=${subscription}`;
     return this.httpClient.patch<any>(serverUrl, body);
   }
@@ -91,9 +91,9 @@ export class CustomersService {
     return this.httpClient.put<any>(serverUrl, body);
   }
 
-  saveCustomer(customerPayload: Customer): Observable<Customer> {
+  saveCustomer(customerPayload: CustomerPayload): Observable<Customer> {
     let saveOperation$: Observable<Customer>;
-    const payload: Customer = { ...customerPayload };
+    const payload: CustomerPayload = { ...customerPayload };
     if (customerPayload.uuid != null && customerPayload.uuid !== '') {
       saveOperation$ = this.updateCustomer(payload.subscription || '',payload.uuid || '', payload);
     } else {

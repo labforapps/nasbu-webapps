@@ -1,6 +1,31 @@
+import { Occupation } from "../common";
 import { Address, Contact } from "../shared";
 
 export interface Customer {
+  uuid?: string;
+  subscription?: string;
+  intake_request?: string;
+  type: string;
+  document_type: string;
+  document_no: string;
+  company_name: string;
+  first_name: string;
+  last_name: string;
+  born_date: string;
+  image: any;
+  marital_status: string;
+  occupation: Occupation;
+  linked_customer?: null;
+  contacts: Contact[];
+  addresses: Address[];
+  wallet?: string;
+  active?: boolean;
+  created_at?: Date;
+  updated_by?: null;
+  updated_at?: Date;
+}
+
+export interface CustomerPayload {
   uuid?: string;
   subscription?: string;
   intake_request?: string;

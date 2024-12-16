@@ -125,7 +125,9 @@
                 </div>
                 <div class="c-header__role">{{'header.user' | translate}} </div>
             </div>
-            <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image">
+            <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image"> -->
+            
+            <ngx-avatar *ngIf="user$ | async as userData" [name]="userData.attributes.given_name" class="c-header__image"></ngx-avatar>
 
         </div>
 

@@ -1,7 +1,8 @@
 <div class="c-generalInfo">
     <div class="c-generalInfo__header">
         <div class="align-items-center d-flex">
-            <img *ngIf="!customer.image" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture">
+            <!-- <img *ngIf="!customer.image" src="../../../../../assets/images/user.jpg" class="c-generalInfo__profilePicture"> -->
+            <ngx-avatar *ngIf="!customer.image" [name]="fullName" size="85" class="c-generalInfo__profilePicture"></ngx-avatar>
             <img *ngIf="customer.image" [src]="customer.image" class="c-generalInfo__profilePicture">
 
             <div>
@@ -32,7 +33,7 @@
                 <span class="icon-suitcase" style="font-size: 1.8rem;"></span>
                 <div>
                     <p><b>{{'clients.details.profession_and_or_trade' | translate}}</b></p>
-                    <p *ngIf="occupations">{{returnOccupationName(customer.occupation)}}</p>
+                    <p>{{customer.occupation.name}}</p>
                 </div>
             </div>
             <div class="align-items-center col-md-4 d-flex u-gap-1 u-textColor mb-2">
