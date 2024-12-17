@@ -24,6 +24,11 @@ export interface ReportCaseFilePayload extends ReportBasePayload {
   status:    CaseFileStatus | null;
 }
 
+export interface ReportCustomerWalletDetails extends ReportBasePayload {
+  customer:  string | null;
+  case_file: string | null;
+}
+
 export interface ReportPaymentsPayload extends ReportBasePayload {
   customer:  string | null;
   billing_type: string | null;
