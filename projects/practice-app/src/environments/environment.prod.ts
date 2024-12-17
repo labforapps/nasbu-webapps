@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
   serverUrl: 'https://api.nasbulegal.com/api',
+  notificationsWebSocketUrl: 'wss://hbycdy3yoj.execute-api.us-east-1.amazonaws.com/prod',
   awsConfig: {
     Auth: {
         // REQUIRED - Amazon Cognito Region
