@@ -79,37 +79,28 @@
 
 
 
-        <button mat-button [matMenuTriggerFor]="menu" class="c-notification">
+        <button mat-button [matMenuTriggerFor]="menu" class="c-notification" (click)="onOpenNotificationsMenu()">
             <div>
                 <div class="c-notification__title">{{'header.notifications.title' | translate}}</div>
                 <div class="c-notification__subtitle">{{'header.notifications.title' | translate}}</div>
             </div>
             <div class="c-notification__icon">
-                <span matBadge="4" matBadgeOverlap="false"><span class="icon-bell"></span></span>
+                <span matBadge="{{notificationsCount}}" matBadgeOverlap="false"><span class="icon-bell"></span></span>
             </div>
         </button>
         <mat-menu #menu="matMenu" class="c-notification-menu">
             <div class="c-notification-menu__header">
                 <div class="c-notification-menu__title">{{'header.notifications.title' | translate}}</div>
-                <div class="c-notification-menu__subtitle">Tienes <b class="u-primaryColor">2</b> nuevas actualizaciones</div>
+                <div class="c-notification-menu__subtitle">Tienes <b class="u-primaryColor">{{notificationsCount}}</b> nuevas actualizaciones</div>
             </div>
             <div class="c-nofitication-menu__body">
-                <div class="c-notification-menu__item">
+                <div style="cursor: pointer;" class="c-notification-menu__item" *ngFor="let not of notifications$ | async" (click)="onClickNotification(not)">
                     <span class="icon-bell c-notification-menu__icon"></span>
                     <div class="flex-1">
-                        <div class="c-notification-menu__text">Se ha añadido una nueva tarea</div>
-                        <div class="c-notification-menu__subtext">Llamada Raúl comprés''</div>
+                        <div class="c-notification-menu__text">{{not.title}}</div>
+                        <div class="c-notification-menu__subtext">{{not.body}}</div>
                     </div>
-                    <div class="c-notification-menu__date">Hace 5 min</div>
-                </div>
-                <div class="c-notification-menu__item">
-                    <span class="icon-bell c-notification-menu__icon"></span>
-                    <div class="flex-1">
-                        <div class="c-notification-menu__text">Se ha añadido una nueva tarea</div>
-                        <div class="c-notification-menu__subtext">Llamada Raúl comprés''</div>
-                        <div class="c-notification-menu__subtext u-textColor"><b>Expediente:</b> Contrato de Arrendamiento permisivo</div>
-                    </div>
-                    <div class="c-notification-menu__date">Hace 5 min</div>
+                    <div class="c-notification-menu__date">{{not.created_at | timeAgo: selectedLanguage}}</div>
                 </div>
             </div>
             <div class="c-notification-menu__footer">
@@ -125,7 +116,9 @@
                 </div>
                 <div class="c-header__role">{{'header.user' | translate}} </div>
             </div>
-            <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image">
+            <!-- <img src="../../../../assets/images/user.jpg" alt="" class="c-header__image"> -->
+            
+            <ngx-avatar *ngIf="user$ | async as userData" [name]="userData.attributes.given_name" class="c-header__image"></ngx-avatar>
 
         </div>
 

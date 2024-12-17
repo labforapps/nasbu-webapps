@@ -49,11 +49,9 @@ registerLocaleData(localeEn, 'en');
     MaterialModule,
     FilePickerModule,
     HttpClientModule,
-    AvatarModule,
     FormsModule,
     ReactiveFormsModule,
     CoreServicesModule.forRoot(environment),
-
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnboardingService } from '../../../services/onboarding/onboarding.service';
-import { ChangePlanRequest, Plan, Subscription } from 'core-models';
+import { ChangePlanRequest, Feature, Plan, PlanFeature, Subscription } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 
@@ -11,11 +11,13 @@ import { HelpersService } from '../../../services/helpers.service';
 })
 export class PlansComponent implements OnInit {
 
-  plans!:Plan[]
-  subscription!:Subscription
+  plans!:Plan[];
+  subscription!:Subscription;
   selectedSubscription!:any;
-  anualPlan:boolean = false
-  planSelected!:Plan | undefined
+  anualPlan:boolean = false;
+  planSelected!:Plan | undefined;
+
+  features!: Feature[];
 
   constructor(private onboardingService:OnboardingService,
               private subscriptionService:SubscriptionService,
@@ -25,7 +27,7 @@ export class PlansComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    this.getPlans()
+    this.fetchFeatures();
   }
 
   getPlans(){
@@ -35,6 +37,15 @@ export class PlansComponent implements OnInit {
         this.getSubscriptionInformation();
       }
     })
+  }
+
+  fetchFeatures(){
+      this.onboardingService
+          .getFeatures()
+          .subscribe((features: Feature[]) => {
+              this.features = features;
+              this.getPlans();
+          })
   }
 
   getSubscriptionInformation(){
@@ -73,8 +84,65 @@ export class PlansComponent implements OnInit {
       })
 
     })
+  }
 
+  getFeatureInPlan(plan: Plan, feature: Feature): PlanFeature | undefined {
+    return plan.features.find((f) => f.feature.code === feature.code);
+  }
 
+  getFeatureComercialDescription(feature: Feature): string {
+      // USERS = 'users'
+      // CUSTOMERS = 'customers'
+      // FILES = 'files'
+      // CASE_FILES = 'case_files'
+      // MATTERS = 'matters'
+      // TASKS = 'tasks'
+      // DOCUMENTS = 'docs'
+      // STORAGE = 'storage'
+      // SMS_NOTIFICATIONS = 'sms_notifications'
+      // EMAIL_NOTIFICATIONS = 'email_notifications'
+
+      let comercialDescription: string = '';
+      switch (feature.code.toLowerCase()) {
+        case 'users':
+            comercialDescription = 'Usuarios';
+          break;
+        case 'users':
+
+          break;
+        case 'case_files':
+
+          break;
+        case 'tasks':
+
+          break;
+        case 'docs':
+
+          break;
+        case 'storage':
+
+          break;
+        case 'sms_notifications':
+
+          break;
+        case 'emails_notifications':
+
+          break;
+
+        default:
+          break;
+      }
+
+      return comercialDescription;
+  }
+
+  getFeatureInPlanDescription(plan: Plan, feature: Feature): string {
+      const planFeature: PlanFeature | undefined = this.getFeatureInPlan(plan, feature);
+      if (planFeature) {
+          return this.getFeatureComercialDescription(planFeature.feature);
+      }
+
+      return this.getFeatureComercialDescription(feature);
   }
 
 }

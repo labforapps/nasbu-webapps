@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { DocumentTemplateTypeTest, Plan } from 'core-models';
+import { DocumentTemplateTypeTest, Feature, Plan } from 'core-models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,6 +10,11 @@ export class CoreService {
 
   constructor(@Inject('config') private config: any,
               private httpClient: HttpClient) { }
+
+  getFeatures(): Observable<Feature[]> {
+      const serverUrl: string = `${this.config.serverUrl}/core/features/`;
+      return this.httpClient.get<Feature[]>(serverUrl);
+  }
 
   getPlans(): Observable<Plan[]> {
       const serverUrl: string = `${this.config.serverUrl}/core/plans/`;

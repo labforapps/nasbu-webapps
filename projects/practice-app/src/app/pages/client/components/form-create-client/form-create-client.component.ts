@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 import { AuthService, CustomersService,CommonService } from 'core-services';
-import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer,} from 'core-models';
+import {Customer,SelectedSubscription,Country,TypeContact,SubtypeContact,Occupation,TypeCustomer, CustomerPayload,} from 'core-models';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -184,7 +184,7 @@ export class FormCreateClientComponent implements OnInit {
   submitForm(create_another = false) {
     //this.validateClientFormFields();
 
-    const createClient: Customer = {
+    const createClient: CustomerPayload = {
       ...this.createClientForm.value,
       subscription: this.selectedSubscription?.ssid.uuid,
       uuid: this.customerId,

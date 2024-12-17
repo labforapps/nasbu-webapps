@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrentUserInfo } from 'core-models';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { CurrentUserInfo, SubscriptionNotificaction } from 'core-models';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { AllowedLangs } from '../../../common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LangService } from '../../../services/lang.service';
@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogNewTaskComponent } from '../../dialogs/dialog-new-task/dialog-new-task.component';
 import { DialogAddHoursComponent } from '../../dialogs/dialog-add-hours/dialog-add-hours.component';
+import { SubscriptionNotificationsService } from 'core-services';
 
 @Component({
   selector: 'app-header',
@@ -31,6 +32,12 @@ export class HeaderComponent implements OnInit {
   public user!:CurrentUserInfo
   public currentFlag!: string;
 
+  notifications$!: Observable<SubscriptionNotificaction[]>;
+  _notifications: SubscriptionNotificaction[] = [];
+  notificationsCount: string = '0';
+
+  selectedSubscription!: any;
+
   public langFlags: any =  {
     [AllowedLangs.English]: '../../../../assets/images/english-flag.jpg',
     [AllowedLangs.Spanish]: '../../../../assets/images/spanish-flag.jpg'
@@ -40,10 +47,12 @@ export class HeaderComponent implements OnInit {
               private langService: LangService,
               private authService: AuthService,
               private taskTimeService: TaskTimeService,
+              private subscriptionNotificationsService: SubscriptionNotificationsService,
               private router:Router,
               public  dialog: MatDialog,) { }
 
   ngOnInit(): void {
+    this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.loadUser();
     this.currentLang += this.langService.currentLang;
     this.currentFlag = this.langFlags[this.langService.currentLang];
@@ -52,6 +61,8 @@ export class HeaderComponent implements OnInit {
     if (this.currentTaskTimeInfo) {
         this.initTimer();
     }
+    //this.listenToNotifications();
+
 
     //this.countUp.intervalSubscription.subscribe((a: any) => console.log(a));
   }
@@ -115,14 +126,55 @@ export class HeaderComponent implements OnInit {
   loadUser(): void {
     this.user$ = this.authService.getCurrentUserInfo().pipe(
       tap( (data) => {
-        console.log(data)
+          this.user = data;
+          this.listenToNotifications();
       })
-    )
+    );
   }
 
   logout(){
     this.authService.signOut();
     this.router.navigate(['signin']);
+  }
+
+  listenToNotifications() {
+      console.log('this.selectedSubscription: ', this.selectedSubscription);
+      this.notifications$ = this.subscriptionNotificationsService
+          .getNotifications(this.selectedSubscription?.ssid.uuid, this.user.username)
+          .pipe(
+             map((notifications: SubscriptionNotificaction[]) => {
+                  this._notifications = this.mergeNewNotifications(notifications);
+                  return this._notifications;
+             }),
+             tap((notifications: SubscriptionNotificaction[]) => {
+                console.log('notifications: ', notifications);
+                this.notificationsCount = notifications.length.toString();
+            })
+          );
+  }
+
+  mergeNewNotifications(notifications: SubscriptionNotificaction[]): SubscriptionNotificaction[] {
+      return [... notifications, ... this._notifications];
+  }
+
+  onOpenNotificationsMenu() {
+      this.subscriptionNotificationsService
+          .markAllNotificationAsViewed(this.selectedSubscription?.ssid.uuid)
+          .subscribe((response: any) => {
+              this.notificationsCount = '0';
+          });
+  }
+
+  onClickNotification(notification: SubscriptionNotificaction) {
+      this.subscriptionNotificationsService
+          .markNotificationAsViewed(this.selectedSubscription?.ssid.uuid, notification.notification_id)
+          .subscribe((response: any) => {
+              window.location.href = notification.callback_url;
+          });
+  }
+
+  get selectedLanguage(): string {
+      return localStorage.getItem('lang') as string;
   }
 
 }

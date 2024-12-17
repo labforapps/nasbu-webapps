@@ -73,4 +73,18 @@ export class GeneralInfoComponent implements OnInit {
   navigateToEditClient() {
     this.router.navigate(['customers/edit', this.customer.uuid]);
   }
+
+  get fullName(): string {
+      let customerFullName: string = '';
+      if (! this.customer) {
+          return customerFullName;
+      }
+      if (this.customer.type.toLowerCase() === 'p') {
+          customerFullName = `${this.customer.first_name} ${this.customer.last_name}`;
+      } else if (this.customer.type.toLowerCase() === 'c') {
+          customerFullName = this.customer.company_name;
+      }
+
+      return customerFullName;
+  }
 }

@@ -41,6 +41,7 @@ export class DialogPaymentRegisterComponent implements OnInit {
 
     if(this.dataDialog && this.dataDialog.invoice){
       this.invoice = this.dataDialog.invoice;
+      this.selectInvoiceCustomer();
       this.paymentForm.patchValue({invoice: this.invoice.uuid})
     }
   }
@@ -69,10 +70,13 @@ export class DialogPaymentRegisterComponent implements OnInit {
   onInvoiceChange(select:MatSelectChange){
     const invoiceUUID = select.value;
     this.invoice = this.invoices.find(x => x.uuid === invoiceUUID );
+    this.selectInvoiceCustomer();
+  }
 
+  selectInvoiceCustomer() {
     this.customerService.getCustomerById(this.selectedSubscription?.ssid.uuid,this.invoice?.customer.uuid || '').subscribe(data => {
       this.customer = data;
-    })
+    });
   }
 
   onSubmit(){

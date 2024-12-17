@@ -49,8 +49,11 @@
                       <label class="u-title-label">¿Cuál expediente utilizarás?</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small" place-holder="Escoger miembro responsable de tu firma">
                           <mat-label>Seleccionar expediente</mat-label>
-                          <mat-select formControlName="case_file">
-                              <mat-option *ngFor="let caseFile of caseFiles" [value]="caseFile.uuid">
+                          <mat-select formControlName="case_file" [value]="selectedCaseFile?.uuid">
+                              <mat-option [value]="null" (click)="onSelectCaseFile(null)">
+                                Seleccione el expediente
+                              </mat-option>
+                              <mat-option *ngFor="let caseFile of filteredCaseFiles" [value]="caseFile.uuid" (click)="onSelectCaseFile(caseFile)">
                                   {{caseFile.name}}
                               </mat-option>
                           </mat-select>
@@ -63,8 +66,11 @@
                       <label class="u-title-label">¿Quién es tu cliente?</label>
                       <mat-form-field appearance="fill" class="c-form-group c-form-group__select c-form-group--small">
                         <mat-label>Seleccionar Cliente</mat-label>
-                        <mat-select formControlName="customer">
-                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                        <mat-select formControlName="customer" [value]="selectedCustomer?.uuid">
+                            <mat-option [value]="null" (click)="onSelectCustomer(null)">
+                                Seleccione el cliente
+                            </mat-option>
+                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid" (click)="onSelectCustomer(customer)">
                                 {{customer | customerFullName}}
                             </mat-option>
                         </mat-select>
