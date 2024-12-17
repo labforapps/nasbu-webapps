@@ -100,7 +100,7 @@
                         <div class="c-notification-menu__text">{{not.title}}</div>
                         <div class="c-notification-menu__subtext">{{not.body}}</div>
                     </div>
-                    <div class="c-notification-menu__date">{{not.created_at}}</div>
+                    <div class="c-notification-menu__date">{{not.created_at | timeAgo: selectedLanguage}}</div>
                 </div>
             </div>
             <div class="c-notification-menu__footer">

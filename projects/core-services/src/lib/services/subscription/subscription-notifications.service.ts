@@ -43,10 +43,12 @@ export class SubscriptionNotificationsService {
 
   private getOnlineNotifications(subscriptionId: string, userId: string): Observable<SubscriptionNotificaction[]> {
     const finalUrl: string = `${this.wsNotificationsUrl}?subscriptionId=${subscriptionId}&userId=${userId}`;
+    console.log('WS Url: ', finalUrl);
     return this.websocketService
                .getWebSocketMessagesStream(finalUrl)
                .pipe(
                 bufferTime(10000),
+                tap((events) => console.log('WS Events: ', events)),
                 filter(events => events.length > 0),
                 tap((notifications: any[]) => {
                     if (notifications.length > 1) {

@@ -173,4 +173,8 @@ export class HeaderComponent implements OnInit {
           });
   }
 
+  get selectedLanguage(): string {
+      return localStorage.getItem('lang') as string;
+  }
+
 }
