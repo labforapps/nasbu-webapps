@@ -16,11 +16,8 @@ import { CustomerFullNamePipe } from './pipes/customer-full-name.pipe';
 import { BillingTypePipe } from './pipes/billing-type.pipe';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { AlphaNumericDirective } from './directives/alpha-numeric.directive';
-<<<<<<< Updated upstream
-=======
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
->>>>>>> Stashed changes
 
 export const createTranslateLoader = (http: HttpClient) => {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -39,13 +36,9 @@ registerLocaleData(localeEn, 'en');
       CustomerFullNamePipe,
       BillingTypePipe,
       AutofocusDirective,
-<<<<<<< Updated upstream
-      AlphaNumericDirective
-=======
       AlphaNumericDirective,
       CapitalizePipe,
       TimeAgoPipe
->>>>>>> Stashed changes
     ],
     imports: [
       MatProgressSpinnerModule,
@@ -68,13 +61,9 @@ registerLocaleData(localeEn, 'en');
       TranslateModule,
       CustomerFullNamePipe,
       BillingTypePipe,
-<<<<<<< Updated upstream
-      AlphaNumericDirective
-=======
       AlphaNumericDirective,
       CapitalizePipe,
       TimeAgoPipe
->>>>>>> Stashed changes
     ],
 })
 export class SharedModule { }
