@@ -141,7 +141,7 @@ export interface SubscriptionBillingInvoice {
     discount_amt:         string;
     sub_total_amt:        string;
     net_amt:              string;
-    status:               string;
+    status:               SubscriptionBillingInvoiceStatus;
     collect_at:           string;
     billing_cycle:        string;
     bc_start_date:        string;
@@ -152,6 +152,11 @@ export interface SubscriptionBillingInvoice {
     updated_by:           null;
     subscription:         string;
     plan:                 string;
+}
+
+export enum SubscriptionBillingInvoiceStatus {
+  PENDING = 'pending',
+  PAYED = 'payed'
 }
 
 export interface ChangePlanRequest {

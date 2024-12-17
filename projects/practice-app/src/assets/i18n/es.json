@@ -830,6 +830,10 @@
         "closing_time":"Horario de cierre",
         "save":"Guardar cambios",
         "remember_to_complete_all_required_fields":"Recuerda completar los datos requeridos"
+      },
+      "billingInvoice":{
+        "pending":"Pendiente de pago",
+        "payed":"Pagada"
       }
     },
     "settings":{
