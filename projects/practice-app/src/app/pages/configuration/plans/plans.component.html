@@ -54,9 +54,10 @@
                             Funcionalidades
                         </div>
                         <u class="c-plans__list">
-                            <li *ngFor="let feature of plan.features">
+                            <li *ngFor="let feature of features">
                                 <span class="icon-check"></span>
-                               {{feature.quantity}} - {{feature.feature.name}}
+
+                               {{getFeatureInPlanDescription(plan, feature)}}
                             </li>
                         </u>
                         <hr class="mb-3 mt-2 mt-5 u-divider">
