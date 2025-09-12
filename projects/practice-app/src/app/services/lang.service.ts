@@ -6,7 +6,7 @@ import { AllowedLangs } from "../common";
     providedIn: 'root'
 })
 export class LangService {
-    private defaultLang = AllowedLangs.English;
+    private defaultLang = AllowedLangs.Spanish;
     private langItemName: string = 'lang';
     private allowedLangs: string[];
 

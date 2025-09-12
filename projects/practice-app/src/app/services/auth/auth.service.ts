@@ -64,7 +64,6 @@ export class AuthService {
     const allPermissions: string[] = user?.permissions ?? [];
     this.permissionsService.flushPermissions();
     this.permissionsService.addPermission(allPermissions);
-
     return user;
   }
 

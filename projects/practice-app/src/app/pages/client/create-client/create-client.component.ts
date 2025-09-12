@@ -318,6 +318,7 @@ export class CreateClientComponent implements OnInit {
 
     const createClient: CustomerPayload = {
       ...this.createClientForm.value,
+      occupation: this.createClientForm.value.occupation,
       born_date: this.createClientForm.value.born_date === '' ? null : this.createClientForm.value.born_date,
       subscription: this.selectedSubscription?.ssid.uuid,
       uuid: this.customerId,

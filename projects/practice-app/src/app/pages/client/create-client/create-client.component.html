@@ -100,7 +100,7 @@
                         <div class="div col-sm-6">
                           <mat-form-field appearance="fill" class="c-form-group">
                             <mat-label>{{'clients.form_create.select_occupation' | translate}}</mat-label>
-                            <mat-select formControlName="occupation">
+                            <mat-select formControlName="occupation" [value]="customer?.occupation?.uuid">
                               <mat-option *ngFor="let occupation of occupations" [value]="occupation.uuid">{{occupation.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
