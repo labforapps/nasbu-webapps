@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Invoice, InvoiceStatus, invoiceStatusDescription } from 'core-models';
-import { AccountingService } from 'core-services';
+import { Invoice, InvoiceStatus, invoiceStatusDescription, SubscriptionPaymentGateway } from 'core-models';
+import { AccountingService, SubscriptionService } from 'core-services';
 import { DialogPaymentHistoryComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-history/dialog-payment-history.component';
 import { DialogPaymentRegisterComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-register/dialog-payment-register.component';
 import { DialogPaymentRequestComponent } from 'projects/practice-app/src/app/components/dialogs/dialog-payment-request/dialog-payment-request.component';
@@ -28,8 +28,12 @@ export class InvoicingTableComponent implements OnInit {
   @Output() onExecuteInvoice = new EventEmitter<any>();
   invoiceStatusDescription = invoiceStatusDescription;
 
+  @Input()
+  selectedSubscriptionId!: string;
+
   constructor(public dialog: MatDialog,
               private helperService:HelpersService,
+              private subscriptionService: SubscriptionService,
               private accountingService:AccountingService) {}
 
   ngOnInit(): void {
@@ -122,14 +126,21 @@ export class InvoicingTableComponent implements OnInit {
   }
 
   openDialogRequestPayment(invoice:Invoice){
-    const dialogRef = this.dialog.open(DialogPaymentRequestComponent,{
-      data: {
-        invoice
-      }
-    });
-    dialogRef.afterClosed().subscribe((result:Invoice) => {
-      this.onExecuteInvoice.emit({})
-    });
+    this.subscriptionService
+        .getSubscriptionPaymentGateway(this.selectedSubscriptionId)
+        .subscribe((paymentGateways: SubscriptionPaymentGateway[]) => {
+            const dialogRef = this.dialog.open(DialogPaymentRequestComponent,{
+              data: {
+                invoice,
+                paymentGateways
+              }
+            });
+            dialogRef.afterClosed().subscribe((result:Invoice) => {
+              this.onExecuteInvoice.emit({})
+            });
+        }, (error) => {
+            
+        })
   }
 
   returnInvoiceStatusDescription(value:string){

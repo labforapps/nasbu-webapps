@@ -1193,6 +1193,7 @@
         "total_billed":"Total facturado",
         "invoice":"Factura",
         "to_which_invoice_does_a_payment_apply":"A cuál factura le aplicarás un pago?",
+        "what_payment_gateway_use":"Cúal de tus adquirientes deseas usar?",
         "choose_invoice":"Seleccionar Factura",
         "amount":"Monto",
         "amount_to_register":"Monto a registrar",

@@ -51,6 +51,7 @@
                 </ng-template>
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING"
+                                     [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      *ngIf="invoices && invoices.length > 0"
                                      [inputInvoiceStatus]="invoiceStatus.PENDING"
                                      (onExecuteInvoice)="onExecuteInvoice()">
@@ -80,6 +81,7 @@
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.EXPIRED"
                                      *ngIf="invoices && invoices.length > 0"
+                                     [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      [inputInvoiceStatus]="invoiceStatus.EXPIRED"
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>

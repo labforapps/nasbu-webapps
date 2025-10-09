@@ -200,6 +200,7 @@ export interface sendDocument{
 export interface PaymentCheckoutRequest {
   subscription:                  string;
   customer:                      string;
+  sub_payment_gateway:                       string;
   invoice:                       string;
   request_invoice_remaining_amt: boolean;
   checkout_url?:                 string;
