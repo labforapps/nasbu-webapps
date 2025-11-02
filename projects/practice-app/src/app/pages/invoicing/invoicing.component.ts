@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogPaymentRegisterComponent } from '../../components/dialogs/dialog-payment-register/dialog-payment-register.component';
 import { Invoice, InvoiceStatus } from 'core-models';
 import { AccountingService } from 'projects/core-services/src/lib/services/accounting/accounting.service';
-import { AuthService } from 'core-services';
+import { AuthService, SubscriptionService } from 'core-services';
 
 @Component({
   selector: 'app-invoicing',
@@ -17,7 +17,8 @@ export class InvoicingComponent implements OnInit {
   selectedSubscription!:any;
 
   constructor(public dialog: MatDialog,
-              private accountingServices:AccountingService,
+              private accountingServices: AccountingService,
+              private subscriptionService: SubscriptionService,
               private authService: AuthService) { }
 
   ngOnInit(): void {

@@ -13,16 +13,29 @@
         <mat-dialog-content>
           <div class="row mt-3">
               <div class="col-md-12">
-                  <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
-                      <div>
-                          <div class="u-textLightColor mb-1">{{currentDate}}</div>
-                          <div class="u-textColor mb-1">{{invoice?.case_file?.case_no}} - {{invoice?.customer | customerFullName}} </div>
-                          <div class="u-textColor">{{'invoicing.register_payment.invoice' | translate}} #{{invoice?.code}}</div>
-                      </div>
-                      <ngx-avatar [name]="invoice?.customer| customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
-                  </div>
+                <label class="u-title-label">{{'invoicing.register_payment.what_payment_gateway_use' | translate}}</label>
+                <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
+                    <mat-label>{{'invoicing.register_payment.what_payment_gateway_use' | translate}}</mat-label>
+                    <mat-select formControlName="payment_gateway">
+                        <mat-option *ngFor="let pg of dataDialog.paymentGateways" [value]="pg.uuid">
+                            {{pg.payment_gateway.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
               </div>
           </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between mb-3 u-gap-1 align-items-center">
+                    <div>
+                        <div class="u-textLightColor mb-1">{{currentDate}}</div>
+                        <div class="u-textColor mb-1">{{invoice?.case_file?.case_no}} - {{invoice?.customer | customerFullName}} </div>
+                        <div class="u-textColor">{{'invoicing.register_payment.invoice' | translate}} #{{invoice?.code}}</div>
+                    </div>
+                    <ngx-avatar [name]="invoice?.customer| customerFullName" bgColor="#D9FFE6" fgColor="#389856"></ngx-avatar>
+                </div>
+            </div>
+        </div>
           <div class="row mb-2">
               <div class="col-md-12">
 

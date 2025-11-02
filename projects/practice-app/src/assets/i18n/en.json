@@ -1194,6 +1194,7 @@
       "total_billed":"Total billed",
       "invoice":"Invoice",
       "to_which_invoice_does_a_payment_apply":"To which invoice does a payment apply?",
+      "what_payment_gateway_use":"What merchant do you want to use?",
       "choose_invoice":"Choose invoice",
       "amount":"Amount",
       "amount_to_register":"Amount to register",

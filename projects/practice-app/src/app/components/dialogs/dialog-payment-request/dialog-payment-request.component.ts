@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
-import { Customer, Invoice, InvoiceStatus, PaymentCheckoutRequest, PaymentMethod, SendingMethod, TypeContact, sendDocument } from 'core-models';
+import { Customer, Invoice, InvoiceStatus, PaymentCheckoutRequest, PaymentMethod, SendingMethod, SubscriptionPaymentGateway, TypeContact, sendDocument } from 'core-models';
 import { AccountingService, AuthService, CustomersService } from 'core-services';
 import * as moment from 'moment';
 import { HelpersService } from '../../../services/helpers.service';
@@ -36,7 +36,7 @@ export class DialogPaymentRequestComponent implements OnInit {
               private customerService:CustomersService,
               public  dialogRef: MatDialogRef<DialogPaymentRequestComponent>,
               private helperService:HelpersService,
-              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice}) { }
+              @Inject(MAT_DIALOG_DATA) public dataDialog:{invoice:Invoice, paymentGateways: SubscriptionPaymentGateway[]}) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -57,6 +57,7 @@ export class DialogPaymentRequestComponent implements OnInit {
   initForm(){
     this.paymentForm = this.formBuilder.group({
       invoice: ['',Validators.required],
+      payment_gateway: ['',Validators.required],
       request_invoice_remaining_amt: [true,Validators.required],
       payment_amt: ['0',Validators.required],
       send_by: [this.sendingMethod.EMAIL,Validators.required],
@@ -119,6 +120,7 @@ export class DialogPaymentRequestComponent implements OnInit {
     const paymentCheckoutRequest: PaymentCheckoutRequest = {
       subscription: this.invoice?.subscription || '',
       customer: this.invoice?.customer.uuid || '',
+      sub_payment_gateway: this.paymentForm.value.payment_gateway,
       invoice: this.invoice?.uuid || '',
       request_invoice_remaining_amt: this.paymentForm.value.request_invoice_remaining_amt,
       payment_amt: this.paymentForm.value.payment_amt,
