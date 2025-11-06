@@ -25,6 +25,7 @@
 
               <app-invoicing-table [invoices]="invoices"
                                    *ngIf="invoices && invoices.length > 0"
+                                   [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                    (onExecuteInvoice)="onExecuteInvoice()">
               </app-invoicing-table>
 
@@ -38,6 +39,7 @@
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.NOT_APPROVED"
                                      [inputInvoiceStatus]="invoiceStatus.NOT_APPROVED"
+                                     [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      *ngIf="invoices && invoices.length > 0"
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>
@@ -67,6 +69,7 @@
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED"
                                      *ngIf="invoices && invoices.length > 0"
+                                     [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      [inputInvoiceStatus]="invoiceStatus.PAYED"
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>
