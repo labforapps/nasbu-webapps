@@ -6,6 +6,9 @@ import { DialogAddCreditcardComponent } from '../../../../components/dialogs/dia
 import { Observable } from 'rxjs';
 import { OnboardingTokenizationSessionResult, Subscription, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload } from 'core-models';
 import { SubscriptionService } from 'core-services';
+import { TranslateService } from '@ngx-translate/core';
+import { HelpersService } from 'projects/practice-app/src/app/services/helpers.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var P: any;
 
@@ -76,7 +79,10 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   constructor(public dialog: MatDialog,
-              private subscriptionService: SubscriptionService) { }
+              private helperService: HelpersService,
+              private subscriptionService: SubscriptionService,
+              private translateService: TranslateService,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
       this.fetchPaymentMethods();
@@ -143,5 +149,27 @@ export class PaymentMethodComponent implements OnInit {
               //TODO: translate error message
           });
   }
+
+  deletePaymentMethod(id: string) {
+    this.helperService.showConfirmationDeleteDialog().then((result) => {
+       if (result.isConfirmed) {
+         this.subscriptionService
+           .deleteSubscriptionPaymentMethod(this.subscription?.uuid, id)
+           .subscribe(
+             (data: any) => {
+ 
+               const arrayFiltered = this.paymentMethods.filter(x => x.uuid !== id);
+               this.paymentMethods = arrayFiltered;
+               this.dataSource.data = this.paymentMethods;
+ 
+               this.helperService.showMessageDeleted()
+             },
+             (error: any) => {
+               this.toastrService.error('Error',this.translateService.instant('errorMessages.unexpectedError'));
+             }
+           );
+       }
+     });
+   }
 
 }

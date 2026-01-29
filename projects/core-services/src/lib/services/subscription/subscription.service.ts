@@ -142,6 +142,11 @@ export class SubscriptionService {
     return this.httpClient.delete<SubscriptionPaymentGateway>(serverUrl);
   }
 
+  deleteSubscriptionPaymentMethod(subscription: string,uuid:string): Observable<any> {
+    const serverUrl = `${this.config.serverUrl}/subscription/payment_methods/${uuid}?subscription=${subscription}`;
+    return this.httpClient.delete<any>(serverUrl);
+  }
+
   getSubscriptionBillingInvoice(subscription:string):Observable<SubscriptionBillingInvoice[]>{
     const serverUrl = `${this.config.serverUrl}/subscription/me/${subscription}/billing_invoices?subscription=${subscription}`;
     return this.httpClient.get<SubscriptionBillingInvoice[]>(serverUrl);
