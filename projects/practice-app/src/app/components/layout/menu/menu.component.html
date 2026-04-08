@@ -45,7 +45,7 @@
         {{'menu.invoicing' | translate}}
         <span class="icon-invoice c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active">
+    <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active" *ngxPermissionsOnly="['view_casefilesreport', 'view_customerreport', 'view_generalmetricsreport', 'view_incomesreport', 'view_reportdefinition', 'view_reportsmodule', 'view_customerwalletsdetailsreport']">
         {{'menu.reports' | translate}}
         <span class="icon-report c-menu__icon"></span>
     </button>
