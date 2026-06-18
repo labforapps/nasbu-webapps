@@ -47,6 +47,7 @@ import { CheckoutRequestLadingComponent } from './pages/external/payment/checkou
 import { CreateTemplatesTypesComponent } from './pages/documents-templates/templates-types/create-templates-types/create-templates-types.component';
 import { CreateExpedientTypeComponent } from './pages/expedient/create-expedient-type/create-expedient-type.component';
 import { ReportCustomerWalletDetailsComponent } from './pages/report/report-customer-wallet-details/report-customer-wallet-details.component';
+import { PaymentsComponent } from './pages/invoicing/payments/payments.component';
 
 
 const routes: Routes = [
@@ -143,6 +144,10 @@ const routes: Routes = [
       {
         path: 'invoicing/invoice/:id/:action',
         component: NewInvoiceComponent,
+      },
+      {
+        path: 'payments',
+        component: PaymentsComponent,
       },
       {
         path: 'task',

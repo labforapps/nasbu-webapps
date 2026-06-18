@@ -14,6 +14,6 @@
             <router-outlet></router-outlet>
         </div>
 
-        <app-onboarding [openMenu]="openMenu" *ngIf="selectedSubscription?.mt === subscriptionMemberType.OWNER"></app-onboarding>
+        <app-onboarding [openMenu]="openMenu" *ngIf="selectedSubscription?.mt === subscriptionMemberType.OWNER" (completed)="onOnboardingCompleted($event)"></app-onboarding>
     </mat-drawer-container>
 </main>

@@ -10,7 +10,7 @@
 
                 <label class="u-title-label u-normalSize mb-5">1-Nombre tu plantilla y escoge el tipo</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Contratos</mat-label>
+                    <mat-label>Seleccionar tipo de plantilla</mat-label>
                     <mat-select formControlName="template_type" (selectionChange)="onChangeDocumentTemplateType($event)">
                         <mat-option *ngFor="let templateType of documentTemplateTypes" [value]="templateType.uuid">
                             {{templateType.name}}

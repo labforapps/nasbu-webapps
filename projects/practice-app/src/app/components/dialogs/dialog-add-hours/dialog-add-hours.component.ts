@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TimeTask,Task, SecurityUser, Action } from 'core-models';
+import { TimeTask,Task, SecurityUser, Action, TaskStatus } from 'core-models';
 import { AuthService, SecurityService,PracticeService } from 'core-services';
 import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
 import { HelpersService } from '../../../services/helpers.service';
@@ -10,6 +10,7 @@ import { CurrentTaskTimeInfo } from '../../../models/task';
 import { TaskTimeService } from '../../../services/application/task-time.service';
 import { DialogNewTaskComponent } from '../dialog-new-task/dialog-new-task.component';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -103,7 +104,14 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   }
 
   getTasks(){
-    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
+    this.practiceService
+    .getTasks(this.selectedSubscription?.ssid.uuid)
+    .pipe(
+      map((tasks:Task[]) => {
+        return tasks.filter((task:Task) => task.status === TaskStatus.OPEN);
+      })
+    )
+    .subscribe((data:Task[]) => {
      this.tasks = data;
      if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid,price_per_hour: this.task.bt_price_per_hour})
      if(this.taskCreatedFromDialog) this.taskTimeForm.patchValue({task: this.taskCreatedFromDialog.uuid})

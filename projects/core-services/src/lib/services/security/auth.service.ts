@@ -119,7 +119,11 @@ export class AuthService {
 
     signOut(): Observable<any> {
         const signOut$ = Auth.signOut();
-        return from(signOut$);
+        return from(signOut$).pipe(
+          tap(() => {
+            localStorage.clear();
+          })
+        );
     }
 
     recoverPassword(username: string): Observable<any> {

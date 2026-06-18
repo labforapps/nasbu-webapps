@@ -112,6 +112,9 @@ import { ExpedientVariablesInfoComponent } from './expedient/expedient-info/expe
 import { SubscriptionPaymentGatewayComponent } from './configuration/invoicing-parameters/subscription-payment-gateway/subscription-payment-gateway.component';
 import { ReportCustomerWalletDetailsComponent } from './report/report-customer-wallet-details/report-customer-wallet-details.component';
 import { AvatarModule } from 'ngx-avatar';
+import { PaymentsComponent } from './invoicing/payments/payments.component';
+import { PaymentsTableComponent } from './invoicing/payments/components/payments-table/payments-table.component';
+import { PaymentLinksTableComponent } from './invoicing/payments/components/payment-links-table/payment-links-table.component';
 
 
 @NgModule({
@@ -212,7 +215,10 @@ import { AvatarModule } from 'ngx-avatar';
     CreateExpedientTypeVariablesComponent,
     ExpedientVariablesInfoComponent,
     SubscriptionPaymentGatewayComponent,
-    ReportCustomerWalletDetailsComponent
+    ReportCustomerWalletDetailsComponent,
+    PaymentsComponent,
+    PaymentsTableComponent,
+    PaymentLinksTableComponent,
   ],
   imports: [
     CommonModule,

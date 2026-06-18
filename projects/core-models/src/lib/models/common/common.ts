@@ -50,6 +50,12 @@ export enum WeekDays {
   CLIPBOARD='clipboard'
  }
 
+ export const sendingMethodDescription = new Map<string, string>([
+   [SendingMethod.EMAIL,     'Correo electrónico'],
+   [SendingMethod.SMS,       'SMS'],
+   [SendingMethod.CLIPBOARD, 'Portapapeles'],
+ ]);
+
  export const WeekDaysDescription = new Map<number, string>([
    [WeekDays.Monday, 'Monday'],
    [WeekDays.Tuesday, 'Tuesday'],

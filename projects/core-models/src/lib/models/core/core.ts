@@ -11,6 +11,8 @@ export interface PlanFeature {
   feature: Feature;
   quantity: number;
   price: string;
+  show_in_public_pricing: boolean;
+  description: string;
 }
 
 export interface Plan {

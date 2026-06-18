@@ -89,7 +89,12 @@
                   </div>
 
                   <div class="mb-5 u-disable-list">
-                    <div class="mb-2" *ngFor="let f of selectedPlan.features"><span class="icon-check u-primaryColor mr-2"></span>{{f.quantity}} {{f.feature.description}}</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Manejo de casos y gestión de tareas</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Expediente Digital con almacenamiento</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Marcador de tiempo</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Facturación y cobros</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Notificaciones automatizadas a clientes por correo electrónico</div>
+                    <div class="mb-2" *ngFor="let f of getPlanFeatures(selectedPlan.features)"><span class="icon-check u-primaryColor mr-2"></span>{{getPlanFeatureDescription(f)}}</div>
                   </div>
                 </ng-container>
 

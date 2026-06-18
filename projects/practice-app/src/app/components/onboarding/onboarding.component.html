@@ -1,11 +1,16 @@
+<button mat-button [matMenuTriggerFor]="menu" class="c-onboarding" *ngIf="!allStepsCompleted"><span class="icon-gear u-icon-white"></span></button>
+<mat-menu #menu="matMenu" class="c-onboarding__menu">
 
-<button mat-button [matMenuTriggerFor]="menu" class="c-onboarding"><span class="icon-gear u-icon-white"></span></button>
-<mat-menu #menu="matMenu"class="c-onboarding__menu">
+    <div class="c-onboarding__header">
+        Sigue estos pasos {{stepsCompleted}}/4
+    </div>
+    <div class="c-onboarding__body">
 
-        <div class="c-onboarding__header">
-            Sigue estos pasos {{stepsCompleted}}/4
+        <div *ngIf="isLoading" class="d-flex justify-content-center p-3">
+            <mat-spinner diameter="32"></mat-spinner>
         </div>
-        <div class="c-onboarding__body">
+
+        <ng-container *ngIf="!isLoading">
             <button mat-menu-item class="c-onboarding__item" routerLink="/configuration/profile-sign">
                 <mat-checkbox class="c-checkbox" [(ngModel)]="checkProfile">
                     <div>
@@ -23,13 +28,13 @@
                 </mat-checkbox>
             </button>
             <button mat-menu-item class="c-onboarding__item" routerLink="/customers/create-client">
-              <mat-checkbox class="c-checkbox" [(ngModel)]="checkCustomers">
-                  <div>
-                      <h3>3-Agregar clientes</h3>
-                      <p>Sino tenemos clientes no tenemos negocio, agreguemos unos cuantos.</p>
-                  </div>
-              </mat-checkbox>
-          </button>
+                <mat-checkbox class="c-checkbox" [(ngModel)]="checkCustomers">
+                    <div>
+                        <h3>3-Agregar clientes</h3>
+                        <p>Sino tenemos clientes no tenemos negocio, agreguemos unos cuantos.</p>
+                    </div>
+                </mat-checkbox>
+            </button>
             <button mat-menu-item class="c-onboarding__item" routerLink="/expedient">
                 <mat-checkbox class="c-checkbox" [(ngModel)]="checkCaseFile">
                     <div>
@@ -38,5 +43,7 @@
                     </div>
                 </mat-checkbox>
             </button>
-        </div>
+        </ng-container>
+
+    </div>
 </mat-menu>

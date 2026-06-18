@@ -261,6 +261,21 @@ export class DialogNewExpedientComponent implements OnInit {
       return;
     }
 
+    if(caseFileFormValue.receive_retainer && (! caseFileFormValue.retainer_amt || caseFileFormValue.retainer_amt === 0)) {
+      this.toastr.error('Error','Debes ingresar un monto de retención');
+      return;
+    }
+
+    if(caseFileFormValue.hourly_rate && !caseFileFormValue.bt_price_per_hour){
+      this.toastr.error('Error','Debes ingresar un precio por hora');
+      return;
+    }
+
+    if(caseFileFormValue.increment_of_time && !caseFileFormValue.price_per_increment){
+      this.toastr.error('Error','Debes ingresar un precio por incremento');
+      return;
+    }
+
     if(caseFileFormValue.flat_fee &&  Number(caseFileFormValue.retainer_amt) > Number(caseFileFormValue.flat_fee_amt)) {
       this.toastr.error('Error','El monto de retención no puede ser mayor al Flat Fee');
       return;

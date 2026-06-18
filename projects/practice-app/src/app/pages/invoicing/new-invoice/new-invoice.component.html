@@ -39,6 +39,11 @@
                 </mat-button-toggle-group>
                 <mat-menu #dropdownMenuOne="matMenu">
                     <button (click)="downloadInvoice()" mat-menu-item>Descargar</button>
+                    <button (click)="openDialogPaymentHistory()" mat-menu-item>{{'invoicing.send_payment' | translate}}</button>
+                    <ng-container *ngIf="invoice.status !== invoiceStatus.PAYED">
+                        <button mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment()">{{'invoicing.apply_payment' | translate}}</button>
+                        <button mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment()">{{'invoicing.sendPaymentLink' | translate}}</button>
+                    </ng-container>
                 </mat-menu>
             </div>
         </div>

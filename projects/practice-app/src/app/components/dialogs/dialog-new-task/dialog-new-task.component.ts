@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Task, Customer, SecurityUser, CaseFile, BillingType,TaskType, PriorityTask, TaskPayload, TaskTypeEnum, Action } from 'core-models';
+import { Task, Customer, SecurityUser, CaseFile, BillingType,TaskType, PriorityTask, TaskPayload, TaskTypeEnum, Action, CaseFileStatus } from 'core-models';
 import { AuthService, CommonService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelectChange } from '@angular/material/select';
+import { map } from 'rxjs';
 @Component({
   selector: 'app-dialog-new-task',
   templateUrl: './dialog-new-task.component.html',
@@ -133,7 +134,12 @@ export class DialogNewTaskComponent implements OnInit {
 
     if(this.dataDialog && this.dataDialog.customer){
 
-      this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,this.dataDialog.customer.uuid || '').subscribe((data:CaseFile[]) => {
+      this.customerService.getCaseFilesByCustomer(this.selectedSubscription?.ssid.uuid,this.dataDialog.customer.uuid || '')
+      .pipe(
+        map((caseFiles:CaseFile[]) => {
+          return caseFiles.filter((caseFile:CaseFile) => caseFile.status === CaseFileStatus.OPEN);
+        })
+      ).subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
         if(this.dataDialog && this.dataDialog.caseFile) {
@@ -144,7 +150,14 @@ export class DialogNewTaskComponent implements OnInit {
 
     }
     else{
-      this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe((data:CaseFile[]) => {
+      this.practiceService
+          .getCaseFiles(this.selectedSubscription?.ssid.uuid)
+          .pipe(
+            map((caseFiles:CaseFile[]) => {
+              return caseFiles.filter((caseFile:CaseFile) => caseFile.status === CaseFileStatus.OPEN);
+            })
+          )
+          .subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
         if(this.dataDialog && this.dataDialog.caseFile) {

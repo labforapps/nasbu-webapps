@@ -66,7 +66,7 @@
                             </mat-form-field>
                         </div>
                         <div class="mb-5">
-                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccione un abogado</label>
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccione un usuario</label>
                             <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="lawyerOption">
                                 <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" (click)="reportPayload.lawyer = null">Todos
                                 </mat-radio-button>
@@ -199,11 +199,9 @@
                                     otra pestaña
                                 </mat-radio-button>
                             </mat-radio-group>
-                            <a target="_blank">
-                                <button mat-button class="c-btn-function w-100" (click)="exportReport()">Exportar
-                                    <span class="icon-plus ml-2"></span>
-                                </button>
-                            </a>
+                            <button mat-button class="c-btn-function w-100" (click)="exportReport()">Exportar
+                                <span class="icon-plus ml-2"></span>
+                            </button>
 
                         </div>
                     </div>

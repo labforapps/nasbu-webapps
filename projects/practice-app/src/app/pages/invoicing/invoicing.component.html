@@ -7,9 +7,9 @@
             <div class="l-page__title">{{'invoicing.title' | translate}}</div>
         </div>
         <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button routerLink="payments">Ver pagos<span class="icon-receipt ml-2"></span></button>
             <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">{{'invoicing.apply_payment' | translate}}<span class="icon-plus ml-2 "></span></button>
             <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">{{'invoicing.new_invoice' | translate}}<span class="icon-plus ml-3 "></span></button>
-
         </div>
     </div>
     <div class="l-page__body">
@@ -30,7 +30,7 @@
               </app-invoicing-table>
 
             </mat-tab>
-            <mat-tab>
+            <!-- <mat-tab>
 
                 <ng-template mat-tab-label>
                   {{'invoicing.pending_approval' | translate}}
@@ -44,7 +44,7 @@
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>
 
-            </mat-tab>
+            </mat-tab> -->
             <mat-tab>
 
                 <ng-template mat-tab-label>

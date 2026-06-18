@@ -37,6 +37,10 @@ export class LayoutComponent {
     this.authService.getCurrentUserInfo().subscribe(data => {
       this.currentUser = data;
 
+      if (this.selectedSubscription?.mt !== this.subscriptionMemberType.OWNER) {
+        this.loadChatbot();
+      }
+
       if(localStorage.getItem(`first_login_${this.currentUser.username}`) === 'true'){
          this.openDialogIntake();
       }
@@ -71,6 +75,31 @@ export class LayoutComponent {
         this.openMenu = true;
      }
     })
+  }
+
+  onOnboardingCompleted(allDone: boolean): void {
+    if (allDone) {
+      this.loadChatbot();
+    }
+  }
+
+  private loadChatbot(): void {
+    if (document.getElementById('nasbu-chatbot-script')) return;
+
+    (window as any)['NASBUChatbotConfig'] = {
+      webhookUrl: 'https://aiborinquen.app.n8n.cloud/webhook/nasbu-chatbot',
+      title: 'Asistente NASBU',
+      subtitle: 'En línea',
+      greeting: '¡Hola! Soy el asistente virtual de NASBU. ¿En qué puedo ayudarte hoy?',
+      primaryColor: '#2563eb',
+      position: 'right',
+      zIndex: 9999,
+    };
+
+    const script = document.createElement('script');
+    script.id = 'nasbu-chatbot-script';
+    script.src = '/assets/js/ncb.js';
+    document.body.appendChild(script);
   }
 
   get showTourGear(): boolean {

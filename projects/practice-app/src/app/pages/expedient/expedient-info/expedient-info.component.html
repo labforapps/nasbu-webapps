@@ -22,9 +22,11 @@
         </div>
 
         <div class="l-page__controls">
-            <button *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function" mat-button (click)="openCloseExpedientDialog()">
-              {{'dockets.close_docket' | translate}}<span class="icon-plus ml-3 "></span>
-            </button>
+            <ng-container *ngxPermissionsOnly="['change_casefile']">
+                <button *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function" mat-button (click)="openCloseExpedientDialog()">
+                    {{'dockets.close_docket' | translate}}<span class="icon-plus ml-3 "></span>
+                  </button>
+            </ng-container>
             <button mat-button class="c-btn-filter" [routerLink]="'/expedient'"><span class="icon-arrow-back mr-2"></span> {{'dockets.profile.goBack' | translate}}</button>
         </div>
     </div>

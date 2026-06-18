@@ -1,6 +1,6 @@
 import { Injectable,Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BillingCharge, Invoice,InvoicePayload, Payment,InvoiceStatus, sendDocument, PaymentCheckoutRequest } from 'core-models';
+import { BillingCharge, Invoice,InvoicePayload, Payment,InvoiceStatus, sendDocument, PaymentCheckoutRequest, PaymentCheckoutRequestItem } from 'core-models';
 import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
@@ -126,6 +126,11 @@ export class AccountingService {
   createPaymentCheckoutRequest(payload:PaymentCheckoutRequest){
     const serverUrl = `${this.config.serverUrl}/accounting/payment_checkout_requests/?subscription=${payload.subscription}`;
     return this.httpClient.post<PaymentCheckoutRequest>(serverUrl,payload);
+  }
+
+  getPaymentCheckoutRequests(subscription: string): Observable<PaymentCheckoutRequestItem[]> {
+    const serverUrl = `${this.config.serverUrl}/accounting/payment_checkout_requests/?subscription=${subscription}`;
+    return this.httpClient.get<PaymentCheckoutRequestItem[]>(serverUrl);
   }
 
   downloadInvoice(invoice:Invoice, format: string | null = null):Observable<any>{

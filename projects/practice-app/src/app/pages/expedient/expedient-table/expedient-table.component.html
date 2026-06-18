@@ -154,7 +154,7 @@
           <ng-container matColumnDef="client">
               <th mat-header-cell *matHeaderCellDef> {{'dockets.client' | translate}}  </th>
               <td mat-cell *matCellDef="let element">
-                  <div class="u-link" [routerLink]="'/client-profile/' + element.customer.uuid">
+                  <div class="u-link" (click)="navigateToEditClient(element.customer.uuid)">
                     <span>{{element.customer | customerFullName}}</span>
                   </div>
               </td>
@@ -195,11 +195,18 @@
                   </mat-button-toggle-group>
 
                   <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                      <button mat-menu-item class="matMenu-yellow" (click)="openDialogNewExpedient(element)"  >{{'dockets.edit' | translate}} <span class="icon-pen"></span></button>
-                      <button mat-menu-item class="matMenu-red" (click)="deleteCaseFile(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.delete' | translate}} <span class="icon-trash"></span></button>
-                      <button mat-menu-item class="matMenu-green">{{'dockets.generate_invoice' | translate}} <span class="icon-invoice"></span></button>
+                      <button mat-menu-item class="matMenu-yellow" *ngxPermissionsOnly="['change_casefile']" (click)="openDialogNewExpedient(element)"  >{{'dockets.edit' | translate}} <span class="icon-pen"></span></button>
+                      <ng-container *ngxPermissionsOnly="['delete_casefile']">
+                        <button mat-menu-item class="matMenu-red"  (click)="deleteCaseFile(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.delete' | translate}} <span class="icon-trash"></span></button>
+                      </ng-container>
+                      <ng-container *ngxPermissionsOnly="['add_invoice']">
+                        <button mat-menu-item class="matMenu-green">{{'dockets.generate_invoice' | translate}} <span class="icon-invoice"></span></button>
+                      </ng-container>
+                      
                       <button mat-menu-item class="matMenu-green" [routerLink]="'/expedient-info/' + element.uuid" [queryParams]="{ tab: 1 }">{{'dockets.add_note' | translate}}<span class="icon-note-pen"></span></button>
-                      <button mat-menu-item class="matMenu-blue" (click)="openDialogUserShareExpedient(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
+                      <ng-container *ngxPermissionsOnly="['change_casefile']">
+                             <button mat-menu-item class="matMenu-blue" (click)="openDialogUserShareExpedient(element)" *ngIf="element.status === caseFileStatus.OPEN">{{'dockets.share' | translate}} <span class="icon-people"></span></button>
+                      </ng-container>
                   </mat-menu>
               </td>
           </ng-container>
