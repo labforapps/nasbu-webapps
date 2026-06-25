@@ -7,7 +7,7 @@
             <div class="l-page__info flex-wrap u-gap-1">
                 <div>
                     <div>{{'dockets.profile.client' | translate}}</div>
-                    <div class="u-link u-link--underline">{{caseFile.customer | customerFullName}}</div>
+                    <div class="u-link u-link--underline" (click)="navigateToCustomer()">{{caseFile.customer | customerFullName}}</div>
                   </div>
                 <div *ngIf="caseFile.assigned_to">
                     <div>{{'dockets.profile.delegated_to' | translate}}:</div>

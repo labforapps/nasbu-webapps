@@ -23,6 +23,7 @@ export interface Plan {
   trial_total_days: number;
   anual_discount_pct?: any;
   features: PlanFeature[];
+  suggested: boolean;
 }
 
 export interface DocumentTemplateTypeTest {

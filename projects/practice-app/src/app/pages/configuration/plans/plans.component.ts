@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnboardingService } from '../../../services/onboarding/onboarding.service';
-import { ChangePlanRequest, Feature, Plan, PlanFeature, Subscription } from 'core-models';
+import { ChangePlanRequest, Plan, PlanFeature, Subscription } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 
@@ -17,8 +17,6 @@ export class PlansComponent implements OnInit {
   anualPlan:boolean = false;
   planSelected!:Plan | undefined;
 
-  features!: Feature[];
-
   constructor(private onboardingService:OnboardingService,
               private subscriptionService:SubscriptionService,
               private authService: AuthService,
@@ -27,7 +25,7 @@ export class PlansComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
-    this.fetchFeatures();
+    this.getPlans();
   }
 
   getPlans(){
@@ -39,15 +37,6 @@ export class PlansComponent implements OnInit {
     })
   }
 
-  fetchFeatures(){
-      this.onboardingService
-          .getFeatures()
-          .subscribe((features: Feature[]) => {
-              this.features = features;
-              this.getPlans();
-          })
-  }
-
   getSubscriptionInformation(){
     this.subscriptionService.getSubscription(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.subscription = data;
@@ -56,93 +45,48 @@ export class PlansComponent implements OnInit {
   }
 
   getPlanPricing(plan:Plan){
-
     if(this.anualPlan){
-      return  +(+plan.price - (+plan.price * (+plan.anual_discount_pct / 100)))
+      return +(+plan.price * 12 * (1 - +plan.anual_discount_pct / 100)).toFixed(2);
     }
     else{
-      return plan.price
+      return plan.price;
     }
-
   }
 
   changePlanRequest(plan:Plan){
-
     this.helperService.showConfirmationChangePlan().then(data => {
-
+      if (! data.isConfirmed) {
+        return;
+      }
       const payload:ChangePlanRequest = {
         subscription: this.subscription.uuid,
-        period:       plan.uuid,
-        to_plan:      "M"
+        period:       'M',
+        to_plan:      plan.uuid
       }
-
       this.subscriptionService.subscriptionChangePlanRequest(payload).subscribe({
         next: (data) => {
           this.helperService.showCustomMessage('Ok',"OK","Plan Cambiado")
           this.getSubscriptionInformation()
         }
       })
-
     })
   }
 
-  getFeatureInPlan(plan: Plan, feature: Feature): PlanFeature | undefined {
-    return plan.features.find((f) => f.feature.code === feature.code);
+  getPlanFeatures(features: PlanFeature[]): PlanFeature[] {
+    return features.filter((feature: PlanFeature) => feature.show_in_public_pricing);
   }
 
-  getFeatureComercialDescription(feature: Feature): string {
-      // USERS = 'users'
-      // CUSTOMERS = 'customers'
-      // FILES = 'files'
-      // CASE_FILES = 'case_files'
-      // MATTERS = 'matters'
-      // TASKS = 'tasks'
-      // DOCUMENTS = 'docs'
-      // STORAGE = 'storage'
-      // SMS_NOTIFICATIONS = 'sms_notifications'
-      // EMAIL_NOTIFICATIONS = 'email_notifications'
-
-      let comercialDescription: string = '';
-      switch (feature.code.toLowerCase()) {
-        case 'users':
-            comercialDescription = 'Usuarios';
-          break;
-        case 'users':
-
-          break;
-        case 'case_files':
-
-          break;
-        case 'tasks':
-
-          break;
-        case 'docs':
-
-          break;
-        case 'storage':
-
-          break;
-        case 'sms_notifications':
-
-          break;
-        case 'emails_notifications':
-
-          break;
-
-        default:
-          break;
-      }
-
-      return comercialDescription;
-  }
-
-  getFeatureInPlanDescription(plan: Plan, feature: Feature): string {
-      const planFeature: PlanFeature | undefined = this.getFeatureInPlan(plan, feature);
-      if (planFeature) {
-          return this.getFeatureComercialDescription(planFeature.feature);
-      }
-
-      return this.getFeatureComercialDescription(feature);
+  getPlanFeatureDescription(feature: PlanFeature): string {
+    switch (feature.feature.code) {
+      case 'storage':
+        return `Almacenamiento en la nube (hasta ${feature.quantity / 1024} GB).`;
+      case 'signature_requests':
+        return `Gestión de Firma Electrónica (hasta ${feature.quantity} firmas mensuales).`;
+      case 'docs':
+        return 'Módulo de documentos y plantillas';
+      default:
+        return '';
+    }
   }
 
 }

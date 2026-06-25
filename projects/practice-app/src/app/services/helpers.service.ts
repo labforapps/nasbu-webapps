@@ -23,7 +23,7 @@ export class HelpersService {
 
     let startDate, endDate;
 
-    endDate = moment().format('YYYY-MM-DD'); // Fecha actual
+    endDate = moment().add(2, 'day').format('YYYY-MM-DD'); // Fecha actual
 
     switch (periodCode) {
       case 'last_seven_days':

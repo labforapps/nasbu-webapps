@@ -47,7 +47,7 @@ export class ExpedientInfoComponent implements OnInit {
   }
 
   navigateToCustomer(){
-    this.router.navigate(['customers/edit', this.caseFile.customer.uuid]);
+    this.router.navigate(['client-profile', this.caseFile.customer.uuid]);
   }
 
   navigateToUser(){
@@ -71,6 +71,10 @@ export class ExpedientInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result:any) => {
       // if(result) this.caseFile.status = this.caseFileStatus.CLOSED;
     });
+  }
+
+  navigateToEditClient(id: string) {
+    this.router.navigate(['client-profile', id]);
   }
 
 

@@ -408,7 +408,7 @@ export class ExpedientTableComponent implements OnInit {
   }
 
   navigateToEditClient(id: string) {
-    this.router.navigate(['customers/edit', id]);
+    this.router.navigate(['client-profile', id]);
   }
 
 }

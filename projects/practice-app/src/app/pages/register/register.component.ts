@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingTokenizationSessionResult, Plan, PlanFeature, Subscription, UserSignupPayload } from 'core-models';
-import { Observable, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
+import { Observable, shareReplay, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
 import { PlaceToPayStatus } from '../../common';
 import { AuthService } from '../../services/auth/auth.service';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
@@ -32,13 +32,15 @@ export class RegisterComponent implements OnInit {
   public passwordDontMatchMsg: string = '';
   public totalUsers: number = 1;
   public phoneNumberField!:string;
+  public selectedPlanUuid!: string;
 
   constructor(
     private onboardingService: OnboardingService,
     private fb: FormBuilder,
     private router: Router,
     private translate: TranslateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,7 @@ export class RegisterComponent implements OnInit {
     this.loadPlans();
     this.formChange();
     this.loadTranslatedWords();
+    this.applyQueryParams();
   }
 
   get selectedPlanValue(): string {
@@ -207,8 +210,25 @@ export class RegisterComponent implements OnInit {
       .pipe(
         tap((plans: Plan[]) => {
           this.plans = plans;
-        })
+        }),
+        shareReplay(1)
       );
+  }
+
+  applyQueryParams(): void {
+    this.plans$.pipe(take(1)).subscribe(() => {
+      const params = this.activatedRoute.snapshot.queryParams;
+      if (params['plan']) {
+        const found = this.plans.find(p => p.uuid === params['plan']);
+        if (found) {
+          this.selectedPlan = found;
+          this.selectedPlanUuid = found.uuid;
+        }
+      }
+      if (params['period'] === 'Y') {
+        this.anualSubscription = true;
+      }
+    });
   }
 
   loadTranslatedWords(): void {
