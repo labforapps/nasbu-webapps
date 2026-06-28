@@ -1,0 +1,34 @@
+<div class="c-dialog-suspended">
+  <h2 class="c-dialog-suspended__title">Cuenta suspendida por pago</h2>
+
+  <p class="c-dialog-suspended__body">
+    El acceso a su firma legal ha sido restringido
+    temporalmente. Regularice su situación.
+    <span *ngIf="subscription.net_amt" class="c-dialog-suspended__balance">
+      Balance pendiente: <strong>{{ subscription.net_amt }} USD</strong>
+    </span>
+  </p>
+
+  <div class="c-dialog-suspended__icon">
+    <mat-icon>person_off</mat-icon>
+  </div>
+
+  <p class="c-dialog-suspended__support">
+    Si has realizado el pago y aún aparece esto
+    escríbenos a <a href="mailto:soporte@nasbulegal.com">soporte@nasbulegal.com</a>
+  </p>
+
+  <button mat-button class="c-dialog-suspended__pay" [disabled]="retrying" (click)="onPay()">
+    {{ retrying ? 'Procesando...' : 'Pagar ahora' }}
+  </button>
+
+  <p *ngIf="retryFeedback" class="c-dialog-suspended__feedback"
+    [class.c-dialog-suspended__feedback--success]="retryFeedback.type === 'success'"
+    [class.c-dialog-suspended__feedback--error]="retryFeedback.type === 'error'">
+    {{ retryFeedback.message }}
+  </p>
+
+  <a href="mailto:soporte@nasbulegal.com" class="c-dialog-suspended__contact">
+    Contactar con soporte
+  </a>
+</div>

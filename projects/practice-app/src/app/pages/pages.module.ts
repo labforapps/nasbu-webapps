@@ -116,7 +116,6 @@ import { PaymentsComponent } from './invoicing/payments/payments.component';
 import { PaymentsTableComponent } from './invoicing/payments/components/payments-table/payments-table.component';
 import { PaymentLinksTableComponent } from './invoicing/payments/components/payment-links-table/payment-links-table.component';
 
-
 @NgModule({
   declarations: [
     LoginComponent,

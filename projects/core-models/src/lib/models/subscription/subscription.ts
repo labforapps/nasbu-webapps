@@ -3,6 +3,13 @@ import { Address, Contact } from "../shared";
 
 export type SubscriptionPeriod = 'M' | 'Y';
 
+export enum SubscriptionStatus {
+  ACTIVE    = 'A',
+  SUSPENDED = 'S',
+  DELAYED   = 'D',
+  EXPIRED   = 'E'
+}
+
 export interface SubscriptionOnboarding {
     uuid?: string;
     plan: string;

@@ -162,4 +162,9 @@ export class SubscriptionService {
     return this.httpClient.get(serverUrl,{ responseType: 'blob' });
   }
 
+  retryPendingCharge(subscriptionUuid: string): Observable<any> {
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscriptionUuid}/retry_pending_charge/`;
+    return this.httpClient.post<any>(serverUrl, {});
+  }
+
 }

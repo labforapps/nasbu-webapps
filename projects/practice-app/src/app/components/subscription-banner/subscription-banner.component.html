@@ -1,0 +1,25 @@
+<div class="c-subscription-banner" [ngClass]="bannerClass" *ngIf="bannerState">
+  <span class="c-subscription-banner__icon-wrap"
+    [ngClass]="bannerState === 'payment_final_warning' ? 'c-subscription-banner__icon-wrap--danger' : 'c-subscription-banner__icon-wrap--warning'"
+    *ngIf="bannerState !== 'welcome'">
+    <span class="icon-warning"></span>
+  </span>
+  <span class="c-subscription-banner__message">{{bannerMessage}}</span>
+  <button mat-button
+    class="c-subscription-banner__cta"
+    [ngClass]="{'c-subscription-banner__cta--outlined': bannerState === 'payment_final_warning'}"
+    [disabled]="retrying"
+    *ngIf="bannerCta"
+    (click)="onCtaClick()">
+    {{ retrying && bannerState === 'payment_pending' ? 'Procesando...' : bannerCta }}
+  </button>
+  <span *ngIf="retryFeedback" class="c-subscription-banner__feedback"
+    [class.c-subscription-banner__feedback--success]="retryFeedback.type === 'success'"
+    [class.c-subscription-banner__feedback--error]="retryFeedback.type === 'error'">
+    {{ retryFeedback.message }}
+  </span>
+  <button mat-icon-button class="c-subscription-banner__close"
+    *ngIf="bannerState === 'welcome'" (click)="dismissWelcome()">
+    <span class="icon-close"></span>
+  </button>
+</div>

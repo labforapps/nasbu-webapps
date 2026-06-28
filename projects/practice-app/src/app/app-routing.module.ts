@@ -90,8 +90,8 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    /*  canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard], */
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     resolve: { permissions: PermissionsResolver },
     children: [
       {
