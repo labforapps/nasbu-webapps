@@ -15,6 +15,13 @@ export interface PlanFeature {
   description: string;
 }
 
+export interface PlanModule {
+  uuid: string;
+  plan: string;
+  module: string;         // identificador (coincide con el enum modules)
+  module_display: string; // nombre legible
+}
+
 export interface Plan {
   uuid: string;
   type: string;
@@ -23,6 +30,7 @@ export interface Plan {
   trial_total_days: number;
   anual_discount_pct?: any;
   features: PlanFeature[];
+  available_modules?: PlanModule[];
   suggested: boolean;
 }
 

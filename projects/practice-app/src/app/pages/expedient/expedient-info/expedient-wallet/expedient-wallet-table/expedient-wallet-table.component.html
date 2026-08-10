@@ -66,8 +66,8 @@
 
           <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
               <button mat-menu-item class="matMenu-yellow" (click)="openDialogAddBalance(element)">{{'dockets.profile.wallet.edit' | translate}}<span class="icon-pen"></span></button>
-              <button mat-menu-item class="matMenu-red" (click)="deleteCaseFileWalletDetail(element)" >{{'dockets.profile.wallet.delete' | translate}} <span class="icon-trash"></span></button>
-              <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentRegister()">{{'dockets.profile.wallet.apply_payment' | translate}}<span class="icon-payment"></span></button>
+              <!-- <button mat-menu-item class="matMenu-red" (click)="deleteCaseFileWalletDetail(element)" >{{'dockets.profile.wallet.delete' | translate}} <span class="icon-trash"></span></button> -->
+              <!-- <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentRegister()">{{'dockets.profile.wallet.apply_payment' | translate}}<span class="icon-payment"></span></button> -->
               <!-- <button mat-menu-item class="matMenu-green">{{'dockets.profile.wallet.send_invoice' | translate}}<span class="icon-invoice"></span></button>
               <button mat-menu-item class="matMenu-blue">{{'dockets.profile.wallet.send_receipt' | translate}}<span class="icon-receipt"></span></button> -->
           </mat-menu>
@@ -76,6 +76,12 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+      </tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+          <h3>{{ 'common.noData' | translate }}</h3>
+        </td>
       </tr>
   </table>
   <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">

@@ -37,7 +37,7 @@
                         <div class="mb-5">
                             <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar cliente</label>
                             <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="clientOption">
-                                <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" (click)="reportPayload.customer = null">Todos
+                                <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" (click)="onSelectAllCustomers()">Todos
                                 </mat-radio-button>
                                 <mat-radio-button [value]="2" [checked]="true" class="c-radioButton u-normalSize">
                                     Selecionar
@@ -47,15 +47,36 @@
                             <mat-form-field appearance="fill"
                                 class="c-form-group c-form-group__select c-form-group--small">
                                 <mat-label>Selecionar cliente</mat-label>
-                                <mat-select [(ngModel)]="reportPayload.customer" [disabled]="clientOption === 1">
+                                <mat-select [(ngModel)]="reportPayload.customer" [disabled]="clientOption === 1" (ngModelChange)="onCustomerChange($event)">
                                     <div class="c-searchList">
-                                        <!-- <div class="p-3">
-                                            <input matInput placeholder="Escribir nombre" class="c-searchList__input">
-                                        </div> -->
                                         <div class="c-searchList__content">
                                            <mat-option [value]="null">Seleccionar cliente</mat-option>
-                                            <mat-option *ngFor="let customer of customers" [value]="customer.uuid">
+                                            <mat-option *ngFor="let customer of filteredCustomers" [value]="customer.uuid">
                                                 {{customer | customerFullName}}
+                                            </mat-option>
+                                        </div>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="mb-5">
+                            <label class="u-title-label u-normalSize w-100 mb-4">Seleccionar expediente</label>
+                            <mat-radio-group aria-label="Select an option" class="d-flex mb-4 u-gap-1" [(ngModel)]="caseFileOption">
+                                <mat-radio-button [value]="1" class="c-radioButton u-normalSize mr-4" (click)="onSelectAllCaseFiles()">Todos
+                                </mat-radio-button>
+                                <mat-radio-button [value]="2" [checked]="true" class="c-radioButton u-normalSize">
+                                    Seleccionar específico
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <mat-form-field appearance="fill"
+                                class="c-form-group c-form-group__select c-form-group--small">
+                                <mat-label>Seleccionar expediente</mat-label>
+                                <mat-select [(ngModel)]="reportPayload.case_file" [disabled]="caseFileOption === 1" (ngModelChange)="onCaseFileChange($event)">
+                                    <div class="c-searchList">
+                                        <div class="c-searchList__content">
+                                            <mat-option [value]="null">Seleccionar expediente</mat-option>
+                                            <mat-option *ngFor="let caseFile of filteredCaseFiles" [value]="caseFile.uuid">
+                                                {{caseFile.name}}
                                             </mat-option>
                                         </div>
                                     </div>

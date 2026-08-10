@@ -15,6 +15,8 @@ export class ReportCasesComponent implements OnInit {
   customers!:Customer[];
   securityUsers!:SecurityUser[];
   caseFiles!:CaseFile[];
+  filteredCustomers: Customer[] = [];
+  filteredCaseFiles: CaseFile[] = [];
   reportFormatEnum = ReportFormat;
   caseFileStatusEnum = CaseFileStatus
   daysPeriod = DaysPeriod
@@ -22,6 +24,7 @@ export class ReportCasesComponent implements OnInit {
   showHeaderMessage:boolean = true;
   clientOption:number = 2;
   lawyerOption:number = 2;
+  caseFileOption:number = 2;
   caseFileStatusOption:number = 2;
 
   constructor(private authService:AuthService,
@@ -58,6 +61,7 @@ export class ReportCasesComponent implements OnInit {
   getCustomers() {
     this.customerService.getCustomers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.customers = data;
+      this.filteredCustomers = data;
     })
   }
 
@@ -70,6 +74,7 @@ export class ReportCasesComponent implements OnInit {
   getCaseFiles(){
     this.practiceService.getCaseFiles(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.caseFiles = data;
+      this.filteredCaseFiles = data;
     })
   }
 
@@ -109,12 +114,48 @@ export class ReportCasesComponent implements OnInit {
     this.showHeaderMessage = false
   }
 
+  onCustomerChange(customerUuid: string | null) {
+    if (!customerUuid) {
+      this.filteredCaseFiles = this.caseFiles;
+    } else {
+      this.filteredCaseFiles = this.caseFiles.filter(cf => cf.customer.uuid === customerUuid);
+      if (this.reportPayload.case_file && !this.filteredCaseFiles.find(cf => cf.uuid === this.reportPayload.case_file)) {
+        this.reportPayload.case_file = null;
+      }
+    }
+  }
+
+  onCaseFileChange(caseFileUuid: string | null) {
+    if (!caseFileUuid) {
+      this.filteredCustomers = this.customers;
+    } else {
+      const selected = this.caseFiles.find(cf => cf.uuid === caseFileUuid);
+      if (selected) {
+        this.filteredCustomers = this.customers.filter(c => c.uuid === selected.customer.uuid);
+        this.reportPayload.customer = selected.customer.uuid ?? null;
+      }
+    }
+  }
+
+  onSelectAllCustomers() {
+    this.reportPayload.customer = null;
+    this.filteredCaseFiles = this.caseFiles;
+  }
+
+  onSelectAllCaseFiles() {
+    this.reportPayload.case_file = null;
+    this.filteredCustomers = this.customers;
+  }
+
   cleanFilters(){
     this.setReportPayload();
 
     this.clientOption = 2;
     this.lawyerOption = 2;
+    this.caseFileOption = 2;
     this.caseFileStatusOption = 2;
+    this.filteredCustomers = this.customers;
+    this.filteredCaseFiles = this.caseFiles;
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SubscriptionBillingFee } from 'core-models';
 import { AuthService, SubscriptionService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
@@ -13,8 +14,6 @@ export class InvoicingParametersComponent implements OnInit {
   invoicingParameterForm!:FormGroup;
   selectedSubscription!: any;
   subscriptionBillingFee!:SubscriptionBillingFee[];
-  addHourlyRate:boolean = false
-  perIncrementOfTime:boolean = false
 
   constructor(private formBuilder:FormBuilder,
               private subscriptionService:SubscriptionService,
@@ -41,12 +40,22 @@ export class InvoicingParametersComponent implements OnInit {
       price_per_increment: [0],
       allow_retainers:     [false],
       allow_flat_fee:      [false],
+      allow_time_increment:[false],
       tax_pct: 0
     })
   }
 
   setFormData(){
     this.invoicingParameterForm.patchValue(this.subscriptionBillingFee[0]);
+  }
+
+  onCheckTimeIncrement(event:MatCheckboxChange){
+    if(!event.checked){
+      this.invoicingParameterForm.patchValue({
+        increment_factor:    0,
+        price_per_increment: 0,
+      })
+    }
   }
 
   submitForm(){

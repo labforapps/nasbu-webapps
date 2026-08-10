@@ -13,6 +13,7 @@ import { AuthService, SubscriptionService } from 'core-services';
 export class InvoicingComponent implements OnInit {
 
   public invoices:Invoice[] = [];
+  invoicesLoaded = false;
   invoiceStatus = InvoiceStatus;
   selectedSubscription!:any;
 
@@ -27,8 +28,12 @@ export class InvoicingComponent implements OnInit {
   }
 
   getInvoices(){
-    this.accountingServices.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe((data:Invoice[]) => {
-      this.invoices = data;
+    this.accountingServices.getInvoices(this.selectedSubscription?.ssid.uuid).subscribe({
+      next: (data:Invoice[]) => {
+        this.invoices = data;
+        this.invoicesLoaded = true;
+      },
+      error: () => this.invoicesLoaded = true
     })
   }
 

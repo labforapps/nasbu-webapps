@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService,SecurityService } from 'core-services';
+import { AuthService,SecurityService, SubscriptionService } from 'core-services';
 import { FormService } from '../../../services/form.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SecurityGroup, ModulesAccess, modules, modulesDescription, typeAccess } from 'core-models';
+import { SecurityGroup, ModulesAccess, modules, modulesDescription, typeAccess, filterAvailableModules } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -24,12 +24,13 @@ export class DialogAddRoleComponent implements OnInit {
   selectedSubscription:any;
   allSections:Boolean = false;
   allSectionsType:string = '';
-  modulesList!:modules[];
+  modulesList!:string[];
   formArrayName:string = 'modules_access'
 
   constructor(private authService:AuthService,
               private formService:FormService,
               private securityService:SecurityService,
+              private subscriptionService:SubscriptionService,
               private _formBuilder:FormBuilder,
               private translateService:TranslateService,
               private toastr:ToastrService,
@@ -39,8 +40,10 @@ export class DialogAddRoleComponent implements OnInit {
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.initForm();
-    this.modulesList = Object.values(this.modules)
-    this.setFormData();
+    this.subscriptionService.getAvailableModules(this.selectedSubscription?.ssid.uuid).subscribe(available => {
+      this.modulesList = filterAvailableModules(Object.values(this.modules), available);
+      this.setFormData();
+    });
   }
 
   initForm(){

@@ -1,17 +1,17 @@
 <mat-tab-group class="c-tabs c-tabs-sub">
     <mat-tab label="{{'dockets.profile.invoicing.all' | translate}}">
 
-      <app-invoicing-table [invoices]="invoices" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+      <app-invoicing-table [invoices]="invoices" *ngIf="invoices"></app-invoicing-table>
 
     </mat-tab>
     <mat-tab label="{{'dockets.profile.invoicing.pending_payment' | translate}}">
 
-      <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+      <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING" *ngIf="invoices"></app-invoicing-table>
 
     </mat-tab>
     <mat-tab label="{{'dockets.profile.invoicing.paid' | translate}}">
 
-      <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED" *ngIf="invoices && invoices.length > 0"></app-invoicing-table>
+      <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED" *ngIf="invoices"></app-invoicing-table>
 
     </mat-tab>
 </mat-tab-group>

@@ -16,12 +16,13 @@ export class DialogNewTemplateComponent implements OnInit {
   templateForm!:FormGroup;
   documentTemplateTypes!:DocumentTemplateType[];
   documentTemplateType!:DocumentTemplateType | undefined;
-  imgTemp!:any;
-  imgUrl!:any;
-  imagenSubir!:File | null;
+  selectedFile!:File | null;
+  selectedFileName:string = '';
   selectedSubscription!:any;
   documentTemplate!:DocumentTemplate;
   searchTerm: string = '';
+  /** Guía de ayuda para guardar en .docx. Vacío = el enlace no se muestra. */
+  docxHelpUrl: string = '';
 
   constructor(private formBuilder:FormBuilder,
               private coreServices:CoreService,
@@ -80,39 +81,33 @@ export class DialogNewTemplateComponent implements OnInit {
     this.documentTemplateType = this.documentTemplateTypes.find(x => x.uuid === selection.value);
   }
 
-  changeImage(event: any) {
+  onSelectFile(event: any) {
     const file = event.target.files[0];
 
-    if (file) {
-      const validTypes = [
-          'application/msword',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
+    if (!file) {
+      this.removeFile();
+      return;
+    }
 
-      if (!validTypes.includes(file.type)) {
-          this.helperService.showCustomMessage('Error','Error','Por favor, sube un documento Word válido.')
-          event.target.value = ''; // Resetear la selección del archivo
-          return;
-      }
+    const validTypes = [
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+
+    if (!validTypes.includes(file.type)) {
+        this.helperService.showCustomMessage('Error','Error','Por favor, sube un documento Word válido.')
+        event.target.value = ''; // Resetear la selección del archivo
+        this.removeFile();
+        return;
+    }
+
+    this.selectedFile = file;
+    this.selectedFileName = file.name;
   }
 
-    this.imagenSubir = file;
-
-    if (!file) return (this.imgTemp = null);
-
-    const reader = new FileReader();
-    const url64 = reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      this.imgTemp = reader.result;
-    };
-
-    return this.imgTemp;
-  }
-
-  deleteImage(){
-    this.imgTemp = null;
-    this.imagenSubir = null;
+  removeFile(){
+    this.selectedFile = null;
+    this.selectedFileName = '';
   }
 
   copyToClipboard(value: string): void {
@@ -128,7 +123,7 @@ export class DialogNewTemplateComponent implements OnInit {
 
   submitForm(){
 
-    if(!this.templateForm.valid || !this.imagenSubir){
+    if(!this.templateForm.valid || !this.selectedFile){
       this.helperService.showMessageRequiredFields();
       return;
     }
@@ -136,7 +131,7 @@ export class DialogNewTemplateComponent implements OnInit {
     const templatePayload:DocumentTemplatePayload = {
       ...this.templateForm.value,
       subscription:this.selectedSubscription?.ssid.uuid,
-      file:this.imagenSubir
+      file:this.selectedFile
     }
 
     if(this.documentTemplate) templatePayload.uuid = this.documentTemplate.uuid;

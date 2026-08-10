@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription, ChangeFirstPasswordPayload } from 'core-models';
 import { NgxPermissionsService } from 'ngx-permissions';
+import * as Sentry from '@sentry/angular-ivy';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -14,7 +16,11 @@ export class AuthService {
   constructor(private coreAuth: CoreAuthService, private permissionsService: NgxPermissionsService) { }
 
   signIn(username: string, password: string): Observable<any> {
-    return this.coreAuth.signin(username, password);
+    return this.coreAuth.signin(username, password).pipe(
+      tap(() => {
+        if (environment.sentryDsn) Sentry.setUser({ email: username, username });
+      })
+    );
   }
 
   signUp(userSignupPayload: UserSignupPayload): Observable<ISignUpResult> {
@@ -27,6 +33,7 @@ export class AuthService {
   }
 
   signOut(){
+    if (environment.sentryDsn) Sentry.setUser(null);
     return this.coreAuth.signOut();
   }
 

@@ -214,6 +214,12 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
           </tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+              <h3>{{ 'common.noData' | translate }}</h3>
+            </td>
+          </tr>
       </table>
       <mat-paginator #paginator [pageSize]="50" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
       </mat-paginator>

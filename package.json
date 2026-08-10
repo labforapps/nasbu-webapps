@@ -29,6 +29,7 @@
     "@hreimer/angular-image-viewer": "0.13.1",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@sentry/angular-ivy": "^7.120.4",
     "angular2-text-mask": "^9.0.0",
     "aws-amplify": "^4.3.31",
     "bootstrap": "^5.1.3",

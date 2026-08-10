@@ -16,7 +16,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetail.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetail"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.ALL">
@@ -41,7 +41,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetailDebit.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetailDebit"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.DEBIT">
@@ -71,7 +71,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetailCredit.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetailCredit"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.CREDIT"

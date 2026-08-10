@@ -98,9 +98,11 @@ export class TaskTableComponent  implements OnChanges {
       data: {
         task: task,
         action: action,
+        // Los valores del contexto (expediente, cliente, colaborador) son defaults para
+        // crear. Al editar o ver manda la tarea, si no pisan sus datos reales.
         customer: task?.customer || this.caseFile?.customer || this.customer,
-        securityUser: this.securityUser || this.caseFile?.assigned_to,
-        caseFile: this.caseFile
+        securityUser: task ? undefined : (this.securityUser || this.caseFile?.assigned_to),
+        caseFile: task ? undefined : this.caseFile
       },
     });
 

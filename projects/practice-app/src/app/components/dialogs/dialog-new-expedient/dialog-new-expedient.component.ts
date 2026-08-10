@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus, AccessType, CaseFileType, VariableDocumentTemplateType } from 'core-models';
-import { AuthService, CustomersService,PracticeService,SecurityService } from 'core-services';
+import { CaseFile, Customer, SecurityUser, TypeCustomer,CaseFilePayload, BillingType, CaseFileStatus, AccessType, CaseFileType, VariableDocumentTemplateType, SubscriptionBillingFee } from 'core-models';
+import { AuthService, CustomersService,PracticeService,SecurityService, SubscriptionService } from 'core-services';
 import { ToastrService } from 'ngx-toastr';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -36,12 +36,14 @@ export class DialogNewExpedientComponent implements OnInit {
   totalTabs:number = 1
   activeTabIndex:number = 0
   documentGenerationVariables:VariableDocumentTemplateType[] = []
+  subscriptionBillingFee!:SubscriptionBillingFee
 
   constructor(private formBuilder:FormBuilder,
               private customerService:CustomersService,
               private securityService:SecurityService,
               private authService:AuthService,
               private practiceService:PracticeService,
+              private subscriptionService:SubscriptionService,
               private translateService:TranslateService,
               private toastr: ToastrService,
               public dialog: MatDialog,
@@ -56,6 +58,26 @@ export class DialogNewExpedientComponent implements OnInit {
     this.initForm();
     this.setCaseFile();
     this.getCaseFileTypes()
+    this.getSubscriptionBillingFee()
+  }
+
+  getSubscriptionBillingFee(){
+    this.subscriptionService.getSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid).subscribe(data => {
+      this.subscriptionBillingFee = data[0];
+      this.applyDefaultBillingFee();
+    })
+  }
+
+  applyDefaultBillingFee(){
+    if(this.caseFile) return;                       // no tocar en edición
+    if(this.caseFileForm.value.assigned_to) return; // ya hay colaborador -> gana el usuario
+    if(!this.subscriptionBillingFee) return;
+
+    this.caseFileForm.patchValue({
+      bt_price_per_hour: this.subscriptionBillingFee.price_per_hour,
+      bt_increment_factor: this.subscriptionBillingFee.increment_factor,
+      price_per_increment: this.subscriptionBillingFee.price_per_increment
+    });
   }
 
   initForm(){
@@ -209,18 +231,22 @@ export class DialogNewExpedientComponent implements OnInit {
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.securityUsers = data;
       if(this.dataDialog && this.dataDialog.securityUser) this.caseFileForm.patchValue({assigned_to: this.dataDialog.securityUser.uuid})
+      if(this.caseFile?.assigned_to) {
+        this.securityUserSelected = this.securityUsers.find(x => x.uuid === this.caseFile.assigned_to.uuid);
+      }
     })
   }
 
   onChangeAssignto(uuid:string){
     this.securityUserSelected = this.securityUsers.find(x => x.uuid === uuid);
 
-   if(this.securityUserSelected?.billing_fees && this.securityUserSelected?.billing_fees.length > 0){
-      this.caseFileForm.patchValue({
-        bt_price_per_hour: this.securityUserSelected?.billing_fees[0].price_per_hour,
-        bt_increment_factor: this.securityUserSelected?.billing_fees[0].increment_factor
-      })
-   }
+    const userFee = this.securityUserSelected?.billing_fees?.[0];
+
+    this.caseFileForm.patchValue({
+      bt_price_per_hour: userFee?.price_per_hour || this.subscriptionBillingFee?.price_per_hour,
+      bt_increment_factor: userFee?.increment_factor ?? this.subscriptionBillingFee?.increment_factor,
+      price_per_increment: userFee?.price_per_increment || this.subscriptionBillingFee?.price_per_increment
+    })
 
   }
 

@@ -110,7 +110,7 @@
 
                         <mat-checkbox value="3" class="c-checkbox u-smallSize u-fontBold" formControlName="increment_of_time"
                           (change)="onCheckBillingTypes(billingType.BY_TIME_INCREMENT,$event)"
-                          [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? securityUserSelected.billing_fees[0].price_per_increment === '0.00' ? true : false : true">
+                          [disabled]="securityUserSelected && securityUserSelected.billing_fees.length > 0 ? !securityUserSelected.billing_fees[0].allow_time_increment : true">
 
                           {{ 'invoice_parameter.by_increment_of_time' | translate }}
                         </mat-checkbox>

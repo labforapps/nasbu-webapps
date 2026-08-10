@@ -48,6 +48,7 @@ import { CreateTemplatesTypesComponent } from './pages/documents-templates/templ
 import { CreateExpedientTypeComponent } from './pages/expedient/create-expedient-type/create-expedient-type.component';
 import { ReportCustomerWalletDetailsComponent } from './pages/report/report-customer-wallet-details/report-customer-wallet-details.component';
 import { PaymentsComponent } from './pages/invoicing/payments/payments.component';
+import { TutorialsComponent } from 'core-services';
 
 
 const routes: Routes = [
@@ -220,6 +221,10 @@ const routes: Routes = [
       {
         path:'report/customer-wallet-details',
         component: ReportCustomerWalletDetailsComponent
+      },
+      {
+        path: 'tutorials',
+        component: TutorialsComponent
       }
     ],
   },

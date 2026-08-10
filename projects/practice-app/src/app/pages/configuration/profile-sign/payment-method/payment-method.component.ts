@@ -129,10 +129,11 @@ export class PaymentMethodComponent implements OnInit {
   setPaymentMethodAsDefault(paymentMethod: SubscriptionPaymentMethod) {
       this.subscriptionService
           .setSubscriptionPaymentMethodAsDefault(this.subscription.uuid, paymentMethod.uuid)
-          .subscribe((response) => {
-              //TODO: translate success message and update payment methods list
-          }, (error) => {
-              //TODO: translate error message
+          .subscribe(() => {
+              this.fetchPaymentMethods();
+              this.helperService.showMessageUpdated();
+          }, () => {
+              this.toastrService.error('Error', this.translateService.instant('errorMessages.unexpectedError'));
           });
   }
 

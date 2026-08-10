@@ -80,6 +80,7 @@ export interface SubscriptionBillingFee {
   tax_pct: string
   allow_retainers:     boolean;
   allow_flat_fee:      boolean;
+  allow_time_increment: boolean;
   active?:              boolean;
   created_by?:          null;
   created_at?:          Date;

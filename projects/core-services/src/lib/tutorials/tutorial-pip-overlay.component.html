@@ -1,0 +1,17 @@
+<div class="c-pip-overlay" #pipOverlay *ngIf="tutorial$ | async as tutorial">
+  <div class="c-pip-overlay__header" (mousedown)="onDragStart($event)">
+    <span class="c-pip-overlay__title" [title]="tutorial.title">{{ tutorial.title }}</span>
+    <button class="c-pip-overlay__close" (click)="close()">
+      <span class="icon-close"></span>
+    </button>
+  </div>
+  <div class="c-pip-overlay__video">
+    <iframe
+      *ngIf="safeUrl$ | async as url"
+      [src]="url"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>

@@ -120,6 +120,14 @@ export const modulesDescription = new Map<string, string>([
 ]);
 
 
+// Filtra la lista de módulos dejando solo los habilitados por el plan.
+// Siempre conserva 'all' (comodín de UI). Si availableModules viene vacío/undefined,
+// devuelve todos los módulos (fallback no disruptivo).
+export function filterAvailableModules(allModules: string[], availableModules?: string[]): string[] {
+  if (!availableModules || availableModules.length === 0) return allModules;
+  return allModules.filter(m => m === modules.ALL || availableModules.includes(m));
+}
+
 export enum typeAccess{
   ADMINISTRATOR = 'A',
   WRITE = 'W',

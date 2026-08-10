@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class ClientComponent implements OnInit {
   customers$!: Observable<Customer[]>;
   memCustomers: Customer[] = [];
+  customersLoaded = false;
   //selectedSubscription!: SelectedSubscription | null;
   selectedSubscription!: any;
 
@@ -38,9 +39,13 @@ export class ClientComponent implements OnInit {
     if (this.selectedSubscription) {
       this.customersService
         .getCustomers(this.selectedSubscription?.ssid.uuid)
-        .subscribe((customers: Customer[]) => {
-          this.memCustomers = customers;
-          this.ngAfterViewInit();
+        .subscribe({
+          next: (customers: Customer[]) => {
+            this.memCustomers = customers;
+            this.customersLoaded = true;
+            this.ngAfterViewInit();
+          },
+          error: () => this.customersLoaded = true
         });
     }
   }

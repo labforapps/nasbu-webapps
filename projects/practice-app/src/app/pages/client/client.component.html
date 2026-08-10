@@ -20,19 +20,19 @@
         <mat-tab-group class="c-tabs">
             <mat-tab label="{{'clients.tabs.tab_all_customers'  | translate}}">
 
-                <app-client-table *ngIf="memCustomers.length > 0" [customers]="customers"></app-client-table>
+                <app-client-table *ngIf="customersLoaded" [customers]="customers"></app-client-table>
 
             </mat-tab>
             <mat-tab label="{{'clients.tabs.tab_customers_person'  | translate}}">
 
 
-                <app-client-table *ngIf="memCustomers.length > 0" [customers]="customers_type_person"></app-client-table>
+                <app-client-table *ngIf="customersLoaded" [customers]="customers_type_person"></app-client-table>
 
 
             </mat-tab>
             <mat-tab label="{{'clients.tabs.tab_customers_bussiness'  | translate}}">
 
-                <app-client-table *ngIf="memCustomers.length > 0" [customers]="customers_type_bussiness"></app-client-table>
+                <app-client-table *ngIf="customersLoaded" [customers]="customers_type_bussiness"></app-client-table>
 
             </mat-tab>
         </mat-tab-group>

@@ -1,6 +1,6 @@
 {
    "common":{
-
+      "noData": "No records to display"
    },
    "login": {
       "title": "Login",

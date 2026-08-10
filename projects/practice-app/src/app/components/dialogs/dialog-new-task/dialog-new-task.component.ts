@@ -215,7 +215,9 @@ export class DialogNewTaskComponent implements OnInit {
 
   submitForm(){
 
-    const taskFormValue = this.taskForm.value;
+    // getRawValue() incluye los controles deshabilitados; .value los omite y el
+    // guardado es un PUT, así que se perderían los selects bloqueados.
+    const taskFormValue = this.taskForm.getRawValue();
 
     if(!this.taskForm.valid){
       this.helperService.showMessageRequiredFields();
