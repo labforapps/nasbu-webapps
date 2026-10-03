@@ -10,6 +10,7 @@ import { GlobalService } from '../application/global.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   private requests: HttpRequest<any>[] = [];
+  private redirectingToPendingCheckout = false;
 
   constructor(private authService: AuthService,
               private globalService: GlobalService,
@@ -28,6 +29,31 @@ export class AuthInterceptor implements HttpInterceptor {
   //       })
   //   );
   // }
+
+  /**
+   * Saca de la app al usuario cuyo alta quedo sin pagar.
+   *
+   * El backend rechaza con 403 toda la API para una suscripcion pendiente de
+   * tokenizacion, asi que sin esto el usuario se quedaba mirando una pantalla vacia.
+   * Se lo manda al login, que es donde vive la logica de retomar el checkout.
+   *
+   * El flag evita navegar varias veces: `retry(2)` reintenta cada request, y una
+   * pantalla dispara varias a la vez.
+   */
+  private handlePendingPaymentRejection(error: any): void {
+    if (this.redirectingToPendingCheckout) {
+      return;
+    }
+
+    if (error.status !== 403 || !this.authService.getPendingPaymentSubscription()) {
+      return;
+    }
+
+    this.redirectingToPendingCheckout = true;
+    this.router.navigate(['/signin']).then(() => {
+      this.redirectingToPendingCheckout = false;
+    });
+  }
 
   removeRequest(req: HttpRequest<any>) {
     const i = this.requests.indexOf(req);
@@ -52,6 +78,7 @@ export class AuthInterceptor implements HttpInterceptor {
                        if (error.status === 401 || error.status === 403) {
                            //this.authService.signOut();
                            //this.router.navigate([ 'signin' ]);
+                           this.handlePendingPaymentRejection(error);
                           return throwError(error);
                        }
                       return throwError(error);

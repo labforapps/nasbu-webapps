@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {TaskType,Task, TaskTypeEnum, TaskTypeiIconClassMap, TaskStatus } from 'core-models';
+import { ActivatedRoute } from '@angular/router';
+import {TaskType,Task, TaskTypeEnum, TaskTypeiIconClassMap, TaskStatus, Action } from 'core-models';
 import { DialogNewReasonComponent } from '../../components/dialogs/dialog-new-reason/dialog-new-reason.component';
 import { DialogNewTaskComponent } from '../../components/dialogs/dialog-new-task/dialog-new-task.component';
 import { AuthService, CommonService, PracticeService } from 'core-services';
@@ -25,7 +26,8 @@ export class TaskpageComponent implements OnInit {
   constructor(public dialog: MatDialog,
              private practiceService:PracticeService,
              private authService: AuthService,
-             private commonService:CommonService) { }
+             private commonService:CommonService,
+             private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
@@ -38,6 +40,7 @@ export class TaskpageComponent implements OnInit {
 
     this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
       this.allTasks = data;
+      this.openLinkedTask();
       this.pendingTasks = this.allTasks.filter(x => x.status === this.taskStatus.OPEN && x.overdue === false);
       this.completedTasks = this.allTasks.filter(x => x.status === this.taskStatus.CLOSED);
       this.overdueTasks = this.allTasks.filter(x => x.overdue === true).sort((a, b) => {
@@ -46,6 +49,20 @@ export class TaskpageComponent implements OnInit {
           return dateB - dateA;
       });
     })
+  }
+
+  /**
+   * Los enlaces de las notificaciones traen ?task=<uuid>: se abre el detalle de esa tarea.
+   */
+  openLinkedTask() {
+    const taskId = this.activatedRoute.snapshot.queryParamMap.get('task');
+    const task = taskId ? this.allTasks.find(item => item.uuid === taskId) : undefined;
+    if (!task) {
+      return;
+    }
+    this.dialog.open(DialogNewTaskComponent, {
+      data: { task, action: Action.VIEW, customer: task.customer }
+    });
   }
 
   getTasksType(){

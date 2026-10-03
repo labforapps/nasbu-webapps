@@ -61,6 +61,10 @@ export class AuthService {
     return this.coreAuth.saveFirstUserPassword(payload);
   }
 
+  changePassword(oldPassword: string, newPassword: string): Observable<string> {
+    return this.coreAuth.changePassword(oldPassword, newPassword);
+  }
+
   /**
    * Before taking the localStorage data, the permissions resolver
    * is executed in the general dashboard route, updating the permissions
@@ -76,5 +80,13 @@ export class AuthService {
 
   getUserInfoFromLocalStorage(): SelectedSubscription | null {
     return this.coreAuth.getUserInfoFromLocalStorage();
+  }
+
+  selectSubscription(subscriptionId: string): boolean {
+    return this.coreAuth.selectSubscription(subscriptionId);
+  }
+
+  getPendingPaymentSubscription(): SelectedSubscription | null {
+    return this.coreAuth.getPendingPaymentSubscription();
   }
 }

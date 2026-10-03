@@ -41,7 +41,8 @@ export class InvoicingParametersComponent implements OnInit {
       allow_retainers:     [false],
       allow_flat_fee:      [false],
       allow_time_increment:[false],
-      tax_pct: 0
+      tax_pct: 0,
+      low_retainer_threshold: [null]
     })
   }
 

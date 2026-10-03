@@ -8,3 +8,5 @@ export * from './practice';
 export * from './accounting';
 export * from './reports';
 export * from './learning/tutorial';
+
+export * from './notification-preferences';

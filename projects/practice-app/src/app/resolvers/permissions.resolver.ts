@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { UserInfo } from 'core-models';
-import { map, Observable} from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
 
 /**
@@ -15,7 +15,14 @@ import { AuthService } from '../services/auth/auth.service';
 export class PermissionsResolver implements Resolve<string[]>{
   constructor(private authService: AuthService){}
   resolve(route: ActivatedRouteSnapshot): Observable<string[]> {
+    // Los enlaces de las notificaciones traen ?ssid= para abrirse en la suscripcion correcta.
+    const subscriptionId = route.queryParamMap.get('ssid');
     return this.authService.fetchUserInfo().pipe(
+      tap(() => {
+        if (subscriptionId) {
+          this.authService.selectSubscription(subscriptionId);
+        }
+      }),
       map((userInfo: UserInfo) => this.authService.getAllPermisions(userInfo))
     );
   }

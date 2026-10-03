@@ -10,6 +10,7 @@
     "start:all": "npm run start && npm run build:models && npm run build:services",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:notifications": "ng test core-services --ts-config=projects/core-services/tsconfig.notifications.spec.json --include=lib/services/subscription/subscription-notifications.service.spec.ts --include=lib/services/security/auth.guard.notifications.spec.ts --watch=false --browsers=ChromeHeadless && ng test practice-app --include=**/notification.component.spec.ts --include=**/notification-links.spec.ts --include=**/dialog-change-password.component.spec.ts --watch=false --browsers=ChromeHeadless",
     "build-qa": "ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --configuration=qa",
     "build-prod": "ng build --project=core-models && ng build --project=core-services && ng build --project=practice-app --prod"
   },

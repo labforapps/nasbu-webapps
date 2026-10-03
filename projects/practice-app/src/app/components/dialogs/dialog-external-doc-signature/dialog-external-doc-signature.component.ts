@@ -97,7 +97,7 @@ export class DialogExternalDocSignatureComponent implements OnInit {
     this.signatureRequest.to_origin_value = contactsClient
 
     if(this.signatureRequest.send_by === this.sendingMethod.EMAIL || this.signatureRequest.send_by === this.sendingMethod.CLIPBOARD ){
-      this.signatureRequest.esig_signers_list = this.customer.contacts.filter(x => x.type === this.typeContact.email)[0].contact_value
+      this.signatureRequest.esig_signers_list = this.signatureRequest.to_origin_value;
     }
 
     if (this.signatureRequest.to_origin_value === '') result = false;

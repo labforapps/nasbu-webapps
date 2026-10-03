@@ -2,7 +2,19 @@
     <header class="l-blank__header">
         <img src="../../../assets/images/white-logo.svg" alt="">
     </header>
-    <div class="l-blank__content">
+    <!-- Retorno de PlaceToPay en modo redirect: se resuelve la tokenizacion antes
+         de mostrar nada, para que no parpadee el formulario vacio. -->
+    <div class="l-blank__content" *ngIf="processingCheckout">
+        <div class="l-blank__heading">
+            <div>
+                <div class="l-blank__title">{{'register.processingCheckout' | translate}}</div>
+                <div class="l-blank__subtitle">{{'register.processingCheckoutHint' | translate}}</div>
+            </div>
+        </div>
+        <p *ngIf="errorMessage" class="u-dangerColor mt-3">{{errorMessage | errorMessageTranslate}}</p>
+    </div>
+
+    <div class="l-blank__content" *ngIf="!processingCheckout">
         <div class="l-blank__heading">
             <img src="../../../assets/images/add-user.svg" alt="" class="l-blank__icon">
             <div>
@@ -77,7 +89,7 @@
                 <label class="u-title-label w-100">{{'register.totalUser' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label>{{'register.totalUser' | translate}}</mat-label>
-                    <input class="c-form-group__input" matInput type="number" min="1" [(ngModel)]="totalUsers" [placeholder]="'register.totalUser' | translate" >
+                    <input class="c-form-group__input" matInput type="number" min="1" [ngModel]="totalUsers" (ngModelChange)="onTotalUsersChange($event)" (blur)="normalizeTotalUsers()" [placeholder]="'register.totalUser' | translate" >
                 </mat-form-field>
 
                 <ng-container *ngIf="selectedPlan">
@@ -99,10 +111,10 @@
                 </ng-container>
 
                 <div class="d-flex u-gap-1">
-                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="initRequestForTokenizationSession(true)">
+                    <button mat-button class="c-btn c-btn--outline-primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="startCheckout(true)">
                        {{'register.getFreeTrialButton'| translate}}
                     </button>
-                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="initRequestForTokenizationSession(false)">
+                    <button mat-button class="c-btn c-btn--primary u-smallSize flex-1" [ngClass]="{'c-btn--disable': !isValidForm}" (click)="startCheckout(false)">
                         {{'register.buyNowButton'| translate}}
                     </button>
                 </div>

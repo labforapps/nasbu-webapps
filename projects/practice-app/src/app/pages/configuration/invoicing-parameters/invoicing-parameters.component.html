@@ -147,6 +147,25 @@
 
               <hr class="u-divider">
 
+              <div class="row">
+                <div class="col-md-5 col-sm-6">
+                    <p class="mb-2 u-fontBold u-textColor">Alerta de retainer bajo</p>
+                    <p class="u-smallSize u-textColor mb-1">
+                        Se avisará cuando el balance de retainer de un cliente quede por debajo
+                        de este monto. Déjalo vacío para no recibir este aviso.
+                    </p>
+                </div>
+                <div class="col-md-2 col-sm-4">
+                    <label class="u-title-label">Monto mínimo</label>
+                    <mat-form-field appearance="fill" class="c-form-group">
+                        <mat-label>Ej: 500</mat-label>
+                        <input class="c-form-group__input" matInput type="number" min="0" placeholder="Ej: 500 USD" formControlName="low_retainer_threshold">
+                    </mat-form-field>
+                </div>
+              </div>
+
+              <hr class="u-divider">
+
             </mat-tab>
 
             <mat-tab label="Configuración link de pago">

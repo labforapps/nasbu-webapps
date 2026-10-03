@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest, ResumeTokenizationResult } from 'core-models';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { CoreService } from '../core';
 
@@ -35,6 +35,39 @@ export class SubscriptionService {
   createSubscriptionOnboarding(payload: any): Observable<Subscription> {
       const serverUrl: string = `${this.config.serverUrl}/subscription/onboarding/`;
       return this.httpClient.post<Subscription>(serverUrl, payload);
+  }
+
+  /**
+   * Cierra el alta en modo redirect, al volver de PlaceToPay: guarda la tarjeta
+   * tokenizada, activa la suscripcion y dispara el primer cobro.
+   *
+   * Es idempotente del lado del backend (tiene guard por estado), lo cual importa
+   * porque el AuthInterceptor reintenta toda request fallida dos veces.
+   */
+  confirmOnboardingTokenization(subscriptionId: string): Observable<Subscription> {
+      const serverUrl: string = `${this.config.serverUrl}/subscription/onboarding/confirm_tokenization/`;
+      return this.httpClient.post<Subscription>(serverUrl, { subscription_id: subscriptionId });
+  }
+
+  /**
+   * Revierte un alta que quedo a medio tokenizar, para no dejar suscripciones ni
+   * usuarios de Cognito huerfanos. Tambien idempotente.
+   */
+  cancelOnboardingTokenization(subscriptionId: string): Observable<any> {
+      const serverUrl: string = `${this.config.serverUrl}/subscription/onboarding/cancel_tokenization/`;
+      return this.httpClient.post(serverUrl, { subscription_id: subscriptionId });
+  }
+
+  /**
+   * Devuelve una URL de checkout nueva para un alta que quedo pendiente de pago.
+   *
+   * Es la salida del usuario que confirmo su cuenta sin llegar a tokenizar la tarjeta:
+   * en vez de quedarse con una cuenta bloqueada, vuelve a PlaceToPay. No sirve
+   * reutilizar el `first_checkout_url` guardado porque esa sesion vence a los 30 min.
+   */
+  resumeOnboardingTokenization(subscriptionId: string): Observable<ResumeTokenizationResult> {
+      const serverUrl: string = `${this.config.serverUrl}/subscription/onboarding/resume_tokenization/`;
+      return this.httpClient.post<ResumeTokenizationResult>(serverUrl, { subscription_id: subscriptionId });
   }
 
   updateSubscription(subscriptionPayload: SubscriptionPayload,uuid:string): Observable<Subscription> {

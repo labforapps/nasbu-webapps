@@ -73,7 +73,9 @@
       "getFreeTrial": "Pide una demostración para recibir un prueba <b class=\"u-primaryColor\">gratis por {{freeTrialDays}} días </b>",
       "getFreeTrialButton": "Pedir demostración",
       "buyNowButton": "Comprar ahora",
-      "totalUser": "Cantidad de usuarios"
+      "totalUser": "Cantidad de usuarios",
+      "processingCheckout": "Procesando tu pago",
+      "processingCheckoutHint": "Estamos confirmando tu método de pago. No cierres esta ventana."
    },
    "errorMessages": {
       "unexpectedError": "Opps error inesperado...",
@@ -85,12 +87,14 @@
       "InvalidPasswordException": "Contraseña invalida, debe contener May, Min y números (>7 caracteres ).",
       "UserNotConfirmedException": "Usuario no confirmado.",
       "passwordsDoNotMatch": "Contraseñas no coinciden.",
+      "pendingPaymentSubscription": "Tu registro quedó sin completar el pago y ya no se puede retomar. Registrate nuevamente.",
       "LimitExceededException": "Se excedió el límite de intentos, intente después de un tiempo.",
       "ExpiredCodeException": "El código proporcionado no es válido, solicite un código nuevamente.",
       "CodeMismatchException":"Se proporcionó un código de verificación no válido, inténtelo de nuevo.",
       "field_required":"Este campo es requerido",
       "InvalidForm":"Formulario Invalido",
-      "InvalidEmailFormat":"Formato de Email Invalido"
+      "InvalidEmailFormat":"Formato de Email Invalido",
+      "checkoutFailed":"No pudimos confirmar tu método de pago. Intenta el registro nuevamente."
    },
    "checkoutRequest":{
     "titlePaymentSuccess":"Pago en Línea Realizado",
@@ -293,16 +297,17 @@
       "es": "Español"
    },
    "header": {
-     "lang": "Idiomas",
-     "selectedLang": "Idioma seleccionado",
-     "closeWindows": "Cerrar ventana",
-     "timer": "Temporizador",
-     "user": "Usuario",
-     "notifications": {
-       "title": "Notificaciones",
-       "subTitle": "Aún sin leer"
-     }
-   },
+    "lang": "Idiomas",
+    "selectedLang": "Idioma seleccionado",
+    "closeWindows": "Cerrar ventana",
+    "timer": "Temporizador",
+    "user": "Usuario",
+    "notifications": {
+      "title": "Notificaciones",
+      "subTitle": "Aún sin leer"
+    },
+    "changePassword": "Cambiar contraseña"
+  },
    "clients":{
     "common":{
       "back":"Volver atrás",
@@ -1219,5 +1224,142 @@
         "close_window":"Cerrar Ventana"
       }
 
+    },
+  "changePassword": {
+    "title": "Cambiar contraseña",
+    "rules": "Mínimo 8 caracteres, con mayúsculas, minúsculas y al menos un número o símbolo.",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar nueva contraseña",
+    "invalidPassword": "La nueva contraseña no cumple los requisitos.",
+    "mismatch": "Las contraseñas no coinciden.",
+    "sameAsCurrent": "La nueva contraseña debe ser distinta de la actual.",
+    "save": "Cambiar contraseña",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "success": "Tu contraseña se cambió correctamente.",
+    "errors": {
+      "wrongCurrentPassword": "La contraseña actual no es correcta.",
+      "invalidPassword": "La nueva contraseña no cumple la política de seguridad.",
+      "tooManyAttempts": "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      "generic": "No se pudo cambiar la contraseña. Inténtalo de nuevo."
     }
+  },
+  "notificationPreferences": {
+    "title": "Notificaciones",
+    "back": "Volver atrás",
+    "settingsTab": "Configuraciones",
+    "emailOn": "Email activado",
+    "emailOff": "Email desactivado",
+    "dashboardMandatory": "Siempre la verás en el dashboard; este interruptor controla si además te llega por email.",
+    "loadError": "No se pudieron cargar las preferencias.",
+    "saveError": "No se pudieron guardar los cambios. Intenta de nuevo.",
+    "categories": {
+      "tasks": "Tareas",
+      "cases": "Expedientes",
+      "clients": "Clientes",
+      "billing": "Facturación",
+      "documents": "Documentos",
+      "team": "Equipo",
+      "account": "Sistema y cuenta"
+    },
+    "events": {
+      "task_assigned": {
+        "title": "Nueva tarea asignada",
+        "description": "Se te asigna una tarea."
+      },
+      "task_due_soon": {
+        "title": "Tarea próxima a vencer",
+        "description": "Una tarea que creaste o tienes asignada vence mañana."
+      },
+      "task_overdue": {
+        "title": "Tarea vencida",
+        "description": "Una tarea pendiente supera su fecha de vencimiento."
+      },
+      "task_completed": {
+        "title": "Tarea completada",
+        "description": "Una tarea que creaste o tienes asignada se completa."
+      },
+      "task_reopened": {
+        "title": "Tarea reabierta",
+        "description": "Una tarea completada vuelve a estar pendiente."
+      },
+      "task_updated": {
+        "title": "Tarea modificada",
+        "description": "Cambia la fecha, el responsable o la prioridad de una tarea."
+      },
+      "case_opened": {
+        "title": "Nuevo expediente abierto",
+        "description": "Se crea un expediente al que tienes acceso."
+      },
+      "case_assigned": {
+        "title": "Expediente asignado",
+        "description": "Se te asigna un expediente o se te da acceso a él."
+      },
+      "case_closed": {
+        "title": "Expediente cerrado",
+        "description": "Se cierra un expediente al que tienes acceso."
+      },
+      "case_reopened": {
+        "title": "Expediente reabierto",
+        "description": "Un expediente cerrado vuelve a estar activo."
+      },
+      "customer_intake_completed": {
+        "title": "Cliente completó su registro",
+        "description": "Un cliente completa el formulario de registro que le enviaste."
+      },
+      "invoice_created": {
+        "title": "Nueva factura creada",
+        "description": "Se genera una factura que puedes consultar."
+      },
+      "invoice_paid": {
+        "title": "Factura pagada",
+        "description": "Se confirma el pago total de una factura."
+      },
+      "invoice_overdue": {
+        "title": "Factura vencida",
+        "description": "Una factura pendiente supera su fecha de vencimiento."
+      },
+      "payment_partial": {
+        "title": "Pago parcial recibido",
+        "description": "Se registra un abono que no completa la factura."
+      },
+      "payment_failed": {
+        "title": "Pago rechazado o fallido",
+        "description": "Falla un pago en línea de un cliente."
+      },
+      "retainer_low": {
+        "title": "Balance de retainer bajo",
+        "description": "El balance de un cliente queda por debajo del mínimo configurado."
+      },
+      "document_shared": {
+        "title": "Documento compartido",
+        "description": "Se sube o genera un documento en un expediente al que tienes acceso."
+      },
+      "document_action_required": {
+        "title": "Documento pendiente de acción",
+        "description": "Una solicitud de firma fue rechazada o venció y hay que reenviarla."
+      },
+      "document_completed": {
+        "title": "Documento completado",
+        "description": "El cliente firma un documento."
+      },
+      "case_member_added": {
+        "title": "Usuario añadido al expediente",
+        "description": "Se da acceso a un miembro del equipo en un expediente tuyo."
+      },
+      "case_member_removed": {
+        "title": "Usuario removido del expediente",
+        "description": "Se quita el acceso o la asignación de un miembro del equipo."
+      },
+      "account_changed": {
+        "title": "Cambio importante en tu cuenta",
+        "description": "Cambian tu rol, tus permisos o tu contraseña."
+      },
+      "subscription_billing_problem": {
+        "title": "Problema con el pago de la suscripción",
+        "description": "Falla el cobro de la suscripción de NASBU."
+      }
+    }
+  }
 }
