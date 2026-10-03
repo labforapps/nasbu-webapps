@@ -258,7 +258,7 @@ export class DialogNewTaskComponent implements OnInit {
       bt_billable: ! taskFormValue.not_billable,
       billing_type: billingType,
       bt_amt: billingTypeAmount,
-      name: taskFormValue.description,
+      name: taskFormValue.description.substring(0, 255),
     };
 
     if(this.task) taskPayload.uuid = this.task.uuid;

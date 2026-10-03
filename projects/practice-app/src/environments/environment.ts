@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  //serverUrl: 'http://127.0.0.1:8000/api',
-  serverUrl:'http://apidev.nasbulegal.com/api',
+  // LOCAL: revertir antes de cualquier deploy (deploy_*.sh buildea del working tree).
+  serverUrl: 'http://127.0.0.1:8000/api',
+  //serverUrl:'http://apidev.nasbulegal.com/api',
   notificationsWebSocketUrl: 'wss://s5m269u3xg.execute-api.us-east-1.amazonaws.com/dev',
   sentryDsn: '',
   awsConfig: {

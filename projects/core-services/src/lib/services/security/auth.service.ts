@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
 import { catchError, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
-import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo,ChangeFirstPasswordPayload } from 'core-models';
+import { UserSignupPayload, UserInfo, UserSubscription, SelectedSubscription, ForgotPasswordSubmit, CurrentUserInfo,ChangeFirstPasswordPayload, SubscriptionStatus } from 'core-models';
 import { ISignUpResult, CognitoUser, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { HttpClient } from '@angular/common/http';
 @Injectable({
@@ -51,11 +51,46 @@ export class AuthService {
                    );
     }
 
-    storeUserInfoInLocalStorage(): void {
-        const firstSubscription: UserSubscription = this.selectedUserInfo.subscriptions[0];
+    /**
+     * Selecciona la suscripcion indicada si el usuario pertenece a ella. Lo usan los
+     * enlaces de las notificaciones (?ssid=), que pueden ser de otra suscripcion.
+     */
+    selectSubscription(subscriptionId: string): boolean {
+        const belongs = !!this.selectedUserInfo?.subscriptions
+            .some((item: UserSubscription) => item.subscription?.uuid === subscriptionId);
+        if (belongs) {
+            this.storeUserInfoInLocalStorage(subscriptionId);
+        }
+        return belongs;
+    }
+
+    storeUserInfoInLocalStorage(preferredSubscriptionId?: string): void {
+        const subscriptions: UserSubscription[] = this.selectedUserInfo.subscriptions;
+        const firstSubscription: UserSubscription = subscriptions
+            .find((item: UserSubscription) => item.subscription?.uuid === preferredSubscriptionId) || subscriptions[0];
         const allPermissions = this.getAllPermisions(this.selectedUserInfo);
-        const ssid: SelectedSubscription = { ssid: firstSubscription.subscription, mt: firstSubscription.member_type, permissions: allPermissions };
+        // El estado y la URL de checkout viajan aparte para que el SubscriptionGuard
+        // pueda cortar el paso de un alta sin pagar sin tener que salir a la red.
+        const ssid: SelectedSubscription = {
+            ssid: firstSubscription.subscription,
+            mt: firstSubscription.member_type,
+            permissions: allPermissions,
+            status: firstSubscription.subscription?.status,
+            checkoutUrl: firstSubscription.subscription?.first_checkout_url
+        };
         localStorage.setItem('ssid', JSON.stringify(ssid));
+    }
+
+    /**
+     * Suscripcion cuyo pago quedo sin completar, si la hay.
+     *
+     * En el alta por redirect la cuenta de Cognito se confirma antes de tokenizar la
+     * tarjeta, asi que se puede llegar hasta aca con la suscripcion todavia en 'Z'.
+     */
+    getPendingPaymentSubscription(): SelectedSubscription | null {
+        const selected = this.getUserInfoFromLocalStorage();
+
+        return selected?.status === SubscriptionStatus.PENDING_TOKENIZATION ? selected : null;
     }
 
     getUserInfoFromLocalStorage(): SelectedSubscription | null {
@@ -87,29 +122,46 @@ export class AuthService {
       // plan = [r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_plan'][0]['Value']
       // pm_request_id = [r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_pm_request_id'][0]['Value']
       // onboarding_in_progress = int([r for r in user_info['UserAttributes'] if r['Name'] == 'custom:onb_in_progress'][0]['Value'])
+        // Cognito rechaza el string vacio en los atributos marcados como required en el
+        // esquema del pool ("The attribute X is required"), y Required es inmutable una
+        // vez creado el pool. El formulario de alta no pide ninguno de estos cuatro
+        // datos, asi que van con placeholders: solo estan para cumplir el esquema.
+        // birthdate ademas tiene constraint de largo exacto 10, de ahi el YYYY-MM-DD.
+        const attributes: { [key: string]: string } = {
+            profile: '',
+            picture: '-',
+            gender: '-',
+            birthdate: '1900-01-01',
+            address: '-',
+            name: payload.firstName,
+            middle_name: payload.lastName,
+            given_name: `${payload.firstName} ${payload.lastName}`,
+            locale: 'DO',
+            updated_at: new Date().getTime().toString(),
+            email: payload.email,          // optional
+            phone_number: payload.phoneNumber,   // optional - E.164 number convention
+           'custom:onb_period': payload.subscriptionInfo.period,
+           'custom:onb_free_trial': (payload.subscriptionInfo.free_trial ? 1 : 0).toString(),
+           'custom:onb_total_users': payload.subscriptionInfo.total_users.toString(),
+           'custom:onb_plan': payload.subscriptionInfo.plan,
+           'custom:onb_in_progress': '1',                // other custom attributes
+        };
+
+        // El requestId solo existe en el modo lightbox, donde la tarjeta se tokeniza
+        // antes del signup. En el modo redirect la clave tiene que estar AUSENTE: es
+        // justamente su ausencia lo que le dice al backend que arme la sesion de
+        // tokenizacion y devuelva la URL de checkout.
+        //
+        // No alcanza con `pm_request_id?.toString()`: eso deja la clave en el objeto
+        // con valor undefined, y Amplify la manda igual como {Name, Value: undefined}.
+        if (payload.subscriptionInfo.pm_request_id) {
+            attributes['custom:onb_pm_request_id'] = payload.subscriptionInfo.pm_request_id.toString();
+        }
+
         const signup$ = Auth.signUp({
             username: payload.email,
             password: payload.password,
-            attributes: {
-                profile: '',
-                picture: '',
-                gender: '',
-                birthdate: '',
-                address: '',
-                name: payload.firstName,
-                middle_name: payload.lastName,
-                given_name: `${payload.firstName} ${payload.lastName}`,
-                locale: 'DO',
-                updated_at: new Date().getTime().toString(),
-                email: payload.email,          // optional
-                phone_number: payload.phoneNumber,   // optional - E.164 number convention
-               'custom:onb_period': payload.subscriptionInfo.period,
-               'custom:onb_free_trial': (payload.subscriptionInfo.free_trial ? 1 : 0).toString(),
-               'custom:onb_total_users': payload.subscriptionInfo.total_users.toString(),
-               'custom:onb_plan': payload.subscriptionInfo.plan,
-               'custom:onb_pm_request_id': payload.subscriptionInfo.pm_request_id?.toString(),
-               'custom:onb_in_progress': '1',                // other custom attributes
-            },
+            attributes,
         });
 
        // Auth.updateUserAttributes()
@@ -142,6 +194,16 @@ export class AuthService {
             catchError((error) => of(null)),
             map((currentUser: any) => currentUser != null),
 
+        );
+    }
+
+    /**
+     * Cambia la contrasena del usuario con sesion iniciada. Cognito exige la actual y
+     * responde NotAuthorizedException si no coincide.
+     */
+    changePassword(oldPassword: string, newPassword: string): Observable<string> {
+        return from(Auth.currentAuthenticatedUser()).pipe(
+            switchMap((user: CognitoUser) => from(Auth.changePassword(user, oldPassword, newPassword)))
         );
     }
 

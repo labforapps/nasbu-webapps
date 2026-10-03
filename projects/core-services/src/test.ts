@@ -8,6 +8,9 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
+// AWS Amplify espera `global`, igual que en practice-app/src/polyfills.ts.
+(window as any).global = window;
+
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
     <T>(id: string): T;

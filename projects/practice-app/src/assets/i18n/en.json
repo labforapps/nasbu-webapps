@@ -73,7 +73,9 @@
       "getFreeTrial": "Request a demo to receive a <b class=\"u-primaryColor\">{{freeTrialDays}} day free trial</b>",
       "getFreeTrialButton": "Request free trial",
       "buyNowButton": "Buy now",
-      "totalUser": "Users quantity"
+      "totalUser": "Users quantity",
+      "processingCheckout": "Processing your payment",
+      "processingCheckoutHint": "We are confirming your payment method. Please do not close this window."
    },
    "errorMessages": {
       "unexpectedError": "Opps unexpected error...",
@@ -86,12 +88,14 @@
       "CodeDeliveryFailureException": "",
       "UserNotConfirmedException": " User not confirmed.",
       "passwordsDoNotMatch": "passwords don't match.",
+      "pendingPaymentSubscription": "Your signup was left without completing payment and can no longer be resumed. Please sign up again.",
       "LimitExceededException": "Attempt limit exceeded, please try after some time.",
       "ExpiredCodeException": "Invalid code provided, please request a code again.",
       "CodeMismatchException": "Invalid verification code provided, please try again.",
       "field_required":"This field is required",
       "InvalidForm":"Invalid Form",
-      "InvalidEmailFormat":"Invalid Email Format"
+      "InvalidEmailFormat":"Invalid Email Format",
+      "checkoutFailed":"We could not confirm your payment method. Please try signing up again."
    },
    "checkoutRequest":{
     "titlePaymentSuccess":"Online Payment Successful",
@@ -293,16 +297,17 @@
       "es": "Spanish"
    },
    "header": {
-      "lang": "Languages",
-      "selectedLang": "Selected language",
-      "closeWindows": "Close windows",
-      "timer": "Timer",
-      "user": "User",
-      "notifications": {
-         "title": "Notifications",
-         "subTitle": "Still unread"
-      }
-   },
+    "lang": "Languages",
+    "selectedLang": "Selected language",
+    "closeWindows": "Close windows",
+    "timer": "Timer",
+    "user": "User",
+    "notifications": {
+      "title": "Notifications",
+      "subTitle": "Still unread"
+    },
+    "changePassword": "Change password"
+  },
    "clients":{
     "common":{
       "back":"Go back",
@@ -1220,7 +1225,142 @@
       "close_window":"Close Window"
     }
 
+  },
+  "changePassword": {
+    "title": "Change password",
+    "rules": "At least 8 characters, with upper and lower case letters and at least one number or symbol.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "invalidPassword": "The new password does not meet the requirements.",
+    "mismatch": "Passwords do not match.",
+    "sameAsCurrent": "The new password must be different from the current one.",
+    "save": "Change password",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "success": "Your password was changed.",
+    "errors": {
+      "wrongCurrentPassword": "The current password is incorrect.",
+      "invalidPassword": "The new password does not meet the security policy.",
+      "tooManyAttempts": "Too many attempts. Wait a few minutes and try again.",
+      "generic": "The password could not be changed. Please try again."
+    }
+  },
+  "notificationPreferences": {
+    "title": "Notifications",
+    "back": "Go back",
+    "settingsTab": "Settings",
+    "emailOn": "Email on",
+    "emailOff": "Email off",
+    "dashboardMandatory": "You will always see it in the dashboard; this switch controls whether you also get it by email.",
+    "loadError": "Preferences could not be loaded.",
+    "saveError": "Changes could not be saved. Please try again.",
+    "categories": {
+      "tasks": "Tasks",
+      "cases": "Cases",
+      "clients": "Clients",
+      "billing": "Billing",
+      "documents": "Documents",
+      "team": "Team",
+      "account": "System and account"
+    },
+    "events": {
+      "task_assigned": {
+        "title": "New task assigned",
+        "description": "A task is assigned to you."
+      },
+      "task_due_soon": {
+        "title": "Task due soon",
+        "description": "A task you created or are assigned to is due tomorrow."
+      },
+      "task_overdue": {
+        "title": "Task overdue",
+        "description": "An unfinished task passes its due date."
+      },
+      "task_completed": {
+        "title": "Task completed",
+        "description": "A task you created or are assigned to is completed."
+      },
+      "task_reopened": {
+        "title": "Task reopened",
+        "description": "A completed task is pending again."
+      },
+      "task_updated": {
+        "title": "Task changed",
+        "description": "The date, assignee or priority of a task changes."
+      },
+      "case_opened": {
+        "title": "New case opened",
+        "description": "A new case you can access is created."
+      },
+      "case_assigned": {
+        "title": "Case assigned",
+        "description": "A case is assigned to you or you get access to it."
+      },
+      "case_closed": {
+        "title": "Case closed",
+        "description": "A case you can access is closed."
+      },
+      "case_reopened": {
+        "title": "Case reopened",
+        "description": "A closed case is active again."
+      },
+      "customer_intake_completed": {
+        "title": "Client completed registration",
+        "description": "A client completes the registration form you sent."
+      },
+      "invoice_created": {
+        "title": "New invoice created",
+        "description": "An invoice you can view is generated."
+      },
+      "invoice_paid": {
+        "title": "Invoice paid",
+        "description": "Full payment of an invoice is confirmed."
+      },
+      "invoice_overdue": {
+        "title": "Invoice overdue",
+        "description": "An unpaid invoice passes its due date."
+      },
+      "payment_partial": {
+        "title": "Partial payment received",
+        "description": "A payment that does not settle the invoice is recorded."
+      },
+      "payment_failed": {
+        "title": "Payment declined or failed",
+        "description": "A client’s online payment fails."
+      },
+      "retainer_low": {
+        "title": "Low retainer balance",
+        "description": "A client’s balance drops below the configured minimum."
+      },
+      "document_shared": {
+        "title": "Document shared",
+        "description": "A document is uploaded or generated in a case you can access."
+      },
+      "document_action_required": {
+        "title": "Document needs action",
+        "description": "A signature request was declined or expired and must be resent."
+      },
+      "document_completed": {
+        "title": "Document completed",
+        "description": "The client signs a document."
+      },
+      "case_member_added": {
+        "title": "User added to case",
+        "description": "A team member gets access to one of your cases."
+      },
+      "case_member_removed": {
+        "title": "User removed from case",
+        "description": "A team member loses access or assignment to a case."
+      },
+      "account_changed": {
+        "title": "Important account change",
+        "description": "Your role, permissions or password changes."
+      },
+      "subscription_billing_problem": {
+        "title": "Subscription payment problem",
+        "description": "The NASBU subscription charge fails."
+      }
+    }
   }
-
-
 }

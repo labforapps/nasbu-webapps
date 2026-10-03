@@ -25,6 +25,7 @@ import { CreateCollaboratorComponent } from './pages/collaborator/create-collabo
 import { CreateProfileComponent } from './pages/configuration/profile-sign/create-profile/create-profile.component';
 import { RegisterClientComponent } from './pages/register/register-client/register-client.component';
 import { AuthGuard } from 'core-services';
+import { SubscriptionGuard } from './services/auth/subscription.guard';
 import { SuccessSubscriptionPaymentComponent } from './pages/success-subscription-payment/success-subscription-payment.component';
 import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-payment/cancel-subscription-payment.component';
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
@@ -91,8 +92,12 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    // AuthGuard valida que haya sesion; SubscriptionGuard, que el alta haya pagado.
+    // Estar autenticado no alcanza: en el registro por redirect la cuenta de Cognito se
+    // confirma antes de tokenizar la tarjeta, asi que se puede tener sesion valida con
+    // la suscripcion todavia sin pagar.
+    canActivate: [AuthGuard, SubscriptionGuard],
+    canActivateChild: [AuthGuard, SubscriptionGuard],
     resolve: { permissions: PermissionsResolver },
     children: [
       {

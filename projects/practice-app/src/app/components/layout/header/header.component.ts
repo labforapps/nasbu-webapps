@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogNewTaskComponent } from '../../dialogs/dialog-new-task/dialog-new-task.component';
 import { DialogAddHoursComponent } from '../../dialogs/dialog-add-hours/dialog-add-hours.component';
 import { SubscriptionNotificationsService } from 'core-services';
+import { DialogChangePasswordComponent } from '../../dialogs/dialog-change-password/dialog-change-password.component';
 
 @Component({
   selector: 'app-header',
@@ -169,9 +170,28 @@ export class HeaderComponent implements OnInit {
   onClickNotification(notification: SubscriptionNotificaction) {
       this.subscriptionNotificationsService
           .markNotificationAsViewed(this.selectedSubscription?.ssid.uuid, notification.notification_id)
-          .subscribe((response: any) => {
-              window.location.href = notification.callback_url;
-          });
+          .subscribe(() => this.openNotificationLink(notification.callback_url));
+  }
+
+  /**
+   * Los enlaces de la propia aplicacion se abren con el router (sin recargar); los
+   * externos o de otro dominio, con una navegacion normal.
+   */
+  openNotificationLink(callbackUrl: string) {
+      if (!callbackUrl) {
+          return;
+      }
+      const [origin, route] = callbackUrl.split('/#');
+      const isAppLink = !!route && (origin === '' || origin === window.location.origin);
+      if (isAppLink) {
+          this.router.navigateByUrl(route);
+      } else {
+          window.location.href = callbackUrl;
+      }
+  }
+
+  openChangePassword() {
+      this.dialog.open(DialogChangePasswordComponent);
   }
 
   get selectedLanguage(): string {

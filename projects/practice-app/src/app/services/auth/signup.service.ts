@@ -27,6 +27,7 @@ export class SignupService {
                               plan: userSignupPayload.subscriptionInfo.plan,
                               period: userSignupPayload.subscriptionInfo.period,
                               free_trial: userSignupPayload.subscriptionInfo.free_trial,
+                              total_users: userSignupPayload.subscriptionInfo.total_users,
                               uuid: cognitoUser.userSub
                           };
                           console.log('subscriptionOnboardingPayload: ', subscriptionOnboardingPayload);

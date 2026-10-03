@@ -13,7 +13,9 @@ export interface UserSignupPayload {
 
 export interface UserSubscription {
     uuid: string;
-    subscription: string;
+    // El backend serializa la suscripcion anidada, no su id: estaba tipado como string
+    // pero en runtime siempre fue el objeto.
+    subscription: SSID;
     member_type: string;
     member_group: string;
     case_file: string;
@@ -34,6 +36,10 @@ export interface SelectedSubscription {
     mt: string;
     twc?: boolean;
     permissions: string[];
+    // Estado de la suscripcion y URL de checkout pendiente. Los guarda el login para que
+    // el SubscriptionGuard pueda cortar el paso a un alta sin pagar sin salir a la red.
+    status?: string;
+    checkoutUrl?: string;
 }
 
 export interface SSID {
@@ -44,6 +50,7 @@ export interface SSID {
   expiration_date: null;
   plan: string;
   status: string;
+  first_checkout_url?: string;
   tutorial_was_completed: boolean;
 }
 

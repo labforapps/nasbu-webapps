@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { WebsocketService } from '../application/websocket.service';
 import { Observable, bufferTime, combineLatest, filter, merge, of, tap } from 'rxjs';
-import { SubscriptionNotificaction } from 'core-models';
+import { SubscriptionNotificaction, NotificationPreferences, NotificationPreference } from 'core-models';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,6 +18,21 @@ export class SubscriptionNotificationsService {
               private toastrService: ToastrService,
               private httpClient: HttpClient) {
         this.wsNotificationsUrl = config.notificationsWebSocketUrl;
+  }
+
+  getPreferences(subscriptionId: string): Observable<NotificationPreferences> {
+    return this.httpClient.get<NotificationPreferences>(
+      `${this.config.serverUrl}/subscription/notification_preferences/`,
+      { params: { subscription: subscriptionId } });
+  }
+
+  savePreferences(subscriptionId: string, preferences: NotificationPreference[]): Observable<NotificationPreferences> {
+    return this.httpClient.patch<NotificationPreferences>(
+      `${this.config.serverUrl}/subscription/notification_preferences/`, {
+        subscription: subscriptionId,
+        // El dashboard es obligatorio: solo se envia la preferencia de email.
+        preferences: preferences.map(({ code, email }) => ({ code, email }))
+      });
   }
 
   getNotifications(subscriptionId: string, userId: string): Observable<SubscriptionNotificaction[]> {

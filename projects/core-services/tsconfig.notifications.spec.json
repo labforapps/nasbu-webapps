@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.spec.json",
+  "include": [
+    "src/lib/services/subscription/subscription-notifications.service.spec.ts",
+    "src/lib/services/security/auth.guard.notifications.spec.ts",
+    "**/*.d.ts"
+  ]
+}

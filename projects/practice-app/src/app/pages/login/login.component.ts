@@ -5,7 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogRecoveryComponent } from '../../components/dialogs/dialog-recovery/dialog-recovery.component';
 import { AuthService } from '../../services/auth/auth.service';
-import { ErrorCodes, UserInfo } from 'core-models';
+import { OnboardingService } from '../../services/onboarding/onboarding.service';
+import { CheckoutRedirectService } from '../../services/checkout/checkout-redirect.service';
+import { ErrorCodes, ResumeTokenizationResult, UserInfo } from 'core-models';
+import { consumeReturnUrl } from 'core-services';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { DialogNewSubscriptionComponent } from '../../components/dialogs/dialog-new-subscription/dialog-new-subscription.component';
 import { DialogSendAccountConfirmationComponent } from '../../components/dialogs/dialog-send-account-confirmation/dialog-send-account-confirmation.component';
@@ -27,6 +30,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(public dialog: MatDialog,
               private authService: AuthService,
+              private onboardingService: OnboardingService,
+              private checkoutRedirect: CheckoutRedirectService,
               private fb: FormBuilder,
               private router: Router,
               private activatedRoute:ActivatedRoute
@@ -79,11 +84,21 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         else{
 
+          // El alta por redirect confirma la cuenta en Cognito antes de tokenizar la
+          // tarjeta, asi que se puede llegar hasta aca sin haber pagado. En ese caso no
+          // se entra a la app: se vuelve al checkout.
+          if (this.authService.getPendingPaymentSubscription()) {
+            this.resumePendingCheckout();
+            return;
+          }
+
           if(!localStorage.getItem(`first_login_${username}`)){
             localStorage.setItem(`first_login_${username}`,'true')
           }
 
-          this.router.navigate(['/dashboard']).then(() => {
+          // Si se llego al login desde un enlace (p. ej. un email de notificacion), se
+          // vuelve a esa pantalla; si no, al dashboard.
+          this.router.navigateByUrl(consumeReturnUrl()).then(() => {
             window.location.reload();
           });
         }
@@ -97,6 +112,32 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.errorMessage = error.message;
       });
+  }
+
+  /**
+   * Manda al usuario de vuelta a PlaceToPay para terminar el alta que dejo a medias.
+   *
+   * Se pide una sesion nueva en lugar de reusar la URL guardada: la de PlaceToPay vence
+   * a los 30 minutos y para cuando el usuario vuelve casi siempre esta muerta.
+   */
+  resumePendingCheckout(): void {
+    const pending = this.authService.getPendingPaymentSubscription();
+    const subscriptionId = pending?.ssid?.uuid ?? pending?.ssid;
+
+    if (!subscriptionId) {
+      this.errorMessage = 'pendingPaymentSubscription';
+      return;
+    }
+
+    this.onboardingService
+        .resumeOnboardingTokenization(subscriptionId)
+        .subscribe((result: ResumeTokenizationResult) => {
+            this.checkoutRedirect.goTo(result.checkout_url);
+        }, () => {
+            // El alta ya no se puede retomar: el barrido de altas abandonadas la dio de
+            // baja, o PlaceToPay rechazo la sesion nueva.
+            this.errorMessage = 'pendingPaymentSubscription';
+        });
   }
 
   openDialogSendConfirmationEmail(username:string) {

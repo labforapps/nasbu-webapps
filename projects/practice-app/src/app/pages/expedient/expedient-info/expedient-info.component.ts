@@ -6,6 +6,11 @@ import { AuthService, PracticeService } from 'core-services';
 import * as moment from 'moment';
 import { DialogCloseExpedientComponent } from '../../../components/dialogs/dialog-close-expedient/dialog-close-expedient.component';
 
+/** Orden de las pestanas de expedient-info.component.html. */
+export const EXPEDIENT_TABS: { [name: string]: number } = {
+  documents: 0, notes: 1, tasks: 2, invoicing: 3, wallet: 4, info: 5
+};
+
 @Component({
   selector: 'app-expedient-info',
   templateUrl: './expedient-info.component.html',
@@ -36,7 +41,9 @@ export class ExpedientInfoComponent implements OnInit {
 
   getQueryParamByUrl(){
     this.activatedRoute.queryParamMap.subscribe(params => {
-      this.selectedTabIndex =  Number(params.get('tab'));
+      const tab = params.get('tab') || '0';
+      // Acepta el indice (enlaces existentes) o el nombre de la pestana (notificaciones).
+      this.selectedTabIndex = tab in EXPEDIENT_TABS ? EXPEDIENT_TABS[tab] : (Number(tab) || 0);
     });
   }
 

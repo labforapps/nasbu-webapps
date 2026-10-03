@@ -7,7 +7,17 @@ export enum SubscriptionStatus {
   ACTIVE    = 'A',
   SUSPENDED = 'S',
   DELAYED   = 'D',
-  EXPIRED   = 'E'
+  EXPIRED   = 'E',
+  // Alta por lightbox recien creada, a la espera del trigger de Cognito.
+  PENDING_CONFIRMATION = 'P',
+  // Alta por redirect que todavia no tokenizo la tarjeta. La cuenta de Cognito puede
+  // estar confirmada igual, asi que es el estado que hay que bloquear.
+  PENDING_TOKENIZATION = 'Z'
+}
+
+export interface ResumeTokenizationResult {
+  subscription_id: string;
+  checkout_url: string;
 }
 
 export interface SubscriptionOnboarding {
@@ -78,6 +88,7 @@ export interface SubscriptionBillingFee {
   increment_factor:    number;
   price_per_increment: number | string;
   tax_pct: string
+  low_retainer_threshold?: number | string | null;
   allow_retainers:     boolean;
   allow_flat_fee:      boolean;
   allow_time_increment: boolean;

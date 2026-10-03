@@ -126,7 +126,10 @@
 
         <mat-menu #userMenu="matMenu">
 
-          <button mat-button (click)="logout()">
+          <button mat-menu-item (click)="openChangePassword()">
+            {{ 'header.changePassword' | translate }}
+          </button>
+          <button mat-menu-item (click)="logout()">
             Logout
           </button>
 

@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 
 
 import { DialogRecoveryComponent } from './dialogs/dialog-recovery/dialog-recovery.component';
+import { DialogChangePasswordComponent } from './dialogs/dialog-change-password/dialog-change-password.component';
 import { LayoutComponent } from './layout/layout.component';
 import { MenuComponent } from './layout/menu/menu.component';
 import { DialogNewTaskComponent } from './dialogs/dialog-new-task/dialog-new-task.component';
@@ -63,6 +64,7 @@ import { DialogSuspendedComponent } from './dialogs/dialog-suspended/dialog-susp
   declarations: [
     HeaderComponent,
     DialogRecoveryComponent,
+    DialogChangePasswordComponent,
     LayoutComponent,
     MenuComponent,
     DialogNewTaskComponent,

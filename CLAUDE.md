@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Memoria del proyecto
+
+**Antes de cambiar código, leé [docs/memory.md](docs/memory.md).** Es la bitácora de features, mejoras y bugs ya resueltos: qué se cambió, por qué se resolvió así y qué archivos toca cada cosa. Evita volver a romper algo ya arreglado o re-descubrir una causa raíz que ya está documentada.
+
+**Después de implementar un feature, una mejora o resolver un bug, y una vez verificado el cambio, agregá una entrada al principio de ese archivo** (van de más nueva a más vieja), con el formato documentado ahí: fecha, tipo, qué, por qué y archivos tocados. Lo importante de cada entrada es el **por qué** — la causa raíz o la restricción externa que condicionó la solución, que es justamente lo que no se deduce leyendo el código.
+
 ## Commands
 
 **Serve practice-app (primary app):**

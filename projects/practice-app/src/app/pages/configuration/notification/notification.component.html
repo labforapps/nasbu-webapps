@@ -4,146 +4,43 @@
             <div class="l-page__icon">
                 <span class="icon-bell"></span>
             </div>
-            <div class="l-page__title">Notificaciones</div>
+            <div class="l-page__title">{{ 'notificationPreferences.title' | translate }}</div>
         </div>
         <div class="l-page__controls">
 
-            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> Volver atrás</button>
+            <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{ 'notificationPreferences.back' | translate }}</button>
         </div>
 
     </div>
     <div class="l-page__body">
         <mat-tab-group class="c-tabs">
-            <mat-tab label="Configuraciones">
+            <mat-tab [label]="'notificationPreferences.settingsTab' | translate">
 
-                <div class="l-notification">
-                    <div class="l-notification__title">Tareas</div>
-                    <div class="l-notification__content">
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
+                <div class="l-notification" *ngIf="loaded">
+                    <ng-container *ngFor="let category of categories">
+                        <div class="l-notification__title">{{ ('notificationPreferences.categories.' + category) | translate }}</div>
+                        <div class="l-notification__content">
+                            <div class="c-notification-cog" *ngFor="let row of rows(category)">
+                                <div class="c-notification-cog__info">
+                                    <div class="c-notification-cog__icon">
+                                        <span class="icon-bell"></span>
+                                    </div>
+                                    <div>
+                                        <div class="c-notification-cog__title">{{ ('notificationPreferences.events.' + row.code + '.title') | translate }}</div>
+                                        <p class="c-notification-cog__text">{{ ('notificationPreferences.events.' + row.code + '.description') | translate }}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de tarea completada</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
+                                <div class="c-notification-cog__action">
+                                    <mat-slide-toggle class="c-switch u-smallSize" [checked]="row.email"
+                                        [disabled]="isSaving(row)" (change)="toggleEmail(row, $event.checked)"
+                                        [matTooltip]="'notificationPreferences.dashboardMandatory' | translate">
+                                        <span>{{ (row.email ? 'notificationPreferences.emailOn' : 'notificationPreferences.emailOff') | translate }}</span>
+                                    </mat-slide-toggle>
                                 </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
                             </div>
                         </div>
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de tarea vencida</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="l-notification__title">Expedientes</div>
-                    <div class="l-notification__content">
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de expediente cerrado</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de nuevo expediente abierto</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="l-notification__title">Facturación</div>
-                    <div class="l-notification__content">
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de tarea completada</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de tarea completada</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                        <div class="c-notification-cog">
-                            <div class="c-notification-cog__info">
-                                <div class="c-notification-cog__icon">
-                                    <span class="icon-bell"></span>
-                                </div>
-                                <div>
-                                    <div class="c-notification-cog__title">Alerta de tarea completada</div>
-                                    <p class="c-notification-cog__text">Descripción de la notificación y de que trata y los avisos que permitirá conocer </p>
-                                </div>
-                            </div>
-                            <div class="c-notification-cog__action">
-                                <mat-slide-toggle class="c-switch u-smallSize">
-                                    <span>Desactivada</span>
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-                    </div>
+                    </ng-container>
                 </div>
-
-
-
 
             </mat-tab>
 

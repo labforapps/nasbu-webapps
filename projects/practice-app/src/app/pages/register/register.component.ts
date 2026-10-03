@@ -8,6 +8,7 @@ import { OnboardingTokenizationSessionResult, Plan, PlanFeature, Subscription, U
 import { Observable, shareReplay, take, tap, Subscription as SubscriptionRxjs } from 'rxjs';
 import { PlaceToPayStatus } from '../../common';
 import { AuthService } from '../../services/auth/auth.service';
+import { CheckoutModeService } from '../../services/checkout/checkout-mode.service';
 import { OnboardingService } from '../../services/onboarding/onboarding.service';
 
 const passwordRegex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
@@ -30,9 +31,11 @@ export class RegisterComponent implements OnInit {
   public matchMessage: string = '';
   public passwordMatchMsg: string = '';
   public passwordDontMatchMsg: string = '';
-  public totalUsers: number = 1;
+  // null es el campo vacio mientras se edita; usersCount se encarga de traducirlo.
+  public totalUsers: number | null = 1;
   public phoneNumberField!:string;
   public selectedPlanUuid!: string;
+  public processingCheckout: boolean = false;
 
   constructor(
     private onboardingService: OnboardingService,
@@ -40,15 +43,61 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private authService: AuthService,
+    private checkoutMode: CheckoutModeService,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    // El retorno de PlaceToPay cae en esta misma ruta, asi que hay que atenderlo
+    // antes de armar el formulario. No va dentro de applyQueryParams() porque ese
+    // corre recien cuando resuelve el GET de planes, y esto no depende de eso.
+    if (this.handleCheckoutReturn()) {
+      return;
+    }
+
     this.buildForm();
     this.loadPlans();
     this.formChange();
     this.loadTranslatedWords();
     this.applyQueryParams();
+  }
+
+  handleCheckoutReturn(): boolean {
+    const params = this.activatedRoute.snapshot.queryParams;
+    const subscriptionId = params['subscription_id'];
+
+    if (!subscriptionId) {
+      return false;
+    }
+
+    this.processingCheckout = true;
+
+    if (params['cancelled'] === 'true') {
+      this.onboardingService
+          .cancelOnboardingTokenization(subscriptionId)
+          .subscribe(() => this.restartSignup(), () => this.restartSignup());
+
+      return true;
+    }
+
+    this.onboardingService
+        .confirmOnboardingTokenization(subscriptionId)
+        .subscribe(
+          () => this.navigateToLogin(),
+          () => {
+            this.processingCheckout = false;
+            this.errorMessage = 'checkoutFailed';
+          });
+
+    return true;
+  }
+
+  restartSignup(): void {
+    // La suscripcion quedo cancelada y el usuario borrado de Cognito: se vuelve al
+    // formulario limpio, sin los query params del retorno.
+    this.router
+        .navigate(['/signup'], { queryParams: {} })
+        .then(() => window.location.reload());
   }
 
   get selectedPlanValue(): string {
@@ -67,18 +116,51 @@ export class RegisterComponent implements OnInit {
     return '';
   }
 
-  get planTotalPrice(): string {
+  /**
+   * El input puede quedar vacio mientras el usuario tipea (ngModel escribe null) o con
+   * un valor invalido. Todo lo que consume la cantidad pasa por aca, asi nadie tiene
+   * que confiar en lo que hay en el modelo en ese instante.
+   */
+  get usersCount(): number {
+    const parsed = Math.floor(Number(this.totalUsers));
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  }
 
-    if (this.selectedPlan) {
-      let totalPrice = +this.anualSubscription
-        ? +(+this.selectedPlan.price * 12 - (+this.selectedPlan.price * 12 * (+this.selectedPlan.anual_discount_pct / 100)))
-        : +this.selectedPlan.price;
-      this.totalUsers = (+this.totalUsers) < 1 ? (+this.totalUsers) * -1 : +this.totalUsers
-      totalPrice = totalPrice * this.totalUsers;
-      return totalPrice.toFixed(2);
+  // Ojo: el template interpola este getter, asi que corre en cada ciclo de change
+  // detection y tiene que ser puro. Antes normalizaba this.totalUsers aca adentro, y
+  // como ese campo esta enlazado con [(ngModel)], el campo vacio lo dejaba alternando
+  // entre 0 y -0 ciclo a ciclo: Object.is los ve distintos y la pestaña se frizaba.
+  get planTotalPrice(): string {
+    if (!this.selectedPlan) {
+      return '';
     }
 
-    return '';
+    const price = +this.selectedPlan.price;
+    const basePrice = this.anualSubscription
+      ? price * 12 * (1 - +this.selectedPlan.anual_discount_pct / 100)
+      : price;
+
+    return (basePrice * this.usersCount).toFixed(2);
+  }
+
+  /**
+   * El minimo es 1: cualquier numero por debajo se sube al toque, en el mismo tecleo.
+   *
+   * El campo vacio es la unica excepcion, porque es un estado de transito al reemplazar
+   * el valor (seleccionar y tipear, o borrar con backspace): forzarlo a 1 ahi le pisaria
+   * al usuario lo que esta escribiendo. Ese caso lo cierra el blur.
+   */
+  onTotalUsersChange(value: number | null): void {
+    if (value === null || value === undefined || Number.isNaN(value)) {
+      this.totalUsers = null;
+      return;
+    }
+
+    this.totalUsers = Math.max(1, Math.floor(value));
+  }
+
+  normalizeTotalUsers(): void {
+    this.totalUsers = this.usersCount;
   }
 
   get subscriptionPeriodDesc(): string {
@@ -124,13 +206,31 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  signupAndCreateSubscription(isFreeTrial: boolean, requestId: string): void {
-    const { password, confirmPassword } = this.signupForm.value;
-    if (password !== confirmPassword) {
-      this.errorMessage = 'passwordsDoNotMatch';
+  /**
+   * Punto de entrada de los dos botones del formulario.
+   *
+   * En Safari y en moviles el lightbox no funciona (se abre en un iframe y WebKit
+   * bloquea las cookies de terceros), asi que ahi se va por redirect.
+   */
+  startCheckout(isFreeTrial: boolean): void {
+    // Los botones no estan realmente deshabilitados: el template solo les pone una
+    // clase CSS, asi que el click dispara igual con el form invalido. En redirect eso
+    // creaba el usuario de Cognito antes de validar nada.
+    if (!this.isValidForm) {
       return;
     }
-    const userSignupPayload: UserSignupPayload = {
+
+    const override = this.activatedRoute.snapshot.queryParams['checkout'];
+
+    if (this.checkoutMode.detect(override) === 'redirect') {
+      this.signupAndRedirectToCheckout(isFreeTrial);
+    } else {
+      this.initRequestForTokenizationSession(isFreeTrial);
+    }
+  }
+
+  buildSignupPayload(isFreeTrial: boolean, requestId?: string): UserSignupPayload {
+    return {
       username: this.signupForm.value.email,
       password: this.signupForm.value.password,
       firstName: this.signupForm.value.firstName,
@@ -141,13 +241,23 @@ export class RegisterComponent implements OnInit {
         plan: this.selectedPlan.uuid,
         period: this.anualSubscription ? 'Y' : 'M',
         free_trial: isFreeTrial,
-        total_users: +this.totalUsers,
-        pm_request_id: requestId
+        total_users: this.usersCount,
+        // Sin requestId la clave queda fuera del payload, y el backend entiende que
+        // tiene que armar la sesion de tokenizacion (modo redirect).
+        ...(requestId ? { pm_request_id: requestId } : {})
       }
     };
+  }
+
+  signupAndCreateSubscription(isFreeTrial: boolean, requestId: string): void {
+    const { password, confirmPassword } = this.signupForm.value;
+    if (password !== confirmPassword) {
+      this.errorMessage = 'passwordsDoNotMatch';
+      return;
+    }
 
     this.onboardingService
-      .createUserAndAccount(userSignupPayload)
+      .createUserAndAccount(this.buildSignupPayload(isFreeTrial, requestId))
       .subscribe((subscription: Subscription) => {
           this.navigateToLogin();
       }, (error: any) => {
@@ -155,9 +265,55 @@ export class RegisterComponent implements OnInit {
       });
   }
 
+  /**
+   * Modo redirect: se invierte el orden respecto del lightbox. Primero se crean el
+   * usuario y la suscripcion, y recien despues se tokeniza la tarjeta en PlaceToPay.
+   */
+  signupAndRedirectToCheckout(isFreeTrial: boolean): void {
+    const { password, confirmPassword } = this.signupForm.value;
+    if (password !== confirmPassword) {
+      this.errorMessage = 'passwordsDoNotMatch';
+      return;
+    }
+
+    this.processingCheckout = true;
+
+    this.onboardingService
+      .createUserAndAccount(this.buildSignupPayload(isFreeTrial))
+      .subscribe((subscription: Subscription) => {
+          if (subscription.first_checkout_url) {
+            window.location.href = subscription.first_checkout_url;
+            return;
+          }
+
+          // Sin URL de checkout no hay nada que tokenizar.
+          this.navigateToLogin();
+      }, (error: any) => {
+        this.processingCheckout = false;
+        this.errorMessage = (error.name == 'InvalidParameterException') ? error.message : error.name;
+      });
+  }
+
+  /**
+   * Referencia que va a PlaceToPay. En modo lightbox la suscripcion todavia no
+   * existe, asi que no hay un id real: al menos tiene que ser unica por intento
+   * (antes iba un literal fijo, compartido por todas las altas).
+   *
+   * PlaceToPay exige entre 1 y 32 caracteres: un UUID canonico (36) lo rechaza con
+   * "Invalid reference", asi que va sin guiones. randomUUID ademas no existe en
+   * Safari < 15.4, de ahi el fallback.
+   */
+  buildTokenizationReference(): string {
+    const raw = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+      ? crypto.randomUUID().replace(/-/g, '')
+      : `${Date.now()}${Math.random().toString(36).slice(2, 10)}`;
+
+    return raw.slice(0, 32);
+  }
+
   initRequestForTokenizationSession(isFreeTrial: boolean) {
         this.onboardingService
-            .generateNewTokenizationSession('131423')
+            .generateNewTokenizationSession(this.buildTokenizationReference())
             .subscribe((result: OnboardingTokenizationSessionResult) => {
                   if (result.status && result.status['status'].toLowerCase() == 'ok') {
                       this.initPaymentModal(result.processUrl, isFreeTrial);

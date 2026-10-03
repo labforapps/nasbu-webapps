@@ -14,6 +14,15 @@ export class SecurityService {
               private commonService:CommonService,
               ) { }
 
+  /**
+   * Informa al backend un cambio de cuenta que ocurre en Cognito (hoy, la contrasena) para
+   * que genere el aviso "Cambio importante en tu cuenta".
+   */
+  reportAccountEvent(subscription: string, type: 'password_changed'): Observable<void> {
+    const serverUrl = `${this.config.serverUrl}/security/me/account_events/`;
+    return this.httpClient.post<void>(serverUrl, { subscription, type });
+  }
+
   getSecurityGroups(subscription:string):Observable<SecurityGroup[]>{
     const serverUrl = `${this.config.serverUrl}/security/groups/?subscription=${subscription}`;
     return this.httpClient.get<SecurityGroup[]>(serverUrl).pipe(
