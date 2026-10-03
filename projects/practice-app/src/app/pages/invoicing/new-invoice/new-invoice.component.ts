@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, CustomerWalletSummary, Invoice,
-         InvoicePayload, Subscription, SubscriptionBillingFee } from 'core-models';
+         InvoicePayload, Subscription, SubscriptionBillingFee, InvoiceStatus, 
+         SubscriptionPaymentGateway} from 'core-models';
 import { AuthService, CustomersService, SubscriptionService,CommonService, AccountingService } from 'core-services';
 import { HelpersService } from '../../../services/helpers.service';
 import { FormService } from '../../../services/form.service';
@@ -12,6 +13,9 @@ import { DialogSendInvoiceComponent } from '../../../components/dialogs/dialog-s
 import { MatDialog } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { DialogAddTaxComponent } from '../../../components/dialogs/dialog-add-tax/dialog-add-tax.component';
+import { DialogPaymentHistoryComponent } from '../../../components/dialogs/dialog-payment-history/dialog-payment-history.component';
+import { DialogPaymentRegisterComponent } from '../../../components/dialogs/dialog-payment-register/dialog-payment-register.component';
+import { DialogPaymentRequestComponent } from '../../../components/dialogs/dialog-payment-request/dialog-payment-request.component';
 
 @Component({
   selector: 'app-new-invoice',
@@ -38,6 +42,8 @@ export class NewInvoiceComponent implements OnInit {
   action!:Action | string
   actionEnum = Action
   customerWalletSummary!:CustomerWalletSummary;
+
+  public invoiceStatus = InvoiceStatus;
 
   constructor(private customerService:CustomersService,
               private authService: AuthService,
@@ -378,6 +384,37 @@ export class NewInvoiceComponent implements OnInit {
 
   }
 
+  openDialogRegisterPayment(){
+    const dialogRef = this.dialog.open(DialogPaymentRegisterComponent,{
+      data: {
+        invoice: this.invoice
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      //this.onExecuteInvoice.emit({})
+    });
+
+  }
+
+  openDialogRequestPayment(){
+    this.subscriptionService
+        .getSubscriptionPaymentGateway(this.selectedSubscription?.ssid.uuid)
+        .subscribe((paymentGateways: SubscriptionPaymentGateway[]) => {
+            const dialogRef = this.dialog.open(DialogPaymentRequestComponent,{
+              data: {
+                invoice: this.invoice,
+                paymentGateways
+              }
+            });
+            dialogRef.afterClosed().subscribe((result:Invoice) => {
+              //this.onExecuteInvoice.emit({})
+            });
+        }, (error) => {
+            
+        })
+  }
+
   openDialogSendInvoice() {
     this.dialog.open(DialogSendInvoiceComponent,{
       data: {
@@ -400,6 +437,18 @@ export class NewInvoiceComponent implements OnInit {
     this.accountingService.downloadInvoice(this.invoice).subscribe({
       next: (data) => { this.HelpersService.downloadDocument(data) }
     })
+  }
+
+  openDialogPaymentHistory(){
+    const dialogRef = this.dialog.open(DialogPaymentHistoryComponent,{
+      data: {
+        invoice: this.invoice
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:Invoice) => {
+      //this.onExecuteInvoice.emit({})
+    });
   }
 
 

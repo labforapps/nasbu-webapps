@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder,FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TimeTask,Task, SecurityUser, Action } from 'core-models';
+import { TimeTask,Task, SecurityUser, Action, TaskStatus } from 'core-models';
 import { AuthService, SecurityService,PracticeService } from 'core-services';
 import { countUpTimerConfigModel, timerTexts, CountupTimerService } from 'ngx-timer';
 import { HelpersService } from '../../../services/helpers.service';
@@ -10,6 +10,7 @@ import { CurrentTaskTimeInfo } from '../../../models/task';
 import { TaskTimeService } from '../../../services/application/task-time.service';
 import { DialogNewTaskComponent } from '../dialog-new-task/dialog-new-task.component';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   currentTaskTimeInfo!: CurrentTaskTimeInfo | null;
   taskCreatedFromDialog!:Task
   actionEnum = Action
+  private timerWasUsed = false;
 
   constructor(private countUp:CountupTimerService,
              @Inject(MAT_DIALOG_DATA) public dataDialog:{task:Task,taskTime:TimeTask},
@@ -57,6 +59,10 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
     if(this.dataDialog && this.dataDialog.taskTime !== undefined) this.taskTime = this.dataDialog.taskTime;
 
     this.setForm();
+
+    if (this.countUp.isTimerStart && !this.timerWasUsed) {
+      this.timerWasUsed = true;
+    }
 
   }
 
@@ -103,7 +109,14 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   }
 
   getTasks(){
-    this.practiceService.getTasks(this.selectedSubscription?.ssid.uuid).subscribe((data:Task[]) => {
+    this.practiceService
+    .getTasks(this.selectedSubscription?.ssid.uuid)
+    .pipe(
+      map((tasks:Task[]) => {
+        return tasks.filter((task:Task) => task.status === TaskStatus.OPEN);
+      })
+    )
+    .subscribe((data:Task[]) => {
      this.tasks = data;
      if(this.task) if(this.dataDialog && this.dataDialog.task) this.taskTimeForm.patchValue({task: this.task.uuid,price_per_hour: this.task.bt_price_per_hour})
      if(this.taskCreatedFromDialog) this.taskTimeForm.patchValue({task: this.taskCreatedFromDialog.uuid})
@@ -133,6 +146,7 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
   startTimer(){
     if(!this.countUp.isTimerStart){
       this.startTime = moment(new Date()).format();
+      this.timerWasUsed = true;
       this.storeTaskTimeInfo();
       this.countUp.startTimer();
     }
@@ -178,50 +192,62 @@ export class DialogAddHoursComponent implements OnInit, OnDestroy {
 
     const taskTimeFormValue = this.taskTimeForm.value;
 
-    let startDate = this.startTime;
-    let endDate   = new Date().toISOString();
-    let totalTime = moment(new Date()).diff(startDate,'minute');
+    const hasManualTime = Number(taskTimeFormValue.quoted_hours) > 0 || Number(taskTimeFormValue.quoted_minutes) > 0;
+    const timerIsActive = this.timerWasUsed || this.countUp.isTimerStart || this.startTime != null;
 
-    let currentTaskTimeInfo: CurrentTaskTimeInfo | null = this.taskTimeService.getCurrentTaskTimeInfo();
-
-    if(currentTaskTimeInfo != null) startDate = currentTaskTimeInfo.startAt;
-
-    let fixed_time = false;
-
-    if(Number(taskTimeFormValue.quoted_hours) > 0 || Number(taskTimeFormValue.quoted_minutes) > 0){
-      fixed_time = true;
-      totalTime = (Number(taskTimeFormValue.quoted_hours) * 60) + Number(taskTimeFormValue.quoted_minutes);
+    if (!timerIsActive && !hasManualTime) {
+      this.helperService.showMessageRequiredFields();
+      return;
     }
+
+    let totalTime = 0;
+    let fixedTime = false;
+
+    if (hasManualTime) {
+      fixedTime = true;
+      totalTime = (Number(taskTimeFormValue.quoted_hours) * 60) + Number(taskTimeFormValue.quoted_minutes);
+    } else {
+      fixedTime = false;
+      if (this.startTime) {
+        totalTime = moment(new Date()).diff(this.startTime, 'minute');
+      } else {
+        totalTime = Math.floor(this.countUp.totalSeconds / 60);
+      }
+    }
+
+    this.saveTimeEntry(taskTimeFormValue, totalTime, fixedTime);
+
+  }
+
+  private saveTimeEntry(formValue: any, totalTime: number, fixedTime: boolean) {
+    const currentTaskTimeInfo = this.taskTimeService.getCurrentTaskTimeInfo();
+    const startDate = currentTaskTimeInfo?.startAt ?? this.startTime;
+    const endDate = new Date().toISOString();
 
     const timeTaskPayload: TimeTask = {
       subscription: this.selectedSubscription?.ssid.uuid,
-      ...taskTimeFormValue,
-      title: taskTimeFormValue.description || 'title',
-      total_time_str: totalTime,//Enviar la hora del reloj
+      ...formValue,
+      title: formValue.description || 'title',
+      total_time_str: totalTime,
       total_time: totalTime,
       start_at: startDate,
       total_amt: 0,
       end_at: endDate,
-      fixed_time
+      fixed_time: fixedTime
     };
 
-    if(this.taskTime) timeTaskPayload.uuid = this.taskTime.uuid;
-
+    if (this.taskTime) timeTaskPayload.uuid = this.taskTime.uuid;
 
     this.practiceService.saveTaskTime(timeTaskPayload).subscribe(data => {
-
       this.resetTimer();
-
-      if(timeTaskPayload.uuid){
+      if (timeTaskPayload.uuid) {
         this.helperService.showMessageUpdated();
-      }
-      else{
+      } else {
         this.helperService.showMessageCreated();
       }
       data.user = this.securityUserSelected;
       this.dialogRef.close(data);
-    })
-
+    });
   }
 
   storeTaskTimeInfo() {

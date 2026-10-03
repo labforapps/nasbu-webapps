@@ -134,7 +134,11 @@
             </div> -->
             <div class="col-md-6" *ngIf="address.postal_address !== '' && address.postal_city !== '' && address.postal_postal_code !== ''">
               <div class="information-title ">{{'clients.details.mailing_address' | translate}} #{{i + 1}} </div>
-                  <div class="info-group mb-2">
+                <div class="info-group mb-2 ">
+                    <div class="info-group__info ">{{'collaborator.profile.country' | translate}}</div>
+                    <div class="info-group__data mr-5" *ngIf="countries">{{returnCountryName(address.postal_country)}}</div>
+                </div>
+                <div class="info-group mb-2">
                     <div class="info-group__info ">{{'clients.details.city_state_province' | translate}}</div>
                     <div class="info-group__data mr-5">{{address.postal_city}}</div>
                 </div>

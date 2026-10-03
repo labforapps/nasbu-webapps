@@ -1,0 +1,91 @@
+.c-subscription-banner {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: 100%;
+  z-index: 1000;
+
+  // #FDECEA — mismo fondo que el ícono del dialog-suspended (color error de la app)
+  &--danger {
+    background-color: #FDECEA;
+    color: #C90B00;
+  }
+
+  // #FFF8DE — derivado claro de #FBB03B (c-btn-function de la app)
+  &--warning {
+    background-color: #FFF8DE;
+    color: #553E14;
+  }
+
+  // #D9FFE6 — mismo que notification icon bg en la app
+  &--success {
+    background-color: #D9FFE6;
+    color: var(--primary-color, #389856);
+  }
+
+  &__icon-wrap {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+
+    &--danger {
+      background: rgba(201, 11, 0, 0.12);
+    }
+
+    &--warning {
+      background: rgba(251, 176, 59, 0.2);
+    }
+  }
+
+  &__message {
+    flex: 1;
+  }
+
+  // Espejo de .c-btn-function (botón ámbar de la app) con padding reducido para banner
+  &__cta {
+    border-radius: 5px;
+    font-family: 'helveticabold';
+    font-size: 0.8rem;
+    padding: 0.4rem 1.2rem;
+    cursor: pointer;
+    white-space: nowrap;
+    min-width: unset;
+    line-height: 1.6;
+    border: none;
+    background: #FBB03B;
+    color: #553E14;
+
+    // Espejo de .c-btn.c-btn--outline (para estado danger)
+    &--outlined {
+      background: #fff;
+      color: var(--text-color, #435B6C);
+      border: 1px solid #707070;
+    }
+  }
+
+  &__feedback {
+    font-size: 0.78rem;
+    margin-left: 0.75rem;
+    font-style: italic;
+
+    &--success { color: var(--primary-color, #389856); }
+    &--error   { color: #C90B00; }
+  }
+
+  &__close {
+    margin-left: auto;
+    color: inherit;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

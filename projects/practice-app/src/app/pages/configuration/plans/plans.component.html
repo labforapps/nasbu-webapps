@@ -17,9 +17,9 @@
             <mat-tab label="Resumen">
 
                 <div class="d-flex justify-content-center mb-4">
-                    <div class="c-plans-badge  mr-3" [ngClass]="{'is-disable': !anualPlan}">
+                    <!-- <div class="c-plans-badge  mr-3" [ngClass]="{'is-disable': !anualPlan}">
                         Descuento {{planSelected?.anual_discount_pct}}%
-                    </div>
+                    </div> -->
 
                     <section class="c-switch--labels">
                         <mat-label class="is-active">Mensual </mat-label>
@@ -35,14 +35,16 @@
 
                     <div class="c-plans__header">
                         <div class="c-plans__title">{{plan.name}}</div>
+                        <div class="c-plans-badge  mr-3" [ngClass]="{'is-disable': !anualPlan}" *ngIf="anualPlan">
+                            Descuento {{plan?.anual_discount_pct}}%
+                        </div>
                         <div class="c-plans__subtitle">
-                          <span *ngIf="plan.name === 'Basic'">Recomendado</span>
-                          <span *ngIf="plan.name !== 'Basic'">`</span>
+                           <span *ngIf="plan.suggested">Recomendado</span>
                         </div>
                         <div class="c-plans__amount">
                             {{getPlanPricing(plan)}}
-                            <span *ngIf="!anualPlan">/Por mes</span>
-                            <span *ngIf="anualPlan">/Anual</span>
+                            <span *ngIf="!anualPlan">/Por usuario por mes</span>
+                            <span *ngIf="anualPlan">/Por usuario anual</span>
 
                         </div>
                         <button mat-button class="c-plans__button is-selected" *ngIf="plan.uuid === subscription.plan">Este es tu plan actualmente </button>
@@ -54,11 +56,12 @@
                             Funcionalidades
                         </div>
                         <u class="c-plans__list">
-                            <li *ngFor="let feature of features">
-                                <span class="icon-check"></span>
-
-                               {{getFeatureInPlanDescription(plan, feature)}}
-                            </li>
+                            <li><span class="icon-check"></span>Manejo de casos y gestión de tareas</li>
+                            <li><span class="icon-check"></span>Expediente Digital con almacenamiento</li>
+                            <li><span class="icon-check"></span>Marcador de tiempo</li>
+                            <li><span class="icon-check"></span>Facturación y cobros</li>
+                            <li><span class="icon-check"></span>Notificaciones automatizadas a clientes por correo electrónico</li>
+                            <li *ngFor="let f of getPlanFeatures(plan.features)"><span class="icon-check"></span>{{getPlanFeatureDescription(f)}}</li>
                         </u>
                         <hr class="mb-3 mt-2 mt-5 u-divider">
                         <!-- <div class="d-flex justify-content-center align-items-center">

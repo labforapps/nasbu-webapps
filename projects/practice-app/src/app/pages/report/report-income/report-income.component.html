@@ -99,7 +99,7 @@
                             </mat-radio-group>
                             <mat-form-field appearance="fill"
                                 class="c-form-group c-form-group__select c-form-group--small">
-                                <mat-label>Seleccionar modelos</mat-label>
+                                <mat-label>Seleccionar expediente</mat-label>
                                 <mat-select [(ngModel)]="reportPayload.billing_type" [disabled]="billingTypeOption === 1">
                                   <mat-option [value]="billingTypeEnum.PER_HOUR">
                                       Por hora
@@ -127,11 +127,9 @@
                                 otra pestaña
                             </mat-radio-button>
                         </mat-radio-group>
-                        <a target="_blank">
-                            <button mat-button class="c-btn-function w-100" (click)="exportReport()">Exportar
-                                <span class="icon-plus ml-2"></span>
-                            </button>
-                        </a>
+                        <button mat-button class="c-btn-function w-100" (click)="exportReport()">Exportar
+                            <span class="icon-plus ml-2"></span>
+                        </button>
 
                     </div>
                     </div>

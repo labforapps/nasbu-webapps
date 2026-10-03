@@ -1,5 +1,6 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import * as Sentry from '@sentry/angular-ivy';
 
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +12,7 @@ import { PagesModule } from './pages/pages.module';
 import { FilePickerModule } from 'ngx-awesome-uploader';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AvatarModule } from 'ngx-avatar';
-import { CoreServicesModule } from 'core-services';
+import { CoreServicesModule, TutorialsModule } from 'core-services';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -67,10 +68,14 @@ registerLocaleData(localeEn, 'en');
     ComponentsModule,
     NgxDocViewerModule,
     AngularImageViewerModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    TutorialsModule
 
   ],
   providers: [
+    ...(environment.sentryDsn
+      ? [{ provide: ErrorHandler, useValue: Sentry.createErrorHandler() }]
+      : []),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,

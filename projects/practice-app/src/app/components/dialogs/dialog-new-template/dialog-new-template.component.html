@@ -10,7 +10,7 @@
 
                 <label class="u-title-label u-normalSize mb-5">1-Nombre tu plantilla y escoge el tipo</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
-                    <mat-label>Contratos</mat-label>
+                    <mat-label>Seleccionar tipo de plantilla</mat-label>
                     <mat-select formControlName="template_type" (selectionChange)="onChangeDocumentTemplateType($event)">
                         <mat-option *ngFor="let templateType of documentTemplateTypes" [value]="templateType.uuid">
                             {{templateType.name}}
@@ -29,7 +29,7 @@
             <div class="col-md-12">
                 <label class="u-title-label u-normalSize mb-5">2-¿Cómo preparar la plantilla para poder subirla a NASBU? -  2 Pasos.</label>
                 <p class="u-smallSize u-textColor mb-3">
-                    1- <b>Sustituye por variables</b> en tu documento existen los elementos que serán dinámicos ej: Nombres, Direcciones, y actores o partes del documento. <span class="u-link">Ver ejemplo</span>
+                    1- <b>Sustituye por variables</b> en tu documento existen los elementos que serán dinámicos ej: Nombres, Direcciones, y actores o partes del documento.
                 </p>
                 <p class="u-smallSize u-textColor mb-5">
                     2- Una vez hayas correctamente colocados la variables <b> variables guárdalo y
@@ -79,27 +79,29 @@
             <div class="col-md-6">
                 <label class="u-title-label u-normalSize mb-3">3- Por último subir tu plantilla modificada</label>
                 <p class="u-smallSize u-textColor mb-4">
-                    Recuerda esta plantilla ya debe tener todas las variables colocadas antes de subirlo El documento debes guardarlo en Doc.tx
-                    <span class="u-link">¿Cómo guardar en doc.tx?</span>
+                    Recuerda que esta plantilla ya debe tener todas las variables colocadas antes de subirla. El documento debe estar guardado en formato <b>.docx</b>
+                    <a *ngIf="docxHelpUrl" class="u-link" [href]="docxHelpUrl" target="_blank" rel="noopener">¿Cómo guardar en .docx?</a>
                 </p>
             </div>
             <div class="col-md-6">
                     <div class="c-uploadPicture">
                       <label for="inputTypeFile">
                       <div class="c-uploadPicture__img">
-                          <img *ngIf="!imgTemp && !imgUrl" src="../../../../assets/images/upload-document.svg" alt="">
-                          <img id="imgUpload" *ngIf="imgTemp" [src]="imgTemp" alt="">
-                          <img src="../../../../assets/images/user.jpg" alt="" class="c-uploadPicture__picture d-none">
+                          <img *ngIf="!selectedFile" src="assets/images/upload-document.svg" alt="">
+                          <div *ngIf="selectedFile" class="text-center">
+                              <img src="assets/images/check.svg" alt="" style="width: 4rem;">
+                              <div class="u-smallSize u-textColor mt-2">{{selectedFileName}}</div>
+                          </div>
                       </div>
                     </label>
                       <div class="c-uploadPicture__controls">
                           <div class="c-uploadPicture__text">
-                              Nota: <br> Subir imagen máximo 2MB
+                              Nota: <br> Subir el documento en formato .docx
                           </div>
-                          <div class="u-link mt-1" (click)="deleteImage()">Eliminar</div>
+                          <div class="u-link mt-1" (click)="removeFile()">Eliminar</div>
                       </div>
                   </div>
-                <input id="inputTypeFile" type="file" (change)="changeImage($event)">
+                <input id="inputTypeFile" type="file" accept=".doc,.docx" (change)="onSelectFile($event)">
 
             </div>
         </div>

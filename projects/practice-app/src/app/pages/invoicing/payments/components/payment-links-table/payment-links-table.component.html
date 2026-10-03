@@ -1,0 +1,81 @@
+<div class="u-smallSize mb-3 d-flex align-items-center u-gap-1 flex-wrap">
+    <p><b>{{paymentLinks ? paymentLinks.length : 0}}</b> links de pago enviados</p>
+    <div class="c-form-group--search bordered u-smallSize mt-1 ml-auto">
+        <input matInput type="text" placeholder="Buscar por cliente" (keyup)="searchByName($event)">
+        <span class="icon-search"></span>
+    </div>
+</div>
+
+<div class="u-table-responsive">
+    <table mat-table [dataSource]="dataSource" class="c-table">
+
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let element">{{element.created_at | date}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="invoice">
+            <th mat-header-cell *matHeaderCellDef>Factura</th>
+            <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="getInvoice(element.invoice) as inv">
+                    <span class="u-link" [routerLink]="'/invoicing/invoice/' + inv.uuid + '/view'">
+                        {{inv.code}}
+                    </span>
+                </ng-container>
+                <span *ngIf="!getInvoice(element.invoice)" class="u-textLightColor">—</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="client">
+            <th mat-header-cell *matHeaderCellDef>Cliente</th>
+            <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="getInvoice(element.invoice) as inv">
+                    <span class="u-link" [routerLink]="'/client-profile/' + inv.customer.uuid">
+                        {{inv.customer | customerFullName}}
+                    </span>
+                </ng-container>
+                <span *ngIf="!getInvoice(element.invoice)" class="u-textLightColor">—</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Monto solicitado</th>
+            <td mat-cell *matCellDef="let element">{{element.payment_amt | currency}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="send_by">
+            <th mat-header-cell *matHeaderCellDef>Enviado por</th>
+            <td mat-cell *matCellDef="let element">{{sendingMethodDescription.get(element.send_by) || element.send_by}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let element">
+                <span class="u-fontBold"
+                    [ngClass]="{
+                        'u-yellowColor':  element.status === 'pending',
+                        'u-primaryColor': element.status === 'payed',
+                        'u-dangerColor':  element.status === 'expired' || element.status === 'cancelled'
+                    }">
+                    {{statusDescription.get(element.status) || element.status || '—'}}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="link">
+            <th mat-header-cell *matHeaderCellDef class="text-center-force">Link de pago</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-icon-button (click)="copyLink(element.checkout_url)"
+                    [disabled]="!element.checkout_url" title="Copiar link">
+                    <span class="icon-copy"></span>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" [showFirstLastButtons]="true">
+    </mat-paginator>
+</div>

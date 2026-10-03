@@ -1,0 +1,52 @@
+<div class="l-page">
+    <div class="l-page__header">
+        <div class="d-flex align-items-center">
+            <div class="l-page__icon">
+                <span class="icon-payment"></span>
+            </div>
+            <div class="l-page__title">Pagos</div>
+        </div>
+        <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button routerLink="/invoicing">
+                <span class="icon-arrow-left mr-2"></span>Facturas
+            </button>
+            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">
+                Registrar pago<span class="icon-plus ml-2"></span>
+            </button>
+            <button class="c-btn-function" mat-button (click)="openDialogPaymentRequest()">
+                Enviar link de pago<span class="icon-payment ml-2"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="l-page__body">
+        <div *ngIf="isLoading" class="d-flex justify-content-center p-5">
+            <mat-spinner diameter="48"></mat-spinner>
+        </div>
+
+        <mat-tab-group class="c-tabs" *ngIf="!isLoading">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Pagos registrados
+                    <div class="c-tabs__badge">{{payments.length}}</div>
+                </ng-template>
+                <app-payments-table
+                    [payments]="payments"
+                    [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
+                    (onExecutePayment)="onDataChanged()">
+                </app-payments-table>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Links de pago
+                    <div class="c-tabs__badge">{{paymentLinks.length}}</div>
+                </ng-template>
+                <app-payment-links-table
+                    [paymentLinks]="paymentLinks"
+                    [invoicesMap]="invoicesMap"
+                    [selectedSubscriptionId]="selectedSubscription?.ssid.uuid">
+                </app-payment-links-table>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

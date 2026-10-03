@@ -1,0 +1,85 @@
+<div class="l-page">
+
+  <div class="l-page__header">
+    <div class="d-flex">
+      <div class="l-page__icon">
+        <mat-icon class="c-tutorials__header-icon"></mat-icon>
+      </div>
+      <div class="l-page__title">Centro de aprendizaje</div>
+    </div>
+    <div class="l-page__controls">
+      <div class="c-form-group--search bordered">
+        <input type="text" placeholder="Buscar por nombre" (input)="onSearch($event)" />
+        <span class="icon-search"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="l-page__body">
+    <mat-tab-group class="c-tabs" (selectedTabChange)="onTabChange($event.index)">
+
+      <mat-tab label="Todos">
+        <ng-container *ngTemplateOutlet="tutorialsContent"></ng-container>
+      </mat-tab>
+
+      <mat-tab label="Básicos">
+        <ng-container *ngTemplateOutlet="tutorialsContent"></ng-container>
+      </mat-tab>
+
+      <mat-tab label="Intermedios">
+        <ng-container *ngTemplateOutlet="tutorialsContent"></ng-container>
+      </mat-tab>
+
+      <mat-tab label="Avanzados">
+        <ng-container *ngTemplateOutlet="tutorialsContent"></ng-container>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+
+</div>
+
+<ng-template #tutorialsContent>
+
+  <p class="u-smallSize mb-3" *ngIf="!loading">
+    Tienes <strong>{{ filteredTutorials.length }} tutoriales</strong> en total
+  </p>
+
+  <div class="text-center p-5 u-textLightColor u-smallSize" *ngIf="loading">
+    Cargando tutoriales...
+  </div>
+
+  <div class="c-tutorials__grid" *ngIf="!loading && filteredTutorials.length > 0">
+    <div
+      class="c-tutorial-card"
+      *ngFor="let tutorial of filteredTutorials"
+      (click)="openVideo(tutorial)">
+
+      <div class="c-tutorial-card__thumb">
+        <img [src]="getThumbnail(tutorial.youtube_video_id)" [alt]="tutorial.title" />
+        <div class="c-tutorial-card__play">
+          <span class="c-tutorial-card__play-icon">&#9654;</span>
+        </div>
+      </div>
+
+      <div class="c-tutorial-card__body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="u-smallSize u-textLightColor">Nivel - {{ complexityLabels[tutorial.complexity] }}</span>
+          <div class="d-flex align-items-center u-textLightColor">
+            <span class="icon-clock-outline mr-1 u-smallSize"></span>
+            <span class="u-smallSize">{{ formatDuration(tutorial.duration_minutes) }}</span>
+          </div>
+        </div>
+        <div class="c-tutorial-card__title u-primaryColor">{{ tutorial.title }}</div>
+        <div class="c-tutorial-card__desc u-smallSize u-textLightColor">{{ tutorial.description }}</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="text-center p-5 u-textLightColor u-smallSize"
+       *ngIf="!loading && filteredTutorials.length === 0">
+    No se encontraron tutoriales.
+  </div>
+
+</ng-template>

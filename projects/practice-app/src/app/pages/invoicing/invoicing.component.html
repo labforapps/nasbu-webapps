@@ -7,9 +7,9 @@
             <div class="l-page__title">{{'invoicing.title' | translate}}</div>
         </div>
         <div class="l-page__controls">
+            <button class="c-btn c-btn--outline c-btn--small" mat-button routerLink="payments">Ver pagos<span class="icon-receipt ml-2"></span></button>
             <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">{{'invoicing.apply_payment' | translate}}<span class="icon-plus ml-2 "></span></button>
             <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">{{'invoicing.new_invoice' | translate}}<span class="icon-plus ml-3 "></span></button>
-
         </div>
     </div>
     <div class="l-page__body">
@@ -21,16 +21,16 @@
                 <div class="c-tabs__badge">{{allInvoices.length}}</div>
               </ng-template>
 
-              <app-no-invoices *ngIf="invoices && invoices.length === 0"></app-no-invoices>
+              <app-no-invoices *ngIf="invoicesLoaded && invoices.length === 0"></app-no-invoices>
 
               <app-invoicing-table [invoices]="invoices"
-                                   *ngIf="invoices && invoices.length > 0"
+                                   *ngIf="invoicesLoaded && invoices.length > 0"
                                    [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                    (onExecuteInvoice)="onExecuteInvoice()">
               </app-invoicing-table>
 
             </mat-tab>
-            <mat-tab>
+            <!-- <mat-tab>
 
                 <ng-template mat-tab-label>
                   {{'invoicing.pending_approval' | translate}}
@@ -40,11 +40,11 @@
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.NOT_APPROVED"
                                      [inputInvoiceStatus]="invoiceStatus.NOT_APPROVED"
                                      [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
-                                     *ngIf="invoices && invoices.length > 0"
+                                     *ngIf="invoicesLoaded"
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>
 
-            </mat-tab>
+            </mat-tab> -->
             <mat-tab>
 
                 <ng-template mat-tab-label>
@@ -54,7 +54,7 @@
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PENDING"
                                      [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
-                                     *ngIf="invoices && invoices.length > 0"
+                                     *ngIf="invoicesLoaded"
                                      [inputInvoiceStatus]="invoiceStatus.PENDING"
                                      (onExecuteInvoice)="onExecuteInvoice()">
                 </app-invoicing-table>
@@ -68,7 +68,7 @@
                 </ng-template>
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.PAYED"
-                                     *ngIf="invoices && invoices.length > 0"
+                                     *ngIf="invoicesLoaded"
                                      [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      [inputInvoiceStatus]="invoiceStatus.PAYED"
                                      (onExecuteInvoice)="onExecuteInvoice()">
@@ -83,7 +83,7 @@
                 </ng-template>
 
                 <app-invoicing-table [invoices]="invoices | filter:'status':invoiceStatus.EXPIRED"
-                                     *ngIf="invoices && invoices.length > 0"
+                                     *ngIf="invoicesLoaded"
                                      [selectedSubscriptionId]="selectedSubscription?.ssid.uuid"
                                      [inputInvoiceStatus]="invoiceStatus.EXPIRED"
                                      (onExecuteInvoice)="onExecuteInvoice()">

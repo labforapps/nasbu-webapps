@@ -1,4 +1,12 @@
 <main class="l-main">
+    <app-subscription-banner
+        *ngIf="subscription"
+        [subscription]="subscription"
+        [pendingInvoice]="pendingInvoice"
+        [isOwner]="selectedSubscription?.mt === subscriptionMemberType.OWNER"
+        [usageReport]="usageReport"
+        [planFeatures]="planFeatures">
+    </app-subscription-banner>
     <div class="l-main__header">
         <app-header></app-header>
         <button class="l-main__button" type="button" mat-button (click)="drawer.toggle()">
@@ -14,6 +22,6 @@
             <router-outlet></router-outlet>
         </div>
 
-        <app-onboarding [openMenu]="openMenu" *ngIf="selectedSubscription?.mt === subscriptionMemberType.OWNER"></app-onboarding>
+        <app-onboarding [openMenu]="openMenu" *ngIf="selectedSubscription?.mt === subscriptionMemberType.OWNER" (completed)="onOnboardingCompleted($event)"></app-onboarding>
     </mat-drawer-container>
 </main>

@@ -16,7 +16,9 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
   @Output() billingFeeOutput: EventEmitter<SubscriptionBillingFee> = new EventEmitter<SubscriptionBillingFee>();
   selectedSubscription!:any;
   subscriptionBillingFee!:SubscriptionBillingFee[];
-  incrementOfTime!:boolean;
+  subscriptionAllowsRetainers = false;
+  subscriptionAllowsFlatFee   = false;
+  subscriptionAllowsIncrement = false;
 
   constructor(private formBuilder:FormBuilder,
              private subscriptionService:SubscriptionService,
@@ -41,11 +43,12 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
       increment_factor:    [0],
       price_per_increment: [0],
       allow_retainers:     [false],
-      allow_flat_fee:      [false]
+      allow_flat_fee:      [false],
+      allow_time_increment:[false]
     })
 
-    this.invoicingParameterForm.valueChanges.subscribe(val => {
-      this.billingFeeOutput.emit(val);
+    this.invoicingParameterForm.valueChanges.subscribe(() => {
+      this.billingFeeOutput.emit(this.invoicingParameterForm.getRawValue());
     });
   }
 
@@ -63,20 +66,30 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
         price_per_increment: securityUserBillingFee.price_per_increment ? securityUserBillingFee.price_per_increment : subscriptionBillingFee.price_per_increment,
         allow_retainers: securityUserBillingFee.allow_retainers != null ? securityUserBillingFee.allow_retainers : subscriptionBillingFee.allow_retainers,
         allow_flat_fee: securityUserBillingFee.allow_flat_fee != null ? securityUserBillingFee.allow_flat_fee : subscriptionBillingFee.allow_flat_fee,
+        allow_time_increment: securityUserBillingFee.allow_time_increment != null ? securityUserBillingFee.allow_time_increment : subscriptionBillingFee.allow_time_increment,
       });
-
-      this.incrementOfTime = Number(securityUserBillingFee.price_per_increment) ? true : false;
      }
      else{
       this.invoicingParameterForm.patchValue({
         ...subscriptionBillingFee
       })
-
-      this.incrementOfTime = Number(subscriptionBillingFee.price_per_increment) > 0 ? true : false;
      }
 
+     if(!this.subscriptionAllowsRetainers) this.invoicingParameterForm.patchValue({ allow_retainers: false });
+     if(!this.subscriptionAllowsFlatFee)   this.invoicingParameterForm.patchValue({ allow_flat_fee: false });
+     if(!this.subscriptionAllowsIncrement){
+       this.invoicingParameterForm.patchValue({ allow_time_increment: false, increment_factor: 0, price_per_increment: 0 });
+     }
 
+  }
 
+  applySubscriptionCapabilities(){
+    const retainer  = this.invoicingParameterForm.get('allow_retainers');
+    const flatFee   = this.invoicingParameterForm.get('allow_flat_fee');
+    const increment = this.invoicingParameterForm.get('allow_time_increment');
+    this.subscriptionAllowsRetainers ? retainer?.enable({emitEvent:false})  : retainer?.disable({emitEvent:false});
+    this.subscriptionAllowsFlatFee   ? flatFee?.enable({emitEvent:false})   : flatFee?.disable({emitEvent:false});
+    this.subscriptionAllowsIncrement ? increment?.enable({emitEvent:false}) : increment?.disable({emitEvent:false});
   }
 
   onCheckIncrementOfTime(event:MatCheckboxChange){
@@ -91,6 +104,13 @@ export class SettingRatedInvoiceCollaboratorComponent implements OnInit {
   getSubscriptionBillingFee(){
     this.subscriptionService.getSubscriptionBillingFee(this.selectedSubscription?.ssid.uuid).subscribe(data => {
       this.subscriptionBillingFee = data;
+
+      const subFee = data[0];
+      this.subscriptionAllowsRetainers = !!subFee?.allow_retainers;
+      this.subscriptionAllowsFlatFee   = !!subFee?.allow_flat_fee;
+      this.subscriptionAllowsIncrement = !!subFee?.allow_time_increment;
+
+      this.applySubscriptionCapabilities();
       this.setFormData();
     })
   }

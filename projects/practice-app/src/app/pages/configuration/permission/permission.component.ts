@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddRoleComponent } from '../../../components/dialogs/dialog-add-role/dialog-add-role.component';
-import { AuthService, SecurityService } from 'core-services';
-import { SecurityGroup, modules, ModulesAccess, modulesDescription, typeAccess } from 'core-models';
+import { AuthService, SecurityService, SubscriptionService } from 'core-services';
+import { SecurityGroup, modules, ModulesAccess, modulesDescription, typeAccess, filterAvailableModules } from 'core-models';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { HelpersService } from '../../../services/helpers.service';
@@ -20,11 +20,12 @@ export class PermissionComponent implements OnInit {
   groups!:SecurityGroup[];
   modulesDescription = modulesDescription;
   typeAccess = typeAccess;
-  modules = Object.values(modules);
+  modules: string[] = Object.values(modules);
   modulesEnum = modules;
 
   constructor(private dialog: MatDialog,
               private securityService: SecurityService,
+              private subscriptionService: SubscriptionService,
               private authService:AuthService,
               private translateService:TranslateService,
               private toastr: ToastrService,
@@ -33,7 +34,14 @@ export class PermissionComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
+    this.getAvailableModules();
     this.getSubscriptionGroups();
+  }
+
+  getAvailableModules(){
+    this.subscriptionService.getAvailableModules(this.selectedSubscription?.ssid.uuid).subscribe(available => {
+      this.modules = filterAvailableModules(Object.values(modules), available);
+    });
   }
 
   getSubscriptionGroups(){

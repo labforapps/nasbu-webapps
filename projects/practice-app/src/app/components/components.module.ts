@@ -56,6 +56,8 @@ import { DialogNewSectionComponent } from './dialogs/dialog-new-section/dialog-n
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DialogSendAccountConfirmationComponent } from './dialogs/dialog-send-account-confirmation/dialog-send-account-confirmation.component';
 import { DialogSubscriptionPaymentGateway } from './dialogs/dialog-subscription-payment-gateway/dialog-subscription-payment-gateway.component';
+import { SubscriptionBannerComponent } from './subscription-banner/subscription-banner.component';
+import { DialogSuspendedComponent } from './dialogs/dialog-suspended/dialog-suspended.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +104,8 @@ import { DialogSubscriptionPaymentGateway } from './dialogs/dialog-subscription-
     DialogNewSectionComponent,
     DialogSendAccountConfirmationComponent,
     DialogSubscriptionPaymentGateway,
+    SubscriptionBannerComponent,
+    DialogSuspendedComponent,
   ],
   imports: [
     CommonModule,
@@ -122,7 +126,7 @@ import { DialogSubscriptionPaymentGateway } from './dialogs/dialog-subscription-
     HeaderComponent,
     UploadImageComponent,
     DocumentViewerComponent,
-
+    SubscriptionBannerComponent,
   ]
 })
 export class ComponentsModule { }

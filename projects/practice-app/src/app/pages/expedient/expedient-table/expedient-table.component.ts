@@ -407,4 +407,8 @@ export class ExpedientTableComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  navigateToEditClient(id: string) {
+    this.router.navigate(['client-profile', id]);
+  }
+
 }

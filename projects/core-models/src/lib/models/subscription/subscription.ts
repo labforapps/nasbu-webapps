@@ -3,6 +3,13 @@ import { Address, Contact } from "../shared";
 
 export type SubscriptionPeriod = 'M' | 'Y';
 
+export enum SubscriptionStatus {
+  ACTIVE    = 'A',
+  SUSPENDED = 'S',
+  DELAYED   = 'D',
+  EXPIRED   = 'E'
+}
+
 export interface SubscriptionOnboarding {
     uuid?: string;
     plan: string;
@@ -73,6 +80,7 @@ export interface SubscriptionBillingFee {
   tax_pct: string
   allow_retainers:     boolean;
   allow_flat_fee:      boolean;
+  allow_time_increment: boolean;
   active?:              boolean;
   created_by?:          null;
   created_at?:          Date;

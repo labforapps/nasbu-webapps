@@ -30,22 +30,16 @@ export class LangService {
         this.translateService.use(lang);
     }
 
-    /**
-     * return langItem if value is allowed,
-     * else if langItem isn't allowed get navigator lang, 
-     * finally if navigator lang isn't allowed return default lang  
-     * @private
-     * @return {*}  {string}
-     * @memberof LangService
-     */
     private getLangItem(): string {
         const langItem = localStorage.getItem(this.langItemName);
         const validLangItem = this.allowedLangs.find(l => l === langItem);
         if (validLangItem) return validLangItem;
 
-        const browserLang: string = navigator.language.split('-')[0];
-        const validBrowserLang = this.allowedLangs.find(l => l === browserLang);
-        return validBrowserLang ?? this.defaultLang;
+        // Browser language detection removed: always default to Spanish when no preference is saved.
+        // const browserLang: string = navigator.language.split('-')[0];
+        // const validBrowserLang = this.allowedLangs.find(l => l === browserLang);
+        // return validBrowserLang ?? this.defaultLang;
+        return this.defaultLang;
     }
 
     private setLangItem(lang: string): void {

@@ -16,7 +16,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetail.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetail"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.ALL">
@@ -41,7 +41,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetailDebit.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetailDebit"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.DEBIT">
@@ -58,7 +58,7 @@
 
           <div class="ml-auto text-right u-textColor mr-2">
             <div *ngIf="caseFileWalletDetailCredit"  class="u-bigSize-2 u-fontBold">USD {{returnAmountCaseFileWalletDetails(caseFileWalletDetailType.CREDIT) | currency}} </div>
-            <div class="align-items-center d-flex justify-content-between u-smallSize">Incomes <span class="icon-income ml-1"></span></div>
+            <div class="align-items-center d-flex justify-content-between u-smallSize">Income <span class="icon-income ml-1"></span></div>
 
           </div>
 
@@ -71,7 +71,7 @@
 
 
     <app-expedient-wallet-table
-                                *ngIf="caseFileWalletDetail && caseFileWalletDetailCredit.length > 0"
+                                *ngIf="caseFileWalletDetail"
                                 [caseFile]="caseFile"
                                 [caseFileWalletDetail]="caseFileWalletDetailCredit"
                                 [inputCaseFileWalletDetailType]="caseFileWalletDetailType.CREDIT"

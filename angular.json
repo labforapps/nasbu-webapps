@@ -175,7 +175,11 @@
                   "with": "projects/practice-app/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": {
+                "scripts": true,
+                "hidden": true
+              }
             },
             "development": {
               "localize": false,

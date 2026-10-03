@@ -4,6 +4,7 @@ import { DialogNewExpedientComponent } from '../../components/dialogs/dialog-new
 import { CaseFile } from 'projects/core-models/src/lib/models/practice/practice';
 import { AuthService, CustomersService, PracticeService, SecurityService } from 'core-services';
 import { CaseFileStatus, Customer, SecurityUser } from 'core-models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-expedient',
@@ -24,6 +25,7 @@ export class ExpedientComponent implements OnInit {
               private practiceService:PracticeService,
               private authService: AuthService,
               private customerService:CustomersService,
+              private router: Router,
               private securityService:SecurityService) { }
 
   ngOnInit(): void {
@@ -61,6 +63,11 @@ export class ExpedientComponent implements OnInit {
       this.getCaseFiles();
     });
   }
+
+  navigateToEditClient(id: string) {
+    this.router.navigate(['client-profile', id]);
+  }
+
 
 
 

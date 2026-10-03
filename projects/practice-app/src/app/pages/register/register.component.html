@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="c-register__right">
-                <mat-slide-toggle class="c-switch mb-3" (change)="onSelectSubscriptionPeriod($event)">
+                <mat-slide-toggle class="c-switch mb-3" [checked]="anualSubscription" (change)="onSelectSubscriptionPeriod($event)">
                     <span [ngClass]="{'is-active': !anualSubscription}">{{'register.monthly' | translate}}</span>
                     <span>/</span>
                     <span [ngClass]="{'is-active': anualSubscription}">{{'register.annual' | translate}}</span>
@@ -66,7 +66,7 @@
                 <label class="u-title-label w-100">{{'register.membership' | translate}}</label>
                 <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                     <mat-label>{{'register.choosePlan' | translate}}</mat-label>
-                    <mat-select (selectionChange)="onSelectPlan($event)">
+                    <mat-select [(ngModel)]="selectedPlanUuid" (selectionChange)="onSelectPlan($event)">
                         <mat-option *ngFor="let plan of plans$ | async" [value]="plan.uuid">
                             <div class="d-flex justify-content-between">
                                 <span>{{plan.name}}</span> - <span>{{plan.price}} USD</span>
@@ -89,7 +89,12 @@
                   </div>
 
                   <div class="mb-5 u-disable-list">
-                    <div class="mb-2" *ngFor="let f of selectedPlan.features"><span class="icon-check u-primaryColor mr-2"></span>{{f.quantity}} {{f.feature.description}}</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Manejo de casos y gestión de tareas</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Expediente Digital con almacenamiento</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Marcador de tiempo</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Facturación y cobros</div>
+                    <div class="mb-2"><span class="icon-check u-primaryColor mr-2"></span>Notificaciones automatizadas a clientes por correo electrónico</div>
+                    <div class="mb-2" *ngFor="let f of getPlanFeatures(selectedPlan.features)"><span class="icon-check u-primaryColor mr-2"></span>{{getPlanFeatureDescription(f)}}</div>
                   </div>
                 </ng-container>
 

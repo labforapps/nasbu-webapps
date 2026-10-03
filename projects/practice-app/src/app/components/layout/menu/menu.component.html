@@ -35,7 +35,7 @@
     </button>
     <button mat-button class="c-menu__item"
             [routerLink]="'templates'" routerLinkActive="is-active"
-            *ngxPermissionsOnly="['view_documenttemplate']">
+            *ngxPermissionsOnly="['view_documenttemplate', 'view_documentgenerationlog', 'view_documenttemplate']">
        {{'menu.documents_templates' | translate}}
         <span class="icon-document-color c-menu__icon"></span>
     </button>
@@ -44,6 +44,12 @@
             *ngxPermissionsOnly="['view_invoice']">
         {{'menu.invoicing' | translate}}
         <span class="icon-invoice c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item"
+            [routerLink]="'payments'" routerLinkActive="is-active"
+            *ngxPermissionsOnly="['view_payment', 'view_paymentcheckoutrequest']">
+        Pagos
+        <span class="icon-payment c-menu__icon"></span>
     </button>
     <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active" *ngxPermissionsOnly="['view_casefilesreport', 'view_customerreport', 'view_generalmetricsreport', 'view_incomesreport', 'view_reportdefinition', 'view_reportsmodule', 'view_customerwalletsdetailsreport']">
         {{'menu.reports' | translate}}
@@ -54,6 +60,10 @@
             *ngxPermissionsOnly="['view_subscription']">
         {{'menu.settings' | translate}}
         <span class="icon-gear c-menu__icon"></span>
+    </button>
+    <button mat-button class="c-menu__item" [routerLink]="'tutorials'" routerLinkActive="is-active">
+        Centro de aprendizaje
+        <span class="icon-learning c-menu__icon"></span>
     </button>
 
 

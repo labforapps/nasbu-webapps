@@ -2,6 +2,8 @@ export const environment = {
   production: true,
   serverUrl: 'https://api.nasbulegal.com/api',
   notificationsWebSocketUrl: 'wss://hbycdy3yoj.execute-api.us-east-1.amazonaws.com/prod',
+  // TODO: reemplazar por el DSN real del proyecto de Sentry (practice-app / producción)
+  sentryDsn: 'https://6507c08900c4a55cf92fc475e93b5915@o4511824847699968.ingest.us.sentry.io/4511824849469440',
   awsConfig: {
     Auth: {
         // REQUIRED - Amazon Cognito Region

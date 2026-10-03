@@ -104,10 +104,8 @@
                             <span class="icon-arrow-down"></span>
                         </mat-button-toggle>
                     </mat-button-toggle-group>
-                    <mat-menu #dropdownMenuOne="matMenu">
-                        <button mat-menu-item>One</button>
-                        <button mat-menu-item>Two</button>
-                        <button mat-menu-item>Three</button>
+                    <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
+                        <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/invoice/' + element.uuid + '/view'">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
                     </mat-menu>
                 </td>
             </ng-container>

@@ -11,6 +11,15 @@ export interface PlanFeature {
   feature: Feature;
   quantity: number;
   price: string;
+  show_in_public_pricing: boolean;
+  description: string;
+}
+
+export interface PlanModule {
+  uuid: string;
+  plan: string;
+  module: string;         // identificador (coincide con el enum modules)
+  module_display: string; // nombre legible
 }
 
 export interface Plan {
@@ -21,6 +30,8 @@ export interface Plan {
   trial_total_days: number;
   anual_discount_pct?: any;
   features: PlanFeature[];
+  available_modules?: PlanModule[];
+  suggested: boolean;
 }
 
 export interface DocumentTemplateTypeTest {

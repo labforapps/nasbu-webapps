@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest } from 'core-models';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
+import { CoreService } from '../core';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { Observable, of, switchMap } from 'rxjs';
 export class SubscriptionService {
 
   constructor(@Inject('config') private config: any,
-              private httpClient: HttpClient) { }
+              private httpClient: HttpClient,
+              private coreService: CoreService) { }
 
   getOnboardingPmTokenSession(uuid: string): Observable<OnboardingTokenizationSessionResult> {
     const serverUrl = `${this.config.serverUrl}/subscription/onboarding/tokenization_session/`;
@@ -20,6 +22,14 @@ export class SubscriptionService {
   getSubscription(uuid:string): Observable<Subscription> {
     const serverUrl = `${this.config.serverUrl}/subscription/me/${uuid}/`;
     return this.httpClient.get<Subscription>(serverUrl);
+  }
+
+  getAvailableModules(subscriptionUuid: string): Observable<string[]> {
+    return this.getSubscription(subscriptionUuid).pipe(
+      switchMap(sub => this.coreService.getPlans().pipe(
+        map(plans => plans.find(p => p.uuid === sub.plan)?.available_modules?.map(am => am.module) ?? [])
+      ))
+    );
   }
 
   createSubscriptionOnboarding(payload: any): Observable<Subscription> {
@@ -160,6 +170,11 @@ export class SubscriptionService {
   downloadSubscriptionBillingInvoice(subscriptionBillingInvoice:SubscriptionBillingInvoice){
     const serverUrl = `${this.config.serverUrl}/subscription/me/${subscriptionBillingInvoice.subscription}/download_billing_invoice?subscription=${subscriptionBillingInvoice.subscription}&invoice_id=${subscriptionBillingInvoice.uuid}`;
     return this.httpClient.get(serverUrl,{ responseType: 'blob' });
+  }
+
+  retryPendingCharge(subscriptionUuid: string): Observable<any> {
+    const serverUrl = `${this.config.serverUrl}/subscription/me/${subscriptionUuid}/retry_pending_charge/`;
+    return this.httpClient.post<any>(serverUrl, {});
   }
 
 }

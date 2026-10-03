@@ -170,6 +170,14 @@ export enum PaymentMethod {
   OTHER = 'other'
 }
 
+export const paymentMethodDescription = new Map<string, string>([
+  [PaymentMethod.CREDIT_CARD, 'Tarjeta de crédito'],
+  [PaymentMethod.CASH,        'Efectivo'],
+  [PaymentMethod.TRANSFER,    'Transferencia'],
+  [PaymentMethod.CHECK,       'Cheque'],
+  [PaymentMethod.OTHER,       'Otro'],
+]);
+
 export enum BillingChargeEnum {
   PENDING = 'pending',
   BILLED = 'billed',
@@ -200,12 +208,42 @@ export interface sendDocument{
 export interface PaymentCheckoutRequest {
   subscription:                  string;
   customer:                      string;
-  sub_payment_gateway:                       string;
+  sub_payment_gateway:           string;
   invoice:                       string;
   request_invoice_remaining_amt: boolean;
   checkout_url?:                 string;
   payment_amt:                   string;
   send_by:                       string;
   to_origin_value:               string;
+}
 
+export enum PaymentCheckoutRequestStatus {
+  PENDING   = 'pending',
+  PAYED     = 'payed',
+  EXPIRED   = 'expired',
+  CANCELLED = 'cancelled',
+}
+
+export const paymentCheckoutRequestStatusDescription = new Map<string, string>([
+  [PaymentCheckoutRequestStatus.PENDING,   'Pendiente'],
+  [PaymentCheckoutRequestStatus.PAYED,     'Pagado'],
+  [PaymentCheckoutRequestStatus.EXPIRED,   'Expirado'],
+  [PaymentCheckoutRequestStatus.CANCELLED, 'Cancelado'],
+]);
+
+export interface PaymentCheckoutRequestItem {
+  uuid:                          string;
+  active:                        boolean;
+  created_at:                    Date;
+  updated_at:                    Date;
+  customer:                      string;
+  invoice:                       string;
+  sub_payment_gateway:           string;
+  request_invoice_remaining_amt: boolean;
+  checkout_url:                  string;
+  payment_amt:                   string;
+  send_by:                       string;
+  to_origin_value:               string;
+  subscription:                  string;
+  status:                        string;
 }
