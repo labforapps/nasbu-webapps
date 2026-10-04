@@ -582,6 +582,8 @@
 
    },
    "collaborator":{
+    "users_limit_reached_title":"User limit",
+    "users_limit_reached":"You have reached your plan's user limit. Change your plan or remove a user to create a new one.",
     "title":"Users",
     "search_by_name":"Search by name",
     "all":"All",

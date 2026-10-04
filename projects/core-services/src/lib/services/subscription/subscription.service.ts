@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest, ResumeTokenizationResult } from 'core-models';
+import { SubscriptionOnboarding, Subscription, SubscriptionPayload, SubscriptionBillingFee, OnboardingTokenizationSessionResult, SubscriptionPaymentMethod, SubscriptionPaymentMethodPayload, CreateSubscriptionPaymentGateway, SubscriptionPaymentGateway, SubscriptionBillingInvoice, ChangePlanRequest, ResumeTokenizationResult, SubscriptionFeatureUsage } from 'core-models';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { CoreService } from '../core';
 
@@ -22,6 +22,11 @@ export class SubscriptionService {
   getSubscription(uuid:string): Observable<Subscription> {
     const serverUrl = `${this.config.serverUrl}/subscription/me/${uuid}/`;
     return this.httpClient.get<Subscription>(serverUrl);
+  }
+
+  getFeatureUsage(subscriptionUuid: string, featureCode: string): Observable<SubscriptionFeatureUsage> {
+    const serverUrl = `${this.config.serverUrl}/subscription/features/${featureCode}/?subscription=${subscriptionUuid}`;
+    return this.httpClient.get<SubscriptionFeatureUsage>(serverUrl);
   }
 
   getAvailableModules(subscriptionUuid: string): Observable<string[]> {

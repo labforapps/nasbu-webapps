@@ -3,9 +3,10 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { AuthService,SecurityService } from 'core-services';
+import { AuthService, SecurityService, SubscriptionService } from 'core-services';
 import { SecurityGroup, SecurityUser, SubscriptionMemberType, TypeContact } from 'core-models';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { HelpersService } from '../../services/helpers.service';
 
 @Component({
@@ -30,12 +31,35 @@ export class CollaboratorComponent implements OnInit {
               private securityService:SecurityService,
               private authService: AuthService,
               private toastr: ToastrService,
-              private helperService:HelpersService) { }
+              private helperService:HelpersService,
+              private subscriptionService: SubscriptionService,
+              private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.selectedSubscription = this.authService.getUserInfoFromLocalStorage();
     this.getSecurityUsers();
     this.getSecurityGroups();
+  }
+
+  /**
+   * Antes de abrir el formulario se verifica el límite de usuarios del plan (NAS-020):
+   * antes se llenaba todo el formulario y recién el backend rechazaba al guardar.
+   * Si la consulta falla se abre igual; el backend sigue validando el límite.
+   */
+  createCollaborator(): void {
+    this.subscriptionService.getFeatureUsage(this.selectedSubscription?.ssid.uuid, 'users').subscribe({
+      next: (usage) => {
+        if (+usage.current_usage >= +usage.contracted_value) {
+          this.toastr.warning(
+            this.translate.instant('collaborator.users_limit_reached'),
+            this.translate.instant('collaborator.users_limit_reached_title')
+          );
+          return;
+        }
+        this.router.navigate(['/user/create']);
+      },
+      error: () => this.router.navigate(['/user/create'])
+    });
   }
 
   ngAfterViewInit(): void {

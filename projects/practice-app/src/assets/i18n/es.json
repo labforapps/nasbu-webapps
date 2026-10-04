@@ -580,6 +580,8 @@
     }
    },
    "collaborator":{
+    "users_limit_reached_title":"Límite de usuarios",
+    "users_limit_reached":"Alcanzaste el límite de usuarios de tu plan. Cambia de plan o elimina un usuario para crear uno nuevo.",
     "title":"Usuarios",
     "search_by_name":"Buscar por nombre",
     "all":"Todos",
