@@ -18,6 +18,22 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: el diálogo de tarea ofrecía usuarios sin acceso al expediente privado (NAS-079)
+
+- **Qué:** `DialogNewTaskComponent` guarda todos los usuarios en `allSecurityUsers` y muestra en
+  el selector solo los que pueden trabajar en el expediente elegido
+  (`assignableUsers`: en uno privado, el responsable y los de `case_file_user_access`). Al cambiar
+  a un expediente privado se limpia un responsable que ya no es válido, salvo que venga fijado
+  desde la pantalla de origen (`dataDialog.securityUser`).
+- **Por qué:** El backend ahora rechaza esa asignación (ver bitácora de `nasbu-core`); sin el
+  filtro, el usuario elegía a alguien de la lista y recibía un error al guardar. Expedientes y
+  usuarios se cargan en paralelo, por eso el filtro se recalcula cuando llega cada uno.
+- **Archivos:** `components/dialogs/dialog-new-task/dialog-new-task.component.ts` (+
+  `dialog-new-task.assignees.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-new-task.assignees.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
 - **Qué:** La consulta REST de la bandeja (carga inicial y plan B) pasa por `catchError` dentro de
