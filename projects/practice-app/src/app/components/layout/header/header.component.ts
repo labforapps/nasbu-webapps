@@ -142,35 +142,47 @@ export class HeaderComponent implements OnInit {
   listenToNotifications() {
       console.log('this.selectedSubscription: ', this.selectedSubscription);
       this.notifications$ = this.subscriptionNotificationsService
-          .getNotifications(this.selectedSubscription?.ssid.uuid, this.user.username)
+          .getNotifications(this.selectedSubscription?.ssid.uuid)
           .pipe(
              map((notifications: SubscriptionNotificaction[]) => {
                   this._notifications = this.mergeNewNotifications(notifications);
                   return this._notifications;
              }),
-             tap((notifications: SubscriptionNotificaction[]) => {
-                console.log('notifications: ', notifications);
-                this.notificationsCount = notifications.length.toString();
-            })
+             tap(() => this.updateNotificationsCount())
           );
   }
 
+  /**
+   * Suma los avisos nuevos arriba sin duplicar: la carga inicial, el WebSocket y el plan B
+   * pueden traer el mismo aviso.
+   */
   mergeNewNotifications(notifications: SubscriptionNotificaction[]): SubscriptionNotificaction[] {
-      return [... notifications, ... this._notifications];
+      const known = new Set(this._notifications.map(item => item.uuid));
+      const fresh = notifications.filter(item => item && !known.has(item.uuid));
+      return [...fresh, ...this._notifications];
+  }
+
+  updateNotificationsCount() {
+      this.notificationsCount = this._notifications.filter(item => !item.viewed).length.toString();
   }
 
   onOpenNotificationsMenu() {
       this.subscriptionNotificationsService
           .markAllNotificationAsViewed(this.selectedSubscription?.ssid.uuid)
-          .subscribe((response: any) => {
-              this.notificationsCount = '0';
+          .subscribe(() => {
+              this._notifications.forEach(item => item.viewed = true);
+              this.updateNotificationsCount();
           });
   }
 
   onClickNotification(notification: SubscriptionNotificaction) {
       this.subscriptionNotificationsService
           .markNotificationAsViewed(this.selectedSubscription?.ssid.uuid, notification.notification_id)
-          .subscribe(() => this.openNotificationLink(notification.callback_url));
+          .subscribe(() => {
+              notification.viewed = true;
+              this.updateNotificationsCount();
+              this.openNotificationLink(notification.callback_url);
+          });
   }
 
   /**

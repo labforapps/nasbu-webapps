@@ -3,6 +3,7 @@
   "include": [
     "src/lib/services/subscription/subscription-notifications.service.spec.ts",
     "src/lib/services/security/auth.guard.notifications.spec.ts",
+    "src/lib/services/application/websocket.service.spec.ts",
     "**/*.d.ts"
   ]
 }
