@@ -105,6 +105,26 @@ export class DialogExternalDocSignatureComponent implements OnInit {
     return result;
   }
 
+  /**
+   * Si el plan no incluye firma el backend lo informa (NAS-061) y se muestra ese motivo en
+   * lugar del error genérico. Con `code` en la respuesta el aviso ya lo muestra el
+   * BlockedActionInterceptor (NAS-031), así que no se duplica.
+   */
+  handleSignatureError(error: any) {
+    const body = error?.error || {};
+
+    if (body.code) {
+      return;
+    }
+
+    if ((error?.status === 403 || error?.status === 501) && body.detail) {
+      this.helperService.showCustomMessage("Error", body.detail, "Firma no disponible");
+      return;
+    }
+
+    this.helperService.showCustomMessage("Error","El documento no pudo ser enviado","Error al enviar")
+  }
+
   sendCustomerIntakeRequest() {
     const formValidated = this.validateFields();
 
@@ -128,9 +148,7 @@ export class DialogExternalDocSignatureComponent implements OnInit {
         this.dialogRef.close({})
 
       },
-      error: (error) => {
-        this.helperService.showCustomMessage("Error","El documento no pudo ser enviado","Error al enviar")
-      }
+      error: (error) => this.handleSignatureError(error)
 
     })
 

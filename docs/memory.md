@@ -18,6 +18,21 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: el diálogo de firma no decía que el plan no incluye firma (NAS-061)
+
+- **Qué:** `DialogExternalDocSignatureComponent.handleSignatureError`: con 403/501 muestra el
+  `detail` que manda el backend ("no cuenta con esta funcionalidad…"); si la respuesta trae
+  `code` no muestra nada porque el aviso lo da el `BlockedActionInterceptor` (NAS-031); el resto
+  de los errores mantiene el mensaje genérico.
+- **Por qué:** El backend ahora informa que el plan no incluye firma (ver bitácora de
+  `nasbu-core`), pero el diálogo reemplazaba cualquier error por "El documento no pudo ser
+  enviado".
+- **Archivos:** `components/dialogs/dialog-external-doc-signature/dialog-external-doc-signature.component.ts`
+  (+ `dialog-external-doc-signature.plan.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-external-doc-signature.plan.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (3 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
 - **Qué:** La consulta REST de la bandeja (carga inicial y plan B) pasa por `catchError` dentro de
