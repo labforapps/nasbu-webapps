@@ -18,6 +18,24 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: el ítem manual de la factura mostraba el texto del reembolso (NAS-105)
+
+- **Qué:** Las dos tablas de Detalle de factura (ítems y gastos legales) enlazan cada fila con
+  `[formGroupName]="detailIndex(control)"`, la posición real del control en `details`. Eliminar
+  y recalcular (`removeItemFormArray`, `onChangeInvoiceDetail`) reciben el control en lugar de
+  su valor.
+- **Por qué:** La tabla de ítems iteraba la lista filtrada (`is_legal_charge = false`) pero
+  enlazaba con el `index` del `*ngFor`, que es la posición en esa lista y no en el FormArray.
+  Con tareas en 0..n-1 y el reembolso en n, el ítem manual nuevo (n+1) se mostraba sobre el
+  grupo del reembolso. La tabla de gastos legales buscaba la fila comparando valores
+  (`returnIndexFormArrayInvoiceDetail`), y dos ítems vacíos se confundían entre sí.
+- **Archivos:** `pages/invoicing/new-invoice/new-invoice.component.{ts,html}` (+
+  `new-invoice.details.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/new-invoice.details.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app --configuration=qa`
+  compila. La prueba cubre el índice; el binding de la plantilla se valida a mano: factura desde
+  expediente → agregar reembolso → agregar ítem manual → debe aparecer vacío.
+
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
 - **Qué:** La consulta REST de la bandeja (carga inicial y plan B) pasa por `catchError` dentro de

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Action, BillingCharge, BillingType, CaseFile, Country, Customer, CustomerWalletSummary, Invoice,
          InvoicePayload, Subscription, SubscriptionBillingFee, InvoiceStatus, 
@@ -247,13 +247,29 @@ export class NewInvoiceComponent implements OnInit {
     this.formService.addItemFormArray(this.invoiceForm,formArray,item);
   }
 
+  /**
+   * Posición real del ítem dentro de `details` (NAS-105).
+   *
+   * Las dos tablas iteran una lista filtrada (ítems normales / gastos legales), así que el
+   * `index` del *ngFor no es la posición en el FormArray: con un reembolso en la lista, el
+   * ítem manual nuevo quedaba enlazado al grupo del reembolso y mostraba su texto. Buscar por
+   * valor tampoco sirve: dos ítems manuales vacíos son iguales y se confundían.
+   */
+  detailIndex(detail: AbstractControl | any): number {
+    const controls = (this.invoiceForm.get('details') as FormArray).controls;
+    if (detail instanceof AbstractControl) {
+      return controls.indexOf(detail);
+    }
+    return this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm, detail);
+  }
+
   returnIndexFormArrayInvoiceDetail(detail:any){
     const index =  this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
     return index !== -1 ? index : 0
   }
 
   removeItemFormArray(formArray:string,detail:any){
-    const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail);
+    const index = this.detailIndex(detail);
     this.formService.removeItemFormArray(this.invoiceForm,formArray,index);
   }
 
@@ -323,7 +339,7 @@ export class NewInvoiceComponent implements OnInit {
 
   onChangeInvoiceDetail(formArray:string,detail:any){
 
-    const index = this.formService.returnIndexFormArrayInvoiceDetail(this.invoiceForm,detail)
+    const index = this.detailIndex(detail)
 
     const invoice = this.invoiceForm.value.details[index];
 

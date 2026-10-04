@@ -107,10 +107,10 @@
                               </tr>
                           </thead>
                           <tbody formArrayName="details">
-                              <tr *ngFor="let invoice_detail of filterFormArray('details','is_legal_charge',false); let i = index" [formGroupName]="i">
+                              <tr *ngFor="let invoice_detail of filterFormArray('details','is_legal_charge',false); let i = index" [formGroupName]="detailIndex(invoice_detail)">
 
                                   <td>
-                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',invoice_detail.value)"></span>
+                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',invoice_detail)"></span>
                                   </td>
                                   <td data-label="Item">
                                       <div class="d-flex align-items-center u-fontBold">
@@ -130,7 +130,7 @@
                                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
                                       <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
                                       <mat-select formControlName="billing_type"
-                                                  (selectionChange)="onChangeInvoiceDetail('details',invoice_detail.value)"
+                                                  (selectionChange)="onChangeInvoiceDetail('details',invoice_detail)"
                                                   [disabled]="invoice_detail.value.related_charge">
                                         <mat-option [value]="billingType.PER_HOUR">
                                           {{'invoicing.invoice.hourly_rate' | translate}}
@@ -152,7 +152,7 @@
                                           <input class="c-form-group__input" matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="total_hours"
-                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE || invoice_detail.value.related_charge">
                                       </mat-form-field>
                                   </td>
@@ -164,7 +164,7 @@
                                           <input class="c-form-group__input " matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_price_per_hour"
-                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.FLAT_FEE || invoice_detail.value.related_charge">
                                       </mat-form-field>
                                   </td>
@@ -176,7 +176,7 @@
                                           <input class="c-form-group__input" matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_amt"
-                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail.value)"
+                                                 (blur)="onChangeInvoiceDetail('details',invoice_detail)"
                                                  [readonly]="invoice_detail.value.billing_type === billingType.PER_HOUR || invoice_detail.value.related_charge">
                                       </mat-form-field>
                                   </td>
@@ -222,9 +222,9 @@
                               </tr>
                           </thead>
                           <tbody formArrayName="details">
-                              <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="returnIndexFormArrayInvoiceDetail(legal_expense.value)">
+                              <tr *ngFor="let legal_expense of filterFormArray('details','is_legal_charge',true); let i = index" [formGroupName]="detailIndex(legal_expense)">
                                   <td>
-                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',legal_expense.value)"></span>
+                                    <span class="icon-times mr-2" (click)="removeItemFormArray('details',legal_expense)"></span>
                                   </td>
                                   <td data-label="Item">
                                       <div class="d-flex align-items-center u-fontBold">
@@ -240,7 +240,7 @@
                                   </td>
                                   <td data-label="Tipo Facturación">
 
-                                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select" (selectionChange)="onChangeInvoiceDetail('details',legal_expense.value)">
+                                      <mat-form-field appearance="fill" class="c-form-group c-form-group__select" (selectionChange)="onChangeInvoiceDetail('details',legal_expense)">
                                           <mat-label>{{'invoicing.invoice.price' | translate}}</mat-label>
                                           <mat-select formControlName="billing_type" [value]="billingType.FLAT_FEE" [disabled]="true">
 
@@ -259,7 +259,7 @@
                                                  matInput
                                                  placeholder="0000  0000  0000  0000"
                                                  formControlName="bt_amt"
-                                                 (blur)="onChangeInvoiceDetail('details',legal_expense.value)"
+                                                 (blur)="onChangeInvoiceDetail('details',legal_expense)"
                                                  [readonly]="legal_expense.value.billing_type === billingType.PER_HOUR">
                                       </mat-form-field>
                                   </td>
