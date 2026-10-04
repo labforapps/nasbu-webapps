@@ -70,7 +70,7 @@
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
                   <button mat-menu-item class="matMenu-red" [routerLink]="['/expedient-type',element.uuid]">Editar <span class="icon-pen"></span></button>
-                  <button mat-menu-item class="matMenu-red" (click)="deleteTemplateType(element)">Eliminar <span class="icon-trash"></span></button>
+                  <button *ngxPermissionsOnly="['delete_casefiletype']" mat-menu-item class="matMenu-red" (click)="deleteTemplateType(element)">Eliminar <span class="icon-trash"></span></button>
 
               </mat-menu>
           </td>

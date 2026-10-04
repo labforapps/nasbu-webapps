@@ -18,6 +18,29 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: botones de eliminar visibles sin permiso de eliminación (NAS-027)
+
+- **Qué:** 14 botones de eliminar quedan detrás de `*ngxPermissionsOnly="['delete_<modelo>']"`:
+  pagos (2), horas cargadas, facturas, pasarelas de pago, grupos de permisos, métodos de pago,
+  plantillas, documentos generados, notas (2), tipos de expediente, documentos del expediente y
+  colaboradores. Los dos que ya tenían `*ngIf` se envolvieron en `ng-container`.
+- **Por qué:** El backend no validaba `delete_*` (ver bitácora de `nasbu-core`) y el front mostraba
+  el botón a cualquiera. Con el permiso ahora exigido en el backend, el botón visible sin permiso
+  terminaba en un 403. El nombre del permiso es el `perm_postfix` del viewset que atiende la
+  eliminación.
+- **Fuera de alcance:** tipos de plantilla (`delete_documenttemplatetype` no está en el mapeo de
+  módulos del backend, ocultarlo lo escondería también a los administradores), variables (se
+  quitan del formulario, no llaman a la API) y el reverso de cartera.
+- **Archivos:** `components/dialogs/dialog-payment-history`, `dialog-charged-hours`,
+  `pages/invoicing/components/invoicing-table`, `pages/invoicing/payments/components/payments-table`,
+  `pages/configuration/invoicing-parameters/subscription-payment-gateway`,
+  `pages/configuration/permission`, `pages/configuration/profile-sign/payment-method`,
+  `pages/documents-templates/{templates,documents}`, `pages/dashboard/dashboard-notes`,
+  `pages/expedient/expedient-type-table`, `pages/expedient/expedient-info/{document,notes}`,
+  `pages/collaborator` (todos `.component.html`).
+- **Verificación:** `ng build --project=practice-app --configuration=qa` compila. Validación manual
+  con un usuario de grupo de escritura: no ve los botones; un administrador sí.
+
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
 - **Qué:** La consulta REST de la bandeja (carga inicial y plan B) pasa por `catchError` dentro de

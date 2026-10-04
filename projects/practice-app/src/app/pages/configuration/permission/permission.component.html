@@ -125,7 +125,7 @@
                               </mat-radio-group>
                             </td>
                             <td *ngIf="i === 0">
-                              <button class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
+                              <button *ngxPermissionsOnly="['delete_subscriptionpermissionsgroup']" class="c-btn-function c-btn--outline" (click)="deleteSecurityGroup(group)"><i class="icon-trash"></i>{{'settings.permissions.delete' | translate}}</button>
                             </td>
                           </tr>
                         </table>
