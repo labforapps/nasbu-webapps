@@ -18,6 +18,39 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
+
+- **Qué:** La consulta REST de la bandeja (carga inicial y plan B) pasa por `catchError` dentro de
+  `SubscriptionNotificationsService.getInboxSafely`: si falla, el stream sigue vivo y el socket
+  no se cierra.
+- **Por qué:** La campana une REST y WebSocket con `merge`. Un error REST (403 para quien no es
+  dueño, ya corregido en el backend) terminaba el stream; el `async` pipe se desuscribía y el
+  `WebsocketService` cerraba el socket con 1000, sin reintentar.
+- **Archivos:** `projects/core-services/src/lib/services/subscription/subscription-notifications.service.ts`
+  y su spec.
+
+### 2026-10-04 — feature: la campana recibe los avisos en tiempo real
+
+- **Qué:**
+  - `WebsocketService` se reescribió: el socket se abre al suscribirse y se cierra al
+    desuscribirse; ping cada 30 s; hasta 5 reintentos con espera creciente, pidiendo un token
+    nuevo en cada uno; y estado `connected$`.
+  - `SubscriptionNotificationsService.getNotifications(subscriptionId)` une tres fuentes: la
+    carga inicial, el WebSocket (`?subscriptionId=&token=<access token>`) y, mientras no hay
+    conexión, una consulta REST cada 60 s.
+  - El header deduplica por `uuid`, cuenta solo los no leídos y marca como leídos en local al
+    abrir la campana o hacer clic.
+- **Por qué:** La escucha estaba desactivada (`return of([])`) y la reconexión vieja encadenaba
+  intentos aunque ya hubiera conexión. El WebSocket ahora exige el access token (lo valida la
+  Lambda `$connect` de `nasbu-lambda-services`); `getAccessToken()` devolvía el id token, por eso
+  se agregó `getCognitoAccessToken()`.
+- **Archivos:** `projects/core-services/src/lib/services/application/websocket.service.ts` y su
+  spec, `.../subscription/subscription-notifications.service.ts` y su spec,
+  `.../security/auth.service.ts`, `projects/practice-app/.../header/header.component.ts`,
+  `tsconfig.notifications.spec.json`, `package.json`.
+- **Verificación:** `npm run test:notifications` (14 + 15 casos) y `npm run build-qa`.
+  `jasmine.clock()` no funciona con los timers de zone.js: los specs usan `fakeAsync`/`tick`.
+
 ### 2026-10-03 — mejora: la pantalla de notificaciones vuelve al diseño de la maqueta
 
 - **Qué:** `configuration/notification` vuelve a la estructura y las clases de la maqueta

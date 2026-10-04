@@ -207,6 +207,16 @@ export class AuthService {
         );
     }
 
+    /**
+     * Access token de Cognito (no el id token). Es el que valida el WebSocket de
+     * notificaciones en $connect.
+     */
+    getCognitoAccessToken(): Observable<string> {
+        return from(Auth.currentSession()).pipe(
+            map((session: CognitoUserSession) => session.getAccessToken().getJwtToken())
+        );
+    }
+
     getAccessToken(): Observable<string> {
         const currentUser$ = Auth.currentSession();
         return from(currentUser$).pipe(
