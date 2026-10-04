@@ -78,6 +78,12 @@
       "processingCheckoutHint": "We are confirming your payment method. Please do not close this window."
    },
    "errorMessages": {
+      "blockedAction": {
+         "title": "Action not available",
+         "permission_denied": "Your permission level does not allow this action.",
+         "plan_feature_missing": "Your current plan does not include this feature.",
+         "plan_limit_reached": "You have reached your plan's limit for this feature."
+      },
       "unexpectedError": "Opps unexpected error...",
       "Incorrect username or password.": "Invalid credentials",
       "Password attempts exceeded": "Password attempts exceeded",

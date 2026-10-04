@@ -78,6 +78,12 @@
       "processingCheckoutHint": "Estamos confirmando tu método de pago. No cierres esta ventana."
    },
    "errorMessages": {
+      "blockedAction": {
+         "title": "Acción no disponible",
+         "permission_denied": "No tienes acceso a esta acción por el tipo de permiso con que cuentas.",
+         "plan_feature_missing": "Tu plan actual no incluye esta función.",
+         "plan_limit_reached": "Alcanzaste el límite de tu plan para esta función."
+      },
       "unexpectedError": "Opps error inesperado...",
       "Incorrect username or password.": "Credenciales invalidas",
       "Password attempts exceeded": "Intentos de contraseña excedidos",
