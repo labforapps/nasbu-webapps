@@ -82,7 +82,20 @@
          "title": "Acción no disponible",
          "permission_denied": "No tienes acceso a esta acción por el tipo de permiso con que cuentas.",
          "plan_feature_missing": "Tu plan actual no incluye esta función.",
-         "plan_limit_reached": "Alcanzaste el límite de tu plan para esta función."
+         "plan_limit_reached": "Alcanzaste el límite de tu plan para esta función.",
+         "features": {
+            "users": { "missing": "Tu plan actual no incluye usuarios adicionales.", "limit": "Alcanzaste el límite de {{contracted}} usuarios de tu plan." },
+            "customers": { "missing": "Tu plan actual no incluye el registro de clientes.", "limit": "Alcanzaste el límite de {{contracted}} clientes de tu plan." },
+            "files": { "missing": "Tu plan actual no incluye la carga de archivos.", "limit": "Alcanzaste el límite de {{contracted}} archivos de tu plan." },
+            "case_files": { "missing": "Tu plan actual no incluye expedientes.", "limit": "Alcanzaste el límite de {{contracted}} expedientes de tu plan." },
+            "matters": { "missing": "Tu plan actual no incluye notas de expediente.", "limit": "Alcanzaste el límite de {{contracted}} notas de expediente de tu plan." },
+            "tasks": { "missing": "Tu plan actual no incluye tareas.", "limit": "Alcanzaste el límite de {{contracted}} tareas de tu plan." },
+            "docs": { "missing": "Tu plan actual no incluye el módulo de documentos y plantillas.", "limit": "Alcanzaste el límite de {{contracted}} documentos de tu plan." },
+            "storage": { "missing": "Tu plan actual no incluye almacenamiento en la nube.", "limit": "Alcanzaste el límite de almacenamiento de tu plan." },
+            "sms_notifications": { "missing": "Tu plan actual no incluye notificaciones por SMS.", "limit": "Alcanzaste el límite de {{contracted}} SMS de tu plan." },
+            "email_notifications": { "missing": "Tu plan actual no incluye notificaciones por correo.", "limit": "Alcanzaste el límite de {{contracted}} correos de tu plan." },
+            "signature_requests": { "missing": "Tu plan actual no incluye la firma electrónica.", "limit": "Alcanzaste el límite de {{contracted}} firmas electrónicas de tu plan." }
+         }
       },
       "unexpectedError": "Opps error inesperado...",
       "Incorrect username or password.": "Credenciales invalidas",

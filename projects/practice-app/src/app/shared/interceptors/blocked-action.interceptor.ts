@@ -41,7 +41,7 @@ export class BlockedActionInterceptor implements HttpInterceptor {
 
         if (code && !skipToast) {
           this.toastr.warning(
-            this.translate.instant(`errorMessages.blockedAction.${code}`),
+            this.getMessage(code, error.error),
             this.translate.instant('errorMessages.blockedAction.title')
           );
         }
@@ -49,6 +49,30 @@ export class BlockedActionInterceptor implements HttpInterceptor {
         return throwError(() => error);
       })
     );
+  }
+
+  /**
+   * Con `feature_code` el mensaje nombra la función ("Tu plan actual no incluye la firma
+   * electrónica.") y, en un límite, la cantidad contratada ("…límite de 3 usuarios…").
+   * Si no hay texto para esa función, o el límite llega sin cantidad, se usa el genérico.
+   */
+  private getMessage(code: string, body: any): string {
+    const generic = `errorMessages.blockedAction.${code}`;
+    const featureCode = body && body.feature_code;
+    const variant = code === 'plan_feature_missing' ? 'missing' : code === 'plan_limit_reached' ? 'limit' : null;
+
+    if (!featureCode || !variant) {
+      return this.translate.instant(generic);
+    }
+
+    const contracted = body.contracted;
+    const key = `errorMessages.blockedAction.features.${featureCode}.${variant}`;
+    const message = this.translate.instant(key, { contracted });
+    const missingTranslation = message === key;
+    const missingCount = variant === 'limit' && (contracted === null || contracted === undefined)
+      && message.includes('{{');
+
+    return missingTranslation || missingCount ? this.translate.instant(generic) : message;
   }
 
   private getBlockedCode(error: HttpErrorResponse): string | null {

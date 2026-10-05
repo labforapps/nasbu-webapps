@@ -82,7 +82,20 @@
          "title": "Action not available",
          "permission_denied": "Your permission level does not allow this action.",
          "plan_feature_missing": "Your current plan does not include this feature.",
-         "plan_limit_reached": "You have reached your plan's limit for this feature."
+         "plan_limit_reached": "You have reached your plan's limit for this feature.",
+         "features": {
+            "users": { "missing": "Your current plan does not include additional users.", "limit": "You have reached your plan's limit of {{contracted}} users." },
+            "customers": { "missing": "Your current plan does not include customers.", "limit": "You have reached your plan's limit of {{contracted}} customers." },
+            "files": { "missing": "Your current plan does not include file uploads.", "limit": "You have reached your plan's limit of {{contracted}} files." },
+            "case_files": { "missing": "Your current plan does not include case files.", "limit": "You have reached your plan's limit of {{contracted}} case files." },
+            "matters": { "missing": "Your current plan does not include case file notes.", "limit": "You have reached your plan's limit of {{contracted}} case file notes." },
+            "tasks": { "missing": "Your current plan does not include tasks.", "limit": "You have reached your plan's limit of {{contracted}} tasks." },
+            "docs": { "missing": "Your current plan does not include documents and templates.", "limit": "You have reached your plan's limit of {{contracted}} documents." },
+            "storage": { "missing": "Your current plan does not include cloud storage.", "limit": "You have reached your plan's storage limit." },
+            "sms_notifications": { "missing": "Your current plan does not include SMS notifications.", "limit": "You have reached your plan's limit of {{contracted}} SMS." },
+            "email_notifications": { "missing": "Your current plan does not include email notifications.", "limit": "You have reached your plan's limit of {{contracted}} emails." },
+            "signature_requests": { "missing": "Your current plan does not include electronic signatures.", "limit": "You have reached your plan's limit of {{contracted}} electronic signatures." }
+         }
       },
       "unexpectedError": "Opps unexpected error...",
       "Incorrect username or password.": "Invalid credentials",

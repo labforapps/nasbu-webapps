@@ -24,6 +24,11 @@ más nueva a más vieja) con este formato:
   - Nuevo `BlockedActionInterceptor` (registrado en `app.module.ts` después del spinner). Ante un 403
     con `code` `permission_denied`, `plan_feature_missing` o `plan_limit_reached` muestra un
     `toastr.warning` con textos de `errorMessages.blockedAction.*` y re-lanza el error.
+  - Con `feature_code` el mensaje nombra la función y, en un límite, la cantidad contratada
+    (`errorMessages.blockedAction.features.<code>.{missing,limit}`, con `{{contracted}}`): "Tu
+    plan actual no incluye la firma electrónica.", "Alcanzaste el límite de 3 usuarios de tu
+    plan.". Si no hay texto para la función, o el límite llega sin `contracted`, se usa el
+    genérico. Almacenamiento no muestra la cantidad porque el backend la guarda en bytes.
   - Opt-out con el header `X-Skip-Blocked-Toast` para pantallas que ya muestran su propio error;
     el interceptor lo quita antes de enviar la request.
   - El `AuthInterceptor` de `core-services` ya no reintenta respuestas 4xx: `retry(2)` pasó a
