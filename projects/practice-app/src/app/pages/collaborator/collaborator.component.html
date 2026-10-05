@@ -94,14 +94,14 @@
                             <td mat-cell *matCellDef="let element" class="text-center">
 
                                 <mat-button-toggle-group class="c-btn-table" *ngIf="element.subscription_member_type === subscriptionMemberType.OWNER">
-                                  <mat-button-toggle (click)="navigateToEditUser(element.uuid)">{{'collaborator.buttons.edit' | translate}}</mat-button-toggle>
+                                  <mat-button-toggle *ngxPermissionsOnly="['change_subscriptionuser']" (click)="navigateToEditUser(element.uuid)">{{'collaborator.buttons.edit' | translate}}</mat-button-toggle>
                                   <mat-button-toggle>
                                       <span class="icon-arrow-down"></span>
                                   </mat-button-toggle>
                               </mat-button-toggle-group>
 
                                 <mat-button-toggle-group class="c-btn-table" *ngIf="element.subscription_member_type !== subscriptionMemberType.OWNER">
-                                    <mat-button-toggle (click)="navigateToEditUser(element.uuid)">{{'collaborator.buttons.edit' | translate}}</mat-button-toggle>
+                                    <mat-button-toggle *ngxPermissionsOnly="['change_subscriptionuser']" (click)="navigateToEditUser(element.uuid)">{{'collaborator.buttons.edit' | translate}}</mat-button-toggle>
                                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne" >
                                         <span class="icon-arrow-down"></span>
                                     </mat-button-toggle>

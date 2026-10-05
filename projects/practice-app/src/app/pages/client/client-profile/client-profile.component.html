@@ -15,8 +15,8 @@
         </div>
 
         <div class="l-page__controls">
-            <button class="c-btn c-btn--outline c-btn--small" mat-button [routerLink]="'/invoicing/new-invoice/'">{{'clients.details.express_billing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
-            <button *ngPermissionsOnly="['change_customer']" class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditClient()" > {{'clients.details.edit_customer' | translate}} <span class="icon-pen ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['add_invoice']" class="c-btn c-btn--outline c-btn--small" mat-button [routerLink]="'/invoicing/new-invoice/'">{{'clients.details.express_billing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
+            <button *ngxPermissionsOnly="['change_customer']" class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditClient()" > {{'clients.details.edit_customer' | translate}} <span class="icon-pen ml-2 "></span></button>
 
         </div>
 

@@ -10,10 +10,10 @@
             <button class="c-btn c-btn--outline c-btn--small" mat-button routerLink="/invoicing">
                 <span class="icon-arrow-left mr-2"></span>Facturas
             </button>
-            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">
+            <button *ngxPermissionsOnly="['add_payment']" class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">
                 Registrar pago<span class="icon-plus ml-2"></span>
             </button>
-            <button class="c-btn-function" mat-button (click)="openDialogPaymentRequest()">
+            <button *ngxPermissionsOnly="['add_paymentcheckoutrequest']" class="c-btn-function" mat-button (click)="openDialogPaymentRequest()">
                 Enviar link de pago<span class="icon-payment ml-2"></span>
             </button>
         </div>

@@ -8,8 +8,8 @@
         </div>
         <div class="l-page__controls">
             <button class="c-btn c-btn--outline c-btn--small" mat-button routerLink="payments">Ver pagos<span class="icon-receipt ml-2"></span></button>
-            <button class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">{{'invoicing.apply_payment' | translate}}<span class="icon-plus ml-2 "></span></button>
-            <button class="c-btn-function" mat-button [routerLink]="'new-invoice'">{{'invoicing.new_invoice' | translate}}<span class="icon-plus ml-3 "></span></button>
+            <button *ngxPermissionsOnly="['add_payment']" class="c-btn c-btn--outline c-btn--small" mat-button (click)="openDialogPaymentRegister()">{{'invoicing.apply_payment' | translate}}<span class="icon-plus ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['add_invoice']" class="c-btn-function" mat-button [routerLink]="'new-invoice'">{{'invoicing.new_invoice' | translate}}<span class="icon-plus ml-3 "></span></button>
         </div>
     </div>
     <div class="l-page__body">

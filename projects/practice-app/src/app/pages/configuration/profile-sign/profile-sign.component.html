@@ -8,7 +8,7 @@
         </div>
         <div class="l-page__controls">
             <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{'collaborator.profile.goBack' | translate}}</button>
-            <button class="c-btn-function" mat-button [routerLink]="'create-profile'">{{'firm.profile.edit_profile' | translate}} <span class="icon-pen ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['change_subscription']" class="c-btn-function" mat-button [routerLink]="'create-profile'">{{'firm.profile.edit_profile' | translate}} <span class="icon-pen ml-2 "></span></button>
         </div>
 
 

@@ -6,7 +6,7 @@
     <span class="icon-search"></span>
   </div>
 
-  <button class="c-btn-function" mat-button [routerLink]="'/expedient-type'">Añadir nuevo tipo<span class="icon-plus ml-2 "></span></button>
+  <button *ngxPermissionsOnly="['add_casefiletype']" class="c-btn-function" mat-button [routerLink]="'/expedient-type'">Añadir nuevo tipo<span class="icon-plus ml-2 "></span></button>
 
 </div>
 
@@ -69,7 +69,7 @@
               </mat-button-toggle-group>
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                  <button mat-menu-item class="matMenu-red" [routerLink]="['/expedient-type',element.uuid]">Editar <span class="icon-pen"></span></button>
+                  <button *ngxPermissionsOnly="['change_casefiletype']" mat-menu-item class="matMenu-red" [routerLink]="['/expedient-type',element.uuid]">Editar <span class="icon-pen"></span></button>
                   <button *ngxPermissionsOnly="['delete_casefiletype']" mat-menu-item class="matMenu-red" (click)="deleteTemplateType(element)">Eliminar <span class="icon-trash"></span></button>
 
               </mat-menu>

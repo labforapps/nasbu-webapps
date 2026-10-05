@@ -35,7 +35,7 @@
     </button>
     <button mat-button class="c-menu__item"
             [routerLink]="'templates'" routerLinkActive="is-active"
-            *ngxPermissionsOnly="['view_documenttemplate', 'view_documentgenerationlog', 'view_documenttemplate']">
+            *ngxPermissionsOnly="['view_documenttemplate', 'view_documentgenerationlog']">
        {{'menu.documents_templates' | translate}}
         <span class="icon-document-color c-menu__icon"></span>
     </button>
@@ -51,7 +51,7 @@
         Pagos
         <span class="icon-payment c-menu__icon"></span>
     </button>
-    <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active" *ngxPermissionsOnly="['view_casefilesreport', 'view_customerreport', 'view_generalmetricsreport', 'view_incomesreport', 'view_reportdefinition', 'view_reportsmodule', 'view_customerwalletsdetailsreport']">
+    <button mat-button class="c-menu__item" [routerLink]="'report'" routerLinkActive="is-active" *ngxPermissionsOnly="['view_reports_module', 'view_invoices_report', 'view_case_files_report', 'view_customers_report', 'view_incomes_report', 'view_general_metrics_report', 'view_wallet_details_report']">
         {{'menu.reports' | translate}}
         <span class="icon-report c-menu__icon"></span>
     </button>

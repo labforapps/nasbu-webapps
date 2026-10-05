@@ -5,7 +5,7 @@
     </div>
 </div>
 <div class="l-page__controls">
-  <button class="c-btn-function" type="button" mat-button (click)="openDialogSubscriptionPaymentGateway()" >Agregar merchant<span class="icon-plus ml-2 "></span></button>
+  <button *ngxPermissionsOnly="['add_subscriptionpaymentgateway']" class="c-btn-function" type="button" mat-button (click)="openDialogSubscriptionPaymentGateway()" >Agregar merchant<span class="icon-plus ml-2 "></span></button>
 </div>
 
 </div>
@@ -64,7 +64,7 @@
             </mat-button-toggle-group>
 
             <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                <button mat-menu-item (click)="openDialogSubscriptionPaymentGateway(element)">Editar<span class="icon-pen"></span></button>
+                <button *ngxPermissionsOnly="['change_subscriptionpaymentgateway']" mat-menu-item (click)="openDialogSubscriptionPaymentGateway(element)">Editar<span class="icon-pen"></span></button>
                 <button *ngxPermissionsOnly="['delete_subscriptionpaymentgateway']" mat-menu-item (click)="deleteSubscriptionPaymentGateway(element)">Borrar<span class="icon-trash"></span></button>
             </mat-menu>
         </td>

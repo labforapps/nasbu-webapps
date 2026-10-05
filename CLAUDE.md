@@ -74,7 +74,7 @@ All services are re-exported from `index.ts`. Import as `import { AuthService } 
 
 **Auth flow:** `practice-app` has its own `AuthService` (`src/app/services/auth/auth.service.ts`) that wraps the `core-services` `AuthService` and adds `NgxPermissionsService` integration. Permissions are loaded on every navigation via `PermissionsResolver` (resolves on the root layout route), which calls `fetchUserInfo()` and stores permissions to localStorage. `UserResolver` loads current Cognito user info for the dashboard route.
 
-**Routing:** Hash-based (`useHash: true`). Public routes (`/signin`, `/signup`, `/recovery`, `/account-confirmation`, etc.) are top-level. All authenticated pages are children of `LayoutComponent` at path `''`. Route guards use `NgxPermissionsGuard` with permission strings like `add_customer`, `view_customer`, etc.
+**Routing:** Hash-based (`useHash: true`). Public routes (`/signin`, `/signup`, `/recovery`, `/account-confirmation`, etc.) are top-level. All authenticated pages are children of `LayoutComponent` at path `''`. Route guards: every route with `data.permissions.only` is enforced by `RoutePermissionsGuard` (`shared/guards/`), registered in the layout's `canActivateChild` and on top-level routes. It loads permissions from localStorage before checking, because `ngx-permissions` is filled only in `LayoutComponent.ngOnInit`, after guards run. Every action button (create/edit/send) is wrapped in `*ngxPermissionsOnly` with the backend codename `<add|change|view>_<perm_postfix>`; a component that uses it must be declared in a module that imports `NgxPermissionsModule`.
 
 **Interceptors:** Two HTTP interceptors are registered:
 1. `AuthInterceptor` (from `core-services`) — attaches Bearer token

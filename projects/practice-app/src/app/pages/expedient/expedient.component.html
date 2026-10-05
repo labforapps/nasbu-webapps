@@ -7,7 +7,7 @@
             <div class="l-page__title">{{'dockets.dockets' | translate}}</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn-function" mat-button (click)="openDialogNewExpedient()">{{'dockets.new_docket' | translate}}<span class="icon-plus ml-3 "></span></button>
+            <button *ngxPermissionsOnly="['add_casefile']" class="c-btn-function" mat-button (click)="openDialogNewExpedient()">{{'dockets.new_docket' | translate}}<span class="icon-plus ml-3 "></span></button>
         </div>
     </div>
     <div class="l-page__body">

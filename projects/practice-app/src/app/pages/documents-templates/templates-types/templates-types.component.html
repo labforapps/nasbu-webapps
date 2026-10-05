@@ -10,7 +10,7 @@
       <span class="icon-search"></span>
   </div>
   <div>
-    <button class="c-btn-function" mat-button [routerLink]="'/templates-types/create'">Crear Tipo de Plantilla<span class="icon-plus ml-2 "></span></button>
+    <button *ngxPermissionsOnly="['add_documenttemplate']" class="c-btn-function" mat-button [routerLink]="'/templates-types/create'">Crear Tipo de Plantilla<span class="icon-plus ml-2 "></span></button>
   </div>
 </div>
 
@@ -73,7 +73,7 @@
               </mat-button-toggle-group>
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
-                  <button mat-menu-item class="matMenu-red" [routerLink]="['/templates-types',element.uuid]">Editar <span class="icon-pen"></span></button>
+                  <button *ngxPermissionsOnly="['change_documenttemplate']" mat-menu-item class="matMenu-red" [routerLink]="['/templates-types',element.uuid]">Editar <span class="icon-pen"></span></button>
                   <button mat-menu-item class="matMenu-red" (click)="deleteTemplateType(element)">Eliminar <span class="icon-trash"></span></button>
 
               </mat-menu>

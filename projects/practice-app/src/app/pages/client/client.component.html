@@ -8,7 +8,7 @@
         </div>
         <div class="l-page__controls">
 
-            <button class="c-btn-function c-btn--outline" mat-button (click)="openDialogSendRegister()">{{'clients.header.button_invitation' | translate}}<span class="icon-add-user ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['add_customerintakerequest']" class="c-btn-function c-btn--outline" mat-button (click)="openDialogSendRegister()">{{'clients.header.button_invitation' | translate}}<span class="icon-add-user ml-2 "></span></button>
             <button class="c-btn-function" mat-button [routerLink]="'create-client'" *ngxPermissionsOnly="['add_customer']">
                 {{'clients.header.button_create_client' | translate}}
                 <span class="icon-plus ml-2 "></span>

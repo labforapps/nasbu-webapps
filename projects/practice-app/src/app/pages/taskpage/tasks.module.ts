@@ -11,6 +11,7 @@ import { DialogAddHoursComponent } from '../../components/dialogs/dialog-add-hou
 import { NgxTimerModule } from 'ngx-timer';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../../shared/shared.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 
 @NgModule({
@@ -23,7 +24,9 @@ import { SharedModule } from '../../shared/shared.module';
         TranslateModule.forChild(),
         NgxTimerModule,
         MatIconModule,
-        SharedModule
+        SharedModule,
+        // Sin este import *ngxPermissionsOnly no se resuelve y el elemento no se muestra a nadie.
+        NgxPermissionsModule
     ],
     exports: [
         TaskpageComponent,

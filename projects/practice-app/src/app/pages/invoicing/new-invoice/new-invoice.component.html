@@ -32,7 +32,7 @@
             </div>
             <div class="align-items-center col-md-2 col-sm-3 d-flex" *ngIf="invoice">
                 <mat-button-toggle-group class="c-btn-table">
-                    <mat-button-toggle (click)="openDialogSendInvoice()">{{'invoicing.invoice.send' | translate}}</mat-button-toggle>
+                    <mat-button-toggle *ngxPermissionsOnly="['change_invoice']" (click)="openDialogSendInvoice()">{{'invoicing.invoice.send' | translate}}</mat-button-toggle>
                     <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                         <span class="icon-arrow-down"></span>
                     </mat-button-toggle>
@@ -41,8 +41,8 @@
                     <button (click)="downloadInvoice()" mat-menu-item>Descargar</button>
                     <button (click)="openDialogPaymentHistory()" mat-menu-item>{{'invoicing.send_payment' | translate}}</button>
                     <ng-container *ngIf="invoice.status !== invoiceStatus.PAYED">
-                        <button mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment()">{{'invoicing.apply_payment' | translate}}</button>
-                        <button mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment()">{{'invoicing.sendPaymentLink' | translate}}</button>
+                        <button *ngxPermissionsOnly="['add_payment']" mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment()">{{'invoicing.apply_payment' | translate}}</button>
+                        <button *ngxPermissionsOnly="['add_paymentcheckoutrequest']" mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment()">{{'invoicing.sendPaymentLink' | translate}}</button>
                     </ng-container>
                 </mat-menu>
             </div>
@@ -302,7 +302,7 @@
                   </div>
                   <hr class="u-divider">
                   <div class="d-flex justify-content-end align-items-center flex-wrap u-gap-1 mt-5" *ngIf="action !== actionEnum.VIEW">
-                      <mat-checkbox class="c-checkbox u-fontBold u-textColor mr-2"
+                      <mat-checkbox *ngxPermissionsOnly="['change_subscription']" class="c-checkbox u-fontBold u-textColor mr-2"
                                     [(ngModel)]="applyTax"
                                     [ngModelOptions]="{standalone: true}"
                                     (click)="openDialogAddTax()">

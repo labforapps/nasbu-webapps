@@ -21,14 +21,14 @@
                         <div>USD {{payment.total_amt}} </div>
                     </div>
                     <mat-button-toggle-group class="c-btn-table">
-                        <mat-button-toggle (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send' | translate}}</mat-button-toggle>
+                        <mat-button-toggle *ngxPermissionsOnly="['change_payment']" (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send' | translate}}</mat-button-toggle>
                         <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                             <span class="icon-arrow-down"></span>
                         </mat-button-toggle>
                     </mat-button-toggle-group>
                     <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
                         <button *ngxPermissionsOnly="['delete_payment']" mat-menu-item class="matMenu-red" (click)="deletePayment(payment)">{{'invoicing.payment_history.delete' | translate}} <span class="icon-trash"></span></button>
-                        <button mat-menu-item class="matMenu-blue" (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send_payment' | translate}}<span class="icon-receipt"></span></button>
+                        <button *ngxPermissionsOnly="['change_payment']" mat-menu-item class="matMenu-blue" (click)="openDialogSendPayment(payment)">{{'invoicing.payment_history.send_payment' | translate}}<span class="icon-receipt"></span></button>
                     </mat-menu>
                 </div>
             </div>

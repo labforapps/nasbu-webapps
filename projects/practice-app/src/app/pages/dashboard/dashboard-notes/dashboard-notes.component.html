@@ -75,7 +75,7 @@
                   </mat-button-toggle-group>
                   <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
                     <button *ngxPermissionsOnly="['delete_casefilenote']" mat-menu-item (click)="deleteCaseFileNote(element)">{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
-                    <button mat-menu-item (click)="openDialogEditCaseFileNote(element)">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
+                    <button *ngxPermissionsOnly="['change_casefilenote']" mat-menu-item (click)="openDialogEditCaseFileNote(element)">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
                   </mat-menu>
               </td>
           </ng-container>

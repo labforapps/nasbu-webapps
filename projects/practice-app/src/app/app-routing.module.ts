@@ -31,6 +31,7 @@ import { CancelSubscriptionPaymentComponent } from './pages/cancel-subscription-
 import { ClientIntakeComponent } from './pages/client-intake/client-intake.component';
 import { UserResolver } from './resolvers/user.resolver';
 import { NgxPermissionsGuard } from 'ngx-permissions';
+import { RoutePermissionsGuard } from './shared/guards/route-permissions.guard';
 import { PermissionsResolver } from './resolvers/permissions.resolver';
 import { CollaboratorProfileComponent } from './pages/collaborator/collaborator-profile/collaborator-profile.component';
 import { AccountConfirmationComponent } from './pages/account-confirmation/account-confirmation.component';
@@ -97,7 +98,8 @@ const routes: Routes = [
     // confirma antes de tokenizar la tarjeta, asi que se puede tener sesion valida con
     // la suscripcion todavia sin pagar.
     canActivate: [AuthGuard, SubscriptionGuard],
-    canActivateChild: [AuthGuard, SubscriptionGuard],
+    // RoutePermissionsGuard exige el `data.permissions` de cada ruta hija (NAS-092).
+    canActivateChild: [AuthGuard, SubscriptionGuard, RoutePermissionsGuard],
     resolve: { permissions: PermissionsResolver },
     children: [
       {
@@ -128,48 +130,116 @@ const routes: Routes = [
       {
         path: 'users',
         component: CollaboratorComponent,
+        data: {
+          permissions: {
+            only: ['view_subscriptionuser'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'client-profile/:id',
         component: ClientProfileComponent,
+        data: {
+          permissions: {
+            only: ['view_customer'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'invoicing',
         component: InvoicingComponent,
+        data: {
+          permissions: {
+            only: ['view_invoice'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'invoicing/new-invoice',
         component: NewInvoiceComponent,
         canDeactivate: [CanComponenteDeactivateGuard],
-
+        data: {
+          permissions: {
+            only: ['add_invoice'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'invoicing/edit-invoice/:id',
         component: NewInvoiceComponent,
+        data: {
+          permissions: {
+            only: ['change_invoice'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'invoicing/invoice/:id/:action',
         component: NewInvoiceComponent,
+        data: {
+          permissions: {
+            only: ['view_invoice'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'payments',
         component: PaymentsComponent,
+        data: {
+          permissions: {
+            only: ['view_payment', 'view_paymentcheckoutrequest'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'task',
         component: TaskpageComponent,
+        data: {
+          permissions: {
+            only: ['view_task'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'expedient',
         component: ExpedientComponent,
+        data: {
+          permissions: {
+            only: ['view_casefile'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'expedient-info/:id',
         component: ExpedientInfoComponent,
+        data: {
+          permissions: {
+            only: ['view_casefile'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'templates',
         component: DocumentsTemplatesComponent,
+        // Documentos y plantillas no está en todos los planes (NAS-092): sin este guard la
+        // ruta se abría escribiendo la URL aunque el menú ya la ocultara.
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['view_documenttemplate', 'view_documentgenerationlog'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'configuration',
@@ -178,14 +248,32 @@ const routes: Routes = [
       {
         path: 'configuration/invoicing-parameters',
         component: InvoicingParametersComponent,
+        data: {
+          permissions: {
+            only: ['change_subscription'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'configuration/permission',
         component: PermissionComponent,
+        data: {
+          permissions: {
+            only: ['view_subscriptionpermissionsgroup'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'configuration/profile-sign',
         component: ProfileSignComponent,
+        data: {
+          permissions: {
+            only: ['view_subscription'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'configuration/notification',
@@ -194,38 +282,92 @@ const routes: Routes = [
       {
         path: 'configuration/plans',
         component: PlansComponent,
+        data: {
+          permissions: {
+            only: ['view_subscription'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'user-profile/:id',
         component: CollaboratorProfileComponent,
+        data: {
+          permissions: {
+            only: ['view_subscriptionuser'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report',
         component: ReportComponent,
+        data: {
+          permissions: {
+            only: ['view_reports_module', 'view_invoices_report', 'view_case_files_report', 'view_customers_report', 'view_incomes_report', 'view_general_metrics_report', 'view_wallet_details_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report/report-invoicing',
         component: ReportInvoicingComponent,
+        data: {
+          permissions: {
+            only: ['view_invoices_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report/report-cases',
         component: ReportCasesComponent,
+        data: {
+          permissions: {
+            only: ['view_case_files_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report/report-client',
         component: ReportClientComponent,
+        data: {
+          permissions: {
+            only: ['view_customers_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report/report-income',
         component: ReportIncomeComponent,
+        data: {
+          permissions: {
+            only: ['view_incomes_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'report/general-metrics',
         component: GeneralMetricsComponent,
+        data: {
+          permissions: {
+            only: ['view_general_metrics_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path:'report/customer-wallet-details',
-        component: ReportCustomerWalletDetailsComponent
+        component: ReportCustomerWalletDetailsComponent,
+        data: {
+          permissions: {
+            only: ['view_wallet_details_report'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'tutorials',
@@ -236,7 +378,7 @@ const routes: Routes = [
   {
     path: 'customers/create-client',
     component: CreateClientComponent,
-    canActivate: [NgxPermissionsGuard],
+    canActivate: [RoutePermissionsGuard],
     data: {
       permissions: {
         only: ['add_customer'],
@@ -253,22 +395,51 @@ const routes: Routes = [
         redirectTo: '/',
       },
     },
+    canActivate: [RoutePermissionsGuard],
   },
   {
     path: 'configuration/profile-sign/create-profile',
     component: CreateProfileComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['change_subscription'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path: 'user/create',
     component: CreateCollaboratorComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['add_subscriptionuser'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path: 'user/edit/:id',
     component: CreateCollaboratorComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['change_subscriptionuser'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path: 'collaborator/edit/:id',
     component: CreateCollaboratorComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['change_subscriptionuser'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path: 'registerClient',
@@ -285,22 +456,57 @@ const routes: Routes = [
   {
     path: 'report/report-invoicing/export',
     component: ReportInvoicingExportComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['view_invoices_report'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path:'templates-types/create',
-    component: CreateTemplatesTypesComponent
+    component: CreateTemplatesTypesComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['add_documenttemplate'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path:'templates-types/:id',
-    component: CreateTemplatesTypesComponent
+    component: CreateTemplatesTypesComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['view_documenttemplate'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path:'expedient-type',
-    component: CreateExpedientTypeComponent
+    component: CreateExpedientTypeComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['add_casefiletype'],
+        redirectTo: '/',
+      },
+    },
   },
   {
     path:'expedient-type/:id',
-    component: CreateExpedientTypeComponent
+    component: CreateExpedientTypeComponent,
+    canActivate: [RoutePermissionsGuard],
+    data: {
+      permissions: {
+        only: ['view_casefiletype'],
+        redirectTo: '/',
+      },
+    },
   }
 
 ];

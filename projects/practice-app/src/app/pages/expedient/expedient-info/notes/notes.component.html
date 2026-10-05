@@ -1,7 +1,9 @@
 <div class="u-smallSize mb-3 d-flex align-items-center flex-wrap u-gap-1">
     <p *ngIf="caseFileNotes" [innerHTML]="'dockets.profile.notes.this_docket_has_notes' | translate:{notesQuantity: caseFileNotes.length}"></p>
 
+    <ng-container *ngxPermissionsOnly="['add_casefilenote']">
     <button  *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function ml-auto" mat-button (click)="openDialogNewNote()">{{'dockets.profile.notes.add_note' | translate}}<span class="icon-plus ml-3 "></span></button>
+    </ng-container>
 </div>
 <div class="u-table-responsive">
     <table mat-table [dataSource]="dataSourceCaseFileNotes" class="c-table">
@@ -71,7 +73,9 @@
                     <ng-container *ngxPermissionsOnly="['delete_casefilenote']">
                     <button mat-menu-item (click)="deleteCaseFileNote(element)" *ngIf="caseFile.status === caseFileStatus.OPEN">{{'dockets.profile.notes.delete' | translate}} <span class="icon-trash"></span></button>
                     </ng-container>
+                    <ng-container *ngxPermissionsOnly="['change_casefilenote']">
                     <button mat-menu-item (click)="openDialogNewNote(element)" *ngIf="caseFile.status === caseFileStatus.OPEN">{{'dockets.profile.notes.edit' | translate}}<span class="icon-pen"></span></button>
+                    </ng-container>
                 </mat-menu>
             </td>
         </ng-container>

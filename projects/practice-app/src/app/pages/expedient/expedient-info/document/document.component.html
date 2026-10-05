@@ -4,7 +4,9 @@
     <p class="u-textColor ml-auto mr-2">
       {{'dockets.profile.organized_by_creation_date' | translate}}
     </p>
+    <ng-container *ngxPermissionsOnly="['add_casefiledocument']">
     <button *ngIf="caseFile.status === caseFileStatus.OPEN" class="c-btn-function " mat-button (click)="openDialogUpload()">{{'dockets.profile.documents.upload_file' | translate}}<span class="icon-plus ml-3 "></span></button>
+    </ng-container>
 
 
 </div>

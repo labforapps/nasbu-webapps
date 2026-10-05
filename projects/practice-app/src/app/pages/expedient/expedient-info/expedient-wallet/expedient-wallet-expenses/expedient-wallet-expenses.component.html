@@ -11,7 +11,7 @@
       <div class="u-bigSize-2 u-fontBold">USD 700.00 </div>
       <div class="align-items-center d-flex justify-content-between u-smallSize">{{'dockets.profile.wallet.spent' | translate}} <span class="icon-outcome ml-1"></span></div>
   </div>
-  <button class="c-btn-function" mat-button (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span></button>
+  <button *ngxPermissionsOnly="['add_customerwalletdetail']" class="c-btn-function" mat-button (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span></button>
 </div>
 
 

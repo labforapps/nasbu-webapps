@@ -110,22 +110,22 @@
           <td mat-cell *matCellDef="let element" class="text-center">
 
               <mat-button-toggle-group class="c-btn-table">
-                  <mat-button-toggle (click)="openDialogSendInvoice(element)">{{'invoicing.send' | translate}}</mat-button-toggle>
+                  <mat-button-toggle *ngxPermissionsOnly="['change_invoice']" (click)="openDialogSendInvoice(element)">{{'invoicing.send' | translate}}</mat-button-toggle>
                   <mat-button-toggle [matMenuTriggerFor]="dropdownMenuOne">
                     <span class="icon-arrow-down"></span>
                   </mat-button-toggle>
               </mat-button-toggle-group>
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
-                  <button mat-menu-item class="matMenu-yellow" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.edit' | translate}}<span class="icon-pen"></span></button>
+                  <button *ngxPermissionsOnly="['change_invoice']" mat-menu-item class="matMenu-yellow" [routerLink]="'/invoicing/edit-invoice/' + element.uuid">{{'invoicing.edit' | translate}}<span class="icon-pen"></span></button>
                   <button *ngxPermissionsOnly="['delete_invoice']" mat-menu-item class="matMenu-red" (click)="deleteInvoice(element)">{{'invoicing.delete' | translate}} <span class="icon-trash"></span></button>
                   <ng-container *ngIf="element.status !== invoiceStatus.PAYED">
-                    <button mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment(element)">{{'invoicing.apply_payment' | translate}}<span class="icon-payment"></span></button>
-                    <button mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment(element)">{{'invoicing.sendPaymentLink' | translate}}<span class="icon-payment"></span></button>
+                    <button *ngxPermissionsOnly="['add_payment']" mat-menu-item class="matMenu-blue" (click)="openDialogRegisterPayment(element)">{{'invoicing.apply_payment' | translate}}<span class="icon-payment"></span></button>
+                    <button *ngxPermissionsOnly="['add_paymentcheckoutrequest']" mat-menu-item class="matMenu-blue" (click)="openDialogRequestPayment(element)">{{'invoicing.sendPaymentLink' | translate}}<span class="icon-payment"></span></button>
                   </ng-container>
                   <button mat-menu-item class="matMenu-green" [routerLink]="'/invoicing/invoice/' + element.uuid + '/view' ">{{'invoicing.see_invoice' | translate}}<span class="icon-invoice"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentHistory(element)">{{'invoicing.send_payment' | translate}}<span class="icon-receipt"></span></button>
-                  <button mat-menu-item class="matMenu-blue" (click)="openDialogSendInvoice(element)">Enviar<span class="icon-receipt"></span></button>
+                  <button *ngxPermissionsOnly="['change_invoice']" mat-menu-item class="matMenu-blue" (click)="openDialogSendInvoice(element)">Enviar<span class="icon-receipt"></span></button>
                   <button mat-menu-item class="matMenu-blue" (click)="downloadInvoice(element)">Descargar<span class="icon-receipt"></span></button>
               </mat-menu>
           </td>

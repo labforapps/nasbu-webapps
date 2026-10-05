@@ -9,7 +9,7 @@
                 <div class="c-subscription__title">{{'firm.profile.account_premium' | translate}} {{this.selectedPlan?.name}}</div>
                 <div class="c-subscription__subtitle">{{'firm.profile.monthly_subscription' | translate}}</div>
             </div>
-            <button mat-button class="c-btn c-btn--primary c-btn--small" [routerLink]="'/configuration/plans'">{{'firm.profile.change_plan' | translate}}</button>
+            <button *ngxPermissionsOnly="['add_subscriptionchangeplanrequest']" mat-button class="c-btn c-btn--primary c-btn--small" [routerLink]="'/configuration/plans'">{{'firm.profile.change_plan' | translate}}</button>
         </div>
         <div class="c-subscription__footer">
             <div>

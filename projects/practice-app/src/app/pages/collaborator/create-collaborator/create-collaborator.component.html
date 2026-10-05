@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="col-sm-6 align-items-center d-flex" *ngIf="hideSecurityGroupField()">
-                        <button type="button" mat-button class="u-link" (click)="openDialogAddRole()">Añadir nuevo rol ó función</button>
+                        <button *ngxPermissionsOnly="['add_subscriptionpermissionsgroup']" type="button" mat-button class="u-link" (click)="openDialogAddRole()">Añadir nuevo rol ó función</button>
                     </div>
                 </div>
             </div>

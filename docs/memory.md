@@ -18,6 +18,44 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-05 — mejora: toda la app muestra solo lo que el usuario tiene permiso de usar (NAS-092)
+
+- **Qué:**
+  - Nuevo `RoutePermissionsGuard` (`shared/guards/`). Va en el `canActivateChild` del layout y en
+    las rutas de primer nivel, y exige el `data.permissions.only` de cada ruta. 22 rutas hijas y
+    9 de primer nivel ganaron permisos (Facturación, Pagos, Tareas, Expedientes, Usuarios,
+    Configuración, Reportes, crear/editar usuario, tipos de expediente y de plantilla, etc.).
+    Siguen abiertas Dashboard, Tutoriales, Notificaciones y la página de Configuración.
+  - 89 botones de crear, editar, enviar, generar, registrar y compartir quedan detrás de
+    `*ngxPermissionsOnly` con su permiso (`add_*`, `change_*`). Los que ya tenían `*ngIf` se
+    envolvieron en `ng-container`. También las opciones de las páginas de Reportes y
+    Configuración y los accesos rápidos del Dashboard.
+  - El menú de Reportes usaba nombres de permiso inexistentes (`view_casefilesreport`…); ahora
+    usa los del backend (`view_case_files_report`…).
+  - `client-profile` decía `*ngPermissionsOnly` (sin la x) y el botón Editar no se protegía.
+  - `TasksModule` importa `NgxPermissionsModule`.
+- **Por qué:** Una función que el plan no incluye no debe aparecer. El plan define el grupo de
+  permisos (NAS-073), así que basta con que cada elemento dependa de su permiso. Detalles que no
+  se ven en el código:
+  - `NgxPermissionsGuard` solo no sirve: ngx-permissions se llena en `LayoutComponent.ngOnInit`,
+    después de los guards. Al recargar una página protegida se terminaba en el inicio. Por eso
+    `customers` y `customers/edit/:id` tenían `data.permissions` pero nunca se aplicaban.
+  - Sin `NgxPermissionsModule` en el módulo que declara el componente, `*ngxPermissionsOnly` no
+    da error al compilar, pero el elemento no se muestra a nadie.
+  - Permisos de modelos fuera de `MODULES_CONTENT_TYPE_MAPPING` no los tiene ningún grupo: tipos
+    de plantilla usan `*_documenttemplate`, parámetros de facturación usan `change_subscription`.
+- **Archivos:** `app-routing.module.ts`, `shared/guards/route-permissions.guard.ts` (+ spec),
+  `pages/taskpage/tasks.module.ts`, `components/layout/menu/menu.component.html` y 40 plantillas
+  `.component.html` de clientes, expedientes, tareas, facturación, pagos, documentos,
+  usuarios, configuración, reportes y dashboard.
+- **Verificación:** `ng test practice-app --include='**/route-permissions.guard.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app
+  --configuration=qa` compila. Se verificó por script que todo componente con
+  `*ngxPermissionsOnly` está declarado en un módulo que importa `NgxPermissionsModule`.
+  Pendiente: recorrer en QA con un usuario de cada tipo de rol.
+- **Rama:** sale de `fix/NAS-027-permiso-eliminar` porque toca las mismas plantillas; se mezcla
+  después de NAS-027. El botón "Crear nuevo usuario" se protegió en NAS-020.
+
 ### 2026-10-04 — bug: botones de eliminar visibles sin permiso de eliminación (NAS-027)
 
 - **Qué:** 14 botones de eliminar quedan detrás de `*ngxPermissionsOnly="['delete_<modelo>']"`:

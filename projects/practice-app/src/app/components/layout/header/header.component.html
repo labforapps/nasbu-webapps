@@ -10,7 +10,7 @@
                 </div>
                 <div class="c-timer-count__title">{{'header.timer' | translate}}</div>
             </div>
-            <button mat-button class="c-timer-count__button" (click)="startOrPauseTimer()">
+            <button *ngxPermissionsOnly="['add_tasktimedetail']" mat-button class="c-timer-count__button" (click)="startOrPauseTimer()">
               <span [ngClass]="{'icon-pause': isTimerStart, 'icon-play': !isTimerStart }"
               [title]="isTimerStart ? 'Pause' : 'Play'"></span>           </button>
         </div>

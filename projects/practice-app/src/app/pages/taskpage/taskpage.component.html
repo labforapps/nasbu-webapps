@@ -7,7 +7,7 @@
             <div class="l-page__title">{{ 'tasks.title' | translate | titlecase }}</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn-function" mat-button [matMenuTriggerFor]="menu">{{ 'tasks.newTask' | translate | titlecase }}<span class="icon-plus ml-3 "></span></button>
+            <button *ngxPermissionsOnly="['add_task']" class="c-btn-function" mat-button [matMenuTriggerFor]="menu">{{ 'tasks.newTask' | translate | titlecase }}<span class="icon-plus ml-3 "></span></button>
             <mat-menu #menu="matMenu" class="c-btn-function__menu">
 
               <button *ngFor="let taskType of tasksTypes" mat-menu-item (click)="openDialogNewTask(taskType)"><span [ngClass]="returnTaskTypeIcon(taskType)"></span>{{taskType.name}}</button>

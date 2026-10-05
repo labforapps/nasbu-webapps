@@ -10,7 +10,7 @@
     <div class="l-page__body">
         <div class="l-configuration">
             <div class="c-configuration-menu">
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-invoicing'">
+                <button *ngxPermissionsOnly="['view_invoices_report']" mat-button class="c-configuration-menu__item" [routerLink]="'report-invoicing'">
                     <div class="c-configuration-menu__icon">
                         <span class="icon-invoice"></span>
                     </div>
@@ -22,7 +22,7 @@
                         </p>
                     </div>
                 </button>
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-cases'">
+                <button *ngxPermissionsOnly="['view_case_files_report']" mat-button class="c-configuration-menu__item" [routerLink]="'report-cases'">
                     <div class="c-configuration-menu__icon">
                         <span class="icon-expedient"></span>
                     </div>
@@ -34,7 +34,7 @@
                         </p>
                     </div>
                 </button>
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-client'">
+                <button *ngxPermissionsOnly="['view_customers_report']" mat-button class="c-configuration-menu__item" [routerLink]="'report-client'">
                     <div class="c-configuration-menu__icon">
                         <span class="icon-user"></span>
                     </div>
@@ -46,7 +46,7 @@
                         </p>
                     </div>
                 </button>
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'report-income'">
+                <button *ngxPermissionsOnly="['view_incomes_report']" mat-button class="c-configuration-menu__item" [routerLink]="'report-income'">
                     <div class="c-configuration-menu__icon">
                         <span class="icon-bell"></span>
                     </div>
@@ -57,7 +57,7 @@
                         </p>
                     </div>
                 </button>
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'general-metrics'">
+                <button *ngxPermissionsOnly="['view_general_metrics_report']" mat-button class="c-configuration-menu__item" [routerLink]="'general-metrics'">
                     <div class="c-configuration-menu__icon">
                         <span class="icon-pricing"></span>
                     </div>
@@ -69,7 +69,7 @@
                         </p>
                     </div>
                 </button>
-                <button mat-button class="c-configuration-menu__item" [routerLink]="'customer-wallet-details'">
+                <button *ngxPermissionsOnly="['view_wallet_details_report']" mat-button class="c-configuration-menu__item" [routerLink]="'customer-wallet-details'">
                   <div class="c-configuration-menu__icon">
                       <span class="icon-estado-cuenta"></span>
                   </div>

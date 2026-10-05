@@ -7,7 +7,7 @@
       <div class="u-bigSize-2 u-fontBold">USD 700.00 </div>
       <div class="align-items-center d-flex justify-content-between u-smallSize">{{'dockets.profile.wallet.available_balance' | translate}}<span class="icon-outcome ml-1"></span></div>
   </div>
-  <button class="c-btn-function" mat-button (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span></button>
+  <button *ngxPermissionsOnly="['add_customerwalletdetail']" class="c-btn-function" mat-button (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span></button>
 </div>
 
 
@@ -90,7 +90,7 @@
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
                   <button mat-menu-item class="matMenu-yellow">{{'dockets.profile.wallet.edit' | translate}}<span class="icon-pen"></span></button>
                   <button mat-menu-item class="matMenu-red">{{'dockets.profile.wallet.delete' | translate}} <span class="icon-trash"></span></button>
-                  <button mat-menu-item class="matMenu-blue" (click)="openDialogPaymentRegister()">{{'dockets.profile.wallet.apply_payment' | translate}}<span class="icon-payment"></span></button>
+                  <button *ngxPermissionsOnly="['add_payment']" mat-menu-item class="matMenu-blue" (click)="openDialogPaymentRegister()">{{'dockets.profile.wallet.apply_payment' | translate}}<span class="icon-payment"></span></button>
                   <button mat-menu-item class="matMenu-green">{{'dockets.profile.wallet.send_invoice' | translate}}<span class="icon-invoice"></span></button>
                   <button mat-menu-item class="matMenu-blue">{{'dockets.profile.wallet.send_receipt' | translate}}<span class="icon-receipt"></span></button>
               </mat-menu>

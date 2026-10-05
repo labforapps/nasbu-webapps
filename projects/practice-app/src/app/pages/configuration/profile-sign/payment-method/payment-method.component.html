@@ -3,13 +3,13 @@
     <p class="u-textLightColor">
         {{'firm.profile.do_not_have_any_payment_methods_added' | translate}}
     </p>
-    <button mat-button class="u-link" (click)="addNewPaymentMethod()">+ {{'firm.profile.add_payment_method' | translate}} </button>
+    <button *ngxPermissionsOnly="['add_subscriptionpaymentmethod']" mat-button class="u-link" (click)="addNewPaymentMethod()">+ {{'firm.profile.add_payment_method' | translate}} </button>
 </div>
 
 <div class="d-flex justify-content-between u-smallSize mb-3 pr-3">
     <p> <b>Tienes 1 Factura</b> en espera de pago </p>
     <p class="u-textColor">Organizado por fecha de creación</p>
-    <button mat-button class="c-btn-function" (click)="addNewPaymentMethod()">+ {{'firm.profile.add_payment_method' | translate}} </button>
+    <button *ngxPermissionsOnly="['add_subscriptionpaymentmethod']" mat-button class="c-btn-function" (click)="addNewPaymentMethod()">+ {{'firm.profile.add_payment_method' | translate}} </button>
 </div>
 <table mat-table [dataSource]="dataSource" class="c-table">
     <!-- Checkbox Column -->
@@ -88,11 +88,13 @@
 
             <mat-menu #dropdownMenuOne="matMenu">
                 <button *ngxPermissionsOnly="['delete_subscriptionpaymentmethod']" mat-menu-item (click)="deletePaymentMethod(element.uuid)">Eliminar tarjeta</button>
+                <ng-container *ngxPermissionsOnly="['change_subscriptionpaymentmethod']">
                 <button mat-menu-item
                         *ngIf="paymentMethods.length > 1 && !element.is_default"
                         (click)="setPaymentMethodAsDefault(element)">
                     Colocar como default
                 </button>
+                </ng-container>
             </mat-menu>
         </td>
     </ng-container>

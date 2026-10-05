@@ -10,7 +10,7 @@
         </div>
     </div>
     <mat-dialog-content class="pr-5 pl-5 pt-0">
-        <div class="c-dialog-options__item" mat-dialog-close (click)="openDialogSendRegister()">
+        <div *ngxPermissionsOnly="['add_customerintakerequest']" class="c-dialog-options__item" mat-dialog-close (click)="openDialogSendRegister()">
             <div class="c-dialog-options__icon">
                 <span class="icon-send"></span>
             </div>
@@ -21,7 +21,7 @@
             </p>
             </div>
         </div>
-        <div class="c-dialog-options__item" mat-dialog-close routerLink="/customers/create-client">
+        <div *ngxPermissionsOnly="['add_customer']" class="c-dialog-options__item" mat-dialog-close routerLink="/customers/create-client">
             <div class="c-dialog-options__icon">
                 <span class="icon-add-user"></span>
             </div>

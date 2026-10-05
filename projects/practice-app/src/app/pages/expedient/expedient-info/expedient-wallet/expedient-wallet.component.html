@@ -62,11 +62,13 @@
 
           </div>
 
+        <ng-container *ngxPermissionsOnly="['add_customerwalletdetail']">
         <button *ngIf=" caseFile.status === caseFileStatus.OPEN"
                 class="c-btn-function"
                 mat-button
                 (click)="openDialogAddBalance()">{{'dockets.profile.wallet.add_balance' | translate}}<span class="icon-plus ml-2 "></span>
         </button>
+        </ng-container>
       </div>
 
 

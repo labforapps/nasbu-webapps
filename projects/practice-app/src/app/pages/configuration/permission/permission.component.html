@@ -8,7 +8,7 @@
         </div>
         <div class="l-page__controls">
             <button mat-button class="u-smallSize" [routerLink]="'..'"> <span class="icon-arrow-back mr-2"></span> {{'settings.permissions.goBack' | translate}}</button>
-            <button class="c-btn-function" mat-button (click)="openDialogNewRole()">{{'settings.permissions.add_group' | translate}}<span class="icon-plus ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['add_subscriptionpermissionsgroup']" class="c-btn-function" mat-button (click)="openDialogNewRole()">{{'settings.permissions.add_group' | translate}}<span class="icon-plus ml-2 "></span></button>
         </div>
 
 

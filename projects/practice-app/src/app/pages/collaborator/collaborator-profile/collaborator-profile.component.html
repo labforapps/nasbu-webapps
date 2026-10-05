@@ -13,7 +13,7 @@
 
         <div class="l-page__controls">
             <button class="c-btn c-btn--outline c-btn--small" mat-button>{{'collaborator.profile.fast_invoicing' | translate}}<span class="icon-invoice ml-2" style="font-size: 19px;"></span></button>
-            <button class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditUser(securityUser.uuid || '')">{{'collaborator.profile.edit_collaborator' | translate}} <span class="icon-pen ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['change_subscriptionuser']" class="c-btn c-btn--primary c-btn--small" mat-button (click)="navigateToEditUser(securityUser.uuid || '')">{{'collaborator.profile.edit_collaborator' | translate}} <span class="icon-pen ml-2 "></span></button>
 
         </div>
 

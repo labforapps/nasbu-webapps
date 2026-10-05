@@ -41,6 +41,6 @@
   </mat-dialog-content>
   <mat-dialog-actions class="c-dialog-header__footer">
       <button mat-button mat-dialog-close class="u-link text-center">{{'dockets.close_window' | translate}}</button>
-      <button mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">{{'dockets.add_user' | translate}}</button>
+      <button *ngxPermissionsOnly="['change_casefile']" mat-button class="u-link pr-5 pl-5" (click)="openCustomerDialog()">{{'dockets.add_user' | translate}}</button>
   </mat-dialog-actions>
 </div>

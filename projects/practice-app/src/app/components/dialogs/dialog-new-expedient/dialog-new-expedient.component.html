@@ -36,7 +36,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <p  class="u-textColor mt-2 text-right mb-3" (click)="openCreateExpedientType()">No tienes tipo registrados?
+                    <p *ngxPermissionsOnly="['add_casefiletype']"  class="u-textColor mt-2 text-right mb-3" (click)="openCreateExpedientType()">No tienes tipo registrados?
                       <b class="u-link u-fontBold">Crear tipo de expediente</b></p>
 
                     <label class="u-title-label">{{'dockets.form.client' | translate}}</label>
@@ -52,7 +52,7 @@
                     </mat-form-field>
 
                     <p  class="u-textColor mt-2 text-right mb-3">{{'dockets.form.the_client_you_are_looking_for_does_not_exist?' | translate}}
-                      <b class="u-link u-fontBold" (click)="openCustomerDialog()">{{'dockets.form.create_new_client' | translate}} +</b></p>
+                      <b *ngxPermissionsOnly="['add_customer']" class="u-link u-fontBold" (click)="openCustomerDialog()">{{'dockets.form.create_new_client' | translate}} +</b></p>
 
                     <label class="u-title-label">{{'dockets.form.assigned_docket_to' | translate}}  </label>
                     <mat-form-field appearance="fill" class="c-form-group c-form-group__select">
