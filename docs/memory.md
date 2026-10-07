@@ -18,6 +18,18 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — mejora: al crear un colaborador se copia su correo al correo de contacto (NAS-018)
+
+- **Qué:** `CreateCollaboratorComponent.copyUserEmailToContact()`, en el `blur` de "Correo para
+  tu usuario": si el primer correo de contacto está vacío, se llena con el mismo valor.
+- **Por qué:** Pedido del cliente para no escribir dos veces el mismo correo. Solo aplica al
+  crear (`securityUserId` vacío) y nunca pisa un correo ya escrito, porque el de contacto puede
+  ser distinto al de acceso.
+- **Archivos:** `pages/collaborator/create-collaborator/create-collaborator.component.{ts,html}`
+  (+ `create-collaborator.email.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-collaborator.email.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (3 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
 ### 2026-10-04 — bug: "Guardar y crear otro" en Clientes dejaba el formulario sin Contactos ni Correo (NAS-021)
 
 - **Qué:** `CreateClientComponent.resetForm()` reconstruye el formulario con
