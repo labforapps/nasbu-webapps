@@ -379,13 +379,21 @@ export class CreateClientComponent implements OnInit {
     this.formService.changeValueCheckboxAddress(this.createClientForm,event,index);
   }
 
+  /**
+   * Deja el formulario como recién abierto para "Guardar y crear otro" (NAS-021).
+   *
+   * Antes se usaba `reset()`, que pone en null el `type` de cada contacto, y luego
+   * `addContactItem` recibía un string en vez de un contacto y agregaba grupos sin `type`.
+   * La plantilla muestra los contactos filtrando por `type`, así que Contactos y Correo
+   * desaparecían pero sus controles requeridos seguían ahí y el formulario no se podía enviar.
+   * Se reconstruye el formulario y se conserva el tipo de cliente elegido.
+   */
   resetForm() {
-    this.createClientForm.reset();
-    this.addContactItem('contacts', this.typeContact.email);
-    this.addContactItem('contacts', this.typeContact.phone_number);
-    this.customer_type = this.typeCustomer.person;
+    const customerType = this.customer_type;
+    this.initCreateClientForm();
+    this.setCustomerType(customerType);
     this.imgTemp = null;
-
+    this.imagenSubir = undefined as unknown as File;
   }
 
   goBack(){

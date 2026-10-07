@@ -18,6 +18,23 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: "Guardar y crear otro" en Clientes dejaba el formulario sin Contactos ni Correo (NAS-021)
+
+- **Qué:** `CreateClientComponent.resetForm()` reconstruye el formulario con
+  `initCreateClientForm()` y vuelve a aplicar el tipo de cliente elegido con `setCustomerType`
+  (Persona o Empresa). También limpia la imagen elegida.
+- **Por qué:** `createClientForm.reset()` pone en `null` el `type` de cada contacto, y después
+  `addContactItem('contacts', 'E')` recibía un string: leía `item.type` (`undefined`) y agregaba
+  grupos sin tipo. La plantilla muestra los contactos filtrando por `type`, así que Contactos y
+  Correo desaparecían, pero sus `contact_value` requeridos seguían en el formulario y no se
+  podía crear el siguiente cliente. Además se forzaba el tipo Persona aunque se estuviera
+  cargando empresas.
+- **Archivos:** `pages/client/create-client/create-client.component.ts` (+
+  `create-client.reset.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-client.reset.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (2 casos; sin el cambio fallan los 2). `ng build
+  --project=practice-app --configuration=qa` compila. `pages/client/components/form-create-client`
+  tiene el mismo `resetForm` roto, pero ninguna plantilla usa ese componente.
 ### 2026-10-04 — bug: el expediente no se creaba si el monto llevaba coma de miles (NAS-024)
 
 - **Qué:** Nuevo `shared/utils/amount.ts` con `parseAmount()`: acepta `4,000` y `4,000.50`,
