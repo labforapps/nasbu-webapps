@@ -9,6 +9,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { CreateClientComponent } from '../../../pages/client/create-client/create-client.component';
 import { MatSelectChange } from '@angular/material/select';
 import { CreateExpedientTypeComponent } from '../../../pages/expedient/create-expedient-type/create-expedient-type.component';
+import { parseAmount } from '../../../shared/utils/amount';
 
 @Component({
   selector: 'app-dialog-new-expedient',
@@ -267,6 +268,29 @@ export class DialogNewExpedientComponent implements OnInit {
     this.activeTabIndex -= 1
   }
 
+  /**
+   * Los montos llegan como texto del input: "4,000" no es un número y el backend rechazaba
+   * el expediente (NAS-024). Devuelve el formulario con los montos como número, o null si
+   * alguno no es un monto válido.
+   */
+  normalizeAmounts(formValue: any): any | null {
+    const amountFields = ['retainer_amt', 'bt_price_per_hour', 'price_per_increment', 'flat_fee_amt'];
+    const normalized = { ...formValue };
+
+    for (const field of amountFields) {
+      const amount = parseAmount(formValue[field]);
+      if (amount !== null && isNaN(amount)) {
+        return null;
+      }
+      // Vacío se deja como estaba para no cambiar lo que se enviaba antes.
+      if (amount !== null) {
+        normalized[field] = amount;
+      }
+    }
+
+    return normalized;
+  }
+
   slugify(str:string) {
     return String(str)
       .normalize('NFKD') // split accented characters into their base characters and diacritical marks
@@ -280,7 +304,12 @@ export class DialogNewExpedientComponent implements OnInit {
 
   submitForm() {
 
-    const caseFileFormValue = this.caseFileForm.value;
+    const caseFileFormValue = this.normalizeAmounts(this.caseFileForm.value);
+
+    if (caseFileFormValue === null) {
+      this.toastr.error('Error','Revisa los montos: usa coma para miles y punto para decimales (ej: 4,000.50)');
+      return;
+    }
 
     if(!this.caseFileForm.valid){
       this.toastr.error('Error','Completar campos obligatorios');

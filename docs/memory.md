@@ -35,6 +35,23 @@ más nueva a más vieja) con este formato:
   --browsers=ChromeHeadless` (2 casos; sin el cambio fallan los 2). `ng build
   --project=practice-app --configuration=qa` compila. `pages/client/components/form-create-client`
   tiene el mismo `resetForm` roto, pero ninguna plantilla usa ese componente.
+### 2026-10-04 — bug: el expediente no se creaba si el monto llevaba coma de miles (NAS-024)
+
+- **Qué:** Nuevo `shared/utils/amount.ts` con `parseAmount()`: acepta `4,000` y `4,000.50`,
+  devuelve `null` si está vacío y `NaN` si no es un monto. `DialogNewExpedientComponent`
+  normaliza retención, precio por hora, precio por incremento y flat fee antes de validar y
+  armar el payload (`normalizeAmounts`). Si un monto no es válido muestra un error con el formato
+  esperado y no envía nada.
+- **Por qué:** Los inputs de monto son texto libre: `"4,000"` viajaba tal cual y el backend lo
+  rechazaba, y `Number("4,000")` daba `NaN`, lo que rompía además la validación de retención vs.
+  flat fee. Un monto vacío se deja como estaba para no cambiar lo que se enviaba antes.
+- **Archivos:** `shared/utils/amount.ts` (+ `amount.spec.ts`),
+  `components/dialogs/dialog-new-expedient/dialog-new-expedient.component.ts` (+
+  `dialog-new-expedient.amounts.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-new-expedient.amounts.spec.ts'
+  --include='**/shared/utils/amount.spec.ts' --watch=false --browsers=ChromeHeadless` (7 casos).
+  `ng build --project=practice-app --configuration=qa` compila. Pendiente: aplicar `parseAmount`
+  en tareas y facturas, y mostrar los montos formateados al salir del campo.
 
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
