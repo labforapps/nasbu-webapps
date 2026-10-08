@@ -81,7 +81,7 @@
 
                       <mat-form-field appearance="fill" class="c-form-group" >
                           <mat-label>{{'collaborator.form_create.email' | translate}}</mat-label>
-                          <input class="c-form-group__input" matInput placeholder="Ej: tucorreo@gmail.com" formControlName="email">
+                          <input class="c-form-group__input" matInput placeholder="Ej: tucorreo@gmail.com" formControlName="email" (blur)="copyUserEmailToContact()">
 
                       </mat-form-field>
 

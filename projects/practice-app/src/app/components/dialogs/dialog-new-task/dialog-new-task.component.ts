@@ -20,6 +20,7 @@ export class DialogNewTaskComponent implements OnInit {
   task!:Task;
   customers!:Customer[];
   securityUsers!:SecurityUser[];
+  allSecurityUsers:SecurityUser[] = [];
   caseFiles!:CaseFile[];
   caseFilesCopy!:CaseFile[];
   billingType = BillingType;
@@ -125,7 +126,8 @@ export class DialogNewTaskComponent implements OnInit {
 
   getSecurityUsers(){
     this.securityService.getSecurityUsers(this.selectedSubscription?.ssid.uuid).subscribe((data:SecurityUser[]) => {
-      this.securityUsers = data;
+      this.allSecurityUsers = data;
+      this.applyAssignableUsers();
       if(this.dataDialog && this.dataDialog.securityUser) this.taskForm.patchValue({assigned_to: this.dataDialog.securityUser.uuid})
     });
   }
@@ -142,6 +144,7 @@ export class DialogNewTaskComponent implements OnInit {
       ).subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
+        this.applyAssignableUsers();
         if(this.dataDialog && this.dataDialog.caseFile) {
           this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
           this.onChangeCaseFile(this.dataDialog.caseFile.uuid || '')
@@ -160,6 +163,7 @@ export class DialogNewTaskComponent implements OnInit {
           .subscribe((data:CaseFile[]) => {
         this.caseFiles = data
         this.caseFilesCopy = data;
+        this.applyAssignableUsers();
         if(this.dataDialog && this.dataDialog.caseFile) {
           this.taskForm.patchValue({case_file: this.dataDialog.caseFile.uuid})
           this.onChangeCaseFile(this.dataDialog.caseFile.uuid || '')
@@ -203,6 +207,38 @@ export class DialogNewTaskComponent implements OnInit {
       })
     }
 
+    this.applyAssignableUsers();
+  }
+
+  /**
+   * En un expediente privado solo se puede asignar la tarea a su responsable y a los
+   * usuarios con acceso (NAS-079). El backend aplica la misma regla.
+   */
+  applyAssignableUsers(){
+    const caseFileId = this.taskForm?.get('case_file')?.value;
+    const caseFile = this.caseFiles?.find(x => x.uuid === caseFileId)
+      ?? (this.dataDialog?.caseFile?.uuid === caseFileId ? this.dataDialog.caseFile : undefined);
+
+    this.securityUsers = DialogNewTaskComponent.assignableUsers(this.allSecurityUsers, caseFile);
+
+    const presetUser = this.dataDialog?.securityUser;
+    const assignedTo = this.taskForm?.get('assigned_to')?.value;
+    if (!presetUser && assignedTo && this.allSecurityUsers.length &&
+        !this.securityUsers.some(user => user.uuid === assignedTo)) {
+      this.taskForm.patchValue({ assigned_to: '' });
+    }
+  }
+
+  static assignableUsers(users: SecurityUser[], caseFile?: CaseFile): SecurityUser[] {
+    if (!caseFile || caseFile.access_type !== 'private') {
+      return users;
+    }
+
+    const allowed = new Set<string>(
+      [caseFile.assigned_to?.uuid, ...(caseFile.case_file_user_access ?? []).map(access => access.subscription_user)]
+        .filter((uuid): uuid is string => !!uuid)
+    );
+    return users.filter(user => !!user.uuid && allowed.has(user.uuid));
   }
 
   onCheckBillingTypes(billingType:BillingType | null,value:MatCheckboxChange){

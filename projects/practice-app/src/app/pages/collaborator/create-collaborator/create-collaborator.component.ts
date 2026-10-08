@@ -57,6 +57,28 @@ export class CreateCollaboratorComponent implements OnInit {
     if(this.securityUserId === '') this.getSubscriptionInformation();
   }
 
+  /**
+   * Al crear un colaborador, copia el "Correo para tu usuario" al primer correo de contacto
+   * si todavía está vacío (NAS-018). No pisa un correo que el usuario ya escribió.
+   */
+  copyUserEmailToContact(): void {
+    if (this.securityUserId) {
+      return;
+    }
+
+    const email = (this.collaboratorForm.get('email')?.value || '').trim();
+    if (!email) {
+      return;
+    }
+
+    const emailContact = (this.collaboratorForm.get('contacts') as FormArray).controls
+      .find(control => control.get('type')?.value === this.typeContact.email);
+
+    if (emailContact && !emailContact.get('contact_value')?.value) {
+      emailContact.patchValue({ contact_value: email });
+    }
+  }
+
   initForm(){
 
     this.collaboratorForm = this.formBuilder.group({
