@@ -35,6 +35,150 @@ más nueva a más vieja) con este formato:
 - **Verificación:** recompilar `core-models` y `core-services`; `ng test practice-app
   --include='**/collaborator.limit.spec.ts' --watch=false --browsers=ChromeHeadless` (3 casos).
   `ng build --project=practice-app --configuration=qa` compila.
+### 2026-10-04 — bug: tras cambiar de plan los permisos no se actualizaban hasta cerrar sesión (NAS-073 / NAS-092)
+
+- **Qué:**
+  - `core-services` `AuthService.refreshUserInfo()` vuelve a pedir `/security/me/` aunque haya
+    datos en memoria y conserva la suscripción seleccionada.
+  - `practice-app` `AuthService.refreshPermissions()` lo usa y recarga `ngx-permissions`.
+  - La pantalla de planes llama a `refreshPermissions()` cuando el cambio de plan se confirma.
+  - La ruta `templates` exige `view_documenttemplate` o `view_documentgenerationlog` (los mismos
+    del menú).
+- **Por qué:** `fetchUserInfo()` cachea la respuesta en memoria durante toda la sesión, así que el
+  `PermissionsResolver` nunca veía los permisos nuevos. Con la corrección del backend el grupo
+  del plan cambia en el acto, pero el menú y los botones seguían con los del plan anterior. La
+  ruta `templates` no tenía guard: el menú la ocultaba, pero abría escribiendo la URL.
+- **Archivos:** `projects/core-services/src/lib/services/security/auth.service.ts` (+
+  `auth.refresh.spec.ts`, `tsconfig.nas073.spec.json`),
+  `projects/practice-app/src/app/services/auth/auth.service.ts`,
+  `pages/configuration/plans/plans.component.ts` (+ `plans.permissions.spec.ts`),
+  `app-routing.module.ts`.
+- **Verificación:** `npm run build:services`; `ng test core-services
+  --ts-config=projects/core-services/tsconfig.nas073.spec.json
+  --include=lib/services/security/auth.refresh.spec.ts --watch=false --browsers=ChromeHeadless`
+  (1 caso) y `ng test practice-app --include='**/plans.permissions.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (2 casos). `ng build --project=practice-app --configuration=qa` compila.
+### 2026-10-04 — mejora: mensaje uniforme cuando el backend bloquea una acción (NAS-031)
+
+- **Qué:**
+  - Nuevo `BlockedActionInterceptor` (registrado en `app.module.ts` después del spinner). Ante un 403
+    con `code` `permission_denied`, `plan_feature_missing` o `plan_limit_reached` muestra un
+    `toastr.warning` con textos de `errorMessages.blockedAction.*` y re-lanza el error.
+  - Con `feature_code` el mensaje nombra la función y, en un límite, la cantidad contratada
+    (`errorMessages.blockedAction.features.<code>.{missing,limit}`, con `{{contracted}}`): "Tu
+    plan actual no incluye la firma electrónica.", "Alcanzaste el límite de 3 usuarios de tu
+    plan.". Si no hay texto para la función, o el límite llega sin `contracted`, se usa el
+    genérico. Almacenamiento no muestra la cantidad porque el backend la guarda en bytes.
+  - Opt-out con el header `X-Skip-Blocked-Toast` para pantallas que ya muestran su propio error;
+    el interceptor lo quita antes de enviar la request.
+  - El `AuthInterceptor` de `core-services` ya no reintenta respuestas 4xx: `retry(2)` pasó a
+    `retry({ count: 2, delay })` que solo reintenta status 0 y 5xx.
+- **Por qué:** El backend ahora informa la causa del bloqueo en `code` (ver bitácora de
+  `nasbu-core`). El `retry(2)` reenviaba tres veces POSTs que el backend ya había rechazado y
+  triplicaba cualquier toast de error. El 403 de la suscripción con pago pendiente no trae `code`,
+  así que el interceptor no lo toca y sigue funcionando la redirección al checkout.
+- **Archivos:** `projects/practice-app/src/app/shared/interceptors/blocked-action.interceptor.ts`
+  (+ spec), `app.module.ts`, `assets/i18n/{es,en}.json`,
+  `projects/core-services/src/lib/services/security/interceptor.service.ts` e
+  `interceptor.retry.spec.ts`, `projects/core-services/tsconfig.cierre.spec.json`, `package.json`
+  (script `test:cierre`).
+- **Verificación:** `npm run build:services` y `npm run test:cierre` (2 + 6 casos);
+  `ng build --project=practice-app --configuration=qa` compila.
+### 2026-10-05 — mejora: el rol solo envía los módulos del plan (NAS-092)
+
+- **Qué:** `PermissionComponent.updateSubscriptionGroups` envía el grupo con
+  `modules_access` filtrado a los módulos del plan (`onlyPlanModules`).
+- **Por qué:** La pantalla ya mostraba solo los módulos del plan, pero un rol creado antes, o de
+  una firma que bajó de plan, conservaba módulos que ya no están. Al editarlo se reenviaban y
+  el backend ahora los rechaza (ver bitácora de `nasbu-core`).
+- **Archivos:** `pages/configuration/permission/permission.component.ts` (+
+  `permission.plan-modules.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/permission.plan-modules.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (2 casos). `ng build --project=practice-app
+  --configuration=qa` compila. `dialog-new-role` está declarado pero ninguna pantalla lo usa.
+### 2026-10-04 — bug: botones de eliminar visibles sin permiso de eliminación (NAS-027)
+
+- **Qué:** 14 botones de eliminar quedan detrás de `*ngxPermissionsOnly="['delete_<modelo>']"`:
+  pagos (2), horas cargadas, facturas, pasarelas de pago, grupos de permisos, métodos de pago,
+  plantillas, documentos generados, notas (2), tipos de expediente, documentos del expediente y
+  colaboradores. Los dos que ya tenían `*ngIf` se envolvieron en `ng-container`.
+- **Por qué:** El backend no validaba `delete_*` (ver bitácora de `nasbu-core`) y el front mostraba
+  el botón a cualquiera. Con el permiso ahora exigido en el backend, el botón visible sin permiso
+  terminaba en un 403. El nombre del permiso es el `perm_postfix` del viewset que atiende la
+  eliminación.
+- **Fuera de alcance:** tipos de plantilla (`delete_documenttemplatetype` no está en el mapeo de
+  módulos del backend, ocultarlo lo escondería también a los administradores), variables (se
+  quitan del formulario, no llaman a la API) y el reverso de cartera.
+- **Archivos:** `components/dialogs/dialog-payment-history`, `dialog-charged-hours`,
+  `pages/invoicing/components/invoicing-table`, `pages/invoicing/payments/components/payments-table`,
+  `pages/configuration/invoicing-parameters/subscription-payment-gateway`,
+  `pages/configuration/permission`, `pages/configuration/profile-sign/payment-method`,
+  `pages/documents-templates/{templates,documents}`, `pages/dashboard/dashboard-notes`,
+  `pages/expedient/expedient-type-table`, `pages/expedient/expedient-info/{document,notes}`,
+  `pages/collaborator` (todos `.component.html`).
+- **Verificación:** `ng build --project=practice-app --configuration=qa` compila. Validación manual
+  con un usuario de grupo de escritura: no ve los botones; un administrador sí.
+### 2026-10-04 — bug: el diálogo de tarea ofrecía usuarios sin acceso al expediente privado (NAS-079)
+
+- **Qué:** `DialogNewTaskComponent` guarda todos los usuarios en `allSecurityUsers` y muestra en
+  el selector solo los que pueden trabajar en el expediente elegido
+  (`assignableUsers`: en uno privado, el responsable y los de `case_file_user_access`). Al cambiar
+  a un expediente privado se limpia un responsable que ya no es válido, salvo que venga fijado
+  desde la pantalla de origen (`dataDialog.securityUser`).
+- **Por qué:** El backend ahora rechaza esa asignación (ver bitácora de `nasbu-core`); sin el
+  filtro, el usuario elegía a alguien de la lista y recibía un error al guardar. Expedientes y
+  usuarios se cargan en paralelo, por eso el filtro se recalcula cuando llega cada uno.
+- **Archivos:** `components/dialogs/dialog-new-task/dialog-new-task.component.ts` (+
+  `dialog-new-task.assignees.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-new-task.assignees.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+### 2026-10-04 — mejora: al crear un colaborador se copia su correo al correo de contacto (NAS-018)
+
+- **Qué:** `CreateCollaboratorComponent.copyUserEmailToContact()`, en el `blur` de "Correo para
+  tu usuario": si el primer correo de contacto está vacío, se llena con el mismo valor.
+- **Por qué:** Pedido del cliente para no escribir dos veces el mismo correo. Solo aplica al
+  crear (`securityUserId` vacío) y nunca pisa un correo ya escrito, porque el de contacto puede
+  ser distinto al de acceso.
+- **Archivos:** `pages/collaborator/create-collaborator/create-collaborator.component.{ts,html}`
+  (+ `create-collaborator.email.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-collaborator.email.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (3 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+### 2026-10-04 — bug: "Guardar y crear otro" en Clientes dejaba el formulario sin Contactos ni Correo (NAS-021)
+
+- **Qué:** `CreateClientComponent.resetForm()` reconstruye el formulario con
+  `initCreateClientForm()` y vuelve a aplicar el tipo de cliente elegido con `setCustomerType`
+  (Persona o Empresa). También limpia la imagen elegida.
+- **Por qué:** `createClientForm.reset()` pone en `null` el `type` de cada contacto, y después
+  `addContactItem('contacts', 'E')` recibía un string: leía `item.type` (`undefined`) y agregaba
+  grupos sin tipo. La plantilla muestra los contactos filtrando por `type`, así que Contactos y
+  Correo desaparecían, pero sus `contact_value` requeridos seguían en el formulario y no se
+  podía crear el siguiente cliente. Además se forzaba el tipo Persona aunque se estuviera
+  cargando empresas.
+- **Archivos:** `pages/client/create-client/create-client.component.ts` (+
+  `create-client.reset.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-client.reset.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (2 casos; sin el cambio fallan los 2). `ng build
+  --project=practice-app --configuration=qa` compila. `pages/client/components/form-create-client`
+  tiene el mismo `resetForm` roto, pero ninguna plantilla usa ese componente.
+### 2026-10-04 — bug: el expediente no se creaba si el monto llevaba coma de miles (NAS-024)
+
+- **Qué:** Nuevo `shared/utils/amount.ts` con `parseAmount()`: acepta `4,000` y `4,000.50`,
+  devuelve `null` si está vacío y `NaN` si no es un monto. `DialogNewExpedientComponent`
+  normaliza retención, precio por hora, precio por incremento y flat fee antes de validar y
+  armar el payload (`normalizeAmounts`). Si un monto no es válido muestra un error con el formato
+  esperado y no envía nada.
+- **Por qué:** Los inputs de monto son texto libre: `"4,000"` viajaba tal cual y el backend lo
+  rechazaba, y `Number("4,000")` daba `NaN`, lo que rompía además la validación de retención vs.
+  flat fee. Un monto vacío se deja como estaba para no cambiar lo que se enviaba antes.
+- **Archivos:** `shared/utils/amount.ts` (+ `amount.spec.ts`),
+  `components/dialogs/dialog-new-expedient/dialog-new-expedient.component.ts` (+
+  `dialog-new-expedient.amounts.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-new-expedient.amounts.spec.ts'
+  --include='**/shared/utils/amount.spec.ts' --watch=false --browsers=ChromeHeadless` (7 casos).
+  `ng build --project=practice-app --configuration=qa` compila. Pendiente: aplicar `parseAmount`
+  en tareas y facturas, y mostrar los montos formateados al salir del campo.
 
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 

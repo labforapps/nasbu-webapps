@@ -74,7 +74,7 @@
 
               <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
                   <button mat-menu-item class="matMenu-red" (click)="openDialogNewTemplate(element)">Editar <span class="icon-pen"></span></button>
-                  <button mat-menu-item class="matMenu-red" (click)="deleteTemplate(element)">Eliminar <span class="icon-trash"></span></button>
+                  <button *ngxPermissionsOnly="['delete_documenttemplate']" mat-menu-item class="matMenu-red" (click)="deleteTemplate(element)">Eliminar <span class="icon-trash"></span></button>
                   <button mat-menu-item class="matMenu-green" (click)="previewDocument(element)">Pre-visualizar<span class="icon-eye"></span></button>
                   <button mat-menu-item class="matMenu-green" (click)="downloadDocumentTemplate(element)">Descargar<span class="icon-download"></span></button>
               </mat-menu>

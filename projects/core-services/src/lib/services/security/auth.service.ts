@@ -40,13 +40,29 @@ export class AuthService {
         if (this.selectedUserInfo) {
             return of(this.selectedUserInfo);
         }
+        return this.loadUserInfo();
+    }
+
+    /**
+     * Vuelve a pedir `/security/me/` aunque ya haya datos en memoria.
+     *
+     * `fetchUserInfo` devuelve lo cacheado durante toda la sesión, así que un cambio de
+     * plan no se reflejaba en los permisos hasta volver a iniciar sesión (NAS-073).
+     * Conserva la suscripción seleccionada.
+     */
+    refreshUserInfo(): Observable<UserInfo> {
+        const currentSubscriptionId = this.getUserInfoFromLocalStorage()?.ssid?.uuid;
+        return this.loadUserInfo(currentSubscriptionId);
+    }
+
+    private loadUserInfo(preferredSubscriptionId?: string): Observable<UserInfo> {
         const serverUrl: string = `${this.config.serverUrl}/security/me/`;
         return this.httpClient
                    .get<UserInfo>(serverUrl)
                    .pipe(
                       tap((userInfo: UserInfo) => this.selectedUserInfo = userInfo),
                       tap(() => {
-                          this.storeUserInfoInLocalStorage();
+                          this.storeUserInfoInLocalStorage(preferredSubscriptionId);
                       })
                    );
     }

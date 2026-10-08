@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService as CoreAuthService } from 'core-services';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { UserSignupPayload, ForgotPasswordSubmit, CurrentUserInfo, UserInfo, SelectedSubscription, ChangeFirstPasswordPayload } from 'core-models';
 import { NgxPermissionsService } from 'ngx-permissions';
@@ -51,6 +51,16 @@ export class AuthService {
 
   fetchUserInfo(): Observable<UserInfo> {
     return this.coreAuth.fetchUserInfo();
+  }
+
+  /**
+   * Recarga desde el backend los permisos del usuario y los aplica a ngx-permissions.
+   * Se usa tras un cambio de plan, que cambia el grupo de permisos (NAS-073 / NAS-092).
+   */
+  refreshPermissions(): Observable<string[]> {
+    return this.coreAuth.refreshUserInfo().pipe(
+      map(() => this.addPermissions()?.permissions ?? [])
+    );
   }
 
   getAllPermisions(user: UserInfo): string[] {

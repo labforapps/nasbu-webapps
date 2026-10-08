@@ -76,9 +76,10 @@ All services are re-exported from `index.ts`. Import as `import { AuthService } 
 
 **Routing:** Hash-based (`useHash: true`). Public routes (`/signin`, `/signup`, `/recovery`, `/account-confirmation`, etc.) are top-level. All authenticated pages are children of `LayoutComponent` at path `''`. Route guards use `NgxPermissionsGuard` with permission strings like `add_customer`, `view_customer`, etc.
 
-**Interceptors:** Two HTTP interceptors are registered:
-1. `AuthInterceptor` (from `core-services`) — attaches Bearer token
+**Interceptors:** Three HTTP interceptors are registered:
+1. `AuthInterceptor` (from `core-services`) — attaches Bearer token; retries only network/5xx errors
 2. `SpinnerInterceptor` (practice-app) — shows/hides `NgxSpinner` on all requests except `/practice/case_files_notes/`
+3. `BlockedActionInterceptor` (practice-app) — toast for 403 with `code` `permission_denied` / `plan_feature_missing` / `plan_limit_reached`; opt out with header `X-Skip-Blocked-Toast`
 
 **Module organization inside practice-app:**
 - `PagesModule` — all page components

@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.spec.json",
+  "include": [
+    "src/lib/services/security/auth.refresh.spec.ts",
+    "**/*.d.ts"
+  ]
+}
