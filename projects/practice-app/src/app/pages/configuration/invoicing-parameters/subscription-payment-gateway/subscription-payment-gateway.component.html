@@ -65,7 +65,7 @@
 
             <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu">
                 <button mat-menu-item (click)="openDialogSubscriptionPaymentGateway(element)">Editar<span class="icon-pen"></span></button>
-                <button mat-menu-item (click)="deleteSubscriptionPaymentGateway(element)">Borrar<span class="icon-trash"></span></button>
+                <button *ngxPermissionsOnly="['delete_subscriptionpaymentgateway']" mat-menu-item (click)="deleteSubscriptionPaymentGateway(element)">Borrar<span class="icon-trash"></span></button>
             </mat-menu>
         </td>
     </ng-container>

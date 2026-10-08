@@ -36,7 +36,7 @@
                             </mat-button-toggle>
                         </mat-button-toggle-group>
                         <mat-menu #dropdownMenuOne="matMenu">
-                            <button mat-menu-item (click)="deleteHour(taskTime)">Delete</button>
+                            <button *ngxPermissionsOnly="['delete_tasktimedetail']" mat-menu-item (click)="deleteHour(taskTime)">Delete</button>
                         </mat-menu>
                     </div>
                 </div>
