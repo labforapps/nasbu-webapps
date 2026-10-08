@@ -31,6 +31,7 @@ import { ComponentsModule } from './components/components.module';
 import { AngularImageViewerModule } from "@hreimer/angular-image-viewer";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerInterceptor } from './shared/interceptors/spinner.interceptor';
+import { BlockedActionInterceptor } from './shared/interceptors/blocked-action.interceptor';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -79,6 +80,11 @@ registerLocaleData(localeEn, 'en');
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SpinnerInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BlockedActionInterceptor,
       multi: true
     }
   ],

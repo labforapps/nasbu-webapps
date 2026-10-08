@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, timer } from 'rxjs';
 import { AuthService } from './auth.service';
 import { catchError, retry, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -37,8 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
    * tokenizacion, asi que sin esto el usuario se quedaba mirando una pantalla vacia.
    * Se lo manda al login, que es donde vive la logica de retomar el checkout.
    *
-   * El flag evita navegar varias veces: `retry(2)` reintenta cada request, y una
-   * pantalla dispara varias a la vez.
+   * El flag evita navegar varias veces: una pantalla dispara varias requests a la vez.
    */
   private handlePendingPaymentRejection(error: any): void {
     if (this.redirectingToPendingCheckout) {
@@ -53,6 +52,19 @@ export class AuthInterceptor implements HttpInterceptor {
     this.router.navigate(['/signin']).then(() => {
       this.redirectingToPendingCheckout = false;
     });
+  }
+
+  /**
+   * Solo se reintentan fallas de red o del servidor (status 0 o 5xx).
+   * Un 4xx es una respuesta definitiva del backend (permiso, plan, validación):
+   * reintentarlo repetía POSTs que ya se habían rechazado y triplicaba los toasts (NAS-031).
+   */
+  static retryDelay(error: any): Observable<number> {
+    const status = error && error.status;
+    if (status >= 400 && status < 500) {
+      return throwError(() => error);
+    }
+    return timer(0);
   }
 
   removeRequest(req: HttpRequest<any>) {
@@ -72,7 +84,7 @@ export class AuthInterceptor implements HttpInterceptor {
               this.globalService.isLoading$.next(true);
               return Observable.create((observer: any) => {
                   const subscription = next.handle(clonedRequest).pipe(
-                    retry(2),
+                    retry({ count: 2, delay: (error) => AuthInterceptor.retryDelay(error) }),
                     catchError(error => {
                       console.log(error);
                        if (error.status === 401 || error.status === 403) {

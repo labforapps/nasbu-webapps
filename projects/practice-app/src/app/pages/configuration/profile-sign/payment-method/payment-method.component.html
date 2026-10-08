@@ -87,7 +87,7 @@
             </mat-button-toggle-group>
 
             <mat-menu #dropdownMenuOne="matMenu">
-                <button mat-menu-item (click)="deletePaymentMethod(element.uuid)">Eliminar tarjeta</button>
+                <button *ngxPermissionsOnly="['delete_subscriptionpaymentmethod']" mat-menu-item (click)="deletePaymentMethod(element.uuid)">Eliminar tarjeta</button>
                 <button mat-menu-item
                         *ngIf="paymentMethods.length > 1 && !element.is_default"
                         (click)="setPaymentMethodAsDefault(element)">

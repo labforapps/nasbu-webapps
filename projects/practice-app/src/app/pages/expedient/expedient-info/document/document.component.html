@@ -67,7 +67,9 @@
                 </mat-button-toggle-group>
 
                 <mat-menu #dropdownMenuOne="matMenu" class="c-table__matMenu c-table__matMenu--bigger">
+                    <ng-container *ngxPermissionsOnly="['delete_casefiledocument']">
                     <button mat-menu-item class="matMenu-red" *ngIf="caseFile.status === caseFileStatus.OPEN"  (click)="deleteCaseFileDocument(element)">{{'dockets.profile.documents.delete' | translate}} <span class="icon-trash"></span></button>
+                    </ng-container>
                     <button mat-menu-item class="matMenu-green" (click)="downloadFile(element)">{{'dockets.profile.documents.download' | translate}}<span class="icon-download"></span></button>
                     <button mat-menu-item class="matMenu-blue" (click)="openNewTab(element)">{{'dockets.profile.documents.open_new_tab' | translate}}<span class="icon-new-tab"></span></button>
                 </mat-menu>
