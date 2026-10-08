@@ -18,6 +18,29 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — bug: tras cambiar de plan los permisos no se actualizaban hasta cerrar sesión (NAS-073 / NAS-092)
+
+- **Qué:**
+  - `core-services` `AuthService.refreshUserInfo()` vuelve a pedir `/security/me/` aunque haya
+    datos en memoria y conserva la suscripción seleccionada.
+  - `practice-app` `AuthService.refreshPermissions()` lo usa y recarga `ngx-permissions`.
+  - La pantalla de planes llama a `refreshPermissions()` cuando el cambio de plan se confirma.
+  - La ruta `templates` exige `view_documenttemplate` o `view_documentgenerationlog` (los mismos
+    del menú).
+- **Por qué:** `fetchUserInfo()` cachea la respuesta en memoria durante toda la sesión, así que el
+  `PermissionsResolver` nunca veía los permisos nuevos. Con la corrección del backend el grupo
+  del plan cambia en el acto, pero el menú y los botones seguían con los del plan anterior. La
+  ruta `templates` no tenía guard: el menú la ocultaba, pero abría escribiendo la URL.
+- **Archivos:** `projects/core-services/src/lib/services/security/auth.service.ts` (+
+  `auth.refresh.spec.ts`, `tsconfig.nas073.spec.json`),
+  `projects/practice-app/src/app/services/auth/auth.service.ts`,
+  `pages/configuration/plans/plans.component.ts` (+ `plans.permissions.spec.ts`),
+  `app-routing.module.ts`.
+- **Verificación:** `npm run build:services`; `ng test core-services
+  --ts-config=projects/core-services/tsconfig.nas073.spec.json
+  --include=lib/services/security/auth.refresh.spec.ts --watch=false --browsers=ChromeHeadless`
+  (1 caso) y `ng test practice-app --include='**/plans.permissions.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (2 casos). `ng build --project=practice-app --configuration=qa` compila.
 ### 2026-10-04 — mejora: mensaje uniforme cuando el backend bloquea una acción (NAS-031)
 
 - **Qué:**

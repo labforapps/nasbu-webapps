@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OnboardingService } from '../../../services/onboarding/onboarding.service';
 import { ChangePlanRequest, Plan, PlanFeature, Subscription } from 'core-models';
-import { AuthService, SubscriptionService } from 'core-services';
+import { SubscriptionService } from 'core-services';
+import { AuthService } from '../../../services/auth/auth.service';
 import { HelpersService } from '../../../services/helpers.service';
 
 @Component({
@@ -67,6 +68,9 @@ export class PlansComponent implements OnInit {
         next: (data) => {
           this.helperService.showCustomMessage('Ok',"OK","Plan Cambiado")
           this.getSubscriptionInformation()
+          // El cambio de plan cambia el grupo de permisos: sin recargarlos, el menú y los
+          // botones seguían mostrando lo del plan anterior hasta cerrar sesión.
+          this.authService.refreshPermissions().subscribe();
         }
       })
     })

@@ -170,6 +170,15 @@ const routes: Routes = [
       {
         path: 'templates',
         component: DocumentsTemplatesComponent,
+        // Documentos y plantillas no está en todos los planes (NAS-092): sin este guard la
+        // ruta se abría escribiendo la URL aunque el menú ya la ocultara.
+        canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['view_documenttemplate', 'view_documentgenerationlog'],
+            redirectTo: '/',
+          },
+        },
       },
       {
         path: 'configuration',
