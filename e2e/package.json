@@ -1,0 +1,19 @@
+{
+  "name": "nasbu-e2e",
+  "version": "1.0.0",
+  "description": "Pruebas E2E de Nasbu con Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "list": "playwright test --list",
+    "typecheck": "tsc -p .",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "^26.6.4",
+    "dotenv": "^18.0.6",
+    "typescript": "^5.9.3"
+  },
+  "private": true
+}

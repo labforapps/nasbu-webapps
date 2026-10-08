@@ -18,6 +18,30 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-08 — feature: pruebas E2E con Playwright
+
+- **Qué:** Paquete `e2e/` con Playwright 1.56: login por rol con `storageState`, cliente de la API
+  autenticado con Cognito para preparar y borrar datos, page objects y una prueba por caso del
+  inventario (`e2e/INVENTARIO.md`). 23 casos automatizados; el resto como `test.fixme` con el
+  motivo. Workflow `.github/workflows/e2e.yml`: smoke en cada PR, completo de noche.
+- **Por qué:** Automatizar la regresión antes del cierre con el cliente. Es un paquete aparte para no
+  tocar las dependencias de Angular 13. Las pruebas corren contra QA, no contra el código del PR.
+- **Gotchas:**
+  - Los botones del menú lateral y los `mat-menu-item` no exponen nombre accesible: se ubican por texto.
+  - El login recarga la página y el pop-up de bienvenida puede abrirse otra vez; al cerrarlo se abre
+    el menú de primeros pasos. `Shell.dismissWelcome()` cierra ambos.
+  - `#/customers/create-client` abierto por URL en una carga nueva redirige a `/` (su guard corre antes
+    de cargar los permisos): las pruebas entran desde la lista.
+  - Los filtros de las tablas escuchan `keyup`, no `input`: después de `fill` hay que presionar una tecla.
+  - Un cliente sin dirección rompe la plantilla de la factura (`addresses[0].physical_city`): los datos
+    de prueba se crean con dirección.
+  - USR-02 (NAS-018) falla: al crear un colaborador, el formulario reemplaza los contactos por los de la
+    firma, así que el correo de contacto ya viene lleno y no se copia el del usuario.
+- **Archivos:** `e2e/**`, `.github/workflows/e2e.yml`.
+- **Verificación:** `cd e2e && npm run typecheck && npx playwright test --list` (135 pruebas). Corrido
+  contra la build de `develop` con backend y Cognito simulados: 23 pasan, AUT-11 se omite (sin cuenta
+  impaga) y USR-02 falla por el hallazgo de arriba. Falta la primera corrida contra QA con las cuentas de prueba.
+
 ### 2026-10-04 — mejora: "Crear nuevo usuario" avisa el límite del plan antes de abrir el formulario (NAS-020)
 
 - **Qué:** El botón de Usuarios ya no navega directo a `/user/create`: `createCollaborator()`
