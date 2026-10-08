@@ -63,8 +63,20 @@ export class PermissionComponent implements OnInit {
     return this.modulesDescription.get(module);
   }
 
+  /**
+   * Solo se envían los módulos que incluye el plan (NAS-092). Un grupo creado antes, o de una
+   * firma que bajó de plan, puede traer módulos que ya no están: el backend los rechaza.
+   */
   updateSubscriptionGroups(group:SecurityGroup){
-    this.securityService.updateSecurityGroup(group,group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {})
+    const payload: SecurityGroup = {
+      ...group,
+      modules_access: PermissionComponent.onlyPlanModules(group.modules_access, this.modules)
+    };
+    this.securityService.updateSecurityGroup(payload,group.uuid || '',this.selectedSubscription?.ssid.uuid).subscribe(data => {})
+  }
+
+  static onlyPlanModules(modulesAccess: ModulesAccess[], planModules: string[]): ModulesAccess[] {
+    return (modulesAccess || []).filter(access => planModules.includes(access.module));
   }
 
   deleteSecurityGroup(group: SecurityGroup) {

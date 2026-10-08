@@ -18,6 +18,18 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-05 — mejora: el rol solo envía los módulos del plan (NAS-092)
+
+- **Qué:** `PermissionComponent.updateSubscriptionGroups` envía el grupo con
+  `modules_access` filtrado a los módulos del plan (`onlyPlanModules`).
+- **Por qué:** La pantalla ya mostraba solo los módulos del plan, pero un rol creado antes, o de
+  una firma que bajó de plan, conservaba módulos que ya no están. Al editarlo se reenviaban y
+  el backend ahora los rechaza (ver bitácora de `nasbu-core`).
+- **Archivos:** `pages/configuration/permission/permission.component.ts` (+
+  `permission.plan-modules.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/permission.plan-modules.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (2 casos). `ng build --project=practice-app
+  --configuration=qa` compila. `dialog-new-role` está declarado pero ninguna pantalla lo usa.
 ### 2026-10-04 — bug: botones de eliminar visibles sin permiso de eliminación (NAS-027)
 
 - **Qué:** 14 botones de eliminar quedan detrás de `*ngxPermissionsOnly="['delete_<modelo>']"`:
