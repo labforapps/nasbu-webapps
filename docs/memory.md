@@ -18,6 +18,23 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — mejora: "Crear nuevo usuario" avisa el límite del plan antes de abrir el formulario (NAS-020)
+
+- **Qué:** El botón de Usuarios ya no navega directo a `/user/create`: `createCollaborator()`
+  consulta `GET /subscription/features/users/` (nuevo `SubscriptionService.getFeatureUsage` y
+  modelo `SubscriptionFeatureUsage`). Si el uso alcanzó lo contratado muestra un
+  `toastr.warning` (`collaborator.users_limit_reached`) y no abre el formulario. Si la consulta
+  falla, abre el formulario igual.
+- **Por qué:** El usuario completaba todo el formulario y recién el backend lo rechazaba al
+  guardar por límite. Si la consulta falla se deja pasar porque el backend sigue validando el
+  límite al crear.
+- **Archivos:** `projects/core-models/src/lib/models/subscription/subscription.ts`,
+  `projects/core-services/src/lib/services/subscription/subscription.service.ts`,
+  `pages/collaborator/collaborator.component.{ts,html}` (+ `collaborator.limit.spec.ts`),
+  `assets/i18n/{es,en}.json`.
+- **Verificación:** recompilar `core-models` y `core-services`; `ng test practice-app
+  --include='**/collaborator.limit.spec.ts' --watch=false --browsers=ChromeHeadless` (3 casos).
+  `ng build --project=practice-app --configuration=qa` compila.
 ### 2026-10-04 — bug: tras cambiar de plan los permisos no se actualizaban hasta cerrar sesión (NAS-073 / NAS-092)
 
 - **Qué:**

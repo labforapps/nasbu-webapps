@@ -205,3 +205,13 @@ export interface SubscriptionNotificaction {
   assigned_to: string
 }
 
+
+/** Límite contratado y uso actual de una feature (GET /subscription/features/<code>/). */
+export interface SubscriptionFeatureUsage {
+  uuid?:            string;
+  feature_code:     string;
+  feature_name:     string;
+  feature_type:     string;
+  contracted_value: string;
+  current_usage:    string;
+}

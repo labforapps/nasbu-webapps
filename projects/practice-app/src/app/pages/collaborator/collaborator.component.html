@@ -7,7 +7,7 @@
             <div class="l-page__title">{{'collaborator.title' | translate}}</div>
         </div>
         <div class="l-page__controls">
-            <button class="c-btn-function" mat-button [routerLink]="'/user/create'">{{'collaborator.buttons.create_new_collaborator' | translate}}<span class="icon-plus ml-2 "></span></button>
+            <button *ngxPermissionsOnly="['add_subscriptionuser']" class="c-btn-function" mat-button (click)="createCollaborator()">{{'collaborator.buttons.create_new_collaborator' | translate}}<span class="icon-plus ml-2 "></span></button>
         </div>
     </div>
     <div class="l-page__body">
