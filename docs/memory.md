@@ -33,6 +33,52 @@ más nueva a más vieja) con este formato:
 - **Verificación:** `ng test practice-app --include='**/dialog-new-task.assignees.spec.ts'
   --watch=false --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app
   --configuration=qa` compila.
+### 2026-10-04 — mejora: al crear un colaborador se copia su correo al correo de contacto (NAS-018)
+
+- **Qué:** `CreateCollaboratorComponent.copyUserEmailToContact()`, en el `blur` de "Correo para
+  tu usuario": si el primer correo de contacto está vacío, se llena con el mismo valor.
+- **Por qué:** Pedido del cliente para no escribir dos veces el mismo correo. Solo aplica al
+  crear (`securityUserId` vacío) y nunca pisa un correo ya escrito, porque el de contacto puede
+  ser distinto al de acceso.
+- **Archivos:** `pages/collaborator/create-collaborator/create-collaborator.component.{ts,html}`
+  (+ `create-collaborator.email.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-collaborator.email.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (3 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+### 2026-10-04 — bug: "Guardar y crear otro" en Clientes dejaba el formulario sin Contactos ni Correo (NAS-021)
+
+- **Qué:** `CreateClientComponent.resetForm()` reconstruye el formulario con
+  `initCreateClientForm()` y vuelve a aplicar el tipo de cliente elegido con `setCustomerType`
+  (Persona o Empresa). También limpia la imagen elegida.
+- **Por qué:** `createClientForm.reset()` pone en `null` el `type` de cada contacto, y después
+  `addContactItem('contacts', 'E')` recibía un string: leía `item.type` (`undefined`) y agregaba
+  grupos sin tipo. La plantilla muestra los contactos filtrando por `type`, así que Contactos y
+  Correo desaparecían, pero sus `contact_value` requeridos seguían en el formulario y no se
+  podía crear el siguiente cliente. Además se forzaba el tipo Persona aunque se estuviera
+  cargando empresas.
+- **Archivos:** `pages/client/create-client/create-client.component.ts` (+
+  `create-client.reset.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/create-client.reset.spec.ts' --watch=false
+  --browsers=ChromeHeadless` (2 casos; sin el cambio fallan los 2). `ng build
+  --project=practice-app --configuration=qa` compila. `pages/client/components/form-create-client`
+  tiene el mismo `resetForm` roto, pero ninguna plantilla usa ese componente.
+### 2026-10-04 — bug: el expediente no se creaba si el monto llevaba coma de miles (NAS-024)
+
+- **Qué:** Nuevo `shared/utils/amount.ts` con `parseAmount()`: acepta `4,000` y `4,000.50`,
+  devuelve `null` si está vacío y `NaN` si no es un monto. `DialogNewExpedientComponent`
+  normaliza retención, precio por hora, precio por incremento y flat fee antes de validar y
+  armar el payload (`normalizeAmounts`). Si un monto no es válido muestra un error con el formato
+  esperado y no envía nada.
+- **Por qué:** Los inputs de monto son texto libre: `"4,000"` viajaba tal cual y el backend lo
+  rechazaba, y `Number("4,000")` daba `NaN`, lo que rompía además la validación de retención vs.
+  flat fee. Un monto vacío se deja como estaba para no cambiar lo que se enviaba antes.
+- **Archivos:** `shared/utils/amount.ts` (+ `amount.spec.ts`),
+  `components/dialogs/dialog-new-expedient/dialog-new-expedient.component.ts` (+
+  `dialog-new-expedient.amounts.spec.ts`).
+- **Verificación:** `ng test practice-app --include='**/dialog-new-expedient.amounts.spec.ts'
+  --include='**/shared/utils/amount.spec.ts' --watch=false --browsers=ChromeHeadless` (7 casos).
+  `ng build --project=practice-app --configuration=qa` compila. Pendiente: aplicar `parseAmount`
+  en tareas y facturas, y mostrar los montos formateados al salir del campo.
 
 ### 2026-10-04 — bug: un 403 de la bandeja cerraba el WebSocket de la campana
 
