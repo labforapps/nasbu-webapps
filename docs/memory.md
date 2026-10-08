@@ -18,6 +18,32 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-04 — mejora: mensaje uniforme cuando el backend bloquea una acción (NAS-031)
+
+- **Qué:**
+  - Nuevo `BlockedActionInterceptor` (registrado en `app.module.ts` después del spinner). Ante un 403
+    con `code` `permission_denied`, `plan_feature_missing` o `plan_limit_reached` muestra un
+    `toastr.warning` con textos de `errorMessages.blockedAction.*` y re-lanza el error.
+  - Con `feature_code` el mensaje nombra la función y, en un límite, la cantidad contratada
+    (`errorMessages.blockedAction.features.<code>.{missing,limit}`, con `{{contracted}}`): "Tu
+    plan actual no incluye la firma electrónica.", "Alcanzaste el límite de 3 usuarios de tu
+    plan.". Si no hay texto para la función, o el límite llega sin `contracted`, se usa el
+    genérico. Almacenamiento no muestra la cantidad porque el backend la guarda en bytes.
+  - Opt-out con el header `X-Skip-Blocked-Toast` para pantallas que ya muestran su propio error;
+    el interceptor lo quita antes de enviar la request.
+  - El `AuthInterceptor` de `core-services` ya no reintenta respuestas 4xx: `retry(2)` pasó a
+    `retry({ count: 2, delay })` que solo reintenta status 0 y 5xx.
+- **Por qué:** El backend ahora informa la causa del bloqueo en `code` (ver bitácora de
+  `nasbu-core`). El `retry(2)` reenviaba tres veces POSTs que el backend ya había rechazado y
+  triplicaba cualquier toast de error. El 403 de la suscripción con pago pendiente no trae `code`,
+  así que el interceptor no lo toca y sigue funcionando la redirección al checkout.
+- **Archivos:** `projects/practice-app/src/app/shared/interceptors/blocked-action.interceptor.ts`
+  (+ spec), `app.module.ts`, `assets/i18n/{es,en}.json`,
+  `projects/core-services/src/lib/services/security/interceptor.service.ts` e
+  `interceptor.retry.spec.ts`, `projects/core-services/tsconfig.cierre.spec.json`, `package.json`
+  (script `test:cierre`).
+- **Verificación:** `npm run build:services` y `npm run test:cierre` (2 + 6 casos);
+  `ng build --project=practice-app --configuration=qa` compila.
 ### 2026-10-05 — mejora: el rol solo envía los módulos del plan (NAS-092)
 
 - **Qué:** `PermissionComponent.updateSubscriptionGroups` envía el grupo con
