@@ -52,11 +52,24 @@
                     <hr class="u-divider">
                     <div class="row">
                         <div class="col-md-5 col-sm-12">
-                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" formControlName="allow_retainers">
+                            <mat-checkbox class="c-checkbox mb-2 u-fontBold u-textColor" formControlName="allow_retainers"
+                                          (change)="onCheckRetainer($event)">
                               {{'invoice_parameter.retainer' | translate}}
                             </mat-checkbox>
                             <p class="u-smallSize u-textColor pl-4 mb-1">
                               {{'invoice_parameter.under_this_model_you_retain_a_given_amount' | translate}}
+                            </p>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <label class="u-title-label">{{'invoice_parameter.low_retainer_threshold' | translate}}</label>
+                            <mat-form-field appearance="fill" class="c-form-group">
+                                <input class="c-form-group__input" matInput type="number" min="0"
+                                       [placeholder]="'invoice_parameter.low_retainer_threshold_placeholder' | translate"
+                                       formControlName="low_retainer_threshold"
+                                       [readonly]="!invoicingParameterForm.value.allow_retainers">
+                            </mat-form-field>
+                            <p class="u-smallSize u-textColor mb-1">
+                              {{'invoice_parameter.low_retainer_threshold_hint' | translate}}
                             </p>
                         </div>
 
@@ -144,25 +157,6 @@
                     </mat-form-field>
                 </div>
             </div>
-
-              <hr class="u-divider">
-
-              <div class="row">
-                <div class="col-md-5 col-sm-6">
-                    <p class="mb-2 u-fontBold u-textColor">Alerta de retainer bajo</p>
-                    <p class="u-smallSize u-textColor mb-1">
-                        Se avisará cuando el balance de retainer de un cliente quede por debajo
-                        de este monto. Déjalo vacío para no recibir este aviso.
-                    </p>
-                </div>
-                <div class="col-md-2 col-sm-4">
-                    <label class="u-title-label">Monto mínimo</label>
-                    <mat-form-field appearance="fill" class="c-form-group">
-                        <mat-label>Ej: 500</mat-label>
-                        <input class="c-form-group__input" matInput type="number" min="0" placeholder="Ej: 500 USD" formControlName="low_retainer_threshold">
-                    </mat-form-field>
-                </div>
-              </div>
 
               <hr class="u-divider">
 
