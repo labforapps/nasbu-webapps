@@ -59,11 +59,24 @@ export class InvoicingParametersComponent implements OnInit {
     }
   }
 
+  onCheckRetainer(event:MatCheckboxChange){
+    if(!event.checked){
+      this.invoicingParameterForm.patchValue({ low_retainer_threshold: null })
+    }
+  }
+
   submitForm(){
 
     const subscriptionBillingFeePayload = {
       ...this.invoicingParameterForm.value,
       subscription: this.selectedSubscription?.ssid.uuid
+    }
+
+    // El umbral del aviso de retainer bajo solo aplica (y solo se envía) con retainer habilitado.
+    if(!subscriptionBillingFeePayload.allow_retainers) {
+      delete subscriptionBillingFeePayload.low_retainer_threshold
+    } else if(subscriptionBillingFeePayload.low_retainer_threshold === '') {
+      subscriptionBillingFeePayload.low_retainer_threshold = null
     }
 
     if(this.subscriptionBillingFee.length > 0 && this.subscriptionBillingFee[0].uuid) {

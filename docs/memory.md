@@ -18,6 +18,20 @@ más nueva a más vieja) con este formato:
 
 ---
 
+### 2026-10-10 — mejora: umbral de retainer bajo junto al método Retainer en Parámetros de facturación
+
+- **Qué:** El campo `low_retainer_threshold` pasó de la pestaña "Impuesto" a la fila "Retención de
+  pago" de la lista de parámetros. Es de solo lectura si el retainer está deshabilitado; al
+  desmarcarlo se limpia. `submitForm()` solo envía el umbral con `allow_retainers` activo (vacío →
+  `null`, aviso desactivado). Textos en i18n (`invoice_parameter.low_retainer_threshold*`).
+- **Por qué:** El umbral solo tiene sentido con el método Retainer. Al omitirlo del PUT con retainer
+  deshabilitado, el backend conserva el valor que tenía (no lo borra).
+- **Archivos:** `pages/configuration/invoicing-parameters/invoicing-parameters.component.{ts,html}`
+  (+ `invoicing-parameters.retainer.spec.ts`), `assets/i18n/{es,en}.json`.
+- **Verificación:** `ng test practice-app --include='**/invoicing-parameters.retainer.spec.ts'
+  --watch=false --browsers=ChromeHeadless` (4 casos). `ng build --project=practice-app
+  --configuration=qa` compila.
+
 ### 2026-10-04 — mejora: "Crear nuevo usuario" avisa el límite del plan antes de abrir el formulario (NAS-020)
 
 - **Qué:** El botón de Usuarios ya no navega directo a `/user/create`: `createCollaborator()`
